@@ -1,4 +1,4 @@
-# README #
+# README - MACCS Space Data Python #
 
 This directory contains python3 scripts which process MACCS data.
 
