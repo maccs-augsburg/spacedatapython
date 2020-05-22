@@ -1,0 +1,7 @@
+# .gitignore for MACCS Space Data Python code.
+# 
+# 2020  May  -- Created  -- Erik Steinmetz
+#
+
+# Byte-compiled
+__pycache__/
