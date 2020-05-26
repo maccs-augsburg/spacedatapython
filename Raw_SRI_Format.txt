@@ -1,0 +1,29 @@
+SRI Raw Format, 2 Hz, 38 bytes per record
+
+Byte   Type             Name      Notes
+0      unsigned byte    century
+1      unsigned byte    year
+2      unsigned byte    month
+3      unsigned byte    day
+4      unsigned byte    hour
+5      unsigned byte    minute
+6      unsigned byte    second
+7      unsigned byte    gps lock
+8      unsigned byte    num sats  The number of satellites visible, from the GPGGS line.
+9      unsigned byte    header
+10
+11     unsigned byte    status
+12     unsigned byte    house
+13     unsigned byte    block
+14:17
+18:20  24 bit 2's comp  x1        Value in nanotesla*40 of the x axis for the 1st half of the second.
+21:23  24 bit 2's comp  y1
+24:26  24 bit 2's comp  z1
+27:29  24 bit 2's comp  x2        Value in nanotesla*40 of the x axis for the 2nd half of the second.
+30:32  24 bit 2's comp  y2
+33:35  24 bit 2's comp  z2
+36
+37
+
+
+
