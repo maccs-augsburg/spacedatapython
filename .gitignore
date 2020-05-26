@@ -5,3 +5,10 @@
 
 # Byte-compiled
 __pycache__/
+
+# Sample input files in various MACCS formats
+*.2Hz
+*.2hz
+*.8Hz
+*.8Hz
+
