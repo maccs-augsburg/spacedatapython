@@ -1,4 +1,4 @@
-# README #
+# README - MACCS Space Data Python #
 
 This directory contains python3 scripts which process MACCS data.
 
@@ -17,9 +17,11 @@ Some may contain tests.
 
 ### What is here? ###
 
+* Raw_SRI_Format.txt: Notes about the binary format of .2hz files.
 * raw_codecs.py: This contains code to convert various parts of the 
 raw files into and out of integer and float values.
-* iaga_2002: This contains code to write files in the IAGA2002 format.
+* raw_to_screen.py: A program to print the contents of a 2hz file to
+the screen.
 
 ### Who do I talk to? ###
 
