@@ -7,12 +7,22 @@
 
 # Python 3 imports
 import sys
-import datetime
 
 # MACCS imports
 from raw_codecs import decode
 
 def print_one_record( raw_record) :
+    """ Prints a single 2 Hz record to standard out.
+    
+    Prints the timestamp, x, y, and z values to a single line
+    on standard out.
+    
+    Parameters
+    ----------
+    raw_record :
+        A byte array that is 38 bytes long, containing a single
+        record in the SRI 2 Hz format. 
+    """
     hour = raw_record[4]
     minute = raw_record[5]
     second = raw_record[6]
@@ -20,12 +30,22 @@ def print_one_record( raw_record) :
     x1 = decode( raw_record[18:21]) / 40.0
     x1_str = f"{x1:12.3f}"# format( x1, "12.3f")
     y1 = decode( raw_record[21:24]) / 40.0
-    y1_str = format( y1, "12.3f")
+    y1_str = f"{y1:12.3f}"# format( y1, "12.3f")
     z1 = decode( raw_record[24:27]) / 40.0
-    z1_str = format( z1, "12.3f")
+    z1_str = f"{z1:12.3f}"# format( z1, "12.3f")
     print( timestamp + x1_str + y1_str + z1_str)
 
 def print_contents( infile) :
+    """ Prints the given file to standard out.
+    
+    Prints the records in the file object by reading them one at a time
+    until the end of the file.
+    
+    Parameters
+    ----------
+    infile :
+        The file object to be read.
+    """
     while True :
         one_record = infile.read( 38)
         if not one_record : 
