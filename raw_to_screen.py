@@ -1,8 +1,14 @@
 # raw_to_screen.py
 #
-# Walks through a 2 Hz MACCS data file and prints the 
-# time-stamped values to the screen.
+# 2020 May - Created - Erik Steinmetz
 #
+
+""" Raw Data Printer
+
+Proceeds through a 2 Hz MACCS data file printing the time-stamped
+x, y, and z values to standard out.
+
+"""
 
 
 # Python 3 imports
@@ -28,11 +34,11 @@ def print_one_record( raw_record) :
     second = raw_record[6]
     timestamp = f"{hour:02d}:{minute:02d}:{second:02d}"
     x1 = decode( raw_record[18:21]) / 40.0
-    x1_str = f"{x1:12.3f}"# format( x1, "12.3f")
+    x1_str = f"{x1:12.3f}"
     y1 = decode( raw_record[21:24]) / 40.0
-    y1_str = f"{y1:12.3f}"# format( y1, "12.3f")
+    y1_str = f"{y1:12.3f}"
     z1 = decode( raw_record[24:27]) / 40.0
-    z1_str = f"{z1:12.3f}"# format( z1, "12.3f")
+    z1_str = f"{z1:12.3f}"
     print( timestamp + x1_str + y1_str + z1_str)
 
 def print_contents( infile) :
