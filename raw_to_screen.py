@@ -60,7 +60,19 @@ def print_contents( infile) :
             print_one_record( one_record)
 
 if __name__ == "__main__" :
+    if len(sys.argv) < 2 :
+        print( "Usage: python3 raw_to_screen.py filename")
+        sys.exit(0)   # Exit with no error code
     filename = sys.argv[1]
     two_hz_binary_file = open( filename, "rb")
-    print_contents( two_hz_binary_file)
-    
+    if len(sys.argv) == 2 :
+        print_contents( two_hz_binary_file)
+    elif len(sys.argv) == 3 :
+        start_time = sys.argv[2]
+        print( f"Start time was {start_time}")
+        # print_contents( two_hz_binary_file, start_time)
+    elif len(sys.argv) == 4 :
+        start_time = sys.argv[2]
+        end_time = sys.argv[3]
+        # print_contents( two_hz_binary_file, start_time, end_time)
+
