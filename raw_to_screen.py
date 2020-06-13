@@ -20,15 +20,15 @@ from raw_codecs import decode, time_of_record
 
 def print_one_record( raw_record) :
     """ Prints a single 2 Hz record to standard out.
-    
+
     Prints the timestamp, x, y, and z values to a single line
     on standard out.
-    
+
     Parameters
     ----------
     raw_record :
         A byte array that is 38 bytes long, containing a single
-        record in the SRI 2 Hz format. 
+        record in the SRI 2 Hz format.
     """
     hour = raw_record[4]
     minute = raw_record[5]
@@ -44,29 +44,29 @@ def print_one_record( raw_record) :
 
 def print_contents( infile) :
     """ Prints the given file to standard out.
-    
+
     Prints the records in the file object by reading them one at a time
     until the end of the file.
-    
+
     Parameters
     ----------
     infile :
         The file object to be read.
     """
-    
+
     while True :
         one_record = infile.read( 38)
-        if not one_record : 
+        if not one_record :
             break
         else :
             print_one_record( one_record)
 
 def print_contents( infile, stime) :
     """ Prints the given file to standard out beginning at the given time.
-    
+
     Prints the records in the file object by reading them one at a time
     beginning at the given time until the end of the file.
-    
+
     Parameters
     ----------
     infile :
@@ -74,10 +74,10 @@ def print_contents( infile, stime) :
     stime :
         The datetime.time object from which to begin
     """
-    
+
     while True :
         one_record = infile.read( 38)
-        if not one_record : 
+        if not one_record :
             break
         current_time = time_of_record(one_record)
         if current_time >= stime :
@@ -92,11 +92,10 @@ if __name__ == "__main__" :
     if len(sys.argv) == 2 :
         print_contents(two_hz_binary_file)
     elif len(sys.argv) == 3 :
+        # iso format for a time is HH:MM:SS
         start_time = datetime.time.fromisoformat(sys.argv[2])
-        #print( f"Start time was {start_time}")
-        print_contents( two_hz_binary_file, start_time)
+        print_contents(two_hz_binary_file, start_time)
     elif len(sys.argv) == 4 :
         start_time = datetime.time.fromisoformat(sys.argv[2])
         end_time = datetime.time.fromisoformat(sys.argv[3])
         # print_contents( two_hz_binary_file, start_time, end_time)
-
