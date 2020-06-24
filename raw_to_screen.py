@@ -18,6 +18,7 @@ import datetime
 # MACCS imports
 from raw_codecs import decode, time_of_record
 
+
 def print_one_record( raw_record) :
     """ Prints a single 2 Hz record to standard out.
 
@@ -30,6 +31,7 @@ def print_one_record( raw_record) :
         A byte array that is 38 bytes long, containing a single
         record in the SRI 2 Hz format.
     """
+
     hour = raw_record[4]
     minute = raw_record[5]
     second = raw_record[6]
@@ -41,6 +43,7 @@ def print_one_record( raw_record) :
     z1 = decode( raw_record[24:27]) / 40.0
     z1_str = f"{z1:12.3f}"
     print( timestamp + x1_str + y1_str + z1_str)
+
 
 def print_contents( infile) :
     """ Prints the given file to standard out.
@@ -83,6 +86,33 @@ def print_contents( infile, stime) :
         if current_time >= stime :
             print_one_record( one_record)
 
+def print_contents( infile, stime, etime) :
+    """ Prints the given file to standard out beginning at the given time.
+
+    Prints the records in the file object by reading them one at a time
+    beginning at the given time until the end of the file.
+
+    Parameters
+    ----------
+    infile :
+        The file object to be read.
+    stime :
+        The datetime.time object from which to begin
+    etime :
+        The datetime.time object at which to end
+    """
+
+    while True :
+        one_record = infile.read( 38)
+        if not one_record :
+            break
+        current_time = time_of_record(one_record)
+        if current_time >= stime :
+            print_one_record( one_record)
+        if current_time >= etime :
+            break
+
+
 if __name__ == "__main__" :
     if len(sys.argv) < 2 :
         print( "Usage: python3 raw_to_screen.py filename [starttime [endtime]]")
@@ -98,4 +128,4 @@ if __name__ == "__main__" :
     elif len(sys.argv) == 4 :
         start_time = datetime.time.fromisoformat(sys.argv[2])
         end_time = datetime.time.fromisoformat(sys.argv[3])
-        # print_contents( two_hz_binary_file, start_time, end_time)
+        print_contents( two_hz_binary_file, start_time, end_time)
