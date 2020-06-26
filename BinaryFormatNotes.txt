@@ -23,8 +23,8 @@ Byte   Type             Name      Notes
 27:29  24 bit 2's comp  x2        Value in nanotesla*40 of the x axis for the 2nd half of the second.
 30:32  24 bit 2's comp  y2
 33:35  24 bit 2's comp  z2
-36
-37
+36     unsigned byte    checksum
+37     unsigned byte    trailer byte value 0x04
 
 
 MACCS Cleaned Format, 2 Hz, 28 bytes per record (.s2)
@@ -41,5 +41,3 @@ Byte   Type             Name      Notes
 16:19  signed integer   y2
 20:23  signed integer   z1
 24:27  signed integer   z2
-
-
