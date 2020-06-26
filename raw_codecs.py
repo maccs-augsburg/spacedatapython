@@ -6,6 +6,8 @@
 #  2020 May  -- Created  -- Erik Steinmetz
 #
 
+import datetime
+
 def decode(bytes) :
     """ 
     Converts 24 bit integer into a integer value.
@@ -28,4 +30,42 @@ def decode(bytes) :
         return value
 
 
+def time_of_record(record) :
+    """ Returns the time of the given 2Hz raw record.
+    
+    Parameters
+    ----------
+    record :
+        A 38 byte raw 2 Hz record
+    
+    Returns
+    -------
+    datetime.time
+        A time object representing the time encoded in the record
+    """
+    
+    answer = datetime.time(hour=record[4], minute=record[5], second=record[6])
+    return answer
 
+
+def time_to_second(time_string) :
+    """ Converts an HH:MM:SS string into an ordinal second of the day
+        number from 0 to 85399.
+    
+    Parameters
+    ----------
+    time_string :
+        A string of the form HH:MM:SS
+    
+    Returns
+    -------
+    int
+        An integer from 0 up to 85,399
+    """
+    
+    the_time = datetime.time.fromisoformat(time_string)
+    seconds = the_time.hour * 3600
+    seconds = seconds + the_time.minute * 60
+    seconds = seconds + the_time.second
+    return seconds
+    

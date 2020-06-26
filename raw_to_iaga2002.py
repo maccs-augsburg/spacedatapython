@@ -1,12 +1,12 @@
-# raw_to_screen.py
+# raw_to_iaga2002.py
 #
-# 2020 May - Created - Erik Steinmetz
+# 2020 June - Created - Erik Steinmetz
 #
 
-""" Raw Data Printer
+""" Raw to IAGA 2002 format converter
 
-Proceeds through a 2 Hz MACCS data file printing the time-stamped
-x, y, and z values to standard out.
+Proceeds through a 2 Hz MACCS raw data file writing the time-stamped
+x, y, and z values to a file in the IAGA 2002 format.
 
 """
 
@@ -19,30 +19,63 @@ import datetime
 from raw_codecs import decode, time_of_record
 
 
-def print_one_record( raw_record) :
-    """ Prints a single 2 Hz record to standard out.
+def one_record_to_string( raw_record) :
+    """ Creates an IAGA 2002 string for a single raw 2 Hz record.
 
-    Prints the timestamp, x, y, and z values to a single line
-    on standard out.
+    Creates a string in IAGA 2002 format for a single second of data.
+    The format needs the date, time, day-of-year, x, y, z, and full
+    magnetic strength values of a single reading written on each line.
+    Each raw record contains two readings, one centered at second.25
+    and the other centered at second.75.
 
     Parameters
     ----------
     raw_record :
         A byte array that is 38 bytes long, containing a single
         record in the SRI 2 Hz format.
+
+    Returns
+    -------
+    string :
+        A string containing both data points (two lines) from the record.
     """
 
+    # Create the datestamp looking like "YYYY-MM-DD "
+    century = raw_record[0]
+    year = raw_record[1]
+    month = raw_record[2]
+    day = raw_record[3]
+    datestamp = f"{century:02d}{year:02d}-{month:02d}-{day:02d} "
+
+    # Create a timestamp looking like "HH:MM:SS "
     hour = raw_record[4]
     minute = raw_record[5]
     second = raw_record[6]
     timestamp = f"{hour:02d}:{minute:02d}:{second:02d}"
+
+    # Create the day of year like "ddd  "
+    the_date = datetime.date( century*100 + year, month, day)
+    day_of_year = the_date.strftime("%j")  # %j is the day of year indicator
+
+    # Each axis is a string of nT to the 1/100 accuracy in a 10 char wide field
     x1 = decode( raw_record[18:21]) / 40.0
-    x1_str = f"{x1:12.3f}"
+    x1_str = f"{x1:10.2f}"
     y1 = decode( raw_record[21:24]) / 40.0
-    y1_str = f"{y1:12.3f}"
+    y1_str = f"{y1:10.2f}"
     z1 = decode( raw_record[24:27]) / 40.0
-    z1_str = f"{z1:12.3f}"
-    print( timestamp + x1_str + y1_str + z1_str)
+    z1_str = f"{z1:10.2f}"
+
+    x2 = decode( raw_record[27:30]) / 40.0
+    x2_str = f"{x2:10.2f}"
+    y2 = decode( raw_record[30:33]) / 40.0
+    y2_str = f"{y2:10.2f}"
+    z2 = decode( raw_record[33:36]) / 40.0
+    z2_str = f"{z2:10.2f}"
+
+    first_half = datestamp + timestamp + ".250 " + day_of_year + "  " + x1_str + y1_str + z1_str + "  88888.88\n"
+    second_half = datestamp + timestamp + ".750 " + day_of_year + "  " + x2_str + y2_str + z2_str + "  88888.88\n"
+    full_data_string = first_half + second_half
+    return full_data_string
 
 
 def print_contents( infile) :
@@ -62,7 +95,7 @@ def print_contents( infile) :
         if not one_record :
             break
         else :
-            print_one_record( one_record)
+            print( one_record_to_string( one_record))
 
 def print_contents( infile, stime) :
     """ Prints the given file to standard out beginning at the given time.
@@ -84,7 +117,7 @@ def print_contents( infile, stime) :
             break
         current_time = time_of_record(one_record)
         if current_time >= stime :
-            print_one_record( one_record)
+            print( one_record_to_string( one_record))
 
 def print_contents( infile, stime, etime) :
     """ Prints the given file to standard out beginning at the given time.
@@ -108,14 +141,14 @@ def print_contents( infile, stime, etime) :
             break
         current_time = time_of_record(one_record)
         if current_time >= stime :
-            print_one_record( one_record)
+            print( one_record_to_string( one_record))
         if current_time >= etime :
             break
 
 
 if __name__ == "__main__" :
     if len(sys.argv) < 2 :
-        print( "Usage: python3 raw_to_screen.py filename [starttime [endtime]]")
+        print( "Usage: python3 raw_to_iaga2002.py filename [starttime [endtime]]")
         sys.exit(0)   # Exit with no error code
     filename = sys.argv[1]
     two_hz_binary_file = open(filename, "rb")
