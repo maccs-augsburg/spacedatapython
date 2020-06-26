@@ -78,47 +78,6 @@ def one_record_to_string( raw_record) :
     return full_data_string
 
 
-def print_contents( infile) :
-    """ Prints the given file to standard out.
-
-    Prints the records in the file object by reading them one at a time
-    until the end of the file.
-
-    Parameters
-    ----------
-    infile :
-        The file object to be read.
-    """
-
-    while True :
-        one_record = infile.read( 38)
-        if not one_record :
-            break
-        else :
-            print( one_record_to_string( one_record))
-
-def print_contents( infile, stime) :
-    """ Prints the given file to standard out beginning at the given time.
-
-    Prints the records in the file object by reading them one at a time
-    beginning at the given time until the end of the file.
-
-    Parameters
-    ----------
-    infile :
-        The file object to be read.
-    stime :
-        The datetime.time object from which to begin
-    """
-
-    while True :
-        one_record = infile.read( 38)
-        if not one_record :
-            break
-        current_time = time_of_record(one_record)
-        if current_time >= stime :
-            print( one_record_to_string( one_record))
-
 def print_contents( infile, stime, etime) :
     """ Prints the given file to standard out beginning at the given time.
 
@@ -145,20 +104,76 @@ def print_contents( infile, stime, etime) :
         if current_time >= etime :
             break
 
+def create_header( station) :
+    """ Creates the header for the given station two letter abbreviation.
+
+    Creates the multi-line IAGA 2002 style header for the station indicated
+    by the two letter abbreviation.
+
+    Parameters
+    ----------
+    station :
+        The two letter abbreviation of a station
+
+    Returns
+    -------
+    string :
+        A string containing the header.
+    """
+
+    header_string =                 " Format                 IAGA2002                                     |\n"
+    header_string = header_string + " Source of Data         Augsburg University                          |\n"
+    header_string = header_string + header_beginning_for( station)
+#    header_string = header_string + " # Start Time "
+#    header_string = header_string + " # Duration In Seconds  "
+    header_string = header_string + " # Values are reported in local geomagnetic coordinates.             |\n"
+    header_string = header_string + " # Values are collected in local geomagnetic coordinates.            |\n"
+    header_string = header_string + " # Time-centered averages at .25 and .75 seconds.                    |\n"
+    header_string = header_string + " # F is not detected as an independent observable                    |\n"
+    header_string = header_string + " # For more information visit http://space.augsburg.edu              |\n"
+# FIXME: Lots more to go here
+    return header_string
+
+def header_beginning_for( station) :
+    """ Creates the station-specific header information """
+
+    answer = ""
+    if station == "CD" :
+        answer = answer + " Station Name           Cape Dorset, Nunavut, Canada                 |\n"
+        answer = answer + " IAGA CODE              CDR                                          |\n"
+        answer = answer + " Geodetic Latitude      64.231                                       |\n"
+        answer = answer + " Geodetic Longitude     283.470                                      |\n"
+        answer = answer + " Elevation              52                                           |\n"
+    elif station == "CH" :
+        answer = answer + " Station Name           Coral Harbour, Nunavut, Canada               |\n"
+        answer = answer + " IAGA CODE              CHB                                          |\n"
+        answer = answer + " Geodetic Latitude      64.188                                       |\n"
+        answer = answer + " Geodetic Longitude     276.650                                      |\n"
+        answer = answer + " Elevation              50                                           |\n"
+    elif station == "CY" :
+        answer = answer + " Station Name           Clyde River, Nunavut, Canada                 |\n"
+        answer = answer + " IAGA CODE              CRV                                          |\n"
+        answer = answer + " Geodetic Latitude      70.486                                       |\n"
+        answer = answer + " Geodetic Longitude     291.488                                      |\n"
+        answer = answer + " Elevation              73                                           |\n"
+# FIXME: more stations here
+
+    return answer
+
 
 if __name__ == "__main__" :
     if len(sys.argv) < 2 :
         print( "Usage: python3 raw_to_iaga2002.py filename [starttime [endtime]]")
         sys.exit(0)   # Exit with no error code
     filename = sys.argv[1]
+    station = filename[0:2] # grab the first two letters of the filename, the station abbreviation.
+    print( create_header( station))
     two_hz_binary_file = open(filename, "rb")
-    if len(sys.argv) == 2 :
-        print_contents(two_hz_binary_file)
-    elif len(sys.argv) == 3 :
+    start_time = datetime.time.fromisoformat( "00:00:00")
+    end_time = datetime.time.fromisoformat("23:59:59")
+    if len(sys.argv) == 3 :
         # iso format for a time is HH:MM:SS
         start_time = datetime.time.fromisoformat(sys.argv[2])
-        print_contents(two_hz_binary_file, start_time)
-    elif len(sys.argv) == 4 :
-        start_time = datetime.time.fromisoformat(sys.argv[2])
+    if len(sys.argv) == 4 :
         end_time = datetime.time.fromisoformat(sys.argv[3])
-        print_contents( two_hz_binary_file, start_time, end_time)
+    print_contents( two_hz_binary_file, start_time, end_time)
