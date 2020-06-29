@@ -17,6 +17,42 @@ import datetime
 
 # MACCS imports
 from raw_codecs import decode, time_of_record
+import station_names
+
+
+def create_iaga2002_filename( raw_filename) :
+    """ Creates an IAGA 2002 filename from a raw filename.
+
+    Creates a filename string in IAGA 2002 format given a raw filename.
+    The raw filename is in a format that has the pattern STYYDOY.2hz. ST
+    is the station name, DOY is the day of year. The IAGA2002 format has the
+    pattern STAYYYYMMDDv_l0_half_sec.sec where STA is the station name.
+
+    Parameters
+    ----------
+    raw_filename :
+        A filename string in the raw pattern.
+
+    Returns
+    -------
+    string :
+        A filename string in the IAGA 2002 pattern.
+    """
+
+    two_letter_name = raw_filename[0:2]
+    three_letter_name = station_names.find_three_letter_name( two_letter_name)
+    three_letter_name = three_letter_name.lower()
+    century_string = "20"
+    year_string = raw_filename[2:4]
+    if int(year_string) > 85 :
+        century_string = "19"
+    doy_string = raw_filename[4:7]
+    # use the string parse time functions to create a date object:
+    the_date = datetime.datetime.strptime( century_string + year_string + " " + doy_string, "%Y %j")
+    # ask the date object for a string of the form YYYYMMDD
+    date_string = the_date.strftime("%Y%m%d")
+    answer = three_letter_name + date_string + "v_l0_half_sec.sec"
+    return answer
 
 
 def one_record_to_string( raw_record) :
@@ -78,6 +114,33 @@ def one_record_to_string( raw_record) :
     return full_data_string
 
 
+def write_file( outfile, infile, stime, etime) :
+    """ Write the contents of the raw infile to the outfile as IAGA 2002 text.
+
+    Parameters
+    ----------
+    outfile :
+        The file object in which to write.
+    infile :
+        The file object to be read.
+    stime :
+        The datetime.time object from which to begin
+    etime :
+        The datetime.time object at which to end
+    """
+
+    while True :
+        one_record = infile.read( 38)
+        if not one_record :
+            break
+        current_time = time_of_record(one_record)
+        if current_time >= stime :
+            outfile.write( one_record_to_string( one_record))
+        if current_time >= etime :
+            break
+
+
+
 def print_contents( infile, stime, etime) :
     """ Prints the given file to standard out beginning at the given time.
 
@@ -105,6 +168,7 @@ def print_contents( infile, stime, etime) :
             print( one_record_to_string( one_record))
         if current_time >= etime :
             break
+
 
 def create_header( station) :
     """ Creates the header for the given station two letter abbreviation.
@@ -138,8 +202,8 @@ def create_header( station) :
     header_string = header_string + " # Time-centered averages at .25 and .75 seconds.                    |\n"
     header_string = header_string + " # F is not detected as an independent observable                    |\n"
     header_string = header_string + " # For more information visit http://space.augsburg.edu              |\n"
-# FIXME: Lots more to go here
     return header_string
+
 
 def header_beginning_for( station) :
     """ Creates the station-specific header information """
