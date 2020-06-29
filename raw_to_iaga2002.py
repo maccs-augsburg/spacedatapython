@@ -94,6 +94,8 @@ def print_contents( infile, stime, etime) :
         The datetime.time object at which to end
     """
 
+    print(f"start time is {stime}")
+    print(f"end time is {etime}")
     while True :
         one_record = infile.read( 38)
         if not one_record :
@@ -126,6 +128,11 @@ def create_header( station) :
     header_string = header_string + header_beginning_for( station)
 #    header_string = header_string + " # Start Time "
 #    header_string = header_string + " # Duration In Seconds  "
+    header_string = header_string + " Reported               XYZF                                         |\n"
+    header_string = header_string + " Sensor Orientation     XYZ                                          |\n"
+    header_string = header_string + " Digital Sampling       0.125 seconds                                |\n"
+    header_string = header_string + " Data Interval Type     Averaged 0.5-Second (00:00.00 - 00:00.49)    |\n"
+    header_string = header_string + " Data Type              Variation                                    |\n"
     header_string = header_string + " # Values are reported in local geomagnetic coordinates.             |\n"
     header_string = header_string + " # Values are collected in local geomagnetic coordinates.            |\n"
     header_string = header_string + " # Time-centered averages at .25 and .75 seconds.                    |\n"
@@ -156,11 +163,39 @@ def header_beginning_for( station) :
         answer = answer + " Geodetic Latitude      70.486                                       |\n"
         answer = answer + " Geodetic Longitude     291.488                                      |\n"
         answer = answer + " Elevation              73                                           |\n"
-# FIXME: more stations here
-
+    elif station == "GH" :
+        answer = answer + " Station Name           Gjoa Haven, Nunavut, Canada                  |\n"
+        answer = answer + " IAGA CODE              GJO                                          |\n"
+        answer = answer + " Geodetic Latitude      68.633                                       |\n"
+        answer = answer + " Geodetic Longitude     264.150                                      |\n"
+        answer = answer + " Elevation              20                                           |\n"
+    elif station == "IG" :
+        answer = answer + " Station Name           Igloolik, Nunavut, Canada                    |\n"
+        answer = answer + " IAGA CODE              IGL                                          |\n"
+        answer = answer + " Geodetic Latitude      69.375                                       |\n"
+        answer = answer + " Geodetic Longitude     278.198                                      |\n"
+        answer = answer + " Elevation              20                                           |\n"
+    elif station == "NA" :
+        answer = answer + " Station Name           Nain, Labrador, Canada                       |\n"
+        answer = answer + " IAGA CODE              NAN                                          |\n"
+        answer = answer + " Geodetic Latitude      56.541                                       |\n"
+        answer = answer + " Geodetic Longitude     298.302                                      |\n"
+        answer = answer + " Elevation              7                                            |\n"
+    elif station == "PB" :
+        answer = answer + " Station Name           Pelly Bay, Nunavut, Canada                   |\n"
+        answer = answer + " IAGA CODE              PEB                                          |\n"
+        answer = answer + " Geodetic Latitude      68.538                                       |\n"
+        answer = answer + " Geodetic Longitude     270.211                                      |\n"
+        answer = answer + " Elevation              30                                           |\n"
+    elif station == "PG" :
+        answer = answer + " Station Name           Pangnirtung, Nunavut, Canada                 |\n"
+        answer = answer + " IAGA CODE              PGG                                          |\n"
+        answer = answer + " Geodetic Latitude      66.149                                       |\n"
+        answer = answer + " Geodetic Longitude     294.324                                      |\n"
+        answer = answer + " Elevation              48                                           |\n"
     return answer
 
-
+# FIXME: the main only prints to the screen right now
 if __name__ == "__main__" :
     if len(sys.argv) < 2 :
         print( "Usage: python3 raw_to_iaga2002.py filename [starttime [endtime]]")
@@ -171,7 +206,7 @@ if __name__ == "__main__" :
     two_hz_binary_file = open(filename, "rb")
     start_time = datetime.time.fromisoformat( "00:00:00")
     end_time = datetime.time.fromisoformat("23:59:59")
-    if len(sys.argv) == 3 :
+    if len(sys.argv) >= 3 :
         # iso format for a time is HH:MM:SS
         start_time = datetime.time.fromisoformat(sys.argv[2])
     if len(sys.argv) == 4 :
