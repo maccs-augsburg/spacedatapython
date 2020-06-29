@@ -40,7 +40,7 @@ def find_three_letter_name( a_name) :
         The three letter name of the given station or the empty string if not found.
     """
 
-    a_name = a_name.upper()
+    a_name = a_name.upper() # change the input to all upper case
     column_index = 0        # assume the input is a two letter abbreviation
     if len( a_name) == 3 :
         column_index = 1    # the input string is a three letter abbreviation
