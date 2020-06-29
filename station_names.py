@@ -40,9 +40,10 @@ def find_three_letter_name( a_name) :
         The three letter name of the given station or the empty string if not found.
     """
 
-    column_index = 0        # assume the input is the two letter abbreviation
+    a_name = a_name.upper()
+    column_index = 0        # assume the input is a two letter abbreviation
     if len( a_name) == 3 :
-        return a_name
+        column_index = 1    # the input string is a three letter abbreviation
     elif len( a_name) == 4 :
         column_index = 2
     row_index = -1          # start with an illegal row number
