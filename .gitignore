@@ -1,5 +1,5 @@
 # .gitignore for MACCS Space Data Python code.
-# 
+#
 # 2020  May  -- Created  -- Erik Steinmetz
 #
 
@@ -12,3 +12,5 @@ __pycache__/
 *.8Hz
 *.8Hz
 
+# macOS windowing placement information
+*.DS_Store
