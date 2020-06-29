@@ -80,7 +80,7 @@ if __name__ == "__main__" :
     two_hz_binary_file = open(filename, "rb")
     start_time = datetime.time.fromisoformat( "00:00:00")
     end_time = datetime.time.fromisoformat("23:59:59")
-    if len(sys.argv) == 3 :
+    if len(sys.argv) >= 3 :
         # iso format for a time is HH:MM:SS
         start_time = datetime.time.fromisoformat(sys.argv[2])
     if len(sys.argv) == 4 :
