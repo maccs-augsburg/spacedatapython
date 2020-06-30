@@ -6,7 +6,7 @@ This directory contains python3 scripts which process MACCS data.
 
 * The scripts here can be used to process MACCS data; examining,
 converting, and graphing the data files.
-* Version 1.0
+* Version 0.3 - 29 June 2020
 
 ### How do I get set up? ###
 
@@ -17,11 +17,16 @@ Some may contain tests.
 
 ### What is here? ###
 
-* Raw_SRI_Format.txt: Notes about the binary format of .2hz files.
-* raw_codecs.py: This contains code to convert various parts of the 
+* BinaryFormatNotes.txt: Notes about the binary format of .2hz files.
+* raw_codecs.py: This contains code to convert various parts of the
 raw files into and out of integer and float values.
+* raw_to_iaga2002: A program to write the contents of a 2hz file to a text
+file in the IAGA 2002 format.
 * raw_to_screen.py: A program to print the contents of a 2hz file to
 the screen.
+* station_names.py: Functions converting between two, three, and four letter
+station abbreviations along with short and long names.
+* TODO.txt: Suggestions for programs and functions to write for this project.
 
 ### Who do I talk to? ###
 
