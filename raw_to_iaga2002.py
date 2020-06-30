@@ -108,13 +108,13 @@ def one_record_to_string( raw_record) :
     z2 = decode( raw_record[33:36]) / 40.0
     z2_str = f"{z2:10.2f}"
 
-    first_half = datestamp + timestamp + ".250 " + day_of_year + "  " + x1_str + y1_str + z1_str + "  88888.88\n"
-    second_half = datestamp + timestamp + ".750 " + day_of_year + "  " + x2_str + y2_str + z2_str + "  88888.88\n"
+    first_half = datestamp + timestamp + ".250 " + day_of_year + "   " + x1_str + y1_str + z1_str + "  88888.88\n"
+    second_half = datestamp + timestamp + ".750 " + day_of_year + "   " + x2_str + y2_str + z2_str + "  88888.88\n"
     full_data_string = first_half + second_half
     return full_data_string
 
 
-def write_file( outfile, infile, stime, etime) :
+def write_data_to_file( outfile, infile, stime, etime) :
     """ Write the contents of the raw infile to the outfile as IAGA 2002 text.
 
     Parameters
@@ -157,8 +157,6 @@ def print_contents( infile, stime, etime) :
         The datetime.time object at which to end
     """
 
-    print(f"start time is {stime}")
-    print(f"end time is {etime}")
     while True :
         one_record = infile.read( 38)
         if not one_record :
@@ -168,6 +166,15 @@ def print_contents( infile, stime, etime) :
             print( one_record_to_string( one_record))
         if current_time >= etime :
             break
+
+
+def column_headers_for( station) :
+    """ Creates a column header line for the given station two letter abbreviation."""
+
+    #DATE       TIME         DOY     RBYX      RBYY      RBYZ      RBYF   |
+    sta = station_names.find_three_letter_name( station)
+    answer = f"DATE       TIME         DOY     {sta}X      {sta}Y      {sta}Z      {sta}F   |\n"
+    return answer
 
 
 def create_header( station) :
@@ -202,6 +209,7 @@ def create_header( station) :
     header_string = header_string + " # Time-centered averages at .25 and .75 seconds.                    |\n"
     header_string = header_string + " # F is not detected as an independent observable                    |\n"
     header_string = header_string + " # For more information visit http://space.augsburg.edu              |\n"
+    header_string = header_string + column_headers_for( station)
     return header_string
 
 
@@ -257,16 +265,22 @@ def header_beginning_for( station) :
         answer = answer + " Geodetic Latitude      66.149                                       |\n"
         answer = answer + " Geodetic Longitude     294.324                                      |\n"
         answer = answer + " Elevation              48                                           |\n"
+    elif station == "RB" :
+        answer = answer + " Station Name           Repulse Bay, Nunavut, Canada                 |\n"
+        answer = answer + " IAGA CODE              RBY                                          |\n"
+        answer = answer + " Geodetic Latitude      66.524                                       |\n"
+        answer = answer + " Geodetic Longitude     273.769                                      |\n"
+        answer = answer + " Elevation              30                                           |\n"
     return answer
 
-# FIXME: the main only prints to the screen right now
+
+# FIXME: No proper header comment for less than 24 hour file.
 if __name__ == "__main__" :
     if len(sys.argv) < 2 :
         print( "Usage: python3 raw_to_iaga2002.py filename [starttime [endtime]]")
         sys.exit(0)   # Exit with no error code
     filename = sys.argv[1]
     station = filename[0:2] # grab the first two letters of the filename, the station abbreviation.
-    print( create_header( station))
     two_hz_binary_file = open(filename, "rb")
     start_time = datetime.time.fromisoformat( "00:00:00")
     end_time = datetime.time.fromisoformat("23:59:59")
@@ -275,4 +289,10 @@ if __name__ == "__main__" :
         start_time = datetime.time.fromisoformat(sys.argv[2])
     if len(sys.argv) == 4 :
         end_time = datetime.time.fromisoformat(sys.argv[3])
-    print_contents( two_hz_binary_file, start_time, end_time)
+    # open a file for writing
+    outfile_name = create_iaga2002_filename( filename)
+    outfile = open(outfile_name, "w")
+    outfile.write( create_header(station))
+    write_data_to_file( outfile, two_hz_binary_file, start_time, end_time)
+    outfile.close()
+    two_hz_binary_file.close()
