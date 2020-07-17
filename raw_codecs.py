@@ -30,6 +30,35 @@ def decode(bytes) :
         return value
 
 
+def encode(a_value) :
+    """ 
+    Converts an integer value into a 24 bit, two's complement integer.
+    This assumes that the value is within the bounds of a 24-bit int,
+    so about -8 million to +8 million. The answer is in big-endian byte
+    order.
+    
+    Parameters
+    ----------
+    a_value : 
+        A Python integer value.
+        
+    Returns
+    -------
+    bytearray
+        The given integer value represented in 24 bits.
+    """
+    
+    if a_value<0:
+        a_value+=2**24            # Makes value positive with bit 23 a 1
+    answer = bytearray()          # An empty byte array
+    answer.append(a_value//65536) # Append the highest-order 8 bits
+    a_value = a_value%65536
+    answer.append(a_value//256)   # Append the middle 8 bits
+    a_value = a_value%256
+    answer.append(a_value)        # Append the low-order 8 bits
+    return answer
+
+
 def time_of_record(record) :
     """ Returns the time of the given 2Hz raw record.
     
