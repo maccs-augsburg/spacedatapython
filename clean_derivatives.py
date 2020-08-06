@@ -48,7 +48,7 @@ def print_one_record( clean_record) :
     print( timestamp + x1_str + y1_str + z1_str + flag_str)
 
 
-def print_contents( derivs, s_sec, e_sec) :
+def print_contents( derivs, second_derivs, s_sec, e_sec) :
     """ Prints the given derivs to standard out beginning at the given time.
 
     Prints the derivatives in the array
@@ -68,7 +68,9 @@ def print_contents( derivs, s_sec, e_sec) :
         sec_str = f"{current_sec:7d}"
         current_val = derivs[current_sec]
         val_str = f"{current_val:12.3f}"
-        print( sec_str + val_str)
+        second_val = second_derivs[current_sec]
+        second_val_str = f"{second_val:12.6f}"
+        print( sec_str + val_str + second_val_str)
         current_sec = current_sec + 1
 
 def calculate_first( infile) :
@@ -103,8 +105,37 @@ def calculate_first( infile) :
             z2 = int.from_bytes(current_record[24:28], byteorder='big', signed=True) / 1000.0
             deriv1 = z1 - pz1
             deriv2 = z2 - pz2
+            # FIXME: if any of these values are 32,767, throw out the derivatives, replace with ??
             answer.append( (deriv1 + deriv2) / 2.0)
         previous_record = current_record
+    return answer
+
+def calculate_second( first_deriv_array) :
+    """ Creates an array of second derivatives calculated from first
+        derivatives in nT/(s^2)
+    
+    Creates an array filled with second derivative values.
+    
+    Parameters
+    ----------
+    first_deriv_array
+        The array of first derivative values.
+    
+    Returns
+    -------
+    float array
+        An array of nT/(s^2) values
+    """
+    
+    answer = []
+    last_index = len( first_deriv_array) - 1
+    index = 0
+    while index < last_index :
+        prev_val = first_deriv_array[ index-1]
+        next_val = first_deriv_array[ index+1]
+        # FIXME: if any of these values are the bad first deriv value, val is bad 2nd deriv val
+        answer.append( (next_val - prev_val) / 2.0)
+        index += 1
     return answer
     
 
@@ -115,6 +146,7 @@ if __name__ == "__main__" :
     filename = sys.argv[1]
     two_hz_cleaned_file = open(filename, "rb")
     first_derivatives = calculate_first( two_hz_cleaned_file)
+    second_derivatives = calculate_second( first_derivatives)
     start_second = 0
     end_second = 86399
     if len(sys.argv) >= 3 :
@@ -122,4 +154,4 @@ if __name__ == "__main__" :
         start_second = time_to_second(sys.argv[2])
     if len(sys.argv) == 4 :
         end_second = time_to_second(sys.argv[3])
-    print_contents( first_derivatives, start_second, end_second)
+    print_contents( first_derivatives, second_derivatives, start_second, end_second)
