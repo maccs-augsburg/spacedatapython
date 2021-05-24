@@ -98,3 +98,13 @@ def time_to_second(time_string) :
     seconds = seconds + the_time.second
     return seconds
     
+
+def seconds_to_time_string( sec) :
+    """ Converts an integer number of seconds to an HH:MM:SS string.
+    """
+    
+    hours = sec // 3600
+    sec = sec % 3600
+    minutes = sec // 60
+    sec = sec % 60
+    return f"{hours:02d}:{minutes:02d}:{sec:02d}"
