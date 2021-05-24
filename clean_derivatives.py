@@ -15,9 +15,11 @@ first and second derivatives of the data.
 import sys
 import math
 import datetime
+# need to install matplotlib. On Mac $ sudo python3 -mpip install matplotlib
+import matplotlib.pyplot as plt
 
 # MACCS imports
-from raw_codecs import decode, time_of_record, time_to_second
+from raw_codecs import decode, time_of_record, time_to_second, seconds_to_time_string
 
 
 def print_one_record( clean_record) :
@@ -63,16 +65,36 @@ def print_contents( derivs, second_derivs, s_sec, e_sec) :
     e_sec :
         The second at which to end
     """
+    
     current_sec = s_sec
+    timestamps = []
+    dvals = []
+    ddvals = []
     while current_sec <= e_sec :
-        sec_str = f"{current_sec:7d}"
+        sec_str = seconds_to_time_string( current_sec) + "  "
         current_val = derivs[current_sec]
+        dvals.append( current_val)         # plotting stuff
+        timestamps.append( current_sec)    # plotting stuff
         val_str = f"{current_val:12.3f}"
         second_val = second_derivs[current_sec]
-        second_val_str = f"{second_val:12.6f}"
+        ddvals.append( second_val)         # plotting stuff
+        second_val_str = f"{second_val:12.5f}"
         print( sec_str + val_str + second_val_str)
         current_sec = current_sec + 1
 
+    # Add a plot to it.
+    figure = plt.figure( figsize=(12,12)) # width,height
+    plt.subplot(211) # 2 plots on one page, this is the first
+    plt.plot(timestamps,dvals)
+    #plt.scatter(timestamps,dvals,s=0.6,linewidths=0.4)
+    plt.ylabel("nT/s")
+    plt.subplot(212)
+    plt.plot(timestamps,ddvals)
+#    plt.scatter(timestamps,ddvals,s=0.6,linewidths=0.4)
+    plt.ylabel("nT/(s^2)")
+    plt.xlabel("seconds")
+    figure.savefig( "testoutplot.png")
+    
 def calculate_first( infile) :
     """ Calculates the first derivative of the data in the z axis in
         nT/s.
