@@ -60,6 +60,8 @@ def print_contents( derivs, second_derivs, s_sec, e_sec) :
     ----------
     derivs :
         The array of derivative values, one for each second of the day.
+    second_derivs :
+        The array of second derivatives, one for each second of the day.
     s_sec :
         The second from which to begin
     e_sec :
