@@ -11,6 +11,7 @@ __pycache__/
 *.2hz
 *.8Hz
 *.8Hz
+*.s2
 
 # Any jar files, in this case MaccsProcess.jar
 *.jar
