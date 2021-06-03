@@ -24,14 +24,49 @@ import station_names
 import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 
-def find_Array_Differences (arr) :
+def find_Array_Differences (xArr, yArr, zArr) :
+    """
+    Finds the difference between the minimum value and maximum values in the list
+        for the x, y, and z lists
+
+    Parameters
+    ----------
+    List
+        xArr: a list of x values to find the difference in
+        yArr: a list of y values to find the difference in
+        zArr: a list of z valeus to find the difference in
+
+    Returns
+    -------
+    Float (not entirely sure)
+        The maximum difference out of the differences in the 3 arrays
+    """
+
+    # getting the differences for the arrays
+    x_difference = find_difference(xArr)
+    y_difference = find_difference(yArr)
+    z_difference = find_difference(zArr)
+
+    # setting the max to be the x_difference intially
+    max_difference = x_difference
+
+    # if statement to determine which one is actaully the max difference
+    if(x_difference <= y_difference) and (y_difference >= z_difference):
+        max_difference = y_difference
+    elif (z_difference > x_difference) and (z_difference > y_difference):
+        max_difference = z_difference
+
+    # returning the maximum difference out of all the differences
+    return max_difference
+
+def find_difference(arr) :
     """
     Finds the difference between the minimum value and maximum values in the list
 
     Parameters
     ----------
     List
-        arr: a list of values to find the difference in
+        arr: a list of valuees to find the difference in
 
     Returns
     -------
@@ -135,7 +170,7 @@ def create_Arrays (raw_record, stime, etime) :
     return xArr, yArr, zArr, timeArr
     
 
-def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime) :
+def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
     """ Places x, y, z arrays on a plot.
 
     Places x, y, and z arrays which contain values from the
@@ -157,29 +192,10 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime) :
         The datetime.time object from which to begin
     etime:
         The datetime.time object at which to end
+    fileOption:
+        String to indicate what type of file to save (PDF or PNG)
     """
-
-    ### getting the differences and finding the biggest difference
-    xDiff = find_Array_Differences(xArr)
-    yDiff = find_Array_Differences(yArr)
-    zDiff = find_Array_Differences(zArr)
-
-    maximum = xDiff
-    minimum = xDiff
-
-    # finding the maximum
-    if (yDiff > maximum) and (yDiff > zDiff):
-        maximum = yDiff
-    elif (zDiff > maximum) and (yDiff < zDiff):
-        maximum = zDiff
-
-    # finding the minimum
-    if (yDiff < minimum) and (yDiff < zDiff):
-        minimum = yDiff
-    elif (zDiff < minimum) and (yDiff > zDiff):
-        minimum = zDiff
     
-
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
     yearDayValue = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
@@ -208,7 +224,12 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime) :
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.patch.set_facecolor('#d3d3d3') # "#d3d3d3" is a grey color for the plot
     fig.subplots_adjust(hspace=0.03)
+    #plt.subplots(3,1,1,sharey='row')
+
+## TODO: use maximum difference to add to the limits -- working on
     
+    ### finding the biggest difference
+    maxDiff = find_Array_Differences(xArr, yArr, zArr)
     
 
     ### first plot
@@ -222,7 +243,11 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime) :
     plt.ylabel('Bx')	# side label
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    #y_bottom, y_top = plt.gca().axes.get_ybound() # getting the y limits
+    #y_top = y_top + maxDiff # increasing the top by the max diff
+    #y_bottom = y_bottom - maxDiff # decreasing the bottom by the max diff
+    #plt.gca().axes.set_ylim(bottom=y_bottom, top=y_top) # setting the top and bottom limits
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -238,6 +263,10 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime) :
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    #y_bottom, y_top = plt.gca().axes.get_ybound() # getting the y limits
+    #y_top = y_top + maxDiff # increasing the top by the max diff
+    #y_bottom = y_bottom - maxDiff # decreasing the bottom by the max diff
+    #plt.gca().axes.set_ylim(bottom=y_bottom, top=y_top) # setting the top and bottom limits
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -253,6 +282,10 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime) :
     plt.xlabel('Time in Hours') # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    #y_bottom, y_top = plt.gca().axes.get_ybound() # getting the y limits
+    #y_top = y_top + maxDiff # increasing the top by the max diff
+    #y_bottom = y_bottom - maxDiff # decreasing the bottom by the max diff
+    #plt.gca().axes.set_ylim(bottom=y_bottom, top=y_top) # setting the top and bottom limits
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -261,8 +294,16 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime) :
     else:
         plt.xticks(hoursArr) # setting the xaxis time ticks to custom values
 
-    # saving plot into a pdf file
-    fig.savefig('testgraph.pdf', format='pdf', dpi=1200)
+    fileOption = fileOption.lower()
+    if(fileOption == 'pdf'):
+        # saving plot into a pdf file
+        fig.savefig('testgraph.pdf', format='pdf', dpi=1200)
+    elif (fileOption == 'png'):
+        # saving plot into a png file
+        fig.savefig('testgraph.png', format='png', dpi=1200)
+    else :
+        print(fileOption + ' is not a supported filetype Option')
+        sys.exit(0)# Exiting without an error code
 
 if __name__ == "__main__" :
     ### usage message in console
@@ -272,6 +313,9 @@ if __name__ == "__main__" :
         
     # filename
     filename = sys.argv[1]
+
+    # file option
+    fileOption = 'pdf' # defaulting with the pdf option
 
     # try and catch block for bad file name
     try:
@@ -285,12 +329,15 @@ if __name__ == "__main__" :
     end_time = datetime.time.fromisoformat("23:59:59")
 
     ### If we get more than 2 items in the console/command line
-    if len(sys.argv) >= 3 :
+    if len(sys.argv) == 3 : # if we have 3 items in the command line we assume that it is for specifying file type option
+        fileOption = sys.argv[2]
+    elif len(sys.argv) >= 4 :
         # iso format for a time is HH:MM:SS
         start_time = datetime.time.fromisoformat(sys.argv[2])
-    if len(sys.argv) == 4 :
         end_time = datetime.time.fromisoformat(sys.argv[3])
-    if len(sys.argv) >= 5:
+    if len(sys.argv) == 5:
+        fileOption = sys.argv[4]
+    if len(sys.argv) >= 6:
         print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
         sys.exit(0) # Exiting without an error code
 
@@ -298,10 +345,10 @@ if __name__ == "__main__" :
     ### Creating x, y, and z arrays -- NOW INCLUDING START AND END TIMES!!!
     arrayX, arrayY, arrayZ, timeArr = create_Arrays(two_hz_binary_file, start_time, end_time)
 
-    ### Plotting said arrays -- NOW INCLUDING START AND END TIMES!!!
+    ### Plotting said arrays -- NOW INCLUDING START AND END TIMES AND FILE OPTION!!!
     # try and catch block to handle error in case file is already open
     try:
-        plot_Arrays(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
+        plot_Arrays(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time, fileOption)
     except:
         print('Could not plot arrays to testgraph.pdf, file is open')
         sys.exit(0) # Exiting without an error code
