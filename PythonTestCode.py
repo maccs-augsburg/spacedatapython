@@ -37,13 +37,7 @@ def create_arrays (raw_record, stime, etime) :
     zArr = []  #z plot point storage
     timeArr = [] #time plot point storage
 
-    #The Date stamp for the title 
-    month = raw_record[2]
-    day = raw_record[3]
-    year = raw_record[1]
-    datestamp = f"{month:02d} {day:02d}, {year:02d} "
-
-    
+       
 
 #This while loop is creating our information to add to the arrays and then adds
 #them to the correct arrays
@@ -152,7 +146,7 @@ def plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     
     
     plt.plot(timeArr,xArr, linewidth = .25) #s = size
-    plt.title("GeoMagnetic Bx By Bz of " + stationName + "      YEARDAY: " + yearDaysValue + "      " + datestamp) 
+    plt.title("GeoMagnetic Bx By Bz of " + stationName + "      YEARDAY: " + yearDayValue) 
     plt.ylabel('Bx')
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
