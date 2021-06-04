@@ -55,3 +55,40 @@ def find_three_letter_name( a_name) :
         return ""           # FIXME: return nil?
     else :
         return names[row_index][1]  # 1 is the column of the three letter abbr.
+
+
+
+def find_unabbreviated_name( a_name) :
+    """
+    Finds the full name (without province or country details) of a station given a two, (not tested) three, or (not tested) four letter name.
+
+    Parameters
+    ----------
+    a_name:
+        A two, three, or four letter station name.
+
+    Returns
+    -------
+    string
+        The full length name of the given station or an empty string if not found.
+    """
+
+    ### HAVE ONLY TESTED WITH 2 LETTER STATION NAMES SO FAR ###
+    
+    a_name = a_name.upper() # change the input to all upper case
+    column_index = 0        # assume the input is a two letter abbreviation
+    if len( a_name) == 3 :
+        column_index = 1    # the input string is a three letter abbreviation
+    elif len( a_name) == 4 :
+        column_index = 2
+    row_index = -1          # start with an illegal row number
+    for row in range(16) :  # 0 to 15, the row numbers of names array.
+        if names[row][column_index] == a_name :
+            row_index = row
+            break
+    if row_index < 0 :      # did not find a match
+        return ""           # FIXME: return nil?
+    else :
+        return names[row_index][3]  # 1 is the column of the three letter abbr.
+
+
