@@ -61,3 +61,29 @@ stationfile2_entry.grid(column=2, row=5)
 stationfile3 = StringVar()
 stationfile3_entry = ttk.Entry(mainframe, width=3, textvariable=stationfile3)
 stationfile3_entry.grid(column=4, row=5)
+
+### Button section ###
+# Management buttons section
+ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=1, row = 14, sticky=W)
+cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=2, row=14, sticky=W)
+# Listbox buttons section
+#listbox1 = Listbox(mainframe, height=10, width=15, bg="grey", font="Helvetica")
+#listbox2 = Listbox(mainframe, height=10, width=15, bg="grey", font="Helvetica")
+#listbox3 = Listbox(mainframe, height=10, width=15, bg="grey", font="Helvetica")
+    #selectmode="multiple"
+#fillList(listbox1)
+#fillList(listbox2)
+#fillList(listbox3)
+#listbox1.grid(column=1, row=7, sticky=(W,E))
+#listbox2.grid(column=2, row=7, sticky=(W,E))
+#listbox3.grid(column=3, row=7, sticky=(W,E))
+
+# Radiobutton section
+fileSelection = StringVar()
+rb1 = Radiobutton(mainframe, text="CDAWEB", value=1, variable=fileSelection).grid(column=1, row=7)
+rb2 = Radiobutton(mainframe, text="IAGA2000", value=2, variable=fileSelection).grid(column=1, row=8)
+rb3 = Radiobutton(mainframe, text="IAGA2002", value=3, variable=fileSelection).grid(column=1, row=9)
+rb4 = Radiobutton(mainframe, text="Augsburg", value=4, variable=fileSelection).grid(column=1, row=10)
+rb5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=fileSelection).grid(column=1, row=11)
+rb6 = Radiobutton(mainframe, text="SPole", value=6, variable=fileSelection).grid(column=1, row=12)
+rb7 = Radiobutton(mainframe, text="other", value=7, variable=fileSelection).grid(column=1, row=13)
