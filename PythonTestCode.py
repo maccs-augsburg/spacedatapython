@@ -39,6 +39,38 @@ def find_array_differences(xArr, yArr, zArr) :
     return max_diff
 
 
+def find_difference(arr) :
+    """
+    This function finds the difference between the minimum and maximum values.
+
+    Parameters
+    ----------
+    Lists
+        arr:
+
+    Returns
+    -------
+    
+    """
+
+    if(len(arr) <= 0):
+        print("Error: find_array_differences didnt have any values passed in")
+        sys.exit(0)
+
+    minimum_value = arr[0]
+    maximum_value = arr[0]
+
+    for item in arr:
+        if item > maximum_value:
+            maximum_value = item
+        elif item < minimum_value:
+            minimum_value = item
+
+    diff = maximum_value - minimum_value
+
+    return diff
+
+
 def create_arrays (raw_record, stime, etime) :
     """
     Creates x, y, z ...
