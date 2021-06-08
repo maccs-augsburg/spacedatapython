@@ -265,11 +265,14 @@ def plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     # Write out the plots onto a page as pdf file
 
     #add an if statement for when if they want a pdf or a png
-    fig.savefig('thegraph.pdf', format='pdf', dpi=1200)
-
-    
-    fig.savefig('TestGraph.png', format = 'png', dpi = 1200)
-    
+    fileOption = fileOption.lower()
+    if(fileOption == 'pdf'):
+        fig.savefig('thegraph.pdf', format='pdf', dpi=1200)
+    elif(fileOption == 'png'):
+        fig.savefig('TestGraph.png', format = 'png', dpi = 1200)
+    else :
+        print(fileOption + "is not supported filetype")
+        sys.exit(0)
 
 
 if __name__ == "__main__" :
@@ -278,15 +281,21 @@ if __name__ == "__main__" :
         sys.exit(0) # Exiting without an error code
         
     filename = sys.argv[1]
-    two_hz_binary_file = open(filename, "rb")
+    fileOption = 'pdf'
+
+    try:
+        two_hz_binary_file = open(filename, "rb")
+    except:
+        print('Can not open file: ' + filename)
+        sys.exit(0)
 
     ### initializing start and end times
     start_time = datetime.time.fromisoformat( "00:00:00")
     end_time = datetime.time.fromisoformat("23:59:59")
 
     ### If we get more than 2 items in the console/command line
-    if len(sys.argv) >= 3 :
-        # iso format for a time is HH:MM:SS
+    if len(sys.argv) == 3 :
+        fileOption = sys.argv[2]
         start_time = datetime.time.fromisoformat(sys.argv[2])
     if len(sys.argv) == 4 :
         end_time = datetime.time.fromisoformat(sys.argv[3])
@@ -299,7 +308,12 @@ if __name__ == "__main__" :
     arrayX, arrayY, arrayZ, timeArr = create_arrays(two_hz_binary_file, start_time, end_time)
 
     ### Plotting said arrays -- NOW INCLUDING START AND END TIMES!!!
-    plot_arrays(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
+    try:
+        plot_arrays(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time, fileOption)
+    except:
+        print('Could not plot arrays to testgraph.pdf')
+        sys.exit(0)
+        
     
 
 
