@@ -109,3 +109,24 @@ rb4 = Radiobutton(mainframe, text="Augsburg", value=4, variable=fileSelection).g
 rb5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=fileSelection).grid(column=1, row=11)
 rb6 = Radiobutton(mainframe, text="SPole", value=6, variable=fileSelection).grid(column=1, row=12)
 rb7 = Radiobutton(mainframe, text="other", value=7, variable=fileSelection).grid(column=1, row=13)
+
+### Label section ###
+# Yearday section
+ttk.Label(mainframe, text="Yearday:").grid(column=1, row=1, sticky=W)
+# Start time section
+ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
+ttk.Label(mainframe, text="Start Minute:").grid(column=2, row=2, sticky=W)
+# End time section
+ttk.Label(mainframe, text="End Hour:").grid(column=1, row=3, sticky=W)
+ttk.Label(mainframe, text="End Minute:").grid(column=2, row=3, sticky=W)
+# Plot min and max section
+ttk.Label(mainframe, text="Plot Min (leave at 0 for default):").grid(column=1, row=4, sticky=W)
+ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=2, row=4, sticky=W)
+# Station file section
+ttk.Label(mainframe, text="Station file 1:").grid(column=1, row=5, sticky=W)
+ttk.Label(mainframe, text="Station file 2:").grid(column=2, row=5, sticky=W)
+ttk.Label(mainframe, text="Station file 3:").grid(column=3, row=5, sticky=W)
+# File format section
+ttk.Label(mainframe, text="File 1 format:").grid(column=1, row=6, sticky=W)
+ttk.Label(mainframe, text="File 2 format:").grid(column=2, row=6, sticky=W)
+ttk.Label(mainframe, text="File 3 format:").grid(column=3, row=6, sticky=W)
