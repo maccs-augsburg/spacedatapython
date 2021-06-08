@@ -130,3 +130,13 @@ ttk.Label(mainframe, text="Station file 3:").grid(column=3, row=5, sticky=W)
 ttk.Label(mainframe, text="File 1 format:").grid(column=1, row=6, sticky=W)
 ttk.Label(mainframe, text="File 2 format:").grid(column=2, row=6, sticky=W)
 ttk.Label(mainframe, text="File 3 format:").grid(column=3, row=6, sticky=W)
+
+### Main ###
+# child formatting in mainframe
+for child in mainframe.winfo_children(): 
+    child.grid_configure(padx=5, pady=5)
+
+yearday_entry.focus() # starting spot for tab control
+root.bind("<Return>", calculate) # returns the calculate funciton when called
+
+root.mainloop() # root loop running
