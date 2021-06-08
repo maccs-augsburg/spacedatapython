@@ -199,7 +199,7 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) 
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
     yearDayValue = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
-    stationName = station_names.find_unabbreviated_name(station) # Getting the station name
+    stationName = station_names.find_full_name(station) # Getting the station name
 
     ### hour list and determining which one to use
     defaultHoursArr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
