@@ -296,10 +296,13 @@ if __name__ == "__main__" :
     ### If we get more than 2 items in the console/command line
     if len(sys.argv) == 3 :
         fileOption = sys.argv[2]
+        
+    elif len(sys.argv) >= 4 :
         start_time = datetime.time.fromisoformat(sys.argv[2])
-    if len(sys.argv) == 4 :
         end_time = datetime.time.fromisoformat(sys.argv[3])
-    if len(sys.argv) >= 5:
+    if len(sys.argv) == 5:
+        fileOption = sys.argv[4]
+    if len(sys.argv) >= 6:
         print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
         sys.exit(0) # Exiting without an error code
 
