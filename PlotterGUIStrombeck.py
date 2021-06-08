@@ -15,3 +15,9 @@ on its' own plot.
 from tkinter import *
 from tkinter import ttk
 
+### Setting up GUI object ###
+root = Tk()
+root.title("Plot input")
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
