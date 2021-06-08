@@ -1,13 +1,42 @@
  #To create plots we need to install the matplotlib library plt is the most common name
 import matplotlib.pyplot as plt
+from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 import sys
 import datetime
 
 #we want to use the code that has been 
 from raw_codecs import decode, time_of_record
-from raw_to_iaga2002 import one_record_to_string
 import station_names
 
+def find_array_differences(xArr, yArr, zArr) :
+    """
+    This function is to find the difference between the max and min functions
+    of x, y, and z lists.
+
+    Parameters
+    ----------
+    Lists
+        xArr:
+        yArr:
+        zArr:
+
+    Returns
+    -------
+    Possible float check 
+    """
+
+    x_diff = find_difference(xArr)
+    y_diff = find_difference(yArr)
+    z_diff = find_difference(zArr)
+
+    max_diff = x_diff
+
+    if(x_diff <= y_diff) and (y_diff >= z_diff):
+        max_diff = y_diff
+    elif(z_diff > x_diff) and (z_diff > y_diff):
+        max_diff = z_diff
+
+    return max_diff
 
 
 def create_arrays (raw_record, stime, etime) :
