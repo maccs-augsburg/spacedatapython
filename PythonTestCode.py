@@ -134,7 +134,7 @@ def create_arrays (raw_record, stime, etime) :
 
 
 
-def plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime) :
+def plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
     """
     Places x, y, z arrays on a plot.
     Places x, y, and z...
