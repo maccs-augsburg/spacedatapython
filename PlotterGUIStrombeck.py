@@ -11,3 +11,7 @@ on its' own plot.
 
 """
 
+# tkinter imports
+from tkinter import *
+from tkinter import ttk
+
