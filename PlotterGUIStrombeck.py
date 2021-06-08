@@ -15,6 +15,11 @@ on its' own plot.
 from tkinter import *
 from tkinter import ttk
 
+def cancel(*args):
+    root.destroy() # Exiting without running any code after
+    #global.root
+    #root.quit() # Exiting with running code after
+
 ### Setting up GUI object ###
 root = Tk()
 root.title("Plot input")
