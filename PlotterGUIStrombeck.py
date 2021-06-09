@@ -17,15 +17,6 @@ This GUI uses a radiobutton format for selection of file type
 from tkinter import *
 from tkinter import ttk
 
-def fillList(listbox):
-    # Keeping this list as a local variable which takes more time and power to process
-    #   meaning it might be a bit slower but it eliminates the risk of having it as a
-    #   global variable
-    options_list = ["CDAWEB", "IAGA2000", "IAGA2002", "Augsburg", "AAL-PIP", "SPole", "other"]
-    
-    for i in range(0, len(options_list)):
-        listbox.insert(i, options_list[i])
-
 def calculate(*args):
     pass
     #try:
@@ -109,11 +100,6 @@ stationfile1_entry.grid(column=1, row=6)
 # Management buttons section
 ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=1, row = 15, sticky=W)
 cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=1, row=15, sticky=E)
-# Listbox buttons section
-#listbox1 = Listbox(mainframe, height=10, width=15, bg="grey", font="Helvetica")
-    #selectmode="multiple"
-#fillList(listbox1)
-#listbox1.grid(column=1, row=7, sticky=(W,E))
 
 # Radiobutton section
 fileSelection = StringVar()
