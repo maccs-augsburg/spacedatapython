@@ -108,20 +108,9 @@ stationfile1_entry.grid(column=1, row=6)
 ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=1, row = 15, sticky=W)
 cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=1, row=15, sticky=E)
 # Listbox buttons section
-#listbox1 = Listbox(mainframe, height=10, width=15, bg="grey", font="Helvetica")
-    #selectmode="multiple"
-#fillList(listbox1)
-#listbox1.grid(column=1, row=7, sticky=(W,E))
-
-# Radiobutton section
-#fileSelection = StringVar()
-#rb1 = Radiobutton(mainframe, text="CDAWEB", value=1, variable=fileSelection).grid(column=1, row=8)
-#rb2 = Radiobutton(mainframe, text="IAGA2000", value=2, variable=fileSelection).grid(column=1, row=9)
-#rb3 = Radiobutton(mainframe, text="IAGA2002", value=3, variable=fileSelection).grid(column=1, row=10)
-#rb4 = Radiobutton(mainframe, text="Augsburg", value=4, variable=fileSelection).grid(column=1, row=11)
-#rb5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=fileSelection).grid(column=1, row=12)
-#rb6 = Radiobutton(mainframe, text="SPole", value=6, variable=fileSelection).grid(column=1, row=13)
-#rb7 = Radiobutton(mainframe, text="other", value=7, variable=fileSelection).grid(column=1, row=14)
+listbox1 = Listbox(mainframe, height=10, width=15, bg="grey", font="Helvetica")
+fillList(listbox1)
+listbox1.grid(column=1, row=7, sticky=(W,E))
 
 ### Main ###
 # child formatting in mainframe
