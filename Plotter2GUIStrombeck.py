@@ -110,7 +110,7 @@ cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column
 # Listbox buttons section
 listbox1 = Listbox(mainframe, height=10, width=15, bg="grey", font="Helvetica")
 fillList(listbox1)
-listbox1.grid(column=1, row=7, sticky=(W,E))
+listbox1.grid(column=1, row=8, sticky=(W,E))
 
 ### Main ###
 # child formatting in mainframe
