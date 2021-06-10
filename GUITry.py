@@ -70,7 +70,9 @@ postScripts = StringVar()
 yes_Scripts = ttk.Radiobutton(mainframe, text = "Yes", variable = postScripts, value = "yes scripts")
 no_Scripts = ttk.Radiobutton(mainframe, text = "No", variable = postScripts, value = "no scripts")
 
-
+#The Okay and Cancel Buttons
+#okay_button = ttk.Button(mainframe, text = "Okay", command = submitForm)
+#cancel_button = ttk.Button(mainframe, text = "Cancel", command = submitForm)
 
 
 
