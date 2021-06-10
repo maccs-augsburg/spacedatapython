@@ -11,6 +11,11 @@ on its' own plot.
 
 """
 
+#TODO---------------------------------------------------------------------------------------
+#   mess around with columnspan and custom columns
+#   implement functionality
+#-------------------------------------------------------------------------------------------
+
 # tkinter imports
 from tkinter import *
 from tkinter import ttk
@@ -40,7 +45,7 @@ def cancel(*args):
 ### Setting up GUI object ###
 root = Tk()
 root.title("Plot input")
-mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe = ttk.Frame(root, padding="3 3 12 12") # 3 3 12 12
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
@@ -105,8 +110,10 @@ stationcode1_entry.grid(column=1, row=6)
 
 ### Button section ###
 # Management buttons section
-ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=1, row = 15, sticky=W)
-cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=1, row=15, sticky=E)
+ok_button = ttk.Button(mainframe, text="OK", command=calculate)
+ok_button.grid(column=2, row = 15, sticky=W)
+cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel)
+cancel_button.grid(column=3, row=15, sticky=E)
 # Listbox buttons section
 listbox1 = Listbox(mainframe, height=10, width=15, bg="grey", font="Helvetica")
 fillList(listbox1)

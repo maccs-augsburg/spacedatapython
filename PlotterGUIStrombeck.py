@@ -13,6 +13,11 @@ This GUI uses a radiobutton format for selection of file type
 
 """
 
+#TODO---------------------------------------------------------------------------------------
+#   mess around with columnspan and custom columns
+#   implement functionality
+#-------------------------------------------------------------------------------------------
+
 # tkinter imports
 from tkinter import *
 from tkinter import ttk
@@ -98,8 +103,8 @@ stationcode1_entry.grid(column=1, row=6)
 
 ### Button section ###
 # Management buttons section
-ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=1, row = 15, sticky=W)
-cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=1, row=15, sticky=E)
+ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=2, row = 15, sticky=W)
+cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=3, row=15, sticky=E)
 
 # Radiobutton section
 fileSelection = StringVar()
