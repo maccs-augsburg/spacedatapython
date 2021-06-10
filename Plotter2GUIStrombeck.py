@@ -62,7 +62,7 @@ ttk.Label(mainframe, text="Plot Min (leave at 0 for default):").grid(column=1, r
 ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, row=5, sticky=W)
 
 # Station file section
-ttk.Label(mainframe, text="Station file:").grid(column=1, row=6, sticky=W)
+ttk.Label(mainframe, text="Station code:").grid(column=1, row=6, sticky=W)
 
 # File format section
 ttk.Label(mainframe, text="File format (pick from list below)").grid(column=1, row=7, sticky=W)
@@ -98,10 +98,10 @@ plotMax = IntVar()
 plotMax_Entry = ttk.Entry(mainframe, width=3, textvariable=plotMax)
 plotMax_Entry.grid(column=2, row=5, sticky=W)
 
-# Station file entries
-stationfile1 = StringVar()
-stationfile1_entry = ttk.Entry(mainframe, width=6, textvariable=stationfile1)
-stationfile1_entry.grid(column=1, row=6)
+# Station code entries
+stationcode1 = StringVar()
+stationcode1_entry = ttk.Entry(mainframe, width=6, textvariable=stationcode1)
+stationcode1_entry.grid(column=1, row=6)
 
 ### Button section ###
 # Management buttons section
