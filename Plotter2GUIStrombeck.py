@@ -100,7 +100,7 @@ plotMax_Entry.grid(column=2, row=5, sticky=W)
 
 # Station file entries
 stationfile1 = StringVar()
-stationfile1_entry = ttk.Entry(mainframe, width=3, textvariable=stationfile1)
+stationfile1_entry = ttk.Entry(mainframe, width=6, textvariable=stationfile1)
 stationfile1_entry.grid(column=1, row=6)
 
 ### Button section ###
