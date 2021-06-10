@@ -48,27 +48,27 @@ end_Second_entry.grid(column = 4, row = 1, sticky = (W,E))
 
 #File Types
 file_type = StringVar()
-asci = ttk.Radiobutton(parent, text = "Asci", variable = file_type, value = "asci")
-raw_Binary = ttk.Radiobutton(parent, text = "Raw Binary", variable = file_type, value = "raw binary")
-clean_Binary =ttk.Radiobutton(parent, text = "Clean Binary", variable = file_type, value = "clean binary")
+asci = ttk.Radiobutton(mainframe, text = "Asci", variable = file_type, value = "asci")
+raw_Binary = ttk.Radiobutton(mainframe, text = "Raw Binary", variable = file_type, value = "raw binary")
+clean_Binary =ttk.Radiobutton(mainframe, text = "Clean Binary", variable = file_type, value = "clean binary")
 
 
 #Files
 file = StringVar()
-single_File = ttk.Radiobutton(parent, text = "Single File", variable = file, value = "single file")
-multiple_Files = ttk.Radiobutton(parent, text = "Multiple Files", variable = file, value = "multiple files")
+single_File = ttk.Radiobutton(mainframe, text = "Single File", variable = file, value = "single file")
+multiple_Files = ttk.Radiobutton(mainframe, text = "Multiple Files", variable = file, value = "multiple files")
 
 
 #Sequential Plots
 sequential_Plots = StringVar()
-yes_Plots =ttk.Radiobutton(parent, text = "Yes", variable = sequential_Plots, value = "yes plots")
-no_Plots = ttk.Radiobutton(parent, text = "No", variable = sequential_plots, value = "no plots")
+yes_Plots =ttk.Radiobutton(mainframe, text = "Yes", variable = sequential_Plots, value = "yes plots")
+no_Plots = ttk.Radiobutton(mainframe, text = "No", variable = sequential_Plots, value = "no plots")
 
 
 #Postscripts
 postScripts = StringVar()
-yes_Scripts = ttk.Radiobutton(parent, text = "Yes", variable = postScripts, value = "yes scripts")
-no_Scripts = ttk.Radiobutton(parent, text = "No", variable = postScripts, value = "no scripts")
+yes_Scripts = ttk.Radiobutton(mainframe, text = "Yes", variable = postScripts, value = "yes scripts")
+no_Scripts = ttk.Radiobutton(mainframe, text = "No", variable = postScripts, value = "no scripts")
 
 
 
