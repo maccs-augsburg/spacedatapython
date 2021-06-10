@@ -74,7 +74,7 @@ no_Scripts = ttk.Radiobutton(mainframe, text = "No", variable = postScripts, val
 #okay_button = ttk.Button(mainframe, text = "Okay", command = submitForm)
 #cancel_button = ttk.Button(mainframe, text = "Cancel", command = submitForm)
 
-
+root.mainloop()
 
 
 
