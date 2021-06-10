@@ -9,7 +9,7 @@ root = Tk()
 root.title("Lineplot INPUT")
 
 #Content Frame
-mainframe = ttk.Frame(root, padding= "12 12 3 3")
+mainframe = ttk.Frame(root, padding= "200 200 120 120")
 mainframe.grid(column = 0, row = 0, sticky = (N, W, E, S))
 root.columnconfigure(0, weight= 1)
 root.rowconfigure(0, weight = 1)
@@ -19,7 +19,7 @@ root.rowconfigure(0, weight = 1)
 
 start_Hour = StringVar()
 start_Hour_entry = ttk.Entry(mainframe, width = 5, textvariable = "Start Hour")
-start_Hour_entry.grid(column = 1, row = 1, sticky = (W,E))
+start_Hour_entry.grid(column = 1, row = 1, sticky = (W, E))
 
 start_Minute =StringVar()
 start_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = "Start Minute")
