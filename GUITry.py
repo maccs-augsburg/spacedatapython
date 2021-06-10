@@ -23,12 +23,12 @@ start_Hour_entry.grid(column = 1, row = 1, sticky = (W, E))
 
 start_Minute =StringVar()
 start_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = "Start Minute")
-start_Minute_entry.grid(column = 1, row = 2, sticky = (W,E))
+start_Minute_entry.grid(column = 1, row = 2, sticky = (W, E))
 
 
 start_Second =StringVar()
 start_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = "Start Second")
-start_Second_entry.grid(column = 2, row = 1, sticky = (W,E))
+start_Second_entry.grid(column = 2, row = 1, sticky = (W, E))
 
 
 end_Hour = StringVar()
