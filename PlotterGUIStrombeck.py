@@ -15,7 +15,7 @@ This GUI uses a radiobutton format for selection of file type
 
 #TODO---------------------------------------------------------------------------------------
 #   mess around with columnspan and custom columns
-#   implement functionality
+#   implement functionality -- working on
 #-------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -23,6 +23,30 @@ from tkinter import *
 from tkinter import ttk
 
 def calculate(*args):
+    ### Getting input values ###
+
+    # yearday entry
+    yearday_value=yearday_entry.get()
+    if(len(yearday_value) == 0):
+        # do something to show it is wrong
+        pass
+
+    # Start hour & minute entries
+
+
+    # End hour & minute entries
+
+
+    # Plot min and max entries
+
+
+    # Station code entry
+
+
+    # File format entry -- Not sure about this section
+
+
+    
     pass
     #try:
     #    value = float(feet.get())
@@ -45,25 +69,25 @@ root.rowconfigure(0, weight=1)
 
 ### Label section ###
 # Yearday section
-ttk.Label(mainframe, text="Yearday:").grid(column=1, row=1, sticky=W)
+ttk.Label(mainframe, text="Yearday: NW").grid(column=1, row=1, sticky=W)
 
 # Start time section
-ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
-ttk.Label(mainframe, text="Start Minute:").grid(column=2, row=2, sticky=W)
+ttk.Label(mainframe, text="Start Hour: NW").grid(column=1, row=2, sticky=W)
+ttk.Label(mainframe, text="Start Minute: NW").grid(column=2, row=2, sticky=W)
 
 # End time section
-ttk.Label(mainframe, text="End Hour:").grid(column=1, row=3, sticky=W)
-ttk.Label(mainframe, text="End Minute:").grid(column=2, row=3, sticky=W)
+ttk.Label(mainframe, text="End Hour: NW").grid(column=1, row=3, sticky=W)
+ttk.Label(mainframe, text="End Minute: NW").grid(column=2, row=3, sticky=W)
 
 # Plot min and max section
-ttk.Label(mainframe, text="Plot Min (leave at 0 for default):").grid(column=1, row=4, sticky=W)
-ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, row=5, sticky=W)
+ttk.Label(mainframe, text="Plot Min (leave at 0 for default): NW").grid(column=1, row=4, sticky=W)
+ttk.Label(mainframe, text="Plot Max (leave at 0 for default): NW").grid(column=1, row=5, sticky=W)
 
 # Station file section
-ttk.Label(mainframe, text="Station code:").grid(column=1, row=6, sticky=W)
+ttk.Label(mainframe, text="Station code:                          NW").grid(column=1, row=6, sticky=W)
 
 # File format section
-ttk.Label(mainframe, text="File format (pick from list below)").grid(column=1, row=7, sticky=W)
+ttk.Label(mainframe, text="File format (pick from list below) NW").grid(column=1, row=7, sticky=W)
 
 ### Entry section ###
 # Yearday entries
