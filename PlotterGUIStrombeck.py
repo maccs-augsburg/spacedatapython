@@ -58,7 +58,17 @@ def calculate(*args):
         pass
 
     # Plot min and max entries
+    plotMin_value = plotMin_entry.get()
+    if(len(plotMin_value) == 0):
+        print("plot Min no value inputted test") # -- Not yet tested
+        # use default params
+        pass
 
+    plotMax_value = plotMax_entry.get()
+    if(len(plotMax_value) == 0):
+        print("plot Max no value inputted test") # -- Not yet tested
+        # use default params
+        pass
 
     # Station code entry
 
