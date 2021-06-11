@@ -118,6 +118,7 @@ ttk.Label(mainframe, text="Yearday: NW").grid(column=1, row=1, sticky=W)
 # Start time section
 ttk.Label(mainframe, text="Start Hour: NW").grid(column=1, row=2, sticky=W)
 ttk.Label(mainframe, text="Start Minute: NW").grid(column=2, row=2, sticky=W)
+ttk.Label(mainframe, text="StartSecond: NW").grid(column=4, row=2, sticky=W)
 
 # End time section
 ttk.Label(mainframe, text="End Hour: NW").grid(column=1, row=3, sticky=W)
@@ -137,29 +138,40 @@ ttk.Label(mainframe, text="Format of file to Open (pick from list below) NW").gr
 ttk.Label(mainframe, text="Save file as (pick from list below) NW").grid(column=1, row=15, sticky=W)
 
 ### Entry section ###
-# Yearday entries
+# Yearday
 yearday = StringVar() ## storing as a string for now, might change to int later
 yearday_entry = ttk.Entry(mainframe, width=6, textvariable=yearday) # setting a variable with the Entry box format
 yearday_entry.grid(column=1, row=1) # selecting which column and row to place said variable
 
-# Start Hour, Start Minute, End Hour and End Minute entries
+# Start Hour
 startHour = IntVar()
+startHour.set(0)
 startHour_entry = ttk.Entry(mainframe, width=3, textvariable=startHour)
 startHour_entry.grid(column=1, row=2)
 
+# Start Minute
 startMinute = IntVar()
 startMinute_entry = ttk.Entry(mainframe, width=3, textvariable=startMinute)
 startMinute_entry.grid(column=3, row=2, sticky=W)
 
+# Start Second
+startSecond = IntVar()
+startSecond_entry = ttk.Entry(mainframe, width=3, textvariable=startMinute)
+startSecond_entry.grid(column=5, row=2, sticky=W)
+
+# End Hour
 endHour = IntVar()
 endHour.set(23)
 endHour_entry = ttk.Entry(mainframe, width=3, textvariable=endHour)
 endHour_entry.grid(column=1, row=3)
 
+# End Minute
 endMinute = IntVar()
 endMinute.set(59)
 endMinute_entry = ttk.Entry(mainframe, width=3, textvariable=endMinute)
 endMinute_entry.grid(column=3, row=3, sticky=W)
+
+# End Second
 
 # Plot min and Plot max entries
 plotMin = IntVar()
