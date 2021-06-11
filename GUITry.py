@@ -17,31 +17,32 @@ root.rowconfigure(0, weight = 1)
 
 #Creating Entry Widget
 
-start_Hour = StringVar()
-start_Hour_entry = ttk.Entry(mainframe,width = 5, textvariable = "Start Hour")
-start_Hour_entry.grid(column = 0, row = 0, sticky = (W,E))
+start_Hour = IntVar()
+ttk.Label(mainframe, textvariable = "Start Hour").grid(column = 1, row = 1, sticky = W)
+start_Hour_entry = ttk.Entry(mainframe, width = 5, textvariable = start_Hour)
+start_Hour_entry.grid(column = 2, row = 1)
 
 
-#start_Minute =StringVar()
+#start_Minute = IntVar()
 #start_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = "Start Minute")
 #start_Minute_entry.grid(column = 1, row = 4, sticky = (W, E))
 
 
-#start_Second =StringVar()
+#start_Second = IntVar()
 #start_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = "Start Second")
 #start_Second_entry.grid(column = 3, row = 1, sticky = (W, E))
 
 
-#end_Hour = StringVar()
+#end_Hour = IntVar()
 #end_Hour_entry = ttk.Entry(mainframe, width = 5, textvariable = "End Hour")
 #end_Hour_entry.grid(column = 5, row = 1, sticky = (W,E))
 
 
-#end_Minute = StringVar()
+#end_Minute = IntVar()
 #end_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = "End Minute")
 #end_Minute_entry.grid(column = 5, row = 2, sticky = (W,E))
 
-#end_Second =StringVar()
+#end_Second = IntVar()
 #end_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = "End Second")
 #end_Second_entry.grid(column = 8, row = 1, sticky = (W,E))
 
