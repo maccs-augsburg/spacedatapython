@@ -17,12 +17,13 @@ root.rowconfigure(0, weight = 1)
 
 #Creating Entry Widget
 
+
+ttk.Label(mainframe, text = "Start Hour: ").grid(column = 1, row = 1, sticky = W)
 start_Hour = IntVar()
-ttk.Label(mainframe, textvariable = "Start Hour").grid(column = 1, row = 1, sticky = W)
 start_Hour_entry = ttk.Entry(mainframe, width = 5, textvariable = start_Hour)
 start_Hour_entry.grid(column = 2, row = 1)
 
-
+#ttk.Label(mainframe, text = "Start Minute ").grid(column = 1, row = 1, sticky = W)
 #start_Minute = IntVar()
 #start_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = "Start Minute")
 #start_Minute_entry.grid(column = 1, row = 4, sticky = (W, E))
