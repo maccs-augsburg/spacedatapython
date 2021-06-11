@@ -16,7 +16,7 @@ This GUI uses a radiobutton format for selection of file type
 #TODO---------------------------------------------------------------------------------------
 #   mess around with columnspan and custom columns ----------------------------->
 #   implement functionality ----------------------------------------------------> working on
-#   add seconds as input for time as well -------------------------------------->
+#   add seconds as input for time as well --------------------------------------> working on
 #-------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -160,7 +160,7 @@ startMinute_entry.grid(column=3, row=2, sticky=W)
 
 # Start Second
 startSecond = IntVar()
-startSecond_entry = ttk.Entry(mainframe, width=3, textvariable=startMinute)
+startSecond_entry = ttk.Entry(mainframe, width=3, textvariable=startSecond)
 startSecond_entry.grid(column=5, row=2, sticky=W)
 
 # End Hour
