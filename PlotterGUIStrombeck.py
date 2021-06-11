@@ -39,6 +39,7 @@ def calculate(*args):
     ### Start hour, minute, and second entries ###
     startHour_value = startHour_entry.get()
     startMinute_value = startMinute_entry.get()
+    startSecond_value = startSecond_entry.get()
 
     # Start hour portion
     if(len(startHour_value) == 1): ## -- Works!
@@ -46,12 +47,15 @@ def calculate(*args):
         startHour_value = "0" + startHour_value
 
     # Start minute portion
-    if(len(startMinute_value) == 1): # -- Not yet tested
+    if(len(startMinute_value) == 1): # -- Works!
         # Adding a zero to the start so that it is in the correct format
         startMinute_value = "0" + startMinute_value
-        print(startMinute_value)
 
     # Start second portion
+    if(len(startSecond_value) == 1): # -- Not yet tested
+        # Adding a zero to the start so that it is in the correct format
+        startSecond_value = "0" + startSecond_value
+        print(startSecond_value)
            
     ### End hour, minute, and second entries ###
     endHour_value = endHour_entry.get()
