@@ -32,8 +32,18 @@ def calculate(*args):
         pass
 
     # Start hour & minute entries
+    startHour_value = startHour_entry.get()
+    if(len(startHour_value) == 0):
+        print("Start Hour no value inputted test") # -- Not yet tested
+        # start at 0
+        pass
 
-
+    startMinute_value = startMinute_entry.get()
+    if(len(startHour_value) == 0):
+        print("Start Minute no value inputted test") # -- Not yet tested
+        # start at 0
+        pass
+           
     # End hour & minute entries
 
 
