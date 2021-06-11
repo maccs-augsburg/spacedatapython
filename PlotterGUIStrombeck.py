@@ -14,70 +14,86 @@ This GUI uses a radiobutton format for selection of file type
 """
 
 #TODO---------------------------------------------------------------------------------------
-#   mess around with columnspan and custom columns
-#   implement functionality -- working on
+#   mess around with columnspan and custom columns ----------------------------->
+#   implement functionality ----------------------------------------------------> working on
+#   add seconds as input for time as well -------------------------------------->
 #-------------------------------------------------------------------------------------------
 
 # tkinter imports
 from tkinter import *
 from tkinter import ttk
 
-def calculate(*args):
-    ### Getting input values ###
+# Python 3 imports
+import sys
+import datetime
 
-    # yearday entry
+def calculate(*args):
+### Getting input values ###
+
+    ### yearday entry ###
     yearday_value=yearday_entry.get()
     if(len(yearday_value) == 0):
         # do something to show it is wrong
         pass
 
-    # Start hour & minute entries
+    ### Start hour, minute, and second entries ###
     startHour_value = startHour_entry.get()
-    if(len(startHour_value) == 0):
-        print("Start Hour no value inputted test") # -- Not yet tested
-        # start at 0
-        pass
-
     startMinute_value = startMinute_entry.get()
-    if(len(startHour_value) == 0):
-        print("Start Minute no value inputted test") # -- Not yet tested
-        # start at 0
-        pass
+
+    # Start hour portion
+    if(len(startHour_value) == 1): ## -- Works!
+        # Adding a zero to the start so that it is in the correct format
+        startHour_value = "0" + startHour_value
+
+    # Start minute portion
+    if(len(startMinute_value) == 1): # -- Not yet tested
+        # Adding a zero to the start so that it is in the correct format
+        startMinute_value = "0" + startMinute_value
+        print(startMinute_value)
+
+    # Start second portion
            
-    # End hour & minute entries
+    ### End hour, minute, and second entries ###
     endHour_value = endHour_entry.get()
-    if(len(endHour_value) == 0):
-        print("End Hour no value inputted test") # -- Not yet tested
+    endMinute_value = endMinute_entry.get()
+
+    # End hour portion
+    if(len(endHour_value) == 0): # -- Not yet tested
+        print("End Hour no value inputted test") 
         # end at 23
         pass
 
-    endMinute_value = endMinute_entry.get()
-    if(len(endMinute_value) == 0):
-        print("End Minute no value inputted test") # -- Not yet tested
+    # End minute portion
+    if(len(endMinute_value) == 0): # -- Not yet tested
+        print("End Minute no value inputted test") 
         # end at 59
         pass
 
+    # End second portion
+
     # Plot min and max entries
     plotMin_value = plotMin_entry.get()
-    if(len(plotMin_value) == 0):
-        print("plot Min no value inputted test") # -- Not yet tested
+    if(len(plotMin_value) == 0): # -- Not yet tested
+        print("plot Min no value inputted test") 
         # use default params
         pass
 
     plotMax_value = plotMax_entry.get()
-    if(plotMax_value == 0):
-        print("plot Max no value inputted test") # -- Not yet tested
+    if(plotMax_value == 0): # -- Not yet tested
+        print("plot Max no value inputted test") 
         # use default params
         pass
 
     # Station code entry
     stationcode1_value = stationcode1_entry.get()
-    if(len(stationcode1_value) == 0):
-        print("station code no value inputted test") # -- Works!
+    if(len(stationcode1_value) == 0):  # -- Works!
+        print("station code no value inputted test")
         pass
 
     # File format entry -- Not sure about this section
-    
+
+
+    # File option to save as entry -- TODO: add initial test to see which values are selected
 
     
     pass
