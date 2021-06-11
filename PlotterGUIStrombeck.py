@@ -71,7 +71,10 @@ def calculate(*args):
         pass
 
     # Station code entry
-
+    stationcode1_value = stationcode1_entry.get()
+    if(len(stationcode1_value) == 0):
+        print("station code no value inputted test") # -- Not yet tested
+        pass
 
     # File format entry -- Not sure about this section
 
