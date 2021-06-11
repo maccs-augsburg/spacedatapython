@@ -152,10 +152,12 @@ startMinute_entry = ttk.Entry(mainframe, width=3, textvariable=startMinute)
 startMinute_entry.grid(column=3, row=2, sticky=W)
 
 endHour = IntVar()
+endHour.set(23)
 endHour_entry = ttk.Entry(mainframe, width=3, textvariable=endHour)
 endHour_entry.grid(column=1, row=3)
 
 endMinute = IntVar()
+endMinute.set(59)
 endMinute_entry = ttk.Entry(mainframe, width=3, textvariable=endMinute)
 endMinute_entry.grid(column=3, row=3, sticky=W)
 
