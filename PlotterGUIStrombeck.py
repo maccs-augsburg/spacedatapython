@@ -52,10 +52,9 @@ def calculate(*args):
         startMinute_value = "0" + startMinute_value
 
     # Start second portion
-    if(len(startSecond_value) == 1): # -- Not yet tested
+    if(len(startSecond_value) == 1): # -- Works!
         # Adding a zero to the start so that it is in the correct format
         startSecond_value = "0" + startSecond_value
-        print(startSecond_value)
            
     ### End hour, minute, and second entries ###
     endHour_value = endHour_entry.get()
@@ -127,6 +126,7 @@ ttk.Label(mainframe, text="StartSecond: NW").grid(column=4, row=2, sticky=W)
 # End time section
 ttk.Label(mainframe, text="End Hour: NW").grid(column=1, row=3, sticky=W)
 ttk.Label(mainframe, text="End Minute: NW").grid(column=2, row=3, sticky=W)
+ttk.Label(mainframe, text="End Second: NW").grid(column=4, row=3, sticky=W)
 
 # Plot min and max section
 ttk.Label(mainframe, text="Plot Min (leave at 0 for default): NW").grid(column=1, row=4, sticky=W)
@@ -176,6 +176,10 @@ endMinute_entry = ttk.Entry(mainframe, width=3, textvariable=endMinute)
 endMinute_entry.grid(column=3, row=3, sticky=W)
 
 # End Second
+endSecond = IntVar()
+endSecond.set(59)
+endSecond_entry = ttk.Entry(mainframe, width=3, textvariable=endSecond)
+endSecond_entry.grid(column=5, row=3, sticky=W)
 
 # Plot min and Plot max entries
 plotMin = IntVar()
