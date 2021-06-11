@@ -45,7 +45,17 @@ def calculate(*args):
         pass
            
     # End hour & minute entries
+    endHour_value = endHour_entry.get()
+    if(len(endHour_value) == 0):
+        print("End Hour no value inputted test") # -- Not yet tested
+        # end at 23
+        pass
 
+    endMinute_value = endMinute_entry.get()
+    if(len(endMinute_value) == 0):
+        print("End Minute no value inputted test") # -- Not yet tested
+        # end at 59
+        pass
 
     # Plot min and max entries
 
