@@ -51,32 +51,37 @@ end_Second_entry.grid(column = 2, row = 4, sticky = (W,E))
 #Creating the Radio Buttons Widgets
 
 #File Types
-#file_type = StringVar()
-#asci = ttk.Radiobutton(mainframe, text = "Asci", variable = file_type, value = "asci")
-#raw_Binary = ttk.Radiobutton(mainframe, text = "Raw Binary", variable = file_type, value = "raw binary")
-#clean_Binary =ttk.Radiobutton(mainframe, text = "Clean Binary", variable = file_type, value = "clean binary")
+ttk.Label(mainframe, text = "File Types").grid(column = 1, row = 5, sticky = W)
+file_type = StringVar()
+asci = ttk.Radiobutton(mainframe, text = "Asci", variable = file_type, value = "asci").grid(column = 1, row = 6, sticky = W)
+raw_Binary = ttk.Radiobutton(mainframe, text = "Raw Binary", variable = file_type, value = "raw binary").grid(column = 1, row = 7, sticky = W) 
+clean_Binary =ttk.Radiobutton(mainframe, text = "Clean Binary", variable = file_type, value = "clean binary").grid(column = 1, row = 8, sticky = W)
 
 
 #Files
-#file = StringVar()
-#single_File = ttk.Radiobutton(mainframe, text = "Single File", variable = file, value = "single file")
-#multiple_Files = ttk.Radiobutton(mainframe, text = "Multiple Files", variable = file, value = "multiple files")
+ttk.Label(mainframe, text = "Files").grid(column = 3, row = 5, sticky = W)
+file = StringVar()
+single_File = ttk.Radiobutton(mainframe, text = "Single File", variable = file, value = "single file").grid(column =3, row = 6, sticky = W) 
+multiple_Files = ttk.Radiobutton(mainframe, text = "Multiple Files", variable = file, value = "multiple files").grid(column = 3, row = 7, sticky = W)
 
 
 #Sequential Plots
-#sequential_Plots = StringVar()
-#yes_Plots =ttk.Radiobutton(mainframe, text = "Yes", variable = sequential_Plots, value = "yes plots")
-#no_Plots = ttk.Radiobutton(mainframe, text = "No", variable = sequential_Plots, value = "no plots")
+ttk.Label(mainframe, text = "Sequential Plots").grid(column = 5, row = 5, sticky = W)
+sequential_Plots = StringVar()
+yes_Plots =ttk.Radiobutton(mainframe, text = "Yes", variable = sequential_Plots, value = "yes plots").grid(column = 5, row = 6, sticky = W)
+no_Plots = ttk.Radiobutton(mainframe, text = "No", variable = sequential_Plots, value = "no plots").grid(column = 5, row = 7, sticky = W)
 
 
 #Postscripts
-#postScripts = StringVar()
-#yes_Scripts = ttk.Radiobutton(mainframe, text = "Yes", variable = postScripts, value = "yes scripts")
-#no_Scripts = ttk.Radiobutton(mainframe, text = "No", variable = postScripts, value = "no scripts")
+ttk.Label(mainframe, text = "Postscripts").grid(column = 8, row = 5, sticky = W)
+postScripts = StringVar()
+yes_Scripts = ttk.Radiobutton(mainframe, text = "Yes", variable = postScripts, value = "yes scripts").grid(column = 8, row = 6, sticky = W)
+no_Scripts = ttk.Radiobutton(mainframe, text = "No", variable = postScripts, value = "no scripts").grid(column = 8, row = 7, sticky = W)
 
 #The Okay and Cancel Buttons
-#okay_button = ttk.Button(mainframe, text = "Okay", command = submitForm)
-#cancel_button = ttk.Button(mainframe, text = "Cancel", command = submitForm)
+
+okay_button = ttk.Button(mainframe, text = "Okay").grid(column = 5, row = 8, sticky = W)
+cancel_button = ttk.Button(mainframe, text = "Cancel").grid(column =8, row = 8, sticky = W) 
 
 
 for child in mainframe.winfo_children(): 
