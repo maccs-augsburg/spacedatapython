@@ -38,14 +38,15 @@ end_Hour = IntVar()
 end_Hour_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Hour)
 end_Hour_entry.grid(column = 2, row = 3, sticky = (W,E))
 
+ttk.Label(mainframe, text = "End Minute: ").grid(column = 3, row = 3, sticky = W)
+end_Minute = IntVar()
+end_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Minute)
+end_Minute_entry.grid(column = 4, row = 3, sticky = (W,E))
 
-#end_Minute = IntVar()
-#end_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = "End Minute")
-#end_Minute_entry.grid(column = 5, row = 2, sticky = (W,E))
-
-#end_Second = IntVar()
-#end_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = "End Second")
-#end_Second_entry.grid(column = 8, row = 1, sticky = (W,E))
+ttk.Label(mainframe, text = "End Second: ").grid(column = 1, row = 4, sticky = W)
+end_Second = IntVar()
+end_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Second)
+end_Second_entry.grid(column = 2, row = 4, sticky = (W,E))
 
 #Creating the Radio Buttons Widgets
 
