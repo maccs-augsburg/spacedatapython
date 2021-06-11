@@ -13,11 +13,12 @@ This GUI uses a radiobutton format for selection of file type
 
 """
 
-#TODO---------------------------------------------------------------------------------------
-#   mess around with columnspan and custom columns ----------------------------->
-#   implement functionality ----------------------------------------------------> working on
-#   add seconds as input for time as well --------------------------------------> working on
-#-------------------------------------------------------------------------------------------
+#TODO----------------------------------------------------------------------------------------------------------
+#   mess around with columnspan and custom columns ------------------------------------------------>
+#   implement functionality -----------------------------------------------------------------------> working on
+#   add seconds as input for time as well ---------------------------------------------------------> done
+#   add initial tests to file types and file save as to see which values are selected -------------> 
+#--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
 from tkinter import *
@@ -33,7 +34,7 @@ def calculate(*args):
     ### yearday entry ###
     yearday_value=yearday_entry.get()
     if(len(yearday_value) == 0):
-        # do something to show it is wrong
+        # show error as no input was received
         pass
 
     ### Start hour, minute, and second entries ###
@@ -59,6 +60,7 @@ def calculate(*args):
     ### End hour, minute, and second entries ###
     endHour_value = endHour_entry.get()
     endMinute_value = endMinute_entry.get()
+    endSecond_value = endSecond_entry.get()
 
     # End hour portion
     if(len(endHour_value) == 0): # -- Not yet tested
@@ -73,8 +75,12 @@ def calculate(*args):
         pass
 
     # End second portion
+    if(len(endSecond_value) ==0): # -- Not yet tested
+        print("End Second no value inputted test")
+        # end at 59
+        pass
 
-    # Plot min and max entries
+    ### Plot min and max entries ###
     plotMin_value = plotMin_entry.get()
     if(len(plotMin_value) == 0): # -- Not yet tested
         print("plot Min no value inputted test") 
@@ -87,16 +93,17 @@ def calculate(*args):
         # use default params
         pass
 
-    # Station code entry
+    ### Station code entry ###
     stationcode1_value = stationcode1_entry.get()
     if(len(stationcode1_value) == 0):  # -- Works!
-        print("station code no value inputted test")
+        # show error as no input was received
         pass
 
-    # File format entry -- Not sure about this section
+    ### File format entry ###
 
 
-    # File option to save as entry -- TODO: add initial test to see which values are selected
+    ### File option to save as entry ###
+    
 
     
     pass
@@ -116,24 +123,24 @@ root.rowconfigure(0, weight=1)
 
 ### Label section ###
 # Yearday section
-ttk.Label(mainframe, text="Yearday: NW").grid(column=1, row=1, sticky=W)
+ttk.Label(mainframe, text="Yearday:").grid(column=1, row=1, sticky=W)
 
 # Start time section
-ttk.Label(mainframe, text="Start Hour: NW").grid(column=1, row=2, sticky=W)
-ttk.Label(mainframe, text="Start Minute: NW").grid(column=2, row=2, sticky=W)
-ttk.Label(mainframe, text="StartSecond: NW").grid(column=4, row=2, sticky=W)
+ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
+ttk.Label(mainframe, text="Start Minute:").grid(column=2, row=2, sticky=W)
+ttk.Label(mainframe, text="StartSecond:").grid(column=4, row=2, sticky=W)
 
 # End time section
-ttk.Label(mainframe, text="End Hour: NW").grid(column=1, row=3, sticky=W)
-ttk.Label(mainframe, text="End Minute: NW").grid(column=2, row=3, sticky=W)
-ttk.Label(mainframe, text="End Second: NW").grid(column=4, row=3, sticky=W)
+ttk.Label(mainframe, text="End Hour:").grid(column=1, row=3, sticky=W)
+ttk.Label(mainframe, text="End Minute:").grid(column=2, row=3, sticky=W)
+ttk.Label(mainframe, text="End Second:").grid(column=4, row=3, sticky=W)
 
 # Plot min and max section
 ttk.Label(mainframe, text="Plot Min (leave at 0 for default): NW").grid(column=1, row=4, sticky=W)
 ttk.Label(mainframe, text="Plot Max (leave at 0 for default): NW").grid(column=1, row=5, sticky=W)
 
 # Station file section
-ttk.Label(mainframe, text="Station code:                          NW").grid(column=1, row=6, sticky=W)
+ttk.Label(mainframe, text="Station code (3-4):").grid(column=1, row=6, sticky=W)
 
 # File format section
 ttk.Label(mainframe, text="Format of file to Open (pick from list below) NW").grid(column=1, row=7, sticky=W)
