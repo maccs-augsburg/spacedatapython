@@ -65,7 +65,7 @@ def calculate(*args):
         pass
 
     plotMax_value = plotMax_entry.get()
-    if(len(plotMax_value) == 0):
+    if(plotMax_value == 0):
         print("plot Max no value inputted test") # -- Not yet tested
         # use default params
         pass
@@ -73,19 +73,14 @@ def calculate(*args):
     # Station code entry
     stationcode1_value = stationcode1_entry.get()
     if(len(stationcode1_value) == 0):
-        print("station code no value inputted test") # -- Not yet tested
+        print("station code no value inputted test") # -- Works!
         pass
 
     # File format entry -- Not sure about this section
-
+    
 
     
     pass
-    #try:
-    #    value = float(feet.get())
-    #    meters.set(int(0.3048 * value * 10000.0 + 0.5)/10000.0)
-    #except ValueError:
-    #    pass
 
 def cancel(*args):
     root.destroy() # Exiting without running any code after
@@ -120,7 +115,10 @@ ttk.Label(mainframe, text="Plot Max (leave at 0 for default): NW").grid(column=1
 ttk.Label(mainframe, text="Station code:                          NW").grid(column=1, row=6, sticky=W)
 
 # File format section
-ttk.Label(mainframe, text="File format (pick from list below) NW").grid(column=1, row=7, sticky=W)
+ttk.Label(mainframe, text="Format of file to Open (pick from list below) NW").grid(column=1, row=7, sticky=W)
+
+# File to save as section
+ttk.Label(mainframe, text="Save file as (pick from list below) NW").grid(column=1, row=15, sticky=W)
 
 ### Entry section ###
 # Yearday entries
@@ -147,11 +145,11 @@ endMinute_entry.grid(column=3, row=3, sticky=W)
 
 # Plot min and Plot max entries
 plotMin = IntVar()
-plotMin_Entry = ttk.Entry(mainframe, width=3, textvariable=plotMin)
-plotMin_Entry.grid(column=2, row=4, sticky=W)
+plotMin_entry = ttk.Entry(mainframe, width=3, textvariable=plotMin)
+plotMin_entry.grid(column=2, row=4, sticky=W)
 plotMax = IntVar()
-plotMax_Entry = ttk.Entry(mainframe, width=3, textvariable=plotMax)
-plotMax_Entry.grid(column=2, row=5, sticky=W)
+plotMax_entry = ttk.Entry(mainframe, width=3, textvariable=plotMax)
+plotMax_entry.grid(column=2, row=5, sticky=W)
 
 # Station file entries
 stationcode1 = StringVar()
@@ -160,18 +158,25 @@ stationcode1_entry.grid(column=1, row=6)
 
 ### Button section ###
 # Management buttons section
-ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=2, row = 15, sticky=W)
-cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=3, row=15, sticky=E)
+ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=2, row = 19, sticky=W)
+cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=3, row=19, sticky=E)
 
 # Radiobutton section
+# file selection of type of file to open
 fileSelection = StringVar()
-rb1 = Radiobutton(mainframe, text="CDAWEB", value=1, variable=fileSelection).grid(column=1, row=8)
-rb2 = Radiobutton(mainframe, text="IAGA2000", value=2, variable=fileSelection).grid(column=1, row=9)
-rb3 = Radiobutton(mainframe, text="IAGA2002", value=3, variable=fileSelection).grid(column=1, row=10)
-rb4 = Radiobutton(mainframe, text="Augsburg", value=4, variable=fileSelection).grid(column=1, row=11)
-rb5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=fileSelection).grid(column=1, row=12)
-rb6 = Radiobutton(mainframe, text="SPole", value=6, variable=fileSelection).grid(column=1, row=13)
-rb7 = Radiobutton(mainframe, text="other", value=7, variable=fileSelection).grid(column=1, row=14)
+rb1 = Radiobutton(mainframe, text="CDAWEB", value=1, variable=fileSelection).grid(column=1, row=8, sticky=W)
+rb2 = Radiobutton(mainframe, text="IAGA2000", value=2, variable=fileSelection).grid(column=1, row=9, sticky=W)
+rb3 = Radiobutton(mainframe, text="IAGA2002", value=3, variable=fileSelection).grid(column=1, row=10, sticky=W)
+rb4 = Radiobutton(mainframe, text="Augsburg", value=4, variable=fileSelection).grid(column=1, row=11, sticky=W)
+rb5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=fileSelection).grid(column=1, row=12, sticky=W)
+rb6 = Radiobutton(mainframe, text="SPole", value=6, variable=fileSelection).grid(column=1, row=13, sticky=W)
+rb7 = Radiobutton(mainframe, text="other", value=7, variable=fileSelection).grid(column=1, row=14, sticky=W)
+
+# file selection of type of file to save it as
+fileToSaveAs = StringVar()
+rb8 = Radiobutton(mainframe, text="pdf", value=8, variable=fileToSaveAs).grid(column=1, row=16, sticky=W)
+rb9 = Radiobutton(mainframe, text="png", value=9, variable=fileToSaveAs).grid(column=1, row=17, sticky=W)
+rb10 = Radiobutton(mainframe, text="Do not save", value=10, variable=fileToSaveAs).grid(column=1, row=18, sticky=W)
 
 ### Main ###
 # child formatting in mainframe
