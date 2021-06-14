@@ -55,6 +55,15 @@ plotMax = IntVar()
 plotMax_entry = ttk.Entry(mainframe, width = 5, textvariable = plotMax)
 plotMax_entry.grid(column = 4, row = 4)
 
+ttk.Label(mainframe, text = "Station File 1:").grid(column = 1, row = 5, sticky = W)
+station_file1 = IntVar()
+station_file1_entry = ttk.Entry(mainframe, width = 5, textvariable = plotMax)
+station_file1_entry.grid(column = 2, row = 5)
+
+
+
+
+
 
 
 
