@@ -30,7 +30,6 @@ startHour = IntVar()
 startHour_entry = ttk.Entry(mainframe, width = 5, textvariable = startHour)
 startHour_entry.grid(column = 2, row = 2)
 
-
 ttk.Label(mainframe, text = "Start Minute:").grid(column = 3, row = 2, sticky = W)
 startMinute = IntVar()
 startMinute_entry = ttk.Entry(mainframe, width = 5, textvariable = startMinute)
@@ -40,6 +39,11 @@ ttk.Label(mainframe, text = "End Hour:").grid(column = 1, row = 3, sticky = W)
 endHour = IntVar()
 endHour_entry = ttk.Entry(mainframe, width = 5, textvariable = endHour)
 endHour_entry.grid(column = 2, row = 3)
+
+ttk.Label(mainframe, text = "End Minute:").grid(column = 3, row = 3, sticky = W)
+endMinute = IntVar()
+endMinute_entry = ttk.Entry(mainframe, width = 5, textvariable = endMinute)
+endMinute_entry.grid(column = 4, row = 3)
 
 
 
