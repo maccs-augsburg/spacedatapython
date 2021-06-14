@@ -131,6 +131,9 @@ def calculate(*args):
         print("Raw 2hz file")
     elif(fileSelection_value == '7'):
         print("Other option")
+    else:
+        # Message box error when no file format option has been selected
+        messagebox.showerror(title="File format Option error", message="ERROR: Please select a file format option")
 
     ### File option to save as entry ###
 
@@ -143,10 +146,12 @@ def calculate(*args):
         print('png')
     elif(fileSaveAsOption_value == '10'):
         print('Do not save')
+    else:
+        # Message box error when no file save option has been selected
+        messagebox.showerror(title="File Save Option error", message="ERROR: Please select an option to save the file as")
+        
     
 
-    
-    pass
 
 def cancel(*args):
     root.destroy() # Exiting without running any code after
