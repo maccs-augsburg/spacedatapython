@@ -70,9 +70,16 @@ station_file3 = IntVar()
 station_file3_entry = ttk.Entry(mainframe, width = 5, textvariable = station_file3)
 station_file3_entry.grid(column = 2, row = 7)
 
-
-
-
+#Creating the Radio Buttons widgets
+ttk.Label(mainframe, text = "File 1 Format:").grid(column = 1, row = 8, sticky = W)
+file_type = StringVar()
+CDAWEB = ttk.Radiobutton(mainframe, text = "CDAWEB", variable = file_type, value = "CDAWEB").grid(column = 1, row = 9, sticky = W)
+IAGA2000 = ttk.Radiobutton(mainframe, text = "IAGA2000", variable = file_type, value = "IAGA2000").grid(column = 1, row = 10, sticky = W) 
+IAGA2002 =ttk.Radiobutton(mainframe, text = "IAGA2002", variable = file_type, value = "IAGA2002").grid(column = 1, row = 11, sticky = W)
+Augsburg =ttk.Radiobutton(mainframe, text = "Augsburg", variable = file_type, value = "Augsburg").grid(column = 1, row = 12, sticky = W)
+AAL_PIP =ttk.Radiobutton(mainframe, text = "AAL-PIP", variable = file_type, value = "AAL_PIP").grid(column = 1, row = 13, sticky = W)
+SPole =ttk.Radiobutton(mainframe, text = "SPole", variable = file_type, value = "SPole").grid(column = 1, row = 14, sticky = W)
+Other =ttk.Radiobutton(mainframe, text = "Other", variable = file_type, value = "Other").grid(column = 1, row = 15, sticky = W)
 
 
 
