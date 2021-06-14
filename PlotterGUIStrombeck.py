@@ -18,11 +18,13 @@ This GUI uses a radiobutton format for selection of file type
 #   implement functionality -----------------------------------------------------------------------> working on
 #   add seconds as input for time as well ---------------------------------------------------------> done
 #   add initial tests to file types and file save as to see which values are selected -------------> 
+#   add error messages for bad inputs -------------------------------------------------------------> working on
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 
 # Python 3 imports
 import sys
@@ -35,7 +37,8 @@ def calculate(*args):
     yearday_value=yearday_entry.get()
     if(len(yearday_value) == 0):
         # show error as no input was received
-        pass
+        # using tkinter's message box
+        messagebox.showerror(title="YearDay Entry Error", message="ERROR: There was no input for yearday entry")
 
     ### Start hour, minute, and second entries ###
     startHour_value = startHour_entry.get()
