@@ -45,10 +45,18 @@ endMinute = IntVar()
 endMinute_entry = ttk.Entry(mainframe, width = 5, textvariable = endMinute)
 endMinute_entry.grid(column = 4, row = 3)
 
-ttk.Label(mainframe, text = "Plot min(Leave at zero for default):").grid(column = 1, row = 4, sticky = W)
+ttk.Label(mainframe, text = "Plot Min(Leave at zero for default):").grid(column = 1, row = 4, sticky = W)
 plotMin = IntVar()
 plotMin_entry = ttk.Entry(mainframe, width = 5, textvariable = plotMin)
 plotMin_entry.grid(column = 2, row = 4)
+
+ttk.Label(mainframe, text = "Plot Max(Leave at zero for default):").grid(column = 3, row = 4, sticky = W)
+plotMax = IntVar()
+plotMax_entry = ttk.Entry(mainframe, width = 5, textvariable = plotMax)
+plotMax_entry.grid(column = 4, row = 4)
+
+
+
 
 
 for child in mainframe.winfo_children(): 
