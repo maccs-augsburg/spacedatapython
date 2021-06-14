@@ -102,11 +102,13 @@ def calculate(*args):
     if(plotMin_value == '0'): # -- Works!
         #print("plot Min no value inputted test, using default values") 
         # use default params
+        pass
 
     plotMax_value = plotMax_entry.get()
     if(plotMax_value == '0'): # -- Works!
         #print("plot Max no value inputted test, using default values") 
         # use default params
+        pass
 
     ### Station code entry ###
     stationcode1_value = stationcode1_entry.get()
@@ -151,8 +153,8 @@ ttk.Label(mainframe, text="End Minute:").grid(column=2, row=3, sticky=W)
 ttk.Label(mainframe, text="End Second:").grid(column=4, row=3, sticky=W)
 
 # Plot min and max section
-ttk.Label(mainframe, text="Plot Min (leave at 0 for default): NW").grid(column=1, row=4, sticky=W)
-ttk.Label(mainframe, text="Plot Max (leave at 0 for default): NW").grid(column=1, row=5, sticky=W)
+ttk.Label(mainframe, text="Plot Min (leave at 0 for default):").grid(column=1, row=4, sticky=W)
+ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, row=5, sticky=W)
 
 # Station file section
 ttk.Label(mainframe, text="Station code (3-4):").grid(column=1, row=6, sticky=W)
@@ -224,13 +226,13 @@ cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column
 # Radiobutton section
 # file selection of type of file to open
 fileSelection = StringVar()
-rb1 = Radiobutton(mainframe, text="CDAWEB", value=1, variable=fileSelection).grid(column=1, row=8, sticky=W)
-rb2 = Radiobutton(mainframe, text="IAGA2000", value=2, variable=fileSelection).grid(column=1, row=9, sticky=W)
-rb3 = Radiobutton(mainframe, text="IAGA2002", value=3, variable=fileSelection).grid(column=1, row=10, sticky=W)
-rb4 = Radiobutton(mainframe, text="Augsburg", value=4, variable=fileSelection).grid(column=1, row=11, sticky=W)
-rb5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=fileSelection).grid(column=1, row=12, sticky=W)
-rb6 = Radiobutton(mainframe, text="SPole", value=6, variable=fileSelection).grid(column=1, row=13, sticky=W)
-rb7 = Radiobutton(mainframe, text="other", value=7, variable=fileSelection).grid(column=1, row=14, sticky=W)
+rb1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=fileSelection).grid(column=1, row=8, sticky=W)
+rb2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=fileSelection).grid(column=1, row=9, sticky=W)
+rb3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=fileSelection).grid(column=1, row=10, sticky=W)
+rb4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=fileSelection).grid(column=1, row=11, sticky=W)
+#rb5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=fileSelection).grid(column=1, row=12, sticky=W)
+#rb6 = Radiobutton(mainframe, text="SPole", value=6, variable=fileSelection).grid(column=1, row=13, sticky=W)
+rb7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=fileSelection).grid(column=1, row=14, sticky=W)
 
 # file selection of type of file to save it as
 fileToSaveAs = StringVar()
