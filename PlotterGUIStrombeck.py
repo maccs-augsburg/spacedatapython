@@ -17,8 +17,10 @@ This GUI uses a radiobutton format for selection of file type
 #   mess around with columnspan and custom columns ------------------------------------------------>
 #   implement functionality -----------------------------------------------------------------------> working on
 #   add seconds as input for time as well ---------------------------------------------------------> done
-#   add initial tests to file types and file save as to see which values are selected -------------> 
+#   add initial tests to file types and file save as to see which values are selected -------------> done
 #   add error messages for bad inputs -------------------------------------------------------------> done
+#   
+#   Create datetime objects of inputted times -----------------------------------------------------> 
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -50,16 +52,28 @@ def calculate(*args):
     if(len(startHour_value) == 1): ## -- Works!
         # Adding a zero to the start so that it is in the correct format
         startHour_value = "0" + startHour_value
+    if((int)(startHour_value) > 23):
+        # Have error message box pop up because it can't be more than 23
+        messagebox.showerror(title="Start Hour Entry Error", message="ERROR: Start hour cannot be more than 23")
+        sys.exit(0) # Exiting without an error code
 
     # Start minute portion
     if(len(startMinute_value) == 1): # -- Works!
         # Adding a zero to the start so that it is in the correct format
         startMinute_value = "0" + startMinute_value
+    if((int)(startMinute_value) > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        messagebox.showerror(title="Start Minute Entry Error", message="ERROR: Start minute cannot be more than 59")
+        sys.exit(0) # Exiting without an error code
 
     # Start second portion
     if(len(startSecond_value) == 1): # -- Works!
         # Adding a zero to the start so that it is in the correct format
         startSecond_value = "0" + startSecond_value
+    if((int)(startSecond_value) > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        messagebox.showerror(title="Start Second Entry Error", message="ERROR: Start second cannot be more than 59")
+        sys.exit(0) # Exiting without an error code
            
     ### End hour, minute, and second entries ###
     endHour_value = endHour_entry.get()
