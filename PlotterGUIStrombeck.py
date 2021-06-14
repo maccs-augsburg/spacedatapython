@@ -18,7 +18,7 @@ This GUI uses a radiobutton format for selection of file type
 #   implement functionality -----------------------------------------------------------------------> working on
 #   add seconds as input for time as well ---------------------------------------------------------> done
 #   add initial tests to file types and file save as to see which values are selected -------------> 
-#   add error messages for bad inputs -------------------------------------------------------------> working on
+#   add error messages for bad inputs -------------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -39,8 +39,7 @@ def calculate(*args):
         # show error as no input was received
         # using tkinter's message box
         messagebox.showerror(title="YearDay Entry Error", message="ERROR: There was no input for the yearday entry box")
-
-        #FIXME: what to do after we show an error?
+        sys.exit(0) # Exiting without an error code
 
     ### Start hour, minute, and second entries ###
     startHour_value = startHour_entry.get()
@@ -98,23 +97,25 @@ def calculate(*args):
         
 
     ### Plot min and max entries ###
+    plotMinDefaultFlag = False
+    plotMaxDefaultFlag = False
+    
     plotMin_value = plotMin_entry.get()
-    if(plotMin_value == '0'): # -- Works!
-        #print("plot Min no value inputted test, using default values") 
+    if(plotMin_value == '0'): # -- Works! 
         # use default params
-        pass
+        plotMinDefaultFlag = True
 
     plotMax_value = plotMax_entry.get()
     if(plotMax_value == '0'): # -- Works!
-        #print("plot Max no value inputted test, using default values") 
         # use default params
-        pass
+        plotMaxDefaultFlag = True
 
     ### Station code entry ###
     stationcode1_value = stationcode1_entry.get()
     if(len(stationcode1_value) == 0):  # -- Works!
         # show error as no input was received
         messagebox.showerror(title="Station code entry error", message="ERROR: There was no input for the station code entry box")
+        sys.exit(0) # Exiting without an error code
 
     ### File format entry ###
 
@@ -134,7 +135,8 @@ def calculate(*args):
     else:
         # Message box error when no file format option has been selected
         messagebox.showerror(title="File format Option error", message="ERROR: Please select a file format option")
-
+        sys.exit(0) # Exiting without an error code
+        
     ### File option to save as entry ###
 
     # RB buttons used: 8, 9, 10
@@ -149,7 +151,7 @@ def calculate(*args):
     else:
         # Message box error when no file save option has been selected
         messagebox.showerror(title="File Save Option error", message="ERROR: Please select an option to save the file as")
-        
+        sys.exit(0) # Exiting without an error code
     
 
 
@@ -188,10 +190,10 @@ ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, r
 ttk.Label(mainframe, text="Station code (3-4):").grid(column=1, row=6, sticky=W)
 
 # File format section
-ttk.Label(mainframe, text="Format of file to Open (pick from list below) NW").grid(column=1, row=7, sticky=W)
+ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=7, sticky=W)
 
 # File to save as section
-ttk.Label(mainframe, text="Save file as (pick from list below) NW").grid(column=1, row=15, sticky=W)
+ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
 ### Entry section ###
 # Yearday
