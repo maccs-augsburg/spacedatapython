@@ -6,7 +6,7 @@ from tkinter import ttk
 
 #Main Application Frame
 root = Tk()
-root.title = ("Plot Input")
+root.title("Plot Input")
 
 #Content Frame
 mainframe = ttk.Frame(root, padding = "3 3 12 12")
@@ -101,7 +101,9 @@ AAL_PIP =ttk.Radiobutton(mainframe, text = "AAL-PIP", variable = file_type, valu
 SPole =ttk.Radiobutton(mainframe, text = "SPole", variable = file_type, value = "SPole").grid(column = 4, row = 14, sticky = W)
 Other =ttk.Radiobutton(mainframe, text = "Other", variable = file_type, value = "Other").grid(column = 4, row = 15, sticky = W)
 
-
+#The Okay and Cancel Buttons 
+okay_button = ttk.Button(mainframe, text = "Okay").grid(column = 5, row = 16, sticky = W)
+cancel_button = ttk.Button(mainframe, text = "Cancel").grid(column =6, row = 16, sticky = W) 
 
 
 
