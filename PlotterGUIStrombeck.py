@@ -38,7 +38,7 @@ def calculate(*args):
     if(len(yearday_value) == 0):
         # show error as no input was received
         # using tkinter's message box
-        messagebox.showerror(title="YearDay Entry Error", message="ERROR: There was no input for yearday entry")
+        messagebox.showerror(title="YearDay Entry Error", message="ERROR: There was no input for the yearday entry box")
 
         #FIXME: what to do after we show an error?
 
@@ -99,22 +99,20 @@ def calculate(*args):
 
     ### Plot min and max entries ###
     plotMin_value = plotMin_entry.get()
-    if(len(plotMin_value) == 0): # -- Not yet tested
-        print("plot Min no value inputted test") 
+    if(plotMin_value == '0'): # -- Works!
+        #print("plot Min no value inputted test, using default values") 
         # use default params
-        pass
 
     plotMax_value = plotMax_entry.get()
-    if(plotMax_value == 0): # -- Not yet tested
-        print("plot Max no value inputted test") 
+    if(plotMax_value == '0'): # -- Works!
+        #print("plot Max no value inputted test, using default values") 
         # use default params
-        pass
 
     ### Station code entry ###
     stationcode1_value = stationcode1_entry.get()
     if(len(stationcode1_value) == 0):  # -- Works!
         # show error as no input was received
-        pass
+        messagebox.showerror(title="Station code entry error", message="ERROR: There was no input for the station code entry box")
 
     ### File format entry ###
 
