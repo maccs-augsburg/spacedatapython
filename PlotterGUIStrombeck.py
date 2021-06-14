@@ -19,7 +19,6 @@ This GUI uses a radiobutton format for selection of file type
 #   add seconds as input for time as well ---------------------------------------------------------> done
 #   add initial tests to file types and file save as to see which values are selected -------------> done
 #   add error messages for bad inputs -------------------------------------------------------------> done
-#   
 #   Create datetime objects of inputted times -----------------------------------------------------> 
 #--------------------------------------------------------------------------------------------------------------
 
@@ -49,7 +48,7 @@ def calculate(*args):
     startSecond_value = startSecond_entry.get()
 
     # Start hour portion
-    if(len(startHour_value) == 1): ## -- Works!
+    if(len(startHour_value) == 1): 
         # Adding a zero to the start so that it is in the correct format
         startHour_value = "0" + startHour_value
     if((int)(startHour_value) > 23):
@@ -58,7 +57,7 @@ def calculate(*args):
         sys.exit(0) # Exiting without an error code
 
     # Start minute portion
-    if(len(startMinute_value) == 1): # -- Works!
+    if(len(startMinute_value) == 1):
         # Adding a zero to the start so that it is in the correct format
         startMinute_value = "0" + startMinute_value
     if((int)(startMinute_value) > 59):
@@ -67,7 +66,7 @@ def calculate(*args):
         sys.exit(0) # Exiting without an error code
 
     # Start second portion
-    if(len(startSecond_value) == 1): # -- Works!
+    if(len(startSecond_value) == 1):
         # Adding a zero to the start so that it is in the correct format
         startSecond_value = "0" + startSecond_value
     if((int)(startSecond_value) > 59):
@@ -81,18 +80,16 @@ def calculate(*args):
     endSecond_value = endSecond_entry.get()
 
     # End hour portion
-    if(len(endHour_value) == 1): # -- Works!
+    if(len(endHour_value) == 1):
         # Adding a zero to the start so that it is in the correct format
-        print(endHour_value)
         endHour_value = "0" + endHour_value
-        print(endHour_value)
     if((int)(endHour_value) > 23):
         # Have error message box pop up because it can't be more than 23
         messagebox.showerror(title="End Hour Entry Error", message="ERROR: End hour cannot be more than 23")
         sys.exit(0) # Exiting without an error code
         
     # End minute portion
-    if(len(endMinute_value) == 1): # -- Works!
+    if(len(endMinute_value) == 1):
         # Adding a zero to the start so that it is in the correct format
         endMinute_value = "0" + endMinute_value
     if((int)(endMinute_value) > 59):
@@ -102,11 +99,9 @@ def calculate(*args):
         
 
     # End second portion
-    if(len(endSecond_value) ==1): # -- Works!
+    if(len(endSecond_value) ==1):
         # Adding a zero to the start so that it is in the correct format
-        print(endSecond_value)
         endSecond_value = "0" + endSecond_value
-        print(endSecond_value)
     if((int)(endSecond_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         messagebox.showerror(title="End Second Entry Error", message="ERROR: End second cannot be more than 59")
@@ -118,18 +113,18 @@ def calculate(*args):
     plotMaxDefaultFlag = False
     
     plotMin_value = plotMin_entry.get()
-    if(plotMin_value == '0'): # -- Works! 
+    if(plotMin_value == '0'): 
         # use default params
         plotMinDefaultFlag = True
 
     plotMax_value = plotMax_entry.get()
-    if(plotMax_value == '0'): # -- Works!
+    if(plotMax_value == '0'):
         # use default params
         plotMaxDefaultFlag = True
 
     ### Station code entry ###
     stationcode1_value = stationcode1_entry.get()
-    if(len(stationcode1_value) == 0):  # -- Works!
+    if(len(stationcode1_value) == 0):
         # show error as no input was received
         messagebox.showerror(title="Station code entry error", message="ERROR: There was no input for the station code entry box")
         sys.exit(0) # Exiting without an error code
@@ -138,17 +133,21 @@ def calculate(*args):
 
     # RB buttons used: 1, 2, 3, 4, 7
     fileSelection_value = fileSelection.get()
-    print(fileSelection_value)
     if(fileSelection_value == '1'):
-        print("CDA-Web")
+        # CDA-Web branch (NOT IMPLEMENTED)
+        pass
     elif(fileSelection_value == '2'):
-        print("IAGA2000")
+        #IAGA2000 branch (NOT IMPLEMENTED)
+        pass
     elif(fileSelection_value == '3'):
-        print("IAGA2002")
+        #IAGA2002 branch (NOT IMPLEMENTED)
+        pass
     elif(fileSelection_value == '4'):
-        print("Raw 2hz file")
+        #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
+        pass
     elif(fileSelection_value == '7'):
-        print("Other option")
+        #Other option branch (NOT IMPLEMENTED YET)
+        pass
     else:
         # Message box error when no file format option has been selected
         messagebox.showerror(title="File format Option error", message="ERROR: Please select a file format option")
@@ -158,13 +157,15 @@ def calculate(*args):
 
     # RB buttons used: 8, 9, 10
     fileSaveAsOption_value = fileToSaveAs.get()
-    print(fileSaveAsOption_value)
     if(fileSaveAsOption_value == '8'):
-        print('pdf')
+        #pdf branch
+        pass
     elif(fileSaveAsOption_value == '9'):
-        print('png')
+        #png branch
+        pass
     elif(fileSaveAsOption_value == '10'):
-        print('Do not save')
+        #Do not save branch
+        pass
     else:
         # Message box error when no file save option has been selected
         messagebox.showerror(title="File Save Option error", message="ERROR: Please select an option to save the file as")
