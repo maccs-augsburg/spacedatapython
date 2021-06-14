@@ -18,5 +18,25 @@ root.rowconfigure(0, weight = 1)
 
 
 #Creating the Entry Widgets
+ttk.Label(mainframe, text = "Yearday:").grid(column = 1, row = 1, sticky = W)
+yearday = IntVar()
+yearday_entry = ttk.Entry(mainframe, width = 5, textvariable = yearday)
+yearday_entry.grid(column = 2, row = 1)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+for child in mainframe.winfo_children(): 
+    child.grid_configure(padx=5, pady=5)
+
+root.mainloop()
