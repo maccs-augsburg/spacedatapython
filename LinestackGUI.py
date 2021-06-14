@@ -25,7 +25,10 @@ yearday_entry.grid(column = 2, row = 1)
 
 
 
-
+ttk.Label(mainframe, text = "Start Hour:").grid(column = 1, row = 2, sticky = W)
+startHour = IntVar()
+startHour_entry = ttk.Entry(mainframe, width = 5, textvariable = startHour)
+startHour_entry.grid(column = 2, row = 2)
 
 
 
