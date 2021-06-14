@@ -81,16 +81,25 @@ AAL_PIP =ttk.Radiobutton(mainframe, text = "AAL-PIP", variable = file_type, valu
 SPole =ttk.Radiobutton(mainframe, text = "SPole", variable = file_type, value = "SPole").grid(column = 1, row = 14, sticky = W)
 Other =ttk.Radiobutton(mainframe, text = "Other", variable = file_type, value = "Other").grid(column = 1, row = 15, sticky = W)
 
-ttk.Label(mainframe, text = "File 2 Format:").grid(column = 2, row = 8, sticky = W)
+ttk.Label(mainframe, text = "File 2 Format:").grid(column = 3, row = 8, sticky = W)
 file_type = StringVar()
-CDAWEB = ttk.Radiobutton(mainframe, text = "CDAWEB", variable = file_type, value = "CDAWEB").grid(column = 2, row = 9, sticky = W)
-IAGA2000 = ttk.Radiobutton(mainframe, text = "IAGA2000", variable = file_type, value = "IAGA2000").grid(column = 2, row = 10, sticky = W) 
-IAGA2002 =ttk.Radiobutton(mainframe, text = "IAGA2002", variable = file_type, value = "IAGA2002").grid(column = 2, row = 11, sticky = W)
-Augsburg =ttk.Radiobutton(mainframe, text = "Augsburg", variable = file_type, value = "Augsburg").grid(column = 2, row = 12, sticky = W)
-AAL_PIP =ttk.Radiobutton(mainframe, text = "AAL-PIP", variable = file_type, value = "AAL_PIP").grid(column = 2, row = 13, sticky = W)
-SPole =ttk.Radiobutton(mainframe, text = "SPole", variable = file_type, value = "SPole").grid(column = 2, row = 14, sticky = W)
-Other =ttk.Radiobutton(mainframe, text = "Other", variable = file_type, value = "Other").grid(column = 2, row = 15, sticky = W)
+CDAWEB = ttk.Radiobutton(mainframe, text = "CDAWEB", variable = file_type, value = "CDAWEB").grid(column = 3, row = 9, sticky = W)
+IAGA2000 = ttk.Radiobutton(mainframe, text = "IAGA2000", variable = file_type, value = "IAGA2000").grid(column = 3, row = 10, sticky = W) 
+IAGA2002 =ttk.Radiobutton(mainframe, text = "IAGA2002", variable = file_type, value = "IAGA2002").grid(column = 3, row = 11, sticky = W)
+Augsburg =ttk.Radiobutton(mainframe, text = "Augsburg", variable = file_type, value = "Augsburg").grid(column = 3, row = 12, sticky = W)
+AAL_PIP =ttk.Radiobutton(mainframe, text = "AAL-PIP", variable = file_type, value = "AAL_PIP").grid(column = 3, row = 13, sticky = W)
+SPole =ttk.Radiobutton(mainframe, text = "SPole", variable = file_type, value = "SPole").grid(column = 3, row = 14, sticky = W)
+Other =ttk.Radiobutton(mainframe, text = "Other", variable = file_type, value = "Other").grid(column = 3, row = 15, sticky = W)
 
+ttk.Label(mainframe, text = "File 3 Format:").grid(column = 4, row = 8, sticky = W)
+file_type = StringVar()
+CDAWEB = ttk.Radiobutton(mainframe, text = "CDAWEB", variable = file_type, value = "CDAWEB").grid(column = 4, row = 9, sticky = W)
+IAGA2000 = ttk.Radiobutton(mainframe, text = "IAGA2000", variable = file_type, value = "IAGA2000").grid(column = 4, row = 10, sticky = W) 
+IAGA2002 =ttk.Radiobutton(mainframe, text = "IAGA2002", variable = file_type, value = "IAGA2002").grid(column = 4, row = 11, sticky = W)
+Augsburg =ttk.Radiobutton(mainframe, text = "Augsburg", variable = file_type, value = "Augsburg").grid(column = 4, row = 12, sticky = W)
+AAL_PIP =ttk.Radiobutton(mainframe, text = "AAL-PIP", variable = file_type, value = "AAL_PIP").grid(column = 4, row = 13, sticky = W)
+SPole =ttk.Radiobutton(mainframe, text = "SPole", variable = file_type, value = "SPole").grid(column = 4, row = 14, sticky = W)
+Other =ttk.Radiobutton(mainframe, text = "Other", variable = file_type, value = "Other").grid(column = 4, row = 15, sticky = W)
 
 
 
