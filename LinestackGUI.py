@@ -65,6 +65,11 @@ station_file2 = IntVar()
 station_file2_entry = ttk.Entry(mainframe, width = 5, textvariable = station_file2)
 station_file2_entry.grid(column = 2, row = 6)
 
+ttk.Label(mainframe, text = "Station File 3:").grid(column = 1, row = 7, sticky = W)
+station_file3 = IntVar()
+station_file3_entry = ttk.Entry(mainframe, width = 5, textvariable = station_file3)
+station_file3_entry.grid(column = 2, row = 7)
+
 
 
 
