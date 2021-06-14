@@ -31,7 +31,10 @@ startHour_entry = ttk.Entry(mainframe, width = 5, textvariable = startHour)
 startHour_entry.grid(column = 2, row = 2)
 
 
-
+ttk.Label(mainframe, text = "Start Minute:").grid(column = 3, row = 2, sticky = W)
+startMinute = IntVar()
+startMinute_entry = ttk.Entry(mainframe, width = 5, textvariable = startMinute)
+startMinute_entry.grid(column = 4, row = 2)
 
 
 
