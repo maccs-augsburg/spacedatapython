@@ -86,18 +86,19 @@ def calculate(*args):
         print(endHour_value)
         endHour_value = "0" + endHour_value
         print(endHour_value)
-
-        # end at 23
+    if((int)(endHour_value) > 23):
+        # Have error message box pop up because it can't be more than 23
+        messagebox.showerror(title="End Hour Entry Error", message="ERROR: End hour cannot be more than 23")
+        sys.exit(0) # Exiting without an error code
         
-
     # End minute portion
     if(len(endMinute_value) == 1): # -- Works!
         # Adding a zero to the start so that it is in the correct format
-        print(endMinute_value)
         endMinute_value = "0" + endMinute_value
-        print(endMinute_value)
-        
-        # end at 59
+    if((int)(endMinute_value) > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        messagebox.showerror(title="End Minute Entry Error", message="ERROR: End minute cannot be more than 59")
+        sys.exit(0) # Exiting without an error code
         
 
     # End second portion
@@ -106,8 +107,10 @@ def calculate(*args):
         print(endSecond_value)
         endSecond_value = "0" + endSecond_value
         print(endSecond_value)
-        
-        # end at 59
+    if((int)(endSecond_value) > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        messagebox.showerror(title="End Second Entry Error", message="ERROR: End second cannot be more than 59")
+        sys.exit(0) # Exiting without an error code
         
 
     ### Plot min and max entries ###
