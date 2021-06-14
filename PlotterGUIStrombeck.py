@@ -118,8 +118,31 @@ def calculate(*args):
 
     ### File format entry ###
 
+    # RB buttons used: 1, 2, 3, 4, 7
+    fileSelection_value = fileSelection.get()
+    print(fileSelection_value)
+    if(fileSelection_value == '1'):
+        print("CDA-Web")
+    elif(fileSelection_value == '2'):
+        print("IAGA2000")
+    elif(fileSelection_value == '3'):
+        print("IAGA2002")
+    elif(fileSelection_value == '4'):
+        print("Raw 2hz file")
+    elif(fileSelection_value == '7'):
+        print("Other option")
 
     ### File option to save as entry ###
+
+    # RB buttons used: 8, 9, 10
+    fileSaveAsOption_value = fileToSaveAs.get()
+    print(fileSaveAsOption_value)
+    if(fileSaveAsOption_value == '8'):
+        print('pdf')
+    elif(fileSaveAsOption_value == '9'):
+        print('png')
+    elif(fileSaveAsOption_value == '10'):
+        print('Do not save')
     
 
     
