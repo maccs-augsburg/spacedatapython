@@ -28,7 +28,7 @@ yearday_entry.grid(column = 2, row = 1)
 ttk.Label(mainframe, text = "Start Hour:").grid(column = 1, row = 2, sticky = W)
 startHour = IntVar()
 startHour_entry = ttk.Entry(mainframe, width = 5, textvariable = startHour)
-startHour_entry.grid(column = 2, row = 2)
+startHour_entry.grid(column = 2, row = 2, sticky = (E))
 
 ttk.Label(mainframe, text = "Start Minute:").grid(column = 3, row = 2, sticky = W)
 startMinute = IntVar()
@@ -45,8 +45,10 @@ endMinute = IntVar()
 endMinute_entry = ttk.Entry(mainframe, width = 5, textvariable = endMinute)
 endMinute_entry.grid(column = 4, row = 3)
 
-
-
+ttk.Label(mainframe, text = "Plot min(Leave at zero for default):").grid(column = 1, row = 4, sticky = W)
+plotMin = IntVar()
+plotMin_entry = ttk.Entry(mainframe, width = 5, textvariable = plotMin)
+plotMin_entry.grid(column = 2, row = 4)
 
 
 for child in mainframe.winfo_children(): 
