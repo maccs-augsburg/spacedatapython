@@ -40,6 +40,8 @@ def calculate(*args):
         # using tkinter's message box
         messagebox.showerror(title="YearDay Entry Error", message="ERROR: There was no input for yearday entry")
 
+        #FIXME: what to do after we show an error?
+
     ### Start hour, minute, and second entries ###
     startHour_value = startHour_entry.get()
     startMinute_value = startMinute_entry.get()
@@ -66,22 +68,34 @@ def calculate(*args):
     endSecond_value = endSecond_entry.get()
 
     # End hour portion
-    if(len(endHour_value) == 0): # -- Not yet tested
-        print("End Hour no value inputted test") 
+    if(len(endHour_value) == 1): # -- Works!
+        # Adding a zero to the start so that it is in the correct format
+        print(endHour_value)
+        endHour_value = "0" + endHour_value
+        print(endHour_value)
+
         # end at 23
-        pass
+        
 
     # End minute portion
-    if(len(endMinute_value) == 0): # -- Not yet tested
-        print("End Minute no value inputted test") 
+    if(len(endMinute_value) == 1): # -- Works!
+        # Adding a zero to the start so that it is in the correct format
+        print(endMinute_value)
+        endMinute_value = "0" + endMinute_value
+        print(endMinute_value)
+        
         # end at 59
-        pass
+        
 
     # End second portion
-    if(len(endSecond_value) ==0): # -- Not yet tested
-        print("End Second no value inputted test")
+    if(len(endSecond_value) ==1): # -- Works!
+        # Adding a zero to the start so that it is in the correct format
+        print(endSecond_value)
+        endSecond_value = "0" + endSecond_value
+        print(endSecond_value)
+        
         # end at 59
-        pass
+        
 
     ### Plot min and max entries ###
     plotMin_value = plotMin_entry.get()
