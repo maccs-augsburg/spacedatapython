@@ -15,11 +15,11 @@ This GUI uses a radiobutton format for selection of file type
 
 #TODO----------------------------------------------------------------------------------------------------------
 #   mess around with columnspan and custom columns ------------------------------------------------>
-#   implement functionality -----------------------------------------------------------------------> working on
+#   implement functionality -----------------------------------------------------------------------> 
 #   add seconds as input for time as well ---------------------------------------------------------> done
 #   add initial tests to file types and file save as to see which values are selected -------------> done
 #   add error messages for bad inputs -------------------------------------------------------------> done
-#   Create datetime objects of inputted times -----------------------------------------------------> 
+#   Create datetime objects of inputted times -----------------------------------------------------> working on
 #   documentation --------------------------------------------------------------------------------->
 #   main function --------------------------------------------------------------------------------->
 #   general gui function -------------------------------------------------------------------------->
@@ -80,6 +80,8 @@ def calculate(*args):
         # Have error messsage box pop up becuase it can't be more than 59
         messagebox.showerror(title="Start Second Entry Error", message="ERROR: Start second cannot be more than 59")
         sys.exit(0) # Exiting without an error code
+
+    startTime_timeStamp = datetime.time.fromisoformat(startHour_value + ":" + startMinute_value + ":" + startSecond_value)
            
     ### End hour, minute, and second entries ###
     endHour_value = endHour_entry.get()
