@@ -20,6 +20,13 @@ This GUI uses a radiobutton format for selection of file type
 #   add initial tests to file types and file save as to see which values are selected -------------> done
 #   add error messages for bad inputs -------------------------------------------------------------> done
 #   Create datetime objects of inputted times -----------------------------------------------------> 
+#   documentation --------------------------------------------------------------------------------->
+#   main function --------------------------------------------------------------------------------->
+#   general gui function -------------------------------------------------------------------------->
+#   gui display function -------------------------------------------------------------------------->
+#   change calculate function name to something like display plot --------------------------------->
+#   view box around radio buttons ----------------------------------------------------------------->
+#   go through and fully comment code ------------------------------------------------------------->
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
