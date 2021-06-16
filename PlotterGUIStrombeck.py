@@ -21,7 +21,7 @@ This GUI uses a radiobutton format for selection of file type
 #   add error messages for bad inputs -------------------------------------------------------------> done
 #   Create datetime objects of inputted times -----------------------------------------------------> done
 #   documentation --------------------------------------------------------------------------------->
-#   main function --------------------------------------------------------------------------------->
+#   main function ---------------------------------------------------------------------------------> working on
 #   general gui function -------------------------------------------------------------------------->
 #   gui display function -------------------------------------------------------------------------->
 #   change calculate function name to something like display plot --------------------------------->
@@ -39,6 +39,10 @@ from tkinter import messagebox
 import sys
 import datetime
 
+def errorMessagePopUp(title, message):
+    messagebox.showerror(title = title, message = "ERROR: " + message)
+    sys.exit(0)
+
 def calculate(*args):
 ### Getting input values ###
 
@@ -47,8 +51,7 @@ def calculate(*args):
     if(len(yearday_value) == 0):
         # show error as no input was received
         # using tkinter's message box
-        messagebox.showerror(title="YearDay Entry Error", message="ERROR: There was no input for the yearday entry box")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="YearDay Entry Error", message="There was no input for the yearday entry box")
 
     ### Start hour, minute, and second entries ###
     startHour_value = startHour_entry.get()
@@ -61,8 +64,7 @@ def calculate(*args):
         startHour_value = "0" + startHour_value
     if((int)(startHour_value) > 23):
         # Have error message box pop up because it can't be more than 23
-        messagebox.showerror(title="Start Hour Entry Error", message="ERROR: Start hour cannot be more than 23")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
 
     # Start minute portion
     if(len(startMinute_value) == 1):
@@ -70,8 +72,7 @@ def calculate(*args):
         startMinute_value = "0" + startMinute_value
     if((int)(startMinute_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        messagebox.showerror(title="Start Minute Entry Error", message="ERROR: Start minute cannot be more than 59")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
 
     # Start second portion
     if(len(startSecond_value) == 1):
@@ -79,8 +80,7 @@ def calculate(*args):
         startSecond_value = "0" + startSecond_value
     if((int)(startSecond_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        messagebox.showerror(title="Start Second Entry Error", message="ERROR: Start second cannot be more than 59")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="Start Second Entry Error", message="Start second cannot be more than 59")
 
     startTime_timeStamp = datetime.time.fromisoformat(startHour_value + ":" + startMinute_value + ":" + startSecond_value)
            
@@ -95,8 +95,7 @@ def calculate(*args):
         endHour_value = "0" + endHour_value
     if((int)(endHour_value) > 23):
         # Have error message box pop up because it can't be more than 23
-        messagebox.showerror(title="End Hour Entry Error", message="ERROR: End hour cannot be more than 23")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="End Hour Entry Error", message="End hour cannot be more than 23")
         
     # End minute portion
     if(len(endMinute_value) == 1):
@@ -104,8 +103,7 @@ def calculate(*args):
         endMinute_value = "0" + endMinute_value
     if((int)(endMinute_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        messagebox.showerror(title="End Minute Entry Error", message="ERROR: End minute cannot be more than 59")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="End Minute Entry Error", message="End minute cannot be more than 59")
 
     # End second portion
     if(len(endSecond_value) ==1):
@@ -113,8 +111,7 @@ def calculate(*args):
         endSecond_value = "0" + endSecond_value
     if((int)(endSecond_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        messagebox.showerror(title="End Second Entry Error", message="ERROR: End second cannot be more than 59")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="End Second Entry Error", message="End second cannot be more than 59")
 
     endTime_timeStamp = datetime.time.fromisoformat(endHour_value + ":" + endMinute_value + ":" + endSecond_value)
     
@@ -136,8 +133,7 @@ def calculate(*args):
     stationcode1_value = stationcode1_entry.get()
     if(len(stationcode1_value) == 0):
         # show error as no input was received
-        messagebox.showerror(title="Station code entry error", message="ERROR: There was no input for the station code entry box")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="Station code entry error", message="There was no input for the station code entry box")
 
     ### File format entry ###
 
@@ -160,8 +156,7 @@ def calculate(*args):
         pass
     else:
         # Message box error when no file format option has been selected
-        messagebox.showerror(title="File format Option error", message="ERROR: Please select a file format option")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="File format option error", message="Please select a file format option")
         
     ### File option to save as entry ###
 
@@ -178,8 +173,7 @@ def calculate(*args):
         pass
     else:
         # Message box error when no file save option has been selected
-        messagebox.showerror(title="File Save Option error", message="ERROR: Please select an option to save the file as")
-        sys.exit(0) # Exiting without an error code
+        errorMessagePopUp(title="File Save Option error", message="Please select an option to save the file as")
     
 
 
