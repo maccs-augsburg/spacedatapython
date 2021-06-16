@@ -76,6 +76,11 @@ def start_hour_entry_check(start_hour_value):
     ----------
     String
         start_hour_value: the value that was inputted into the start_hour_entry box
+
+    Returns
+    -------
+    String
+        start_hour_value: with additional 0 if the given start_hour_value was a single digit
     """
     # Start hour portion
     if(len(start_hour_value) == 1): 
@@ -85,6 +90,9 @@ def start_hour_entry_check(start_hour_value):
         # Have error message box pop up because it can't be more than 23
         error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
 
+    return start_hour_value
+
+
 def start_minute_entry_check(start_minute_value):
     """
     Checks the start minute entry value and pops up an error message if it isn't a good entry
@@ -93,14 +101,22 @@ def start_minute_entry_check(start_minute_value):
     ----------
     String
         start_minute_value: the value that was inputted into the start_minute_entry box
+
+    Returns
+    -------
+    String
+        start_minute_value: with additional 0 if the given start_minute_value was a single digit
     """
     # Start minute portion
     if(len(start_minute_value) == 1):
         # Adding a zero to the start so that it is in the correct format
         start_minute_value = "0" + start_minute_value
+    
     if((int)(start_minute_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
+    
+    return start_minute_value
 
 def start_second_entry_check(start_second_value):
     """
@@ -110,6 +126,11 @@ def start_second_entry_check(start_second_value):
     ----------
     String
         start_second_value: the value that was inputted into the start_second_entry box
+
+    Returns
+    -------
+    String
+        start_second_value: with additional 0 if the given start_second_value was a single digit
     """
     # Start second portion
     if(len(start_second_value) == 1):
@@ -118,6 +139,8 @@ def start_second_entry_check(start_second_value):
     if((int)(start_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
+
+    return start_second_value
     
 
 def start_time_entry_check(start_hour_value, start_minute_value, start_second_value):
@@ -130,10 +153,19 @@ def start_time_entry_check(start_hour_value, start_minute_value, start_second_va
         start_hour_value: the value that was inputted into the start_hour_entry box
         start_minute_value: the value that was inputted into the start_minute_entry box
         start_second_value:  the value that was inputted into the start_second_entry box
+
+    Returns
+    -------
+    String
+        start_hour_value: the value that was inputted into the start_hour_entry box correctly formatted
+        start_minute_value: the value that was inputted into the start_minute_entry box correctly formatted
+        start_second_value: the value that was inputted into the start_second_entry box correctly formatted
     """
-    start_hour_entry_check(start_hour_value)
-    start_minute_entry_check(start_minute_value)
-    start_second_entry_check(start_second_value)
+    start_hour_value = start_hour_entry_check(start_hour_value)
+    start_minute_value = start_minute_entry_check(start_minute_value)
+    start_second_value = start_second_entry_check(start_second_value)
+
+    return start_hour_value, start_minute_value, start_second_value
 
 def end_hour_entry_check(end_hour_value):
     """
@@ -143,6 +175,11 @@ def end_hour_entry_check(end_hour_value):
     ----------
     String
         end_hour_value: the value that was inputted into the end_hour_entry box
+
+    Returns
+    -------
+    String
+        end_hour_value: with additional 0 if the given end_hour_value was a single digit
     """
     # End hour portion
     if(len(end_hour_value) == 1):
@@ -152,6 +189,8 @@ def end_hour_entry_check(end_hour_value):
         # Have error message box pop up because it can't be more than 23
         error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
 
+    return end_hour_value
+
 def end_minute_entry_check(end_minute_value):
     """
     Checks the end minute entry value and pops up an error message if it isn't a good entry
@@ -160,14 +199,21 @@ def end_minute_entry_check(end_minute_value):
     ----------
     String
         end_minute_value: the value that was inputted into the end_minute_entry box
+
+    Returns
+    -------
+    String
+        end_minute_value: with additional 0 if the given end_minute_value was a single digit
     """
     # End minute portion
     if(len(end_minute_value) == 1):
-        # Adding a zero to the start so that it is in the correct format
+        #Adding a zero to the start so that it is in the correct format
         end_minute_value = "0" + end_minute_value
     if((int)(end_minute_value) > 59):
-        # Have error messsage box pop up becuase it can't be more than 59
+        #Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
+
+    return end_minute_value
 
 def end_second_entry_check(end_second_value):
     """
@@ -177,6 +223,11 @@ def end_second_entry_check(end_second_value):
     ----------
     String
         end_second_value: the value that was inputted into the end_second_entry box
+
+    Returns
+    -------
+    String
+        end_second_value: with additional 0 if the given end_second_value was a single digit
     """
     # End second portion
     if(len(end_second_value) ==1):
@@ -185,6 +236,8 @@ def end_second_entry_check(end_second_value):
     if((int)(end_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
+
+    return end_second_value
 
 def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
     """
@@ -196,11 +249,19 @@ def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
         end_hour_value: the value that was inputted into the end_hour_entry box
         end_minute_value: the value that was inputted into the end_minute_entry box
         end_second_value: the value that was inputted into the end_second_entry box
-    """
-    end_hour_entry_check(end_hour_value)
-    end_minute_entry_check(end_minute_value)
-    end_second_entry_check(end_second_value)
 
+    Returns
+    -------
+    String
+        end_hour_value: the value that was inputted into the end_hour_entry box correctly formatted
+        end_minute_value: the value that was inputted into the end_minute_entry box correctly formatted
+        end_second_value: the value that was inputted into the end_second_entry box correctly formatted
+    """
+    end_hour_value = end_hour_entry_check(end_hour_value)
+    end_minute_value = end_minute_entry_check(end_minute_value)
+    end_second_value = end_second_entry_check(end_second_value)
+
+    return end_hour_value, end_minute_value, end_second_value
 
 def calculate(*args):
     """
@@ -221,8 +282,7 @@ def calculate(*args):
     start_minute_value = start_minute_entry.get()
     start_second_value = start_second_entry.get()
 
-    start_time_entry_check(start_hour_value, start_minute_value, start_second_value)
-    
+    start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_value, start_minute_value, start_second_value)
     start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
            
     ### End hour, minute, and second entries ###
@@ -230,8 +290,8 @@ def calculate(*args):
     end_minute_value = end_minute_entry.get()
     end_second_value = end_second_entry.get()
 
-    end_time_entry_check(end_hour_value, end_minute_entry, end_second_entry)
-
+    
+    end_hour_value, end_minute_value, end_second_value = end_time_entry_check(end_hour_value, end_minute_value, end_second_value)
     end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
     
     ### Plot min and max entries ###
