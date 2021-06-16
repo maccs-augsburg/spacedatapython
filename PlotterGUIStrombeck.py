@@ -190,6 +190,14 @@ def cancel(*args):
     
 
 def main(root, mainframe):
+    ### Global variables ###
+    global yearday, yearday_entry
+    global startHour, startHour_entry, startMinute, startMinute_entry, startSecond, startSecond_entry
+    global endHour, endHour_entry, endMinute, endMinute_entry, endSecond, endSecond_entry
+    global plotMin, plotMin_entry, plotMax, plotMax_entry
+    global stationcode1, stationcode1_entry
+    global fileSelection, rb1, rb2, rb3, rb4, rb7, fileToSaveAs, rb8, rb9, rb10
+    
 
     ### Label section ###
     # Yearday section
@@ -220,53 +228,45 @@ def main(root, mainframe):
 
     ### Entry section ###
     # Yearday
-    global yearday, yearday_entry
     yearday = StringVar() ## storing as a string for now, might change to int later
     yearday_entry = ttk.Entry(mainframe, width=6, textvariable=yearday) # setting a variable with the Entry box format
     yearday_entry.grid(column=1, row=1) # selecting which column and row to place said variable
 
     # Start Hour
-    global startHour, startHour_entry
     startHour = IntVar()
     startHour.set(0)
     startHour_entry = ttk.Entry(mainframe, width=3, textvariable=startHour)
     startHour_entry.grid(column=1, row=2)
 
     # Start Minute
-    global startMinute, startMinute_entry
     startMinute = IntVar()
     startMinute_entry = ttk.Entry(mainframe, width=3, textvariable=startMinute)
     startMinute_entry.grid(column=3, row=2, sticky=W)
 
     # Start Second
-    global startSecond, startSecond_entry
     startSecond = IntVar()
     startSecond_entry = ttk.Entry(mainframe, width=3, textvariable=startSecond)
     startSecond_entry.grid(column=5, row=2, sticky=W)
 
     # End Hour
-    global endHour, endHour_entry
     endHour = IntVar()
     endHour.set(23)
     endHour_entry = ttk.Entry(mainframe, width=3, textvariable=endHour)
     endHour_entry.grid(column=1, row=3)
 
     # End Minute
-    global endMinute, endMinute_entry
     endMinute = IntVar()
     endMinute.set(59)
     endMinute_entry = ttk.Entry(mainframe, width=3, textvariable=endMinute)
     endMinute_entry.grid(column=3, row=3, sticky=W)
 
     # End Second
-    global endSecond, endSecond_entry
     endSecond = IntVar()
     endSecond.set(59)
     endSecond_entry = ttk.Entry(mainframe, width=3, textvariable=endSecond)
     endSecond_entry.grid(column=5, row=3, sticky=W)
 
     # Plot min and Plot max entries
-    global plotMin, plotMin_entry, plotMax, plotMax_entry
     plotMin = IntVar()
     plotMin_entry = ttk.Entry(mainframe, width=3, textvariable=plotMin)
     plotMin_entry.grid(column=2, row=4, sticky=W)
@@ -275,7 +275,6 @@ def main(root, mainframe):
     plotMax_entry.grid(column=2, row=5, sticky=W)
 
     # Station file entries
-    global stationcode1, stationcode1_entry
     stationcode1 = StringVar()
     stationcode1_entry = ttk.Entry(mainframe, width=4, textvariable=stationcode1)
     stationcode1_entry.grid(column=1, row=6)
@@ -287,7 +286,6 @@ def main(root, mainframe):
 
     # Radiobutton section
     # file selection of type of file to open
-    global fileSelection, rb1, rb2, rb3, rb4, rb7
     fileSelection = StringVar()
     rb1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=fileSelection).grid(column=1, row=8, sticky=W)
     rb2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=fileSelection).grid(column=1, row=9, sticky=W)
@@ -298,7 +296,6 @@ def main(root, mainframe):
     rb7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=fileSelection).grid(column=1, row=14, sticky=W)
 
     # file selection of type of file to save it as
-    global fileToSaveAs, rb8, rb9, rb10
     fileToSaveAs = StringVar()
     rb8 = Radiobutton(mainframe, text="pdf", value=8, variable=fileToSaveAs).grid(column=1, row=16, sticky=W)
     rb9 = Radiobutton(mainframe, text="png", value=9, variable=fileToSaveAs).grid(column=1, row=17, sticky=W)
