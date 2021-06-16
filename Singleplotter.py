@@ -84,7 +84,7 @@ def plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
     #To split up the file name 
     station = filename[0:2]
     yearDayValue = filename[2:7]
-    stationName = station_names.find_unabbreviated_name(station)
+    stationName = station_names.find_full_name(station)
 
     #List of the hours and finding which ones to use
     defaultHoursArr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
@@ -112,16 +112,18 @@ def plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
 
 
     #This is to get ride of the extra space
-    fig, axes = plt.subplots(nrows = 2, ncols = 2)
-    fig.subplots_adjust(left = .15, bottom = .1, right = .98, top = .90)
+    #fig, axes = plt.subplots(nrows = 2, ncols = 2)
+    #fig.subplots_adjust(left = .15, bottom = .1, right = .98, top = .90)
 
     fig.patch.set_facecolor('#D3D3D3')
-    fig.subplots_adjust(hspace= 0.02)
+    #fig.subplots_adjust(hspace= 0.02)
 
 
-    plt.plot(timeArr,xArr,yArr,zArr, linewidth = .25) #s = size
+    plt.plot(timeArr,xArr, linewidth = .25)
+    plt.plot(timeArr,yArr, linewidth = .25)
+    plt.plot(timeArr,zArr, linewidth = .25)
     plt.title("GeoMagnetic Bx By Bz of " + stationName + "      YEARDAY: " + yearDayValue) 
-    plt.ylabel('Bx')
+    plt.ylabel('')
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
@@ -150,47 +152,46 @@ def plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
 
 
 
-    if __name__ == "__main__" :
-        if len(sys.argv) < 2 :
-            print( "Usage: python3 testPythonPlotter.py filename [starttime [endtime] ]")
-            sys.exit(0) # Exiting without an error code
+if __name__ == "__main__" :
+    if len(sys.argv) < 2 :
+        print( "Usage: python3 testPythonPlotter.py filename [starttime [endtime] ]")
+        sys.exit(0) # Exiting without an error code
         
-        filename = sys.argv[1]
-        fileOption = 'pdf'
+    filename = sys.argv[1]
+    fileOption = 'pdf'
 
-        try:
-            two_hz_binary_file = open(filename, "rb")
-        except:
-            print('Can not open file: ' + filename)
-            sys.exit(0)
+    try:
+        two_hz_binary_file = open(filename, "rb")
+    except:
+        print('Can not open file: ' + filename)
+        sys.exit(0)
+    ### initializing start and end times
+    start_time = datetime.time.fromisoformat( "00:00:00")
+    end_time = datetime.time.fromisoformat("23:59:59")
 
-        ### initializing start and end times
-        start_time = datetime.time.fromisoformat( "00:00:00")
-        end_time = datetime.time.fromisoformat("23:59:59")
-
-        ### If we get more than 2 items in the console/command line
-        if len(sys.argv) == 3 :
-            fileOption = sys.argv[2]
-        
-        elif len(sys.argv) >= 4 :
-            start_time = datetime.time.fromisoformat(sys.argv[2])
-            end_time = datetime.time.fromisoformat(sys.argv[3])
-        if len(sys.argv) == 5:
-            fileOption = sys.argv[4]
-        if len(sys.argv) >= 6:
-            print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
-            sys.exit(0) # Exiting without an error code
+    ### If we get more than 2 items in the console/command line
+    if len(sys.argv) == 3 :
+        fileOption = sys.argv[2]
+      
+    elif len(sys.argv) >= 4 :
+        start_time = datetime.time.fromisoformat(sys.argv[2])
+        end_time = datetime.time.fromisoformat(sys.argv[3])
+    if len(sys.argv) == 5:
+        fileOption = sys.argv[4]
+    if len(sys.argv) >= 6:
+        print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
+        sys.exit(0) # Exiting without an error code
 
 
     ### Creating x, y, and z arrays -- NOW INCLUDING START AND END TIMES!!!
-        arrayX, arrayY, arrayZ, timeArr = create_arrays(two_hz_binary_file, start_time, end_time)
+    arrayX, arrayY, arrayZ, timeArr = create_Arrays(two_hz_binary_file, start_time, end_time)
 
     ### Plotting said arrays -- NOW INCLUDING START AND END TIMES!!!
-        try:
-            plot_arrays(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time, fileOption)
-        except:
-            print('Could not plot arrays to testgraph.pdf')
-            sys.exit(0)
+    try:
+        plot_arrays(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time, fileOption)
+    except:
+        print('Could not plot arrays to testgraph.pdf')
+        sys.exit(0)
 
 
 
