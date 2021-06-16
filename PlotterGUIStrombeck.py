@@ -20,7 +20,7 @@ This GUI uses a radiobutton format for selection of file type
 #   add initial tests to file types and file save as to see which values are selected -------------> done
 #   add error messages for bad inputs -------------------------------------------------------------> done
 #   Create datetime objects of inputted times -----------------------------------------------------> done
-#   documentation ---------------------------------------------------------------------------------> working on
+#   documentation ---------------------------------------------------------------------------------> done
 #   main function ---------------------------------------------------------------------------------> working on
 #   error message popup function ------------------------------------------------------------------> done
 #   general gui function -------------------------------------------------------------------------->
@@ -53,6 +53,21 @@ def error_message_pop_up(title, message):
     messagebox.showerror(title = title, message = "ERROR: " + message)
     sys.exit(0)
 
+def year_day_entry_check(year_day_value):
+    """
+    Checks the year day entry value and pops up an error message if it isn't a good entry
+
+    Parameters
+    ----------
+    String
+        year_day_value: the value that was inputted into the year_day_entry box
+    """
+    
+    if(len(year_day_value) == 0):
+        # show error as no input was received
+        # using tkinter's message box
+        error_message_pop_up(title="year_day Entry Error", message="There was no input for the year_day entry box")
+
 def calculate(*args):
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
@@ -62,12 +77,10 @@ def calculate(*args):
     """
 ### Getting input values ###
 
-    ### yearday entry ###
-    year_day_value = yearday_entry.get()
-    if(len(year_day_value) == 0):
-        # show error as no input was received
-        # using tkinter's message box
-        error_message_pop_up(title="YearDay Entry Error", message="There was no input for the yearday entry box")
+    ### year_day entry ###
+    year_day_value = year_day_entry.get()
+    year_day_entry_check(year_day_value)
+    
 
     ### Start hour, minute, and second entries ###
     start_hour_value = start_hour_entry.get()
@@ -205,8 +218,8 @@ def GUI_labels():
     """
     Creates the Labels and places them into the GUI. 
     """
-    # Yearday label
-    ttk.Label(mainframe, text="Yearday:").grid(column=1, row=1, sticky=W)
+    # year_day label
+    ttk.Label(mainframe, text="year_day:").grid(column=1, row=1, sticky=W)
 
     # Start time labels
     ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
@@ -236,17 +249,17 @@ def GUI_entries():
     Creates the entry boxes and places them into the GUI.
     """
     ### Global variables ###
-    global yearday, yearday_entry
+    global year_day, year_day_entry
     global start_hour, start_hour_entry, start_minute, start_minute_entry, start_second, start_second_entry
     global end_hour, end_hour_entry, end_minute, end_minute_entry, end_second, end_second_entry
     global plot_min, plot_min_entry, plot_max, plot_max_entry
     global station_code, station_code_entry
     global file_selection, radio_button_1, radio_button_2, radio_button_3, radio_button_4, radio_button_7, file_to_save_as, radio_button_8, radio_button_9, radio_button_10
     
-    # Yearday entry
-    yearday = StringVar() ## storing as a string for now, might change to int later
-    yearday_entry = ttk.Entry(mainframe, width=6, textvariable=yearday) # setting a variable with the Entry box format
-    yearday_entry.grid(column=1, row=1) # selecting which column and row to place said variable
+    # year_day entry
+    year_day = StringVar() ## storing as a string for now, might change to int later
+    year_day_entry = ttk.Entry(mainframe, width=6, textvariable=year_day) # setting a variable with the Entry box format
+    year_day_entry.grid(column=1, row=1) # selecting which column and row to place said variable
 
     # Start Hour entry
     start_hour = IntVar()
@@ -350,7 +363,7 @@ def main(root, mainframe):
     ### Child formatting ###
     child_formatting(mainframe)
 
-    yearday_entry.focus() # starting spot for tab control
+    year_day_entry.focus() # starting spot for tab control
     root.bind("<Return>", calculate) # returns the calculate funciton when called
 
 
