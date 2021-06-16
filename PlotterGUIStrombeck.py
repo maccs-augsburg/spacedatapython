@@ -105,7 +105,6 @@ def calculate(*args):
         # Have error messsage box pop up becuase it can't be more than 59
         messagebox.showerror(title="End Minute Entry Error", message="ERROR: End minute cannot be more than 59")
         sys.exit(0) # Exiting without an error code
-        
 
     # End second portion
     if(len(endSecond_value) ==1):
@@ -115,8 +114,9 @@ def calculate(*args):
         # Have error messsage box pop up becuase it can't be more than 59
         messagebox.showerror(title="End Second Entry Error", message="ERROR: End second cannot be more than 59")
         sys.exit(0) # Exiting without an error code
-        
 
+    endTime_timeStamp = datetime.time.fromisoformat(endHour_value + ":" + endMinute_value + ":" + endSecond_value)
+    
     ### Plot min and max entries ###
     plotMinDefaultFlag = False
     plotMaxDefaultFlag = False
