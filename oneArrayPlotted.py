@@ -1,7 +1,7 @@
 #Plotting only one of the arrays
 #Created bt- Annabelle 
 
-
+import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 import sys
 import datetime
@@ -188,7 +188,7 @@ def plot_two(yArr, timeArr, filename, stime, etime, fileOption) :
         print(fileOption + "is not supported filetype")
         sys.exit(0)
 
-def plot_three(xArr, yArr,zArr, timeArr, filename, stime, etime, fileOption) :
+def plot_three(zArr, timeArr, filename, stime, etime, fileOption) :
     """
     """
     #To split up the file name 
@@ -222,7 +222,7 @@ def plot_three(xArr, yArr,zArr, timeArr, filename, stime, etime, fileOption) :
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,zArr, linewidth = .25)
-    plt.title("GeoMagneticBz of " + stationName + "      YEARDAY: " + yearDayValue) 
+    plt.title("GeoMagnetic Bz of " + stationName + "      YEARDAY: " + yearDayValue) 
     plt.ylabel('Bz')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -283,7 +283,9 @@ if __name__ == "__main__" :
     arrayX, arrayY, arrayZ, timeArr = create_Arrays(two_hz_binary_file, start_time, end_time)
 
     #try:
-    plot_three(xArr, yArr,zArr, timeArr, filename, stime, etime, fileOption)
+    #plot_one(arrayX, timeArr, filename, start_time, end_time, fileOption)
+    plot_two(arrayY, timeArr, filename, start_time, end_time, fileOption)
+    #plot_three(arrayZ, timeArr, filename, start_time, end_time, fileOption)
     #except:
         #print('Could not plot arrays to testgraph.pdf')
         #sys.exit(0)
