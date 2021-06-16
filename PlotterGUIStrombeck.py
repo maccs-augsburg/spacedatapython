@@ -20,7 +20,7 @@ This GUI uses a radiobutton format for selection of file type
 #   add initial tests to file types and file save as to see which values are selected -------------> done
 #   add error messages for bad inputs -------------------------------------------------------------> done
 #   Create datetime objects of inputted times -----------------------------------------------------> done
-#   documentation --------------------------------------------------------------------------------->
+#   documentation ---------------------------------------------------------------------------------> working on
 #   main function ---------------------------------------------------------------------------------> working on
 #   error message popup function ------------------------------------------------------------------> done
 #   general gui function -------------------------------------------------------------------------->
@@ -28,7 +28,7 @@ This GUI uses a radiobutton format for selection of file type
 #   change calculate function name to something like display plot --------------------------------->
 #   view box around radio buttons ----------------------------------------------------------------->
 #   go through and fully comment code ------------------------------------------------------------->
-#   variable names change -------------------------------------------------------------------------> working on
+#   variable names change -------------------------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -41,10 +41,25 @@ import sys
 import datetime
 
 def error_message_pop_up(title, message):
+    """
+    Creates an error pop up message box with the given title and message
+
+    Parameters
+    ----------
+    String
+        title: the string message of the pop up box that is the title
+        message: the string message of the pop up box to be used as the message of why the error occurred
+    """
     messagebox.showerror(title = title, message = "ERROR: " + message)
     sys.exit(0)
 
 def calculate(*args):
+    """
+    Obtains the values entered in the GUI and runs the plotting program with the inputted values
+
+    (*args is technically a parameter but it isn't required) -- Not sure what to do here for this documentation?
+    the way to call this function would look something like this: "root.bind("<Return>", calculate)"
+    """
 ### Getting input values ###
 
     ### yearday entry ###
@@ -177,11 +192,19 @@ def calculate(*args):
         error_message_pop_up(title="File Save Option error", message="Please select an option to save the file as")
 
 def cancel(*args):
+    """
+    Cancel function quits out of the gui when run.
+    It doesn't save any variables or store any information,
+    it just destroys everything for that current GUI.
+    """
     root.destroy() # Exiting without running any code after
     #global.root
     #root.quit() # Exiting with running code after
 
 def GUI_labels():
+    """
+    Creates the Labels and places them into the GUI. 
+    """
     # Yearday label
     ttk.Label(mainframe, text="Yearday:").grid(column=1, row=1, sticky=W)
 
@@ -209,6 +232,9 @@ def GUI_labels():
     ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
 def GUI_entries():
+    """
+    Creates the entry boxes and places them into the GUI.
+    """
     ### Global variables ###
     global yearday, yearday_entry
     global start_hour, start_hour_entry, start_minute, start_minute_entry, start_second, start_second_entry
@@ -292,11 +318,29 @@ def GUI_entries():
     radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
 
 def child_formatting(mainframe):
+    """
+    Formats the x and y pads for each child/object in the mainframe
+
+    Parameters
+    ----------
+    Frame
+        mainframe: a frame object that holds and stores the attributes and objects of the GUI frame
+    """
     # child formatting in mainframe
     for child in mainframe.winfo_children(): 
         child.grid_configure(padx=5, pady=5)
     
 def main(root, mainframe):
+    """
+    Main place that organizes and runs all functions to make up a functioning GUI
+
+    Parameters
+    ----------
+    Tk
+        root: Tk object to allow for creating a GUI with Tkinter
+    Frame
+        mainframe: a frame object that holds and stores the attributes and objects of the GUI frame
+    """
     ### Label section ###
     GUI_labels()
     
@@ -310,14 +354,15 @@ def main(root, mainframe):
     root.bind("<Return>", calculate) # returns the calculate funciton when called
 
 
-### Setting up GUI object ###
-root = Tk()
-root.title("Plot input")
-mainframe = ttk.Frame(root, padding="3 3 12 12")
-mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-root.columnconfigure(0, weight=1)
-root.rowconfigure(0, weight=1)
+if __name__ == "__main__":
+    ### Setting up GUI object ###
+    root = Tk()
+    root.title("Plot input")
+    mainframe = ttk.Frame(root, padding="3 3 12 12")
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
 
-main(root, mainframe)
+    main(root, mainframe)
 
-root.mainloop() # root loop running
+    root.mainloop() # root loop running
