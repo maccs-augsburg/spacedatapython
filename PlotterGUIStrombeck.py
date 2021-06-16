@@ -40,7 +40,7 @@ from tkinter import messagebox
 import sys
 import datetime
 
-def errorMessagePopUp(title, message):
+def error_message_pop_up(title, message):
     messagebox.showerror(title = title, message = "ERROR: " + message)
     sys.exit(0)
 
@@ -48,149 +48,147 @@ def calculate(*args):
 ### Getting input values ###
 
     ### yearday entry ###
-    yearday_value=yearday_entry.get()
-    if(len(yearday_value) == 0):
+    year_day_value = yearday_entry.get()
+    if(len(year_day_value) == 0):
         # show error as no input was received
         # using tkinter's message box
-        errorMessagePopUp(title="YearDay Entry Error", message="There was no input for the yearday entry box")
+        error_message_pop_up(title="YearDay Entry Error", message="There was no input for the yearday entry box")
 
     ### Start hour, minute, and second entries ###
-    startHour_value = startHour_entry.get()
-    startMinute_value = startMinute_entry.get()
-    startSecond_value = startSecond_entry.get()
+    start_hour_value = start_hour_entry.get()
+    start_minute_value = start_minute_entry.get()
+    start_second_value = start_second_entry.get()
 
     # Start hour portion
-    if(len(startHour_value) == 1): 
+    if(len(start_hour_value) == 1): 
         # Adding a zero to the start so that it is in the correct format
-        startHour_value = "0" + startHour_value
-    if((int)(startHour_value) > 23):
+        start_hour_value = "0" + start_hour_value
+    if((int)(start_hour_value) > 23):
         # Have error message box pop up because it can't be more than 23
-        errorMessagePopUp(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
+        error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
 
     # Start minute portion
-    if(len(startMinute_value) == 1):
+    if(len(start_minute_value) == 1):
         # Adding a zero to the start so that it is in the correct format
-        startMinute_value = "0" + startMinute_value
-    if((int)(startMinute_value) > 59):
+        start_minute_value = "0" + start_minute_value
+    if((int)(start_minute_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        errorMessagePopUp(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
+        error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
 
     # Start second portion
-    if(len(startSecond_value) == 1):
+    if(len(start_second_value) == 1):
         # Adding a zero to the start so that it is in the correct format
-        startSecond_value = "0" + startSecond_value
-    if((int)(startSecond_value) > 59):
+        start_second_value = "0" + start_second_value
+    if((int)(start_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        errorMessagePopUp(title="Start Second Entry Error", message="Start second cannot be more than 59")
+        error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
 
-    startTime_timeStamp = datetime.time.fromisoformat(startHour_value + ":" + startMinute_value + ":" + startSecond_value)
+    start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
            
     ### End hour, minute, and second entries ###
-    endHour_value = endHour_entry.get()
-    endMinute_value = endMinute_entry.get()
-    endSecond_value = endSecond_entry.get()
+    end_hour_value = end_hour_entry.get()
+    end_minute_value = end_minute_entry.get()
+    end_second_value = end_second_entry.get()
 
     # End hour portion
-    if(len(endHour_value) == 1):
+    if(len(end_hour_value) == 1):
         # Adding a zero to the start so that it is in the correct format
-        endHour_value = "0" + endHour_value
-    if((int)(endHour_value) > 23):
+        end_hour_value = "0" + end_hour_value
+    if((int)(end_hour_value) > 23):
         # Have error message box pop up because it can't be more than 23
-        errorMessagePopUp(title="End Hour Entry Error", message="End hour cannot be more than 23")
+        error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
         
     # End minute portion
-    if(len(endMinute_value) == 1):
+    if(len(end_minute_value) == 1):
         # Adding a zero to the start so that it is in the correct format
-        endMinute_value = "0" + endMinute_value
-    if((int)(endMinute_value) > 59):
+        end_minute_value = "0" + end_minute_value
+    if((int)(end_minute_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        errorMessagePopUp(title="End Minute Entry Error", message="End minute cannot be more than 59")
+        error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
 
     # End second portion
-    if(len(endSecond_value) ==1):
+    if(len(end_second_value) ==1):
         # Adding a zero to the start so that it is in the correct format
-        endSecond_value = "0" + endSecond_value
-    if((int)(endSecond_value) > 59):
+        end_second_value = "0" + end_second_value
+    if((int)(end_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        errorMessagePopUp(title="End Second Entry Error", message="End second cannot be more than 59")
+        error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
 
-    endTime_timeStamp = datetime.time.fromisoformat(endHour_value + ":" + endMinute_value + ":" + endSecond_value)
+    end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
     
     ### Plot min and max entries ###
-    plotMinDefaultFlag = False
-    plotMaxDefaultFlag = False
+    plot_min_default_flag = False
+    plot_max_default_flag = False
     
-    plotMin_value = plotMin_entry.get()
-    if(plotMin_value == '0'): 
+    plot_min_value = plot_min_entry.get()
+    if(plot_min_value == '0'): 
         # use default params
-        plotMinDefaultFlag = True
+        plot_min_default_flag = True
 
-    plotMax_value = plotMax_entry.get()
-    if(plotMax_value == '0'):
+    plot_max_value = plot_max_entry.get()
+    if(plot_max_value == '0'):
         # use default params
-        plotMaxDefaultFlag = True
+        plot_max_default_flag = True
 
     ### Station code entry ###
-    stationcode1_value = stationcode1_entry.get()
-    if(len(stationcode1_value) == 0):
+    station_code_value = station_code_entry.get()
+    if(len(station_code_value) == 0):
         # show error as no input was received
-        errorMessagePopUp(title="Station code entry error", message="There was no input for the station code entry box")
+        error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
 
     ### File format entry ###
 
-    # RB buttons used: 1, 2, 3, 4, 7
-    fileSelection_value = fileSelection.get()
-    if(fileSelection_value == '1'):
+    # radio_button_ buttons used: 1, 2, 3, 4, 7
+    file_selection_value = file_selection.get()
+    if(file_selection_value == '1'):
         # CDA-Web branch (NOT IMPLEMENTED)
         pass
-    elif(fileSelection_value == '2'):
+    elif(file_selection_value == '2'):
         #IAGA2000 branch (NOT IMPLEMENTED)
         pass
-    elif(fileSelection_value == '3'):
+    elif(file_selection_value == '3'):
         #IAGA2002 branch (NOT IMPLEMENTED)
         pass
-    elif(fileSelection_value == '4'):
+    elif(file_selection_value == '4'):
         #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
         pass
-    elif(fileSelection_value == '7'):
+    elif(file_selection_value == '7'):
         #Other option branch (NOT IMPLEMENTED YET)
         pass
     else:
         # Message box error when no file format option has been selected
-        errorMessagePopUp(title="File format option error", message="Please select a file format option")
+        error_message_pop_up(title="File format option error", message="Please select a file format option")
         
     ### File option to save as entry ###
 
-    # RB buttons used: 8, 9, 10
-    fileSaveAsOption_value = fileToSaveAs.get()
-    if(fileSaveAsOption_value == '8'):
+    # radio_button_ buttons used: 8, 9, 10
+    file_save_as_option_value = file_to_save_as.get()
+    if(file_save_as_option_value == '8'):
         #pdf branch
         pass
-    elif(fileSaveAsOption_value == '9'):
+    elif(file_save_as_option_value == '9'):
         #png branch
         pass
-    elif(fileSaveAsOption_value == '10'):
+    elif(file_save_as_option_value == '10'):
         #Do not save branch
         pass
     else:
         # Message box error when no file save option has been selected
-        errorMessagePopUp(title="File Save Option error", message="Please select an option to save the file as")
-    
-
+        error_message_pop_up(title="File Save Option error", message="Please select an option to save the file as")
 
 def cancel(*args):
     root.destroy() # Exiting without running any code after
     #global.root
     #root.quit() # Exiting with running code after
 
-def GUILabels():
+def GUI_labels():
     # Yearday label
     ttk.Label(mainframe, text="Yearday:").grid(column=1, row=1, sticky=W)
 
     # Start time labels
     ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
     ttk.Label(mainframe, text="Start Minute:").grid(column=2, row=2, sticky=W)
-    ttk.Label(mainframe, text="StartSecond:").grid(column=4, row=2, sticky=W)
+    ttk.Label(mainframe, text="start_second:").grid(column=4, row=2, sticky=W)
 
     # End time labels
     ttk.Label(mainframe, text="End Hour:").grid(column=1, row=3, sticky=W)
@@ -210,14 +208,14 @@ def GUILabels():
     # File save as label
     ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
-def GUIEntries():
+def GUI_entries():
     ### Global variables ###
     global yearday, yearday_entry
-    global startHour, startHour_entry, startMinute, startMinute_entry, startSecond, startSecond_entry
-    global endHour, endHour_entry, endMinute, endMinute_entry, endSecond, endSecond_entry
-    global plotMin, plotMin_entry, plotMax, plotMax_entry
-    global stationcode1, stationcode1_entry
-    global fileSelection, rb1, rb2, rb3, rb4, rb7, fileToSaveAs, rb8, rb9, rb10
+    global start_hour, start_hour_entry, start_minute, start_minute_entry, start_second, start_second_entry
+    global end_hour, end_hour_entry, end_minute, end_minute_entry, end_second, end_second_entry
+    global plot_min, plot_min_entry, plot_max, plot_max_entry
+    global station_code, station_code_entry
+    global file_selection, radio_button_1, radio_button_2, radio_button_3, radio_button_4, radio_button_7, file_to_save_as, radio_button_8, radio_button_9, radio_button_10
     
     # Yearday entry
     yearday = StringVar() ## storing as a string for now, might change to int later
@@ -225,51 +223,51 @@ def GUIEntries():
     yearday_entry.grid(column=1, row=1) # selecting which column and row to place said variable
 
     # Start Hour entry
-    startHour = IntVar()
-    startHour.set(0)
-    startHour_entry = ttk.Entry(mainframe, width=3, textvariable=startHour)
-    startHour_entry.grid(column=1, row=2)
+    start_hour = IntVar()
+    start_hour.set(0)
+    start_hour_entry = ttk.Entry(mainframe, width=3, textvariable=start_hour)
+    start_hour_entry.grid(column=1, row=2)
 
     # Start Minute entry
-    startMinute = IntVar()
-    startMinute_entry = ttk.Entry(mainframe, width=3, textvariable=startMinute)
-    startMinute_entry.grid(column=3, row=2, sticky=W)
+    start_minute = IntVar()
+    start_minute_entry = ttk.Entry(mainframe, width=3, textvariable=start_minute)
+    start_minute_entry.grid(column=3, row=2, sticky=W)
 
     # Start Second entry
-    startSecond = IntVar()
-    startSecond_entry = ttk.Entry(mainframe, width=3, textvariable=startSecond)
-    startSecond_entry.grid(column=5, row=2, sticky=W)
+    start_second = IntVar()
+    start_second_entry = ttk.Entry(mainframe, width=3, textvariable=start_second)
+    start_second_entry.grid(column=5, row=2, sticky=W)
 
     # End Hour entry
-    endHour = IntVar()
-    endHour.set(23)
-    endHour_entry = ttk.Entry(mainframe, width=3, textvariable=endHour)
-    endHour_entry.grid(column=1, row=3)
+    end_hour = IntVar()
+    end_hour.set(23)
+    end_hour_entry = ttk.Entry(mainframe, width=3, textvariable=end_hour)
+    end_hour_entry.grid(column=1, row=3)
 
     # End Minute entry
-    endMinute = IntVar()
-    endMinute.set(59)
-    endMinute_entry = ttk.Entry(mainframe, width=3, textvariable=endMinute)
-    endMinute_entry.grid(column=3, row=3, sticky=W)
+    end_minute = IntVar()
+    end_minute.set(59)
+    end_minute_entry = ttk.Entry(mainframe, width=3, textvariable=end_minute)
+    end_minute_entry.grid(column=3, row=3, sticky=W)
 
     # End Second entry
-    endSecond = IntVar()
-    endSecond.set(59)
-    endSecond_entry = ttk.Entry(mainframe, width=3, textvariable=endSecond)
-    endSecond_entry.grid(column=5, row=3, sticky=W)
+    end_second = IntVar()
+    end_second.set(59)
+    end_second_entry = ttk.Entry(mainframe, width=3, textvariable=end_second)
+    end_second_entry.grid(column=5, row=3, sticky=W)
 
     # Plot min and Plot max entries
-    plotMin = IntVar()
-    plotMin_entry = ttk.Entry(mainframe, width=3, textvariable=plotMin)
-    plotMin_entry.grid(column=2, row=4, sticky=W)
-    plotMax = IntVar()
-    plotMax_entry = ttk.Entry(mainframe, width=3, textvariable=plotMax)
-    plotMax_entry.grid(column=2, row=5, sticky=W)
+    plot_min = IntVar()
+    plot_min_entry = ttk.Entry(mainframe, width=3, textvariable=plot_min)
+    plot_min_entry.grid(column=2, row=4, sticky=W)
+    plot_max = IntVar()
+    plot_max_entry = ttk.Entry(mainframe, width=3, textvariable=plot_max)
+    plot_max_entry.grid(column=2, row=5, sticky=W)
 
     # Station file entries
-    stationcode1 = StringVar()
-    stationcode1_entry = ttk.Entry(mainframe, width=4, textvariable=stationcode1)
-    stationcode1_entry.grid(column=1, row=6)
+    station_code = StringVar()
+    station_code_entry = ttk.Entry(mainframe, width=4, textvariable=station_code)
+    station_code_entry.grid(column=1, row=6)
 
     ### Button section ###
     # Management buttons section
@@ -278,20 +276,20 @@ def GUIEntries():
 
     # Radiobutton section
     # file selection of type of file to open
-    fileSelection = StringVar()
-    rb1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=fileSelection).grid(column=1, row=8, sticky=W)
-    rb2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=fileSelection).grid(column=1, row=9, sticky=W)
-    rb3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=fileSelection).grid(column=1, row=10, sticky=W)
-    rb4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=fileSelection).grid(column=1, row=11, sticky=W)
-    #rb5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=fileSelection).grid(column=1, row=12, sticky=W)
-    #rb6 = Radiobutton(mainframe, text="SPole", value=6, variable=fileSelection).grid(column=1, row=13, sticky=W)
-    rb7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=fileSelection).grid(column=1, row=14, sticky=W)
+    file_selection = StringVar()
+    radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=file_selection).grid(column=1, row=8, sticky=W)
+    radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=file_selection).grid(column=1, row=9, sticky=W)
+    radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=file_selection).grid(column=1, row=10, sticky=W)
+    radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=file_selection).grid(column=1, row=11, sticky=W)
+    #radio_button_5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=file_selection).grid(column=1, row=12, sticky=W)
+    #radio_button_6 = Radiobutton(mainframe, text="SPole", value=6, variable=file_selection).grid(column=1, row=13, sticky=W)
+    radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=file_selection).grid(column=1, row=14, sticky=W)
 
     # file selection of type of file to save it as
-    fileToSaveAs = StringVar()
-    rb8 = Radiobutton(mainframe, text="pdf", value=8, variable=fileToSaveAs).grid(column=1, row=16, sticky=W)
-    rb9 = Radiobutton(mainframe, text="png", value=9, variable=fileToSaveAs).grid(column=1, row=17, sticky=W)
-    rb10 = Radiobutton(mainframe, text="Do not save", value=10, variable=fileToSaveAs).grid(column=1, row=18, sticky=W)
+    file_to_save_as = StringVar()
+    radio_button_8 = Radiobutton(mainframe, text="pdf", value=8, variable=file_to_save_as).grid(column=1, row=16, sticky=W)
+    radio_button_9 = Radiobutton(mainframe, text="png", value=9, variable=file_to_save_as).grid(column=1, row=17, sticky=W)
+    radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
 
 def child_formatting(mainframe):
     # child formatting in mainframe
@@ -300,10 +298,10 @@ def child_formatting(mainframe):
     
 def main(root, mainframe):
     ### Label section ###
-    GUILabels()
+    GUI_labels()
     
     ### Entry section ###
-    GUIEntries()
+    GUI_entries()
     
     ### Child formatting ###
     child_formatting(mainframe)
