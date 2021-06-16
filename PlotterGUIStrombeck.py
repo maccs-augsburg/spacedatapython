@@ -22,6 +22,7 @@ This GUI uses a radiobutton format for selection of file type
 #   Create datetime objects of inputted times -----------------------------------------------------> done
 #   documentation --------------------------------------------------------------------------------->
 #   main function ---------------------------------------------------------------------------------> working on
+#   error message popup function ------------------------------------------------------------------> done
 #   general gui function -------------------------------------------------------------------------->
 #   gui display function -------------------------------------------------------------------------->
 #   change calculate function name to something like display plot --------------------------------->
@@ -181,9 +182,35 @@ def cancel(*args):
     root.destroy() # Exiting without running any code after
     #global.root
     #root.quit() # Exiting with running code after
-    
 
-def main(root, mainframe):
+def GUILabels():
+    # Yearday label
+    ttk.Label(mainframe, text="Yearday:").grid(column=1, row=1, sticky=W)
+
+    # Start time labels
+    ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
+    ttk.Label(mainframe, text="Start Minute:").grid(column=2, row=2, sticky=W)
+    ttk.Label(mainframe, text="StartSecond:").grid(column=4, row=2, sticky=W)
+
+    # End time labels
+    ttk.Label(mainframe, text="End Hour:").grid(column=1, row=3, sticky=W)
+    ttk.Label(mainframe, text="End Minute:").grid(column=2, row=3, sticky=W)
+    ttk.Label(mainframe, text="End Second:").grid(column=4, row=3, sticky=W)
+
+    # Plot min and max labels
+    ttk.Label(mainframe, text="Plot Min (leave at 0 for default):").grid(column=1, row=4, sticky=W)
+    ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, row=5, sticky=W)
+
+    # Station file label
+    ttk.Label(mainframe, text="Station code (3-4):").grid(column=1, row=6, sticky=W)
+
+    # File format label
+    ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=7, sticky=W)
+
+    # File save as label
+    ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
+
+def GUIEntries():
     ### Global variables ###
     global yearday, yearday_entry
     global startHour, startHour_entry, startMinute, startMinute_entry, startSecond, startSecond_entry
@@ -192,69 +219,40 @@ def main(root, mainframe):
     global stationcode1, stationcode1_entry
     global fileSelection, rb1, rb2, rb3, rb4, rb7, fileToSaveAs, rb8, rb9, rb10
     
-
-    ### Label section ###
-    # Yearday section
-    ttk.Label(mainframe, text="Yearday:").grid(column=1, row=1, sticky=W)
-
-    # Start time section
-    ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
-    ttk.Label(mainframe, text="Start Minute:").grid(column=2, row=2, sticky=W)
-    ttk.Label(mainframe, text="StartSecond:").grid(column=4, row=2, sticky=W)
-
-    # End time section
-    ttk.Label(mainframe, text="End Hour:").grid(column=1, row=3, sticky=W)
-    ttk.Label(mainframe, text="End Minute:").grid(column=2, row=3, sticky=W)
-    ttk.Label(mainframe, text="End Second:").grid(column=4, row=3, sticky=W)
-
-    # Plot min and max section
-    ttk.Label(mainframe, text="Plot Min (leave at 0 for default):").grid(column=1, row=4, sticky=W)
-    ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, row=5, sticky=W)
-
-    # Station file section
-    ttk.Label(mainframe, text="Station code (3-4):").grid(column=1, row=6, sticky=W)
-
-    # File format section
-    ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=7, sticky=W)
-
-    # File to save as section
-    ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
-
-    ### Entry section ###
-    # Yearday
+    # Yearday entry
     yearday = StringVar() ## storing as a string for now, might change to int later
     yearday_entry = ttk.Entry(mainframe, width=6, textvariable=yearday) # setting a variable with the Entry box format
     yearday_entry.grid(column=1, row=1) # selecting which column and row to place said variable
 
-    # Start Hour
+    # Start Hour entry
     startHour = IntVar()
     startHour.set(0)
     startHour_entry = ttk.Entry(mainframe, width=3, textvariable=startHour)
     startHour_entry.grid(column=1, row=2)
 
-    # Start Minute
+    # Start Minute entry
     startMinute = IntVar()
     startMinute_entry = ttk.Entry(mainframe, width=3, textvariable=startMinute)
     startMinute_entry.grid(column=3, row=2, sticky=W)
 
-    # Start Second
+    # Start Second entry
     startSecond = IntVar()
     startSecond_entry = ttk.Entry(mainframe, width=3, textvariable=startSecond)
     startSecond_entry.grid(column=5, row=2, sticky=W)
 
-    # End Hour
+    # End Hour entry
     endHour = IntVar()
     endHour.set(23)
     endHour_entry = ttk.Entry(mainframe, width=3, textvariable=endHour)
     endHour_entry.grid(column=1, row=3)
 
-    # End Minute
+    # End Minute entry
     endMinute = IntVar()
     endMinute.set(59)
     endMinute_entry = ttk.Entry(mainframe, width=3, textvariable=endMinute)
     endMinute_entry.grid(column=3, row=3, sticky=W)
 
-    # End Second
+    # End Second entry
     endSecond = IntVar()
     endSecond.set(59)
     endSecond_entry = ttk.Entry(mainframe, width=3, textvariable=endSecond)
@@ -295,10 +293,20 @@ def main(root, mainframe):
     rb9 = Radiobutton(mainframe, text="png", value=9, variable=fileToSaveAs).grid(column=1, row=17, sticky=W)
     rb10 = Radiobutton(mainframe, text="Do not save", value=10, variable=fileToSaveAs).grid(column=1, row=18, sticky=W)
 
-    ### Main ###
+def child_formatting(mainframe):
     # child formatting in mainframe
     for child in mainframe.winfo_children(): 
         child.grid_configure(padx=5, pady=5)
+    
+def main(root, mainframe):
+    ### Label section ###
+    GUILabels()
+    
+    ### Entry section ###
+    GUIEntries()
+    
+    ### Child formatting ###
+    child_formatting(mainframe)
 
     yearday_entry.focus() # starting spot for tab control
     root.bind("<Return>", calculate) # returns the calculate funciton when called
@@ -313,4 +321,5 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
 main(root, mainframe)
+
 root.mainloop() # root loop running
