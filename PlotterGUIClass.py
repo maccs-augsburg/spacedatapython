@@ -18,3 +18,19 @@ from tkinter import messagebox
 # Python 3 imports
 import sys
 import datetime
+
+class Single_File_Plotter_GUI:
+    def __init__(self, master):
+        self.master = master
+        master.title("")
+
+        self.label = Label(master, text="")
+
+
+        #self.greet_button = Button(master, text="Greet", command=self.greet)
+
+    def someotherfunction(self):
+        
+root = Tk()
+my_gui = Single_File_PlotterGUI(root)
+root.mainloop()
