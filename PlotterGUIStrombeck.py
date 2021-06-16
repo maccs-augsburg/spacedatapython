@@ -68,6 +68,140 @@ def year_day_entry_check(year_day_value):
         # using tkinter's message box
         error_message_pop_up(title="year_day Entry Error", message="There was no input for the year_day entry box")
 
+def start_hour_entry_check(start_hour_value):
+    """
+    Checks the start hour entry value and pops up an error message if it isn't a good entry
+
+    Parameters
+    ----------
+    String
+        start_hour_value: the value that was inputted into the start_hour_entry box
+    """
+    # Start hour portion
+    if(len(start_hour_value) == 1): 
+        # Adding a zero to the start so that it is in the correct format
+        start_hour_value = "0" + start_hour_value
+    if((int)(start_hour_value) > 23):
+        # Have error message box pop up because it can't be more than 23
+        error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
+
+def start_minute_entry_check(start_minute_value):
+    """
+    Checks the start minute entry value and pops up an error message if it isn't a good entry
+
+    Parameters
+    ----------
+    String
+        start_minute_value: the value that was inputted into the start_minute_entry box
+    """
+    # Start minute portion
+    if(len(start_minute_value) == 1):
+        # Adding a zero to the start so that it is in the correct format
+        start_minute_value = "0" + start_minute_value
+    if((int)(start_minute_value) > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
+
+def start_second_entry_check(start_second_value):
+    """
+    Checks the start second entry value and pops up an error message if it isn't a good entry
+
+    Parameters
+    ----------
+    String
+        start_second_value: the value that was inputted into the start_second_entry box
+    """
+    # Start second portion
+    if(len(start_second_value) == 1):
+        # Adding a zero to the start so that it is in the correct format
+        start_second_value = "0" + start_second_value
+    if((int)(start_second_value) > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
+    
+
+def start_time_entry_check(start_hour_value, start_minute_value, start_second_value):
+    """
+    Helper function that runs the start hour, minute, and second entry checkers to see if the inputted values are acceptable to move forward with
+
+    Parameters
+    ----------
+    String
+        start_hour_value: the value that was inputted into the start_hour_entry box
+        start_minute_value: the value that was inputted into the start_minute_entry box
+        start_second_value:  the value that was inputted into the start_second_entry box
+    """
+    start_hour_entry_check(start_hour_value)
+    start_minute_entry_check(start_minute_value)
+    start_second_entry_check(start_second_value)
+
+def end_hour_entry_check(end_hour_value):
+    """
+    Checks the end hour entry value and pops up an error message if it isn't a good entry
+
+    Parameters
+    ----------
+    String
+        end_hour_value: the value that was inputted into the end_hour_entry box
+    """
+    # End hour portion
+    if(len(end_hour_value) == 1):
+        # Adding a zero to the start so that it is in the correct format
+        end_hour_value = "0" + end_hour_value
+    if((int)(end_hour_value) > 23):
+        # Have error message box pop up because it can't be more than 23
+        error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
+
+def end_minute_entry_check(end_minute_value):
+    """
+    Checks the end minute entry value and pops up an error message if it isn't a good entry
+
+    Parameters
+    ----------
+    String
+        end_minute_value: the value that was inputted into the end_minute_entry box
+    """
+    # End minute portion
+    if(len(end_minute_value) == 1):
+        # Adding a zero to the start so that it is in the correct format
+        end_minute_value = "0" + end_minute_value
+    if((int)(end_minute_value) > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
+
+def end_second_entry_check(end_second_value):
+    """
+    Checks the end second entry value and pops up an error message if it isn't a good entry
+
+    Parameters
+    ----------
+    String
+        end_second_value: the value that was inputted into the end_second_entry box
+    """
+    # End second portion
+    if(len(end_second_value) ==1):
+        # Adding a zero to the start so that it is in the correct format
+        end_second_value = "0" + end_second_value
+    if((int)(end_second_value) > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
+
+def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
+    """
+    Helper funcion that runs the end hour, minute, and second entry checkers to see if the inputted values are acceptable to move forward with
+
+    Parameters
+    ----------
+    String
+        end_hour_value: the value that was inputted into the end_hour_entry box
+        end_minute_value: the value that was inputted into the end_minute_entry box
+        end_second_value: the value that was inputted into the end_second_entry box
+    """
+    end_hour_entry_check(end_hour_value)
+    end_minute_entry_check(end_minute_value)
+    end_second_entry_check(end_second_value)
+
+
 def calculate(*args):
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
@@ -87,30 +221,8 @@ def calculate(*args):
     start_minute_value = start_minute_entry.get()
     start_second_value = start_second_entry.get()
 
-    # Start hour portion
-    if(len(start_hour_value) == 1): 
-        # Adding a zero to the start so that it is in the correct format
-        start_hour_value = "0" + start_hour_value
-    if((int)(start_hour_value) > 23):
-        # Have error message box pop up because it can't be more than 23
-        error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
-
-    # Start minute portion
-    if(len(start_minute_value) == 1):
-        # Adding a zero to the start so that it is in the correct format
-        start_minute_value = "0" + start_minute_value
-    if((int)(start_minute_value) > 59):
-        # Have error messsage box pop up becuase it can't be more than 59
-        error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
-
-    # Start second portion
-    if(len(start_second_value) == 1):
-        # Adding a zero to the start so that it is in the correct format
-        start_second_value = "0" + start_second_value
-    if((int)(start_second_value) > 59):
-        # Have error messsage box pop up becuase it can't be more than 59
-        error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
-
+    start_time_entry_check(start_hour_value, start_minute_value, start_second_value)
+    
     start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
            
     ### End hour, minute, and second entries ###
@@ -118,29 +230,7 @@ def calculate(*args):
     end_minute_value = end_minute_entry.get()
     end_second_value = end_second_entry.get()
 
-    # End hour portion
-    if(len(end_hour_value) == 1):
-        # Adding a zero to the start so that it is in the correct format
-        end_hour_value = "0" + end_hour_value
-    if((int)(end_hour_value) > 23):
-        # Have error message box pop up because it can't be more than 23
-        error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
-        
-    # End minute portion
-    if(len(end_minute_value) == 1):
-        # Adding a zero to the start so that it is in the correct format
-        end_minute_value = "0" + end_minute_value
-    if((int)(end_minute_value) > 59):
-        # Have error messsage box pop up becuase it can't be more than 59
-        error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
-
-    # End second portion
-    if(len(end_second_value) ==1):
-        # Adding a zero to the start so that it is in the correct format
-        end_second_value = "0" + end_second_value
-    if((int)(end_second_value) > 59):
-        # Have error messsage box pop up becuase it can't be more than 59
-        error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
+    end_time_entry_check(end_hour_value, end_minute_entry, end_second_entry)
 
     end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
     
