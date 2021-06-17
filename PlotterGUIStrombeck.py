@@ -398,7 +398,40 @@ def file_format_entry_checker(file_selection_value):
         error_message_pop_up(title="File format option error", message="Please select a file format option")
 
     return file_ending_value
-    
+
+def file_save_as_entry_checker(file_save_as_option_value):
+    """
+    Checks the file_save_as_option_value and pops up an error message if the input is bad or sets the string file option to be used later on by the program
+
+    Parameters
+    ----------
+    String
+        file_save_as_option_value: the value that was inputted into the file_save_as_entry box
+
+    Returns
+    -------
+    String
+        file_save_as_option: the string to indicate in which way we are saving the file
+    """
+    file_save_as_option = ''
+
+    if(file_save_as_option_value == '8'):
+        #pdf branch
+        file_save_as_option = 'pdf'
+        
+    elif(file_save_as_option_value == '9'):
+        #png branch
+        file_save_as_option = 'png'
+        
+    elif(file_save_as_option_value == '10'):
+        #Do not save branch
+        file_save_as_option = 'no'
+        
+    else:
+        # Message box error when no file save option has been selected
+        error_message_pop_up(title="File Save Option error", message="Please select an option to save the file as")
+
+    return file_save_as_option
 
 def calculate(*args):
     """
@@ -442,33 +475,21 @@ def calculate(*args):
     station_code_entry_check(station_code_value)
 
     ### File format entry ###
-
     # radio_button_ buttons used: 1, 2, 3, 4, 7
     file_selection_value = file_selection.get()
     file_ending_value = file_format_entry_checker(file_selection_value)
     
         
     ### File option to save as entry ###
-
     # radio_button_ buttons used: 8, 9, 10
     file_save_as_option_value = file_to_save_as.get()
-    if(file_save_as_option_value == '8'):
-        #pdf branch
-        pass
-    elif(file_save_as_option_value == '9'):
-        #png branch
-        pass
-    elif(file_save_as_option_value == '10'):
-        #Do not save branch
-        pass
-    else:
-        # Message box error when no file save option has been selected
-        error_message_pop_up(title="File Save Option error", message="Please select an option to save the file as")
+    file_save_as_option_value = file_save_as_entry_checker(file_save_as_option_value)
+    
 
     ### Putting information gathered together and calling the plotting program! ###
     file_name = station_code_value + year_day_value + file_ending_value
-
     print(file_name)
+    
 
 def cancel(*args):
     """
