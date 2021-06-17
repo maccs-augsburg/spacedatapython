@@ -347,6 +347,19 @@ def plot_min_and_max_check(plot_min_value, plot_max_value):
     plot_max_default_flag = plot_max_default_flag_check(plot_max_value)
     
     return plot_min_default_flag, plot_max_default_flag
+
+def station_code_entry_check(station_code_value):
+    """
+    Checks the station_code_entry value and pops up an error message if it isn't a good entry
+
+    Parameters
+    ----------
+    String
+        station_code_value: the value that was inputted into the station_code_entry box
+    """
+    if(len(station_code_value) == 0):
+        # show error as no input was received
+        error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
     
 
 def calculate(*args):
@@ -388,9 +401,7 @@ def calculate(*args):
 
     ### Station code entry ###
     station_code_value = station_code_entry.get()
-    if(len(station_code_value) == 0):
-        # show error as no input was received
-        error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
+    station_code_entry_check(station_code_value)
 
     ### File format entry ###
 
