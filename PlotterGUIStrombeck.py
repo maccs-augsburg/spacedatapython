@@ -283,6 +283,72 @@ def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
 
     return end_hour_value, end_minute_value, end_second_value
 
+def plot_min_default_flag_check(plot_min_value):
+    """
+    Determines to use default values for scaling on the y-axis in the plot or if to use custom min values
+
+    Parameters
+    ----------
+    String
+        plot_min_value: the value from the plot_min_entry box in the GUI
+
+    Returns
+    -------
+    Boolean
+        plot_min_default_flag: which is true if we use default values, and false if we should use custom values
+    """
+    plot_min_default_flag = False
+
+    if(plot_min_value == '0'): 
+        # use default params
+        plot_min_default_flag = True
+
+    return plot_min_default_flag
+
+def plot_max_default_flag_check(plot_max_value):
+    """
+    Determines to use default values for scaling on the y-axis in the plot or if to use custom max values
+
+    Parameters
+    ----------
+    String
+        plot_max_value: the value from the plot_max_entry box in the GUI
+
+    Returns
+    -------
+    Boolean
+        plot_max_default_flag: which is true if we use default values, and false if we should use custom values
+    """
+    plot_max_default_flag = False
+    
+    if(plot_max_value == '0'):
+        # use default params
+        plot_max_default_flag = True
+
+    return plot_max_default_flag
+
+def plot_min_and_max_check(plot_min_value, plot_max_value):
+    """
+    Helper function to run both functions to test for whether to use default values or custom values for y-axis scaling and returns the results
+
+    Parameters
+    ----------
+    String
+        plot_min_value: the value from the plot_min_entry box in the GUI
+        plot_max_value: the value from the plot_max_entry box in the GUI
+
+    Returns
+    -------
+    Boolean
+        plot_min_default_flag: which is true if we use default values, and false if we should use custom values
+        plot_max_default_flag: which is true if we use default values, and false if we should use custom values
+    """
+    plot_min_default_flag = plot_min_default_flag_check(plot_min_value)
+    plot_max_default_flag = plot_max_default_flag_check(plot_max_value)
+    
+    return plot_min_default_flag, plot_max_default_flag
+    
+
 def calculate(*args):
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
@@ -315,18 +381,10 @@ def calculate(*args):
     end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
     
     ### Plot min and max entries ###
-    plot_min_default_flag = False
-    plot_max_default_flag = False
-    
     plot_min_value = plot_min_entry.get()
-    if(plot_min_value == '0'): 
-        # use default params
-        plot_min_default_flag = True
-
     plot_max_value = plot_max_entry.get()
-    if(plot_max_value == '0'):
-        # use default params
-        plot_max_default_flag = True
+
+    plot_min_default_flag, plot_max_default_flag = plot_min_and_max_check(plot_min_value, plot_max_value) 
 
     ### Station code entry ###
     station_code_value = station_code_entry.get()
