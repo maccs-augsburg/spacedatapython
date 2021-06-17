@@ -22,6 +22,32 @@ def GUI_labels():
 
 
 def GUI_entries():
+
+    start_Hour = IntVar()
+    start_Hour_entry = ttk.Entry(mainframe, width = 5, textvariable = start_Hour)
+    start_Hour_entry.grid(column = 2, row = 1)
+
+    start_Minute = IntVar()
+    start_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = start_Minute)
+    start_Minute_entry.grid(column = 4, row = 1, sticky = (W, E))
+
+    start_Second = IntVar()
+    start_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = start_Second)
+    start_Second_entry.grid(column = 2, row = 2, sticky = (W, E))
+
+    end_Hour = IntVar()
+    end_Hour_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Hour)
+    end_Hour_entry.grid(column = 2, row = 3, sticky = (W,E))
+
+    end_Minute = IntVar()
+    end_Minute_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Minute)
+    end_Minute_entry.grid(column = 4, row = 3, sticky = (W,E))
+
+    end_Second = IntVar()
+    end_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Second)
+    end_Second_entry.grid(column = 2, row = 4, sticky = (W,E))
+    
+
     
 
 
