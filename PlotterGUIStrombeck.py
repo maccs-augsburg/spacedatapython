@@ -68,6 +68,8 @@ def year_day_entry_check(year_day_value):
         # using tkinter's message box
         error_message_pop_up(title="year_day Entry Error", message="There was no input for the year_day entry box")
 
+    #TODO: Add more tests to get yearday values
+
 def start_hour_entry_check(start_hour_value):
     """
     Checks the start hour entry value and pops up an error message if it isn't a good entry
@@ -89,6 +91,9 @@ def start_hour_entry_check(start_hour_value):
     if((int)(start_hour_value) > 23):
         # Have error message box pop up because it can't be more than 23
         error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
+    elif((int)(start_hour_value) < 0):
+        # Have error message box pop up because it can't be a negative number
+        error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
 
     return start_hour_value
 
@@ -115,6 +120,9 @@ def start_minute_entry_check(start_minute_value):
     if((int)(start_minute_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
+    elif((int)(start_minute_value) < 0):
+        # Have error message box pop up because it can't be a negative number
+        error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
     
     return start_minute_value
 
@@ -139,6 +147,9 @@ def start_second_entry_check(start_second_value):
     if((int)(start_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
+    elif((int)(start_second_value) < 0):
+        # Have error message box pop up because it can't be a negative number
+        error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
 
     return start_second_value
     
@@ -188,6 +199,9 @@ def end_hour_entry_check(end_hour_value):
     if((int)(end_hour_value) > 23):
         # Have error message box pop up because it can't be more than 23
         error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
+    elif((int)(end_hour_value) < 0):
+        # Have error message box pop up because it can't be a negative number
+        error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
 
     return end_hour_value
 
@@ -212,6 +226,9 @@ def end_minute_entry_check(end_minute_value):
     if((int)(end_minute_value) > 59):
         #Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
+    elif((int)(end_minute_value) < 0):
+        # Have error message box pop up because it can't be a negative number
+        error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
 
     return end_minute_value
 
@@ -236,6 +253,9 @@ def end_second_entry_check(end_second_value):
     if((int)(end_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
+    elif((int)(end_second_value) < 0):
+        # Have error message box pop up because it can't be a negative number
+        error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
 
     return end_second_value
 
