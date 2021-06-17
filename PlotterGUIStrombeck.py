@@ -31,6 +31,13 @@ from tkinter import messagebox
 # Python 3 imports
 import sys
 import datetime
+import importlib
+
+# Plotter program imports
+raw_to_plot_program = importlib.import_module('raw_to_plot') # importing module as raw_to_plot_program
+
+
+
 
 def error_message_pop_up(title, message):
     """
