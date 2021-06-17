@@ -16,11 +16,12 @@ This GUI uses a radiobutton format for selection of file type
 #TODO----------------------------------------------------------------------------------------------------------
 #   mess around with columnspan and custom columns ------------------------------------------------>
 #   implement functionality -----------------------------------------------------------------------> working on
-#       - import program file ------------------------------------>
-#       - function to call create arrays ------------------------->
-#       - function to call plot arrays --------------------------->
+#       - import program file ------------------------------------> done
+#       - function to call create arrays -------------------------> done 
+#       - function to call plot arrays ---------------------------> done
 #       - use the default flags and determine y-axis scaling ----->
 #   view box around radio buttons ----------------------------------------------------------------->
+#   pop up message to show when done? ------------------------------------------------------------->
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -586,8 +587,15 @@ def run_GUI(*args):
     
     ### Putting information gathered together and calling the plotting program! ### ---------------------------
     file_name = station_code_value + year_day_value + file_ending_value
-    print(file_name)
+    
+    # Opening the file
+    file = open(file_name, 'rb')
+    
+    # Creating the arrays from the file
+    xArr, yArr, zArr, timeArr = raw_to_plot_program.create_Arrays(file, start_time_stamp, end_time_stamp)
 
+    # Plotting the arrays
+    raw_to_plot_program.plot_Arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp, file_save_as_option_value)
     ### End Putting information gathered together and calling the plotting program! ### -----------------------
     
 
