@@ -63,6 +63,8 @@ def warning_message_pop_up(title, message):
         title: the string message of the pop up box that is the title
         message: the string message of the pop up box to be used as the message of why the error occurrred
     """
+    messagebox.showwarning(title = title, message = "WARNING: " + message)
+    sys.exit(0)
 
 def year_day_entry_check(year_day_value):
     """
