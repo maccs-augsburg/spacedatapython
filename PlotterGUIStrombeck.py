@@ -23,11 +23,11 @@ This GUI uses a radiobutton format for selection of file type
 #   documentation ---------------------------------------------------------------------------------> done
 #   main function ---------------------------------------------------------------------------------> working on
 #   error message popup function ------------------------------------------------------------------> done
-#   general gui function -------------------------------------------------------------------------->
-#   gui display function -------------------------------------------------------------------------->
+#   general gui function --------------------------------------------------------------------------> done
+#   gui display function --------------------------------------------------------------------------> done
 #   change calculate function name to something like display plot --------------------------------->
 #   view box around radio buttons ----------------------------------------------------------------->
-#   go through and fully comment code ------------------------------------------------------------->
+#   go through and fully comment code -------------------------------------------------------------> done
 #   variable names change -------------------------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
@@ -50,8 +50,9 @@ def error_message_pop_up(title, message):
         title: the string message of the pop up box that is the title
         message: the string message of the pop up box to be used as the message of why the error occurred
     """
+    # Using the messagebox package of tkinter to show an easy pop up error message
     messagebox.showerror(title = title, message = "ERROR: " + message)
-    sys.exit(0)
+    sys.exit(0) # Exiting without an error
 
 def warning_message_pop_up(title, message):
     """
@@ -63,8 +64,9 @@ def warning_message_pop_up(title, message):
         title: the string message of the pop up box that is the title
         message: the string message of the pop up box to be used as the message of why the error occurrred
     """
+    # Using the messagebox package of tkinter to show an easy pop up warning message
     messagebox.showwarning(title = title, message = "WARNING: " + message)
-    sys.exit(0)
+    sys.exit(0) # Exiting without an error
 
 def year_day_entry_check(year_day_value):
     """
@@ -75,7 +77,7 @@ def year_day_entry_check(year_day_value):
     String
         year_day_value: the value that was inputted into the year_day_entry box
     """
-    
+    # Testing the input value of yearday so we can use it for a file lookup
     if(len(year_day_value) == 0):
         # show error as no input was received
         # using tkinter's message box
@@ -97,17 +99,24 @@ def start_hour_entry_check(start_hour_value):
     String
         start_hour_value: with additional 0 if the given start_hour_value was a single digit
     """
-    # Start hour portion
+    ### Start hour input tests ###
+    # Testing to see if we got a single digit
     if(len(start_hour_value) == 1): 
-        # Adding a zero to the start so that it is in the correct format
+        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
+        #   This is so we have the format "00:00:00" for the datetime object
         start_hour_value = "0" + start_hour_value
+
+    # Testing to see if the inputted value exceeds what it can be
     if((int)(start_hour_value) > 23):
         # Have error message box pop up because it can't be more than 23
         error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
+        
+    # Testing to see if the inputted value is less than what it can be
     elif((int)(start_hour_value) < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
 
+    # Returning the start_hour_value so that whatever changes we made to it get returned
     return start_hour_value
 
 
@@ -125,18 +134,24 @@ def start_minute_entry_check(start_minute_value):
     String
         start_minute_value: with additional 0 if the given start_minute_value was a single digit
     """
-    # Start minute portion
+    ### Start minute input tests ###
+    # Testing to see if we got a single digit
     if(len(start_minute_value) == 1):
-        # Adding a zero to the start so that it is in the correct format
+        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
+        #   This is so we have the format "00:00:00" for the datetime object
         start_minute_value = "0" + start_minute_value
-    
+
+    # Testing to see if the inputted value exceeds what it can be
     if((int)(start_minute_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
+
+    # Testing to see if the inputted value is less than what it can be
     elif((int)(start_minute_value) < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
-    
+
+    # Returning the start_minute_value so whatever changes we made to it get returned
     return start_minute_value
 
 def start_second_entry_check(start_second_value):
@@ -153,17 +168,24 @@ def start_second_entry_check(start_second_value):
     String
         start_second_value: with additional 0 if the given start_second_value was a single digit
     """
-    # Start second portion
+    ### Start second input tests ###
+    # Testing to see if we got a single digit
     if(len(start_second_value) == 1):
-        # Adding a zero to the start so that it is in the correct format
+        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
+        #   This is so we have the format "00:00:00" for the datetime object
         start_second_value = "0" + start_second_value
+
+    # Testing to see if the inputted value exceeds what it can be    
     if((int)(start_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
+
+    # Testing to see if the inputted value is less than what it can be
     elif((int)(start_second_value) < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
 
+    # Returning the start_second_value so whatever changes we made to it get returned
     return start_second_value
     
 
@@ -185,10 +207,12 @@ def start_time_entry_check(start_hour_value, start_minute_value, start_second_va
         start_minute_value: the value that was inputted into the start_minute_entry box correctly formatted
         start_second_value: the value that was inputted into the start_second_entry box correctly formatted
     """
+    # Running and saving the values for each of the start time related variables
     start_hour_value = start_hour_entry_check(start_hour_value)
     start_minute_value = start_minute_entry_check(start_minute_value)
     start_second_value = start_second_entry_check(start_second_value)
 
+    # Returning the results of each of the start time related variables
     return start_hour_value, start_minute_value, start_second_value
 
 def end_hour_entry_check(end_hour_value):
@@ -205,17 +229,24 @@ def end_hour_entry_check(end_hour_value):
     String
         end_hour_value: with additional 0 if the given end_hour_value was a single digit
     """
-    # End hour portion
+    ### End hour input tests ###
+    # Testing to see if we got a single digit
     if(len(end_hour_value) == 1):
-        # Adding a zero to the start so that it is in the correct format
+        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
+        #   This is so we have the format "00:00:00" for the datetime object
         end_hour_value = "0" + end_hour_value
+
+    # Testing to see if the inputted value exceeds what it can be
     if((int)(end_hour_value) > 23):
         # Have error message box pop up because it can't be more than 23
         error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
+
+    # Testing to see if the inputted value is less than what it can be
     elif((int)(end_hour_value) < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
 
+    # Returning the end_hour_value so whatever changes we made to it get returned
     return end_hour_value
 
 def end_minute_entry_check(end_minute_value):
@@ -232,17 +263,24 @@ def end_minute_entry_check(end_minute_value):
     String
         end_minute_value: with additional 0 if the given end_minute_value was a single digit
     """
-    # End minute portion
+    ### End minute input tests ###
+    # Testing to see if we got a single digit
     if(len(end_minute_value) == 1):
-        #Adding a zero to the start so that it is in the correct format
+        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
+        #   This is so we have the format "00:00:00" for the datetime object
         end_minute_value = "0" + end_minute_value
+
+    # Testing to see if the inputted value exceeds what it can be
     if((int)(end_minute_value) > 59):
         #Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
+
+    # Testing to see if the inputted value is less than what it can be
     elif((int)(end_minute_value) < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
 
+    # Returning the end_minute_value so whatever changes we made to it get returned
     return end_minute_value
 
 def end_second_entry_check(end_second_value):
@@ -259,17 +297,24 @@ def end_second_entry_check(end_second_value):
     String
         end_second_value: with additional 0 if the given end_second_value was a single digit
     """
-    # End second portion
+    ### End second input tests ###
+    # Testing to see if we got a single digit
     if(len(end_second_value) ==1):
-        # Adding a zero to the start so that it is in the correct format
+        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
+        #   This is so we have the format "00:00:00" for the datetime object
         end_second_value = "0" + end_second_value
+
+    # Testing to see if the inputted value exceeds what it can be
     if((int)(end_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
+
+    # Testing to see if the inputted value is less than what it can be
     elif((int)(end_second_value) < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
 
+    # Returning the end_second_value so whatever changes we made to it get returned
     return end_second_value
 
 def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
@@ -290,10 +335,12 @@ def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
         end_minute_value: the value that was inputted into the end_minute_entry box correctly formatted
         end_second_value: the value that was inputted into the end_second_entry box correctly formatted
     """
+    # Running and saving the values for each of the start time related variables
     end_hour_value = end_hour_entry_check(end_hour_value)
     end_minute_value = end_minute_entry_check(end_minute_value)
     end_second_value = end_second_entry_check(end_second_value)
 
+    # Returning the results of each of the start time related variables
     return end_hour_value, end_minute_value, end_second_value
 
 def plot_min_default_flag_check(plot_min_value):
@@ -310,12 +357,17 @@ def plot_min_default_flag_check(plot_min_value):
     Boolean
         plot_min_default_flag: which is true if we use default values, and false if we should use custom values
     """
+    ### Plot min default flag input tests ###
+    # Setting the flag initially to be false
     plot_min_default_flag = False
 
+    # Checking to see if the inputted value was untouched or set to zero to keep default selection
     if(plot_min_value == '0'): 
-        # use default params
+        # use default params if value is equal to zero
+        # and update the flag
         plot_min_default_flag = True
 
+    # Return the results
     return plot_min_default_flag
 
 def plot_max_default_flag_check(plot_max_value):
@@ -332,12 +384,17 @@ def plot_max_default_flag_check(plot_max_value):
     Boolean
         plot_max_default_flag: which is true if we use default values, and false if we should use custom values
     """
+    ### Plot max default flag input tests ###
+    # Setting the flag initially to be false
     plot_max_default_flag = False
-    
+
+    # Checking to see if the inputted value was untouched or set to zero to keep default selection
     if(plot_max_value == '0'):
-        # use default params
+        # use default params if value is equal to zero
+        # and update the flag
         plot_max_default_flag = True
 
+    # Return the results
     return plot_max_default_flag
 
 def plot_min_and_max_check(plot_min_value, plot_max_value):
@@ -356,9 +413,11 @@ def plot_min_and_max_check(plot_min_value, plot_max_value):
         plot_min_default_flag: which is true if we use default values, and false if we should use custom values
         plot_max_default_flag: which is true if we use default values, and false if we should use custom values
     """
+    # Run both plotting min and max related functions and store the results
     plot_min_default_flag = plot_min_default_flag_check(plot_min_value)
     plot_max_default_flag = plot_max_default_flag_check(plot_max_value)
-    
+
+    # Return the results so we know if we should use default values or custom values
     return plot_min_default_flag, plot_max_default_flag
 
 def station_code_entry_check(station_code_value):
@@ -370,6 +429,8 @@ def station_code_entry_check(station_code_value):
     String
         station_code_value: the value that was inputted into the station_code_entry box
     """
+    ### Station code input tests ###
+    # Checking to see if no input was put in the station code entry box
     if(len(station_code_value) == 0):
         # show error as no input was received
         error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
@@ -389,32 +450,41 @@ def file_format_entry_checker(file_selection_value):
         file_ending_value: the value that specifies the type of file to use
         
     """
+    ### File format input tests ###
+    # Setting the initial file ending value to an empty string
     file_ending_value = ''
-    
+
+    # Testing to see if user selected CDA-Web branch
     if(file_selection_value == '1'):
         # CDA-Web branch (NOT IMPLEMENTED)
         warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
-        
+
+    # Testing to see if user selected IAGA2000 branch
     elif(file_selection_value == '2'):
         #IAGA2000 branch (NOT IMPLEMENTED)
         warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
-        
+
+    # Testing to see if user selected IAGA2002 branch
     elif(file_selection_value == '3'):
         #IAGA2002 branch (NOT IMPLEMENTED)
         warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
-        
+
+    # Testing to see if user selected Raw 2hz branch
     elif(file_selection_value == '4'):
         #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
         file_ending_value = '.2hz'
-        
+
+    # Testing to see if user selected other branch
     elif(file_selection_value == '7'):
         #Other option branch (NOT IMPLEMENTED YET) -- for now just show warning message and exit
         warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
-        
+
+    # Otherwise we can assume that no option had been selected
     else:
         # Message box error when no file format option has been selected
         error_message_pop_up(title="File format option error", message="Please select a file format option")
 
+    # Returning the string of the file type to be used
     return file_ending_value
 
 def file_save_as_entry_checker(file_save_as_option_value):
@@ -431,24 +501,31 @@ def file_save_as_entry_checker(file_save_as_option_value):
     String
         file_save_as_option: the string to indicate in which way we are saving the file
     """
+    ### File save as input tests ###
+    # Setting the initial file save as value to an empty string
     file_save_as_option = ''
 
+    # Testing to see if user selected pdf branch
     if(file_save_as_option_value == '8'):
         #pdf branch
         file_save_as_option = 'pdf'
-        
+
+    # Testing to see if user selected png branch
     elif(file_save_as_option_value == '9'):
         #png branch
         file_save_as_option = 'png'
-        
+
+    # Testing to see if user selected do not save branch
     elif(file_save_as_option_value == '10'):
         #Do not save branch
         file_save_as_option = 'no'
-        
+
+    # Otherwise we can assume that no option had been selected
     else:
         # Message box error when no file save option has been selected
         error_message_pop_up(title="File Save Option error", message="Please select an option to save the file as")
 
+    # Returning the string of the file save as option to be used
     return file_save_as_option
 
 def calculate(*args):
@@ -458,7 +535,9 @@ def calculate(*args):
     (*args is technically a parameter but it isn't required) -- Not sure what to do here for this documentation?
     the way to call this function would look something like this: "root.bind("<Return>", calculate)"
     """
-### Getting input values ###
+
+
+    ### Input values ### --------------------------------------------------------------------------------------
 
     ### year_day entry ###
     year_day_value = year_day_entry.get()
@@ -502,11 +581,15 @@ def calculate(*args):
     # radio_button_ buttons used: 8, 9, 10
     file_save_as_option_value = file_to_save_as.get()
     file_save_as_option_value = file_save_as_entry_checker(file_save_as_option_value)
-    
 
-    ### Putting information gathered together and calling the plotting program! ###
+    ### End Input values ### ----------------------------------------------------------------------------------
+
+    
+    ### Putting information gathered together and calling the plotting program! ### ---------------------------
     file_name = station_code_value + year_day_value + file_ending_value
     print(file_name)
+
+    ### End Putting information gathered together and calling the plotting program! ### -----------------------
     
 
 def cancel(*args):
