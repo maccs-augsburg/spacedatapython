@@ -15,20 +15,12 @@ This GUI uses a radiobutton format for selection of file type
 
 #TODO----------------------------------------------------------------------------------------------------------
 #   mess around with columnspan and custom columns ------------------------------------------------>
-#   implement functionality -----------------------------------------------------------------------> 
-#   add seconds as input for time as well ---------------------------------------------------------> done
-#   add initial tests to file types and file save as to see which values are selected -------------> done
-#   add error messages for bad inputs -------------------------------------------------------------> done
-#   Create datetime objects of inputted times -----------------------------------------------------> done
-#   documentation ---------------------------------------------------------------------------------> done
-#   main function ---------------------------------------------------------------------------------> working on
-#   error message popup function ------------------------------------------------------------------> done
-#   general gui function --------------------------------------------------------------------------> done
-#   gui display function --------------------------------------------------------------------------> done
-#   change calculate function name to something like display plot --------------------------------->
+#   implement functionality -----------------------------------------------------------------------> working on
+#       - import program file ------------------------------------>
+#       - function to call create arrays ------------------------->
+#       - function to call plot arrays --------------------------->
+#       - use the default flags and determine y-axis scaling ----->
 #   view box around radio buttons ----------------------------------------------------------------->
-#   go through and fully comment code -------------------------------------------------------------> done
-#   variable names change -------------------------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -528,7 +520,7 @@ def file_save_as_entry_checker(file_save_as_option_value):
     # Returning the string of the file save as option to be used
     return file_save_as_option
 
-def calculate(*args):
+def run_GUI(*args):
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
 
@@ -698,7 +690,7 @@ def GUI_entries():
 
     ### Button section ###
     # Management buttons section
-    ok_button = ttk.Button(mainframe, text="OK", command=calculate).grid(column=2, row = 19, sticky=W)
+    ok_button = ttk.Button(mainframe, text="OK", command=run_GUI).grid(column=2, row = 19, sticky=W)
     cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=3, row=19, sticky=E)
 
     # Radiobutton section
@@ -752,7 +744,7 @@ def main(root, mainframe):
     child_formatting(mainframe)
 
     year_day_entry.focus() # starting spot for tab control
-    root.bind("<Return>", calculate) # returns the calculate funciton when called
+    root.bind("<Return>", run_GUI) # returns the calculate funciton when called
 
 
 if __name__ == "__main__":
