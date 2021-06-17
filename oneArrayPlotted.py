@@ -1,5 +1,5 @@
 #Plotting only one of the arrays
-#Created bt- Annabelle 
+#Created by- Annabelle Arns
 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
@@ -120,9 +120,9 @@ def plot_one(xArr, timeArr, filename, stime, etime, fileOption) :
     #add an if statement for when if they want a pdf or a png
     fileOption = fileOption.lower()
     if(fileOption == 'pdf'):
-        fig.savefig('singlePlotter.pdf', format='pdf', dpi=1200)
+        fig.savefig('xArrayPlot.pdf', format='pdf', dpi=1200)
     elif(fileOption == 'png'):
-        fig.savefig('SinglePlotter.png', format = 'png', dpi = 1200)
+        fig.savefig('xArrayPlot.png', format = 'png', dpi = 1200)
     else :
         print(fileOption + "is not supported filetype")
         sys.exit(0)
@@ -181,9 +181,9 @@ def plot_two(yArr, timeArr, filename, stime, etime, fileOption) :
     #add an if statement for when if they want a pdf or a png
     fileOption = fileOption.lower()
     if(fileOption == 'pdf'):
-        fig.savefig('singlePlotter.pdf', format='pdf', dpi=1200)
+        fig.savefig('yArrayPlot.pdf', format='pdf', dpi=1200)
     elif(fileOption == 'png'):
-        fig.savefig('SinglePlotter.png', format = 'png', dpi = 1200)
+        fig.savefig('yArrayPlot.png', format = 'png', dpi = 1200)
     else :
         print(fileOption + "is not supported filetype")
         sys.exit(0)
@@ -242,9 +242,9 @@ def plot_three(zArr, timeArr, filename, stime, etime, fileOption) :
     #add an if statement for when if they want a pdf or a png
     fileOption = fileOption.lower()
     if(fileOption == 'pdf'):
-        fig.savefig('oneArrayPlot.pdf', format='pdf', dpi=1200)
+        fig.savefig('zArrayPlot.pdf', format='pdf', dpi=1200)
     elif(fileOption == 'png'):
-        fig.savefig('oneArrayPlot.png', format = 'png', dpi = 1200)
+        fig.savefig('zArrayPlot.png', format = 'png', dpi = 1200)
     else :
         print(fileOption + "is not supported filetype")
         sys.exit(0)
@@ -283,9 +283,9 @@ if __name__ == "__main__" :
     arrayX, arrayY, arrayZ, timeArr = create_Arrays(two_hz_binary_file, start_time, end_time)
 
     #try:
-    #plot_one(arrayX, timeArr, filename, start_time, end_time, fileOption)
+    plot_one(arrayX, timeArr, filename, start_time, end_time, fileOption)
     plot_two(arrayY, timeArr, filename, start_time, end_time, fileOption)
-    #plot_three(arrayZ, timeArr, filename, start_time, end_time, fileOption)
+    plot_three(arrayZ, timeArr, filename, start_time, end_time, fileOption)
     #except:
         #print('Could not plot arrays to testgraph.pdf')
         #sys.exit(0)
