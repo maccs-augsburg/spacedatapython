@@ -360,6 +360,44 @@ def station_code_entry_check(station_code_value):
     if(len(station_code_value) == 0):
         # show error as no input was received
         error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
+        
+def file_format_entry_checker(file_selection_value):
+    """
+    Checks the file_selection_entry value and either pops up a message if input was bad or specifies the ending value of the filename which specifies which type of file to use
+
+    Parameters
+    ----------
+    String
+        file_selection_value: the value that was inputted into the file_selection_entry box
+
+    Returns
+    -------
+    String
+        file_ending_value: the value that specifies the type of file to use
+        
+    """
+    file_ending_value = ''
+    
+    if(file_selection_value == '1'):
+        # CDA-Web branch (NOT IMPLEMENTED)
+        pass
+    elif(file_selection_value == '2'):
+        #IAGA2000 branch (NOT IMPLEMENTED)
+        pass
+    elif(file_selection_value == '3'):
+        #IAGA2002 branch (NOT IMPLEMENTED)
+        pass
+    elif(file_selection_value == '4'):
+        #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
+        file_ending_value = '.2hz'
+    elif(file_selection_value == '7'):
+        #Other option branch (NOT IMPLEMENTED YET) -- for now just show warning message and exit
+        error_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+    else:
+        # Message box error when no file format option has been selected
+        error_message_pop_up(title="File format option error", message="Please select a file format option")
+
+    return file_ending_value
     
 
 def calculate(*args):
@@ -407,24 +445,8 @@ def calculate(*args):
 
     # radio_button_ buttons used: 1, 2, 3, 4, 7
     file_selection_value = file_selection.get()
-    if(file_selection_value == '1'):
-        # CDA-Web branch (NOT IMPLEMENTED)
-        pass
-    elif(file_selection_value == '2'):
-        #IAGA2000 branch (NOT IMPLEMENTED)
-        pass
-    elif(file_selection_value == '3'):
-        #IAGA2002 branch (NOT IMPLEMENTED)
-        pass
-    elif(file_selection_value == '4'):
-        #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
-        pass
-    elif(file_selection_value == '7'):
-        #Other option branch (NOT IMPLEMENTED YET)
-        pass
-    else:
-        # Message box error when no file format option has been selected
-        error_message_pop_up(title="File format option error", message="Please select a file format option")
+    file_format_entry_checker(file_selection_value)
+    
         
     ### File option to save as entry ###
 
