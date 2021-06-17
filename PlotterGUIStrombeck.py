@@ -53,6 +53,17 @@ def error_message_pop_up(title, message):
     messagebox.showerror(title = title, message = "ERROR: " + message)
     sys.exit(0)
 
+def warning_message_pop_up(title, message):
+    """
+    Creates a warning pop up message box with the given title and message
+
+    Parameters
+    ----------
+    String
+        title: the string message of the pop up box that is the title
+        message: the string message of the pop up box to be used as the message of why the error occurrred
+    """
+
 def year_day_entry_check(year_day_value):
     """
     Checks the year day entry value and pops up an error message if it isn't a good entry
@@ -380,19 +391,24 @@ def file_format_entry_checker(file_selection_value):
     
     if(file_selection_value == '1'):
         # CDA-Web branch (NOT IMPLEMENTED)
-        pass
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        
     elif(file_selection_value == '2'):
         #IAGA2000 branch (NOT IMPLEMENTED)
-        pass
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        
     elif(file_selection_value == '3'):
         #IAGA2002 branch (NOT IMPLEMENTED)
-        pass
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        
     elif(file_selection_value == '4'):
         #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
         file_ending_value = '.2hz'
+        
     elif(file_selection_value == '7'):
         #Other option branch (NOT IMPLEMENTED YET) -- for now just show warning message and exit
-        error_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        
     else:
         # Message box error when no file format option has been selected
         error_message_pop_up(title="File format option error", message="Please select a file format option")
