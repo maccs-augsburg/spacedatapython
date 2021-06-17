@@ -445,7 +445,7 @@ def calculate(*args):
 
     # radio_button_ buttons used: 1, 2, 3, 4, 7
     file_selection_value = file_selection.get()
-    file_format_entry_checker(file_selection_value)
+    file_ending_value = file_format_entry_checker(file_selection_value)
     
         
     ### File option to save as entry ###
@@ -464,6 +464,11 @@ def calculate(*args):
     else:
         # Message box error when no file save option has been selected
         error_message_pop_up(title="File Save Option error", message="Please select an option to save the file as")
+
+    ### Putting information gathered together and calling the plotting program! ###
+    file_name = station_code_value + year_day_value + file_ending_value
+
+    print(file_name)
 
 def cancel(*args):
     """
