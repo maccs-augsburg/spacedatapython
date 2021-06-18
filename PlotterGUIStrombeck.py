@@ -37,7 +37,16 @@ import importlib
 # Plotter program imports
 raw_to_plot_program = importlib.import_module('raw_to_plot') # importing module as raw_to_plot_program
 
+def plotter_complete_message(title, message):
+    """
+    Create a message pop up to indicate that the GUI has finished its' operations
 
+    Parameters
+    ----------
+    String
+        title: the string message of the pop up box that is the title
+        message: the string message of the pop up box to be used as the message of why the error occurred
+    """
 
 
 def error_message_pop_up(title, message):
