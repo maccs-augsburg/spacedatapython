@@ -74,9 +74,9 @@ def GUI_entries():
     station_names_entry.grid(column = 2, row = 6, sticky = (W,E))
 
     graph_from_plotter = StringVar()
-    x_plot = ttk.Radiobutton(mainframe, text = "X Plot", variable = graph_from_plotter, value = "x_plot").grid(column = 1, row = 8, sticky = W)
-    y_plot = ttk.Radiobutton(mainframe, text = "Y Plot", variable = graph_from_plotter, value = "y_plot").grid(column = 1, row = 9, sticky = W) 
-    z_plot =ttk.Radiobutton(mainframe, text = "Z Plot", variable = graph_from_plotter, value = "z_plot").grid(column = 1, row = 10, sticky = W)
+    x_plot = ttk.Radiobutton(mainframe, text = "X Plot", variable = graph_from_plotter, value = "x plot").grid(column = 1, row = 8, sticky = W)
+    y_plot = ttk.Radiobutton(mainframe, text = "Y Plot", variable = graph_from_plotter, value = "y plot").grid(column = 1, row = 9, sticky = W) 
+    z_plot =ttk.Radiobutton(mainframe, text = "Z Plot", variable = graph_from_plotter, value = "z plot").grid(column = 1, row = 10, sticky = W)
 
     okay_button = ttk.Button(mainframe, text = "Okay", command = run_GUI).grid(column = 3, row = 10, sticky = W)
     cancel_button = ttk.Button(mainframe, text = "Cancel", command = cancel).grid(column =4, row = 10, sticky = W)
@@ -184,11 +184,15 @@ def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
 
     return end_hour_value, end_minute_value, end_second_value
 
-#def station_names_entry_check(station_names_value):
-    #if(len(
+def station_names_entry_check(station_names_value):
+    if(len(station_names_value) == 0):
+        error_message(title = "Station Code Entry Error", message = "There was no input for the station code entry box")
 
-
-
+def graph_from_plotter_entry_check(graph_from_plotter_value):
+    if(graph_from_plotter_value == "x plot"):
+        warning_message(title = "File Format Option Error", message = "Sorry! We don't have this option available yet, please try picking a different option")
+        
+ 
 
 def run_GUI(*args):
     year_day_value = yearday_entry.get()
