@@ -32,11 +32,10 @@ def GUI_labels():
 
     ttk.Label(mainframe, text = "End Second: ").grid(column = 1, row = 5, sticky = W)
 
-    ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 6, sticky = W)  
+    ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 7, sticky = W)
 
-    ttk.Label(mainframe, text = "Okay").grid(column = 3, row = 9, sticky = W)
+    ttk.Label(mainframe, text = "Station Code: ").grid(column = 1, row = 6, sticky = W)
 
-    ttk.Label(mainframe, text = "Cancel").grid(column = 4, row = 9, sticky = W)
 
 def GUI_entries():
     """
@@ -70,10 +69,17 @@ def GUI_entries():
     end_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Second)
     end_Second_entry.grid(column = 2, row = 5, sticky = (W,E))
 
+    station_names= StringVar()
+    station_names_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Second)
+    station_names_entry.grid(column = 2, row = 6, sticky = (W,E))
+
     graph_from_plotter = StringVar()
-    x_plot = ttk.Radiobutton(mainframe, text = "X Plot", variable = graph_from_plotter, value = "x_plot").grid(column = 1, row = 7, sticky = W)
-    y_plot = ttk.Radiobutton(mainframe, text = "Y Plot", variable = graph_from_plotter, value = "y_plot").grid(column = 1, row = 8, sticky = W) 
-    z_plot =ttk.Radiobutton(mainframe, text = "Z Plot", variable = graph_from_plotter, value = "z_plot").grid(column = 1, row = 9, sticky = W)
+    x_plot = ttk.Radiobutton(mainframe, text = "X Plot", variable = graph_from_plotter, value = "x_plot").grid(column = 1, row = 8, sticky = W)
+    y_plot = ttk.Radiobutton(mainframe, text = "Y Plot", variable = graph_from_plotter, value = "y_plot").grid(column = 1, row = 9, sticky = W) 
+    z_plot =ttk.Radiobutton(mainframe, text = "Z Plot", variable = graph_from_plotter, value = "z_plot").grid(column = 1, row = 10, sticky = W)
+
+    okay_button = ttk.Button(mainframe, text = "Okay", command = run_GUI).grid(column = 3, row = 10, sticky = W)
+    cancel_button = ttk.Button(mainframe, text = "Cancel", command = cancel).grid(column =4, row = 10, sticky = W)
 
 def yearday_check(year_day_value):
     """
@@ -168,7 +174,7 @@ def end_second_entry_check(end_second_value):
         error_message(title = "End Minute Entry Error", message = "End second cannor be less then 0")
 
     return end_second_value
-
+ 
 def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
 
 
@@ -177,6 +183,11 @@ def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
     end_second_value = end_second_entry_check(end_second_value)
 
     return end_hour_value, end_minute_value, end_second_value
+
+#def station_names_entry_check(station_names_value):
+    #if(len(
+
+
 
 
 def run_GUI(*args):
@@ -198,8 +209,8 @@ def run_GUI(*args):
     end_hour_value, end_minute_value, end_second_value = end_time_entry_check(end_hour_value, end_minute_value, end_second_value)
     end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
 
-
-
+def cancel(*args):
+    root.destroy()
 
 def child_formatting(mainframe):
     """
