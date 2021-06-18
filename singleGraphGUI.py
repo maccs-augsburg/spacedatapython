@@ -70,16 +70,36 @@ def GUI_entries():
     y_plot = ttk.Radiobutton(mainframe, text = "Y Plot", variable = graph_from_plotter, value = "y_plot").grid(column = 1, row = 8, sticky = W) 
     z_plot =ttk.Radiobutton(mainframe, text = "Z Plot", variable = graph_from_plotter, value = "z_plot").grid(column = 1, row = 9, sticky = W)
 
-def yearday_check():
+def yearday_check(year_day_value):
     """
     """
     if (len(yearday) ==  0):
         error_message(title = "yearday Entry Error", message = "There was no input for the yearday entry box")
 
+def start_hour_entry_check(start_hour_value):
+    """
+    """
+    if(len(start_hour_value) == 1):
+        start_hour_value = "0" + start_hour_value
+
+    if((int)(start_hour_value) > 23):
+        error_message(title = "Start Hour Entry Error", message = "Start hour cannot be more than 23")
+
+    elif((int)(start_hour_value) < 0):
+        error_message(title = "Start Hour Entry Error", message = "Start hour cannot be lower than 0")
+
+    return start_hour_value    
+        
+def start_minute_entry_check(start_minute_value):
+    if((int)(start_minute_value
 
 def run_GUI(*args):
     year_day_value = yearday_entry.get()
     yearday_check(yearday_day_value)
+
+    start_hour_value = start_Hour_entry.get()
+    start_minute_value = start_Minute_entry.get()
+    start_second_value = start_Second_entry.get()
 
 
 def child_formatting(mainframe):
