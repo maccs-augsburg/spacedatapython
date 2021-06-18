@@ -6,7 +6,9 @@ from tkinter import ttk
 from tkinter import messagebox
 
 
- 
+def error_message(title, message):
+     messagebox.showerror(title = title, message = "ERROR: " + message)
+     sys.exit(0)
     
 
 
@@ -32,6 +34,9 @@ def GUI_labels():
 
     ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 6, sticky = W)  
 
+    ttk.Label(mainframe, text = "Okay").grid(column = 3, row = 9, sticky = W)
+
+    ttk.Label(mainframe, text = "Cancel").grid(column = 4, row = 9, sticky = W)
 
 def GUI_entries():
     """
@@ -106,13 +111,13 @@ def start_minute_entry_check(start_minute_value):
 def start_second_entry_check(start_second_value):
 
     if(len(start_second_value) == 1):
-        start_second_value = "0" + start_second_value)
+        start_second_value = "0" + start_second_value
 
     if((int)(start_second_value) > 59):
         error_message(title = "Start Second Entry Error", message = "Start second cannot be more then 59")
 
     elif((int)(start_second_value) < 0):
-        error_message(title = "Start Second Entry Error". message = "Start second cannot be negative")
+        error_message(title = "Start Second Entry Error", message = "Start second cannot be negative")
 
     return start_second_value
 
@@ -141,7 +146,8 @@ def end_hour_entry_check(end_hour_value):
 
 def end_minute_entry_check(end_minute_value):
     if(len(end_minute_value) == 1):
-
+        end_minute_value = "0" + end_minute_value
+        
     if((int)(end_minute_value) > 59):
         error_message(title = "End Minute Entry Error", message = "End minute cannot be more then 59")
 
@@ -153,7 +159,8 @@ def end_minute_entry_check(end_minute_value):
         
 def end_second_entry_check(end_second_value):
     if(len(end_second_value) == 1):
-
+        end_minute_value = "0" + end_minute_value
+        
     if((int)(end_second_value) > 59):
         error_message(title = "End Second Entry Error", message = "End second cannot be more then 59")
 
@@ -181,7 +188,7 @@ def run_GUI(*args):
     start_second_value = start_Second_entry.get()
 
     start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_vale, start_minute_value, start_second_value)
-    start_time_stamp = datetime.timefromisoformat(start_hour_value + ":" start_minute_value + ":" + start_second_value)
+    start_time_stamp = datetime.timefromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
 
     end_hour_value = end_hour_entry.get()
     end_minute_value = end_minute_entry.get()
