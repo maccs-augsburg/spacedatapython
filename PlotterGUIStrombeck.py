@@ -20,6 +20,7 @@ This GUI uses a radiobutton format for selection of file type
 #       - function to call create arrays -------------------------> done 
 #       - function to call plot arrays ---------------------------> done
 #       - use the default flags and determine y-axis scaling ----->
+#       - implement do not save option ---------------------------> 
 #   view box around radio buttons ----------------------------------------------------------------->
 #   pop up message to show when done? -------------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
