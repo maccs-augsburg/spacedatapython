@@ -47,8 +47,9 @@ def plotter_complete_message(title, message):
         title: the string message of the pop up box that is the title
         message: the string message of the pop up box to be used as the message of why the error occurred
     """
+    # Using the messagebox package of tkinter to show an easy pop up info message
     messagebox.showinfo(title, message)
-    sys.exit(0)
+    sys.exit(0) # Exiting without an error
 
 def error_message_pop_up(title, message):
     """
