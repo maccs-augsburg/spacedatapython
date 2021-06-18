@@ -3,6 +3,14 @@
 
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
+
+
+ 
+    
+
+
+
 
 def GUI_labels():
     """
@@ -56,10 +64,22 @@ def GUI_entries():
     end_Second = IntVar()
     end_Second_entry = ttk.Entry(mainframe, width = 5, textvariable = end_Second)
     end_Second_entry.grid(column = 2, row = 5, sticky = (W,E))
-    
 
-    
+    graph_from_plotter = StringVar()
+    x_plot = ttk.Radiobutton(mainframe, text = "X Plot", variable = graph_from_plotter, value = "x_plot").grid(column = 1, row = 7, sticky = W)
+    y_plot = ttk.Radiobutton(mainframe, text = "Y Plot", variable = graph_from_plotter, value = "y_plot").grid(column = 1, row = 8, sticky = W) 
+    z_plot =ttk.Radiobutton(mainframe, text = "Z Plot", variable = graph_from_plotter, value = "z_plot").grid(column = 1, row = 9, sticky = W)
 
+def yearday_check():
+    """
+    """
+    if (len(yearday) ==  0):
+        error_message(title = "yearday Entry Error", message = "There was no input for the yearday entry box")
+
+
+def run_GUI(*args):
+    year_day_value = yearday_entry.get()
+    yearday_check(yearday_day_value)
 
 
 def child_formatting(mainframe):
