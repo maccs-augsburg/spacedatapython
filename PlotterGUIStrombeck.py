@@ -21,7 +21,7 @@ This GUI uses a radiobutton format for selection of file type
 #       - function to call plot arrays ---------------------------> done
 #       - use the default flags and determine y-axis scaling ----->
 #   view box around radio buttons ----------------------------------------------------------------->
-#   pop up message to show when done? ------------------------------------------------------------->
+#   pop up message to show when done? -------------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -528,8 +528,9 @@ def file_save_as_entry_checker(file_save_as_option_value):
 
     # Testing to see if user selected do not save branch
     elif(file_save_as_option_value == '10'):
-        #Do not save branch
+        #Do not save branch -- TODO: Implement this
         file_save_as_option = 'no'
+        warning_message_pop_up(title="File Save Option error", message="This save option is not implemented yet")
 
     # Otherwise we can assume that no option had been selected
     else:
