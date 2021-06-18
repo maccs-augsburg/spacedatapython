@@ -91,7 +91,86 @@ def start_hour_entry_check(start_hour_value):
     return start_hour_value    
         
 def start_minute_entry_check(start_minute_value):
-    if((int)(start_minute_value
+    if(len(start_minute_value) == 1):
+        start_minute_value = "0" + start_minute_value
+
+    if((int)(start_minute_value) > 59):
+        error_message(title = "Start Minute Entry Error", message = "Start minute cannot be greater then 59")
+
+    elif((int)(start_minute_value) < 0):
+        error_message(title = "Start Minute Entry Error", message = "Start minute cannot be lower then 0")
+
+    return start_minute_value
+
+
+def start_second_entry_check(start_second_value):
+
+    if(len(start_second_value) == 1):
+        start_second_value = "0" + start_second_value)
+
+    if((int)(start_second_value) > 59):
+        error_message(title = "Start Second Entry Error", message = "Start second cannot be more then 59")
+
+    elif((int)(start_second_value) < 0):
+        error_message(title = "Start Second Entry Error". message = "Start second cannot be negative")
+
+    return start_second_value
+
+def start_time_entry_check(start_hour_value, start_minute_value, start_second_value):
+
+
+    start_hour_value = start_hour_entry_check(start_hour_value)
+    start_minute_value = start_minute_entry_check(start_minute_value)
+    start_second_value = start_second_entry_check(start_second_value)
+
+    return start_hour_value, start_minute_value, start_second_value
+
+
+def end_hour_entry_check(end_hour_value):
+    if(len(end_hour_value) == 1):
+        end_hour_value = "0" + end_hour_value
+
+    if((int)(end_hour_value) > 23):
+        error_message(title = "End Hour Entry Error", message = "End hour cannot be more then 23")
+
+    elif((int)(end_hour_value)< 0):
+        error_message(title = "End Hour Entry Error", message = "End hour cannor be less then 0")
+
+    return end_hour_value
+
+
+def end_minute_entry_check(end_minute_value):
+    if(len(end_minute_value) == 1):
+
+    if((int)(end_minute_value) > 59):
+        error_message(title = "End Minute Entry Error", message = "End minute cannot be more then 59")
+
+    elif((int)(end_minute_value)< 0):
+        error_message(title = "End Minute Entry Error", message = "End minute cannor be less then 0")
+
+    return end_minute_value
+
+        
+def end_second_entry_check(end_second_value):
+    if(len(end_second_value) == 1):
+
+    if((int)(end_second_value) > 59):
+        error_message(title = "End Second Entry Error", message = "End second cannot be more then 59")
+
+    elif((int)(end_second_value)< 0):
+        error_message(title = "End Minute Entry Error", message = "End second cannor be less then 0")
+
+    return end_second_value
+
+def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
+
+
+    end_hour_value = end_hour_entry_check(end_hour_value)
+    end_minute_value = end_minute_entry_check(end_minute_value)
+    end_second_value = end_second_entry_check(end_second_value)
+
+    return end_hour_value, end_minute_value, end_second_value
+
 
 def run_GUI(*args):
     year_day_value = yearday_entry.get()
@@ -100,6 +179,19 @@ def run_GUI(*args):
     start_hour_value = start_Hour_entry.get()
     start_minute_value = start_Minute_entry.get()
     start_second_value = start_Second_entry.get()
+
+    start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_vale, start_minute_value, start_second_value)
+    start_time_stamp = datetime.timefromisoformat(start_hour_value + ":" start_minute_value + ":" + start_second_value)
+
+    end_hour_value = end_hour_entry.get()
+    end_minute_value = end_minute_entry.get()
+    end_second_value = end_second_entry.get()
+
+    
+    end_hour_value, end_minute_value, end_second_value = end_time_entry_check(end_hour_value, end_minute_value, end_second_value)
+    end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
+
+
 
 
 def child_formatting(mainframe):
