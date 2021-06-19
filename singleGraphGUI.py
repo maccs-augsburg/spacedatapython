@@ -189,10 +189,16 @@ def station_names_entry_check(station_names_value):
         error_message(title = "Station Code Entry Error", message = "There was no input for the station code entry box")
 
 def graph_from_plotter_entry_check(graph_from_plotter_value):
-    if(graph_from_plotter_value == "x plot"):
+     if(graph_from_plotter_value == "x plot"):
         warning_message(title = "File Format Option Error", message = "Sorry! We don't have this option available yet, please try picking a different option")
-        
- 
+     elif(graph_from_plotter_value == "y plot"):
+          warning_message(title = "File Format Option Error", message = "Sorry! We don't have this option available yet, please try picking a different option")
+     elif(graph_from_plotter_value == "y plot"):
+          warning_message(title = "File Format Option Error", message = "Sorry!, We don't have this option available yet, please try picking a different option")
+     else:
+          warning_message(title = "File Format Option Error", message = "Please select a file format option")
+
+     return graph_from_plotter_value 
 
 def run_GUI(*args):
     year_day_value = yearday_entry.get()
