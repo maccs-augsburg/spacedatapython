@@ -753,8 +753,7 @@ def child_formatting(mainframe):
         mainframe: a frame object that holds and stores the attributes and objects of the GUI frame
     """
     # child formatting in mainframe
-    for child in mainframe.winfo_children(): 
-        child.grid_configure(padx=5, pady=5)
+    
     
 def main(): # Update main so root isn't passed in
     """
@@ -783,7 +782,8 @@ def main(): # Update main so root isn't passed in
     GUI_entries(mainframe)
     
     ### Child formatting ###
-    child_formatting(mainframe) # git rid of function and move code to here
+    for child in mainframe.winfo_children(): 
+        child.grid_configure(padx=5, pady=5)
 
     year_day_entry.focus() # starting spot for tab control
 
