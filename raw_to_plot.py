@@ -14,7 +14,8 @@ the time-stamped x, y, and z values on its' own plot.
 #   test importing this file into other files -----------------------------------------------------> done
 #   have file take in y-axis limits as parameters -------------------------------------------------> 
 #   implement the no save option ------------------------------------------------------------------> done
-#   Date stamp on top of graph --------------------------------------------------------------------> 
+#   Date stamp on top of graph -------------------------------------------------------------------->
+#   update save filename to be file name ----------------------------------------------------------> working on
 #--------------------------------------------------------------------------------------------------------------
 
 # Python 3 imports
@@ -280,10 +281,10 @@ def plot_Arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
     fileOption = fileOption.lower()
     if(fileOption == 'pdf'):
         # saving plot into a pdf file
-        fig.savefig('testgraph.pdf', format='pdf', dpi=1200)
+        fig.savefig(filename + '.pdf', format='pdf', dpi=1200)
     elif (fileOption == 'png'):
         # saving plot into a png file
-        fig.savefig('testgraph.png', format='png', dpi=1200)
+        fig.savefig(filename + '.png', format='png', dpi=1200)
     elif (fileOption == 'no'):
         # not saving plot but showing it instead
         plt.show()
