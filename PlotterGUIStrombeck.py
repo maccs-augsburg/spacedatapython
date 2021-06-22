@@ -23,7 +23,7 @@ This GUI uses a radiobutton format for selection of file type
 #       - implement do not save option ---------------------------> done
 #   view box around radio buttons ----------------------------------------------------------------->
 #   pop up message to show when done? -------------------------------------------------------------> done
-#   updating graph names to be reflective instead of just testGraph ------------------------------->
+#   updating graph names to be reflective instead of just testGraph -------------------------------> done 
 #   do not save option rectangles to move all subplots at the same time ---------------------------> 
 #--------------------------------------------------------------------------------------------------------------
 
@@ -35,11 +35,9 @@ from tkinter import messagebox
 # Python 3 imports
 import sys
 import datetime
-#import importlib
 
 # Plotter program imports
 import raw_to_plot
-#raw_to_plot_program = importlib.import_module('raw_to_plot') # importing module as raw_to_plot_program
 
 def plotter_complete_message(title, message):
     """
@@ -629,7 +627,7 @@ def cancel(*args):
     #global.root
     #root.quit() # Exiting with running code after
 
-def GUI_labels(): # change to gui_labels
+def GUI_labels(mainframe): # change to gui_labels
     """
     Creates the Labels and places them into the GUI. 
     """
@@ -659,7 +657,7 @@ def GUI_labels(): # change to gui_labels
     # File save as label
     ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
-def GUI_entries(): # change to gui_entries
+def GUI_entries(mainframe): # change to gui_entries
     """
     Creates the entry boxes and places them into the GUI.
     """
@@ -758,7 +756,7 @@ def child_formatting(mainframe):
     for child in mainframe.winfo_children(): 
         child.grid_configure(padx=5, pady=5)
     
-def main(root, mainframe): # Update main so root isn't passed in
+def main(): # Update main so root isn't passed in
     """
     Main place that organizes and runs all functions to make up a functioning GUI
 
@@ -769,11 +767,20 @@ def main(root, mainframe): # Update main so root isn't passed in
     Frame
         mainframe: a frame object that holds and stores the attributes and objects of the GUI frame
     """
+    
+    ### Setting up GUI object ###
+    root = Tk()
+    root.title("Plot input")
+    mainframe = ttk.Frame(root, padding="3 3 12 12")
+    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+    
     ### Label section ###
-    GUI_labels()
+    GUI_labels(mainframe)
     
     ### Entry section ###
-    GUI_entries()
+    GUI_entries(mainframe)
     
     ### Child formatting ###
     child_formatting(mainframe) # git rid of function and move code to here
@@ -783,17 +790,11 @@ def main(root, mainframe): # Update main so root isn't passed in
     # Do not bind the return key
     #root.bind("<Return>", run_GUI) # returns the calculate funciton when called
 
+    root.mainloop() # root loop running
+
 
 if __name__ == "__main__":
-    ### Setting up GUI object ###
-    root = Tk()
-    root.title("Plot input")
-    mainframe = ttk.Frame(root, padding="3 3 12 12")
-    mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
-    root.columnconfigure(0, weight=1)
-    root.rowconfigure(0, weight=1)
-
     # Do not pass root into main
-    main(root, mainframe)
+    main()
 
-    root.mainloop() # root loop running
+    
