@@ -81,10 +81,10 @@ def GUI_entries():
      to create the variables into global variables to be able to run the GUI in a funtion.  
      """
 
-     global year_day, year_day_entry
+     global year_day_entry
      global start_hour, start_hour_entry, start_minute, start_minute_entry, start_second, start_second_entry
-     global end_hour, end_hour_entry, end_minute, end_minute_entry, end_second, end_second_entry
-     global station_names, station_names_entry
+     global end_hour, end_hour_entry,end_minute,  end_minute_entry, end_second, end_second_entry
+     global station_names_entry
      global graph_from_plotter, x_plot, y_plot, z_plot
      global okay_button, cancel_button
 
@@ -481,8 +481,8 @@ def main(root, mainframe):
 
      child_formatting(mainframe)
 
-     #year_day_entry.focus() 
-     #root.bind("<Return>", run_GUI)
+     year_day_entry.focus() 
+     
 
 
 
