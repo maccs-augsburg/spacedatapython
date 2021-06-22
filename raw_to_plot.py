@@ -15,7 +15,7 @@ the time-stamped x, y, and z values on its' own plot.
 #   have file take in y-axis limits as parameters -------------------------------------------------> 
 #   implement the no save option ------------------------------------------------------------------> done
 #   Date stamp on top of graph -------------------------------------------------------------------->
-#   update save filename to be file name ----------------------------------------------------------> working on
+#   update save filename to be file name ----------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
 # Python 3 imports
