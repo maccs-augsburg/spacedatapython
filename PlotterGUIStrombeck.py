@@ -541,7 +541,7 @@ def file_save_as_entry_checker(file_save_as_option_value):
     # Returning the string of the file save as option to be used
     return file_save_as_option
 
-def run_GUI(*args): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
+def run_GUI(): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
     # no need for *args
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
@@ -617,14 +617,14 @@ def run_GUI(*args): # change to some other function name like "execute_okay_butt
     ### End Putting information gathered together and calling the plotting program! ### -----------------------
     
 
-def cancel(*args):
+def cancel(root):
     """
     Cancel function quits out of the gui when run.
     It doesn't save any variables or store any information,
     it just destroys everything for that current GUI.
     """
     root.destroy() # Exiting without running any code after
-    #global.root
+    #global root
     #root.quit() # Exiting with running code after
 
 def GUI_labels(mainframe): # change to gui_labels
@@ -657,7 +657,7 @@ def GUI_labels(mainframe): # change to gui_labels
     # File save as label
     ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
-def GUI_entries(mainframe): # change to gui_entries
+def GUI_entries(mainframe, root): # change to gui_entries
     """
     Creates the entry boxes and places them into the GUI.
     """
@@ -724,7 +724,7 @@ def GUI_entries(mainframe): # change to gui_entries
     ### Button section ###
     # Management buttons section
     ok_button = ttk.Button(mainframe, text="OK", command=run_GUI).grid(column=2, row = 19, sticky=W)
-    cancel_button = ttk.Button(mainframe, text="Cancel", command=cancel).grid(column=3, row=19, sticky=E)
+    cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=3, row=19, sticky=E)
 
     # Radiobutton section
     # file selection of type of file to open
@@ -755,7 +755,7 @@ def child_formatting(mainframe):
     # child formatting in mainframe
     
     
-def main(): # Update main so root isn't passed in
+def main():
     """
     Main place that organizes and runs all functions to make up a functioning GUI
 
@@ -777,9 +777,11 @@ def main(): # Update main so root isn't passed in
     
     ### Label section ###
     GUI_labels(mainframe)
+
+    
     
     ### Entry section ###
-    GUI_entries(mainframe)
+    GUI_entries(mainframe, root)
     
     ### Child formatting ###
     for child in mainframe.winfo_children(): 
