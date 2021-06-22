@@ -23,6 +23,8 @@ This GUI uses a radiobutton format for selection of file type
 #       - implement do not save option ---------------------------> done
 #   view box around radio buttons ----------------------------------------------------------------->
 #   pop up message to show when done? -------------------------------------------------------------> done
+#   updating graph names to be reflective instead of just testGraph ------------------------------->
+#   do not save option rectangles to move all subplots at the same time ---------------------------> 
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -541,14 +543,14 @@ def file_save_as_entry_checker(file_save_as_option_value):
     # Returning the string of the file save as option to be used
     return file_save_as_option
 
-def run_GUI(*args):
+def run_GUI(*args): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
+    # no need for *args
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
 
     (*args is technically a parameter but it isn't required) -- Not sure what to do here for this documentation?
     the way to call this function would look something like this: "root.bind("<Return>", calculate)"
     """
-
 
     ### Input values ### --------------------------------------------------------------------------------------
 
@@ -558,12 +560,15 @@ def run_GUI(*args):
     
 
     ### Start hour, minute, and second entries ###
+    # start_hour_value = start_hour_entry_check(start_hour_entry.get())
     start_hour_value = start_hour_entry.get()
     start_minute_value = start_minute_entry.get()
     start_second_value = start_second_entry.get()
 
-    start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_value, start_minute_value, start_second_value)
+    start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_value, start_minute_value, start_second_value) # git rid of start_time_entry check function
+
     start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
+    # check to see if we can use just numbers instead of fromisoformat
            
     ### End hour, minute, and second entries ###
     end_hour_value = end_hour_entry.get()
@@ -624,7 +629,7 @@ def cancel(*args):
     #global.root
     #root.quit() # Exiting with running code after
 
-def GUI_labels():
+def GUI_labels(): # change to gui_labels
     """
     Creates the Labels and places them into the GUI. 
     """
@@ -654,12 +659,12 @@ def GUI_labels():
     # File save as label
     ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
-def GUI_entries():
+def GUI_entries(): # change to gui_entries
     """
     Creates the entry boxes and places them into the GUI.
     """
     ### Global variables ###
-    global year_day, year_day_entry
+    global year_day_entry
     global start_hour, start_hour_entry, start_minute, start_minute_entry, start_second, start_second_entry
     global end_hour, end_hour_entry, end_minute, end_minute_entry, end_second, end_second_entry
     global plot_min, plot_min_entry, plot_max, plot_max_entry
@@ -753,7 +758,7 @@ def child_formatting(mainframe):
     for child in mainframe.winfo_children(): 
         child.grid_configure(padx=5, pady=5)
     
-def main(root, mainframe):
+def main(root, mainframe): # Update main so root isn't passed in
     """
     Main place that organizes and runs all functions to make up a functioning GUI
 
@@ -771,10 +776,12 @@ def main(root, mainframe):
     GUI_entries()
     
     ### Child formatting ###
-    child_formatting(mainframe)
+    child_formatting(mainframe) # git rid of function and move code to here
 
     year_day_entry.focus() # starting spot for tab control
-    root.bind("<Return>", run_GUI) # returns the calculate funciton when called
+
+    # Do not bind the return key
+    #root.bind("<Return>", run_GUI) # returns the calculate funciton when called
 
 
 if __name__ == "__main__":
@@ -786,6 +793,7 @@ if __name__ == "__main__":
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
 
+    # Do not pass root into main
     main(root, mainframe)
 
     root.mainloop() # root loop running
