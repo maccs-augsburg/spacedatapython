@@ -13,7 +13,7 @@ the time-stamped x, y, and z values on its' own plot.
 #TODO----------------------------------------------------------------------------------------------------------
 #   test importing this file into other files -----------------------------------------------------> working on
 #   have file take in y-axis limits as parameters -------------------------------------------------> 
-#   implement the no save option ------------------------------------------------------------------> 
+#   implement the no save option ------------------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
 # Python 3 imports
@@ -283,6 +283,9 @@ def plot_Arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
     elif (fileOption == 'png'):
         # saving plot into a png file
         fig.savefig('testgraph.png', format='png', dpi=1200)
+    elif (fileOption == 'no'):
+        # not saving plot but showing it instead
+        plt.show()
     else :
         print(fileOption + ' is not a supported filetype Option')
         sys.exit(0)# Exiting without an error code
