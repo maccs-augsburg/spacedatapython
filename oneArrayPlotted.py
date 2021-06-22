@@ -1,11 +1,15 @@
 #Plotting only one of the arrays
 #Created by- Annabelle Arns
 
+
+#Imports matplotlib library 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
+
+
 import sys
 import datetime
-
+#Imports from our other previous files 
 from raw_codecs import decode, time_of_record
 import station_names
 
@@ -66,30 +70,49 @@ def create_Arrays (raw_record, stime, etime) :
     return xArr, yArr, zArr, timeArr
 
 
-def plot_one(xArr, timeArr, filename, stime, etime, fileOption) :
+def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
     """
+    Creates a single plot of just the xArr and timeArr.
+
+    Parameters
+    ----------
+    xArr :
+
+    timeArr :
+
+    filename :
+
+    stime :
+
+    etime :
+
+    file_option :
+
+    Returns
+    -------
+    
     """
 
     
     #To split up the file name 
     station = filename[0:2]
-    yearDayValue = filename[2:7]
-    stationName = station_names.find_full_name(station)
+    year_day_value = filename[2:7]
+    station_name = station_names.find_full_name(station)
 
 
     #List of the hours and finding which ones to use
-    defaultHoursArr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
+    default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hoursArr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    defaultHoursFlag = False # using a flag to better optimize operations
+    default_hours_flag = False # using a flag to better optimize operations
 
 
     # setting the flag to true if the stime and etimes are the full 24 hours
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
-        defaultHoursFlag = True
+        default_hours_flag = True
 
     # Create a loop that fills out an list with odd numbers from start time to end time
-    if not defaultHoursFlag:
+    if not default_hours_flag:
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
 
             # only adding the odd numbers to the list
@@ -102,7 +125,7 @@ def plot_one(xArr, timeArr, filename, stime, etime, fileOption) :
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,xArr, linewidth = .25)
-    plt.title("GeoMagnetic Bx of " + stationName + "      YEARDAY: " + yearDayValue) 
+    plt.title("GeoMagnetic Bx of " + station_name + "      YEARDAY: " + year_day_value) 
     plt.ylabel('Bx')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -112,45 +135,64 @@ def plot_one(xArr, timeArr, filename, stime, etime, fileOption) :
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
 
-    if (defaultHoursFlag):
-        plt.xticks(defaultHoursArr) # setting the xaxis time ticks to 1 to 24 hours
+    if (default_hours_flag):
+        plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hoursArr)
 
     #add an if statement for when if they want a pdf or a png
-    fileOption = fileOption.lower()
-    if(fileOption == 'pdf'):
+    file_option = file_option.lower()
+    if(file_option == 'pdf'):
         fig.savefig('xArrayPlot.pdf', format='pdf', dpi=1200)
-    elif(fileOption == 'png'):
+    elif(file_option == 'png'):
         fig.savefig('xArrayPlot.png', format = 'png', dpi = 1200)
     else :
-        print(fileOption + "is not supported filetype")
+        print(file_option + "is not supported filetype")
         sys.exit(0)
 
        
-def plot_two(yArr, timeArr, filename, stime, etime, fileOption) :
+def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
     """
+    Creates a single plot of just the yArr and timeArr.
+
+    Parameters
+    ----------
+    yArr :
+
+    timeArr :
+
+    filename :
+
+    stime :
+
+    etime :
+
+    file_option :
+
+    Returns
+    -------
+    
     """
     
     #To split up the file name 
     station = filename[0:2]
-    yearDayValue = filename[2:7]
-    stationName = station_names.find_full_name(station)
+    year_day_value = filename[2:7]
+    station_name = station_names.find_full_name(station)
 
 
     #List of the hours and finding which ones to use
-    defaultHoursArr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
+    default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hoursArr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    defaultHoursFlag = False # using a flag to better optimize operations
+    default_hours_flag = False # using a flag to better optimize operations
 
 
     # setting the flag to true if the stime and etimes are the full 24 hours
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
-        defaultHoursFlag = True
+        default_hours_flag = True
 
     # Create a loop that fills out an list with odd numbers from start time to end time
-    if not defaultHoursFlag:
+    if not default_hours_flag:
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
 
             # only adding the odd numbers to the list
@@ -163,7 +205,7 @@ def plot_two(yArr, timeArr, filename, stime, etime, fileOption) :
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,yArr, linewidth = .25)
-    plt.title("GeoMagnetic By of " + stationName + "      YEARDAY: " + yearDayValue) 
+    plt.title("GeoMagnetic By of " + station_name + "      YEARDAY: " + year_day_value) 
     plt.ylabel('By')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -173,43 +215,62 @@ def plot_two(yArr, timeArr, filename, stime, etime, fileOption) :
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
 
-    if (defaultHoursFlag):
-        plt.xticks(defaultHoursArr) # setting the xaxis time ticks to 1 to 24 hours
+    if (default_hours_flag):
+        plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hoursArr)
 
     #add an if statement for when if they want a pdf or a png
-    fileOption = fileOption.lower()
-    if(fileOption == 'pdf'):
+    file_option = file_option.lower()
+    if(file_option == 'pdf'):
         fig.savefig('yArrayPlot.pdf', format='pdf', dpi=1200)
-    elif(fileOption == 'png'):
+    elif(file_option == 'png'):
         fig.savefig('yArrayPlot.png', format = 'png', dpi = 1200)
     else :
-        print(fileOption + "is not supported filetype")
+        print(file_option + "is not supported filetype")
         sys.exit(0)
 
-def plot_three(zArr, timeArr, filename, stime, etime, fileOption) :
+def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     """
+    Creates a single plot of just the zArr and timeArr.
+
+    Parameters
+    ----------
+    zArr :
+
+    timeArr :
+
+    filename :
+
+    stime :
+
+    etime :
+
+    file_option :
+
+    Returns
+    -------
+    
     """
     #To split up the file name 
     station = filename[0:2]
-    yearDayValue = filename[2:7]
-    stationName = station_names.find_full_name(station)
+    year_day_value = filename[2:7]
+    station_name = station_names.find_full_name(station)
 
 
     #List of the hours and finding which ones to use
-    defaultHoursArr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
+    default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hoursArr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    defaultHoursFlag = False # using a flag to better optimize operations
+    default_hours_flag = False # using a flag to better optimize operations
 
 
     # setting the flag to true if the stime and etimes are the full 24 hours
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
-        defaultHoursFlag = True
+        default_hours_flag = True
 
     # Create a loop that fills out an list with odd numbers from start time to end time
-    if not defaultHoursFlag:
+    if not default_hours_flag:
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
 
             # only adding the odd numbers to the list
@@ -222,7 +283,7 @@ def plot_three(zArr, timeArr, filename, stime, etime, fileOption) :
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,zArr, linewidth = .25)
-    plt.title("GeoMagnetic Bz of " + stationName + "      YEARDAY: " + yearDayValue) 
+    plt.title("GeoMagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value) 
     plt.ylabel('Bz')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -232,21 +293,21 @@ def plot_three(zArr, timeArr, filename, stime, etime, fileOption) :
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
 
-    if (defaultHoursFlag):
-        plt.xticks(defaultHoursArr) # setting the xaxis time ticks to 1 to 24 hours
+    if (default_hours_flag):
+        plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hoursArr)
 
     
 
     #add an if statement for when if they want a pdf or a png
-    fileOption = fileOption.lower()
-    if(fileOption == 'pdf'):
+    file_option = file_option.lower()
+    if(file_option == 'pdf'):
         fig.savefig('zArrayPlot.pdf', format='pdf', dpi=1200)
-    elif(fileOption == 'png'):
+    elif(file_option == 'png'):
         fig.savefig('zArrayPlot.png', format = 'png', dpi = 1200)
     else :
-        print(fileOption + "is not supported filetype")
+        print(file_option + "is not supported filetype")
         sys.exit(0)
 
 
@@ -256,7 +317,7 @@ if __name__ == "__main__" :
         sys.exit(0) # Exiting without an error code
 
     filename = sys.argv[1]
-    fileOption = 'pdf'
+    file_option = 'pdf'
 
     try:
         two_hz_binary_file = open(filename, "rb")
@@ -268,13 +329,13 @@ if __name__ == "__main__" :
     end_time = datetime.time.fromisoformat("23:59:59")
 
     if len(sys.argv) == 3 :
-        fileOption = sys.argv[2]
+        file_option = sys.argv[2]
       
     elif len(sys.argv) >= 4 :
         start_time = datetime.time.fromisoformat(sys.argv[2])
         end_time = datetime.time.fromisoformat(sys.argv[3])
     if len(sys.argv) == 5:
-        fileOption = sys.argv[4]
+        file_option = sys.argv[4]
     if len(sys.argv) >= 6:
         print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
         sys.exit(0) # Exiting without an error code
@@ -283,9 +344,9 @@ if __name__ == "__main__" :
     arrayX, arrayY, arrayZ, timeArr = create_Arrays(two_hz_binary_file, start_time, end_time)
 
     #try:
-    plot_one(arrayX, timeArr, filename, start_time, end_time, fileOption)
-    plot_two(arrayY, timeArr, filename, start_time, end_time, fileOption)
-    plot_three(arrayZ, timeArr, filename, start_time, end_time, fileOption)
+    x_plot(arrayX, timeArr, filename, start_time, end_time, file_option)
+    y_plot(arrayY, timeArr, filename, start_time, end_time, file_option)
+    z_plot(arrayZ, timeArr, filename, start_time, end_time, file_option)
     #except:
         #print('Could not plot arrays to testgraph.pdf')
         #sys.exit(0)
