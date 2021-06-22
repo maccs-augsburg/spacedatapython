@@ -12,6 +12,13 @@ the time-stamped x, y, and z values on its' own plot.
 
 """
 
+#TODO----------------------------------------------------------------------------------------------------------
+#   test importing this file into other files -----------------------------------------------------> done
+#   have file take in y-axis limits as parameters -------------------------------------------------> 
+#   implement the no save option ------------------------------------------------------------------> done
+#   Date stamp on top of graph --------------------------------------------------------------------> 
+#--------------------------------------------------------------------------------------------------------------
+
 # Python 3 imports
 import sys
 import datetime
@@ -24,7 +31,7 @@ import station_names
 import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 
-def find_Array_Differences (xArr, yArr, zArr) :
+def find_Max_Differences_of_3_Lists (xArr, yArr, zArr) :
     """
     Finds the difference between the minimum value and maximum values in the list
         for the x, y, and z lists
@@ -43,23 +50,23 @@ def find_Array_Differences (xArr, yArr, zArr) :
     """
 
     # getting the differences for the arrays
-    x_difference = find_difference(xArr)
-    y_difference = find_difference(yArr)
-    z_difference = find_difference(zArr)
+    x_difference = find_Differences_In_List(xArr)
+    y_difference = find_Differences_In_List(yArr)
+    z_difference = find_Differences_In_List(zArr)
 
-    # setting the max to be the x_difference intially
+    # setting the max to be the x_difference initially
     max_difference = x_difference
 
-    # if statement to determine which one is actaully the max difference
-    if(x_difference <= y_difference) and (y_difference >= z_difference):
+    # if statement to determine which difference is the max difference
+    if (y_difference > x_difference) and (y_difference > z_difference):
         max_difference = y_difference
     elif (z_difference > x_difference) and (z_difference > y_difference):
         max_difference = z_difference
 
-    # returning the maximum difference out of all the differences
+    # returning the maximum difference out of all differences
     return max_difference
 
-def find_difference(arr) :
+def find_Differences_In_List (arr) :
     """
     Finds the difference between the minimum value and maximum values in the list
 
@@ -74,26 +81,24 @@ def find_difference(arr) :
         The difference between the min and max values in the list
     """
 
-    # if empty then we can assume that something went wrong
+    # if the list passed in is empty, then we can assume that something went wrong
     if (len(arr) <= 0):
-        print("ERROR: find_Array_Differences didn't have any values passed into it") # printing an error message
-        sys.exit(0) # exiting without an error code
+        print("ERROR: find_Differences_In_List parameter arr didn't contain any values")
+        sys.exit(0) # Exiting without an error code
 
-    # if not empty we set the max and min to the first item in the list
+    # Otherwise set the max and min to the first item in the list
     minimum_value = arr[0]
     maximum_value = arr[0]
 
     # iterate throughout the list
     for item in arr:
-        if item > maximum_value:   # if item is greater than our max
-            maximum_value = item   #    assign a new max value
-        elif item < minimum_value: # if item is smaller than our min
-            minimum_value = item   #    assign a new min value
+        if item > maximum_value:    # if item is greater than our max
+            maximum_value = item    #   assign a new max value
+        elif item < minimum_value:  # if item is smaller than our min
+            minimum_value = item    #   assign a new min value
 
-    # once we found our max and min
-    #   we get the difference and return it
+    # Once we find our max and min, get the difference and return it
     difference = maximum_value - minimum_value
-    
     return difference
 
 def create_Arrays (raw_record, stime, etime) :
@@ -129,7 +134,7 @@ def create_Arrays (raw_record, stime, etime) :
     zArr = []       #z plot point storage
     timeArr = []    #time plot point storage
 
-    # Initial while loop condition
+    #Initial while loop condition
     while True :
         one_record = raw_record.read( 38) # getting the information from the first 38 bytes
 
@@ -168,9 +173,8 @@ def create_Arrays (raw_record, stime, etime) :
 
     # returning the 4 lists
     return xArr, yArr, zArr, timeArr
-    
 
-def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
+def plot_Arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
     """ Places x, y, z arrays on a plot.
 
     Places x, y, and z arrays which contain values from the
@@ -195,7 +199,7 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) 
     fileOption:
         String to indicate what type of file to save (PDF or PNG)
     """
-    
+
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
     yearDayValue = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
@@ -218,19 +222,12 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) 
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
                 hoursArr.append(currentTime) # adding the odd numbers to the list
-            currentTime += 1 # incrementing currentTime   
-    
+            currentTime += 1 # incrementing currentTime
+
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.patch.set_facecolor('#d3d3d3') # "#d3d3d3" is a grey color for the plot
     fig.subplots_adjust(hspace=0.03)
-    #plt.subplots(3,1,1,sharey='row')
-
-## TODO: use maximum difference to add to the limits -- working on
-    
-    ### finding the biggest difference
-    maxDiff = find_Array_Differences(xArr, yArr, zArr)
-    
 
     ### first plot
     # plt.ylim(minimum, maximum)
@@ -243,11 +240,7 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) 
     plt.ylabel('Bx')	# side label
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
-    #y_bottom, y_top = plt.gca().axes.get_ybound() # getting the y limits
-    #y_top = y_top + maxDiff # increasing the top by the max diff
-    #y_bottom = y_bottom - maxDiff # decreasing the bottom by the max diff
-    #plt.gca().axes.set_ylim(bottom=y_bottom, top=y_top) # setting the top and bottom limits
+    plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -255,7 +248,7 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) 
         plt.xticks(defaultHoursArr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hoursArr) # setting the xaxis time ticks to custom values
-    
+
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
     plt.plot(timeArr,yArr, linewidth=0.25)
@@ -263,10 +256,6 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
-    #y_bottom, y_top = plt.gca().axes.get_ybound() # getting the y limits
-    #y_top = y_top + maxDiff # increasing the top by the max diff
-    #y_bottom = y_bottom - maxDiff # decreasing the bottom by the max diff
-    #plt.gca().axes.set_ylim(bottom=y_bottom, top=y_top) # setting the top and bottom limits
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -282,10 +271,6 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) 
     plt.xlabel('Time in Hours') # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
-    #y_bottom, y_top = plt.gca().axes.get_ybound() # getting the y limits
-    #y_top = y_top + maxDiff # increasing the top by the max diff
-    #y_bottom = y_bottom - maxDiff # decreasing the bottom by the max diff
-    #plt.gca().axes.set_ylim(bottom=y_bottom, top=y_top) # setting the top and bottom limits
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -301,11 +286,14 @@ def plot_Arrays (xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) 
     elif (fileOption == 'png'):
         # saving plot into a png file
         fig.savefig('testgraph.png', format='png', dpi=1200)
+    elif (fileOption == 'no'):
+        # not saving plot but showing it instead
+        plt.show()
     else :
         print(fileOption + ' is not a supported filetype Option')
         sys.exit(0)# Exiting without an error code
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     ### usage message in console
     if len(sys.argv) < 2 :
         print( "Usage: python3 testPythonPlotter.py filename [starttime [endtime] ]")
