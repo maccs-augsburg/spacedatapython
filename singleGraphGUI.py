@@ -405,19 +405,19 @@ def run_GUI(*args):
      """
 
      #Here we call for out input and then runs through our year day check 
-     year_day_value = yearday_entry.get()
-     yearday_check(year_day_value)
+     year_day_value = year_day_entry.get()
+     year_day_check(year_day_value)
      #here we call for our input and then runs through our start hour, start minut and start second check
-     start_hour_value = start_Hour_entry.get()
-     start_minute_value = start_Minute_entry.get()
-     start_second_value = start_Second_entry.get()
+     start_hour_value = start_hour_entry.get()
+     start_minute_value = start_minute_entry.get()
+     start_second_value = start_second_entry.get()
 
      start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_value, start_minute_value, start_second_value)
      start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
      #Here we call for our input and then run it through our end hour, end minute and end second check
-     end_hour_value = end_Hour_entry.get()
-     end_minute_value = end_Minute_entry.get()
-     end_second_value = end_Second_entry.get()
+     end_hour_value = end_hour_entry.get()
+     end_minute_value = end_minute_entry.get()
+     end_second_value = end_second_entry.get()
 
 
      end_hour_value, end_minute_value, end_second_value = end_time_entry_check(end_hour_value, end_minute_value, end_second_value)
