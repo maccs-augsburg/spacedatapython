@@ -29,7 +29,7 @@ import station_names
 import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 
-def find_Max_Differences_of_3_Lists (xArr, yArr, zArr) :
+def find_max_differences_of_three(xArr, yArr, zArr) :
     """
     Finds the difference between the minimum value and maximum values in the list
         for the x, y, and z lists
@@ -48,9 +48,9 @@ def find_Max_Differences_of_3_Lists (xArr, yArr, zArr) :
     """
 
     # getting the differences for the arrays
-    x_difference = find_Differences_In_List(xArr)
-    y_difference = find_Differences_In_List(yArr)
-    z_difference = find_Differences_In_List(zArr)
+    x_difference = find_differences_in_list(xArr)
+    y_difference = find_differences_in_list(yArr)
+    z_difference = find_differences_in_list(zArr)
 
     # setting the max to be the x_difference initially
     max_difference = x_difference
@@ -64,7 +64,7 @@ def find_Max_Differences_of_3_Lists (xArr, yArr, zArr) :
     # returning the maximum difference out of all differences
     return max_difference
 
-def find_Differences_In_List (arr) :
+def find_differences_in_list (arr) :
     """
     Finds the difference between the minimum value and maximum values in the list
 
@@ -81,7 +81,7 @@ def find_Differences_In_List (arr) :
 
     # if the list passed in is empty, then we can assume that something went wrong
     if (len(arr) <= 0):
-        print("ERROR: find_Differences_In_List parameter arr didn't contain any values")
+        print("ERROR: find_differences_in_list parameter arr didn't contain any values")
         sys.exit(0) # Exiting without an error code
 
     # Otherwise set the max and min to the first item in the list
