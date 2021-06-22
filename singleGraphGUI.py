@@ -45,7 +45,7 @@ def error_message(title, message):
      sys.exit(0)
 
 
-def GUI_labels():
+def gui_labels(mainframe):
      """
      This funtion is created to be able to label all of our entry boxes in the GUI.
 
@@ -74,7 +74,7 @@ def GUI_labels():
      #Will add png or pdf label (radio buttons)
      #Will add x and y, x and z or y and z label(Radio buttons)
 
-def GUI_entries():
+def gui_entries(mainframe):
 
      """
      This funtion is to create all of the entry boxes themselves. In this function we had
@@ -130,7 +130,7 @@ def GUI_entries():
      z_plot =ttk.Radiobutton(mainframe, text = "Z Plot", variable = graph_from_plotter, value = "z plot").grid(column = 1, row = 10, sticky = W)
      #Creation of the Okay and Cancel button that has commands to either run
      #the GUI if you press okay or to "destroy" the GUI if you hit canel
-     okay_button = ttk.Button(mainframe, text = "Okay", command = run_GUI).grid(column = 3, row = 10, sticky = W)
+     okay_button = ttk.Button(mainframe, text = "Okay", command = display_code).grid(column = 3, row = 10, sticky = W)
      cancel_button = ttk.Button(mainframe, text = "Cancel", command = cancel).grid(column =4, row = 10, sticky = W)
 
 def year_day_check(year_day_value):
@@ -393,7 +393,7 @@ def graph_from_plotter_entry_check(graph_from_plotter_value, xArr, yArr, zArr, t
 
      return graph_from_plotter_value 
 
-def run_GUI(*args):
+def display_code():
      """
      This funtion is esentially our main. We run everything we have created above
      into this function to implement it.
@@ -442,7 +442,7 @@ def run_GUI(*args):
 
 
 
-def cancel(*args):
+def cancel(root, mainframe):
      """
      For the cancel button to shut down the GUI and plotter when pressed.
 
@@ -452,16 +452,8 @@ def cancel(*args):
      """
      root.destroy()
 
-def child_formatting(mainframe):
-     """
-     """
 
-     for child in mainframe.winfo_children(): 
-        child.grid_configure(padx=5, pady=5)
-
-
-
-def main(root, mainframe):
+def main():
      """
      Calls all our our GUI functions to create the gui that is presented.
 
@@ -472,32 +464,6 @@ def main(root, mainframe):
      mainframe :
      
      """
-
-     GUI_labels()
-
-
-     GUI_entries()
-
-
-     child_formatting(mainframe)
-
-     year_day_entry.focus() 
-     
-
-
-
-
-
-
-
-
-
-
-
-
-
-if __name__ == "__main__" :
-
      #Sets up GUI Function 
      root = Tk()
      root.title("Single Graph Plotter")
@@ -508,9 +474,25 @@ if __name__ == "__main__" :
      root.columnconfigure(0, weight= 1)
      root.rowconfigure(0, weight = 1)
 
-     main(root, mainframe)
+     gui_labels(mainframe)
 
+
+     gui_entries(mainframe)
+
+     #child Formatting 
+     for child in mainframe.winfo_children():
+          child.grid_configure(padx=5, pady=5)
+
+     year_day_entry.focus() 
+     
      root.mainloop()
+
+
+
+if __name__ == "__main__" :
+
+     main()
+
 
 
 
