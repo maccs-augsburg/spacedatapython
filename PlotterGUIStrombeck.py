@@ -603,6 +603,7 @@ def run_GUI(): # change to some other function name like "execute_okay_button" o
     
     ### Putting information gathered together and calling the plotting program! ### ---------------------------
     file_name = station_code_value + year_day_value + file_ending_value
+    file_name_without_end = station_code_value + year_day_value
     
     # Opening the file
     file = open(file_name, 'rb')
@@ -611,7 +612,7 @@ def run_GUI(): # change to some other function name like "execute_okay_button" o
     xArr, yArr, zArr, timeArr = raw_to_plot.create_Arrays(file, start_time_stamp, end_time_stamp)
 
     # Plotting the arrays
-    raw_to_plot.plot_Arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp, file_save_as_option_value)
+    raw_to_plot.plot_Arrays(xArr, yArr, zArr, timeArr, file_name_without_end, start_time_stamp, end_time_stamp, file_save_as_option_value)
 
     plotter_complete_message(title="Plotting Program Complete", message="The plotting program has plotted your desired file!") 
     ### End Putting information gathered together and calling the plotting program! ### -----------------------
