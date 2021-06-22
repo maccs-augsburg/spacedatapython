@@ -14,11 +14,13 @@ import sys
 import datetime
 
 #To be able to import another file to be ran in the GUI 
-import importlib
+#import importlib
+
+import oneArrayPlotted
 
 
 #The code to import the file oneArrayPlotted 
-raw_to_single_plot = importlib.import_module('oneArrayPlotted')
+#raw_to_single_plot = importlib.import_module('oneArrayPlotted')
 
 
 #Function to run the error message pop ups that are created later on in the file
@@ -347,7 +349,7 @@ def station_names_entry_check(station_names_value):
      if(len(station_names_value) == 0):
         error_message(title = "Station Code Entry Error", message = "There was no input for the station code entry box")
 
-def graph_from_plotter_entry_check(graph_from_plotter_value, xArr, yArr, zArr, timeArr, raw_to_single_plot, filename, stime, etime, file_option):
+def graph_from_plotter_entry_check(graph_from_plotter_value, xArr, yArr, zArr, timeArr, oneArrayPlotted, filename, stime, etime, file_option):
      """
      Checks the radio button input to then produce either the X, Y or Z graph.
 
@@ -381,11 +383,11 @@ def graph_from_plotter_entry_check(graph_from_plotter_value, xArr, yArr, zArr, t
      """
      #If statement to decided if we want X, Y or Z plot
      if(graph_from_plotter_value == "x plot"):
-          raw_to_single_plot.x_plot(xArr, timeArr, filename, stime, etime, file_option)
+          oneArrayPlotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
      elif(graph_from_plotter_value == "y plot"):
-          raw_to_single_plot.y_plot(yArr, timeArr, filename, stime, etime, file_option)
+          oneArrayPlotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
      elif(graph_from_plotter_value == "z plot"):
-          raw_to_single_plot.z_plot(zArr, timeArr, filename, stime, etime, file_option)
+          oneArrayPlotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)
      else:
           warning_message(title = "File Format Option Error", message = "Please select a file format option")
 
@@ -433,10 +435,10 @@ def run_GUI(*args):
      #This opens our said file
      file = open(file_name, 'rb')
      #Creates our arrays
-     xArr, yArr, zArr, timeArr = raw_to_single_plot.create_Arrays(file, start_time_stamp, end_time_stamp)
+     xArr, yArr, zArr, timeArr = oneArrayPlotted.create_Arrays(file, start_time_stamp, end_time_stamp)
      #This calls our graph plotter function to plot the chose graph
      graph_from_plotter_value = graph_from_plotter.get()
-     graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value,  xArr, yArr, zArr, timeArr, raw_to_single_plot, file_name, start_time_stamp, end_time_stamp, file_option) #update params
+     graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value,  xArr, yArr, zArr, timeArr, oneArrayPlotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
 
 
 
