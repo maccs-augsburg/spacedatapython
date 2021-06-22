@@ -33,10 +33,11 @@ from tkinter import messagebox
 # Python 3 imports
 import sys
 import datetime
-import importlib
+#import importlib
 
 # Plotter program imports
-raw_to_plot_program = importlib.import_module('raw_to_plot') # importing module as raw_to_plot_program
+import raw_to_plot
+#raw_to_plot_program = importlib.import_module('raw_to_plot') # importing module as raw_to_plot_program
 
 def plotter_complete_message(title, message):
     """
@@ -604,10 +605,10 @@ def run_GUI(*args):
     file = open(file_name, 'rb')
     
     # Creating the arrays from the file
-    xArr, yArr, zArr, timeArr = raw_to_plot_program.create_Arrays(file, start_time_stamp, end_time_stamp)
+    xArr, yArr, zArr, timeArr = raw_to_plot.create_Arrays(file, start_time_stamp, end_time_stamp)
 
     # Plotting the arrays
-    raw_to_plot_program.plot_Arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp, file_save_as_option_value)
+    raw_to_plot.plot_Arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp, file_save_as_option_value)
 
     plotter_complete_message(title="Plotting Program Complete", message="The plotting program has plotted your desired file!") 
     ### End Putting information gathered together and calling the plotting program! ### -----------------------
