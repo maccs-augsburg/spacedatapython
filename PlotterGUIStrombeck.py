@@ -190,7 +190,7 @@ def start_second_entry_check(start_second_value):
     Returns
     -------
     String
-        start_second_value: with additional 0 if the given start_second_value was a single digit
+        start_second_value: the inputted value in the start_second_entry box
     """
     ### Start second input tests ###
     # Testing to see if the inputted value exceeds what it can be    
