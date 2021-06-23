@@ -103,7 +103,10 @@ def date_time_object_check(string_value):
     """
     
     """
+    #
     if(len(string_value) == 1):
+        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
+        #   This is so we have the format "00:00:00" for the datetime object
         string_value = "0" + string_value
 
     return string_value
@@ -123,12 +126,6 @@ def start_hour_entry_check(start_hour_value):
         start_hour_value: with additional 0 if the given start_hour_value was a single digit
     """
     ### Start hour input tests ###
-    # Testing to see if we got a single digit
-    if(len(start_hour_value) == 1): 
-        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
-        #   This is so we have the format "00:00:00" for the datetime object
-        start_hour_value = "0" + start_hour_value
-
     # Testing to see if the inputted value exceeds what it can be
     if((int)(start_hour_value) > 23):
         # Have error message box pop up because it can't be more than 23
@@ -158,12 +155,6 @@ def start_minute_entry_check(start_minute_value):
         start_minute_value: with additional 0 if the given start_minute_value was a single digit
     """
     ### Start minute input tests ###
-    # Testing to see if we got a single digit
-    if(len(start_minute_value) == 1):
-        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
-        #   This is so we have the format "00:00:00" for the datetime object
-        start_minute_value = "0" + start_minute_value
-
     # Testing to see if the inputted value exceeds what it can be
     if((int)(start_minute_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
@@ -192,12 +183,6 @@ def start_second_entry_check(start_second_value):
         start_second_value: with additional 0 if the given start_second_value was a single digit
     """
     ### Start second input tests ###
-    # Testing to see if we got a single digit
-    if(len(start_second_value) == 1):
-        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
-        #   This is so we have the format "00:00:00" for the datetime object
-        start_second_value = "0" + start_second_value
-
     # Testing to see if the inputted value exceeds what it can be    
     if((int)(start_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
@@ -226,12 +211,6 @@ def end_hour_entry_check(end_hour_value):
         end_hour_value: with additional 0 if the given end_hour_value was a single digit
     """
     ### End hour input tests ###
-    # Testing to see if we got a single digit
-    if(len(end_hour_value) == 1):
-        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
-        #   This is so we have the format "00:00:00" for the datetime object
-        end_hour_value = "0" + end_hour_value
-
     # Testing to see if the inputted value exceeds what it can be
     if((int)(end_hour_value) > 23):
         # Have error message box pop up because it can't be more than 23
@@ -260,12 +239,6 @@ def end_minute_entry_check(end_minute_value):
         end_minute_value: with additional 0 if the given end_minute_value was a single digit
     """
     ### End minute input tests ###
-    # Testing to see if we got a single digit
-    if(len(end_minute_value) == 1):
-        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
-        #   This is so we have the format "00:00:00" for the datetime object
-        end_minute_value = "0" + end_minute_value
-
     # Testing to see if the inputted value exceeds what it can be
     if((int)(end_minute_value) > 59):
         #Have error messsage box pop up becuase it can't be more than 59
@@ -294,12 +267,6 @@ def end_second_entry_check(end_second_value):
         end_second_value: with additional 0 if the given end_second_value was a single digit
     """
     ### End second input tests ###
-    # Testing to see if we got a single digit
-    if(len(end_second_value) ==1):
-        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
-        #   This is so we have the format "00:00:00" for the datetime object
-        end_second_value = "0" + end_second_value
-
     # Testing to see if the inputted value exceeds what it can be
     if((int)(end_second_value) > 59):
         # Have error messsage box pop up becuase it can't be more than 59
@@ -515,10 +482,13 @@ def run_GUI(): # change to some other function name like "execute_okay_button" o
 
     ### Start hour, minute, and second entries ###
     start_hour_value = start_hour_entry_check(start_hour_entry.get())
+    start_hour_value = date_time_object_check(start_hour_value)
     #start_hour_value = start_hour_entry.get()
     start_minute_value = start_minute_entry_check(start_minute_entry.get())
+    start_minute_value = date_time_object_check(start_minute_value)
     #start_minute_value = start_minute_entry.get()
     start_second_value = start_second_entry_check(start_second_entry.get())
+    start_second_value = date_time_object_check(start_second_value)
     #start_second_value = start_second_entry.get()
 
     #start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_value, start_minute_value, start_second_value) # git rid of start_time_entry check function
