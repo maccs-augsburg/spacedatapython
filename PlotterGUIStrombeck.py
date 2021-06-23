@@ -274,7 +274,7 @@ def end_second_entry_check(end_second_value):
     Returns
     -------
     String
-        end_second_value: with additional 0 if the given end_second_value was a single digit
+        end_second_value: the inputted value in the end_second_entry box
     """
     ### End second input tests ###
     # Testing to see if the inputted value exceeds what it can be
