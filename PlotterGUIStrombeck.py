@@ -21,6 +21,7 @@ This GUI uses a radiobutton format for selection of file type
 #       - function to call plot arrays ---------------------------> done
 #       - use the default flags and determine y-axis scaling ----->
 #       - implement do not save option ---------------------------> done
+#       - set datetime check into own function ------------------->
 #   view box around radio buttons ----------------------------------------------------------------->
 #   pop up message to show when done? -------------------------------------------------------------> done
 #   updating graph names to be reflective instead of just testGraph -------------------------------> done 
@@ -542,7 +543,6 @@ def file_save_as_entry_checker(file_save_as_option_value):
     return file_save_as_option
 
 def run_GUI(): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
-    # no need for *args
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
 
@@ -564,15 +564,13 @@ def run_GUI(): # change to some other function name like "execute_okay_button" o
     start_second_value = start_second_entry.get()
 
     start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_value, start_minute_value, start_second_value) # git rid of start_time_entry check function
-
     start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
-    # check to see if we can use just numbers instead of fromisoformat
+# check to see if we can use just numbers instead of fromisoformat
            
     ### End hour, minute, and second entries ###
     end_hour_value = end_hour_entry.get()
     end_minute_value = end_minute_entry.get()
     end_second_value = end_second_entry.get()
-
     
     end_hour_value, end_minute_value, end_second_value = end_time_entry_check(end_hour_value, end_minute_value, end_second_value)
     end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
@@ -602,17 +600,17 @@ def run_GUI(): # change to some other function name like "execute_okay_button" o
 
     
     ### Putting information gathered together and calling the plotting program! ### ---------------------------
-    file_name = station_code_value + year_day_value + file_ending_value
-    file_name_without_end = station_code_value + year_day_value
+    file_name_full = station_code_value + year_day_value + file_ending_value
+    file_name = station_code_value + year_day_value
     
     # Opening the file
-    file = open(file_name, 'rb')
+    file = open(file_name_full, 'rb')
     
     # Creating the arrays from the file
     xArr, yArr, zArr, timeArr = raw_to_plot.create_Arrays(file, start_time_stamp, end_time_stamp)
 
     # Plotting the arrays
-    raw_to_plot.plot_Arrays(xArr, yArr, zArr, timeArr, file_name_without_end, start_time_stamp, end_time_stamp, file_save_as_option_value)
+    raw_to_plot.plot_Arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp, file_save_as_option_value)
 
     plotter_complete_message(title="Plotting Program Complete", message="The plotting program has plotted your desired file!") 
     ### End Putting information gathered together and calling the plotting program! ### -----------------------
@@ -625,10 +623,8 @@ def cancel(root):
     it just destroys everything for that current GUI.
     """
     root.destroy() # Exiting without running any code after
-    #global root
-    #root.quit() # Exiting with running code after
 
-def GUI_labels(mainframe): # change to gui_labels
+def gui_labels(mainframe):
     """
     Creates the Labels and places them into the GUI. 
     """
@@ -658,7 +654,7 @@ def GUI_labels(mainframe): # change to gui_labels
     # File save as label
     ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
-def GUI_entries(mainframe, root): # change to gui_entries
+def gui_entries(mainframe, root):
     """
     Creates the entry boxes and places them into the GUI.
     """
@@ -744,28 +740,21 @@ def GUI_entries(mainframe, root): # change to gui_entries
     radio_button_9 = Radiobutton(mainframe, text="png", value=9, variable=file_to_save_as).grid(column=1, row=17, sticky=W)
     radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
 
-def child_formatting(mainframe):
+def child_formatting(mainframe): # remove function
     """
     Formats the x and y pads for each child/object in the mainframe
 
     Parameters
     ----------
     Frame
-        mainframe: a frame object that holds and stores the attributes and objects of the GUI frame
+        mainframe: a frame object that holds and stores the attributes and objects of the  frame
     """
     # child formatting in mainframe
     
     
 def main():
     """
-    Main place that organizes and runs all functions to make up a functioning GUI
-
-    Parameters
-    ----------
-    Tk
-        root: Tk object to allow for creating a GUI with Tkinter
-    Frame
-        mainframe: a frame object that holds and stores the attributes and objects of the GUI frame
+    Sets up  object, calls _labels and _entries, formats children in mainframe and calls root's mainloop function
     """
     
     ### Setting up GUI object ###
@@ -777,12 +766,10 @@ def main():
     root.rowconfigure(0, weight=1)
     
     ### Label section ###
-    GUI_labels(mainframe)
-
-    
+    gui_entries(mainframe)    
     
     ### Entry section ###
-    GUI_entries(mainframe, root)
+    s(mainframe, root)
     
     ### Child formatting ###
     for child in mainframe.winfo_children(): 
@@ -790,14 +777,10 @@ def main():
 
     year_day_entry.focus() # starting spot for tab control
 
-    # Do not bind the return key
-    #root.bind("<Return>", run_GUI) # returns the calculate funciton when called
-
     root.mainloop() # root loop running
 
 
 if __name__ == "__main__":
-    # Do not pass root into main
     main()
 
     
