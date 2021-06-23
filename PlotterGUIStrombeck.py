@@ -567,6 +567,8 @@ def gui_labels(mainframe):
 
     Parameters
     ----------
+    Frame
+        mainframe: the ttk frame object to save labels to
     """
     # year_day label
     ttk.Label(mainframe, text="Year Day:").grid(column=1, row=1, sticky=W)
