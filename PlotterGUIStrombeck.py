@@ -739,17 +739,6 @@ def gui_entries(mainframe, root):
     radio_button_8 = Radiobutton(mainframe, text="pdf", value=8, variable=file_to_save_as).grid(column=1, row=16, sticky=W)
     radio_button_9 = Radiobutton(mainframe, text="png", value=9, variable=file_to_save_as).grid(column=1, row=17, sticky=W)
     radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
-
-def child_formatting(mainframe): # remove function
-    """
-    Formats the x and y pads for each child/object in the mainframe
-
-    Parameters
-    ----------
-    Frame
-        mainframe: a frame object that holds and stores the attributes and objects of the  frame
-    """
-    # child formatting in mainframe
     
     
 def main():
