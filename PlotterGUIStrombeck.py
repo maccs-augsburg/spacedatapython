@@ -475,12 +475,9 @@ def file_save_as_entry_checker(file_save_as_option_value):
     # Returning the string of the file save as option to be used
     return file_save_as_option
 
-def run_GUI(): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
+def execute_functions(): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
-
-    (*args is technically a parameter but it isn't required) -- Not sure what to do here for this documentation?
-    the way to call this function would look something like this: "root.bind("<Return>", calculate)"
     """
 
     ### Input values ### --------------------------------------------------------------------------------------
@@ -566,7 +563,10 @@ def cancel(root):
 
 def gui_labels(mainframe):
     """
-    Creates the Labels and places them into the GUI. 
+    Creates the Labels and places them into the GUI.
+
+    Parameters
+    ----------
     """
     # year_day label
     ttk.Label(mainframe, text="Year Day:").grid(column=1, row=1, sticky=W)
@@ -660,7 +660,7 @@ def gui_entries(mainframe, root):
 
     ### Button section ###
     # Management buttons section
-    ok_button = ttk.Button(mainframe, text="OK", command=run_GUI).grid(column=2, row = 19, sticky=W)
+    ok_button = ttk.Button(mainframe, text="OK", command=execute_functions).grid(column=2, row = 19, sticky=W)
     cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=3, row=19, sticky=E)
 
     # Radiobutton section
