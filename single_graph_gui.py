@@ -85,7 +85,7 @@ def gui_entries(mainframe, root):
      global start_hour, start_hour_entry, start_minute, start_minute_entry, start_second, start_second_entry
      global end_hour, end_hour_entry,end_minute,  end_minute_entry, end_second, end_second_entry
      global station_names_entry
-     global graph_from_plotter, x_plot, y_plot, z_plot
+     global graph_from_plotter_x,graph_from_plotter_y,graph_from_plotter_z, x_plot, y_plot, z_plot
      global okay_button, cancel_button
 
      #Creation of the Year Day entry widget 
@@ -124,10 +124,12 @@ def gui_entries(mainframe, root):
      station_names_entry = ttk.Entry(mainframe, width = 5, textvariable = station_names)
      station_names_entry.grid(column = 2, row = 6, sticky = (W,E))
      #Creation of the graph from plotter radio button
-     graph_from_plotter = StringVar()
-     x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = graph_from_plotter, onvalue = "x plot").grid(column = 1, row = 8, sticky = W)
-     y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter, onvalue = "y plot").grid(column = 1, row = 9, sticky = W) 
-     z_plot =ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter, onvalue = "z plot").grid(column = 1, row = 10, sticky = W)
+     graph_from_plotter_x = IntVar()
+     graph_from_plotter_y = IntVar()
+     graph_from_plotter_z = IntVar()
+     x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = graph_from_plotter_x, onvalue = 1).grid(column = 1, row = 8, sticky = W)
+     y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 9, sticky = W) 
+     z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 10, sticky = W)
      #Creation of the Okay and Cancel button that has commands to either run
      #the GUI if you press okay or to "destroy" the GUI if you hit canel
      okay_button = ttk.Button(mainframe, text = "Okay", command = display_code).grid(column = 3, row = 10, sticky = W)
@@ -337,7 +339,7 @@ def station_names_entry_check(station_names_value):
      if(len(station_names_value) == 0):
         error_message(title = "Station Code Entry Error", message = "There was no input for the station code entry box")
 
-def graph_from_plotter_entry_check(graph_from_plotter_value, xArr, yArr, zArr, timeArr, oneArrayPlotted, filename, stime, etime, file_option):
+def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, filename, stime, etime, file_option):
      """
      Checks the radio button input to then produce either the X, Y or Z graph.
 
@@ -371,26 +373,24 @@ def graph_from_plotter_entry_check(graph_from_plotter_value, xArr, yArr, zArr, t
      """
      #If statement to decided if we want X, Y or Z plot
      
-     if(graph_from_plotter_value == "x plot"):
+     if(graph_from_plotter_value_x == 1):
           one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
-     elif(graph_from_plotter_value == "y plot"):
+     if(graph_from_plotter_value_y == 2):
           one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
-     elif(graph_from_plotter_value == "z plot"):
+     if(graph_from_plotter_value_z == 3):
           one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)
-     elif(graph_from_plotter_value == "x plot" and graph_from_plotter_value == "y plot"):
-
-     elif(graph_from_plotter_value == "x plot" and graph_from_plotter_value == "z plot"):
-
-     elif(graph_from_plotter_value == "y plot" and graph_from_plotter_value == "z plot"):
-
-     elif(graph_from_plotter_value == "x plot" and graph_from_plotter_value == "y plot" and graph_from_plotter_value == "z plot"):
+     if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
+          one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option)
+     if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
+          one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime, file_option)
+     if(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
+          one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option)
+     if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
+          one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option)
           
+     #warning_message(title = "File Format Option Error", message = "Please select a file format option")
 
-
-     else:
-          warning_message(title = "File Format Option Error", message = "Please select a file format option")
-
-     return graph_from_plotter_value 
+     return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z 
 
 def display_code():
      """
@@ -444,12 +444,15 @@ def display_code():
      #This opens our said file
      file = open(file_name, 'rb')
      #Creates our arrays
-     xArr, yArr, zArr, timeArr = oneArrayPlotted.create_arrays(file, start_time_stamp, end_time_stamp)
+     xArr, yArr, zArr, timeArr = one_array_plotted.create_arrays(file, start_time_stamp, end_time_stamp)
      #This calls our graph plotter function to plot the chose graph
-     graph_from_plotter_value = graph_from_plotter.get()
-     graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value,  xArr, yArr, zArr, timeArr, oneArrayPlotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
-
-
+     graph_from_plotter_value_x = graph_from_plotter_x.get()
+     graph_from_plotter_value_y = graph_from_plotter_y.get()
+     graph_from_plotter_value_z = graph_from_plotter_z.get()
+          
+     
+     graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
+     
 
 def cancel(root):
      """
