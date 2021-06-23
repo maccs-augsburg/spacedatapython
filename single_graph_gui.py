@@ -125,9 +125,9 @@ def gui_entries(mainframe, root):
      station_names_entry.grid(column = 2, row = 6, sticky = (W,E))
      #Creation of the graph from plotter radio button
      graph_from_plotter = StringVar()
-     x_plot = ttk.Radiobutton(mainframe, text = "X Plot", variable = graph_from_plotter, value = "x plot").grid(column = 1, row = 8, sticky = W)
-     y_plot = ttk.Radiobutton(mainframe, text = "Y Plot", variable = graph_from_plotter, value = "y plot").grid(column = 1, row = 9, sticky = W) 
-     z_plot =ttk.Radiobutton(mainframe, text = "Z Plot", variable = graph_from_plotter, value = "z plot").grid(column = 1, row = 10, sticky = W)
+     x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = graph_from_plotter).grid(column = 1, row = 8, sticky = W)
+     y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter).grid(column = 1, row = 9, sticky = W) 
+     z_plot =ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter).grid(column = 1, row = 10, sticky = W)
      #Creation of the Okay and Cancel button that has commands to either run
      #the GUI if you press okay or to "destroy" the GUI if you hit canel
      okay_button = ttk.Button(mainframe, text = "Okay", command = display_code).grid(column = 3, row = 10, sticky = W)
