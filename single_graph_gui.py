@@ -16,7 +16,7 @@ import datetime
 #To be able to import another file to be ran in the GUI 
 #import importlib
 
-import oneArrayPlotted
+import one_array_plotted
 
 
 #The code to import the file oneArrayPlotted 
@@ -133,6 +133,14 @@ def gui_entries(mainframe, root):
      okay_button = ttk.Button(mainframe, text = "Okay", command = display_code).grid(column = 3, row = 10, sticky = W)
      cancel_button = ttk.Button(mainframe, text = "Cancel", command = lambda: cancel(root)).grid(column =4, row = 10, sticky = W)
 
+def date_time_object_check(string_value) :
+     """
+     """
+     if(len(string_value) == 1):
+        string_value = "0" + string_value
+
+     return string_value
+
 def year_day_check(year_day_value):
 
      """
@@ -168,8 +176,8 @@ def start_hour_entry_check(start_hour_value):
 
      start_hour_value :      
      """
-     if(len(start_hour_value) == 1):
-        start_hour_value = "0" + start_hour_value
+     #if(len(start_hour_value) == 1):
+        #start_hour_value = "0" + start_hour_value
 
      if((int)(start_hour_value) > 23):
         error_message(title = "Start Hour Entry Error", message = "Start hour cannot be more than 23")
@@ -194,8 +202,8 @@ def start_minute_entry_check(start_minute_value):
      -------
      start_minute_value : 
      """
-     if(len(start_minute_value) == 1):
-        start_minute_value = "0" + start_minute_value
+     #if(len(start_minute_value) == 1):
+        #start_minute_value = "0" + start_minute_value
 
      if((int)(start_minute_value) > 59):
         error_message(title = "Start Minute Entry Error", message = "Start minute cannot be greater then 59")
@@ -222,8 +230,8 @@ def start_second_entry_check(start_second_value):
      start_second_value : 
      """
 
-     if(len(start_second_value) == 1):
-        start_second_value = "0" + start_second_value
+     #if(len(start_second_value) == 1):
+        #start_second_value = "0" + start_second_value
 
      if((int)(start_second_value) > 59):
         error_message(title = "Start Second Entry Error", message = "Start second cannot be more then 59")
@@ -232,17 +240,6 @@ def start_second_entry_check(start_second_value):
         error_message(title = "Start Second Entry Error", message = "Start second cannot be negative")
 
      return start_second_value
-
-def start_time_entry_check(start_hour_value, start_minute_value, start_second_value):
-     """
-     """
-
-     start_hour_value = start_hour_entry_check(start_hour_value)
-     start_minute_value = start_minute_entry_check(start_minute_value)
-     start_second_value = start_second_entry_check(start_second_value)
-
-     return start_hour_value, start_minute_value, start_second_value
-
 
 def end_hour_entry_check(end_hour_value):
      """
@@ -260,8 +257,8 @@ def end_hour_entry_check(end_hour_value):
      end_hour_value : 
      """
      
-     if(len(end_hour_value) == 1):
-        end_hour_value = "0" + end_hour_value
+     #if(len(end_hour_value) == 1):
+        #end_hour_value = "0" + end_hour_value
 
      if((int)(end_hour_value) > 23):
         error_message(title = "End Hour Entry Error", message = "End hour cannot be more then 23")
@@ -287,8 +284,8 @@ def end_minute_entry_check(end_minute_value):
      -------
      end_minute_value : 
      """
-     if(len(end_minute_value) == 1):
-        end_minute_value = "0" + end_minute_value
+     #if(len(end_minute_value) == 1):
+        #end_minute_value = "0" + end_minute_value
         
      if((int)(end_minute_value) > 59):
         error_message(title = "End Minute Entry Error", message = "End minute cannot be more then 59")
@@ -314,8 +311,8 @@ def end_second_entry_check(end_second_value):
      -------
      end_second_value : 
      """
-     if(len(end_second_value) == 1):
-        end_second_value = "0" + end_second_value
+     #if(len(end_second_value) == 1):
+        #end_second_value = "0" + end_second_value
         
      if((int)(end_second_value) > 59):
         error_message(title = "End Second Entry Error", message = "End second cannot be more then 59")
@@ -324,15 +321,6 @@ def end_second_entry_check(end_second_value):
         error_message(title = "End Minute Entry Error", message = "End second cannor be less then 0")
 
      return end_second_value
- 
-def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
-     """
-     """
-     end_hour_value = end_hour_entry_check(end_hour_value)
-     end_minute_value = end_minute_entry_check(end_minute_value)
-     end_second_value = end_second_entry_check(end_second_value)
-
-     return end_hour_value, end_minute_value, end_second_value
 
 def station_names_entry_check(station_names_value):
      """
@@ -382,6 +370,7 @@ def graph_from_plotter_entry_check(graph_from_plotter_value, xArr, yArr, zArr, t
      
      """
      #If statement to decided if we want X, Y or Z plot
+     
      if(graph_from_plotter_value == "x plot"):
           oneArrayPlotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
      elif(graph_from_plotter_value == "y plot"):
@@ -410,19 +399,29 @@ def display_code():
      year_day_value = year_day_entry.get()
      year_day_check(year_day_value)
      #here we call for our input and then runs through our start hour, start minut and start second check
-     start_hour_value = start_hour_entry.get()
-     start_minute_value = start_minute_entry.get()
-     start_second_value = start_second_entry.get()
+     start_hour_value = start_hour_entry_check(start_hour_entry.get())
+     start_hour_value = date_time_object_check(start_hour_value)
+     
+     start_minute_value = start_minute_entry_check(start_minute_entry.get())
+     start_minute_value = date_time_object_check(start_minute_value)
+     
+     start_second_value = start_second_entry_check(start_second_entry.get())
+     start_second_value = date_time_object_check(start_second_value)
 
-     start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_value, start_minute_value, start_second_value)
+     
      start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
+
      #Here we call for our input and then run it through our end hour, end minute and end second check
-     end_hour_value = end_hour_entry.get()
-     end_minute_value = end_minute_entry.get()
-     end_second_value = end_second_entry.get()
+     end_hour_value = end_hour_entry_check(end_hour_entry.get())
+     end_hour_value = date_time_object_check(end_hour_value)
+     
+     end_minute_value = end_minute_entry_check(end_minute_entry.get())
+     end_minute_value = date_time_object_check(end_minute_value)
+     
+     end_second_value = end_second_entry_check(end_second_entry.get())
+     end_second_value = date_time_object_check(end_second_value)
 
-
-     end_hour_value, end_minute_value, end_second_value = end_time_entry_check(end_hour_value, end_minute_value, end_second_value)
+     
      end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
      #Here we call for our input and then run it through our station names check. 
      station_names_value = station_names_entry.get()
