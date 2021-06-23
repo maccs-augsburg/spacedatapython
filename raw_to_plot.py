@@ -14,13 +14,14 @@ the time-stamped x, y, and z values on its' own plot.
 #   test importing this file into other files -----------------------------------------------------> done
 #   have file take in y-axis limits as parameters -------------------------------------------------> 
 #   implement the no save option ------------------------------------------------------------------> done
-#   Date stamp on top of graph -------------------------------------------------------------------->
+#   Date stamp on top of graph --------------------------------------------------------------------> working on
 #   update save filename to be file name ----------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
 # Python 3 imports
 import sys
 import datetime
+
 
 # MACCS imports
 from raw_codecs import decode, time_of_record
@@ -201,8 +202,19 @@ def plot_Arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
 
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
-    yearDayValue = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
     stationName = station_names.find_full_name(station) # Getting the station name
+    yearDayValue = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
+    yearValue = yearDayValue[0:2] # The last 2 digits of the year
+    dayValue = yearDayValue[2:] # The 3 digits corresponding with the day of the year
+
+    if((int)(yearValue) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
+        yearValue = "19" + yearValue
+    else:
+        yearValue = "20" + yearValue
+
+    # Converting the date and setting it up
+    date = datetime.datetime.strptime(yearValue + "-" + dayValue, "%Y-%j").strftime("%m-%d-%Y") 
+    
 
     ### hour list and determining which one to use
     defaultHoursArr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
@@ -235,7 +247,7 @@ def plot_Arrays(xArr, yArr, zArr, timeArr, filename, stime, etime, fileOption) :
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
     plt.plot(timeArr,xArr, linewidth=0.25) # this was plt.scatter, we used plt.plot for a line graph
-    plt.title("Geomagnetic Bx By Bz of " + stationName + "             YEARDAY: " + yearDayValue) # setting up the title and yearday
+    plt.title("Geomagnetic Bx By Bz of " + stationName + "          YEARDAY: " + yearDayValue + "            DATE: " + date) # setting up the title and yearday
     plt.ylabel('Bx')	# side label
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
