@@ -99,6 +99,15 @@ def year_day_entry_check(year_day_value):
 
     #TODO: Add more tests to get yearday values
 
+def date_time_object_check(string_value):
+    """
+    
+    """
+    if(len(string_value) == 1):
+        string_value = "0" + string_value
+
+    return string_value
+
 def start_hour_entry_check(start_hour_value):
     """
     Checks the start hour entry value and pops up an error message if it isn't a good entry
