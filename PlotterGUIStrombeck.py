@@ -218,7 +218,7 @@ def end_hour_entry_check(end_hour_value):
     Returns
     -------
     String
-        end_hour_value: with additional 0 if the given end_hour_value was a single digit
+        end_hour_value: the inputted value in the end_hour_entry box
     """
     ### End hour input tests ###
     # Testing to see if the inputted value exceeds what it can be
@@ -246,7 +246,7 @@ def end_minute_entry_check(end_minute_value):
     Returns
     -------
     String
-        end_minute_value: with additional 0 if the given end_minute_value was a single digit
+        end_minute_value: the inputted value in the end_hour_entry box
     """
     ### End minute input tests ###
     # Testing to see if the inputted value exceeds what it can be
