@@ -201,33 +201,6 @@ def start_second_entry_check(start_second_value):
 
     # Returning the start_second_value so whatever changes we made to it get returned
     return start_second_value
-    
-
-def start_time_entry_check(start_hour_value, start_minute_value, start_second_value):
-    """
-    Helper function that runs the start hour, minute, and second entry checkers to see if the inputted values are acceptable to move forward with
-
-    Parameters
-    ----------
-    String
-        start_hour_value: the value that was inputted into the start_hour_entry box
-        start_minute_value: the value that was inputted into the start_minute_entry box
-        start_second_value:  the value that was inputted into the start_second_entry box
-
-    Returns
-    -------
-    String
-        start_hour_value: the value that was inputted into the start_hour_entry box correctly formatted
-        start_minute_value: the value that was inputted into the start_minute_entry box correctly formatted
-        start_second_value: the value that was inputted into the start_second_entry box correctly formatted
-    """
-    # Running and saving the values for each of the start time related variables
-    start_hour_value = start_hour_entry_check(start_hour_value)
-    start_minute_value = start_minute_entry_check(start_minute_value)
-    start_second_value = start_second_entry_check(start_second_value)
-
-    # Returning the results of each of the start time related variables
-    return start_hour_value, start_minute_value, start_second_value
 
 def end_hour_entry_check(end_hour_value):
     """
@@ -330,32 +303,6 @@ def end_second_entry_check(end_second_value):
 
     # Returning the end_second_value so whatever changes we made to it get returned
     return end_second_value
-
-def end_time_entry_check(end_hour_value, end_minute_value, end_second_value):
-    """
-    Helper funcion that runs the end hour, minute, and second entry checkers to see if the inputted values are acceptable to move forward with
-
-    Parameters
-    ----------
-    String
-        end_hour_value: the value that was inputted into the end_hour_entry box
-        end_minute_value: the value that was inputted into the end_minute_entry box
-        end_second_value: the value that was inputted into the end_second_entry box
-
-    Returns
-    -------
-    String
-        end_hour_value: the value that was inputted into the end_hour_entry box correctly formatted
-        end_minute_value: the value that was inputted into the end_minute_entry box correctly formatted
-        end_second_value: the value that was inputted into the end_second_entry box correctly formatted
-    """
-    # Running and saving the values for each of the start time related variables
-    end_hour_value = end_hour_entry_check(end_hour_value)
-    end_minute_value = end_minute_entry_check(end_minute_value)
-    end_second_value = end_second_entry_check(end_second_value)
-
-    # Returning the results of each of the start time related variables
-    return end_hour_value, end_minute_value, end_second_value
 
 def plot_min_default_flag_check(plot_min_value):
     """
