@@ -162,7 +162,7 @@ def start_minute_entry_check(start_minute_value):
     Returns
     -------
     String
-        start_minute_value: with additional 0 if the given start_minute_value was a single digit
+        start_minute_value: the inputted value in the start_minute_entry box
     """
     ### Start minute input tests ###
     # Testing to see if the inputted value exceeds what it can be
