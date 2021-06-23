@@ -14,7 +14,7 @@ the time-stamped x, y, and z values on its' own plot.
 #   test importing this file into other files -----------------------------------------------------> done
 #   have file take in y-axis limits as parameters -------------------------------------------------> 
 #   implement the no save option ------------------------------------------------------------------> done
-#   Date stamp on top of graph --------------------------------------------------------------------> working on
+#   Date stamp on top of graph --------------------------------------------------------------------> done
 #   update save filename to be file name ----------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
