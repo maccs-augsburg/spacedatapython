@@ -133,7 +133,7 @@ def start_hour_entry_check(start_hour_value):
     Returns
     -------
     String
-        start_hour_value: with additional 0 if the given start_hour_value was a single digit
+        start_hour_value: the inputted value in the start_hour_entry box
     """
     ### Start hour input tests ###
     # Testing to see if the inputted value exceeds what it can be
