@@ -559,12 +559,12 @@ def gui_labels(mainframe):
     Creates the Labels and places them into the GUI. 
     """
     # year_day label
-    ttk.Label(mainframe, text="year_day:").grid(column=1, row=1, sticky=W)
+    ttk.Label(mainframe, text="Year Day:").grid(column=1, row=1, sticky=W)
 
     # Start time labels
     ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
     ttk.Label(mainframe, text="Start Minute:").grid(column=2, row=2, sticky=W)
-    ttk.Label(mainframe, text="start_second:").grid(column=4, row=2, sticky=W)
+    ttk.Label(mainframe, text="Start Second:").grid(column=4, row=2, sticky=W)
 
     # End time labels
     ttk.Label(mainframe, text="End Hour:").grid(column=1, row=3, sticky=W)
