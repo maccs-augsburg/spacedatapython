@@ -42,7 +42,7 @@ import raw_to_plot
 
 def plotter_complete_message(title, message):
     """
-    Create a message pop up to indicate that the GUI has finished its' operations
+    Creates a message pop up to indicate that the GUI has finished its' operations
 
     Parameters
     ----------
@@ -84,7 +84,7 @@ def warning_message_pop_up(title, message):
 
 def year_day_entry_check(year_day_value):
     """
-    Checks the year day entry value and pops up an error message if it isn't a good entry
+    Checks the year day entry value to see if there was a value inputted for the yearday entry box
 
     Parameters
     ----------
