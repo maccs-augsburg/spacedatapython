@@ -599,6 +599,13 @@ def gui_labels(mainframe):
 def gui_entries(mainframe, root):
     """
     Creates the entry boxes and places them into the GUI.
+
+    Parameters
+    ----------
+    Frame
+        mainframe: the ttk frame object to save labels to
+    Tk
+        root: the main Tk object that runs the gui window (this is just used for the okay and cancel buttons)
     """
     ### Global variables ###
     global year_day_entry
