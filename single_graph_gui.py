@@ -125,9 +125,9 @@ def gui_entries(mainframe, root):
      station_names_entry.grid(column = 2, row = 6, sticky = (W,E))
      #Creation of the graph from plotter radio button
      graph_from_plotter = StringVar()
-     x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = graph_from_plotter).grid(column = 1, row = 8, sticky = W)
-     y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter).grid(column = 1, row = 9, sticky = W) 
-     z_plot =ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter).grid(column = 1, row = 10, sticky = W)
+     x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = graph_from_plotter, onvalue = "x plot").grid(column = 1, row = 8, sticky = W)
+     y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter, onvalue = "y plot").grid(column = 1, row = 9, sticky = W) 
+     z_plot =ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter, onvalue = "z plot").grid(column = 1, row = 10, sticky = W)
      #Creation of the Okay and Cancel button that has commands to either run
      #the GUI if you press okay or to "destroy" the GUI if you hit canel
      okay_button = ttk.Button(mainframe, text = "Okay", command = display_code).grid(column = 3, row = 10, sticky = W)
@@ -372,11 +372,21 @@ def graph_from_plotter_entry_check(graph_from_plotter_value, xArr, yArr, zArr, t
      #If statement to decided if we want X, Y or Z plot
      
      if(graph_from_plotter_value == "x plot"):
-          oneArrayPlotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
      elif(graph_from_plotter_value == "y plot"):
-          oneArrayPlotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
      elif(graph_from_plotter_value == "z plot"):
-          oneArrayPlotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value == "x plot" and graph_from_plotter_value == "y plot"):
+
+     elif(graph_from_plotter_value == "x plot" and graph_from_plotter_value == "z plot"):
+
+     elif(graph_from_plotter_value == "y plot" and graph_from_plotter_value == "z plot"):
+
+     elif(graph_from_plotter_value == "x plot" and graph_from_plotter_value == "y plot" and graph_from_plotter_value == "z plot"):
+          
+
+
      else:
           warning_message(title = "File Format Option Error", message = "Please select a file format option")
 
