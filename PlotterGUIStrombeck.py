@@ -483,27 +483,26 @@ def run_GUI(): # change to some other function name like "execute_okay_button" o
     ### Start hour, minute, and second entries ###
     start_hour_value = start_hour_entry_check(start_hour_entry.get())
     start_hour_value = date_time_object_check(start_hour_value)
-    #start_hour_value = start_hour_entry.get()
+    
     start_minute_value = start_minute_entry_check(start_minute_entry.get())
     start_minute_value = date_time_object_check(start_minute_value)
-    #start_minute_value = start_minute_entry.get()
+    
     start_second_value = start_second_entry_check(start_second_entry.get())
     start_second_value = date_time_object_check(start_second_value)
-    #start_second_value = start_second_entry.get()
 
-    #start_hour_value, start_minute_value, start_second_value = start_time_entry_check(start_hour_value, start_minute_value, start_second_value) # git rid of start_time_entry check function
     start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
-# check to see if we can use just numbers instead of fromisoformat
+
            
     ### End hour, minute, and second entries ###
     end_hour_value = end_hour_entry_check(end_hour_entry.get())
-    #end_hour_value = end_hour_entry.get()
-    end_minute_value = end_minute_entry_check(end_minute_entry.get())
-    #end_minute_value = end_minute_entry.get()
-    end_second_value = end_second_entry_check(end_second_entry.get())
-    #end_second_value = end_second_entry.get()
+    end_hour_value = date_time_object_check(end_hour_value)
     
-    #end_hour_value, end_minute_value, end_second_value = end_time_entry_check(end_hour_value, end_minute_value, end_second_value)
+    end_minute_value = end_minute_entry_check(end_minute_entry.get())
+    end_minute_value = date_time_object_check(end_minute_value)
+    
+    end_second_value = end_second_entry_check(end_second_entry.get())
+    end_second_value = date_time_object_check(end_second_value)
+
     end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
     
     ### Plot min and max entries ###
