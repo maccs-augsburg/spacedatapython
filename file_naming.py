@@ -14,28 +14,60 @@ where timeInterval is blank if it is the whole day and cadence is
 
 """
 
-def create_time_interval_string_hms( shour, sminute, ssecond, ehour, eminute, esecond) :
+def create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
     """
-        Creates a time interval string for a filename given the hour, minute, and second
-        of the start and end times.
+    Creates a time interval string for a filename given the hour, minute, and second
+    of the start and end times.
+        
+    Parameters
+    ----------
+    s_hour:
+        The start time hour in hours of the day, 0 to 23
+    s_minute:
+        The start time minute in minutes of an hour, 0 to 59
+    s_second:
+        The start time second in seconds of a minute, 0 to 59.
+    e_hour:
+        The end time hour in hours of the day, 0 to 23
+    e_minute:
+        The end time minute in minutes of an hour, 0 to 59
+    e_second:
+        The end time second in seconds of a minute, 0 to 59.
+        
+    Returns
+    -------
+    string
+        The time interval string or a zero-length string if all day.
     """
     answer = ""
-    if( shour != 0 or sminute != 0 or ssecond != 0 or ehour != 23 or eminute != 59 or esecond != 59) :
-        answer = f"_{shour:02}{sminute:02}{ssecond:02}_{ehour:02}{eminute:02}{esecond:02}"
+    if( s_hour != 0 or s_minute != 0 or s_second != 0 or 
+        e_hour != 23 or e_minute != 59 or e_second != 59) :
+        answer = f"_{s_hour:02}{s_minute:02}{s_second:02}_{e_hour:02}{e_minute:02}{e_second:02}"
     return answer
     
-def create_time_interval_string( ssecond, esecond) :
+def create_time_interval_string( start_second, end_second) :
     """
-        Creates a time interval string for a filename given the start and end seconds of the day.
+    Creates a time interval string for a filename given the start and end seconds of the day.
+    
+    Parameters
+    ----------
+    start_second:
+        The start time in seconds of the day, 0 to 86399.
+    end_second:
+        The end time in seconds of the day, 0 to 86399.
+        
+    Returns
+    -------
+    string
+        The time interval string or a zero-length string if all day.
     """
-    shour = ssecond // 3600
-    ssecond = ssecond % 3600
-    sminute = ssecond // 60
-    ssecond = ssecond % 60
-    ehour = esecond // 3600
-    esecond = esecond % 3600
-    eminute = esecond // 60
-    esecond = esecond % 60
-    return create_time_interval_string_hms( shour, sminute, ssecond, ehour, eminute, esecond)
-
-
+    start_hour = start_second // 3600
+    start_second = start_second % 3600
+    start_minute = start_second // 60
+    start_second = start_second % 60
+    end_hour = end_second // 3600
+    end_second = end_second % 3600
+    end_minute = end_second // 60
+    end_second = end_second % 60
+    return create_time_interval_string_hms( start_hour, start_minute, start_second, 
+                                            end_hour, end_minute, end_second)
