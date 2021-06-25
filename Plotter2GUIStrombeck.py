@@ -28,6 +28,22 @@ import datetime
 # Plotter program imports
 import raw_to_plot
 
+def plotter_complete_message(title, message):
+    """
+    Creates a message pop up to indicate that the GUI has finished its' operations
+
+    Parameters
+    ----------
+    String
+        title: the string message of the pop up box that is the title
+        message: the string message of the pop up box to be used as the message of why the error occurred
+    """
+    # Using the messagebox package of tkinter to show an easy pop up info message
+    messagebox.showinfo(title, message)
+    sys.exit(0) # Exiting without an error
+
+
+
 def fillList(listbox):
     # Keeping this list as a local variable which takes more time and power to process
     #   meaning it might be a bit slower but it eliminates the risk of having it as a
