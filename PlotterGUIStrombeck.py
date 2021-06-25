@@ -21,7 +21,7 @@ This GUI uses a radiobutton format for selection of file type
 #       - function to call plot arrays ---------------------------> done
 #       - use the default flags and determine y-axis scaling ----->
 #       - implement do not save option ---------------------------> done
-#       - set datetime check into own function ------------------->
+#       - set datetime check into own function -------------------> done
 #   view box around radio buttons ----------------------------------------------------------------->
 #   pop up message to show when done? -------------------------------------------------------------> done
 #   updating graph names to be reflective instead of just testGraph -------------------------------> done 
