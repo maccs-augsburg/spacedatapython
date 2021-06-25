@@ -42,7 +42,19 @@ def plotter_complete_message(title, message):
     messagebox.showinfo(title, message)
     sys.exit(0) # Exiting without an error
 
+def error_message_pop_up(title, message):
+    """
+    Creates an error pop up message box with the given title and message
 
+    Parameters
+    ----------
+    String
+        title: the string message of the pop up box that is the title
+        message: the string message of the pop up box to be used as the message of why the error occurred
+    """
+    # Using the messagebox package of tkinter to show an easy pop up error message
+    messagebox.showerror(title = title, message = "ERROR: " + message)
+    sys.exit(0) # Exiting without an error
 
 def fillList(listbox):
     # Keeping this list as a local variable which takes more time and power to process
