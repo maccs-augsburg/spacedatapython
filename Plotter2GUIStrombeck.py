@@ -70,6 +70,25 @@ def warning_message_pop_up(title, message):
     messagebox.showwarning(title = title, message = "WARNING: " + message)
     sys.exit(0) # Exiting without an error
 
+def year_day_entry_check(year_day_value):
+    """
+    Checks the year day entry value to see if there was a value inputted for the yearday entry box
+
+    Parameters
+    ----------
+    String
+        year_day_value: the value that was inputted into the year_day_entry box
+    """
+    # Testing the input value of yearday so we can use it for a file lookup
+    if(len(year_day_value) == 0):
+        # show error as no input was received
+        # using tkinter's message box
+        error_message_pop_up(title="year_day Entry Error", message="There was no input for the year_day entry box")
+
+
+
+    
+
 def fillList(listbox):
     # Keeping this list as a local variable which takes more time and power to process
     #   meaning it might be a bit slower but it eliminates the risk of having it as a
