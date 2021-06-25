@@ -31,7 +31,7 @@ import station_names
 import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 
-def find_max_differences_of_three(, y_arr, z_arr) :
+def find_max_differences_of_three(x_arr, y_arr, z_arr) :
     """
     Finds the difference between the minimum value and maximum values in the list
         for the x, y, and z lists
