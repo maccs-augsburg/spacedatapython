@@ -19,6 +19,14 @@ on its' own plot.
 # tkinter imports
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
+
+# Python 3 imports
+import sys
+import datetime
+
+# Plotter program imports
+import raw_to_plot
 
 def fillList(listbox):
     # Keeping this list as a local variable which takes more time and power to process
