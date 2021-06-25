@@ -85,6 +85,30 @@ def year_day_entry_check(year_day_value):
         # using tkinter's message box
         error_message_pop_up(title="year_day Entry Error", message="There was no input for the year_day entry box")
 
+def date_time_object_check(string_value):
+    """
+    Checks to see if the time string is a single digit, if so it converts it so that it can be used in the datetime format of HH:MM:SS
+
+    Parameters
+    ----------
+    String
+        string_value: the string of digit/s to check to see if can be used for datetime format
+
+    Returns
+    -------
+    String
+        string_value: altered (or not) to be in the correct state for being used in the datetime module
+    """
+    #
+    if(len(string_value) == 1):
+        # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
+        #   This is so we have the format "00:00:00" for the datetime object
+        string_value = "0" + string_value
+
+    return string_value
+
+
+
 
 
     
