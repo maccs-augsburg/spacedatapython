@@ -351,7 +351,7 @@ def station_names_entry_check(station_names_value):
      if(len(station_names_value) == 0):
         error_message(title = "Station Code Entry Error", message = "There was no input for the station code entry box")
 
-def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, filename, stime, etime, file_option):
+def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, filename, stime, etime):
      """
      Checks the radio button input to then produce either the X, Y or Z graph.
 
@@ -386,57 +386,57 @@ def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter
      #If statement to decided if we want X, Y or Z plot
      
      if(graph_from_plotter_value_x == 1):
-          one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime)
      if(graph_from_plotter_value_y == 2):
-          one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime)
      if(graph_from_plotter_value_z == 3):
-          one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime)
      if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
-          one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
      if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
-          one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
      if(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
-          one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
      if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
-          one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option)
+          one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
           
      #warning_message(title = "File Format Option Error", message = "Please select a file format option")
 
      return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z 
 
-def file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z):
+def file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, one_array_plotted):
      """
      """
      #Pdf Files
      if(file_selection_value_pdf == 1 and graph_from_plotter_value_x == 1):
-          fig.savefig('x_array_plot.pdf', format='pdf', dpi=1200)
+          one_array_plotted.fig.savefig('x_array_plot.pdf', format='pdf', dpi=1200)
      if(file_selection_value_pdf == 1 and graph_from_plotter_value_y == 2):
-          fig.savefig('y_array_plot.pdf', format='pdf', dpi=1200)
+          one_array_plotted.fig.savefig('y_array_plot.pdf', format='pdf', dpi=1200)
      if(file_selection_value_pdf == 1 and graph_from_plotter_value_z == 3):
-          fig.savefig('z_array_plot.pdf', format='pdf', dpi=1200)
+          one_array_plotted.fig.savefig('z_array_plot.pdf', format='pdf', dpi=1200)
      if(file_selection_value_pdf == 1 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
-           fig.savefig('x_and_y_array_plot.pdf', format='pdf', dpi=1200)
+           one_array_plotted.fig.savefig('x_and_y_array_plot.pdf', format='pdf', dpi=1200)
      if(file_selection_value_pdf == 1 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
-           fig.savefig('x_and_z_array_plot.pdf', format='pdf', dpi=1200) 
+           one_array_plotted.fig.savefig('x_and_z_array_plot.pdf', format='pdf', dpi=1200) 
      if(file_selection_value_pdf == 1 and graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
-           fig.savefig('y_and_z_array_plot.pdf', format='pdf', dpi=1200)
+           one_array_plotted.fig.savefig('y_and_z_array_plot.pdf', format='pdf', dpi=1200)
      if(file_selection_value_pdf == 1 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
-           fig.savefig('x_y_and_z_array_plot.pdf', format='pdf', dpi=1200) 
+           one_array_plotted.fig.savefig('x_y_and_z_array_plot.pdf', format='pdf', dpi=1200) 
      #Png Files
      if(file_selection_value_png == 2 and graph_from_plotter_value_x == 1):
-          fig.savefig('x_array_plot.png', format='png', dpi=1200)
+          one_array_plotted.fig.savefig('x_array_plot.png', format='png', dpi=1200)
      if(file_selection_value_png == 2 and graph_from_plotter_value_y == 2):
-          fig.savefig('y_array_plot.png', format='png', dpi=1200)
+          one_array_plotted.fig.savefig('y_array_plot.png', format='png', dpi=1200)
      if(file_selection_value_png == 2 and graph_from_plotter_value_z == 3):
-          fig.savefig('z_array_plot.png', format='png', dpi=1200)
+          one_array_plotted.fig.savefig('z_array_plot.png', format='png', dpi=1200)
      if(file_selection_value_png == 2 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
-           fig.savefig('x_and_y_array_plot.png', format='png', dpi=1200)
+           one_array_plotted.fig.savefig('x_and_y_array_plot.png', format='png', dpi=1200)
      if(file_selection_value_png == 2 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
-           fig.savefig('x_and_z_array_plot.png', format='png', dpi=1200) 
+           one_array_plotted.fig.savefig('x_and_z_array_plot.png', format='png', dpi=1200) 
      if(file_selection_value_png == 2 and graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
-           fig.savefig('y_and_z_array_plot.png', format='png', dpi=1200)
+           one_array_plotted.fig.savefig('y_and_z_array_plot.png', format='png', dpi=1200)
      if(file_selection_value_png == 2 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
-           fig.savefig('x_y_and_z_array_plot.png', format='png', dpi=1200)
+           one_array_plotted.fig.savefig('x_y_and_z_array_plot.png', format='png', dpi=1200)
 
      return file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom
 
@@ -498,21 +498,20 @@ def display_code():
      graph_from_plotter_value_z = graph_from_plotter_z.get()
           
      
-     graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
+     graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp) #update params
      
 
      file_selection_value_pdf = pdf_option.get()
      file_selection_value_png = png_option.get()
      file_selection_value_zoom = zoom_window_option.get()
 
-     file_selection_value = file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z)
+     file_selection_value = file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, one_array_plotted)
 
      
      
 
 def cancel(root):
      """
-     For the cancel button to shut down the GUI and plotter when pressed.
 
      Parameters
      ----------
