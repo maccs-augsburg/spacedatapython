@@ -69,10 +69,12 @@ def gui_labels(mainframe):
      ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 7, sticky = W)
      #Station Code Label 
      ttk.Label(mainframe, text = "Station Code: ").grid(column = 1, row = 6, sticky = W)
+     #PDF, PNG, or zoom window Label
+     ttk.Label(mainframe, text = "File Option:").grid(column = 1, row = 11, sticky = W)     
+     
 
-
-     #Will add png or pdf label (radio buttons)
-     #Will add x and y, x and z or y and z label(Radio buttons)
+     
+     
 
 def gui_entries(mainframe, root):
 
@@ -86,6 +88,7 @@ def gui_entries(mainframe, root):
      global end_hour, end_hour_entry,end_minute,  end_minute_entry, end_second, end_second_entry
      global station_names_entry
      global graph_from_plotter_x,graph_from_plotter_y,graph_from_plotter_z, x_plot, y_plot, z_plot
+     global pdf_option, png_option, zoom_window_option
      global okay_button, cancel_button
 
      #Creation of the Year Day entry widget 
@@ -123,13 +126,22 @@ def gui_entries(mainframe, root):
      station_names= StringVar()
      station_names_entry = ttk.Entry(mainframe, width = 5, textvariable = station_names)
      station_names_entry.grid(column = 2, row = 6, sticky = (W,E))
-     #Creation of the graph from plotter radio button
+     #Creation of the graph from plotter check button
      graph_from_plotter_x = IntVar()
      graph_from_plotter_y = IntVar()
      graph_from_plotter_z = IntVar()
      x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = graph_from_plotter_x, onvalue = 1).grid(column = 1, row = 8, sticky = W)
      y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 9, sticky = W) 
      z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 10, sticky = W)
+
+     #Creation of the file options, Check Button
+     pdf_option = IntVar()
+     png_option = IntVar()
+     zoom_window_option = IntVar()
+     ttk.Checkbutton(mainframe, text = "PDF File ", variable = pdf_option, onvalue = 1).grid(column = 1, row = 12, sticky = W)
+     ttk.Checkbutton(mainframe, text = "PNG File", variable = png_option, onvalue = 2).grid(column = 1, row = 13, sticky = W)
+     ttk.Checkbutton(mainframe, text = "Zoom Window", variable = zoom_window_option, onvalue = 3).grid(column = 1, row = 14, sticky = W)
+
      #Creation of the Okay and Cancel button that has commands to either run
      #the GUI if you press okay or to "destroy" the GUI if you hit canel
      okay_button = ttk.Button(mainframe, text = "Okay", command = display_code).grid(column = 3, row = 10, sticky = W)
@@ -392,6 +404,42 @@ def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter
 
      return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z 
 
+def file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z):
+     """
+     """
+     #Pdf Files
+     if(file_selection_value_pdf == 1 and graph_from_plotter_value_x == 1):
+          fig.savefig('x_array_plot.pdf', format='pdf', dpi=1200)
+     if(file_selection_value_pdf == 1 and graph_from_plotter_value_y == 2):
+          fig.savefig('y_array_plot.pdf', format='pdf', dpi=1200)
+     if(file_selection_value_pdf == 1 and graph_from_plotter_value_z == 3):
+          fig.savefig('z_array_plot.pdf', format='pdf', dpi=1200)
+     if(file_selection_value_pdf == 1 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
+           fig.savefig('x_and_y_array_plot.pdf', format='pdf', dpi=1200)
+     if(file_selection_value_pdf == 1 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
+           fig.savefig('x_and_z_array_plot.pdf', format='pdf', dpi=1200) 
+     if(file_selection_value_pdf == 1 and graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
+           fig.savefig('y_and_z_array_plot.pdf', format='pdf', dpi=1200)
+     if(file_selection_value_pdf == 1 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
+           fig.savefig('x_y_and_z_array_plot.pdf', format='pdf', dpi=1200) 
+     #Png Files
+     if(file_selection_value_png == 2 and graph_from_plotter_value_x == 1):
+          fig.savefig('x_array_plot.png', format='png', dpi=1200)
+     if(file_selection_value_png == 2 and graph_from_plotter_value_y == 2):
+          fig.savefig('y_array_plot.png', format='png', dpi=1200)
+     if(file_selection_value_png == 2 and graph_from_plotter_value_z == 3):
+          fig.savefig('z_array_plot.png', format='png', dpi=1200)
+     if(file_selection_value_png == 2 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
+           fig.savefig('x_and_y_array_plot.png', format='png', dpi=1200)
+     if(file_selection_value_png == 2 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
+           fig.savefig('x_and_z_array_plot.png', format='png', dpi=1200) 
+     if(file_selection_value_png == 2 and graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
+           fig.savefig('y_and_z_array_plot.png', format='png', dpi=1200)
+     if(file_selection_value_png == 2 and graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
+           fig.savefig('x_y_and_z_array_plot.png', format='png', dpi=1200)
+
+     return file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom
+
 def display_code():
      """
      This funtion is esentially our main. We run everything we have created above
@@ -439,12 +487,11 @@ def display_code():
 
      #Creating a file name to be found in our file explorer to run through our plotter
      file_name = station_names_value + year_day_value + '.2hz'
-     #The out put of our file as of right now is just a pdf
-     file_option = 'pdf' # Update later
      #This opens our said file
      file = open(file_name, 'rb')
      #Creates our arrays
-     xArr, yArr, zArr, timeArr = one_array_plotted.create_arrays(file, start_time_stamp, end_time_stamp)
+     #Creates our arrays
+     xArr, yArr, zArr, timeArr = one_array_plotted.create_arrays(file, start_time_stamp, end_time_stamp)   
      #This calls our graph plotter function to plot the chose graph
      graph_from_plotter_value_x = graph_from_plotter_x.get()
      graph_from_plotter_value_y = graph_from_plotter_y.get()
@@ -452,6 +499,15 @@ def display_code():
           
      
      graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
+     
+
+     file_selection_value_pdf = pdf_option.get()
+     file_selection_value_png = png_option.get()
+     file_selection_value_zoom = zoom_window_option.get()
+
+     file_selection_value = file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z)
+
+     
      
 
 def cancel(root):
