@@ -97,6 +97,8 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
     #To split up the file name 
     station = filename[0:2]
     year_day_value = filename[2:7]
+    year_value = year_day_value[0:2]
+    day_value = year_day_value[2:]
     station_name = station_names.find_full_name(station)
 
 
@@ -120,12 +122,24 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
                 hoursArr.append(currentTime) # adding the odd numbers to the list
             currentTime += 1
 
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
+
+
+
     #Actual Plot
+
+            
 
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,xArr, linewidth = .25)
-    plt.title("GeoMagnetic Bx of " + station_name + "      YEARDAY: " + year_day_value) 
+    plt.title("GeoMagnetic Bx of " + station_name + "      YEARDAY: " + year_day_value + "      DATE: " + date) 
     plt.ylabel('Bx')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -177,6 +191,8 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
     #To split up the file name 
     station = filename[0:2]
     year_day_value = filename[2:7]
+    year_value = year_day_value[0:2]
+    day_value = year_day_value[2:]
     station_name = station_names.find_full_name(station)
 
 
@@ -200,12 +216,20 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
                 hoursArr.append(currentTime) # adding the odd numbers to the list
             currentTime += 1
 
+
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,yArr, linewidth = .25)
-    plt.title("GeoMagnetic By of " + station_name + "      YEARDAY: " + year_day_value) 
+    plt.title("GeoMagnetic By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -255,6 +279,8 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     #To split up the file name 
     station = filename[0:2]
     year_day_value = filename[2:7]
+    year_value = year_day_value[0:2]
+    day_value = year_day_value[2:]
     station_name = station_names.find_full_name(station)
 
 
@@ -278,12 +304,20 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
                 hoursArr.append(currentTime) # adding the odd numbers to the list
             currentTime += 1
 
+
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,zArr, linewidth = .25)
-    plt.title("GeoMagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value) 
+    plt.title("GeoMagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value+  "      DATE: " + date) 
     plt.ylabel('Bz')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -335,6 +369,8 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     #To split up the file name 
     station = filename[0:2]
     year_day_value = filename[2:7]
+    year_value = year_day_value[0:2]
+    day_value = year_day_value[2:]
     station_name = station_names.find_full_name(station)
 
 
@@ -358,6 +394,14 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
                 hoursArr.append(currentTime) # adding the odd numbers to the list
             currentTime += 1
 
+
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
@@ -365,7 +409,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,xArr, linewidth = .25)
     plt.plot(timeArr,yArr, linewidth = .25)
     
-    plt.title("GeoMagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value) 
+    plt.title("GeoMagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and By')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -417,6 +461,8 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     #To split up the file name 
     station = filename[0:2]
     year_day_value = filename[2:7]
+    year_value = year_day_value[0:2]
+    day_value = year_day_value[2:]
     station_name = station_names.find_full_name(station)
 
 
@@ -440,6 +486,14 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
                 hoursArr.append(currentTime) # adding the odd numbers to the list
             currentTime += 1
 
+
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
@@ -447,7 +501,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,xArr, linewidth = .25)
     plt.plot(timeArr,zArr, linewidth = .25)
     
-    plt.title("GeoMagnetic Bx and Bz of " + station_name + "      YEARDAY: " + year_day_value) 
+    plt.title("GeoMagnetic Bx and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and Bz')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -500,6 +554,8 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     #To split up the file name 
     station = filename[0:2]
     year_day_value = filename[2:7]
+    year_value = year_day_value[0:2]
+    day_value = year_day_value[2:]
     station_name = station_names.find_full_name(station)
 
 
@@ -523,6 +579,14 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
                 hoursArr.append(currentTime) # adding the odd numbers to the list
             currentTime += 1
 
+
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
@@ -530,7 +594,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,yArr, linewidth = .25)
     plt.plot(timeArr,zArr, linewidth = .25)
     
-    plt.title("GeoMagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value) 
+    plt.title("GeoMagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By and Bz')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -583,6 +647,8 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     #To split up the file name 
     station = filename[0:2]
     year_day_value = filename[2:7]
+    year_value = year_day_value[0:2]
+    day_value = year_day_value[2:]
     station_name = station_names.find_full_name(station)
 
 
@@ -606,6 +672,14 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
                 hoursArr.append(currentTime) # adding the odd numbers to the list
             currentTime += 1
 
+
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
@@ -614,7 +688,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     plt.plot(timeArr,yArr, linewidth = .25)
     plt.plot(timeArr,zArr, linewidth = .25)
     
-    plt.title("GeoMagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value) 
+    plt.title("GeoMagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
 
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -677,12 +751,12 @@ if __name__ == "__main__" :
     arrayX, arrayY, arrayZ, timeArr = create_arrays(two_hz_binary_file, start_time, end_time)
 
     #try:
-    #x_plot(arrayX, timeArr, filename, start_time, end_time, file_option)
-    #y_plot(arrayY, timeArr, filename, start_time, end_time, file_option)
-    #z_plot(arrayZ, timeArr, filename, start_time, end_time, file_option)
-    #x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time, file_option)
-    #x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time, file_option)
-    #y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time, file_option)
+    x_plot(arrayX, timeArr, filename, start_time, end_time, file_option)
+    y_plot(arrayY, timeArr, filename, start_time, end_time, file_option)
+    z_plot(arrayZ, timeArr, filename, start_time, end_time, file_option)
+    x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time, file_option)
+    x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time, file_option)
+    y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time, file_option)
     x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time, file_option)
     
     
