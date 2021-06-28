@@ -139,7 +139,7 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,xArr, linewidth = .25)
-    plt.title("GeoMagnetic Bx of " + station_name + "      YEARDAY: " + year_day_value + "      DATE: " + date) 
+    plt.title("Geomagnetic Bx of " + station_name + "      YEARDAY: " + year_day_value + "      DATE: " + date) 
     plt.ylabel('Bx')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -230,7 +230,7 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,yArr, linewidth = .25)
-    plt.title("GeoMagnetic By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -318,7 +318,7 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     fig = plt.figure(figsize=(12, 7))
     
     plt.plot(timeArr,zArr, linewidth = .25)
-    plt.title("GeoMagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value+  "      DATE: " + date) 
+    plt.title("Geomagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value+  "      DATE: " + date) 
     plt.ylabel('Bz')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -410,7 +410,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,xArr, linewidth = .25)
     plt.plot(timeArr,yArr, linewidth = .25)
     
-    plt.title("GeoMagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and By')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -502,7 +502,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,xArr, linewidth = .25)
     plt.plot(timeArr,zArr, linewidth = .25)
     
-    plt.title("GeoMagnetic Bx and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic Bx and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and Bz')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -595,7 +595,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,yArr, linewidth = .25)
     plt.plot(timeArr,zArr, linewidth = .25)
     
-    plt.title("GeoMagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By and Bz')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -689,7 +689,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     plt.plot(timeArr,yArr, linewidth = .25)
     plt.plot(timeArr,zArr, linewidth = .25)
     
-    plt.title("GeoMagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
