@@ -144,8 +144,8 @@ def gui_entries(mainframe, root):
 
      #Creation of the Okay and Cancel button that has commands to either run
      #the GUI if you press okay or to "destroy" the GUI if you hit canel
-     okay_button = ttk.Button(mainframe, text = "Okay", command = display_code).grid(column = 3, row = 10, sticky = W)
-     cancel_button = ttk.Button(mainframe, text = "Cancel", command = lambda: cancel(root)).grid(column =4, row = 10, sticky = W)
+     okay_button = ttk.Button(mainframe, text = "Okay", command = display_code).grid(column = 3, row = 14, sticky = W)
+     cancel_button = ttk.Button(mainframe, text = "Cancel", command = lambda: cancel(root)).grid(column =4, row = 14, sticky = W)
 
 def date_time_object_check(string_value) :
      """
