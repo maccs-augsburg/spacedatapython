@@ -13,7 +13,7 @@ Ted Stuff |
 -----------
 - Thicker Lines
 - Remove pdf, png files from repo - done
-- Rename python files in repo
+- Rename python files in repo - done
 	git mv oldName.py new_name.py
 - Remove old unused python files from repo
 	git rm unused.py
