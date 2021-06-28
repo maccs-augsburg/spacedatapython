@@ -142,7 +142,7 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
     plt.title("GeoMagnetic Bx of " + station_name + "      YEARDAY: " + year_day_value + "      DATE: " + date) 
     plt.ylabel('Bx')
 
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -156,6 +156,7 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
 
     #add an if statement for when if they want a pdf or a png
     file_option = file_option.lower()
+    #print(file_option)
     if(file_option == 'pdf'):
         fig.savefig('x_array_plot.pdf', format='pdf', dpi=1200)
     elif(file_option == 'png'):
@@ -232,7 +233,7 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
     plt.title("GeoMagnetic By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By')
 
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -320,7 +321,7 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     plt.title("GeoMagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value+  "      DATE: " + date) 
     plt.ylabel('Bz')
 
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -412,7 +413,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     plt.title("GeoMagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and By')
 
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -504,7 +505,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.title("GeoMagnetic Bx and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and Bz')
 
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -597,7 +598,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.title("GeoMagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By and Bz')
 
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -691,7 +692,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     plt.title("GeoMagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
 
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -724,7 +725,8 @@ if __name__ == "__main__" :
         sys.exit(0) # Exiting without an error code
 
     filename = sys.argv[1]
-    file_option = 'pdf'
+    file_option = "pdf"
+    
 
     try:
         two_hz_binary_file = open(filename, "rb")
@@ -751,13 +753,13 @@ if __name__ == "__main__" :
     arrayX, arrayY, arrayZ, timeArr = create_arrays(two_hz_binary_file, start_time, end_time)
 
     #try:
-    x_plot(arrayX, timeArr, filename, start_time, end_time, file_option)
-    y_plot(arrayY, timeArr, filename, start_time, end_time, file_option)
-    z_plot(arrayZ, timeArr, filename, start_time, end_time, file_option)
-    x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time, file_option)
-    x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time, file_option)
-    y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time, file_option)
-    x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time, file_option)
+    x_plot(arrayX, timeArr, filename, start_time, end_time)
+    y_plot(arrayY, timeArr, filename, start_time, end_time)
+    z_plot(arrayZ, timeArr, filename, start_time, end_time)
+    x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time)
+    x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
+    y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
+    x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
     
     
     #except:
