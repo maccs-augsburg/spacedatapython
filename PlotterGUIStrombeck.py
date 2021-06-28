@@ -544,10 +544,10 @@ def execute_functions(): # change to some other function name like "execute_okay
     file = open(file_name_full, 'rb')
     
     # Creating the arrays from the file
-    xArr, yArr, zArr, timeArr = raw_to_plot.create_Arrays(file, start_time_stamp, end_time_stamp)
+    xArr, yArr, zArr, timeArr = raw_to_plot.create_arrays(file, start_time_stamp, end_time_stamp)
 
     # Plotting the arrays
-    raw_to_plot.plot_Arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp, file_save_as_option_value)
+    raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp, file_save_as_option_value)
 
     plotter_complete_message(title="Plotting Program Complete", message="The plotting program has plotted your desired file!") 
     ### End Putting information gathered together and calling the plotting program! ### -----------------------
