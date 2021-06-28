@@ -12,7 +12,7 @@ Here are some ideas for python data processing programs
 Ted Stuff |
 -----------
 - Thicker Lines
-- Remove pdf, png files from repo
+- Remove pdf, png files from repo - done
 - Rename python files in repo
 	git mv oldName.py new_name.py
 - Remove old unused python files from repo
