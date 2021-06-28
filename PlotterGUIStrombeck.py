@@ -588,7 +588,7 @@ def gui_labels(mainframe):
     ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, row=5, sticky=W)
 
     # Station file label
-    ttk.Label(mainframe, text="Station code (3-4):").grid(column=1, row=6, sticky=W)
+    ttk.Label(mainframe, text="Station code:").grid(column=1, row=6, sticky=W)
 
     # File format label
     ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=7, sticky=W)
