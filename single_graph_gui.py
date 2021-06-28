@@ -45,7 +45,7 @@ def completed_message(title, message):
      """
      """
      messagebox.showinfo(title, message)
-     sys.exit(0)
+     #sys.exit(0)
 
 
 
