@@ -35,14 +35,19 @@ def error_message(title, message):
      message: to be able to create the actual message to be displayed in the
               error message pop up.
 
-     Returns
-     -------
-
-     Exits the program? 
      """
      
      messagebox.showerror(title = title, message = "ERROR: " + message)
      sys.exit(0)
+
+
+def completed_message(title, message):
+     """
+     """
+     messagebox.showinfo(title, message)
+     sys.exit(0)
+
+
 
 
 def gui_labels(mainframe):
@@ -489,7 +494,7 @@ def display_code():
      file_selection_value = file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, one_array_plotted)
 
      
-     
+     completed_message(title = "Plotter Program Completed", message = "The plotting program has plotted your file!")
 
 def cancel(root):
      """
