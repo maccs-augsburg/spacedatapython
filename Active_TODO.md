@@ -10,25 +10,29 @@ Here are some ideas for python data processing programs
 
 -----------
 Ted Stuff |
------------
-- Thicker Lines - done
-- Remove pdf, png files from repo - done
-- Rename python files in repo - done
-	git mv oldName.py new_name.py
-- Remove old unused python files from repo
-	git rm unused.py
-- Plot min and max for each x, y and z
-- Default pdf to white background - done
+---------------------------------------------------------------------
+- Thicker Lines --------------------------------------------- done  |
+- Remove pdf, png files from repo --------------------------- done  |
+- Move station code label and entry box up ------------------ done  |
+- Move yearday label and entry box over (to the right) ------ done  |
+- Default pdf to white background --------------------------- done  |
+- Rename python files in repo ------------------------------- done  |
+	git mv oldName.py new_name.py                               |
+                                                                    |
+                                                                    |
+---------------------------------------------------------------------
+
 - Add Universal Time (Hours) on time axis for plotter
 - Change "GeoMagnetic Bz of __stationname__" to "Geomagnetic Bz of __stationname__"
-- Keep GUI running until quit
-- Use filenames.py file in GUI
 - Remove buttons
 - Add plot and cancel buttons
 - Bind return key to plot button
+- Keep GUI running until quit
+- Use filenames.py file in GUI
 - check both pdf and png radiobuttons for saving
-- Move station code label and entry box up
-- Move yearday label and entry box over (to the right)
+- Remove old unused python files from repo
+	git rm unused.py
+- Plot min and max for each x, y and z
 - 
 
 ------------

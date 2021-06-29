@@ -571,7 +571,7 @@ def gui_labels(mainframe):
         mainframe: the ttk frame object to save labels to
     """
     # year_day label
-    ttk.Label(mainframe, text="Year Day:").grid(column=1, row=1, sticky=W)
+    ttk.Label(mainframe, text="Year Day:").grid(column=2, row=1, sticky=W)
 
     # Start time labels
     ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
@@ -588,7 +588,7 @@ def gui_labels(mainframe):
     ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, row=5, sticky=W)
 
     # Station file label
-    ttk.Label(mainframe, text="Station code:").grid(column=1, row=6, sticky=W)
+    ttk.Label(mainframe, text="Station code:").grid(column=1, row=1, sticky=W)
 
     # File format label
     ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=7, sticky=W)
@@ -614,11 +614,16 @@ def gui_entries(mainframe, root):
     global plot_min, plot_min_entry, plot_max, plot_max_entry
     global station_code, station_code_entry
     global file_selection, radio_button_1, radio_button_2, radio_button_3, radio_button_4, radio_button_7, file_to_save_as, radio_button_8, radio_button_9, radio_button_10
+
+    # Station file entries
+    station_code = StringVar()
+    station_code_entry = ttk.Entry(mainframe, width=4, textvariable=station_code)
+    station_code_entry.grid(column=1, row=1)
     
     # year_day entry
     year_day = StringVar() ## storing as a string for now, might change to int later
     year_day_entry = ttk.Entry(mainframe, width=6, textvariable=year_day) # setting a variable with the Entry box format
-    year_day_entry.grid(column=1, row=1) # selecting which column and row to place said variable
+    year_day_entry.grid(column=3, row=1, sticky=W) # selecting which column and row to place said variable
 
     # Start Hour entry
     start_hour = IntVar()
@@ -662,15 +667,7 @@ def gui_entries(mainframe, root):
     plot_max_entry = ttk.Entry(mainframe, width=3, textvariable=plot_max)
     plot_max_entry.grid(column=2, row=5, sticky=W)
 
-    # Station file entries
-    station_code = StringVar()
-    station_code_entry = ttk.Entry(mainframe, width=4, textvariable=station_code)
-    station_code_entry.grid(column=1, row=6)
-
     ### Button section ###
-    # Management buttons section
-    ok_button = ttk.Button(mainframe, text="OK", command=execute_functions).grid(column=2, row = 19, sticky=W)
-    cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=3, row=19, sticky=E)
 
     # Radiobutton section
     # file selection of type of file to open
@@ -688,7 +685,10 @@ def gui_entries(mainframe, root):
     radio_button_8 = Radiobutton(mainframe, text="pdf", value=8, variable=file_to_save_as).grid(column=1, row=16, sticky=W)
     radio_button_9 = Radiobutton(mainframe, text="png", value=9, variable=file_to_save_as).grid(column=1, row=17, sticky=W)
     radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
-    
+
+    # Management buttons section
+    ok_button = ttk.Button(mainframe, text="OK", command=execute_functions).grid(column=2, row = 19, sticky=W)
+    cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=3, row=19, sticky=E)
     
 def main():
     """
@@ -713,7 +713,7 @@ def main():
     for child in mainframe.winfo_children(): 
         child.grid_configure(padx=5, pady=5)
 
-    year_day_entry.focus() # starting spot for tab control
+    station_code_entry.focus() # starting spot for tab control
 
     root.mainloop() # root loop running
 
