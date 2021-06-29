@@ -138,9 +138,13 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
 
     fig = plt.figure(figsize=(12, 7))
     
-    plt.plot(timeArr,xArr, linewidth = .25)
+    plt.plot(timeArr,xArr, linewidth = 1)
     plt.title("Geomagnetic Bx of " + station_name + "      YEARDAY: " + year_day_value + "      DATE: " + date) 
     plt.ylabel('Bx')
+
+    #Make an if statement about changing the label with the x axis changing 
+    plt.xlabel("Universal Time (Hours)")
+    
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -229,9 +233,10 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
 
     fig = plt.figure(figsize=(12, 7))
     
-    plt.plot(timeArr,yArr, linewidth = .25)
+    plt.plot(timeArr,yArr, linewidth = 1)
     plt.title("Geomagnetic By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By')
+    plt.xlabel("Universal Time (Hour)")
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -317,9 +322,11 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
 
     fig = plt.figure(figsize=(12, 7))
     
-    plt.plot(timeArr,zArr, linewidth = .25)
+    plt.plot(timeArr,zArr, linewidth = 1)
     plt.title("Geomagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value+  "      DATE: " + date) 
     plt.ylabel('Bz')
+    plt.xlabel("Universal Time (Hours)")
+    
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -407,11 +414,12 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
 
     fig = plt.figure(figsize=(12, 7))
     
-    plt.plot(timeArr,xArr, linewidth = .25)
-    plt.plot(timeArr,yArr, linewidth = .25)
+    plt.plot(timeArr,xArr, linewidth = 1)
+    plt.plot(timeArr,yArr, linewidth = 1)
     
     plt.title("Geomagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and By')
+    plt.xlabel("Universal Time (Hours)")
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -499,11 +507,12 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
 
     fig = plt.figure(figsize=(12, 7))
     
-    plt.plot(timeArr,xArr, linewidth = .25)
-    plt.plot(timeArr,zArr, linewidth = .25)
+    plt.plot(timeArr,xArr, linewidth = 1)
+    plt.plot(timeArr,zArr, linewidth = 1)
     
     plt.title("Geomagnetic Bx and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and Bz')
+    plt.xlabel("Universal Time (Hours)")
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -592,11 +601,12 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
 
     fig = plt.figure(figsize=(12, 7))
     
-    plt.plot(timeArr,yArr, linewidth = .25)
-    plt.plot(timeArr,zArr, linewidth = .25)
+    plt.plot(timeArr,yArr, linewidth = 1)
+    plt.plot(timeArr,zArr, linewidth = 1)
     
     plt.title("Geomagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By and Bz')
+    plt.xlabel("Universal Time (Hours)")
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -685,12 +695,13 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
 
     fig = plt.figure(figsize=(12, 7))
 
-    plt.plot(timeArr,xArr, linewidth = .25)
-    plt.plot(timeArr,yArr, linewidth = .25)
-    plt.plot(timeArr,zArr, linewidth = .25)
+    plt.plot(timeArr,xArr, linewidth = 1)
+    plt.plot(timeArr,yArr, linewidth = 1)
+    plt.plot(timeArr,zArr, linewidth = 1)
     
     plt.title("Geomagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
+    plt.xlabel("Univeral Time (Hours)")
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
