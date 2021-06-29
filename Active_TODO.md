@@ -11,7 +11,7 @@ Here are some ideas for python data processing programs
 -----------
 Ted Stuff |
 -----------
-- Thicker Lines
+- Thicker Lines - done
 - Remove pdf, png files from repo - done
 - Rename python files in repo - done
 	git mv oldName.py new_name.py

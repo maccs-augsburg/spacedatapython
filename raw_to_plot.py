@@ -246,7 +246,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
-    plt.plot(time_arr,x_arr, linewidth=0.25) # this was plt.scatter, we used plt.plot for a line graph
+    plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     plt.ylabel('Bx')	# side label
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
@@ -262,7 +262,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
 
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
-    plt.plot(time_arr,y_arr, linewidth=0.25)
+    plt.plot(time_arr,y_arr, linewidth=1)
     plt.ylabel('By')	# side label
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -277,7 +277,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
     
     ### Third plot using z-axis data. Add the x-axis label at the bottom
     plt.subplot(313)
-    plt.plot(time_arr,z_arr, linewidth=0.25)
+    plt.plot(time_arr,z_arr, linewidth=1)
     plt.ylabel('Bz')	# side label
     plt.xlabel('Time in Hours') # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
