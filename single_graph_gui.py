@@ -74,8 +74,8 @@ def gui_labels(mainframe):
      ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 7, sticky = W)
      #Station Code Label 
      ttk.Label(mainframe, text = "Station Code: ").grid(column = 1, row = 6, sticky = W)
-     #PDF, PNG, or zoom window Label
-     ttk.Label(mainframe, text = "File Option: - (Not Implemented)").grid(column = 1, row = 11, sticky = W)     
+
+        
      
 
      
@@ -93,7 +93,6 @@ def gui_entries(mainframe, root):
      global end_hour, end_hour_entry,end_minute,  end_minute_entry, end_second, end_second_entry
      global station_names_entry
      global graph_from_plotter_x,graph_from_plotter_y,graph_from_plotter_z, x_plot, y_plot, z_plot
-     global pdf_option, png_option, zoom_window_option
      global okay_button, cancel_button
 
      #Creation of the Year Day entry widget 
@@ -139,13 +138,7 @@ def gui_entries(mainframe, root):
      y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 9, sticky = W) 
      z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 10, sticky = W)
 
-     #Creation of the file options, Check Button
-     pdf_option = IntVar()
-     png_option = IntVar()
-     zoom_window_option = IntVar()
-     ttk.Checkbutton(mainframe, text = "PDF File - (Not Implemeneted) ", variable = pdf_option, onvalue = 1).grid(column = 1, row = 12, sticky = W)
-     ttk.Checkbutton(mainframe, text = "PNG File - (Not Implemeneted)", variable = png_option, onvalue = 2).grid(column = 1, row = 13, sticky = W)
-     ttk.Checkbutton(mainframe, text = "Zoom Window - (Not Implemeneted)", variable = zoom_window_option, onvalue = 3).grid(column = 1, row = 14, sticky = W)
+     
 
      #Creation of the Okay and Cancel button that has commands to either run
      #the GUI if you press okay or to "destroy" the GUI if you hit canel
@@ -409,21 +402,7 @@ def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter
 
      return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z 
 
-def file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, one_array_plotted):
-     """
-     """
-     suffix = ""
-     #Pdf Files
-     if(file_selection_value_pdf == 1):
-          suffix = "pdf"
-     
-     #Png Files
-     elif(file_selection_value_png == 2):
-          suffix = "png"
-     elif(file_selection_value_zoom == 3):
-          suffix = "zoom"
 
-     return suffix
 
 def display_code():
      """
@@ -487,11 +466,7 @@ def display_code():
      graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
      
 
-     file_selection_value_pdf = pdf_option.get()
-     file_selection_value_png = png_option.get()
-     file_selection_value_zoom = zoom_window_option.get()
-
-     file_selection_value = file_format_entry_check(file_selection_value_pdf, file_selection_value_png, file_selection_value_zoom, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, one_array_plotted)
+     
 
      
      completed_message(title = "Plotter Program Completed", message = "The plotting program has plotted your file!")
