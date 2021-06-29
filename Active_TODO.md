@@ -18,7 +18,7 @@ Ted Stuff |
 - Remove old unused python files from repo
 	git rm unused.py
 - Plot min and max for each x, y and z
-- Default pdf to white background
+- Default pdf to white background - done
 - Add Universal Time (Hours) on time axis for plotter
 - Change "GeoMagnetic Bz of __stationname__" to "Geomagnetic Bz of __stationname__"
 - Keep GUI running until quit

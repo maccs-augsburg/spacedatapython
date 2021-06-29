@@ -237,7 +237,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
 
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
-    fig.patch.set_facecolor('#d3d3d3') # "#d3d3d3" is a grey color for the plot
     fig.subplots_adjust(hspace=0.03)
 
     ### first plot
@@ -296,6 +295,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
         fig.savefig(filename + '.pdf', format='pdf', dpi=1200)
     elif (file_option == 'png'):
         # saving plot into a png file
+        fig.patch.set_facecolor('#d3d3d3') # "#d3d3d3" is a grey color for the plot
         fig.savefig(filename + '.png', format='png', dpi=1200)
     elif (file_option == 'no'):
         # not saving plot but showing it instead
