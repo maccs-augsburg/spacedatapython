@@ -18,11 +18,11 @@ Ted Stuff |
 - Default pdf to white background --------------------------- done  |
 - Rename python files in repo ------------------------------- done  |
 	git mv oldName.py new_name.py                               |
-                                                                    |
+- Add Universal Time (Hours) on time axis for plotter               |                                                                    |
                                                                     |
 ---------------------------------------------------------------------
 
-- Add Universal Time (Hours) on time axis for plotter
+
 - Change "GeoMagnetic Bz of __stationname__" to "Geomagnetic Bz of __stationname__"
 - Remove buttons
 - Add plot and cancel buttons

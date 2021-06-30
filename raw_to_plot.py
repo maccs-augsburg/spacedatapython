@@ -278,7 +278,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
     plt.subplot(313)
     plt.plot(time_arr,z_arr, linewidth=1)
     plt.ylabel('Bz')	# side label
-    plt.xlabel('Time in Hours') # label underneath
+    plt.xlabel('Universal Time (Hours)') # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
