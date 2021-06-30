@@ -34,7 +34,6 @@ Ted Stuff |
 - Remove buttons
 - Add plot and cancel buttons
 - Bind return key to plot button
-
 - Use filenames.py file in GUI
 - check both pdf and png radiobuttons for saving
 - Remove old unused python files from repo
