@@ -20,8 +20,12 @@ Ted Stuff |
 	git mv oldName.py new_name.py                                                       |
 - Add Universal Time (Hours) on time axis for plotter -------------------------------- done |
 - Change "GeoMagnetic Bz of __stationname__" to "Geomagnetic Bz of __stationname__" -- done |
+- Keep GUI running until quit -------------------------------------------------------- done |
+                                                                   
 
-                                                                   |
+
+
+|
                                                                                             |
 --------------------------------------------------------------------------------------------
 
@@ -30,7 +34,7 @@ Ted Stuff |
 - Remove buttons
 - Add plot and cancel buttons
 - Bind return key to plot button
-- Keep GUI running until quit
+
 - Use filenames.py file in GUI
 - check both pdf and png radiobuttons for saving
 - Remove old unused python files from repo

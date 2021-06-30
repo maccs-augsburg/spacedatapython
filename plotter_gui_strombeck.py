@@ -52,7 +52,6 @@ def plotter_complete_message(title, message):
     """
     # Using the messagebox package of tkinter to show an easy pop up info message
     messagebox.showinfo(title, message)
-    sys.exit(0) # Exiting without an error
 
 def error_message_pop_up(title, message):
     """
