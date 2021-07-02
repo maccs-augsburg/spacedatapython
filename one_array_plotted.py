@@ -153,6 +153,8 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
 
+    
+
     if (default_hours_flag):
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
@@ -413,8 +415,15 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
+
+
+    for i in range(len(xArr)):
+        xArr[i] = int(xArr[i] - xArr[0])
+
+    for j in range(len(yArr)):
+        yArr[j] = int(yArr[j] - yArr[0])
     
-    plt.plot(timeArr,xArr, linewidth = 1)
+    #plt.plot(timeArr,xArr, linewidth = 1)
     plt.plot(timeArr,yArr, linewidth = 1)
     
     plt.title("Geomagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
@@ -427,6 +436,10 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
+
+
+    
+        
 
     if (default_hours_flag):
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
