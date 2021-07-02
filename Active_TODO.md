@@ -23,7 +23,7 @@ Ted Stuff |
 - Keep GUI running until quit -------------------------------------------------------- done |
 - Bind return key to plot button ----------------------------------------------------- done |
 - Remove buttons --------------------------------------------------------------------- done |
-- Add plot and cancel buttons --------------------------------------------------------  |
+- Add plot and cancel buttons -------------------------------------------------------- done |
 - Use filenames.py file in GUI -------------------------------------------------------  |
 - check both pdf and png radiobuttons for saving -------------------------------------  |
 - Remove old unused python files from repo -------------------------------------------  |
