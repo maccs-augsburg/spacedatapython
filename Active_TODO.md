@@ -25,7 +25,7 @@ Ted Stuff |
 - Remove buttons --------------------------------------------------------------------- done |
 - Add plot and cancel buttons -------------------------------------------------------- done |
 - check both pdf and png radiobuttons for saving ------------------------------------- done |
-- Plot min and max for each x, y and z -----------------------------------------------  |
+- Plot min and max for each x, y and z ----------------------------------------------- done |
 - Remove old unused python files from repo -------------------------------------------  |
 	git rm unused.py
 - Use filenames.py file in GUI -------------------------------------------------------  |
