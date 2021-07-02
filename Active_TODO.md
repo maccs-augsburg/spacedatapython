@@ -24,12 +24,11 @@ Ted Stuff |
 - Bind return key to plot button ----------------------------------------------------- done |
 - Remove buttons --------------------------------------------------------------------- done |
 - Add plot and cancel buttons -------------------------------------------------------- done |
-- Use filenames.py file in GUI -------------------------------------------------------  |
-- check both pdf and png radiobuttons for saving -------------------------------------  |
+- check both pdf and png radiobuttons for saving ------------------------------------- done |
+- Plot min and max for each x, y and z -----------------------------------------------  |
 - Remove old unused python files from repo -------------------------------------------  |
 	git rm unused.py
-- Plot min and max for each x, y and z -----------------------------------------------  |
-                                                                                            |
+- Use filenames.py file in GUI -------------------------------------------------------  |
 - After plotting the function, cancel button doesn't work -- Not sure what to do here       |
 - Implement a file not found error catch ---------------------------------------------      |
 --------------------------------------------------------------------------------------------

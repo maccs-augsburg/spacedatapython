@@ -588,14 +588,22 @@ def gui_labels(mainframe):
     ttk.Label(mainframe, text="End Second:").grid(column=4, row=3, sticky=W)
 
     # Plot min and max labels
-    ttk.Label(mainframe, text="Plot Min (leave at 0 for default):").grid(column=1, row=4, sticky=W)
-    ttk.Label(mainframe, text="Plot Max (leave at 0 for default):").grid(column=1, row=5, sticky=W)
-
+    # X labels
+    ttk.Label(mainframe, text="Plot Min x (leave at 0 for default):").grid(column=1, row=4, sticky=W)
+    ttk.Label(mainframe, text="Plot Max x (leave at 0 for default):").grid(column=1, row=5, sticky=W)
+    # Y labels
+    ttk.Label(mainframe, text="Plot Min y (leave at 0 for default):").grid(column=1, row=6, sticky=W)
+    ttk.Label(mainframe, text="Plot Max y (leave at 0 for default):").grid(column=1, row=7, sticky=W)   
+    #Z labels
+    ttk.Label(mainframe, text="Plot Min z (leave at 0 for default):").grid(column=1, row=8, sticky=W)
+    ttk.Label(mainframe, text="Plot Max z (leave at 0 for default):").grid(column=1, row=9, sticky=W)
+    
     # Station file label
     ttk.Label(mainframe, text="Station code:").grid(column=1, row=1, sticky=W)
 
     # File format label
-    ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=7, sticky=W)
+    ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=10, sticky=W)
+
 
     # File save as label
     #ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
@@ -664,25 +672,46 @@ def gui_entries(mainframe, root):
     end_second_entry.grid(column=5, row=3, sticky=W)
 
     # Plot min and Plot max entries
-    plot_min = IntVar()
-    plot_min_entry = ttk.Entry(mainframe, width=3, textvariable=plot_min)
-    plot_min_entry.grid(column=2, row=4, sticky=W)
-    plot_max = IntVar()
-    plot_max_entry = ttk.Entry(mainframe, width=3, textvariable=plot_max)
-    plot_max_entry.grid(column=2, row=5, sticky=W)
+    # Plot min and max x
+    plot_min_x = IntVar()
+    plot_min_x.set(0)
+    plot_min_entry_x = ttk.Entry(mainframe, width=3, textvariable=plot_min_x)
+    plot_min_entry_x.grid(column=2, row=4, sticky=W)
+    plot_max_x = IntVar()
+    plot_max_x.set(0)
+    plot_max_entry_x = ttk.Entry(mainframe, width=3, textvariable=plot_max_x)
+    plot_max_entry_x.grid(column=2, row=5, sticky=W)
+
+    plot_min_y = IntVar()
+    plot_min_y.set(0)
+    plot_min_entry_y = ttk.Entry(mainframe, width=3, textvariable=plot_min_y)
+    plot_min_entry_y.grid(column=2, row=6, sticky=W)
+    plot_max_y = IntVar()
+    plot_max_y.set(0)
+    plot_max_entry_y = ttk.Entry(mainframe, width=3, textvariable=plot_max_y)
+    plot_max_entry_y.grid(column=2, row=7, sticky=W)
+
+    plot_min_z = IntVar()
+    plot_min_z.set(0)
+    plot_min_entry_z = ttk.Entry(mainframe, width=3, textvariable=plot_min_z)
+    plot_min_entry_z.grid(column=2, row=8, sticky=W)
+    plot_max_z = IntVar()
+    plot_max_z.set(0)
+    plot_max_entry_z = ttk.Entry(mainframe, width=3, textvariable=plot_max_z)
+    plot_max_entry_z.grid(column=2, row=9,sticky=W)
 
     ### Button section ###
 
     # Radiobutton section
     # file selection of type of file to open
     file_selection = StringVar()
-    radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=file_selection).grid(column=1, row=8, sticky=W)
-    radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=file_selection).grid(column=1, row=9, sticky=W)
-    radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=file_selection).grid(column=1, row=10, sticky=W)
-    radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=file_selection).grid(column=1, row=11, sticky=W)
+    radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=file_selection).grid(column=1, row=11, sticky=W)
+    radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=file_selection).grid(column=1, row=12, sticky=W)
+    radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=file_selection).grid(column=1, row=13, sticky=W)
+    radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=file_selection).grid(column=1, row=14, sticky=W)
     #radio_button_5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=file_selection).grid(column=1, row=12, sticky=W)
     #radio_button_6 = Radiobutton(mainframe, text="SPole", value=6, variable=file_selection).grid(column=1, row=13, sticky=W)
-    radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=file_selection).grid(column=1, row=14, sticky=W)
+    radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=file_selection).grid(column=1, row=15, sticky=W)
 
     # file selection of type of file to save it as
     #file_to_save_as = StringVar()
