@@ -465,6 +465,10 @@ def file_save_as_entry_checker(file_save_as_option_value):
     elif(file_save_as_option_value == '10'):
         #Do not save branch
         file_save_as_option = 'no'
+        
+    elif(file_save_as_option_value == '1'):
+        # Save as both branch
+        file_save_as_option = 'pdf and png'
 
     # Otherwise we can assume that no option had been selected
     else:
@@ -529,7 +533,8 @@ def execute_functions(*args): # change to some other function name like "execute
         
     ### File option to save as entry ###
     # radio_button_ buttons used: 8, 9, 10
-    file_save_as_option_value = file_to_save_as.get()
+    #file_save_as_option_value = file_to_save_as.get()
+    file_save_as_option_value = '1'
     file_save_as_option_value = file_save_as_entry_checker(file_save_as_option_value)
 
     ### End Input values ### ----------------------------------------------------------------------------------
@@ -593,7 +598,7 @@ def gui_labels(mainframe):
     ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=7, sticky=W)
 
     # File save as label
-    ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
+    #ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
 def gui_entries(mainframe, root):
     """
@@ -680,10 +685,10 @@ def gui_entries(mainframe, root):
     radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=file_selection).grid(column=1, row=14, sticky=W)
 
     # file selection of type of file to save it as
-    file_to_save_as = StringVar()
-    radio_button_8 = Radiobutton(mainframe, text="pdf", value=8, variable=file_to_save_as).grid(column=1, row=16, sticky=W)
-    radio_button_9 = Radiobutton(mainframe, text="png", value=9, variable=file_to_save_as).grid(column=1, row=17, sticky=W)
-    radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
+    #file_to_save_as = StringVar()
+    #radio_button_8 = Radiobutton(mainframe, text="pdf", value=8, variable=file_to_save_as).grid(column=1, row=16, sticky=W)
+    #radio_button_9 = Radiobutton(mainframe, text="png", value=9, variable=file_to_save_as).grid(column=1, row=17, sticky=W)
+    #radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
 
     # Management buttons section
     plot_button = ttk.Button(mainframe, text="Plot", command=execute_functions).grid(column=2, row = 19, sticky=W)

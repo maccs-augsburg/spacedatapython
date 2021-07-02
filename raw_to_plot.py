@@ -300,6 +300,10 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
     elif (file_option == 'no'):
         # not saving plot but showing it instead
         plt.show()
+    elif(file_option == 'pdf and png'):
+        #saving plot into pdf and png file
+        fig.savefig(filename+'.pdf', format='pdf', dpi=1200)
+        fig.savefig(filename+'.png', format='png', dpi=1200)
     else :
         print(file_option + ' is not a supported filetype Option')
         sys.exit(0)# Exiting without an error code

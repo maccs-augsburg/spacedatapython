@@ -22,7 +22,7 @@ Ted Stuff |
 - Change "GeoMagnetic Bz of __stationname__" to "Geomagnetic Bz of __stationname__" -- done |
 - Keep GUI running until quit -------------------------------------------------------- done |
 - Bind return key to plot button ----------------------------------------------------- done |
-- Remove buttons ---------------------------------------------------------------------  |
+- Remove buttons --------------------------------------------------------------------- done |
 - Add plot and cancel buttons --------------------------------------------------------  |
 - Use filenames.py file in GUI -------------------------------------------------------  |
 - check both pdf and png radiobuttons for saving -------------------------------------  |
