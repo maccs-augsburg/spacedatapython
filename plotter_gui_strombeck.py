@@ -474,7 +474,7 @@ def file_save_as_entry_checker(file_save_as_option_value):
     # Returning the string of the file save as option to be used
     return file_save_as_option
 
-def execute_functions(): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
+def execute_functions(*args): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
     """
