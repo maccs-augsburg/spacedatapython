@@ -627,7 +627,9 @@ def gui_entries(mainframe, root):
     global year_day_entry
     global start_hour, start_hour_entry, start_minute, start_minute_entry, start_second, start_second_entry
     global end_hour, end_hour_entry, end_minute, end_minute_entry, end_second, end_second_entry
-    global plot_min, plot_min_entry, plot_max, plot_max_entry
+    global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
+    global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
+    global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
     global station_code, station_code_entry
     global file_selection, radio_button_1, radio_button_2, radio_button_3, radio_button_4, radio_button_7, file_to_save_as, radio_button_8, radio_button_9, radio_button_10
 
