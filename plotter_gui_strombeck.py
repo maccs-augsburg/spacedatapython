@@ -686,7 +686,7 @@ def gui_entries(mainframe, root):
     radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
 
     # Management buttons section
-    ok_button = ttk.Button(mainframe, text="OK", command=execute_functions).grid(column=2, row = 19, sticky=W)
+    plot_button = ttk.Button(mainframe, text="Plot", command=execute_functions).grid(column=2, row = 19, sticky=W)
     cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=3, row=19, sticky=E)
     
 def main():
@@ -713,6 +713,7 @@ def main():
         child.grid_configure(padx=5, pady=5)
 
     station_code_entry.focus() # starting spot for tab control
+    root.bind("<Return>", execute_functions)
 
     root.mainloop() # root loop running
 
