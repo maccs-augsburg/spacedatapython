@@ -516,10 +516,14 @@ def execute_functions(*args): # change to some other function name like "execute
     end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
     
     ### Plot min and max entries ###
-    plot_min_value = plot_min_entry.get()
-    plot_max_value = plot_max_entry.get()
+    plot_min_value_x = plot_min_entry_x.get()
+    plot_max_value_x = plot_max_entry_x.get()
+    plot_min_value_y = plot_min_entry_y.get()
+    plot_max_value_y = plot_max_entry_y.get()
+    plot_min_value_z = plot_min_entry_z.get()
+    plot_max_value_z = plot_min_entry_z.get()
 
-    plot_min_default_flag, plot_max_default_flag = plot_min_and_max_check(plot_min_value, plot_max_value) 
+    #plot_min_default_flag, plot_max_default_flag = plot_min_and_max_check(plot_min_value, plot_max_value) 
 
     ### Station code entry ###
     station_code_value = station_code_entry.get()
@@ -747,6 +751,7 @@ def main():
         child.grid_configure(padx=5, pady=5)
 
     station_code_entry.focus() # starting spot for tab control
+    
     root.bind("<Return>", execute_functions)
 
     root.mainloop() # root loop running
