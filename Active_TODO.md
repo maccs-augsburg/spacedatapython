@@ -30,6 +30,8 @@ Ted Stuff |
 	git rm unused.py
 - Plot min and max for each x, y and z -----------------------------------------------  |
                                                                                             |
+- After plotting the function, cancel button doesn't work -- Not sure what to do here       |
+- Implement a file not found error catch ---------------------------------------------      |
 --------------------------------------------------------------------------------------------
 
 
