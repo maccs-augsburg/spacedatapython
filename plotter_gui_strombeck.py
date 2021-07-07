@@ -16,15 +16,9 @@ This GUI uses a radiobutton format for selection of file type
 #TODO----------------------------------------------------------------------------------------------------------
 #   mess around with columnspan and custom columns ------------------------------------------------>
 #   implement functionality -----------------------------------------------------------------------> working on
-#       - import program file ------------------------------------> done
-#       - function to call create arrays -------------------------> done 
-#       - function to call plot arrays ---------------------------> done
-#       - use the default flags and determine y-axis scaling ----->
-#       - implement do not save option ---------------------------> done
-#       - set datetime check into own function -------------------> done
+#       - use the default flags and determine y-axis scaling -----> 
 #   view box around radio buttons ----------------------------------------------------------------->
-#   pop up message to show when done? -------------------------------------------------------------> done
-#   updating graph names to be reflective instead of just testGraph -------------------------------> done 
+#   updating graph names to be reflective instead of just testGraph -------------------------------> 
 #   do not save option rectangles to move all subplots at the same time ---------------------------> 
 #--------------------------------------------------------------------------------------------------------------
 
