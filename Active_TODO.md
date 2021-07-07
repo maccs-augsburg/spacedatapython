@@ -26,7 +26,7 @@ Ted Stuff |
 - Add plot and cancel buttons -------------------------------------------------------- done |
 - check both pdf and png radiobuttons for saving ------------------------------------- done |
 - Plot min and max for each x, y and z ----------------------------------------------- done |
-- Remove old unused python files from repo -------------------------------------------  |
+- Remove old unused python files from repo ------------------------------------------- done |
 	git rm unused.py
 - Use filenames.py file in GUI -------------------------------------------------------  |
 - After plotting the function, cancel button doesn't work -- Not sure what to do here       |
