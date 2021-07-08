@@ -19,7 +19,6 @@ the time-stamped x, y, and z values on its' own plot.
 import sys
 import datetime
 
-
 # MACCS imports
 from raw_codecs import decode, time_of_record
 import station_names
@@ -299,7 +298,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
         plt.show()
     elif(file_option == 'pdf and png'): 
         #saving plot into pdf and png file and then showing the plot --- Commented out and ask Erik about
-        #fig.savefig(filename+'.pdf', format='pdf', dpi=1200)
+        fig.savefig(filename+'.pdf', format='pdf', dpi=1200)
         #fig.savefig(filename+'.png', format='png', dpi=1200)
         plt.show()
     else :
