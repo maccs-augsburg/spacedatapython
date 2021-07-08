@@ -423,7 +423,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     for j in range(len(yArr)):
         yArr[j] = int(yArr[j] - yArr[0])
     
-    #plt.plot(timeArr,xArr, linewidth = 1)
+    plt.plot(timeArr,xArr, linewidth = 1)
     plt.plot(timeArr,yArr, linewidth = 1)
     
     plt.title("Geomagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
