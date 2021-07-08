@@ -28,7 +28,7 @@ Ted Stuff |
 - Plot min and max for each x, y and z ----------------------------------------------- done |
 - Remove old unused python files from repo ------------------------------------------- done |
 	git rm unused.py
-- Use filenames.py file in GUI -------------------------------------------------------  |
+- Use filenames.py file in GUI ------------------------------------------------------- done |
 - After plotting the function, cancel button doesn't work -- Not sure what to do here       |
 - Implement a file not found error catch ---------------------------------------------      |
 --------------------------------------------------------------------------------------------
