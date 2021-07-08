@@ -14,11 +14,10 @@ This GUI uses a radiobutton format for selection of file type
 """
 
 #TODO----------------------------------------------------------------------------------------------------------
-#   mess around with columnspan and custom columns ------------------------------------------------>
 #   implement functionality -----------------------------------------------------------------------> working on
 #       - use the default flags and determine y-axis scaling -----> 
+#       - add try and catch blocks -------------------------------> 
 #   view box around radio buttons ----------------------------------------------------------------->
-#   updating graph names to be reflective instead of just testGraph -------------------------------> 
 #   do not save option rectangles to move all subplots at the same time ---------------------------> 
 #--------------------------------------------------------------------------------------------------------------
 
