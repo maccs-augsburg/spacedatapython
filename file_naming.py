@@ -14,6 +14,12 @@ where timeInterval is blank if it is the whole day and cadence is
 
 """
 
+def test_create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
+    answer = ""
+    if( s_hour != 0 or s_minute != 0 or s_second != 0 or e_hour != 23 or e_minute != 59 or e_second != 59) :
+        answer = f"_{s_hour}{s_minute}{s_second}_{e_hour}{e_minute}{e_second}"
+    return answer
+
 def create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
     """
     Creates a time interval string for a filename given the hour, minute, and second
@@ -40,8 +46,7 @@ def create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minut
         The time interval string or a zero-length string if all day.
     """
     answer = ""
-    if( s_hour != 0 or s_minute != 0 or s_second != 0 or 
-        e_hour != 23 or e_minute != 59 or e_second != 59) :
+    if( s_hour != 0 or s_minute != 0 or s_second != 0 or e_hour != 23 or e_minute != 59 or e_second != 59) :
         answer = f"_{s_hour:02}{s_minute:02}{s_second:02}_{e_hour:02}{e_minute:02}{e_second:02}"
     return answer
     
