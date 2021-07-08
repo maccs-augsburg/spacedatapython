@@ -1,6 +1,7 @@
 # file_naming.py
 #
 # 2021 June - Created - Erik Steinmetz
+# 2021 July - Modified - Ted Strombeck
 #
 
 """ Utilities for naming files
@@ -14,7 +15,12 @@ where timeInterval is blank if it is the whole day and cadence is
 
 """
 
-def test_create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
+def preprocessed_string_create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
+    """
+    Same as create_time_interval_string_hms function except it handles already correctly formatted
+    start and ending times"
+
+    """
     answer = ""
     if( s_hour != 0 or s_minute != 0 or s_second != 0 or e_hour != 23 or e_minute != 59 or e_second != 59) :
         answer = f"_{s_hour}{s_minute}{s_second}_{e_hour}{e_minute}{e_second}"

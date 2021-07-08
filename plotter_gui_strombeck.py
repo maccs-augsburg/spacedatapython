@@ -541,7 +541,7 @@ def execute_functions(*args): # change to some other function name like "execute
     
     ### Putting information gathered together and calling the plotting program! ### ---------------------------
     file_name_full = station_code_value + year_day_value + file_ending_value
-    time_interval_string = file_naming.test_create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
+    time_interval_string = file_naming.preprocessed_string_create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
     file_name = station_code_value + year_day_value + time_interval_string
     
     # Opening the file
