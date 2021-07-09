@@ -432,7 +432,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
