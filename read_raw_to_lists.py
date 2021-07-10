@@ -54,14 +54,14 @@ def create_lists (raw_file, start_time, end_time) :
     # Loop until the end of file or end time has been reached
     while True :
         # Grab a single record of information from the next 38 bytes
-        one_record = raw_record.read( 38) 
+        one_record = raw_file.read( 38) 
         # if we reach the end then we break the loop
         if not one_record:
             break
         current_time = time_of_record(one_record) # getting the current time
 
         # if current time is greater than the start time we process and add it to arrays
-        if current_time >= stime :
+        if current_time >= start_time :
 
             # splitting up the time records
             hour = one_record[4]
@@ -92,7 +92,7 @@ def create_lists (raw_file, start_time, end_time) :
             z_arr.append(z2)
 
         # if current time is greater than or equal to the ending time then we stop
-        if current_time >= etime :
+        if current_time >= end_time :
             break
 
     # returning the 4 lists
