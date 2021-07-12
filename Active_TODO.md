@@ -30,7 +30,7 @@ Ted Stuff |
 	git rm unused.py
 - Use filenames.py file in GUI ------------------------------------------------------- done |
 - After plotting the function, cancel button doesn't work -- Not sure what to do here       |
-- Implement a file not found error catch ---------------------------------------------      |
+- Implement a file not found error catch --------------------------------------------- done |
 --------------------------------------------------------------------------------------------
 
 
