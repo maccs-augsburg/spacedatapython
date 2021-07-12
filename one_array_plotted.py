@@ -417,14 +417,16 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     fig = plt.figure(figsize=(12, 7))
 
 
-    for i in range(len(xArr)):
-        xArr[i] = int(xArr[i] - xArr[0])
+    x_values = xArr #The list of values to change 
+    offset = xArr[0] #The amount to subtract from each value  
+    x_values = list(map(lambda x : x - offset, x_values)) #applies the subtraction x-offset to each value, converts the result back to a list
 
-    for j in range(len(yArr)):
-        yArr[j] = int(yArr[j] - yArr[0])
+    y_values = yArr #The list of values to change 
+    offset = yArr[0] #the amount to subtract from each value
+    y_values = list(map(lambda y : y - offset, y_values)) #applies the subtraction x-offset to each value, converts the result back to a list
     
-    plt.plot(timeArr,xArr, linewidth = 1)
-    plt.plot(timeArr,yArr, linewidth = 1)
+    plt.plot(timeArr,x_values, linewidth = 1)
+    plt.plot(timeArr,y_values, linewidth = 1)
     
     plt.title("Geomagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and By')
@@ -519,9 +521,20 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
+
+
+    x_values = xArr #The list of values to change 
+    offset = xArr[0] #The amount to subtract from each value  
+    x_values = list(map(lambda x : x - offset, x_values)) #applies the subtraction x-offset to each value, converts the result back to a list
+
+    z_values = zArr #The list of values to change 
+    offset = zArr[0] #the amount to subtract from each value
+    z_values = list(map(lambda z : z - offset, z_values)) #applies the subtracti
+
+
     
-    plt.plot(timeArr,xArr, linewidth = 1)
-    plt.plot(timeArr,zArr, linewidth = 1)
+    plt.plot(timeArr,x_values, linewidth = 1)
+    plt.plot(timeArr,z_values, linewidth = 1)
     
     plt.title("Geomagnetic Bx and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and Bz')
