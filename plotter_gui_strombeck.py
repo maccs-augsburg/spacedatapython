@@ -544,7 +544,11 @@ def execute_functions(*args): # change to some other function name like "execute
     file_name = station_code_value + year_day_value + time_interval_string
     
     # Opening the file
-    file = open(file_name_full, 'rb')
+    try:
+        file = open(file_name_full, 'rb')
+    except:
+        error_message_pop_up("File open error", "Couldn't find and open filename")
+        sys.exit(0)
     
     # Creating the arrays from the file
     xArr, yArr, zArr, timeArr = raw_to_plot.create_arrays(file, start_time_stamp, end_time_stamp)
