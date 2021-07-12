@@ -626,9 +626,18 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     #Actual Plot
 
     fig = plt.figure(figsize=(12, 7))
+
+    y_values = yArr #The list of values to change 
+    offset = yArr[0] #The amount to subtract from each value  
+    y_values = list(map(lambda y : y - offset, y_values)) #applies the subtraction x-offset to each value, converts the result back to a list
+
+    z_values = zArr #The list of values to change 
+    offset = zArr[0] #the amount to subtract from each value
+    z_values = list(map(lambda z : z - offset, z_values)) #applies the subtracti
+
     
-    plt.plot(timeArr,yArr, linewidth = 1)
-    plt.plot(timeArr,zArr, linewidth = 1)
+    plt.plot(timeArr,y_values, linewidth = 1)
+    plt.plot(timeArr,z_values, linewidth = 1)
     
     plt.title("Geomagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By and Bz')
@@ -721,9 +730,24 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
 
     fig = plt.figure(figsize=(12, 7))
 
-    plt.plot(timeArr,xArr, linewidth = 1)
-    plt.plot(timeArr,yArr, linewidth = 1)
-    plt.plot(timeArr,zArr, linewidth = 1)
+    x_values = xArr #The list of values to change 
+    offset = xArr[0] #The amount to subtract from each value  
+    x_values = list(map(lambda x : x - offset, x_values)) #applies the subtraction x-offset 
+
+
+    y_values = yArr #The list of values to change 
+    offset = yArr[0] #The amount to subtract from each value  
+    y_values = list(map(lambda y : y - offset, y_values)) #applies the subtraction x-offset to each value, converts the result back to a list
+
+    z_values = zArr #The list of values to change 
+    offset = zArr[0] #the amount to subtract from each value
+    z_values = list(map(lambda z : z - offset, z_values)) #applies the subtracti
+
+
+    
+    plt.plot(timeArr,x_values, linewidth = 1)
+    plt.plot(timeArr,y_values, linewidth = 1)
+    plt.plot(timeArr,z_values, linewidth = 1)
     
     plt.title("Geomagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
