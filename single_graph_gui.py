@@ -38,7 +38,7 @@ def error_message(title, message):
      """
      
      messagebox.showerror(title = title, message = "ERROR: " + message)
-     sys.exit(0)
+     #sys.exit(0)
 
 
 def completed_message(title, message):
@@ -48,7 +48,11 @@ def completed_message(title, message):
      #sys.exit(0)
 
 
-
+def warning_message(title, message):
+     """
+     """
+     messagebox.showwarning(title = title, message = "Warning: " + message)
+     #sys.exit(0)
 
 def gui_labels(mainframe):
      """
@@ -383,22 +387,23 @@ def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter
      """
      #If statement to decided if we want X, Y or Z plot
      
-     if(graph_from_plotter_value_x == 1):
-          one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
-     if(graph_from_plotter_value_y == 2):
-          one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
-     if(graph_from_plotter_value_z == 3):
-          one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)
-     if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
-          one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option)
-     if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
-          one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime, file_option)
-     if(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
-          one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option)
+     
      if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
           one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option)
-          
-     #warning_message(title = "File Format Option Error", message = "Please select a file format option")
+     elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
+          one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
+          one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
+          one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_z == 3):
+          one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)     
+     elif(graph_from_plotter_value_y == 2):
+          one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_x == 1):
+          one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
+     else: 
+          warning_message(title = "File Format Option Error", message = "Please select a file format option")
 
      return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z 
 
