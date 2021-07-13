@@ -3,6 +3,9 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 #NavigationToolbar2Tk)
 
+def cancel():
+        window.destroy()
+
 # plot function is created for plotting the graph in tkinter window
 def plot():
 
@@ -24,7 +27,7 @@ def plot():
 	canvas.draw()
 
 	# placing the canvas on the Tkinter window
-	canvas.get_tk_widget().pack()
+	canvas.get_tk_widget().grid(column=3, row=2)
 
 	# creating the Matplotlib toolbar
 	#toolbar = NavigationToolbar2Tk(canvas, window)
@@ -41,7 +44,7 @@ if __name__ == "__main__" :
     window.title('Plotting in Tkinter')
 
     # dimensions of the main window
-    window.geometry("500x500")
+    window.geometry("675x550")
 
     # button that displays the plot
     plot_button = Button(master = window,
@@ -49,10 +52,17 @@ if __name__ == "__main__" :
                         height = 2,
                         width = 10,
                         text = "Plot")
+    cancel_button = Button(master=window,
+                           command=cancel,
+                           height=2,
+                           width=10,
+                           text="Cancel")
+    
 
     # place the button
     # in main window
-    plot_button.pack()
+    plot_button.grid(column=1, row=1)
+    cancel_button.grid(column=2, row=1)
 
     # run the gui
     window.mainloop()
