@@ -218,22 +218,24 @@ def end_hour_entry_check(end_hour_value):
 
     Returns
     -------
-    String
+    Int
         end_hour_value: the inputted value in the end_hour_entry box
     """
+    value = int(end_hour_value)
+    
     ### End hour input tests ###
     # Testing to see if the inputted value exceeds what it can be
-    if((int)(end_hour_value) > 23):
+    if(value > 23):
         # Have error message box pop up because it can't be more than 23
         error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
 
     # Testing to see if the inputted value is less than what it can be
-    elif((int)(end_hour_value) < 0):
+    elif(value < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
 
     # Returning the end_hour_value so whatever changes we made to it get returned
-    return end_hour_value
+    return value
 
 def end_minute_entry_check(end_minute_value):
     """
