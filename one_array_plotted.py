@@ -136,10 +136,10 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
 
             
 
-    fig = plt.figure(figsize=(12, 7))
+    fig = plt.figure(figsize=(7, 4))
     
     plt.plot(timeArr,xArr, linewidth = 1)
-    plt.title("Geomagnetic Bx of " + station_name + "      YEARDAY: " + year_day_value + "      DATE: " + date) 
+    plt.title("Geomagnetic Bx of " + station_name + "   YEARDAY: " + year_day_value + "   DATE: " + date) 
     plt.ylabel('Bx')
 
     #Make an if statement about changing the label with the x axis changing 
@@ -233,7 +233,7 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(12, 7))
+    fig = plt.figure(figsize=(7, 4))
     
     plt.plot(timeArr,yArr, linewidth = 1)
     plt.title("Geomagnetic By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
@@ -322,7 +322,7 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(12, 7))
+    fig = plt.figure(figsize=(7, 4)) #size of graph
     
     plt.plot(timeArr,zArr, linewidth = 1)
     plt.title("Geomagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value+  "      DATE: " + date) 
@@ -414,7 +414,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(12, 7))
+    fig = plt.figure(figsize=(7, 4))#size of graph
 
 
     x_values = xArr #The list of values to change 
@@ -522,7 +522,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(12, 7))
+    fig = plt.figure(figsize=(7, 4))#size of graph
 
 
     x_values = xArr #The list of values to change 
@@ -631,7 +631,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(12, 7))
+    fig = plt.figure(figsize=(7, 4))#size pf graph
 
     y_values = yArr #The list of values to change 
     offset = yArr[0] #The amount to subtract from each value  
@@ -646,11 +646,11 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
     
     plt.title("Geomagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
-    plt.ylabel('By and Bz')
-    plt.xlabel("Universal Time (Hours)")
+    plt.ylabel('By and Bz')#y label 
+    plt.xlabel("Universal Time (Hours)")#x label 
 
 
-    plt.legend(loc = 'upper left')
+    plt.legend(loc = 'upper left')#legend
     
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -739,7 +739,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(12, 7))
+    fig = plt.figure(figsize=(7, 4))#size of graph
 
     x_values = xArr #The list of values to change 
     offset = xArr[0] #The amount to subtract from each value  
