@@ -116,21 +116,21 @@ def year_day_entry_check(year_day_value):
 
     return string_value"""
 
-def start_hour_entry_check(start_hour_value):
+def start_hour_entry_check(start_hour_string):
     """
     Checks the start hour entry value and pops up an error message if it isn't a good entry
 
     Parameters
     ----------
     String
-        start_hour_value: the value that was inputted into the start_hour_entry box
+        start_hour_string: the value that was inputted into the start_hour_entry box
 
     Returns
     -------
     Int
         value: the int version of the inputted value in the start_hour_entry box
     """
-    value = int(start_hour_value)
+    value = int(start_hour_string)
     
     ### Start hour input tests ###
     # Testing to see if the inputted value exceeds what it can be
@@ -143,25 +143,25 @@ def start_hour_entry_check(start_hour_value):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
 
-    # Returning the start_hour_value so that whatever changes we made to it get returned
+    # Returning the start_hour_string so that whatever changes we made to it get returned
     return value
 
 
-def start_minute_entry_check(start_minute_value):
+def start_minute_entry_check(start_minute_string):
     """
     Checks the start minute entry value and pops up an error message if it isn't a good entry
 
     Parameters
     ----------
     String
-        start_minute_value: the value that was inputted into the start_minute_entry box
+        start_minute_string: the value that was inputted into the start_minute_entry box
 
     Returns
     -------
     Int
         value: the inputted value in the start_minute_entry box
     """
-    value = int(start_minute_value)
+    value = int(start_minute_string)
     
     ### Start minute input tests ###
     # Testing to see if the inputted value exceeds what it can be
@@ -174,24 +174,24 @@ def start_minute_entry_check(start_minute_value):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
 
-    # Returning the start_minute_value so whatever changes we made to it get returned
+    # Returning the start_minute_string so whatever changes we made to it get returned
     return value
 
-def start_second_entry_check(start_second_value):
+def start_second_entry_check(start_second_string):
     """
     Checks the start second entry value and pops up an error message if it isn't a good entry
 
     Parameters
     ----------
     String
-        start_second_value: the value that was inputted into the start_second_entry box
+        start_second_string: the value that was inputted into the start_second_entry box
 
     Returns
     -------
     Int
         value: the inputted value in the start_second_entry box
     """
-    value = int(start_second_value)
+    value = int(start_second_string)
     
     ### Start second input tests ###
     # Testing to see if the inputted value exceeds what it can be    
@@ -204,24 +204,24 @@ def start_second_entry_check(start_second_value):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
 
-    # Returning the start_second_value so whatever changes we made to it get returned
+    # Returning the start_second_string so whatever changes we made to it get returned
     return value
 
-def end_hour_entry_check(end_hour_value):
+def end_hour_entry_check(end_hour_string):
     """
     Checks the end hour entry value and pops up an error message if it isn't a good entry
 
     Parameters
     ----------
     String
-        end_hour_value: the value that was inputted into the end_hour_entry box
+        end_hour_string: the value that was inputted into the end_hour_entry box
 
     Returns
     -------
     Int
         value: the inputted value in the end_hour_entry box
     """
-    value = int(end_hour_value)
+    value = int(end_hour_string)
     
     ### End hour input tests ###
     # Testing to see if the inputted value exceeds what it can be
@@ -234,24 +234,24 @@ def end_hour_entry_check(end_hour_value):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
 
-    # Returning the end_hour_value so whatever changes we made to it get returned
+    # Returning the end_hour_string so whatever changes we made to it get returned
     return value
 
-def end_minute_entry_check(end_minute_value):
+def end_minute_entry_check(end_minute_string):
     """
     Checks the end minute entry value and pops up an error message if it isn't a good entry
 
     Parameters
     ----------
     String
-        end_minute_value: the value that was inputted into the end_minute_entry box
+        end_minute_string: the value that was inputted into the end_minute_entry box
 
     Returns
     -------
     Int
         value: the inputted value in the end_hour_entry box
     """
-    value = int(end_minute_value)
+    value = int(end_minute_string)
     
     ### End minute input tests ###
     # Testing to see if the inputted value exceeds what it can be
@@ -264,24 +264,24 @@ def end_minute_entry_check(end_minute_value):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
 
-    # Returning the end_minute_value so whatever changes we made to it get returned
+    # Returning the end_minute_string so whatever changes we made to it get returned
     return value
 
-def end_second_entry_check(end_second_value):
+def end_second_entry_check(end_second_string):
     """
     Checks the end second entry value and pops up an error message if it isn't a good entry
 
     Parameters
     ----------
     String
-        end_second_value: the value that was inputted into the end_second_entry box
+        end_second_string: the value that was inputted into the end_second_entry box
 
     Returns
     -------
     Int
-        end_second_value: the inputted value in the end_second_entry box
+        end_second_string: the inputted value in the end_second_entry box
     """
-    value = int(end_second_value)
+    value = int(end_second_string)
     
     ### End second input tests ###
     # Testing to see if the inputted value exceeds what it can be
@@ -294,7 +294,7 @@ def end_second_entry_check(end_second_value):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
 
-    # Returning the end_second_value so whatever changes we made to it get returned
+    # Returning the end_second_string so whatever changes we made to it get returned
     return value
 
 def plot_min_default_flag_check(plot_min_value):
@@ -548,7 +548,7 @@ def execute_functions(*args): # change to some other function name like "execute
     
     ### Putting information gathered together and calling the plotting program! ### ---------------------------
     file_name_full = station_code_value + year_day_value + file_ending_value
-    time_interval_string = file_naming.create_time_interval_string_hms_from_strings(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
+    time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
     file_name = station_code_value + year_day_value + time_interval_string
     
     # Opening the file
