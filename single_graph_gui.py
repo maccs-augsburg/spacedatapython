@@ -102,11 +102,11 @@ def gui_entries(mainframe, root):
      #Creation of the Year Day entry widget 
      year_day = IntVar()
      year_day_entry = ttk.Entry(mainframe, width = 5, textvariable = year_day)
-     year_day_entry.grid(column = 2, row = 2)
+     year_day_entry.grid(column = 2, row = 2, sticky = (W,E))
      #Creation of the Start Hour entry widget 
      start_hour = IntVar()
      start_hour_entry = ttk.Entry(mainframe, width = 5, textvariable = start_hour)
-     start_hour_entry.grid(column = 2, row = 3)
+     start_hour_entry.grid(column = 2, row = 3, sticky = (W,E))
      #Creation of the Start Minute entry widget
      start_minute = IntVar()
      start_minute_entry = ttk.Entry(mainframe, width = 5, textvariable = start_minute)
@@ -127,12 +127,12 @@ def gui_entries(mainframe, root):
      end_minute.set(59)
      #Creation of the end second widget, also has set times for default
      end_second = IntVar()
-     end_second_entry = ttk.Entry(mainframe, width = 5, textvariable = end_second)
+     end_second_entry = ttk.Entry(mainframe, width = 3, textvariable = end_second)
      end_second_entry.grid(column = 2, row = 8, sticky = (W,E))
      end_second.set(59)
      #Creation of the station names entry widget
      station_names= StringVar()
-     station_names_entry = ttk.Entry(mainframe, width = 5, textvariable = station_names)
+     station_names_entry = ttk.Entry(mainframe, width = 3, textvariable = station_names)
      station_names_entry.grid(column = 2, row = 1, sticky = (W,E))
      #Creation of the graph from plotter check button
      graph_from_plotter_x = IntVar()
