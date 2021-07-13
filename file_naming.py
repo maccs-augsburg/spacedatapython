@@ -20,7 +20,8 @@ def create_time_interval_string_hms_from_strings( s_hour, s_minute, s_second, e_
     
 
     """
-    create_time_interval_string_hms(int(s_hour), int(s_minute), int(s_second), int(e_hour), int(e_minute), int(e_second))
+    answer = create_time_interval_string_hms(int(s_hour), int(s_minute), int(s_second), int(e_hour), int(e_minute), int(e_second))
+    return answer
 
 def create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
     """
