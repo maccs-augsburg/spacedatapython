@@ -61,21 +61,21 @@ def gui_labels(mainframe):
      """
 
      #Year Day Label
-     ttk.Label(mainframe, text = "Year Day: ").grid(column = 3, row = 1, sticky = W)
+     ttk.Label(mainframe, text = "Year Day: ").grid(column = 1, row = 2, sticky = W)
      #Start Hour Label 
-     ttk.Label(mainframe, text = "Start Hour: ").grid(column = 1, row = 2, sticky = W)
+     ttk.Label(mainframe, text = "Start Hour: ").grid(column = 1, row = 3, sticky = W)
      #Start Minute Label 
-     ttk.Label(mainframe, text = "Start Minute: ").grid(column = 3, row = 2, sticky = W)
+     ttk.Label(mainframe, text = "Start Minute: ").grid(column = 1, row = 4, sticky = W)
      #Start Second Label 
-     ttk.Label(mainframe, text = "Start Second: ").grid(column = 5, row = 2, sticky = W)
+     ttk.Label(mainframe, text = "Start Second: ").grid(column = 1, row = 5, sticky = W)
      #End Hour Label 
-     ttk.Label(mainframe, text = "End Hour: ").grid(column = 1, row = 4, sticky = W)
+     ttk.Label(mainframe, text = "End Hour: ").grid(column = 1, row = 6, sticky = W)
      #End Minute Label 
-     ttk.Label(mainframe, text = "End Minute: ").grid(column = 3, row = 4, sticky = W)
+     ttk.Label(mainframe, text = "End Minute: ").grid(column = 1, row = 7, sticky = W)
      #End Second Label 
-     ttk.Label(mainframe, text = "End Second: ").grid(column = 5, row = 4, sticky = W)
+     ttk.Label(mainframe, text = "End Second: ").grid(column = 1, row = 8, sticky = W)
      #Plot x, y, or z Label 
-     ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 7, sticky = W)
+     ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 9, sticky = W)
      #Station Code Label 
      ttk.Label(mainframe, text = "Station Code: ").grid(column = 1, row = 1, sticky = W)
 
@@ -102,33 +102,33 @@ def gui_entries(mainframe, root):
      #Creation of the Year Day entry widget 
      year_day = IntVar()
      year_day_entry = ttk.Entry(mainframe, width = 5, textvariable = year_day)
-     year_day_entry.grid(column = 4, row = 1)
+     year_day_entry.grid(column = 2, row = 2)
      #Creation of the Start Hour entry widget 
      start_hour = IntVar()
      start_hour_entry = ttk.Entry(mainframe, width = 5, textvariable = start_hour)
-     start_hour_entry.grid(column = 2, row = 2)
+     start_hour_entry.grid(column = 2, row = 3)
      #Creation of the Start Minute entry widget
      start_minute = IntVar()
      start_minute_entry = ttk.Entry(mainframe, width = 5, textvariable = start_minute)
-     start_minute_entry.grid(column = 4, row = 2, sticky = (W, E))
+     start_minute_entry.grid(column = 2, row = 4, sticky = (W, E))
      #Creation of the Start Second entry widget 
      start_second = IntVar()
      start_second_entry = ttk.Entry(mainframe, width = 5, textvariable = start_second)
-     start_second_entry.grid(column = 6, row = 2, sticky = (W, E))
+     start_second_entry.grid(column = 2, row = 5, sticky = (W, E))
      #Creation of the end hour entry widget, also has set times for defalut
      end_hour = IntVar()
      end_hour_entry = ttk.Entry(mainframe, width = 5, textvariable = end_hour)
-     end_hour_entry.grid(column = 2, row = 4, sticky = (W,E))
+     end_hour_entry.grid(column = 2, row = 6, sticky = (W,E))
      end_hour.set(23)
      #Creation of the end minute entry widget, also has set times for default
      end_minute = IntVar()
      end_minute_entry = ttk.Entry(mainframe, width = 5, textvariable = end_minute)
-     end_minute_entry.grid(column = 4, row = 4, sticky = (W,E))
+     end_minute_entry.grid(column = 2, row = 7, sticky = (W,E))
      end_minute.set(59)
      #Creation of the end second widget, also has set times for default
      end_second = IntVar()
      end_second_entry = ttk.Entry(mainframe, width = 5, textvariable = end_second)
-     end_second_entry.grid(column = 6, row = 4, sticky = (W,E))
+     end_second_entry.grid(column = 2, row = 8, sticky = (W,E))
      end_second.set(59)
      #Creation of the station names entry widget
      station_names= StringVar()
@@ -138,16 +138,16 @@ def gui_entries(mainframe, root):
      graph_from_plotter_x = IntVar()
      graph_from_plotter_y = IntVar()
      graph_from_plotter_z = IntVar()
-     x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = graph_from_plotter_x, onvalue = 1).grid(column = 1, row = 8, sticky = W)
-     y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 9, sticky = W) 
-     z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 10, sticky = W)
+     x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = graph_from_plotter_x, onvalue = 1).grid(column = 1, row = 10, sticky = W)
+     y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 11, sticky = W) 
+     z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 12, sticky = W)
 
      
 
      #Creation of the Okay and Cancel button that has commands to either run
      #the GUI if you press okay or to "destroy" the GUI if you hit canel
-     plot_button = ttk.Button(mainframe, text = "Plot", command = display_code).grid(column = 6, row = 14, sticky = W)
-     cancel_button = ttk.Button(mainframe, text = "Cancel", command = lambda: cancel(root)).grid(column =5, row = 14, sticky = W)
+     plot_button = ttk.Button(mainframe, text = "Plot", command = display_code).grid(column = 2, row = 14, sticky = W)
+     cancel_button = ttk.Button(mainframe, text = "Cancel", command = lambda: cancel(root)).grid(column =1, row = 14, sticky = W)
 
 def date_time_object_check(string_value) :
      """
