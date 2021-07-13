@@ -158,7 +158,7 @@ def start_minute_entry_check(start_minute_value):
 
     Returns
     -------
-    String
+    Int
         start_minute_value: the inputted value in the start_minute_entry box
     """
     value = int(start_minute_value)
@@ -188,22 +188,24 @@ def start_second_entry_check(start_second_value):
 
     Returns
     -------
-    String
+    Int
         start_second_value: the inputted value in the start_second_entry box
     """
+    value = int(start_second_value)
+    
     ### Start second input tests ###
     # Testing to see if the inputted value exceeds what it can be    
-    if((int)(start_second_value) > 59):
+    if(value > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
 
     # Testing to see if the inputted value is less than what it can be
-    elif((int)(start_second_value) < 0):
+    elif(value < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
 
     # Returning the start_second_value so whatever changes we made to it get returned
-    return start_second_value
+    return value
 
 def end_hour_entry_check(end_hour_value):
     """
