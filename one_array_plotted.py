@@ -425,12 +425,14 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     offset = yArr[0] #the amount to subtract from each value
     y_values = list(map(lambda y : y - offset, y_values)) #applies the subtraction x-offset to each value, converts the result back to a list
     
-    plt.plot(timeArr,x_values, linewidth = 1)
-    plt.plot(timeArr,y_values, linewidth = 1)
+    plt.plot(timeArr,x_values, linewidth = 1, label = 'X Values')
+    plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
     
     plt.title("Geomagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx and By')
     plt.xlabel("Universal Time (Hours)")
+
+    plt.legend()
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
