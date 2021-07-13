@@ -278,22 +278,24 @@ def end_second_entry_check(end_second_value):
 
     Returns
     -------
-    String
+    Int
         end_second_value: the inputted value in the end_second_entry box
     """
+    value = int(end_second_value)
+    
     ### End second input tests ###
     # Testing to see if the inputted value exceeds what it can be
-    if((int)(end_second_value) > 59):
+    if(value > 59):
         # Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
 
     # Testing to see if the inputted value is less than what it can be
-    elif((int)(end_second_value) < 0):
+    elif(value < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
 
     # Returning the end_second_value so whatever changes we made to it get returned
-    return end_second_value
+    return value
 
 def plot_min_default_flag_check(plot_min_value):
     """
