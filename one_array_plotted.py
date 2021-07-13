@@ -6,7 +6,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 
-
+ 
 import sys
 import datetime
 #Imports from our other previous files 
@@ -440,7 +440,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-
+    plt.axhline(y = 0,color = 'k', linestyle = '-')
 
     
         
