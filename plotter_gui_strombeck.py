@@ -94,8 +94,8 @@ def year_day_entry_check(year_day_value):
 
     #TODO: Add more tests to get yearday values
 
-def date_time_object_check(string_value):
-    """
+"""def date_time_object_check(string_value):
+    
     Checks to see if the time string is a single digit, if so it converts it so that it can be used in the datetime format of HH:MM:SS
 
     Parameters
@@ -107,14 +107,14 @@ def date_time_object_check(string_value):
     -------
     String
         string_value: altered (or not) to be in the correct state for being used in the datetime module
-    """
+    
     #
     if(len(string_value) == 1):
         # Adding a zero to the start so that it is in the correct format if inputted value is a single digit
         #   This is so we have the format "00:00:00" for the datetime object
         string_value = "0" + string_value
 
-    return string_value
+    return string_value"""
 
 def start_hour_entry_check(start_hour_value):
     """
@@ -127,22 +127,24 @@ def start_hour_entry_check(start_hour_value):
 
     Returns
     -------
-    String
-        start_hour_value: the inputted value in the start_hour_entry box
+    Int
+        value: the int version of the inputted value in the start_hour_entry box
     """
+    value = int(start_hour_value)
+    
     ### Start hour input tests ###
     # Testing to see if the inputted value exceeds what it can be
-    if((int)(start_hour_value) > 23):
+    if(value > 23):
         # Have error message box pop up because it can't be more than 23
         error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
         
     # Testing to see if the inputted value is less than what it can be
-    elif((int)(start_hour_value) < 0):
+    elif(value < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
 
     # Returning the start_hour_value so that whatever changes we made to it get returned
-    return start_hour_value
+    return value
 
 
 def start_minute_entry_check(start_minute_value):
@@ -159,6 +161,8 @@ def start_minute_entry_check(start_minute_value):
     String
         start_minute_value: the inputted value in the start_minute_entry box
     """
+    
+    
     ### Start minute input tests ###
     # Testing to see if the inputted value exceeds what it can be
     if((int)(start_minute_value) > 59):
