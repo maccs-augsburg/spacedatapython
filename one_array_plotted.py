@@ -641,13 +641,16 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     z_values = list(map(lambda z : z - offset, z_values)) #applies the subtracti
 
     
-    plt.plot(timeArr,y_values, linewidth = 1)
-    plt.plot(timeArr,z_values, linewidth = 1)
+    plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
+    plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
     
     plt.title("Geomagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('By and Bz')
     plt.xlabel("Universal Time (Hours)")
 
+
+    plt.legend()
+    
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
