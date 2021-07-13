@@ -159,7 +159,7 @@ def start_minute_entry_check(start_minute_value):
     Returns
     -------
     Int
-        start_minute_value: the inputted value in the start_minute_entry box
+        value: the inputted value in the start_minute_entry box
     """
     value = int(start_minute_value)
     
@@ -189,7 +189,7 @@ def start_second_entry_check(start_second_value):
     Returns
     -------
     Int
-        start_second_value: the inputted value in the start_second_entry box
+        value: the inputted value in the start_second_entry box
     """
     value = int(start_second_value)
     
@@ -219,7 +219,7 @@ def end_hour_entry_check(end_hour_value):
     Returns
     -------
     Int
-        end_hour_value: the inputted value in the end_hour_entry box
+        value: the inputted value in the end_hour_entry box
     """
     value = int(end_hour_value)
     
@@ -248,22 +248,24 @@ def end_minute_entry_check(end_minute_value):
 
     Returns
     -------
-    String
-        end_minute_value: the inputted value in the end_hour_entry box
+    Int
+        value: the inputted value in the end_hour_entry box
     """
+    value = int(end_minute_value)
+    
     ### End minute input tests ###
     # Testing to see if the inputted value exceeds what it can be
-    if((int)(end_minute_value) > 59):
+    if(value > 59):
         #Have error messsage box pop up becuase it can't be more than 59
         error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
 
     # Testing to see if the inputted value is less than what it can be
-    elif((int)(end_minute_value) < 0):
+    elif(value < 0):
         # Have error message box pop up because it can't be a negative number
         error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
 
     # Returning the end_minute_value so whatever changes we made to it get returned
-    return end_minute_value
+    return value
 
 def end_second_entry_check(end_second_value):
     """
