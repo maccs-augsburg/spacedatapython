@@ -753,13 +753,15 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
 
 
     
-    plt.plot(timeArr,x_values, linewidth = 1)
-    plt.plot(timeArr,y_values, linewidth = 1)
-    plt.plot(timeArr,z_values, linewidth = 1)
+    plt.plot(timeArr,x_values, linewidth = 1, label = "X Values")
+    plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
+    plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
     
     plt.title("Geomagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
     plt.xlabel("Univeral Time (Hours)")
+
+    plt.legend()
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
