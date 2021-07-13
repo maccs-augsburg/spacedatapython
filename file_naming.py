@@ -17,8 +17,29 @@ where timeInterval is blank if it is the whole day and cadence is
 
 def create_time_interval_string_hms_from_strings( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
     """
-    
+    Creates a time interval string for a filename given the hour, minute, and second
+    of the start and end times as strings.
 
+    Parameters
+    ----------
+    String
+        s_hour:
+        The start time hour in hours of the day, 0 to 23
+        s_minute:
+            The start time minute in minutes of an hour, 0 to 59
+        s_second:
+            The start time second in seconds of a minute, 0 to 59.
+        e_hour:
+            The end time hour in hours of the day, 0 to 23
+        e_minute:
+            The end time minute in minutes of an hour, 0 to 59
+        e_second:
+            The end time second in seconds of a minute, 0 to 59.
+
+    Returns
+    -------
+    String
+        answer = The time interval string or a zero-length string if all day.
     """
     answer = create_time_interval_string_hms(int(s_hour), int(s_minute), int(s_second), int(e_hour), int(e_minute), int(e_second))
     return answer
@@ -26,7 +47,7 @@ def create_time_interval_string_hms_from_strings( s_hour, s_minute, s_second, e_
 def create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
     """
     Creates a time interval string for a filename given the hour, minute, and second
-    of the start and end times.
+    of the start and end times as integers.
         
     Parameters
     ----------
