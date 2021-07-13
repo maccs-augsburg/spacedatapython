@@ -551,6 +551,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
+    plt.axhline(y = 0,color = 'k', linestyle = '-')
 
     if (default_hours_flag):
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
@@ -657,6 +658,8 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
+    plt.axhline(y = 0,color = 'k', linestyle = '-') #zero axis 
+
 
     if (default_hours_flag):
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
@@ -769,6 +772,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
+    plt.axhline(y = 0,color = 'k', linestyle = '-') #zero axis
 
     if (default_hours_flag):
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
