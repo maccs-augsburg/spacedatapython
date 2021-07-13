@@ -20,7 +20,7 @@ This GUI uses a radiobutton format for selection of file type
 #   view box around radio buttons ----------------------------------------------------------------->
 #   do not save option rectangles to move all subplots at the same time ---------------------------> 
 #
-#   Change values to integers ---------------------------------------------------------------------> 
+#   Change values to integers ---------------------------------------------------------------------> done
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
