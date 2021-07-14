@@ -4,15 +4,39 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 #NavigationToolbar2Tk)
 
+# cancel function for closing window
 def cancel():
         window.destroy()
+
+def initialize_test_arrays():
+        test_arr_1 = [1, 2, 3, 4, 5]
+        test_arr_2 = [5, 4, 3, 2, 1]
+        test_arr_3 = [1, 3, 2, 4, 5]
+        time_arr = [1, 2, 3, 4, 5]
+
+        return test_arr_1, test_arr_2, test_arr_3, time_arr
 
 # plot function is created for plotting the graph in tkinter window
 def plot():
 
-	# the figure that will contain the plot
-	fig = Figure(figsize = (5, 5), dpi = 100)
+        test_arr_1, test_arr_2, test_arr_3, time_arr = initialize_test_arrays()
 
+	# the figure that will contain the plot
+	fig = plt.figure(figsize = (5, 5), dpi = 100)
+	fig.subplots_adjust(hspace=0.3)
+
+
+	plt.subplot(311)
+        plt.plot(time_arr, test_arr_1)
+        plt.title("Canvas initial test")
+        plt.ylabel('Bx')
+        plt.gca().axes.xaxis.set_ticklabels([])
+        plt.autoscale(enable=True, axis='x', tight=True)
+        plt.autoscale(enable=True, axis='y')
+        plt.gca().tick_params(left=True, right=True) 
+        plt.gca().tick_params(axis='x', direction='in') 
+        plt.gca().tick_params(axis='y', direction='in') 
+        
 	# list of squares
 	y = [i**2 for i in range(101)]
 
