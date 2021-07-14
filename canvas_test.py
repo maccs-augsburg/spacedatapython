@@ -21,7 +21,7 @@ def plot():
         test_arr_1, test_arr_2, test_arr_3, time_arr = initialize_test_arrays()
 
         # the figure that will contain the plot
-        fig = plt.figure(figsize = (12, 7), dpi = 100)
+        fig = plt.figure(figsize = (5, 7), dpi = 100)
         fig.subplots_adjust(hspace=0.3)
 
         plt.subplot(311)
@@ -86,7 +86,7 @@ if __name__ == "__main__" :
         window.title('Plotting in Tkinter')
 
         # dimensions of the main window
-        window.geometry("675x550")
+        window.geometry("670x750")
 
         # button that displays the plot
         plot_button = Button(master = window,
