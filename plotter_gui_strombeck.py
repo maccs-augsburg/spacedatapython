@@ -35,6 +35,7 @@ import datetime
 # Plotter program imports
 import raw_to_plot
 import file_naming
+import read_raw_to_lists
 
 def plotter_complete_message(title, message):
     """
