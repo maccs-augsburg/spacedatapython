@@ -63,6 +63,9 @@ def plot():
         # plotting the graph
         #plot1.plot(y)
 
+        # Adjusting window geometry
+        window.geometry("670x750")
+        
         # creating the Tkinter canvas
         # containing the Matplotlib figure
         canvas = FigureCanvasTkAgg(fig, master = window)
@@ -86,7 +89,7 @@ if __name__ == "__main__" :
         window.title('Plotting in Tkinter')
 
         # dimensions of the main window
-        window.geometry("670x750")
+        window.geometry("200x100")
 
         # button that displays the plot
         plot_button = Button(master = window,
