@@ -8,6 +8,7 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 def cancel():
         window.destroy()
 
+# function to create test arrays for 3 subplots displays
 def initialize_test_arrays():
         test_arr_1 = [1, 2, 3, 4, 5]
         test_arr_2 = [5, 4, 3, 2, 1]
