@@ -35,7 +35,17 @@ def plot():
         plt.autoscale(enable=True, axis='y')
         plt.gca().tick_params(left=True, right=True) 
         plt.gca().tick_params(axis='x', direction='in') 
-        plt.gca().tick_params(axis='y', direction='in') 
+        plt.gca().tick_params(axis='y', direction='in')
+
+        plt.subplot(312)
+        plt.plot(time_arr, test_arr_2)
+        plt.ylabel('By')
+        plt.gca().axes.xaxis.set_ticklabels([])
+        plt.autoscale(enable=True, axis='x', tight=True)
+        plt.autoscale(enable=True, axis='y')
+        plt.gca().tick_params(left=True, right=True) 
+        plt.gca().tick_params(axis='x', direction='in') 
+        plt.gca().tick_params(axis='y', direction='in')
         
 	# list of squares
 	y = [i**2 for i in range(101)]
