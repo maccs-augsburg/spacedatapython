@@ -24,6 +24,7 @@ def plot():
         fig = plt.figure(figsize = (5, 7), dpi = 100)
         fig.subplots_adjust(hspace=0.3)
 
+        # First subplot
         plt.subplot(311)
         plt.plot(time_arr, test_arr_1)
         plt.title("Canvas initial test")
@@ -35,6 +36,7 @@ def plot():
         plt.gca().tick_params(axis='x', direction='in') 
         plt.gca().tick_params(axis='y', direction='in')
 
+        # Second subplot
         plt.subplot(312)
         plt.plot(time_arr, test_arr_2)
         plt.ylabel('By')
@@ -45,6 +47,7 @@ def plot():
         plt.gca().tick_params(axis='x', direction='in') 
         plt.gca().tick_params(axis='y', direction='in')
 
+        # Third subplot
         plt.subplot(313)
         plt.plot(time_arr, test_arr_3)
         plt.ylabel('Bz')
@@ -53,15 +56,6 @@ def plot():
         plt.gca().tick_params(left=True, right=True) 
         plt.gca().tick_params(axis='x', direction='in') 
         plt.gca().tick_params(axis='y', direction='in')
-
-        # list of squares
-        #y = [i**2 for i in range(101)]
-
-        # adding the subplot
-        #plot1 = fig.add_subplot(111)
-
-        # plotting the graph
-        #plot1.plot(y)
 
         # Adjusting window geometry
         window.geometry("670x750")
@@ -97,17 +91,16 @@ if __name__ == "__main__" :
                              height = 2,
                              width = 10,
                              text = "Plot")
+        # button that closes the window
         cancel_button = Button(master=window,
                                command=cancel,
                                height=2,
                                width=10,
                                text="Cancel")
 
-
-        # place the button
-        # in main window
+        # place the buttons in the main window
         plot_button.grid(column=1, row=1)
         cancel_button.grid(column=2, row=1)
 
-        # run the gui
+        # running the gui
         window.mainloop()
