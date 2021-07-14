@@ -97,79 +97,6 @@ def find_differences_in_list (arr) :
     difference = maximum_value - minimum_value
     return difference
 
-def create_arrays (raw_record, stime, etime) :
-    """ Creates x, y, z lists based on the 2 Hz raw data file.
-    
-    Places x, y, and z values into their specific lists.
-
-    Parameters
-    ----------
-    raw_record:
-        A byte array that is 38 bytes long, containing a single
-        record in the SRI 2 Hz format.
-    stime:
-        The datetime.time object from which to begin
-    etime:
-        The datetime.time object at which to end
-
-    Returns
-    -------
-    List
-        x_arr: a list of x Values from our 2 Hz file
-    List
-        y_arr: a list of y Values from our 2 Hz file
-    List
-        z_arr: a list of z Values from our 2 Hz file
-    List
-        time_arr: a list of time Values from our 2 Hz file
-    """
-
-    # Lists to hold data and return at end of function
-    x_arr = []	    #x plot point storage
-    y_arr = []	    #y plot point storage
-    z_arr = []       #z plot point storage
-    time_arr = []    #time plot point storage
-
-    #Initial while loop condition
-    while True :
-        one_record = raw_record.read( 38) # getting the information from the first 38 bytes
-
-        # if we reach the end then we break the loop
-        if not one_record:
-            break
-        current_time = time_of_record(one_record) # getting the current time
-
-        # if current time is greater than the start time we process and add it to arrays
-        if current_time >= stime :
-
-            # splitting up the time records
-            hour = one_record[4]
-            minute = one_record[5]
-            second = one_record[6]
-
-            # converting it into hours for the time array 
-            time_in_hours = hour +  (minute / 60) + (second / 3600)
-            time_arr.append(time_in_hours) # Converted to hours
-
-            # getting the x values
-            x1 = decode( one_record[18:21]) / 40.0
-            x_arr.append(x1)
-
-            # getting the y values
-            y1 = decode( one_record[21:24]) / 40.0
-            y_arr.append(y1) 
-
-            # getting the z values
-            z1 = decode( one_record[24:27]) / 40.0
-            z_arr.append(z1)
-
-        # if current time is greater than or equal to the ending time then we stop
-        if current_time >= etime :
-            break
-
-    # returning the 4 lists
-    return x_arr, y_arr, z_arr, time_arr
-
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_option) :
     """ Places x, y, z arrays on a plot.
 
@@ -298,7 +225,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
         plt.show()
     elif(file_option == 'pdf and png'): 
         #saving plot into pdf and png file and then showing the plot --- Commented out and ask Erik about
-        fig.savefig(filename+'.pdf', format='pdf', dpi=1200)
+        #fig.savefig(filename+'.pdf', format='pdf', dpi=1200)
         #fig.savefig(filename+'.png', format='png', dpi=1200)
         plt.show()
     else :
