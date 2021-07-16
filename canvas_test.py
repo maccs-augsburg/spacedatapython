@@ -27,7 +27,19 @@ def create_toolbar():
         toolbar_gui_entry_boxes(toolbar)
 
 def toolbar_gui_entry_boxes(toolbar):
-        pass
+        plot_min_x = IntVar()
+        plot_min_x.set(0)
+        plot_min_entry_x = ttk.Entry(toolbar, width=3, textvariable=plot_min_x)
+        plot_min_entry_x.grid(column=2, row=2)
+
+        plot_max_x = IntVar()
+        plot_max_x.set(0)
+        plot_max_entry_x = ttk.Entry(toolbar, width=3, textvariable=plot_max_x)
+        plot_max_entry_x.grid(column=2, row=3)
+
+        
+        
+        
 
 def toolbar_gui_entries(toolbar):
         ttk.Label(toolbar, text="Toolbar Entry Form").grid(column=1, row=1, sticky=(W,E))
