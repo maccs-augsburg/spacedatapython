@@ -46,6 +46,16 @@ def toolbar_gui_entry_boxes(toolbar):
         plot_max_y.set(0)
         plot_max_entry_y = ttk.Entry(toolbar, width=3, textvariable=plot_max_y)
         plot_max_entry_y.grid(column=2, row=5)
+
+        plot_min_z = IntVar()
+        plot_min_z.set(0)
+        plot_min_entry_z = ttk.Entry(toolbar, width=3, textvariable=plot_min_z)
+        plot_min_entry_z.grid(column=2, row=6)
+
+        plot_max_z = IntVar()
+        plot_max_z.set(0)
+        plot_max_entry_z = ttk.Entry(toolbar, width=3, textvariable=plot_max_z)
+        plot_max_entry_z.grid(column=2, row=7)
         
         
 
@@ -56,7 +66,7 @@ def toolbar_gui_entries(toolbar):
         ttk.Label(toolbar, text="Plot min y:").grid(column=1, row=4)
         ttk.Label(toolbar, text="Plot max y:").grid(column=1, row=5)
         ttk.Label(toolbar, text="Plot min z:").grid(column=1, row=6)
-        ttk.Label(toolbar, text="Plot max z:").grid(column=1, row=6)
+        ttk.Label(toolbar, text="Plot max z:").grid(column=1, row=7)
 
 # plot function is created for plotting the graph in tkinter window
 def plot():
