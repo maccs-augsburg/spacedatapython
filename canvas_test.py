@@ -19,48 +19,59 @@ def initialize_test_arrays():
         return test_arr_1, test_arr_2, test_arr_3, time_arr
 
 def create_toolbar():
+        # Creating new tk window for the toolbar
         toolbar = Tk()
         toolbar.title("Toolbar")
         toolbar.geometry("200x200")
 
+        # Calling other functions to set up the toolbar object
         toolbar_gui_entries(toolbar)
         toolbar_gui_entry_boxes(toolbar)
 
 def toolbar_gui_entry_boxes(toolbar):
+        # plot min x section
         plot_min_x = IntVar()
         plot_min_x.set(0)
         plot_min_entry_x = ttk.Entry(toolbar, width=3, textvariable=plot_min_x)
         plot_min_entry_x.grid(column=2, row=2)
 
+        # plot max x section
         plot_max_x = IntVar()
         plot_max_x.set(0)
         plot_max_entry_x = ttk.Entry(toolbar, width=3, textvariable=plot_max_x)
         plot_max_entry_x.grid(column=2, row=3)
 
+        # plot min y section
         plot_min_y = IntVar()
         plot_min_y.set(0)
         plot_min_entry_y = ttk.Entry(toolbar, width=3, textvariable=plot_min_y)
         plot_min_entry_y.grid(column=2, row=4)
 
+        # plot max y section
         plot_max_y = IntVar()
         plot_max_y.set(0)
         plot_max_entry_y = ttk.Entry(toolbar, width=3, textvariable=plot_max_y)
         plot_max_entry_y.grid(column=2, row=5)
 
+        # plot min z section
         plot_min_z = IntVar()
         plot_min_z.set(0)
         plot_min_entry_z = ttk.Entry(toolbar, width=3, textvariable=plot_min_z)
         plot_min_entry_z.grid(column=2, row=6)
 
+        # plot max z section
         plot_max_z = IntVar()
         plot_max_z.set(0)
         plot_max_entry_z = ttk.Entry(toolbar, width=3, textvariable=plot_max_z)
         plot_max_entry_z.grid(column=2, row=7)
         
-        
+        ### All sections above don't display 0 in the box for some reason ###
 
 def toolbar_gui_entries(toolbar):
+        # Title -- Not sure if I should keep
         ttk.Label(toolbar, text="Toolbar Entry Form").grid(column=1, row=1, sticky=(W,E))
+
+        # min and max labels
         ttk.Label(toolbar, text="Plot min x:").grid(column=1, row=2)
         ttk.Label(toolbar, text="Plot max x:").grid(column=1, row=3)
         ttk.Label(toolbar, text="Plot min y:").grid(column=1, row=4)
