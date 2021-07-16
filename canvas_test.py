@@ -17,6 +17,11 @@ def initialize_test_arrays():
 
         return test_arr_1, test_arr_2, test_arr_3, time_arr
 
+def create_toolbar():
+        toolbar = Tk()
+        toolbar.title("Toolbar")
+        toolbar.geometry("200x200")
+
 # plot function is created for plotting the graph in tkinter window
 def plot():
         test_arr_1, test_arr_2, test_arr_3, time_arr = initialize_test_arrays()
@@ -70,6 +75,7 @@ def plot():
         canvas.get_tk_widget().grid(column=3, row=2)
 
         # creating the Matplotlib toolbar
+        create_toolbar()
         #toolbar = NavigationToolbar2Tk(canvas, window)
         #toolbar.update()
 
