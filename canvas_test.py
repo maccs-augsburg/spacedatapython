@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
@@ -21,6 +22,12 @@ def create_toolbar():
         toolbar = Tk()
         toolbar.title("Toolbar")
         toolbar.geometry("200x200")
+
+
+def toolbar_gui_entries(toolbar):
+        ttk.Label(toolbar, text="Toolbar Entry Form").grid(column=1, row=1, sticky=(W,E))
+        ttk.Label(toolbar, text="Plot min x").grid(column=1, row=2)
+        ttk.Label(toolbar, text="Plot max x").grid(column=1, row=3)
 
 # plot function is created for plotting the graph in tkinter window
 def plot():
