@@ -37,7 +37,15 @@ def toolbar_gui_entry_boxes(toolbar):
         plot_max_entry_x = ttk.Entry(toolbar, width=3, textvariable=plot_max_x)
         plot_max_entry_x.grid(column=2, row=3)
 
-        
+        plot_min_y = IntVar()
+        plot_min_y.set(0)
+        plot_min_entry_y = ttk.Entry(toolbar, width=3, textvariable=plot_min_y)
+        plot_min_entry_y.grid(column=2, row=4)
+
+        plot_max_y = IntVar()
+        plot_max_y.set(0)
+        plot_max_entry_y = ttk.Entry(toolbar, width=3, textvariable=plot_max_y)
+        plot_max_entry_y.grid(column=2, row=5)
         
         
 
