@@ -28,10 +28,12 @@ def create_toolbar():
 
 def toolbar_gui_entries(toolbar):
         ttk.Label(toolbar, text="Toolbar Entry Form").grid(column=1, row=1, sticky=(W,E))
-        ttk.Label(toolbar, text="Plot min x").grid(column=1, row=2)
-        ttk.Label(toolbar, text="Plot max x").grid(column=1, row=3)
-        ttk.Label(toolbar, text="Plot min y").grid(column=1, row=4)
-        ttk.Label(toolbar, text="Plot max y").grid(column=1, row=5)
+        ttk.Label(toolbar, text="Plot min x:").grid(column=1, row=2)
+        ttk.Label(toolbar, text="Plot max x:").grid(column=1, row=3)
+        ttk.Label(toolbar, text="Plot min y:").grid(column=1, row=4)
+        ttk.Label(toolbar, text="Plot max y:").grid(column=1, row=5)
+        ttk.Label(toolbar, text="Plot min z:").grid(column=1, row=6)
+        ttk.Label(toolbar, text="Plot max z:").grid(column=1, row=6)
 
 # plot function is created for plotting the graph in tkinter window
 def plot():
