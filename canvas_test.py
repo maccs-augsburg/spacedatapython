@@ -24,7 +24,10 @@ def create_toolbar():
         toolbar.geometry("200x200")
 
         toolbar_gui_entries(toolbar)
+        toolbar_gui_entry_boxes(toolbar)
 
+def toolbar_gui_entry_boxes(toolbar):
+        pass
 
 def toolbar_gui_entries(toolbar):
         ttk.Label(toolbar, text="Toolbar Entry Form").grid(column=1, row=1, sticky=(W,E))
