@@ -17,6 +17,7 @@ import datetime
 #import importlib
 
 import one_array_plotted
+import read_raw_to_lists
 
 
 #The code to import the file oneArrayPlotted 
@@ -462,7 +463,7 @@ def display_code():
      file_option = "pdf"
      
      #Creates our arrays
-     xArr, yArr, zArr, timeArr = one_array_plotted.create_arrays(file, start_time_stamp, end_time_stamp)   
+     xArr, yArr, zArr, timeArr = read_raw_to_lists.create_lists_from_raw(file, start_time_stamp, end_time_stamp)   
      #This calls our graph plotter function to plot the chose graph
      graph_from_plotter_value_x = graph_from_plotter_x.get()
      graph_from_plotter_value_y = graph_from_plotter_y.get()
