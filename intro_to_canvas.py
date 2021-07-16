@@ -2,6 +2,7 @@ from tkinter import *
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 #NavigationToolbar2Tk)
+import read_raw_to_lists
 
 # plot function is created for plotting the graph in tkinter window
 def plot():
@@ -24,7 +25,7 @@ def plot():
 	canvas.draw()
 
 	# placing the canvas on the Tkinter window
-	canvas.get_tk_widget().pack()
+	canvas.get_tk_widget().grid(column = 1, row = 1, sticky = (N, W, E, S))
 
 	# creating the Matplotlib toolbar
 	#toolbar = NavigationToolbar2Tk(canvas, window)
@@ -52,7 +53,7 @@ if __name__ == "__main__" :
 
     # place the button
     # in main window
-    plot_button.pack()
+    plot_button.grid(column = 0, row = 0, sticky = (N, W, E, S))
 
     # run the gui
     window.mainloop()
