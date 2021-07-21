@@ -31,6 +31,8 @@ Ted Stuff |
 - Use filenames.py file in GUI ------------------------------------------------------- done |
 - After plotting the function, cancel button doesn't work -- Not sure what to do here       |
 - Implement a file not found error catch --------------------------------------------- done |
+- Change pop up screen to show the values of plot min and max's ---------------------- |
+- Get cancel button to close both windows instead of just one ------------------------ |
 ---------------------------------------------------------------------------------------------
 
 
