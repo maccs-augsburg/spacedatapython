@@ -18,6 +18,14 @@ def initialize_test_arrays():
 
         return test_arr_1, test_arr_2, test_arr_3, time_arr
 
+def plot_new_min_and_max():
+        pass
+        
+
+def toolbar_gui_buttons(toolbar):
+        plot_button = ttk.Button(toolbar, text="Plot", command=plot_new_min_and_max).grid(column=1, row=8)
+        cancel_button = ttk.Button(toolbar, text="Cancel", command=cancel).grid(column=2, row=8)
+
 def create_toolbar():
         # Creating new tk window for the toolbar
         toolbar = Tk()
@@ -27,6 +35,7 @@ def create_toolbar():
         # Calling other functions to set up the toolbar object
         toolbar_gui_entries(toolbar)
         toolbar_gui_entry_boxes(toolbar)
+        toolbar_gui_buttons(toolbar)
 
 def toolbar_gui_entry_boxes(toolbar):
         # plot min x section
