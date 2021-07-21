@@ -31,30 +31,8 @@ Ted Stuff |
 - Use filenames.py file in GUI ------------------------------------------------------- done |
 - After plotting the function, cancel button doesn't work -- Not sure what to do here       |
 - Implement a file not found error catch --------------------------------------------- done |
---------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
 
-
-
-
-- 
-
-------------
-Anna Stuff |
-------------
-- Update scaling on plotting GUI
-- Thicker Lines
-- Fix save names
-- Remove pdf, png files from repo
-- Merge with Main
-- Rename python files in repo
-- Remove old unused python files from repo
-- Plot min and max
-- Add Universal Time (Hours) on time axis for plotter
-- Change "GeoMagnetic Bz of __stationname__" to "Geomagnetic Bz of __stationname__"
-- Keep GUI running until quit
-- Use filenames.py file in GUI
-- Change times on Graph
-- check both pdf and png radiobuttons for saving
 
 -------------------
 Worry about later |
