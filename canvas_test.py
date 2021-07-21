@@ -23,8 +23,8 @@ def plot_new_min_and_max():
         
 
 def toolbar_gui_buttons(toolbar):
-        plot_button = ttk.Button(toolbar, text="Plot", command=plot_new_min_and_max).grid(column=1, row=8)
-        cancel_button = ttk.Button(toolbar, text="Cancel", command=cancel).grid(column=2, row=8)
+        plot_button = ttk.Button(toolbar, text="Plot", command=plot_new_min_and_max).grid(column=1, row=8) # Command not working
+        cancel_button = ttk.Button(toolbar, text="Cancel", command=cancel).grid(column=2, row=8) # Command closes main window but not secondary window
 
 def create_toolbar():
         # Creating new tk window for the toolbar
