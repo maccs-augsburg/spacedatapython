@@ -13,7 +13,7 @@ import datetime
 from raw_codecs import decode, time_of_record
 
 
-def create_lists (raw_file, start_time, end_time) :
+def create_lists_from_raw( raw_file, start_time, end_time) :
     """ Creates x, y, z, and time lists based on the 2 Hz raw data file.
     
     Places x, y, z and time values into their own lists.
