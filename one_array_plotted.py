@@ -180,7 +180,7 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
     fig = plt.figure(figsize=(7, 4))
     
     plt.plot(timeArr,yArr, linewidth = 1)
-    plt.title("Geomagnetic By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic By of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('By')
     plt.xlabel("Universal Time (Hour)")
 
@@ -269,7 +269,7 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     fig = plt.figure(figsize=(7, 4)) #size of graph
     
     plt.plot(timeArr,zArr, linewidth = 1)
-    plt.title("Geomagnetic Bz of " + station_name + "      YEARDAY: " + year_day_value+  "      DATE: " + date) 
+    plt.title("Geomagnetic Bz of " + station_name + "   YEARDAY: " + year_day_value+  "   DATE: " + date) 
     plt.ylabel('Bz')
     plt.xlabel("Universal Time (Hours)")
     
@@ -372,7 +372,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,x_values, linewidth = 1, label = 'X Values')
     plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
     
-    plt.title("Geomagnetic Bx and By of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic Bx and By of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('Bx and By')
     plt.xlabel("Universal Time (Hours)")
 
@@ -482,7 +482,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,x_values, linewidth = 1, label = 'X Values')
     plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
     
-    plt.title("Geomagnetic Bx and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic Bx and Bz of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('Bx and Bz')
     plt.xlabel("Universal Time (Hours)")
 
@@ -589,7 +589,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
     plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
     
-    plt.title("Geomagnetic By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic By and Bz of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('By and Bz')#y label 
     plt.xlabel("Universal Time (Hours)")#x label 
 
@@ -704,7 +704,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
     plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
     
-    plt.title("Geomagnetic Bx, By and Bz of " + station_name + "      YEARDAY: " + year_day_value +  "      DATE: " + date) 
+    plt.title("Geomagnetic Bx, By and Bz of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
     plt.xlabel("Univeral Time (Hours)")
 
