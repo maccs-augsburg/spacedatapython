@@ -99,7 +99,7 @@ def gui_entries(window) :
     #Creation of the Okay and Cancel button that has commands to either run
     #the GUI if you press okay or to "destroy" the GUI if you hit canel
     plot_button = ttk.Button(window, text = "Plot", command = plot).grid(column = 2, row = 14, sticky = W)
-    cancel_button = ttk.Button(window, text = "Cancel", command = lambda: cancel(root)).grid(column =1, row = 14, sticky = W)
+    cancel_button = ttk.Button(window, text = "Cancel", command = lambda: cancel(window)).grid(column =1, row = 14, sticky = W)
 
 
 
@@ -125,7 +125,15 @@ def gui_labels(window) :
     #Station Code Label 
     ttk.Label(window, text = "Station Code: ").grid(column = 1, row = 1, sticky = W)
 
+def cancel(window):
+    
+    """
 
+    Parameters
+    ----------
+    *args : 
+    """
+    window.destroy()
 
 
 def main() :
