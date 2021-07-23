@@ -15,16 +15,17 @@ Ted Stuff |
 	git mv oldName.py new_name.py                                                       |
 - Remove old unused python files from repo ------------------------------------------- done |
 	git rm unused.py
+- Canvas test one gui not separate windows ------------------------------------------- done |
+- get canvas to plot values from a file ---------------------------------------------- done |
+- Canvas test takes up the left side of the window ----------------------------------- |
 - Change pop up screen to show the values of plot min and max's ---------------------- |
-- Get cancel button to close both windows instead of just one ------------------------ |
+- Get cancel button to close both windows instead of just one ------------------------ done |
 - Save as file option buttons? ------------------------------------------------------- |
 - x time axis ------------------------------------------------------------------------ |
 - more than 8 hours then we use a tick every 2 hours --------------------------------- |
 - more than 3 hours (less than 8) we use a tick every hour (HH:mm) ------------------- |
 - less than 3 hours (HH:mm:ss) ------------------------------------------------------- |
 - convert time from 1.5 to 1 hour 30 mins (type of deal) ----------------------------- |
-- Canvas test one gui not separate windows ------------------------------------------- |
-- Canvas test takes up the left side of the window ----------------------------------- |
 
 Not yet required ----------------------------------------------------------------------|
 - implment changes that Erik makes (usually when we merge from main)
