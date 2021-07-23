@@ -9,3 +9,8 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkaggg import (FigureCanvasTkAgg)
 
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()
