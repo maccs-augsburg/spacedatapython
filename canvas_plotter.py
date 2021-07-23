@@ -9,6 +9,12 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkaggg import (FigureCanvasTkAgg)
 
+def cancel():
+    window.destroy()
+
+def plot():
+    print('Plotted portion of code')
+
 def create_initial_gui(window):
     plot_button = Button(master = window,
                          command = plot,
