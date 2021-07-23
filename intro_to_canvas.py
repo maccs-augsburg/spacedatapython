@@ -79,7 +79,7 @@ def gui_entries(window) :
 
     #Creation of the end second widget, also has set times for default
     end_second = IntVar()
-    end_second_entry = ttk.Entry(window, width = 3, textvariable = end_second, text = "End Second")
+    end_second_entry = ttk.Entry(window, width = 3, textvariable = end_second)
     end_second_entry.grid(column = 2, row = 8, sticky = (W,E))
     end_second.set(59)
 
@@ -96,7 +96,22 @@ def gui_entries(window) :
     y_plot = ttk.Checkbutton(window, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 11, sticky = W) 
     z_plot = ttk.Checkbutton(window, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 12, sticky = W)
 
-        
+    #Creation of the Okay and Cancel button that has commands to either run
+    #the GUI if you press okay or to "destroy" the GUI if you hit canel
+    plot_button = ttk.Button(window, text = "Plot", command = plot).grid(column = 2, row = 14, sticky = W)
+    cancel_button = ttk.Button(window, text = "Cancel", command = lambda: cancel(root)).grid(column =1, row = 14, sticky = W)
+
+
+
+def gui_labels(window) :
+    """
+    """
+    #Year Day Label
+    ttk.Label(window, text = "Year Day: ").grid(column = 1, row = 2, sticky = W)
+    #Start Hour Label 
+    ttk.Label(window, text = "Start Hour: ").grid(column = 1, row = 3, sticky = W)
+
+
 def main() :
     """
     """
@@ -113,6 +128,8 @@ def main() :
 
     #Call the 
     gui_entries(window)
+
+    gui_labels(window)
 
     # button that displays the plot
     #plot_button = Button(master = window,
