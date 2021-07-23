@@ -9,12 +9,9 @@
 # Python 3 imports
 import datetime
 
-# MACCS imports
-from raw_codecs import decode, time_of_record
-
 
 def create_lists_from_clean (clean_file, start_time, end_time) :
-    """ Creates x, y, z, time, and flag lists based on the 2 Hz raw data file.
+    """ Creates x, y, z, time, and flag lists based on the 2 Hz clean data file.
     
     Places x, y, z, time, and flag values into their own lists.
 
@@ -31,13 +28,15 @@ def create_lists_from_clean (clean_file, start_time, end_time) :
     Returns
     -------
     List
-        x_arr: a list of x Values from our 2 Hz file
+        x_arr: a list of x values from our 2 Hz file
     List
-        y_arr: a list of y Values from our 2 Hz file
+        y_arr: a list of y values from our 2 Hz file
     List
-        z_arr: a list of z Values from our 2 Hz file
+        z_arr: a list of z values from our 2 Hz file
     List
-        time_arr: a list of time Values from our 2 Hz file
+        time_arr: a list of time values from our 2 Hz file
+    List
+        flag_arr: a list of flag values from the 2 Hz file
     """
 
     # Quarter and three-quarter second constants expressed in terms of
@@ -54,20 +53,22 @@ def create_lists_from_clean (clean_file, start_time, end_time) :
 
     # Loop until the end of file or end time has been reached
     while True :
-        # Grab a single record of information from the next 38 bytes
-        one_record = raw_file.read( 38) 
+        # Grab a single record of information from the next 28 bytes
+        clean_record = raw_file.read( 28) 
         # if we reach the end then we break the loop
-        if not one_record:
+        if not clean_record:
             break
-        current_time = time_of_record(one_record) # getting the current time
+        
+        # grab the time
+        hour = clean_record[1]
+        minute = clean_record[2]
+        second = clean_record[3]
+        current_time = datetime.time( hour, minute, second)
+        #current_time = time_of_record(one_record) # getting the current time
 
         # if current time is greater than the start time we process and add it to arrays
         if current_time >= start_time :
 
-            # splitting up the time records
-            hour = one_record[4]
-            minute = one_record[5]
-            second = one_record[6]
 
             # converting it into hours for the time array 
             time_in_hours = hour +  (minute / 60) + (second / 3600)
@@ -75,26 +76,31 @@ def create_lists_from_clean (clean_file, start_time, end_time) :
             time_arr.append(time_in_hours + THREE_QUARTER_SECOND)
 
             # getting the x values
-            x1 = decode( one_record[18:21]) / 40.0
+            x1 = int.from_bytes(clean_record[4:8], byteorder='big', signed=True) / 1000.0
             x_arr.append(x1)
-            x2 = decode( one_record[27:30]) / 40.0
+            x2 = int.from_bytes(clean_record[8:12], byteorder='big', signed=True) / 1000.0
             x_arr.append(x2)
 
             # getting the y values
-            y1 = decode( one_record[21:24]) / 40.0
+            y1 = int.from_bytes(clean_record[12:16], byteorder='big', signed=True) / 1000.0
             y_arr.append(y1) 
-            y2 = decode( one_record[30:33]) / 40.0
+            y2 = int.from_bytes(clean_record[16:20], byteorder='big', signed=True) / 1000.0
             y_arr.append(y2) 
 
             # getting the z values
-            z1 = decode( one_record[24:27]) / 40.0
+            z1 = int.from_bytes(clean_record[20:24], byteorder='big', signed=True) / 1000.0
             z_arr.append(z1)
-            z2 = decode( one_record[33:36]) / 40.0
+            z2 = int.from_bytes(clean_record[24:28], byteorder='big', signed=True) / 1000.0
             z_arr.append(z2)
+            
+            # getting the flag values
+            flag = clean_record[0]
+            flag_arr.append( flag)
+            flag_arr.append( flag)
 
         # if current time is greater than or equal to the ending time then we stop
         if current_time >= end_time :
             break
 
-    # returning the 4 lists
-    return x_arr, y_arr, z_arr, time_arr
+    # returning the 5 lists
+    return x_arr, y_arr, z_arr, time_arr, flag_arr
