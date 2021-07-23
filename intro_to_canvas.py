@@ -66,19 +66,319 @@ def date_time_object_check(string_value) :
      return string_value
 
 
+def year_day_check(year_day_value):
+
+     """
+     This function is set to check if the entry of Year day was inputed. If it was
+     not inputed it will send out an error message to let you know.
+
+     Parameters
+     ----------
+     year_day_value : the integer inputed in the GUI
+
+     Returns
+     -------
+     error_message : letting you know that there is no input 
+     
+     """
+     if (len(year_day_value) ==  0):
+        error_message(title = "yearday Entry Error", message = "There was no input for the yearday entry box")
+
+def start_hour_entry_check(start_hour_value):
+     """
+     This function checks the start hour entry widget. It checks if the hour
+     time is greater then 23 it can not be run. It checks if the time is less then
+     zero as well because if it is the program can not run. It also sees if the
+     input is set to 1 we have to enter in our own zero in front to run the code.
+
+     Parameter
+     ---------
+     start_hour_value : the inputed data from the GUI that is an integer between 0 and 23
+
+     Returns
+     -------
+     
+
+     start_hour_value :      
+     """
+     #if(len(start_hour_value) == 1):
+        #start_hour_value = "0" + start_hour_value
+
+     if((int)(start_hour_value) > 23):
+        error_message(title = "Start Hour Entry Error", message = "Start hour cannot be more than 23")
+
+     elif((int)(start_hour_value) < 0):
+        error_message(title = "Start Hour Entry Error", message = "Start hour cannot be lower than 0")
+
+     return start_hour_value
+
+def start_minute_entry_check(start_minute_value):
+     """
+     This function checks the start minute entry widget. It checks if the minute
+     time is greater then 59 it can not be run. It checks if the time is less then
+     zero as well because if it is the program can not run. It also sees if the
+     input is set to 1 we have to enter in our own zero in front to run the code.
+
+     Parameters
+     ----------
+     start_minute_value : the inputed value from the GUI that is an integer between 0 and 59. 
+
+     Returns
+     -------
+     start_minute_value : 
+     """
+     #if(len(start_minute_value) == 1):
+        #start_minute_value = "0" + start_minute_value
+
+     if((int)(start_minute_value) > 59):
+        error_message(title = "Start Minute Entry Error", message = "Start minute cannot be greater then 59")
+
+     elif((int)(start_minute_value) < 0):
+        error_message(title = "Start Minute Entry Error", message = "Start minute cannot be lower then 0")
+
+     return start_minute_value
+
+def start_second_entry_check(start_second_value):
+     """
+     This function checks the start second entry widget. It checks if the second
+     time is greater then 59 it can not be run. It checks if the time is less then
+     zero as well because if it is the program can not run. It also sees if the
+     input is set to 1 we have to enter in our own zero in front to run the code.
+
+     Parameters
+     ----------
+     start_second_value : the inputed value from the GUI that is an integer between 0 and 59. 
+
+     Returns
+     -------
+     start_second_value : 
+     """
+
+     #if(len(start_second_value) == 1):
+        #start_second_value = "0" + start_second_value
+
+     if((int)(start_second_value) > 59):
+        error_message(title = "Start Second Entry Error", message = "Start second cannot be more then 59")
+
+     elif((int)(start_second_value) < 0):
+        error_message(title = "Start Second Entry Error", message = "Start second cannot be negative")
+
+     return start_second_value
+
+def end_hour_entry_check(end_hour_value):
+     """
+     This function checks the end hour entry widget. It checks if the hour
+     time is greater then 23 it can not be run. It checks if the time is less then
+     zero as well because if it is the program can not run. It also sees if the
+     input is set to 1 we have to enter in our own zero in front to run the code.
+
+     Parameters
+     ----------
+     end_hour_value : the inputed value from the GUI that is an integer between 0 and 23. 
+
+     Returns
+     -------
+     end_hour_value : 
+     """
+     
+     #if(len(end_hour_value) == 1):
+        #end_hour_value = "0" + end_hour_value
+
+     if((int)(end_hour_value) > 23):
+        error_message(title = "End Hour Entry Error", message = "End hour cannot be more then 23")
+
+     elif((int)(end_hour_value)< 0):
+        error_message(title = "End Hour Entry Error", message = "End hour cannor be less then 0")
+
+     return end_hour_value
+
+def end_minute_entry_check(end_minute_value):
+     """
+     This function checks the end minute entry widget. It checks if the minute
+     time is greater then 59 it can not be run. It checks if the time is less then
+     zero as well because if it is the program can not run. It also sees if the
+     input is set to 1 we have to enter in our own zero in front to run the code.
+
+     Parameters
+     ----------
+     end_minute_value : the inputed value from the GUI that is an integer between 0 and 59. 
+
+     Returns
+     -------
+     end_minute_value : 
+     """
+     #if(len(end_minute_value) == 1):
+        #end_minute_value = "0" + end_minute_value
+        
+     if((int)(end_minute_value) > 59):
+        error_message(title = "End Minute Entry Error", message = "End minute cannot be more then 59")
+
+     elif((int)(end_minute_value)< 0):
+        error_message(title = "End Minute Entry Error", message = "End minute cannor be less then 0")
+
+     return end_minute_value
+
+def end_second_entry_check(end_second_value):
+     """
+     This function checks the end second entry widget. It checks if the second
+     time is greater then 59 it can not be run. It checks if the time is less then
+     zero as well because if it is the program can not run. It also sees if the
+     input is set to 1 we have to enter in our own zero in front to run the code.
+
+     Parameters
+     ----------
+     end_second_value : the inputed value from the GUI that is an integer between 0 and 59. 
+
+     Returns
+     -------
+     end_second_value : 
+     """
+     #if(len(end_second_value) == 1):
+        #end_second_value = "0" + end_second_value
+        
+     if((int)(end_second_value) > 59):
+        error_message(title = "End Second Entry Error", message = "End second cannot be more then 59")
+
+     elif((int)(end_second_value)< 0):
+        error_message(title = "End Minute Entry Error", message = "End second cannor be less then 0")
+
+     return end_second_value
+
+
+def station_names_entry_check(station_names_value):
+     """
+     Checks to see if there has been a value put into the entry boxs for station name
+     if there hasnt been it gives an error message.
+
+     Parameters
+     ----------
+     station_names_value : the inputed value from the GUI that is a two letter string
+
+     Returns
+     -------
+     """
+     if(len(station_names_value) == 0):
+        error_message(title = "Station Code Entry Error", message = "There was no input for the station code entry box")
+
+
+def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, filename, stime, etime, file_option):
+     """
+     Checks the radio button input to then produce either the X, Y or Z graph.
+
+     Parameters
+     ----------
+     graph_from_plotter_value :
+
+     xArr :
+
+     yArr :
+
+     zArr :
+
+     timeArr :
+
+     stime :
+
+     etime :
+
+     filename :
+
+     file_option :
+
+     raw_to_single_plot
+
+     Returns
+     -------
+     graph_from_plotter_value : 
+
+     
+     """
+     #If statement to decided if we want X, Y or Z plot
+     
+     
+     if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
+          one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
+          one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
+          one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
+          one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_z == 3):
+          one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)     
+     elif(graph_from_plotter_value_y == 2):
+          one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
+     elif(graph_from_plotter_value_x == 1):
+          one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
+     else: 
+          warning_message(title = "File Format Option Error", message = "Please select a file format option")
+
+     return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z 
+
+
+
+
+
+
+
 # plot function is created for plotting the graph in tkinter window
 def plot():
 
     
     # the figure that will contain the plot
-    #fig = Figure(figsize = (5, 5), dpi = 100)
+    fig = Figure(figsize = (5, 5), dpi = 100)
 
     # list of squares
-    #y = [i**2 for i in range(101)]
+    y = [i**2 for i in range(101)]
 
-    
+    #Here we call for out input and then runs through our year day check 
+    year_day_value = year_day_entry.get()
+    year_day_check(year_day_value)
 
-        
+    #here we call for our input and then runs through our start hour, start minut and start second check
+    start_hour_value = start_hour_entry_check(start_hour_entry.get())
+    start_hour_value = date_time_object_check(start_hour_value)
+
+    start_minute_value = start_minute_entry_check(start_minute_entry.get())
+    start_minute_value = date_time_object_check(start_minute_value)
+     
+    start_second_value = start_second_entry_check(start_second_entry.get())
+    start_second_value = date_time_object_check(start_second_value)
+
+     
+    start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
+
+    #Here we call for our input and then run it through our end hour, end minute and end second check
+    end_hour_value = end_hour_entry_check(end_hour_entry.get())
+    end_hour_value = date_time_object_check(end_hour_value)
+     
+    end_minute_value = end_minute_entry_check(end_minute_entry.get())
+    end_minute_value = date_time_object_check(end_minute_value)
+     
+    end_second_value = end_second_entry_check(end_second_entry.get())
+    end_second_value = date_time_object_check(end_second_value)
+
+     
+    end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
+    #Here we call for our input and then run it through our station names check. 
+    station_names_value = station_names_entry.get()
+    station_names_entry_check(station_names_value)
+
+    #Creating a file name to be found in our file explorer to run through our plotter
+    file_name = station_names_value + year_day_value + '.2hz'
+    #This opens our said file
+    file = open(file_name, 'rb')
+
+    file_option = "pdf"
+     
+    #Creates our arrays
+    xArr, yArr, zArr, timeArr = read_raw_to_lists.create_lists_from_raw(file, start_time_stamp, end_time_stamp)   
+    #This calls our graph plotter function to plot the chose graph
+    graph_from_plotter_value_x = graph_from_plotter_x.get()
+    graph_from_plotter_value_y = graph_from_plotter_y.get()
+    graph_from_plotter_value_z = graph_from_plotter_z.get() 
+     
+    graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
 
         
 
@@ -100,6 +400,14 @@ def plot():
 def gui_entries(window) :
     """
     """
+
+    global year_day_entry
+    global start_hour, start_hour_entry, start_minute, start_minute_entry, start_second, start_second_entry
+    global end_hour, end_hour_entry,end_minute,  end_minute_entry, end_second, end_second_entry
+    global station_names_entry
+    global graph_from_plotter_x,graph_from_plotter_y,graph_from_plotter_z, x_plot, y_plot, z_plot
+    global okay_button, cancel_button
+    
     #Creation of the Year Day entry widget
     year_day = IntVar()
     year_day_entry = ttk.Entry(window, width = 5, textvariable = year_day)
@@ -195,6 +503,7 @@ def main() :
     """
     """
     # the main Tkinter window
+    global window
     window = Tk()
     
     file_option = "pdf"
