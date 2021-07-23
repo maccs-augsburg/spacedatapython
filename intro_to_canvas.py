@@ -1,8 +1,10 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 #NavigationToolbar2Tk)
+
 
 
 import sys
@@ -10,6 +12,59 @@ import datetime
 
 import one_array_plotted
 import read_raw_to_lists
+
+
+def error_message(title, message) :
+    """
+     This function creates the error message boxes.
+
+     Parameters
+     ----------
+     title: to be able to create a title for the error messages
+
+     message: to be able to create the actual message to be displayed in the
+              error message pop up.
+
+     """
+    messagebox.showerror(title = title, message = "Error: "+ message)
+
+
+def completed_message(title, message) :
+    """
+     This function creates the completed message boxes.
+
+     Parameters
+     ----------
+     title: to be able to create a title for the completed messages
+
+     message: to be able to create the actual message to be displayed in the
+              completed message pop up.
+
+     """
+    messagebox.showinfo(title, message)
+
+def warning_message(title, message) :
+    """
+     This function creates the warning message boxes.
+
+     Parameters
+     ----------
+     title: to be able to create a title for the warning messages
+
+     message: to be able to create the actual message to be displayed in the
+              warning message pop up.
+
+     """
+    messagebox.showwarning(title = title, message = "Warning: " + message)
+
+def date_time_object_check(string_value) :
+     """
+     """
+     if(len(string_value) == 1):
+        string_value = "0" + string_value
+
+     return string_value
+
 
 # plot function is created for plotting the graph in tkinter window
 def plot():
