@@ -55,8 +55,39 @@ def gui_entries(window) :
     start_hour_entry = ttk.Entry(window, width = 5, textvariable = start_hour)
     start_hour_entry.grid(column = 2, row = 3, sticky = (W,E))
 
+    #Creation of the Start Minute entry widget
+    start_minute = IntVar()
+    start_minute_entry = ttk.Entry(window, width = 5, textvariable = start_minute)
+    start_minute_entry.grid(column = 2, row = 4, sticky = (W, E))
 
+    #Creation of the Start Second entry widget 
+    start_second = IntVar()
+    start_second_entry = ttk.Entry(window, width = 5, textvariable = start_second)
+    start_second_entry.grid(column = 2, row = 5, sticky = (W, E))
 
+    #Creation of the end hour entry widget, also has set times for defalut
+    end_hour = IntVar()
+    end_hour_entry = ttk.Entry(window, width = 5, textvariable = end_hour)
+    end_hour_entry.grid(column = 2, row = 6, sticky = (W,E))
+    end_hour.set(23)
+
+    #Creation of the end minute entry widget, also has set times for default
+    end_minute = IntVar()
+    end_minute_entry = ttk.Entry(window, width = 5, textvariable = end_minute)
+    end_minute_entry.grid(column = 2, row = 7, sticky = (W,E))
+    end_minute.set(59)
+
+    #Creation of the end second widget, also has set times for default
+    end_second = IntVar()
+    end_second_entry = ttk.Entry(window, width = 3, textvariable = end_second)
+    end_second_entry.grid(column = 2, row = 8, sticky = (W,E))
+    end_second.set(59)
+
+    #Creation of the station names entry widget
+    station_names= StringVar()
+    station_names_entry = ttk.Entry(window, width = 3, textvariable = station_names)
+    station_names_entry.grid(column = 2, row = 1, sticky = (W,E))
+    
         
 def main() :
     """
