@@ -79,7 +79,7 @@ def gui_entries(window) :
 
     #Creation of the end second widget, also has set times for default
     end_second = IntVar()
-    end_second_entry = ttk.Entry(window, width = 3, textvariable = end_second)
+    end_second_entry = ttk.Entry(window, width = 3, textvariable = end_second, text = "End Second")
     end_second_entry.grid(column = 2, row = 8, sticky = (W,E))
     end_second.set(59)
 
@@ -87,7 +87,15 @@ def gui_entries(window) :
     station_names= StringVar()
     station_names_entry = ttk.Entry(window, width = 3, textvariable = station_names)
     station_names_entry.grid(column = 2, row = 1, sticky = (W,E))
-    
+
+    #Creation of the graph from plotter check button
+    graph_from_plotter_x = IntVar()
+    graph_from_plotter_y = IntVar()
+    graph_from_plotter_z = IntVar()
+    x_plot = ttk.Checkbutton(window, text = "X Plot", variable = graph_from_plotter_x, onvalue = 1).grid(column = 1, row = 10, sticky = W)
+    y_plot = ttk.Checkbutton(window, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 11, sticky = W) 
+    z_plot = ttk.Checkbutton(window, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 12, sticky = W)
+
         
 def main() :
     """
