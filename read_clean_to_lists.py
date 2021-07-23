@@ -8,6 +8,7 @@
 
 # Python 3 imports
 import datetime
+import sys
 
 
 def create_lists_from_clean (clean_file, start_time, end_time) :
@@ -54,7 +55,7 @@ def create_lists_from_clean (clean_file, start_time, end_time) :
     # Loop until the end of file or end time has been reached
     while True :
         # Grab a single record of information from the next 28 bytes
-        clean_record = raw_file.read( 28) 
+        clean_record = clean_file.read( 28) 
         # if we reach the end then we break the loop
         if not clean_record:
             break
@@ -104,3 +105,21 @@ def create_lists_from_clean (clean_file, start_time, end_time) :
 
     # returning the 5 lists
     return x_arr, y_arr, z_arr, time_arr, flag_arr
+
+if __name__ == "__main__" :
+    if len(sys.argv) < 2 :
+        print( "Usage: python3 read_clean_to_lists.py filename [starttime [endtime]]")
+        sys.exit(0)   # Exit with no error code
+    filename = sys.argv[1]
+    two_hz_clean_file = open(filename, "rb")
+    start_time = datetime.time.fromisoformat( "00:00:00")
+    end_time = datetime.time.fromisoformat("23:59:59")
+    if len(sys.argv) >= 3 :
+        # iso format for a time is HH:MM:SS
+        start_time = datetime.time.fromisoformat(sys.argv[2])
+    if len(sys.argv) == 4 :
+        end_time = datetime.time.fromisoformat(sys.argv[3])
+    xa, ya, za, ta, fa = create_lists_from_clean( two_hz_clean_file, start_time, end_time)
+    print( xa)
+    print( fa)
+    
