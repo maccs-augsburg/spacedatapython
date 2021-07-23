@@ -110,6 +110,22 @@ def gui_labels(window) :
     ttk.Label(window, text = "Year Day: ").grid(column = 1, row = 2, sticky = W)
     #Start Hour Label 
     ttk.Label(window, text = "Start Hour: ").grid(column = 1, row = 3, sticky = W)
+    #Start Minute Label 
+    ttk.Label(window, text = "Start Minute: ").grid(column = 1, row = 4, sticky = W)
+    #Start Second Label 
+    ttk.Label(window, text = "Start Second: ").grid(column = 1, row = 5, sticky = W)
+    #End Hour Label 
+    ttk.Label(window, text = "End Hour: ").grid(column = 1, row = 6, sticky = W)
+    #End Minute Label 
+    ttk.Label(window, text = "End Minute: ").grid(column = 1, row = 7, sticky = W)
+    #End Second Label 
+    ttk.Label(window, text = "End Second: ").grid(column = 1, row = 8, sticky = W)
+    #Plot x, y, or z Label 
+    ttk.Label(window, text = "Plot X, Y or Z: ").grid(column = 1, row = 9, sticky = W)
+    #Station Code Label 
+    ttk.Label(window, text = "Station Code: ").grid(column = 1, row = 1, sticky = W)
+
+
 
 
 def main() :
