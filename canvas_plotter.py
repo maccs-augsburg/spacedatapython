@@ -7,9 +7,9 @@ from tkinter import *
 from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkaggg import (FigureCanvasTkAgg)
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 
-def cancel():
+def cancel(window):
     window.destroy()
 
 def plot():
@@ -24,7 +24,7 @@ def create_initial_gui(window):
     plot_button.grid(column=1, row=1)
     
     cancel_button = Button(master = window,
-                           command = cancel,
+                           command = lambda: cancel(window),
                            height = 2,
                            width = 10,
                            text='Cancel')
@@ -43,4 +43,6 @@ def main():
     
 
 if __name__ == "__main__":
+    filename='PG20212.2hz'
+    
     main()
