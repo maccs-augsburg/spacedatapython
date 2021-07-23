@@ -11,36 +11,27 @@ Here are some ideas for python data processing programs
 -----------
 Ted Stuff |
 --------------------------------------------------------------------------------------------
-- Thicker Lines --------------------------------------------------------------------- done  |
-- Remove pdf, png files from repo --------------------------------------------------- done  |
-- Move station code label and entry box up ------------------------------------------ done  |
-- Move yearday label and entry box over (to the right) ------------------------------ done  |
-- Default pdf to white background --------------------------------------------------- done  |
-- Rename python files in repo ------------------------------------------------------- done  |
+- Rename python files in repo -------------------------------------------------------- done |
 	git mv oldName.py new_name.py                                                       |
-- Add Universal Time (Hours) on time axis for plotter -------------------------------- done |
-- Change "GeoMagnetic Bz of __stationname__" to "Geomagnetic Bz of __stationname__" -- done |
-- Keep GUI running until quit -------------------------------------------------------- done |
-- Bind return key to plot button ----------------------------------------------------- done |
-- Remove buttons --------------------------------------------------------------------- done |
-- Add plot and cancel buttons -------------------------------------------------------- done |
-- check both pdf and png radiobuttons for saving ------------------------------------- done |
-- Plot min and max for each x, y and z ----------------------------------------------- done |
 - Remove old unused python files from repo ------------------------------------------- done |
 	git rm unused.py
-- Use filenames.py file in GUI ------------------------------------------------------- done |
-- After plotting the function, cancel button doesn't work -- Not sure what to do here       |
-- Implement a file not found error catch --------------------------------------------- done |
 - Change pop up screen to show the values of plot min and max's ---------------------- |
 - Get cancel button to close both windows instead of just one ------------------------ |
----------------------------------------------------------------------------------------------
+- Save as file option buttons? ------------------------------------------------------- |
+- x time axis ------------------------------------------------------------------------ |
+- more than 8 hours then we use a tick every 2 hours --------------------------------- |
+- more than 3 hours (less than 8) we use a tick every hour (HH:mm) ------------------- |
+- less than 3 hours (HH:mm:ss) ------------------------------------------------------- |
+- convert time from 1.5 to 1 hour 30 mins (type of deal) ----------------------------- |
+- Canvas test one gui not separate windows ------------------------------------------- |
+- Canvas test takes up the left side of the window ----------------------------------- |
 
-
--------------------
-Worry about later |
--------------------
-- Default to y-axis scaling -- Option for y-axis scaling match 
-- When time is less than 10 or 12 hours we need to have it more like a time format
+Not yet required ----------------------------------------------------------------------|
+- implment changes that Erik makes (usually when we merge from main)
+- get test into one canvas
+- iaga2002/clean data converter files (to implement when Erik codes it)
+- missing data should be a blank gap (no line)
+--------------------------------------------------------------------------------------------
 
 - Any time to save a file, do not override file with the same name
 - plot first and then save later 
