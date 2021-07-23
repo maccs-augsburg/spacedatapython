@@ -15,6 +15,13 @@ def create_lists_from_clean (clean_file, start_time, end_time) :
     """ Creates x, y, z, time, and flag lists based on the 2 Hz clean data file.
     
     Places x, y, z, time, and flag values into their own lists.
+    
+    Notable flag values are 0 - good data, 1 - questionable data, time
+    may not have been properly recorded, 2 - missing data, a record with
+    the value 32,767.0 nT has been inserted, 4 - despiked data, data was
+    present in the raw, but replaced during despiking, 8 - near spike
+    data, a record with its recorded data intact, but near enough to a
+    spike to be questionable.
 
     Parameters
     ----------
