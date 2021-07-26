@@ -161,6 +161,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
                 current_hour += 2
         elif (difference >= 3):
             ## HH:MM
+            for i in range(stime.hour, etime.hour, 1)
+                hours_arr.append(current_hour + current_minute)
+                current_hour += 1
         
 ##        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
 ##
