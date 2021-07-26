@@ -153,17 +153,22 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
 
     # Create a loop that fills out an list with odd numbers from start time to end time
     if not default_hours_flag:
-        difference = stime.hour - etime.hour # Getting the difference in time
+        difference = etime.hour - stime.hour # Getting the difference in time
 
         if (difference >= 8): # More than 8 hour branch
-            for i in range(stime.hour, etime.hour, 2):
-                hours_arr.append(current_hour)
-                current_hour += 2
+            for i in range(stime.hour, etime.hour + 1, 1):
+                if (i % 2 != 0):
+                    hours_arr.append(current_hour)
+                current_hour += 1
         elif (difference >= 3):
             ## HH:MM
-            for i in range(stime.hour, etime.hour, 1)
-                hours_arr.append(current_hour + current_minute)
-                current_hour += 1
+            print(current_hour)
+            time = datetime.time(hour=current_hour, minute=current_minute, second=current_second)
+            for i in range(stime.hour, etime.hour, 1):
+                hours_arr.append(time)
+                current_hour = current_hour+1
+                time = datetime.time(hour=current_hour, minute=current_minute, second=current_second)
+                #stime = datetime.datetime(year=1, month=1, day=1,hour=current_hour+1, minute=current_minute, second=current_second)
         
 ##        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
 ##
