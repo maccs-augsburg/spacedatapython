@@ -26,6 +26,7 @@ Ted Stuff |
 - more than 3 hours (less than 8) we use a tick every hour (HH:mm) ------------------- |
 - less than 3 hours (HH:mm:ss) ------------------------------------------------------- |
 - convert time from 1.5 to 1 hour 30 mins (type of deal) ----------------------------- |
+- implement create_lists_from_clean() function --------------------------------------- |
 
 Not yet required ----------------------------------------------------------------------|
 - implment changes that Erik makes (usually when we merge from main)
