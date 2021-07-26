@@ -142,7 +142,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
     ### hour list and determining which one to use
     default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hours_arr = [] # list to use for custom times
-    current_time = stime.hour # setting the time to the start
+    current_hour = stime.hour # setting the hour to start at
+    current_minute = stime.minute # setting the minute to start at
+    current_second = stime.second # setting the second to start at
     default_hours_flag = False # using a flag to better optimize operations
 
     # setting the flag to true if the stime and etimes are the full 24 hours
@@ -151,12 +153,21 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
 
     # Create a loop that fills out an list with odd numbers from start time to end time
     if not default_hours_flag:
-        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
+        difference = stime.hour - etime.hour # Getting the difference in time
 
-            # only adding the odd numbers to the list
-            if(current_time % 2 != 0):
-                hours_arr.append(current_time) # adding the odd numbers to the list
-            current_time += 1 # incrementing current_time
+        if (difference >= 8): # More than 8 hour branch
+            for i in range(stime.hour, etime.hour, 2):
+                hours_arr.append(current_hour)
+                current_hour += 2
+        elif (difference >= 3):
+            ## HH:MM
+        
+##        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
+##
+##            # only adding the odd numbers to the list
+##            if(current_time % 2 != 0):
+##                hours_arr.append(current_time) # adding the odd numbers to the list
+##            current_time += 1 # incrementing current_time
 
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
