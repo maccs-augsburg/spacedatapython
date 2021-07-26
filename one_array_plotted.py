@@ -80,7 +80,7 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
 
             
 
-    fig = plt.figure(figsize=(7, 4))
+    fig = plt.figure(figsize=(12, 4))
     
     plt.plot(timeArr,xArr, linewidth = 1)
     plt.title("Geomagnetic Bx of " + station_name + "   YEARDAY: " + year_day_value + "   DATE: " + date) 
@@ -177,7 +177,7 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(7, 4))
+    fig = plt.figure(figsize=(12, 4))
     
     plt.plot(timeArr,yArr, linewidth = 1)
     plt.title("Geomagnetic By of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
@@ -266,7 +266,7 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(7, 4)) #size of graph
+    fig = plt.figure(figsize=(12, 4)) #size of graph
     
     plt.plot(timeArr,zArr, linewidth = 1)
     plt.title("Geomagnetic Bz of " + station_name + "   YEARDAY: " + year_day_value+  "   DATE: " + date) 
@@ -358,7 +358,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(7, 4))#size of graph
+    fig = plt.figure(figsize=(12, 4))#size of graph
 
 
     x_values = xArr #The list of values to change 
@@ -466,7 +466,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(7, 4))#size of graph
+    fig = plt.figure(figsize=(12, 4))#size of graph
 
 
     x_values = xArr #The list of values to change 
@@ -575,7 +575,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(7, 4))#size pf graph
+    fig = plt.figure(figsize=(12, 4))#size pf graph
 
     y_values = yArr #The list of values to change 
     offset = yArr[0] #The amount to subtract from each value  
@@ -683,7 +683,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     #Actual Plot
 
-    fig = plt.figure(figsize=(7, 4))#size of graph
+    fig = plt.figure(figsize=(12, 4))#size of graph
 
     x_values = xArr #The list of values to change 
     offset = xArr[0] #The amount to subtract from each value  
