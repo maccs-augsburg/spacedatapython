@@ -22,8 +22,8 @@ Ted Stuff |
 - Get cancel button to close both windows instead of just one ------------------------ done |
 - Save as file option buttons? ------------------------------------------------------- |
 - x time axis ------------------------------------------------------------------------ |
-- more than 8 hours then we use a tick every 2 hours --------------------------------- |
-- more than 3 hours (less than 8) we use a tick every hour (HH:mm) ------------------- |
+- more than 8 hours then we use a tick every 2 hours --------------------------------- done |
+- more than 3 hours (less than 8) we use a tick every hour (HH:mm) ------------------- not yet working |
 - less than 3 hours (HH:mm:ss) ------------------------------------------------------- |
 - convert time from 1.5 to 1 hour 30 mins (type of deal) ----------------------------- |
 - implement create_lists_from_clean() function --------------------------------------- |
