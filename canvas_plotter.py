@@ -21,7 +21,7 @@ import raw_to_plot
 def create_figure(xArr, yArr, zArr, timeArr):
     # the figure that will contain the plot
         fig = plt.figure(figsize = (12, 7), dpi = 100)
-        fig.subplots_adjust(hspace=0.3)
+        fig.subplots_adjust(hspace=0.2)
 
         # First subplot
         plt.subplot(311)
@@ -58,10 +58,10 @@ def create_figure(xArr, yArr, zArr, timeArr):
 
         return fig
 
-def plot(window):
-    file_name_full = 'PG20212.2hz'
+def plot(window, file_name_full):
+    
     time_interval_string = file_naming.create_time_interval_string_hms(0, 0, 0, 23, 59, 59)
-    file_name = 'PG20212' + time_interval_string
+    file_name = file_name_full[0:8] + time_interval_string
 
     file = open(file_name_full, 'rb')
 
@@ -84,20 +84,20 @@ def plot(window):
 def cancel(window):
     window.destroy()
 
-def create_initial_gui(window):
-    plot_button = Button(master = window,
-                         command = lambda: plot(window),
+def create_initial_gui(window, file_name_full):
+        plot_button = Button(master = window,
+                         command = lambda: plot(window, file_name_full),
                          height = 2,
                          width = 10,
                          text='Plot')
-    plot_button.grid(column=1, row=1)
-    
-    cancel_button = Button(master = window,
+        plot_button.grid(column=1, row=1)
+
+        cancel_button = Button(master = window,
                            command = lambda: cancel(window),
                            height = 2,
                            width = 10,
                            text='Cancel')
-    cancel_button.grid(column=2, row=1)
+        cancel_button.grid(column=2, row=1)
 
 def main():
     window = Tk()
@@ -105,8 +105,10 @@ def main():
     window.title('Plotting MACCS files')
 
     window.geometry('200x100')
+    
+    file_name_full = 'PG20212.2hz'
 
-    create_initial_gui(window)
+    create_initial_gui(window, file_name_full)
 
     window.mainloop()
     
