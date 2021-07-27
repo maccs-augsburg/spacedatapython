@@ -292,7 +292,7 @@ if __name__ == "__main__":
 
 
     ### Creating x, y, and z arrays -- NOW INCLUDING START AND END TIMES!!!
-    arrayX, arrayY, arrayZ, time_arr = create_arrays(two_hz_binary_file, start_time, end_time)
+    arrayX, arrayY, arrayZ, time_arr = read_raw_to_lists.create_lists_from_raw(two_hz_binary_file, start_time, end_time)
 
     ### Plotting said arrays -- NOW INCLUDING START AND END TIMES AND FILE OPTION!!!
     # try and catch block to handle error in case file is already open
