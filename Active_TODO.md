@@ -29,7 +29,7 @@ Ted Stuff |
 - less than 3 hours (HH:mm:ss) ------------------------------------------------------- |
 - convert time from 1.5 to 1 hour 30 mins (type of deal) ----------------------------- |
 - implement create_lists_from_clean() function --------------------------------------- |
-- make main work in raw_to_plot.py file ---------------------------------------------- |
+- make main work in raw_to_plot.py file ---------------------------------------------- done |
 - align the labels in GUI to the right side ------------------------------------------ |
 - default file name and save it where it is running ---------------------------------- |
 - default screen size 900 tall and 1400 wide ----------------------------------------- |
