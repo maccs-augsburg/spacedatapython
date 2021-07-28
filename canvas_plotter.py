@@ -52,6 +52,8 @@ def cancel(window):
 
 def create_initial_gui(window, file_name_full):
         global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
+        global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
+        global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
         
         # plot min x
         ttk.Label(window, text="Plot min x:").grid(column=1, row=1)
@@ -67,15 +69,27 @@ def create_initial_gui(window, file_name_full):
 
         # plot min y
         ttk.Label(window, text="Plot min y:").grid(column=1, row=3)
+        plot_min_y = IntVar()
+        plot_min_y.set(0)
+        plot_min_entry_y = ttk.Entry(window, width=3, textvariable=plot_min_y).grid(column=2, row=3)
 
         # plot max y
         ttk.Label(window, text="Plot max y:").grid(column=1, row=4)
+        plot_max_y = IntVar()
+        plot_max_y.set(0)
+        plot_max_entry_y = ttk.Entry(window, width=3, textvariable=plot_max_y).grid(column=2, row=4)
 
         # plot min z
         ttk.Label(window, text="Plot min z:").grid(column=1, row=5)
+        plot_min_z = IntVar()
+        plot_min_z.set(0)
+        plot_min_entry_z = ttk.Entry(window, width=3, textvariable=plot_min_z).grid(column=2, row=5)
 
         # plot max z
         ttk.Label(window, text="Plot max z:").grid(column=1, row=6)
+        plot_max_z = IntVar()
+        plot_max_z.set(0)
+        plot_max_entry_z = ttk.Entry(window, width=3, textvariable=plot_max_z).grid(column=2, row=6)
 
         
         plot_button = Button(master = window,
