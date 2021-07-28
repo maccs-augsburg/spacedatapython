@@ -18,70 +18,37 @@ import file_naming
 import read_raw_to_lists
 import raw_to_plot
 
-def create_figure(xArr, yArr, zArr, timeArr, filename, stime, etime):
-    # the figure that will contain the plot
+def create_figure(xArr, yArr, zArr, timeArr, filename, stime, etime): # Not sure about this function
+        # the figure that will contain the plot
         fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime)
-
-        # First subplot
-##        plt.subplot(311)
-##        plt.plot(timeArr, xArr)
-##        plt.title("Canvas initial test")
-##        plt.ylabel('Bx')
-##        plt.gca().axes.xaxis.set_ticklabels([])
-##        plt.autoscale(enable=True, axis='x', tight=True)
-##        plt.autoscale(enable=True, axis='y')
-##        plt.gca().tick_params(left=True, right=True) 
-##        plt.gca().tick_params(axis='x', direction='in') 
-##        plt.gca().tick_params(axis='y', direction='in')
-##
-##        # Second subplot
-##        plt.subplot(312)
-##        plt.plot(timeArr, yArr)
-##        plt.ylabel('By')
-##        plt.gca().axes.xaxis.set_ticklabels([])
-##        plt.autoscale(enable=True, axis='x', tight=True)
-##        plt.autoscale(enable=True, axis='y')
-##        plt.gca().tick_params(left=True, right=True) 
-##        plt.gca().tick_params(axis='x', direction='in') 
-##        plt.gca().tick_params(axis='y', direction='in')
-##
-##        # Third subplot
-##        plt.subplot(313)
-##        plt.plot(timeArr, zArr)
-##        plt.ylabel('Bz')
-##        plt.autoscale(enable=True, axis='x', tight=True)
-##        plt.autoscale(enable=True, axis='y')
-##        plt.gca().tick_params(left=True, right=True) 
-##        plt.gca().tick_params(axis='x', direction='in') 
-##        plt.gca().tick_params(axis='y', direction='in')
 
         return fig
 
 def plot(window, file_name_full):
     
-    time_interval_string = file_naming.create_time_interval_string_hms(0, 0, 0, 23, 59, 59)
-    file_name = file_name_full[0:8] + time_interval_string
+        time_interval_string = file_naming.create_time_interval_string_hms(0, 0, 0, 23, 59, 59)
+        file_name = file_name_full[0:8] + time_interval_string
 
-    file = open(file_name_full, 'rb')
+        file = open(file_name_full, 'rb')
 
-    start_time_stamp = datetime.time(hour=0, minute=0, second=0)
-    end_time_stamp = datetime.time(hour=23, minute=59, second=59)
-    
-    xArr, yArr, zArr, timeArr = read_raw_to_lists.create_lists_from_raw(file,
+        start_time_stamp = datetime.time(hour=0, minute=0, second=0)
+        end_time_stamp = datetime.time(hour=23, minute=59, second=59)
+
+        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_lists_from_raw(file,
                                                                         start_time_stamp,
                                                                         end_time_stamp)
-    
-    fig = create_figure(xArr, yArr, zArr, timeArr, file_name_full[0:8], start_time_stamp, end_time_stamp)
 
-    window.geometry('1000x500')
+        fig = create_figure(xArr, yArr, zArr, timeArr, file_name_full[0:8], start_time_stamp, end_time_stamp)
 
-    canvas = FigureCanvasTkAgg(fig, master = window)
-    canvas.draw()
+        #window.geometry('1000x500')
 
-    canvas.get_tk_widget().grid(column=3, row=2)
+        canvas = FigureCanvasTkAgg(fig, master = window)
+        canvas.draw()
+
+        canvas.get_tk_widget().grid(column=3, row=2)
 
 def cancel(window):
-    window.destroy()
+        window.destroy()
 
 def create_initial_gui(window, file_name_full):
         plot_button = Button(master = window,
@@ -99,17 +66,17 @@ def create_initial_gui(window, file_name_full):
         cancel_button.grid(column=2, row=1)
 
 def main():
-    window = Tk()
+        window = Tk()
 
-    window.title('Plotting MACCS files')
+        window.title('Plotting MACCS files')
 
-    window.geometry('200x100')
-    
-    file_name_full = 'PG20212.2hz'
+        window.geometry('1400x900')
 
-    create_initial_gui(window, file_name_full)
+        file_name_full = 'PG20212.2hz'
 
-    window.mainloop()
+        create_initial_gui(window, file_name_full)
+
+        window.mainloop()
     
 
 if __name__ == "__main__":
