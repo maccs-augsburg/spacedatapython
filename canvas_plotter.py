@@ -18,43 +18,42 @@ import file_naming
 import read_raw_to_lists
 import raw_to_plot
 
-def create_figure(xArr, yArr, zArr, timeArr):
+def create_figure(xArr, yArr, zArr, timeArr, filename, stime, etime):
     # the figure that will contain the plot
-        fig = plt.figure(figsize = (12, 7), dpi = 100)
-        fig.subplots_adjust(hspace=0.2)
+        fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, filename, stime, etime)
 
         # First subplot
-        plt.subplot(311)
-        plt.plot(timeArr, xArr)
-        plt.title("Canvas initial test")
-        plt.ylabel('Bx')
-        plt.gca().axes.xaxis.set_ticklabels([])
-        plt.autoscale(enable=True, axis='x', tight=True)
-        plt.autoscale(enable=True, axis='y')
-        plt.gca().tick_params(left=True, right=True) 
-        plt.gca().tick_params(axis='x', direction='in') 
-        plt.gca().tick_params(axis='y', direction='in')
-
-        # Second subplot
-        plt.subplot(312)
-        plt.plot(timeArr, yArr)
-        plt.ylabel('By')
-        plt.gca().axes.xaxis.set_ticklabels([])
-        plt.autoscale(enable=True, axis='x', tight=True)
-        plt.autoscale(enable=True, axis='y')
-        plt.gca().tick_params(left=True, right=True) 
-        plt.gca().tick_params(axis='x', direction='in') 
-        plt.gca().tick_params(axis='y', direction='in')
-
-        # Third subplot
-        plt.subplot(313)
-        plt.plot(timeArr, zArr)
-        plt.ylabel('Bz')
-        plt.autoscale(enable=True, axis='x', tight=True)
-        plt.autoscale(enable=True, axis='y')
-        plt.gca().tick_params(left=True, right=True) 
-        plt.gca().tick_params(axis='x', direction='in') 
-        plt.gca().tick_params(axis='y', direction='in')
+##        plt.subplot(311)
+##        plt.plot(timeArr, xArr)
+##        plt.title("Canvas initial test")
+##        plt.ylabel('Bx')
+##        plt.gca().axes.xaxis.set_ticklabels([])
+##        plt.autoscale(enable=True, axis='x', tight=True)
+##        plt.autoscale(enable=True, axis='y')
+##        plt.gca().tick_params(left=True, right=True) 
+##        plt.gca().tick_params(axis='x', direction='in') 
+##        plt.gca().tick_params(axis='y', direction='in')
+##
+##        # Second subplot
+##        plt.subplot(312)
+##        plt.plot(timeArr, yArr)
+##        plt.ylabel('By')
+##        plt.gca().axes.xaxis.set_ticklabels([])
+##        plt.autoscale(enable=True, axis='x', tight=True)
+##        plt.autoscale(enable=True, axis='y')
+##        plt.gca().tick_params(left=True, right=True) 
+##        plt.gca().tick_params(axis='x', direction='in') 
+##        plt.gca().tick_params(axis='y', direction='in')
+##
+##        # Third subplot
+##        plt.subplot(313)
+##        plt.plot(timeArr, zArr)
+##        plt.ylabel('Bz')
+##        plt.autoscale(enable=True, axis='x', tight=True)
+##        plt.autoscale(enable=True, axis='y')
+##        plt.gca().tick_params(left=True, right=True) 
+##        plt.gca().tick_params(axis='x', direction='in') 
+##        plt.gca().tick_params(axis='y', direction='in')
 
         return fig
 
@@ -72,7 +71,7 @@ def plot(window, file_name_full):
                                                                         start_time_stamp,
                                                                         end_time_stamp)
     
-    fig = create_figure(xArr, yArr, zArr, timeArr)
+    fig = create_figure(xArr, yArr, zArr, timeArr, file_name_full[0:8], start_time_stamp, end_time_stamp)
 
     window.geometry('1000x500')
 
