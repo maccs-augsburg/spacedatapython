@@ -100,7 +100,7 @@ def find_differences_in_list (arr) :
     difference = maximum_value - minimum_value
     return difference
 
-def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_option) :
+def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     """ Places x, y, z arrays on a plot.
 
     Places x, y, and z arrays which contain values from the
@@ -122,8 +122,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime, file_opti
         The datetime.time object from which to begin
     etime:
         The datetime.time object at which to end
-    file_option:
-        String to indicate what type of file to save (PDF or PNG)
 
     Returns
     -------
