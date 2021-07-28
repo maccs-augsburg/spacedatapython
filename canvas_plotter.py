@@ -45,25 +45,44 @@ def plot(window, file_name_full):
         canvas = FigureCanvasTkAgg(fig, master = window)
         canvas.draw()
 
-        canvas.get_tk_widget().grid(column=3, row=2)
+        canvas.get_tk_widget().grid(column=3, row=1, columnspan=2, rowspan=12)
 
 def cancel(window):
         window.destroy()
 
 def create_initial_gui(window, file_name_full):
+        # plot min x
+        ttk.Label(window, text="Plot min x:").grid(column=1, row=1)
+
+        # plot max x
+        ttk.Label(window, text="Plot max x:").grid(column=1, row=2)
+
+        # plot min y
+        ttk.Label(window, text="Plot min y:").grid(column=1, row=3)
+
+        # plot max y
+        ttk.Label(window, text="Plot max y:").grid(column=1, row=4)
+
+        # plot min z
+        ttk.Label(window, text="Plot min z:").grid(column=1, row=5)
+
+        # plot max z
+        ttk.Label(window, text="Plot max z:").grid(column=1, row=6)
+
+        
         plot_button = Button(master = window,
                          command = lambda: plot(window, file_name_full),
                          height = 2,
                          width = 10,
                          text='Plot')
-        plot_button.grid(column=1, row=1)
+        plot_button.grid(column=1, row=7)
 
         cancel_button = Button(master = window,
                            command = lambda: cancel(window),
                            height = 2,
                            width = 10,
                            text='Cancel')
-        cancel_button.grid(column=2, row=1)
+        cancel_button.grid(column=2, row=7)
 
 def main():
         window = Tk()
