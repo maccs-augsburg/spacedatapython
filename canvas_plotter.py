@@ -51,11 +51,19 @@ def cancel(window):
         window.destroy()
 
 def create_initial_gui(window, file_name_full):
+        global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
+        
         # plot min x
         ttk.Label(window, text="Plot min x:").grid(column=1, row=1)
+        plot_min_x = IntVar()
+        plot_min_x.set(0)
+        plot_min_entry_x = ttk.Entry(window, width=3, textvariable=plot_min_x).grid(column=2, row=1)
 
         # plot max x
         ttk.Label(window, text="Plot max x:").grid(column=1, row=2)
+        plot_max_x = IntVar()
+        plot_max_x.set(0)
+        plot_max_entry_x = ttk.Entry(window, width=3, textvariable=plot_max_x).grid(column=2, row=2)
 
         # plot min y
         ttk.Label(window, text="Plot min y:").grid(column=1, row=3)
