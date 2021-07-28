@@ -45,7 +45,7 @@ def plot(window, file_name_full):
         canvas = FigureCanvasTkAgg(fig, master = window)
         canvas.draw()
 
-        canvas.get_tk_widget().grid(column=3, row=1, columnspan=2, rowspan=12)
+        canvas.get_tk_widget().grid(column=3, row=1, columnspan=8, rowspan=20)
 
 def cancel(window):
         window.destroy()
