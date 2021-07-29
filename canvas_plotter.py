@@ -58,11 +58,11 @@ def create_initial_gui(window, file_name_full):
 
         #.grid(column=3, row=1, columnspan=8, rowspan=20)
         # image
-        image=Image.open('maccslogo.jpg')
+        image=Image.open('maccslogo_870.jpeg')
         image_file = ImageTk.PhotoImage(image)
         image_label = ttk.Label(window, image=image_file)
         image_label.image = image_file
-        #image_label.grid(column=3,row=1, columnspan=8, rowspan=20)
+        image_label.grid(column=5,row=1, columnspan=8, rowspan=20)
 
         
         # plot min x
