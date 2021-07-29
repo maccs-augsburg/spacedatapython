@@ -32,7 +32,7 @@ def plot(window, file_name_full):
 
         file = open(file_name_full, 'rb')
 
-        start_time_stamp = datetime.time(hour=0, minute=0, second=0)
+        start_time_stamp = datetime.time(hour=11, minute=0, second=0)
         end_time_stamp = datetime.time(hour=23, minute=59, second=59)
 
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file,
