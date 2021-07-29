@@ -180,16 +180,47 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
                                                            second=second))
         elif (minute_difference >= 5):
             # assuming a 5 minute gap
-            pass
-        else:
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                for second in range(stime.second, etime.second + 1):
+                    if second % 15 == 0:
+                        hours_arr.append(datetime.datetime(year=year_of_record,
+                                                           month=month_of_record,
+                                                           day=day_of_record,
+                                                           hour=current_hour,
+                                                           minute=minute,
+                                                           second=second))
+            
+        elif (minute_difference >= 1):
             # assuming less than a 5 minute gap
-            pass
-##        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
-##
-##            # only adding the odd numbers to the list
-##            if(current_time % 2 != 0):
-##                hours_arr.append(current_time) # adding the odd numbers to the list
-##            current_time += 1 # incrementing current_time
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                for second in range(stime.second, etime.second + 1):
+                    if second % 5 == 0:
+                        hours_arr.append(datetime.datetime(year=year_of_record,
+                                                           month=month_of_record,
+                                                           day=day_of_record,
+                                                           hour=current_hour,
+                                                           minute=minute,
+                                                           second=second))
+
+        else:
+            # assuming less than a minute gap
+            x_axis_label = "Universal Time in Hours, Minutes, Seconds, and Microseconds (HH:MM:SS:mm)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S.%f')
+            for second in range(stime.second, etime.second+1):
+                for microsecond in range(stime.microsecond, etime.microsecond+1):
+                    if microsecond % 100:
+                        hours_arr.append(datetime.datetime(year=year_of_record,
+                                                           month=month_of_record,
+                                                           day=day_of_record,
+                                                           hour=current_hour,
+                                                           minute=current_minute,
+                                                           second=second,
+                                                           microsecond=microsecond)) # Microseconds not working yet
+                
 
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
