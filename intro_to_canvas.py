@@ -437,9 +437,6 @@ def plot():
     graph_from_plotter_value_y = graph_from_plotter_y.get()
     graph_from_plotter_value_z = graph_from_plotter_z.get() 
 
-    
-
-     
     fig = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
 
 
@@ -455,6 +452,8 @@ def plot():
     # placing the canvas on the Tkinter window
     canvas.get_tk_widget().grid(column = 5, row = 5, columnspan = 5, rowspan = 20, padx = 15, pady = 10, sticky = (N, W, E, S))
 
+
+    
     # creating the Matplotlib toolbar
     #toolbar = NavigationToolbar2Tk(canvas, window)
     #toolbar.update()
