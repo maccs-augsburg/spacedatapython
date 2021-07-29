@@ -3,9 +3,9 @@ from tkinter import ttk
 from tkinter import messagebox
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
-#NavigationToolbar2Tk)
+#NavigationToolbar2Tk
 
-
+import matplotlib.pyplot as plt
 
 import sys
 import datetime
@@ -262,6 +262,7 @@ def station_names_entry_check(station_names_value):
 
 
 def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, filename, stime, etime, file_option):
+
      """
      Checks the radio button input to then produce either the X, Y or Z graph.
 
@@ -295,26 +296,33 @@ def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter
      """
      #If statement to decided if we want X, Y or Z plot
      
-     
+     #X,Y and Z Plot
      if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
-          one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option)
+         fig = one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option)
+    #Y and Z plot
      elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
-          one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option)
+         fig = one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option)
+    #X and Z plot 
      elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
-          one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime, file_option)
+         fig = one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime, file_option)
+    #X and Y plot
      elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
-          one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option)
+         fig = one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option)
+    #Z plot
      elif(graph_from_plotter_value_z == 3):
-          one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)     
+         fig = one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)     
+    #Y plot
      elif(graph_from_plotter_value_y == 2):
-          one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
+         fig = one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
+    #X plot
      elif(graph_from_plotter_value_x == 1):
-          one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
-     else: 
-          warning_message(title = "File Format Option Error", message = "Please select a file format option")
+         fig = one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
+    #Warning Message
+     else:
+         warning_message(title = "File Format Option Error", message = "Please select a file format option")
 
-     return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z 
-
+    #eturn graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
+     return fig    
 
 
 
@@ -326,10 +334,10 @@ def plot():
 
     
     # the figure that will contain the plot
-    fig = Figure(figsize = (5, 5), dpi = 100)
+    #fig = plt.figure(figsize = (5, 5), dpi = 100)
 
     # list of squares
-    y = [i**2 for i in range(101)]
+    #y = [i**2 for i in range(101)]
 
     #Here we call for out input and then runs through our year day check 
     year_day_value = year_day_entry.get()
@@ -378,24 +386,24 @@ def plot():
     graph_from_plotter_value_y = graph_from_plotter_y.get()
     graph_from_plotter_value_z = graph_from_plotter_z.get() 
      
-    graph_from_plotter_value = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
+    fig = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
 
-        
 
+    
     # creating the Tkinter canvas
     # containing the Matplotlib figure
     canvas = FigureCanvasTkAgg(fig, master = window)
     canvas.draw()
 
     # placing the canvas on the Tkinter window
-    canvas.get_tk_widget().grid(column = 1, row = 1, sticky = (N, W, E, S))
+    canvas.get_tk_widget().grid(column = 4, row = 4, sticky = (N, W, E, S))
 
     # creating the Matplotlib toolbar
     #toolbar = NavigationToolbar2Tk(canvas, window)
     #toolbar.update()
 
     # placing the toolbar on the Tkinter window
-    #canvas.get_tk_widget().pack()
+    #canvas.get_tk_widget().grid(column = 2, row = 15, sticky = (N, W, E, S))
 
 def gui_entries(window) :
     """
@@ -509,7 +517,7 @@ def main() :
     file_option = "pdf"
 
     # setting the title
-    window.title('Plotting in Tkinter')
+    window.title('Single Graph Plotter')
 
     # dimensions of the main window
     window.geometry("500x500")
@@ -539,31 +547,4 @@ if __name__ == "__main__" :
 
 
     main()
-    
 
-
-    
-    # the main Tkinter window
-    #window = Tk()
-    
-    #file_option = "pdf"
-
-    # setting the title
-    #window.title('Plotting in Tkinter')
-
-    # dimensions of the main window
-    #window.geometry("500x500")
-
-    # button that displays the plot
-    #plot_button = Button(master = window,
-                        #command = plot,
-                        #height = 2,
-                        #width = 10,
-                        #text = "Plot")
-
-    # place the button
-    # in main window
-    #plot_button.grid(column = 0, row = 0, sticky = (N, W, E, S))
-
-    # run the gui
-    #window.mainloop()
