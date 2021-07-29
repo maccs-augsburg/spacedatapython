@@ -58,13 +58,12 @@ def warning_message(title, message) :
      """
     messagebox.showwarning(title = title, message = "Warning: " + message)
 
-def date_time_object_check(string_value) :
-     """
-     """
-     if(len(string_value) == 1):
-        string_value = "0" + string_value
+#def date_time_object_check(string_value) :
+     
+     #if(len(string_value) == 1):
+        #string_value = "0" + string_value
 
-     return string_value
+     #return string_value
 
 
 def year_day_check(year_day_value):
@@ -104,14 +103,14 @@ def start_hour_entry_check(start_hour_value):
      """
      #if(len(start_hour_value) == 1):
         #start_hour_value = "0" + start_hour_value
-
-     if((int)(start_hour_value) > 23):
+     value = (int)(start_hour_value)
+     if(value > 23):
         error_message(title = "Start Hour Entry Error", message = "Start hour cannot be more than 23")
 
-     elif((int)(start_hour_value) < 0):
+     elif(value < 0):
         error_message(title = "Start Hour Entry Error", message = "Start hour cannot be lower than 0")
 
-     return start_hour_value
+     return value
 
 def start_minute_entry_check(start_minute_value):
      """
@@ -130,14 +129,14 @@ def start_minute_entry_check(start_minute_value):
      """
      #if(len(start_minute_value) == 1):
         #start_minute_value = "0" + start_minute_value
-
-     if((int)(start_minute_value) > 59):
+     value = (int)(start_minute_value)
+     if(value > 59):
         error_message(title = "Start Minute Entry Error", message = "Start minute cannot be greater then 59")
 
-     elif((int)(start_minute_value) < 0):
+     elif(value < 0):
         error_message(title = "Start Minute Entry Error", message = "Start minute cannot be lower then 0")
 
-     return start_minute_value
+     return value
 
 def start_second_entry_check(start_second_value):
      """
@@ -157,14 +156,14 @@ def start_second_entry_check(start_second_value):
 
      #if(len(start_second_value) == 1):
         #start_second_value = "0" + start_second_value
-
-     if((int)(start_second_value) > 59):
+     value = (int)(start_second_value)
+     if(value > 59):
         error_message(title = "Start Second Entry Error", message = "Start second cannot be more then 59")
 
-     elif((int)(start_second_value) < 0):
+     elif(value < 0):
         error_message(title = "Start Second Entry Error", message = "Start second cannot be negative")
 
-     return start_second_value
+     return value
 
 def end_hour_entry_check(end_hour_value):
      """
@@ -184,14 +183,14 @@ def end_hour_entry_check(end_hour_value):
      
      #if(len(end_hour_value) == 1):
         #end_hour_value = "0" + end_hour_value
-
-     if((int)(end_hour_value) > 23):
+     value = (int)(end_hour_value)
+     if(value > 23):
         error_message(title = "End Hour Entry Error", message = "End hour cannot be more then 23")
 
-     elif((int)(end_hour_value)< 0):
+     elif(value < 0):
         error_message(title = "End Hour Entry Error", message = "End hour cannor be less then 0")
 
-     return end_hour_value
+     return value
 
 def end_minute_entry_check(end_minute_value):
      """
@@ -210,14 +209,15 @@ def end_minute_entry_check(end_minute_value):
      """
      #if(len(end_minute_value) == 1):
         #end_minute_value = "0" + end_minute_value
-        
-     if((int)(end_minute_value) > 59):
+
+     value = (int)(end_minute_value)
+     if(value > 59):
         error_message(title = "End Minute Entry Error", message = "End minute cannot be more then 59")
 
-     elif((int)(end_minute_value)< 0):
+     elif(value < 0):
         error_message(title = "End Minute Entry Error", message = "End minute cannor be less then 0")
 
-     return end_minute_value
+     return value
 
 def end_second_entry_check(end_second_value):
      """
@@ -236,14 +236,15 @@ def end_second_entry_check(end_second_value):
      """
      #if(len(end_second_value) == 1):
         #end_second_value = "0" + end_second_value
+     value = (int)(end_second_value)
         
-     if((int)(end_second_value) > 59):
+     if(value > 59):
         error_message(title = "End Second Entry Error", message = "End second cannot be more then 59")
 
-     elif((int)(end_second_value)< 0):
+     elif(value< 0):
         error_message(title = "End Minute Entry Error", message = "End second cannor be less then 0")
 
-     return end_second_value
+     return value
 
 
 def station_names_entry_check(station_names_value):
@@ -266,17 +267,17 @@ def file_format_entry_check(file_selection_value):
     """
     if(file_selection_value == '1'):
         # CDA-Web branch (NOT IMPLEMENTED)
-        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        warning_message(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
     # Testing to see if user selected IAGA2000 branch
     elif(file_selection_value == '2'):
         #IAGA2000 branch (NOT IMPLEMENTED)
-        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        warning_message(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
     # Testing to see if user selected IAGA2002 branch
     elif(file_selection_value == '3'):
         #IAGA2002 branch (NOT IMPLEMENTED)
-        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        warning_message(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
     # Testing to see if user selected Raw 2hz branch
     elif(file_selection_value == '4'):
@@ -290,7 +291,7 @@ def file_format_entry_check(file_selection_value):
     # Otherwise we can assume that no option had been selected
     else:
         # Message box error when no file format option has been selected
-        error_message_pop_up(title="File format option error", message="Please select a file format option")
+        error_message(title="File format option error", message="Please select a file format option")
 
     # Returning the string of the file type to be used
     return file_ending_value
@@ -385,38 +386,46 @@ def plot():
 
     #here we call for our input and then runs through our start hour, start minut and start second check
     start_hour_value = start_hour_entry_check(start_hour_entry.get())
-    start_hour_value = date_time_object_check(start_hour_value)
+    #start_hour_value = date_time_object_check(start_hour_value)
 
     start_minute_value = start_minute_entry_check(start_minute_entry.get())
-    start_minute_value = date_time_object_check(start_minute_value)
+    #start_minute_value = date_time_object_check(start_minute_value)
      
     start_second_value = start_second_entry_check(start_second_entry.get())
-    start_second_value = date_time_object_check(start_second_value)
+    #start_second_value = date_time_object_check(start_second_value)
 
      
-    start_time_stamp = datetime.time.fromisoformat(start_hour_value + ":" + start_minute_value + ":" + start_second_value)
+    start_time_stamp = datetime.time(hour = start_hour_value, minute = start_minute_value, second =  start_second_value)
 
     #Here we call for our input and then run it through our end hour, end minute and end second check
     end_hour_value = end_hour_entry_check(end_hour_entry.get())
-    end_hour_value = date_time_object_check(end_hour_value)
+    #end_hour_value = date_time_object_check(end_hour_value)
      
     end_minute_value = end_minute_entry_check(end_minute_entry.get())
-    end_minute_value = date_time_object_check(end_minute_value)
+    #end_minute_value = date_time_object_check(end_minute_value)
      
     end_second_value = end_second_entry_check(end_second_entry.get())
-    end_second_value = date_time_object_check(end_second_value)
+    #end_second_value = date_time_object_check(end_second_value)
 
      
-    end_time_stamp = datetime.time.fromisoformat(end_hour_value + ":" + end_minute_value + ":" + end_second_value)
+    end_time_stamp = datetime.time(hour = end_hour_value, minute = end_minute_value, second = end_second_value)
     #Here we call for our input and then run it through our station names check. 
     station_names_value = station_names_entry.get()
     station_names_entry_check(station_names_value)
 
     file_selection_value = file_selection.get()
-    file_ending_value = file_format_entry_checker(file_selection_value)
+    file_ending_value = file_format_entry_check(file_selection_value)
 
-    
+    file_name_full = station_names_value + year_day_value + file_ending_value
+    time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value,start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value) 
+    file_name = station_names_value + year_day_value + time_interval_string 
+
     #This opens our said file
+    try:
+        file = open(file_name_full, 'rb')
+    except:
+        error_message("File open error", "Couldn't find and open filename")
+        sys.exit(0)
     
 
     file_option = "pdf"
@@ -427,18 +436,14 @@ def plot():
     graph_from_plotter_value_x = graph_from_plotter_x.get()
     graph_from_plotter_value_y = graph_from_plotter_y.get()
     graph_from_plotter_value_z = graph_from_plotter_z.get() 
+
+    
+
      
     fig = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
 
-    file_name_full = station_names_value + year_day_value + file_ending_value
-    time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value,start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value) 
-    file_name = station_code_value + year_day_value + time_interval_string 
 
-    try:
-        file = open(file_name_full, 'rb')
-    except:
-        error_message_pop_up("File open error", "Couldn't find and open filename")
-        sys.exit(0)
+    
 
 
     
