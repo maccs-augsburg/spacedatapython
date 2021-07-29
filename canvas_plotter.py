@@ -35,9 +35,9 @@ def plot(window, file_name_full):
         start_time_stamp = datetime.time(hour=0, minute=0, second=0)
         end_time_stamp = datetime.time(hour=23, minute=59, second=59)
 
-        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_lists_from_raw(file,
+        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file,
                                                                         start_time_stamp,
-                                                                        end_time_stamp)
+                                                                        end_time_stamp, file_name_full[0:8])
 
         fig = create_figure(xArr, yArr, zArr, timeArr, file_name_full[0:8], start_time_stamp, end_time_stamp)
 
@@ -62,7 +62,7 @@ def create_initial_gui(window, file_name_full):
         image_file = ImageTk.PhotoImage(image)
         image_label = ttk.Label(window, image=image_file)
         image_label.image = image_file
-        image_label.grid(column=3,row=1, columnspan=8, rowspan=20)
+        #image_label.grid(column=3,row=1, columnspan=8, rowspan=20)
 
         
         # plot min x
