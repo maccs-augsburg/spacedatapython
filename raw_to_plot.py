@@ -154,13 +154,35 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         elif (minute_difference >= 30):
             # assuming a 30 minute or more gap
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M')
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for hour in range(stime.hour, etime.hour+1):
+                for minute in range(stime.minute, etime.minute+1):
+                    if minute % 5 == 0:
+                        hours_arr.append(datetime.datetime(year=year_of_record,
+                                                           month=month_of_record,
+                                                           day=day_of_record,
+                                                           hour=hour,
+                                                           minute=minute,
+                                                           second=current_second))
             pass
         elif (minute_difference >= 10):
             # assuming a 10 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                for second in range(stime.second, etime.second+1):
+                    if second % 30 == 0:
+                        hours_arr.append(datetime.datetime(year=year_of_record,
+                                                           month=month_of_record,
+                                                           day=day_of_record,
+                                                           hour=current_hour,
+                                                           minute=minute,
+                                                           second=second))
+        elif (minute_difference >= 5):
+            # assuming a 5 minute gap
             pass
         else:
-            # assuming a 5 minute gap
+            # assuming less than a 5 minute gap
             pass
 ##        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
 ##
@@ -225,6 +247,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     else:
         plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
+    plt.gcf().autofmt_xdate()
 
     # returning the fig and plt objects
     return fig #, plt 
