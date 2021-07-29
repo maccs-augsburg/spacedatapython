@@ -384,7 +384,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     plt.ylabel('Bx and By')
     plt.xlabel("Universal Time (Hours)")
 
-    plt.legend(loc = 'upper left')
+    plt.legend(loc = 'upper left', prop={'size': 6})
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -496,7 +496,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.xlabel("Universal Time (Hours)")
 
 
-    plt.legend(loc = 'upper left')
+    plt.legend(loc = 'upper left', prop={'size': 6})
     
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -603,7 +603,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.xlabel("Universal Time (Hours)")#x label 
 
 
-    plt.legend(loc = 'upper left')#legend
+    plt.legend(loc = 'upper left', prop={'size': 6})#legend
     
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -718,7 +718,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     plt.ylabel('Bx, By and Bz')
     plt.xlabel("Univeral Time (Hours)")
 
-    plt.legend(loc= 'upper left')
+    plt.legend(loc= 'upper left', prop={'size': 6})
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
