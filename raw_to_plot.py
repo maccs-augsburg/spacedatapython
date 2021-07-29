@@ -26,6 +26,7 @@ import station_names
 # Matplotlib imports
 import matplotlib.pyplot as plt
 from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
+import matplotlib.dates as mdates
 
 # Plotter program imports
 import read_raw_to_lists
@@ -143,11 +144,20 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         year_value = "20" + year_value
 
     # Converting the date and setting it up
-    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y") 
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
+
+    year_of_record = (int)(date[6:])
+    month_of_record = (int)(date[0:2])
+    day_of_record = (int)(date[3:5])
     
 
     ### hour list and determining which one to use
-    default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
+    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
+    default_hours_arr = []
+    for i in range(24):
+        if (i % 2 != 0):
+            default_hours_arr.append(datetime.datetime(year=year_of_record, month=month_of_record, day=day_of_record, hour = i))
+    
     hours_arr = [] # list to use for custom times
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
@@ -187,6 +197,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.subplots_adjust(hspace=0.03)
+    x_axis_format = mdates.DateFormatter('%H:%M')
 
     ### first plot
     # plt.ylim(minimum, maximum)
@@ -207,6 +218,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+    plt.gca().xaxis.set_major_formatter(x_axis_format)
 
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
@@ -222,6 +234,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+    plt.gca().xaxis.set_major_formatter(x_axis_format)
     
     ### Third plot using z-axis data. Add the x-axis label at the bottom
     plt.subplot(313)
@@ -237,6 +250,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+    plt.gca().xaxis.set_major_formatter(x_axis_format)
 
     # returning the fig and plt objects
     return fig #, plt 
