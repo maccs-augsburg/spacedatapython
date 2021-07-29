@@ -453,7 +453,7 @@ def plot():
     canvas.draw()
 
     # placing the canvas on the Tkinter window
-    canvas.get_tk_widget().grid(column = 5, row = 5, columnspan = 5, rowspan = 20, padx = (100, 10), pady = (10, 100), sticky = (N, W, E, S))
+    canvas.get_tk_widget().grid(column = 5, row = 5, columnspan = 5, rowspan = 20, padx = 15, pady = 10, sticky = (N, W, E, S))
 
     # creating the Matplotlib toolbar
     #toolbar = NavigationToolbar2Tk(canvas, window)
@@ -477,61 +477,61 @@ def gui_entries(window) :
     #Creation of the Year Day entry widget
     year_day = IntVar()
     year_day_entry = ttk.Entry(window, width= 5, textvariable = year_day)
-    year_day_entry.grid(column = 2, row = 2,   sticky = (W,E))
+    year_day_entry.grid(column = 2, row = 2,   sticky = W)
     
     #Creation of the Start Hour entry widget 
     start_hour = IntVar()
     start_hour_entry = ttk.Entry(window, width = 5, textvariable = start_hour)
-    start_hour_entry.grid(column = 2, row = 3, sticky = (W,E))
+    start_hour_entry.grid(column = 2, row = 3, sticky = W)
 
     #Creation of the Start Minute entry widget
     start_minute = IntVar()
     start_minute_entry = ttk.Entry(window, width = 5, textvariable = start_minute)
-    start_minute_entry.grid(column = 2, row = 4, sticky = (W, E))
+    start_minute_entry.grid(column = 2, row = 4, sticky = W)
 
     #Creation of the Start Second entry widget 
     start_second = IntVar()
     start_second_entry = ttk.Entry(window, width = 5, textvariable = start_second)
-    start_second_entry.grid(column = 2, row = 5,sticky = (W, E))
+    start_second_entry.grid(column = 2, row = 5,sticky = W)
 
     #Creation of the end hour entry widget, also has set times for defalut
     end_hour = IntVar()
     end_hour_entry = ttk.Entry(window, width = 5, textvariable = end_hour)
-    end_hour_entry.grid(column = 2, row = 6, sticky = (W,E))
+    end_hour_entry.grid(column = 2, row = 6, sticky = W)
     end_hour.set(23)
 
     #Creation of the end minute entry widget, also has set times for default
     end_minute = IntVar()
     end_minute_entry = ttk.Entry(window, width = 5, textvariable = end_minute)
-    end_minute_entry.grid(column = 2, row = 7, sticky = (W,E))
+    end_minute_entry.grid(column = 2, row = 7, sticky = W)
     end_minute.set(59)
 
     #Creation of the end second widget, also has set times for default
     end_second = IntVar()
-    end_second_entry = ttk.Entry(window, width = 3, textvariable = end_second)
-    end_second_entry.grid(column = 2, row = 8, sticky = (W,E))
+    end_second_entry = ttk.Entry(window, width = 5, textvariable = end_second)
+    end_second_entry.grid(column = 2, row = 8, sticky = W)
     end_second.set(59)
 
     #Creation of the station names entry widget
     station_names= StringVar()
-    station_names_entry = ttk.Entry(window, width = 3, textvariable = station_names)
-    station_names_entry.grid(column = 2, row = 1, pady = (25, 0), sticky = (W,E))
+    station_names_entry = ttk.Entry(window, width = 5, textvariable = station_names)
+    station_names_entry.grid(column = 2, row = 1, pady = (25, 0), sticky = W)
 
     #Creation of the graph from plotter check button
     graph_from_plotter_x = IntVar()
     graph_from_plotter_y = IntVar()
     graph_from_plotter_z = IntVar()
-    x_plot = ttk.Checkbutton(window, text = "X Plot", variable = graph_from_plotter_x, onvalue = 1).grid(column = 1, row = 10,padx = 25 , sticky = W)
-    y_plot = ttk.Checkbutton(window, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 11,padx = 25 , sticky = W) 
-    z_plot = ttk.Checkbutton(window, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 12,padx = 25 , sticky = W)
+    x_plot = ttk.Checkbutton(window, text = "X Plot", variable = graph_from_plotter_x, onvalue = 1).grid(column = 2, row = 10,padx = 25 , sticky = W)
+    y_plot = ttk.Checkbutton(window, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 2, row = 11,padx = 25 , sticky = W) 
+    z_plot = ttk.Checkbutton(window, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 2, row = 12,padx = 25 , sticky = W)
 
     #Creation of the File options of the data being graphed
     file_selection = StringVar()
-    cda_web = Radiobutton(window, text = "CDAWEB - Not implemented", value = 1, variable = file_selection).grid(column = 1, row = 15, padx = 25,  sticky = W)
-    iaga_00 = Radiobutton(window, text = "IAGA2000 - Not implemented", value = 2, variable = file_selection).grid(column = 1, row = 16, padx = 25,  sticky = W)
-    iaga_02 = Radiobutton(window, text = "IAGA2002 - Not implemented", value = 3, variable = file_selection).grid(column = 1, row = 17, padx = 25, sticky = W)
-    raw_hz_file = Radiobutton(window, text = "Raw 2hz file", value = 4, variable = file_selection).grid(column = 1, row = 18, padx = 25,  sticky = W)
-    clean_data = Radiobutton(window, text = "Clean Data", value = 5, variable = file_selection).grid(column = 1, row = 19, padx = 25, sticky = W)
+    cda_web = Radiobutton(window, text = "CDAWEB:NA", value = 1, variable = file_selection).grid(column = 2, row = 15, padx = 25,  sticky = W)
+    iaga_00 = Radiobutton(window, text = "IAGA2000:NA", value = 2, variable = file_selection).grid(column = 2, row = 16, padx = 25,  sticky = W)
+    iaga_02 = Radiobutton(window, text =     "IAGA2002:NA", value = 3, variable = file_selection).grid(column = 2, row = 17, padx = 25, sticky = W)
+    raw_hz_file = Radiobutton(window, text = "Raw 2hz file", value = 4, variable = file_selection).grid(column = 2, row = 18, padx = 25,  sticky = W)
+    clean_data = Radiobutton(window, text = "Clean Data", value = 5, variable = file_selection).grid(column = 2, row = 19, padx = 25, sticky = W)
 
 
     
@@ -546,25 +546,25 @@ def gui_labels(window) :
     """
     """
     #Year Day Label
-    ttk.Label(window, text = "Year Day: ").grid(column = 1, row = 2, padx = 25, sticky = W)
+    ttk.Label(window, text = "Year Day: ").grid(column = 1, row = 2,  sticky = E)
     #Start Hour Label 
-    ttk.Label(window, text = "Start Hour: ").grid(column = 1, row = 3,padx = 25, sticky = W)
+    ttk.Label(window, text = "Start Hour: ").grid(column = 1, row = 3, sticky = E)
     #Start Minute Label 
-    ttk.Label(window, text = "Start Minute: ").grid(column = 1, row = 4,padx = 25,sticky = W)
+    ttk.Label(window, text = "Start Minute: ").grid(column = 1, row = 4,sticky = E)
     #Start Second Label 
-    ttk.Label(window, text = "Start Second: ").grid(column = 1, row = 5,padx = 25, sticky = W)
+    ttk.Label(window, text = "Start Second: ").grid(column = 1, row = 5, sticky = E)
     #End Hour Label 
-    ttk.Label(window, text = "End Hour: ").grid(column = 1, row = 6,padx = 25, sticky = W)
+    ttk.Label(window, text = "End Hour: ").grid(column = 1, row = 6, sticky = E)
     #End Minute Label 
-    ttk.Label(window, text = "End Minute: ").grid(column = 1, row = 7,padx = 25, sticky = W)
+    ttk.Label(window, text = "End Minute: ").grid(column = 1, row = 7, sticky = E)
     #End Second Label 
-    ttk.Label(window, text = "End Second: ").grid(column = 1, row = 8,padx = 25, sticky = W)
+    ttk.Label(window, text = "End Second: ").grid(column = 1, row = 8, sticky = E)
     #Plot x, y, or z Label 
-    ttk.Label(window, text = "Plot X, Y or Z: ").grid(column = 1, row = 9,padx = 25, sticky = W)
+    ttk.Label(window, text = "Plot X, Y or Z: ").grid(column = 1, row = 9, sticky = E)
     #Station Code Label 
-    ttk.Label(window, text = "Station Code: ").grid(column = 1, row = 1,padx = 25, pady = (25, 0), sticky = W)
+    ttk.Label(window, text = "Station Code: ").grid(column = 1, row = 1, pady = (25, 0), sticky = E)
     #File Option Label
-    ttk.Label(window, text = "File Option: ").grid(column = 1, row = 14,padx = 25, sticky = W)
+    ttk.Label(window, text = "File Option: ").grid(column = 1, row = 14, sticky = E)
     
 def cancel(window):
     
