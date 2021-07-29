@@ -12,6 +12,7 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 # Python 3 imports
 import sys
 import datetime
+from PIL import ImageTk, Image
 
 # Custom file imports
 import file_naming
@@ -54,6 +55,15 @@ def create_initial_gui(window, file_name_full):
         global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
         global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
         global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
+
+        #.grid(column=3, row=1, columnspan=8, rowspan=20)
+        # image
+        image=Image.open('maccslogo.jpg')
+        image_file = ImageTk.PhotoImage(image)
+        image_label = ttk.Label(window, image=image_file)
+        image_label.image = image_file
+        image_label.grid(column=3,row=1, columnspan=8, rowspan=20)
+
         
         # plot min x
         ttk.Label(window, text="Plot min x:").grid(column=1, row=1)
