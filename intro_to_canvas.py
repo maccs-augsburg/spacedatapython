@@ -12,6 +12,7 @@ import datetime
 
 import one_array_plotted
 import read_raw_to_lists
+import file_naming
 
 
 def error_message(title, message) :
@@ -260,6 +261,44 @@ def station_names_entry_check(station_names_value):
      if(len(station_names_value) == 0):
         error_message(title = "Station Code Entry Error", message = "There was no input for the station code entry box")
 
+def file_format_entry_check(file_selection_value):
+    """
+    """
+    if(file_selection_value == '1'):
+        # CDA-Web branch (NOT IMPLEMENTED)
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+
+    # Testing to see if user selected IAGA2000 branch
+    elif(file_selection_value == '2'):
+        #IAGA2000 branch (NOT IMPLEMENTED)
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+
+    # Testing to see if user selected IAGA2002 branch
+    elif(file_selection_value == '3'):
+        #IAGA2002 branch (NOT IMPLEMENTED)
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+
+    # Testing to see if user selected Raw 2hz branch
+    elif(file_selection_value == '4'):
+        #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
+        file_ending_value = '.2hz'
+
+    elif(file_selection_value == '5'):
+        #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
+        file_ending_value = '.s2'
+
+    # Otherwise we can assume that no option had been selected
+    else:
+        # Message box error when no file format option has been selected
+        error_message_pop_up(title="File format option error", message="Please select a file format option")
+
+    # Returning the string of the file type to be used
+    return file_ending_value
+
+
+
+
+
 
 def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, filename, stime, etime, file_option):
 
@@ -317,6 +356,7 @@ def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter
     #X plot
      elif(graph_from_plotter_value_x == 1):
          fig = one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
+                  
     #Warning Message
      else:
          warning_message(title = "File Format Option Error", message = "Please select a file format option")
@@ -372,10 +412,12 @@ def plot():
     station_names_value = station_names_entry.get()
     station_names_entry_check(station_names_value)
 
-    #Creating a file name to be found in our file explorer to run through our plotter
-    file_name = station_names_value + year_day_value + '.2hz'
+    file_selection_value = file_selection.get()
+    file_ending_value = file_format_entry_checker(file_selection_value)
+
+    
     #This opens our said file
-    file = open(file_name, 'rb')
+    
 
     file_option = "pdf"
      
@@ -388,6 +430,16 @@ def plot():
      
     fig = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option) #update params
 
+    file_name_full = station_names_value + year_day_value + file_ending_value
+    time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value,start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value) 
+    file_name = station_code_value + year_day_value + time_interval_string 
+
+    try:
+        file = open(file_name_full, 'rb')
+    except:
+        error_message_pop_up("File open error", "Couldn't find and open filename")
+        sys.exit(0)
+
 
     
     # creating the Tkinter canvas
@@ -396,7 +448,7 @@ def plot():
     canvas.draw()
 
     # placing the canvas on the Tkinter window
-    canvas.get_tk_widget().grid(column = 4, row = 4, sticky = (N, W, E, S))
+    canvas.get_tk_widget().grid(column = 5, row = 5, columnspan = 5, rowspan = 20, sticky = (N, W, E, S))
 
     # creating the Matplotlib toolbar
     #toolbar = NavigationToolbar2Tk(canvas, window)
@@ -415,6 +467,7 @@ def gui_entries(window) :
     global station_names_entry
     global graph_from_plotter_x,graph_from_plotter_y,graph_from_plotter_z, x_plot, y_plot, z_plot
     global okay_button, cancel_button
+    global file_selection, cda_web, iaga_00, iaga_02, raw_hz_file
     
     #Creation of the Year Day entry widget
     year_day = IntVar()
@@ -467,10 +520,20 @@ def gui_entries(window) :
     y_plot = ttk.Checkbutton(window, text = "Y Plot", variable = graph_from_plotter_y, onvalue = 2).grid(column = 1, row = 11, sticky = W) 
     z_plot = ttk.Checkbutton(window, text = "Z Plot", variable = graph_from_plotter_z, onvalue = 3).grid(column = 1, row = 12, sticky = W)
 
+    #Creation of the File options of the data being graphed
+    file_selection = StringVar()
+    cda_web = Radiobutton(window, text = "CDAWEB - Not implemented", value = 1, variable = file_selection).grid(column = 1, row = 15, sticky = W)
+    iaga_00 = Radiobutton(window, text = "IAGA2000 - Not implemented", value = 2, variable = file_selection).grid(column = 1, row = 16, sticky = W)
+    iaga_02 = Radiobutton(window, text = "IAGA2002 - Not implemented", value = 3, variable = file_selection).grid(column = 1, row = 17, sticky = W)
+    raw_hz_file = Radiobutton(window, text = "Raw 2hz file", value = 4, variable = file_selection).grid(column = 1, row = 18, sticky = W)
+    clean_data = Radiobutton(window, text = "Clean Data", value = 5, variable = file_selection).grid(column = 1, row = 19, sticky = W)
+
+
+    
     #Creation of the Okay and Cancel button that has commands to either run
     #the GUI if you press okay or to "destroy" the GUI if you hit canel
-    plot_button = ttk.Button(window, text = "Plot", command = plot).grid(column = 2, row = 14, sticky = W)
-    cancel_button = ttk.Button(window, text = "Cancel", command = lambda: cancel(window)).grid(column =1, row = 14, sticky = W)
+    plot_button = ttk.Button(window, text = "Plot", command = plot).grid(column = 2, row = 20, sticky = W)
+    cancel_button = ttk.Button(window, text = "Cancel", command = lambda: cancel(window)).grid(column =1, row = 20, sticky = W)
 
 
 
@@ -495,7 +558,9 @@ def gui_labels(window) :
     ttk.Label(window, text = "Plot X, Y or Z: ").grid(column = 1, row = 9, sticky = W)
     #Station Code Label 
     ttk.Label(window, text = "Station Code: ").grid(column = 1, row = 1, sticky = W)
-
+    #File Option Label
+    ttk.Label(window, text = "File Option: ").grid(column = 1, row = 14, sticky = W)
+    
 def cancel(window):
     
     """
