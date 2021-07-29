@@ -127,15 +127,15 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         elif (hour_difference >= 3):
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
-            ## HH:MM
-            for i in range(hour_difference + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
-                                                   hour=current_hour,
-                                                   minute=current_minute,
-                                                   second=current_second))
-                current_hour = current_hour+1
+            for hour in range(stime.hour, etime.hour+1):
+                for minute in range(stime.minute, etime.minute+1):
+                    if minute % 30 == 0:
+                        hours_arr.append(datetime.datetime(year=year_of_record,
+                                                           month=month_of_record,
+                                                           day=day_of_record,
+                                                           hour=hour,
+                                                           minute=minute,
+                                                           second=current_second))
 
         elif (hour_difference >= 1):
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
