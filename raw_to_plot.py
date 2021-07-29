@@ -113,15 +113,16 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         difference = etime.hour - stime.hour # Getting the difference in time
 
         if (difference >= 8): # More than 8 hour branch
-            for i in range(difference):
+            for i in range(difference + 1):
                 factor = difference % 2
                 if (i % 2 == factor):
                     time = hours_arr.append(datetime.datetime(year=year_of_record,
                                                               month=month_of_record,
                                                               day=day_of_record,
-                                                              hour = i,
+                                                              hour = current_hour,
                                                               minute= current_minute,
                                                               second = current_second))
+                    current_hour += 2
         elif (difference >= 3):
             ## HH:MM
             time = datetime.time(hour=current_hour, minute=current_minute, second=current_second)
