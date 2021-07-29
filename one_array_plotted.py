@@ -104,16 +104,19 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
     else:
         plt.xticks(hoursArr)
 
+
+    return fig
+
     #add an if statement for when if they want a pdf or a png
-    file_option = file_option.lower()
+    #file_option = file_option.lower()
     #print(file_option)
-    if(file_option == 'pdf'):
-        fig.savefig('x_array_plot.pdf', format='pdf', dpi=1200)
-    elif(file_option == 'png'):
-        fig.savefig('x_array_plot.png', format = 'png', dpi = 1200)
-    else :
-        print(file_option + "is not supported filetype")
-        sys.exit(0)
+    #if(file_option == 'pdf'):
+        #fig.savefig('x_array_plot.pdf', format='pdf', dpi=1200)
+    #elif(file_option == 'png'):
+        #fig.savefig('x_array_plot.png', format = 'png', dpi = 1200)
+    #else :
+        #print(file_option + "is not supported filetype")
+        #sys.exit(0)
 
        
 def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
@@ -196,15 +199,18 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
     else:
         plt.xticks(hoursArr)
 
+
+    return fig
+
     #add an if statement for when if they want a pdf or a png
-    file_option = file_option.lower()
-    if(file_option == 'pdf'):
-        fig.savefig('y_array_plot.pdf', format='pdf', dpi=1200)
-    elif(file_option == 'png'):
-        fig.savefig('y_array_plot.png', format = 'png', dpi = 1200)
-    else :
-        print(file_option + "is not supported filetype")
-        sys.exit(0)
+    #file_option = file_option.lower()
+    #if(file_option == 'pdf'):
+        #fig.savefig('y_array_plot.pdf', format='pdf', dpi=1200)
+    #elif(file_option == 'png'):
+        #fig.savefig('y_array_plot.png', format = 'png', dpi = 1200)
+    #else :
+        #print(file_option + "is not supported filetype")
+        #sys.exit(0)
 
 def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     """
@@ -286,17 +292,19 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
     else:
         plt.xticks(hoursArr)
 
+    return fig
+
     
 
     #add an if statement for when if they want a pdf or a png
-    file_option = file_option.lower()
-    if(file_option == 'pdf'):
-        fig.savefig('z_array_plot.pdf', format='pdf', dpi=1200)
-    elif(file_option == 'png'):
-        fig.savefig('z_array_plot.png', format = 'png', dpi = 1200)
-    else :
-        print(file_option + "is not supported filetype")
-        sys.exit(0)
+    #file_option = file_option.lower()
+    #if(file_option == 'pdf'):
+        #fig.savefig('z_array_plot.pdf', format='pdf', dpi=1200)
+    #elif(file_option == 'png'):
+        #fig.savefig('z_array_plot.png', format = 'png', dpi = 1200)
+    #else :
+        #print(file_option + "is not supported filetype")
+        #sys.exit(0)
 
 def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     """
@@ -369,8 +377,8 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     offset = yArr[0] #the amount to subtract from each value
     y_values = list(map(lambda y : y - offset, y_values)) #applies the subtraction x-offset to each value, converts the result back to a list
     
-    plt.plot(timeArr,x_values, linewidth = 1, label = 'X Values')
-    plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
+    plt.plot(timeArr,x_values, linewidth = 1, label = 'Bx Values')
+    plt.plot(timeArr,y_values, linewidth = 1, label = 'By Values')
     
     plt.title("Geomagnetic Bx and By of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('Bx and By')
@@ -384,7 +392,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    plt.axhline(y = 0,color = 'k', linestyle = '-')
+    plt.axhline(y = 0,color = 'tab:gray', linestyle = '-')
 
     
         
@@ -394,17 +402,18 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
     else:
         plt.xticks(hoursArr)
 
+    return fig
     
 
     #add an if statement for when if they want a pdf or a png
-    file_option = file_option.lower()
-    if(file_option == 'pdf'):
-        fig.savefig('x_and_y_plot.pdf', format='pdf', dpi=1200)
-    elif(file_option == 'png'):
-        fig.savefig('x_and_y_plot.png', format = 'png', dpi = 1200)
-    else :
-        print(file_option + "is not supported filetype")
-        sys.exit(0)
+    #file_option = file_option.lower()
+    #if(file_option == 'pdf'):
+        #fig.savefig('x_and_y_plot.pdf', format='pdf', dpi=1200)
+    #elif(file_option == 'png'):
+        #fig.savefig('x_and_y_plot.png', format = 'png', dpi = 1200)
+    #else :
+        #print(file_option + "is not supported filetype")
+        #sys.exit(0)
 
 def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     """
@@ -479,8 +488,8 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
 
 
     
-    plt.plot(timeArr,x_values, linewidth = 1, label = 'X Values')
-    plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
+    plt.plot(timeArr,x_values, linewidth = 1, label = 'Bx Values')
+    plt.plot(timeArr,z_values, linewidth = 1, label = 'By Values')
     
     plt.title("Geomagnetic Bx and Bz of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('Bx and Bz')
@@ -495,24 +504,24 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    plt.axhline(y = 0,color = 'k', linestyle = '-')
+    plt.axhline(y = 0,color = 'tab:gray', linestyle = '-')
 
     if (default_hours_flag):
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hoursArr)
 
-    
+    return fig
 
     #add an if statement for when if they want a pdf or a png
-    file_option = file_option.lower()
-    if(file_option == 'pdf'):
-        fig.savefig('x_and_z_plot.pdf', format='pdf', dpi=1200)
-    elif(file_option == 'png'):
-        fig.savefig('x_and_z_plot.png', format = 'png', dpi = 1200)
-    else :
-        print(file_option + "is not supported filetype")
-        sys.exit(0)
+    #file_option = file_option.lower()
+    #if(file_option == 'pdf'):
+        #fig.savefig('x_and_z_plot.pdf', format='pdf', dpi=1200)
+    #elif(file_option == 'png'):
+        #fig.savefig('x_and_z_plot.png', format = 'png', dpi = 1200)
+    #else :
+        #print(file_option + "is not supported filetype")
+        #sys.exit(0)
 
 
 def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
@@ -586,8 +595,8 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     z_values = list(map(lambda z : z - offset, z_values)) #applies the subtracti
 
     
-    plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
-    plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
+    plt.plot(timeArr,y_values, linewidth = 1, label = 'By Values')
+    plt.plot(timeArr,z_values, linewidth = 1, label = 'Bz Values')
     
     plt.title("Geomagnetic By and Bz of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('By and Bz')#y label 
@@ -602,7 +611,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    plt.axhline(y = 0,color = 'k', linestyle = '-') #zero axis 
+    plt.axhline(y = 0,color = 'tab:gray', linestyle = '-') #zero axis 
 
 
     if (default_hours_flag):
@@ -610,17 +619,18 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
     else:
         plt.xticks(hoursArr)
 
+    return fig
     
 
     #add an if statement for when if they want a pdf or a png
-    file_option = file_option.lower()
-    if(file_option == 'pdf'):
-        fig.savefig('y_and_z_plot.pdf', format='pdf', dpi=1200)
-    elif(file_option == 'png'):
-        fig.savefig('y_and_z_plot.png', format = 'png', dpi = 1200)
-    else :
-        print(file_option + "is not supported filetype")
-        sys.exit(0)
+    #file_option = file_option.lower()
+    #if(file_option == 'pdf'):
+        #fig.savefig('y_and_z_plot.pdf', format='pdf', dpi=1200)
+    #elif(file_option == 'png'):
+        #fig.savefig('y_and_z_plot.png', format = 'png', dpi = 1200)
+    #else :
+        #print(file_option + "is not supported filetype")
+        #sys.exit(0)
 
 
 def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option) :
@@ -700,9 +710,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
 
 
     
-    plt.plot(timeArr,x_values, linewidth = 1, label = "X Values")
-    plt.plot(timeArr,y_values, linewidth = 1, label = 'Y Values')
-    plt.plot(timeArr,z_values, linewidth = 1, label = 'Z Values')
+    plt.plot(timeArr,x_values, linewidth = 1, label = "Bx Values")
+    plt.plot(timeArr,y_values, linewidth = 1, label = 'By Values')
+    plt.plot(timeArr,z_values, linewidth = 1, label = 'Bz Values')
     
     plt.title("Geomagnetic Bx, By and Bz of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
@@ -716,24 +726,24 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    plt.axhline(y = 0,color = 'k', linestyle = '-') #zero axis
+    plt.axhline(y = 0,color = 'tab:gray', linestyle = '-') #zero axis
 
     if (default_hours_flag):
         plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     else:
         plt.xticks(hoursArr)
 
-    
+    return fig
 
     #add an if statement for when if they want a pdf or a png
-    file_option = file_option.lower()
-    if(file_option == 'pdf'):
-        fig.savefig('x_y_and_z_plot.pdf', format='pdf', dpi=1200)
-    elif(file_option == 'png'):
-        fig.savefig('x_y_and_z_plot.png', format = 'png', dpi = 1200)
-    else :
-        print(file_option + "is not supported filetype")
-        sys.exit(0)
+    #file_option = file_option.lower()
+    #if(file_option == 'pdf'):
+        #fig.savefig('x_y_and_z_plot.pdf', format='pdf', dpi=1200)
+    #elif(file_option == 'png'):
+        #fig.savefig('x_y_and_z_plot.png', format = 'png', dpi = 1200)
+    #else :
+        #print(file_option + "is not supported filetype")
+        #sys.exit(0)
 
 
 
