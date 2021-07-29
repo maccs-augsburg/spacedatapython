@@ -84,32 +84,46 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     ### hour list and determining which one to use
     #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     default_hours_arr = []
-    for i in range(24):
-        if (i % 2 != 0):
-            default_hours_arr.append(datetime.datetime(year=year_of_record, month=month_of_record, day=day_of_record, hour = i))
+    x_axis_format = mdates.DateFormatter('%H')
+    
     
     hours_arr = [] # list to use for custom times
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
     current_second = stime.second # setting the second to start at
     default_hours_flag = False # using a flag to better optimize operations
+    x_axis_label = ""
 
     # setting the flag to true if the stime and etimes are the full 24 hours
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
         default_hours_flag = True
+        x_axis_label = "Universal Time (Hours)"
+        for i in range(24):
+            if (i % 2 != 0):
+                default_hours_arr.append(datetime.datetime(year=year_of_record,
+                                                           month=month_of_record,
+                                                           day=day_of_record,
+                                                           hour = i,
+                                                           minute=current_minute,
+                                                           second = current_second))
+            
 
     # Create a loop that fills out an list with odd numbers from start time to end time
     if not default_hours_flag:
         difference = etime.hour - stime.hour # Getting the difference in time
 
         if (difference >= 8): # More than 8 hour branch
-            for i in range(stime.hour, etime.hour + 1, 1):
-                if (i % 2 != 0):
-                    hours_arr.append(current_hour)
-                current_hour += 1
+            for i in range(difference):
+                factor = difference % 2
+                if (i % 2 == factor):
+                    time = hours_arr.append(datetime.datetime(year=year_of_record,
+                                                              month=month_of_record,
+                                                              day=day_of_record,
+                                                              hour = i,
+                                                              minute= current_minute,
+                                                              second = current_second))
         elif (difference >= 3):
             ## HH:MM
-            print(current_hour)
             time = datetime.time(hour=current_hour, minute=current_minute, second=current_second)
             for i in range(stime.hour, etime.hour, 1):
                 hours_arr.append(time)
@@ -127,7 +141,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.subplots_adjust(hspace=0.03)
-    x_axis_format = mdates.DateFormatter('%H:%M')
 
     ### first plot
     # plt.ylim(minimum, maximum)
@@ -170,7 +183,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     plt.subplot(313)
     plt.plot(time_arr,z_arr, linewidth=1)
     plt.ylabel('Bz')	# side label
-    plt.xlabel('Universal Time (Hours)') # label underneath
+    plt.xlabel(x_axis_label) # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
