@@ -13,7 +13,34 @@ import datetime
 from raw_codecs import decode, time_of_record
 
 def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
-    # datetime stuff
+    """ Creates x, y, z, and time lists based on the 2 Hz raw data file. But for the time_arr list, it saves the values into the list as datetime.datetime objects
+    
+    Places x, y, z and time values into their own lists.
+
+    Parameters
+    ----------
+    raw_file:
+        An opened file object containing a day of data recorded
+        in the SRI 2 Hz format.
+    start_time:
+        The datetime.time object from which to begin
+    end_time:
+        The datetime.time object at which to end
+    file_name:
+        The name of the file that excludes the suffix (.2hz) and includes the yearday value
+
+    Returns
+    -------
+    List
+        x_arr: a list of x Values from our 2 Hz file
+    List
+        y_arr: a list of y Values from our 2 Hz file
+    List
+        z_arr: a list of z Values from our 2 Hz file
+    List
+        time_arr: a list of datetime.datetime Values from our 2 Hz file
+    
+    """
     #station = filename[0:2] # Two letter abbreviation of station
     #station_name = station_names.find_full_name(station) # Getting the station name
     year_day_value = file_name[2:7] # Year: (first two digits) and day of year: (last 3 digits)
@@ -28,6 +55,7 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
 
+    # Getting the year, month and day values from the date datetime.datetime object to use for datetime.datetime object creation
     year_of_record = (int)(date[6:])
     month_of_record = (int)(date[0:2])
     day_of_record = (int)(date[3:5])
@@ -60,10 +88,11 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
             minute = one_record[5]
             second = one_record[6]
 
-            # converting it into hours for the time array 
+            # converting it into hours for the time array but saving them as datetime objects
             time_in_hours_quarter_second = datetime.datetime(year=year_of_record, month = month_of_record, day = day_of_record, hour=(int)((hour + (minute / 60) + second / 3600) + QUARTER_SECOND), minute=minute, second=second)
             time_in_hours_three_quarter_second = datetime.datetime(year=year_of_record, month = month_of_record, day = day_of_record, hour=(int)((hour + (minute / 60) + second / 3600) + THREE_QUARTER_SECOND), minute=minute, second=second)
-            
+
+            # adding the datetime objects to the time_arr list
             time_arr.append(time_in_hours_quarter_second)
             time_arr.append(time_in_hours_three_quarter_second)
 
@@ -89,7 +118,7 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
         if current_time >= end_time :
             break
 
-    # returning the 4 lists
+    # returning the 4 lists -- This time, time_arr has datetime.datetime objects to display times on the x-axis of plots!
     return x_arr, y_arr, z_arr, time_arr
 
 def create_lists_from_raw( raw_file, start_time, end_time) :
