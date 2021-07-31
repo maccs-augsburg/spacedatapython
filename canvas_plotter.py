@@ -62,8 +62,7 @@ def create_initial_gui(window, file_name_full):
         global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
         global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
 
-        #.grid(column=3, row=1, columnspan=8, rowspan=20)
-        # image
+        # setting the image to be the maccs logo
         image=Image.open('maccslogo_870.jpeg')
         image_file = ImageTk.PhotoImage(image)
         image_label = ttk.Label(window, image=image_file)
@@ -71,43 +70,43 @@ def create_initial_gui(window, file_name_full):
         image_label.grid(column=5,row=1, columnspan=8, rowspan=20)
 
         
-        # plot min x
+        # plot min x label and entry box
         ttk.Label(window, text="Plot min x:").grid(column=1, row=1)
         plot_min_x = IntVar()
         plot_min_x.set(0)
         plot_min_entry_x = ttk.Entry(window, width=3, textvariable=plot_min_x).grid(column=2, row=1)
 
-        # plot max x
+        # plot max x label and entry box
         ttk.Label(window, text="Plot max x:").grid(column=1, row=2)
         plot_max_x = IntVar()
         plot_max_x.set(0)
         plot_max_entry_x = ttk.Entry(window, width=3, textvariable=plot_max_x).grid(column=2, row=2)
 
-        # plot min y
+        # plot min y label and entry box
         ttk.Label(window, text="Plot min y:").grid(column=1, row=3)
         plot_min_y = IntVar()
         plot_min_y.set(0)
         plot_min_entry_y = ttk.Entry(window, width=3, textvariable=plot_min_y).grid(column=2, row=3)
 
-        # plot max y
+        # plot max y label and entry box
         ttk.Label(window, text="Plot max y:").grid(column=1, row=4)
         plot_max_y = IntVar()
         plot_max_y.set(0)
         plot_max_entry_y = ttk.Entry(window, width=3, textvariable=plot_max_y).grid(column=2, row=4)
 
-        # plot min z
+        # plot min z label and entry box
         ttk.Label(window, text="Plot min z:").grid(column=1, row=5)
         plot_min_z = IntVar()
         plot_min_z.set(0)
         plot_min_entry_z = ttk.Entry(window, width=3, textvariable=plot_min_z).grid(column=2, row=5)
 
-        # plot max z
+        # plot max z label and entry box
         ttk.Label(window, text="Plot max z:").grid(column=1, row=6)
         plot_max_z = IntVar()
         plot_max_z.set(0)
         plot_max_entry_z = ttk.Entry(window, width=3, textvariable=plot_max_z).grid(column=2, row=6)
 
-        
+        # plot button creation and placement
         plot_button = Button(master = window,
                          command = lambda: plot(window, file_name_full),
                          height = 2,
@@ -115,11 +114,12 @@ def create_initial_gui(window, file_name_full):
                          text='Plot')
         plot_button.grid(column=1, row=7)
 
+        # cancel/quit button creation and placement -- Updated text to be "Quit" instead of "Cancel"
         cancel_button = Button(master = window,
                            command = lambda: cancel(window),
                            height = 2,
                            width = 10,
-                           text='Cancel')
+                           text='Quit')
         cancel_button.grid(column=2, row=7)
 
 def main():
