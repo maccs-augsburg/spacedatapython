@@ -123,16 +123,22 @@ def create_initial_gui(window, file_name_full):
         cancel_button.grid(column=2, row=7)
 
 def main():
+        # Creating initial gui object
         window = Tk()
 
+        # Setting the title
         window.title('Plotting MACCS files')
 
+        # Adjusting the size
         window.geometry('1400x900')
 
+        # Initializing the filename
         file_name_full = 'PG20212.2hz'
 
+        # running the gui creation function
         create_initial_gui(window, file_name_full)
 
+        # keeping it running
         window.mainloop()
     
 
