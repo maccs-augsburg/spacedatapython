@@ -26,26 +26,32 @@ def create_figure(xArr, yArr, zArr, timeArr, filename, stime, etime): # Not sure
         return fig
 
 def plot(window, file_name_full):
-    
+        # creating the time interval string using the file_naming python file
         time_interval_string = file_naming.create_time_interval_string_hms(0, 0, 0, 23, 59, 59)
         file_name = file_name_full[0:8] + time_interval_string
 
+        # Opening said file
         file = open(file_name_full, 'rb')
 
+        # Setting the start and end time stamps (for testing purposes)
         start_time_stamp = datetime.time(hour=18, minute=0, second=0)
         end_time_stamp = datetime.time(hour=19, minute=59, second=59)
 
+        # Calling the new function in read_raw_to_lists
+        #       (create_datetime_lists_from_raw)
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file,
                                                                         start_time_stamp,
                                                                         end_time_stamp, file_name_full[0:8])
-
+        # Getting the constructed figure
         fig = create_figure(xArr, yArr, zArr, timeArr, file_name_full[0:8], start_time_stamp, end_time_stamp)
 
         #window.geometry('1000x500')
 
+        # Storing that figure into a canvas object
         canvas = FigureCanvasTkAgg(fig, master = window)
         canvas.draw()
 
+        # Placing canvas object into the window
         canvas.get_tk_widget().grid(column=3, row=1, columnspan=8, rowspan=20)
 
 def cancel(window):
