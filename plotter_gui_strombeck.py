@@ -14,13 +14,7 @@ This GUI uses a radiobutton format for selection of file type
 """
 
 #TODO----------------------------------------------------------------------------------------------------------
-#   implement functionality -----------------------------------------------------------------------> working on
-#       - use the default flags and determine y-axis scaling -----> 
-#       - add try and catch blocks -------------------------------> 
-#   view box around radio buttons ----------------------------------------------------------------->
-#   do not save option rectangles to move all subplots at the same time ---------------------------> 
-#
-#   Change values to integers ---------------------------------------------------------------------> done
+#   
 #--------------------------------------------------------------------------------------------------------------
 
 # tkinter imports
@@ -458,7 +452,6 @@ def file_save_as_entry_checker(file_save_as_option_value):
         file_save_as_option: the string to indicate in which way we are saving the file
     """
     ### File save as input tests ###
-    # Setting the initial file save as value to an empty string
     file_save_as_option = ''
 
     # Testing to see if user selected pdf branch
@@ -502,21 +495,19 @@ def execute_functions(*args): # change to some other function name like "execute
 
     ### Start hour, minute, and second entries ###
     start_hour_value = start_hour_entry_check(start_hour_entry.get())
-    
     start_minute_value = start_minute_entry_check(start_minute_entry.get())
-    
     start_second_value = start_second_entry_check(start_second_entry.get())
 
+    # creating the start time stamp
     start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
 
            
     ### End hour, minute, and second entries ###
     end_hour_value = end_hour_entry_check(end_hour_entry.get())
-    
     end_minute_value = end_minute_entry_check(end_minute_entry.get())
-    
     end_second_value = end_second_entry_check(end_second_entry.get())
 
+    # creating the end time stamp
     end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
     
     ### Plot min and max entries ###
@@ -527,7 +518,6 @@ def execute_functions(*args): # change to some other function name like "execute
     plot_min_value_z = plot_min_entry_z.get()
     plot_max_value_z = plot_min_entry_z.get()
 
-    #plot_min_default_flag, plot_max_default_flag = plot_min_and_max_check(plot_min_value, plot_max_value) 
 
     ### Station code entry ###
     station_code_value = station_code_entry.get()
@@ -541,7 +531,6 @@ def execute_functions(*args): # change to some other function name like "execute
         
     ### File option to save as entry ###
     # radio_button_ buttons used: 8, 9, 10
-    #file_save_as_option_value = file_to_save_as.get()
     file_save_as_option_value = '1'
     file_save_as_option_value = file_save_as_entry_checker(file_save_as_option_value)
 
@@ -561,9 +550,8 @@ def execute_functions(*args): # change to some other function name like "execute
         sys.exit(0)
     
     # Creating the arrays from the file
-    xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp)
-    #xArr, yArr, zArr, timeArr = raw_to_plot.create_arrays(file, start_time_stamp, end_time_stamp)
-
+    xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, file_name)
+    
     # Plotting the arrays
     fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp)
 
@@ -571,7 +559,7 @@ def execute_functions(*args): # change to some other function name like "execute
     window = Tk()
     window.title('Plotting MACCS files')
     window.geometry('1400x900')
-    canvas_plotter.create_initial_gui(window, file_name_full, fig)
+    canvas_plotter.create_initial_gui(window, fig)
     window.mainloop()
     
     
