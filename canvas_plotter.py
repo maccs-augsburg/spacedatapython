@@ -25,7 +25,18 @@ def create_figure(xArr, yArr, zArr, timeArr, filename, stime, etime): # Not sure
 
         return fig
 
-def plot(window, file_name_full, fig):
+def plot(window, fig):
+        """
+        plot function places an existing matplotlib.pyplot object onto a Tk() object.
+
+        Parameters
+        ----------
+        Tk object
+                Window: the Tk object that we are placing the figure into to graph
+        Matplotlib.pyplot
+                fig: the figure object of the graph to be graphed
+        """
+        
         # Storing that figure into a canvas object
         canvas = FigureCanvasTkAgg(fig, master = window)
         canvas.draw()
@@ -36,7 +47,7 @@ def plot(window, file_name_full, fig):
 def cancel(window):
         window.destroy()
 
-def create_initial_gui(window, file_name_full, fig):
+def create_initial_gui(window, fig):
         global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
         global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
         global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
@@ -87,7 +98,7 @@ def create_initial_gui(window, file_name_full, fig):
 
         # plot button creation and placement
         plot_button = Button(master = window,
-                         command = lambda: plot(window, file_name_full, fig),
+                         command = lambda: plot(window, fig),
                          height = 2,
                          width = 10,
                          text='Plot')
