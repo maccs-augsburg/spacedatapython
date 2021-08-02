@@ -25,28 +25,7 @@ def create_figure(xArr, yArr, zArr, timeArr, filename, stime, etime): # Not sure
 
         return fig
 
-def plot(window, file_name_full):
-        # creating the time interval string using the file_naming python file
-        time_interval_string = file_naming.create_time_interval_string_hms(0, 0, 0, 23, 59, 59)
-        file_name = file_name_full[0:8] + time_interval_string
-
-        # Opening said file
-        file = open(file_name_full, 'rb')
-
-        # Setting the start and end time stamps (for testing purposes)
-        start_time_stamp = datetime.time(hour=18, minute=0, second=0)
-        end_time_stamp = datetime.time(hour=19, minute=59, second=59)
-
-        # Calling the new function in read_raw_to_lists
-        #       (create_datetime_lists_from_raw)
-        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file,
-                                                                        start_time_stamp,
-                                                                        end_time_stamp, file_name_full[0:8])
-        # Getting the constructed figure
-        fig = create_figure(xArr, yArr, zArr, timeArr, file_name_full[0:8], start_time_stamp, end_time_stamp)
-
-        #window.geometry('1000x500')
-
+def plot(window, file_name_full, fig):
         # Storing that figure into a canvas object
         canvas = FigureCanvasTkAgg(fig, master = window)
         canvas.draw()
@@ -57,17 +36,17 @@ def plot(window, file_name_full):
 def cancel(window):
         window.destroy()
 
-def create_initial_gui(window, file_name_full):
+def create_initial_gui(window, file_name_full, fig):
         global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
         global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
         global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
 
         # setting the image to be the maccs logo
-        image=Image.open('maccslogo_870.jpeg')
-        image_file = ImageTk.PhotoImage(image)
-        image_label = ttk.Label(window, image=image_file)
-        image_label.image = image_file
-        image_label.grid(column=5,row=1, columnspan=8, rowspan=20)
+##        image=Image.open('maccslogo_870.jpeg')
+##        image_file = ImageTk.PhotoImage(image)
+##        image_label = ttk.Label(window, image=image_file)
+##        image_label.image = image_file
+##        image_label.grid(column=5,row=1, columnspan=8, rowspan=20)
 
         
         # plot min x label and entry box
@@ -108,7 +87,7 @@ def create_initial_gui(window, file_name_full):
 
         # plot button creation and placement
         plot_button = Button(master = window,
-                         command = lambda: plot(window, file_name_full),
+                         command = lambda: plot(window, file_name_full, fig),
                          height = 2,
                          width = 10,
                          text='Plot')
@@ -123,6 +102,10 @@ def create_initial_gui(window, file_name_full):
         cancel_button.grid(column=2, row=7)
 
 def main():
+        ####################################
+        # MAIN DOES NOT WORK FOR RIGHT NOW #
+        ####################################
+
         # Creating initial gui object
         window = Tk()
 
