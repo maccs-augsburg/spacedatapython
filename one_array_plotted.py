@@ -13,6 +13,7 @@ import datetime
 from raw_codecs import decode, time_of_record
 import station_names
 import read_raw_to_lists
+#import read_to_clean_lists
 
 def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
     """
@@ -780,6 +781,9 @@ if __name__ == "__main__" :
 
 
     arrayX, arrayY, arrayZ, timeArr = read_raw_to_list(two_hz_binary_file, start_time, end_time)
+    
+
+
 
     #try:
     x_plot(arrayX, timeArr, filename, start_time, end_time)
