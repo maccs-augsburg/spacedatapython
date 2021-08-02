@@ -561,17 +561,18 @@ def execute_functions(*args): # change to some other function name like "execute
         sys.exit(0)
     
     # Creating the arrays from the file
-    xArr, yArr, zArr, timeArr = read_raw_to_lists.create_lists_from_raw(file, start_time_stamp, end_time_stamp)
+    xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp)
     #xArr, yArr, zArr, timeArr = raw_to_plot.create_arrays(file, start_time_stamp, end_time_stamp)
 
     # Plotting the arrays
-    fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp, file_save_as_option_value)
+    fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp)
 
     # New plotting method in gui
     window = Tk()
     window.title('Plotting MACCS files')
     window.geometry('1400x900')
-    canvas_plotter.create_initial_gui(window, file_name_full)
+    canvas_plotter.create_initial_gui(window, file_name_full, fig)
+    window.mainloop()
     
     
     plotter_complete_message(title="Plotting Program Complete", message="The plotting program has plotted your desired file!") 
