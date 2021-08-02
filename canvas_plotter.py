@@ -33,7 +33,7 @@ def plot(window, fig):
         ----------
         Tk object
                 Window: the Tk object that we are placing the figure into to graph
-        Matplotlib.pyplot
+        Matplotlib.pyplot object
                 fig: the figure object of the graph to be graphed
         """
         
@@ -48,6 +48,16 @@ def cancel(window):
         window.destroy()
 
 def create_initial_gui(window, fig):
+        """
+        create_initial_gui funciton creates the basic gui in a passed in Tk window object
+
+        Parameters
+        ----------
+        Tk object
+                Window: the Tk object that we are placing the basic gui structure into
+        Matplotlib.pyplot object
+                fig: the figure object of the graph to be graphed
+        """
         
 ##        global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
 ##        global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
