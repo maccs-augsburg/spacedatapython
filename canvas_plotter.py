@@ -48,9 +48,10 @@ def cancel(window):
         window.destroy()
 
 def create_initial_gui(window, fig):
-        global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
-        global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
-        global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
+        
+##        global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
+##        global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
+##        global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
 
         # setting the image to be the maccs logo
 ##        image=Image.open('maccslogo_870.jpeg')
