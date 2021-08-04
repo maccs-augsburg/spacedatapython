@@ -42,7 +42,7 @@ def plot(window, fig):
         canvas.draw()
 
         # Placing canvas object into the window
-        canvas.get_tk_widget().grid(column=3, row=1, columnspan=8, rowspan=20)
+        canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=20)
 
 def cancel(window):
         window.destroy()
