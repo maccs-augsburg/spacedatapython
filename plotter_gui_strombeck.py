@@ -495,29 +495,29 @@ def execute_functions(mainframe, *args): # change to some other function name li
     
 
     ### Start hour, minute, and second entries ###
-    start_hour_value = start_hour_entry_check(start_hour_entry.get())
-    start_minute_value = start_minute_entry_check(start_minute_entry.get())
-    start_second_value = start_second_entry_check(start_second_entry.get())
+    start_hour_value = start_hour_entry_check(start_hour.get())
+    start_minute_value = start_minute_entry_check(start_minute.get())
+    start_second_value = start_second_entry_check(start_second.get())
 
     # creating the start time stamp
     start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
 
            
     ### End hour, minute, and second entries ###
-    end_hour_value = end_hour_entry_check(end_hour_entry.get())
-    end_minute_value = end_minute_entry_check(end_minute_entry.get())
-    end_second_value = end_second_entry_check(end_second_entry.get())
+    end_hour_value = end_hour_entry_check(end_hour.get())
+    end_minute_value = end_minute_entry_check(end_minute.get())
+    end_second_value = end_second_entry_check(end_second.get())
 
     # creating the end time stamp
     end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
     
     ### Plot min and max entries ###
-    plot_min_value_x = plot_min_entry_x.get()
-    plot_max_value_x = plot_max_entry_x.get()
-    plot_min_value_y = plot_min_entry_y.get()
-    plot_max_value_y = plot_max_entry_y.get()
-    plot_min_value_z = plot_min_entry_z.get()
-    plot_max_value_z = plot_min_entry_z.get()
+    plot_min_value_x = plot_min_x.get()
+    plot_max_value_x = plot_max_x.get()
+    plot_min_value_y = plot_min_y.get()
+    plot_max_value_y = plot_max_y.get()
+    plot_min_value_z = plot_min_z.get()
+    plot_max_value_z = plot_min_z.get()
 
 
     ### Station code entry ###
@@ -653,65 +653,56 @@ def gui_entries(mainframe, root):
     # Start Hour entry
     start_hour = IntVar()
     start_hour.set(0)
-    start_hour_entry = ttk.Entry(mainframe, width=3, textvariable=start_hour)
-    start_hour_entry.grid(column=1, row=3)
+    ttk.Entry(mainframe, width=3, textvariable=start_hour).grid(column=1, row=3)
+##    start_hour_entry = ttk.Entry(mainframe, width=3, textvariable=start_hour)
+##    start_hour_entry.grid(column=1, row=3)
 
     # Start Minute entry
     start_minute = IntVar()
-    start_minute_entry = ttk.Entry(mainframe, width=3, textvariable=start_minute)
-    start_minute_entry.grid(column=1, row=4)
+    start_minute.set(0)
+    ttk.Entry(mainframe, width=3, textvariable=start_minute).grid(column=1, row=4)
 
     # Start Second entry
     start_second = IntVar()
-    start_second_entry = ttk.Entry(mainframe, width=3, textvariable=start_second)
-    start_second_entry.grid(column=1, row=5)
+    ttk.Entry(mainframe, width=3, textvariable=start_second).grid(column=1, row=5)
 
     # End Hour entry
     end_hour = IntVar()
     end_hour.set(23)
-    end_hour_entry = ttk.Entry(mainframe, width=3, textvariable=end_hour)
-    end_hour_entry.grid(column=1, row=6)
+    ttk.Entry(mainframe, width=3, textvariable=end_hour).grid(column=1, row=6)
 
     # End Minute entry
     end_minute = IntVar()
     end_minute.set(59)
-    end_minute_entry = ttk.Entry(mainframe, width=3, textvariable=end_minute)
-    end_minute_entry.grid(column=1, row=7)
+    ttk.Entry(mainframe, width=3, textvariable=end_minute).grid(column=1, row=7)
 
     # End Second entry
     end_second = IntVar()
     end_second.set(59)
-    end_second_entry = ttk.Entry(mainframe, width=3, textvariable=end_second)
-    end_second_entry.grid(column=1, row=8)
+    ttk.Entry(mainframe, width=3, textvariable=end_second).grid(column=1, row=8)
 
     # Plot min and Plot max entries
     # Plot min and max x
     plot_min_x = IntVar()
     plot_min_x.set(0)
-    plot_min_entry_x = ttk.Entry(mainframe, width=3, textvariable=plot_min_x)
-    plot_min_entry_x.grid(column=1, row=9)
+    ttk.Entry(mainframe, width=3, textvariable=plot_min_x).grid(column=1, row=9)
     plot_max_x = IntVar()
     plot_max_x.set(0)
-    plot_max_entry_x = ttk.Entry(mainframe, width=3, textvariable=plot_max_x)
-    plot_max_entry_x.grid(column=1, row=10)
+    ttk.Entry(mainframe, width=3, textvariable=plot_max_x).grid(column=1, row=10)
 
     plot_min_y = IntVar()
     plot_min_y.set(0)
-    plot_min_entry_y = ttk.Entry(mainframe, width=3, textvariable=plot_min_y)
-    plot_min_entry_y.grid(column=1, row=11)
+    ttk.Entry(mainframe, width=3, textvariable=plot_min_y).grid(column=1, row=11)
     plot_max_y = IntVar()
     plot_max_y.set(0)
-    plot_max_entry_y = ttk.Entry(mainframe, width=3, textvariable=plot_max_y)
-    plot_max_entry_y.grid(column=1, row=12)
+    ttk.Entry(mainframe, width=3, textvariable=plot_max_y).grid(column=1, row=12)
 
     plot_min_z = IntVar()
     plot_min_z.set(0)
-    plot_min_entry_z = ttk.Entry(mainframe, width=3, textvariable=plot_min_z)
-    plot_min_entry_z.grid(column=1, row=13)
+    ttk.Entry(mainframe, width=3, textvariable=plot_min_z).grid(column=1, row=13)
     plot_max_z = IntVar()
     plot_max_z.set(0)
-    plot_max_entry_z = ttk.Entry(mainframe, width=3, textvariable=plot_max_z)
-    plot_max_entry_z.grid(column=1, row=14)
+    ttk.Entry(mainframe, width=3, textvariable=plot_max_z).grid(column=1, row=14)
 
     ### Button section ###
 
