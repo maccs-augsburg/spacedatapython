@@ -615,7 +615,7 @@ def gui_labels(mainframe):
     image_file = ImageTk.PhotoImage(image)
     image_label = ttk.Label(mainframe, image=image_file)
     image_label.image = image_file
-    image_label.grid(column=5,row=1, columnspan=8, rowspan=20)
+    image_label.grid(column=5,row=1, columnspan=20, rowspan=30)
 
 
 def gui_entries(mainframe, root):
@@ -654,8 +654,6 @@ def gui_entries(mainframe, root):
     start_hour = IntVar()
     start_hour.set(0)
     ttk.Entry(mainframe, width=3, textvariable=start_hour).grid(column=1, row=3)
-##    start_hour_entry = ttk.Entry(mainframe, width=3, textvariable=start_hour)
-##    start_hour_entry.grid(column=1, row=3)
 
     # Start Minute entry
     start_minute = IntVar()
@@ -718,7 +716,7 @@ def gui_entries(mainframe, root):
 
     # Management buttons section
     plot_button = ttk.Button(mainframe, text="Plot", command=lambda: execute_functions(mainframe)).grid(column=1, row = 20, sticky=W)
-    quit_button = ttk.Button(mainframe, text="Quit", command=lambda: cancel(root)).grid(column=2, row=20, sticky=W)
+    quit_button = ttk.Button(mainframe, text="Quit", command=lambda: cancel(root)).grid(column=1, row=20, sticky=E)
 
     
     
@@ -729,7 +727,7 @@ def main():
     
     ### Setting up GUI object ###
     root = Tk()
-    root.geometry('1400x900')
+    root.geometry('1400x800')
     root.title("Plot input")
     mainframe = ttk.Frame(root, padding="3 3 12 12")
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
