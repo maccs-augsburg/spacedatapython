@@ -25,6 +25,7 @@ from tkinter import messagebox
 # Python 3 imports
 import sys
 import datetime
+from PIL import ImageTk, Image
 
 # Plotter program imports
 import raw_to_plot
@@ -610,9 +611,13 @@ def gui_labels(mainframe):
     # File format label
     ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=15, sticky=W)
 
+    # setting the image to be the maccs logo
+    image=Image.open('maccslogo_870.jpeg')
+    image_file = ImageTk.PhotoImage(image)
+    image_label = ttk.Label(mainframe, image=image_file)
+    image_label.image = image_file
+    image_label.grid(column=5,row=1, columnspan=8, rowspan=20)
 
-    # File save as label
-    #ttk.Label(mainframe, text="Save file as (pick from list below)").grid(column=1, row=15, sticky=W)
 
 def gui_entries(mainframe, root):
     """
@@ -721,15 +726,11 @@ def gui_entries(mainframe, root):
     #radio_button_6 = Radiobutton(mainframe, text="SPole", value=6, variable=file_selection).grid(column=1, row=13, sticky=W)
     radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=file_selection).grid(column=1, row=19, sticky=W)
 
-    # file selection of type of file to save it as
-    #file_to_save_as = StringVar()
-    #radio_button_8 = Radiobutton(mainframe, text="pdf", value=8, variable=file_to_save_as).grid(column=1, row=16, sticky=W)
-    #radio_button_9 = Radiobutton(mainframe, text="png", value=9, variable=file_to_save_as).grid(column=1, row=17, sticky=W)
-    #radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
-
     # Management buttons section
     plot_button = ttk.Button(mainframe, text="Plot", command=lambda: execute_functions(mainframe)).grid(column=1, row = 20, sticky=W)
-    cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=2, row=20, sticky=W)
+    quit_button = ttk.Button(mainframe, text="Quit", command=lambda: cancel(root)).grid(column=2, row=20, sticky=W)
+
+    
     
 def main():
     """
