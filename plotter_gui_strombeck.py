@@ -481,7 +481,7 @@ def file_save_as_entry_checker(file_save_as_option_value):
     # Returning the string of the file save as option to be used
     return file_save_as_option
 
-def execute_functions(*args): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
+def execute_functions(mainframe, *args): # change to some other function name like "execute_okay_button" or "execute_functions" etc.
     """
     Obtains the values entered in the GUI and runs the plotting program with the inputted values
     """
@@ -555,12 +555,15 @@ def execute_functions(*args): # change to some other function name like "execute
     # Plotting the arrays
     fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp, end_time_stamp)
 
+    # Putting the arrays into the gui
+    canvas_plotter.plot(mainframe, fig)
+    
     # New plotting method in gui
-    window = Tk()
-    window.title('Plotting MACCS files')
-    window.geometry('1400x900')
-    canvas_plotter.create_initial_gui(window, fig)
-    window.mainloop()
+##    window = Tk()
+##    window.title('Plotting MACCS files')
+##    window.geometry('1400x900')
+##    canvas_plotter.create_initial_gui(window, fig)
+##    window.mainloop()
     
     
     plotter_complete_message(title="Plotting Program Complete", message="The plotting program has plotted your desired file!") 
@@ -732,7 +735,7 @@ def gui_entries(mainframe, root):
     #radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
 
     # Management buttons section
-    plot_button = ttk.Button(mainframe, text="Plot", command=execute_functions).grid(column=2, row = 19, sticky=W)
+    plot_button = ttk.Button(mainframe, text="Plot", command=lambda: execute_functions(mainframe)).grid(column=2, row = 19, sticky=W)
     cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=3, row=19, sticky=E)
     
 def main():
@@ -742,6 +745,7 @@ def main():
     
     ### Setting up GUI object ###
     root = Tk()
+    root.geometry('1400x900')
     root.title("Plot input")
     mainframe = ttk.Frame(root, padding="3 3 12 12")
     mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
