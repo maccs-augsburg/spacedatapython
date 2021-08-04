@@ -596,14 +596,14 @@ def gui_labels(mainframe):
 
     # Plot min and max labels
     # X labels
-    ttk.Label(mainframe, text="Plot Min x (leave at 0 for default):").grid(column=1, row=9, sticky=W)
-    ttk.Label(mainframe, text="Plot Max x (leave at 0 for default):").grid(column=1, row=10, sticky=W)
+    ttk.Label(mainframe, text="Plot Min x:").grid(column=1, row=9, sticky=W)
+    ttk.Label(mainframe, text="Plot Max x:").grid(column=1, row=10, sticky=W)
     # Y labels
-    ttk.Label(mainframe, text="Plot Min y (leave at 0 for default):").grid(column=1, row=11, sticky=W)
-    ttk.Label(mainframe, text="Plot Max y (leave at 0 for default):").grid(column=1, row=12, sticky=W)   
+    ttk.Label(mainframe, text="Plot Min y:").grid(column=1, row=11, sticky=W)
+    ttk.Label(mainframe, text="Plot Max y:").grid(column=1, row=12, sticky=W)   
     #Z labels
-    ttk.Label(mainframe, text="Plot Min z (leave at 0 for default):").grid(column=1, row=13, sticky=W)
-    ttk.Label(mainframe, text="Plot Max z (leave at 0 for default):").grid(column=1, row=14, sticky=W)
+    ttk.Label(mainframe, text="Plot Min z:").grid(column=1, row=13, sticky=W)
+    ttk.Label(mainframe, text="Plot Max z:").grid(column=1, row=14, sticky=W)
     
     # Station file label
     ttk.Label(mainframe, text="Station code:").grid(column=1, row=1, sticky=W)
@@ -643,11 +643,12 @@ def gui_entries(mainframe, root):
     # Station file entries
     station_code = StringVar()
     station_code_entry = ttk.Entry(mainframe, width=4, textvariable=station_code)
-    station_code_entry.grid(column=1, row=1)
+    station_code_entry.grid(column=1, row=1) # .grid method is separated here so that we can start tab control at the station code entry
+                                             # if we had .grid after the declaration we can't focus on it as we'll get a nonetype error
     
     # year_day entry
     year_day = StringVar() ## storing as a string for now, might change to int later
-    year_day_entry = ttk.Entry(mainframe, width=6, textvariable=year_day) # setting a variable with the Entry box format
+    year_day_entry = ttk.Entry(mainframe, width=6, textvariable=year_day)
     year_day_entry.grid(column=1, row=2) # selecting which column and row to place said variable
 
     # Start Hour entry
@@ -689,29 +690,29 @@ def gui_entries(mainframe, root):
     plot_min_x = IntVar()
     plot_min_x.set(0)
     plot_min_entry_x = ttk.Entry(mainframe, width=3, textvariable=plot_min_x)
-    plot_min_entry_x.grid(column=2, row=9, sticky=W)
+    plot_min_entry_x.grid(column=1, row=9)
     plot_max_x = IntVar()
     plot_max_x.set(0)
     plot_max_entry_x = ttk.Entry(mainframe, width=3, textvariable=plot_max_x)
-    plot_max_entry_x.grid(column=2, row=10, sticky=W)
+    plot_max_entry_x.grid(column=1, row=10)
 
     plot_min_y = IntVar()
     plot_min_y.set(0)
     plot_min_entry_y = ttk.Entry(mainframe, width=3, textvariable=plot_min_y)
-    plot_min_entry_y.grid(column=2, row=11, sticky=W)
+    plot_min_entry_y.grid(column=1, row=11)
     plot_max_y = IntVar()
     plot_max_y.set(0)
     plot_max_entry_y = ttk.Entry(mainframe, width=3, textvariable=plot_max_y)
-    plot_max_entry_y.grid(column=2, row=12, sticky=W)
+    plot_max_entry_y.grid(column=1, row=12)
 
     plot_min_z = IntVar()
     plot_min_z.set(0)
     plot_min_entry_z = ttk.Entry(mainframe, width=3, textvariable=plot_min_z)
-    plot_min_entry_z.grid(column=2, row=13, sticky=W)
+    plot_min_entry_z.grid(column=1, row=13)
     plot_max_z = IntVar()
     plot_max_z.set(0)
     plot_max_entry_z = ttk.Entry(mainframe, width=3, textvariable=plot_max_z)
-    plot_max_entry_z.grid(column=2, row=14,sticky=W)
+    plot_max_entry_z.grid(column=1, row=14)
 
     ### Button section ###
 
@@ -721,9 +722,8 @@ def gui_entries(mainframe, root):
     radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=file_selection).grid(column=1, row=15, sticky=W)
     radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=file_selection).grid(column=1, row=16, sticky=W)
     radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=file_selection).grid(column=1, row=17, sticky=W)
+    # Add clean section
     radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=file_selection).grid(column=1, row=18, sticky=W)
-    #radio_button_5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=file_selection).grid(column=1, row=12, sticky=W)
-    #radio_button_6 = Radiobutton(mainframe, text="SPole", value=6, variable=file_selection).grid(column=1, row=13, sticky=W)
     radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=file_selection).grid(column=1, row=19, sticky=W)
 
     # Management buttons section
