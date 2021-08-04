@@ -558,13 +558,6 @@ def execute_functions(mainframe, *args): # change to some other function name li
     # Putting the arrays into the gui
     canvas_plotter.plot(mainframe, fig)
     
-    # New plotting method in gui
-##    window = Tk()
-##    window.title('Plotting MACCS files')
-##    window.geometry('1400x900')
-##    canvas_plotter.create_initial_gui(window, fig)
-##    window.mainloop()
-    
     
     plotter_complete_message(title="Plotting Program Complete", message="The plotting program has plotted your desired file!") 
     ### End Putting information gathered together and calling the plotting program! ### -----------------------
@@ -588,34 +581,34 @@ def gui_labels(mainframe):
         mainframe: the ttk frame object to save labels to
     """
     # year_day label
-    ttk.Label(mainframe, text="Year Day:").grid(column=2, row=1, sticky=W)
+    ttk.Label(mainframe, text="Year Day:").grid(column=1, row=2, sticky=W)
 
     # Start time labels
-    ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=2, sticky=W)
-    ttk.Label(mainframe, text="Start Minute:").grid(column=2, row=2, sticky=W)
-    ttk.Label(mainframe, text="Start Second:").grid(column=4, row=2, sticky=W)
+    ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=3, sticky=W)
+    ttk.Label(mainframe, text="Start Minute:").grid(column=1, row=4, sticky=W)
+    ttk.Label(mainframe, text="Start Second:").grid(column=1, row=5, sticky=W)
 
     # End time labels
-    ttk.Label(mainframe, text="End Hour:").grid(column=1, row=3, sticky=W)
-    ttk.Label(mainframe, text="End Minute:").grid(column=2, row=3, sticky=W)
-    ttk.Label(mainframe, text="End Second:").grid(column=4, row=3, sticky=W)
+    ttk.Label(mainframe, text="End Hour:").grid(column=1, row=6, sticky=W)
+    ttk.Label(mainframe, text="End Minute:").grid(column=1, row=7, sticky=W)
+    ttk.Label(mainframe, text="End Second:").grid(column=1, row=8, sticky=W)
 
     # Plot min and max labels
     # X labels
-    ttk.Label(mainframe, text="Plot Min x (leave at 0 for default):").grid(column=1, row=4, sticky=W)
-    ttk.Label(mainframe, text="Plot Max x (leave at 0 for default):").grid(column=1, row=5, sticky=W)
+    ttk.Label(mainframe, text="Plot Min x (leave at 0 for default):").grid(column=1, row=9, sticky=W)
+    ttk.Label(mainframe, text="Plot Max x (leave at 0 for default):").grid(column=1, row=10, sticky=W)
     # Y labels
-    ttk.Label(mainframe, text="Plot Min y (leave at 0 for default):").grid(column=1, row=6, sticky=W)
-    ttk.Label(mainframe, text="Plot Max y (leave at 0 for default):").grid(column=1, row=7, sticky=W)   
+    ttk.Label(mainframe, text="Plot Min y (leave at 0 for default):").grid(column=1, row=11, sticky=W)
+    ttk.Label(mainframe, text="Plot Max y (leave at 0 for default):").grid(column=1, row=12, sticky=W)   
     #Z labels
-    ttk.Label(mainframe, text="Plot Min z (leave at 0 for default):").grid(column=1, row=8, sticky=W)
-    ttk.Label(mainframe, text="Plot Max z (leave at 0 for default):").grid(column=1, row=9, sticky=W)
+    ttk.Label(mainframe, text="Plot Min z (leave at 0 for default):").grid(column=1, row=13, sticky=W)
+    ttk.Label(mainframe, text="Plot Max z (leave at 0 for default):").grid(column=1, row=14, sticky=W)
     
     # Station file label
     ttk.Label(mainframe, text="Station code:").grid(column=1, row=1, sticky=W)
 
     # File format label
-    ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=10, sticky=W)
+    ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=15, sticky=W)
 
 
     # File save as label
@@ -650,83 +643,83 @@ def gui_entries(mainframe, root):
     # year_day entry
     year_day = StringVar() ## storing as a string for now, might change to int later
     year_day_entry = ttk.Entry(mainframe, width=6, textvariable=year_day) # setting a variable with the Entry box format
-    year_day_entry.grid(column=3, row=1, sticky=W) # selecting which column and row to place said variable
+    year_day_entry.grid(column=1, row=2) # selecting which column and row to place said variable
 
     # Start Hour entry
     start_hour = IntVar()
     start_hour.set(0)
     start_hour_entry = ttk.Entry(mainframe, width=3, textvariable=start_hour)
-    start_hour_entry.grid(column=1, row=2)
+    start_hour_entry.grid(column=1, row=3)
 
     # Start Minute entry
     start_minute = IntVar()
     start_minute_entry = ttk.Entry(mainframe, width=3, textvariable=start_minute)
-    start_minute_entry.grid(column=3, row=2, sticky=W)
+    start_minute_entry.grid(column=1, row=4)
 
     # Start Second entry
     start_second = IntVar()
     start_second_entry = ttk.Entry(mainframe, width=3, textvariable=start_second)
-    start_second_entry.grid(column=5, row=2, sticky=W)
+    start_second_entry.grid(column=1, row=5)
 
     # End Hour entry
     end_hour = IntVar()
     end_hour.set(23)
     end_hour_entry = ttk.Entry(mainframe, width=3, textvariable=end_hour)
-    end_hour_entry.grid(column=1, row=3)
+    end_hour_entry.grid(column=1, row=6)
 
     # End Minute entry
     end_minute = IntVar()
     end_minute.set(59)
     end_minute_entry = ttk.Entry(mainframe, width=3, textvariable=end_minute)
-    end_minute_entry.grid(column=3, row=3, sticky=W)
+    end_minute_entry.grid(column=1, row=7)
 
     # End Second entry
     end_second = IntVar()
     end_second.set(59)
     end_second_entry = ttk.Entry(mainframe, width=3, textvariable=end_second)
-    end_second_entry.grid(column=5, row=3, sticky=W)
+    end_second_entry.grid(column=1, row=8)
 
     # Plot min and Plot max entries
     # Plot min and max x
     plot_min_x = IntVar()
     plot_min_x.set(0)
     plot_min_entry_x = ttk.Entry(mainframe, width=3, textvariable=plot_min_x)
-    plot_min_entry_x.grid(column=2, row=4, sticky=W)
+    plot_min_entry_x.grid(column=2, row=9, sticky=W)
     plot_max_x = IntVar()
     plot_max_x.set(0)
     plot_max_entry_x = ttk.Entry(mainframe, width=3, textvariable=plot_max_x)
-    plot_max_entry_x.grid(column=2, row=5, sticky=W)
+    plot_max_entry_x.grid(column=2, row=10, sticky=W)
 
     plot_min_y = IntVar()
     plot_min_y.set(0)
     plot_min_entry_y = ttk.Entry(mainframe, width=3, textvariable=plot_min_y)
-    plot_min_entry_y.grid(column=2, row=6, sticky=W)
+    plot_min_entry_y.grid(column=2, row=11, sticky=W)
     plot_max_y = IntVar()
     plot_max_y.set(0)
     plot_max_entry_y = ttk.Entry(mainframe, width=3, textvariable=plot_max_y)
-    plot_max_entry_y.grid(column=2, row=7, sticky=W)
+    plot_max_entry_y.grid(column=2, row=12, sticky=W)
 
     plot_min_z = IntVar()
     plot_min_z.set(0)
     plot_min_entry_z = ttk.Entry(mainframe, width=3, textvariable=plot_min_z)
-    plot_min_entry_z.grid(column=2, row=8, sticky=W)
+    plot_min_entry_z.grid(column=2, row=13, sticky=W)
     plot_max_z = IntVar()
     plot_max_z.set(0)
     plot_max_entry_z = ttk.Entry(mainframe, width=3, textvariable=plot_max_z)
-    plot_max_entry_z.grid(column=2, row=9,sticky=W)
+    plot_max_entry_z.grid(column=2, row=14,sticky=W)
 
     ### Button section ###
 
     # Radiobutton section
     # file selection of type of file to open
     file_selection = StringVar()
-    radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=file_selection).grid(column=1, row=11, sticky=W)
-    radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=file_selection).grid(column=1, row=12, sticky=W)
-    radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=file_selection).grid(column=1, row=13, sticky=W)
-    radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=file_selection).grid(column=1, row=14, sticky=W)
+    radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=file_selection).grid(column=1, row=15, sticky=W)
+    radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=file_selection).grid(column=1, row=16, sticky=W)
+    radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=file_selection).grid(column=1, row=17, sticky=W)
+    radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=file_selection).grid(column=1, row=18, sticky=W)
     #radio_button_5 = Radiobutton(mainframe, text="AAL-PIP", value=5, variable=file_selection).grid(column=1, row=12, sticky=W)
     #radio_button_6 = Radiobutton(mainframe, text="SPole", value=6, variable=file_selection).grid(column=1, row=13, sticky=W)
-    radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=file_selection).grid(column=1, row=15, sticky=W)
+    radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=file_selection).grid(column=1, row=19, sticky=W)
 
     # file selection of type of file to save it as
     #file_to_save_as = StringVar()
@@ -735,8 +728,8 @@ def gui_entries(mainframe, root):
     #radio_button_10 = Radiobutton(mainframe, text="Do not save", value=10, variable=file_to_save_as).grid(column=1, row=18, sticky=W)
 
     # Management buttons section
-    plot_button = ttk.Button(mainframe, text="Plot", command=lambda: execute_functions(mainframe)).grid(column=2, row = 19, sticky=W)
-    cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=3, row=19, sticky=E)
+    plot_button = ttk.Button(mainframe, text="Plot", command=lambda: execute_functions(mainframe)).grid(column=1, row = 20, sticky=W)
+    cancel_button = ttk.Button(mainframe, text="Cancel", command=lambda: cancel(root)).grid(column=2, row=20, sticky=W)
     
 def main():
     """
