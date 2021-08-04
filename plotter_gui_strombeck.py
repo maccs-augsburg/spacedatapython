@@ -560,7 +560,6 @@ def execute_functions(mainframe, *args): # change to some other function name li
     canvas_plotter.plot(mainframe, fig)
     
     
-    plotter_complete_message(title="Plotting Program Complete", message="The plotting program has plotted your desired file!") 
     ### End Putting information gathered together and calling the plotting program! ### -----------------------
     
 
