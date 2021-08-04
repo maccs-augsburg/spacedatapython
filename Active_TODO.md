@@ -20,18 +20,49 @@ Ted Stuff |
 - Canvas GUI refactor to look like original gui -------------------------------------- |
 - Get cancel button to close both windows instead of just one ------------------------ done |
 - Save as file option buttons? ------------------------------------------------------- |
-- x time axis ------------------------------------------------------------------------ almost done|
-- try plotting with datetime.datetime objects ---------------------------------------- done |
-- more than 8 hours then we use a tick every 2 hours --------------------------------- done |
-- more than 3 hours (less than 8) we use a tick every hour (HH:mm) ------------------- done |
-- less than 3 hours (HH:mm:ss) ------------------------------------------------------- done |
-- implement create_lists_from_clean() function --------------------------------------- done |
-- make main work in raw_to_plot.py file ---------------------------------------------- done |
-- align the labels in GUI to the right side ------------------------------------------ done |
-- fully comment and document everything ---------------------------------------------- |
+- x time axis ------------------------------------------------------------------------ almost done |
 - default file name and save it where it is running ---------------------------------- |
 - default screen size 900 tall and 1400 wide ----------------------------------------- done |
-- add starting time and end time entry boxes to canvas GUI --------------------------- |
+- Implement it in gui ---------------------------------------------------------------- done |
+- No variables for ttk.Label --------------------------------------------------------- done |
+
+- No tilts -------------------------------------------------------------- | 
+- No microsecond -------------------------------------------------------- |
+- Smaller ticks for smaller time periods --------------------------------------------- |
+- 5-6 ticks for smaller numbers ------------------------------------------------------ |
+- walk through lists of floats, and convert them into datetime objects --------------- |
+
+
+- canvas_plotter.py get main working ------------------------------------------------- |
+
+- look over Erik's example class code ------------------------------------------------ |
+Class stuff ------------------------------------------------
+- MUST use self.something
+- class names use java type naming convention ('FmCalc')
+- module follow all lower case and underscore naming conventions
+
+New things -------------------------------------------------
+- *args - set of optional set of arguments
+- Background area different color than the control area
+------------------------------------------------------------
+
+
+class FmCalc():
+	"""
+	Test class
+	"""
+	
+	def __init__(self):
+		self.feet = StringVar()
+		
+	def calculate(self, *args):
+		try:
+			# do something
+
+main:
+	hopeful = FmCalc()
+
+
 
 Not yet required ----------------------------------------------------------------------|
 - implment changes that Erik makes (usually when we merge from main)
