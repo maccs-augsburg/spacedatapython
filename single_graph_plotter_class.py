@@ -85,10 +85,6 @@ class SingleGraphPlotter:
         self.error_message_pop_up( title, message) : 
         
         self.warning_message_pop_up( title, message) : 
-
-        
-        
-
     """
 
     def __init__(self):
@@ -144,8 +140,9 @@ class SingleGraphPlotter:
         ### Entry Boxes Section ###
         ###########################
         # Station file entries
-        self.station_code = StringVar()
-        ttk.Entry(mainframe, width=4, textvariable=self.station_code).grid(column=1, row=1)
+        self.station_code = StringVar('')
+        station_code_entry = ttk.Entry(mainframe, width=4, textvariable=self.station_code)
+        station_code_entry.grid(column=1, row=1)
 
         # year_day entry
         self.year_day = StringVar()
@@ -209,21 +206,21 @@ class SingleGraphPlotter:
         # Radiobutton section
         # file selection of type of file to open
         self.file_selection = StringVar()
-        radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=self.file_selection).grid(column=1, row=15, sticky=W)
-        radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=self.file_selection).grid(column=1, row=16, sticky=W)
-        radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=self.file_selection).grid(column=1, row=17, sticky=W)
+        radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=self.file_selection).grid(column=1, row=16, sticky=W)
+        radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=self.file_selection).grid(column=1, row=17, sticky=W)
+        radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=self.file_selection).grid(column=1, row=18, sticky=W)
         # Add clean section
-        radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=self.file_selection).grid(column=1, row=18, sticky=W)
-        radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=self.file_selection).grid(column=1, row=19, sticky=W)
+        radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=self.file_selection).grid(column=1, row=19, sticky=W)
+        radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=self.file_selection).grid(column=1, row=20, sticky=W)
 
         # Management buttons section
-        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 20, sticky=W)
-        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=20, sticky=E)
+        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=W)
+        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=21)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
 
-        #station_code_entry.focus()
+        station_code_entry.focus()
 
         root.bind("<Return>", self.execute_functions)
 
