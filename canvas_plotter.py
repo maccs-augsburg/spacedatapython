@@ -139,9 +139,17 @@ def main():
 
         # Initializing the filename
         file_name_full = 'PG20212.2hz'
+        file = open(file_name_full, 'rb')
+        stime = datetime.time(hour=0, minute=0, second=0)
+        etime = datetime.time(hour=23, minute=59, second=59)
 
+        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, stime, etime, file_name_full[0:7])
+
+        fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name_full[0:7], stime, etime)
+
+        
         # running the gui creation function
-        create_initial_gui(window, file_name_full)
+        create_initial_gui(window, fig)
 
         # keeping it running
         window.mainloop()
