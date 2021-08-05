@@ -296,7 +296,9 @@ class SingleGraphPlotter:
         if (len(year_day_value) == 0):
             self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
             
-    
+    def error_message_pop_up(self, title, message):
+        messagebox.showerror(title=title, message = "ERROR: " + message)
+        
     def cancel(self, root):
         root.destroy()
 
