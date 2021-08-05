@@ -228,6 +228,10 @@ class SingleGraphPlotter:
         root.mainloop()
 
     def execute_functions(self, mainframe, *args):
+
+        ############################
+        ### Getting User Entries ###
+        ############################
         # year_day entry
         year_day_value = self.year_day.get()
         year_day_entry_check(self, year_day_value)
@@ -262,11 +266,15 @@ class SingleGraphPlotter:
         file_selection_value = file_selection.get()
         file_ending_value = file_format_entry_checker(file_selection_value)
 
-        # Putting info together
+        #######################
+        ### Making the plot ###
+        #######################
+        # file name and time interval string creation
         file_name_full = station_code_value + year_day_value + file_ending_value
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         file_name = station_code_value + year_day_value + time_interval_string
 
+        # trying to open the file
         try:
             file = open(file_name_full, 'rb')
         except:
