@@ -62,8 +62,29 @@ class SingleGraphPlotter:
 
         Instance methods:
 
-        self.execute_functions(self, *args) : --------------
+        self.execute_functions( *args) : --------------
                                              ---------------
+        self.year_day_entry_check( year_day_value) : - not done yet
+
+        self.start_hour_entry_check( self.start_hour.get()) : - not done yet
+        
+        self.start_minute_entry_check( self.start_minute.get()) : - not done yet
+        
+        self.start_second_entry_check( self.start_second.get()) : - not done yet
+
+        self.end_hour_entry_check( self.end_hour.get()) : - not done yet
+        
+        self.end_minute_entry_check( self.end_minute.get()) : - not done yet
+        
+        self.end_second_entry_check( self.end_second.get()) : - not done yet
+
+        self.station_code_entry_check( station_code_value) : - not done yet
+
+        self.file_format_entry_checker( file_selection_value) : - not done yet
+
+        self.error_message_pop_up( title, message) : - not done yet
+
+        
         
 
     """
@@ -207,8 +228,61 @@ class SingleGraphPlotter:
         root.mainloop()
 
     def execute_functions(self, mainframe, *args):
-        print("Passed Here")
-        pass
+        # year_day entry
+        year_day_value = self.year_day.get()
+        year_day_entry_check(self, year_day_value)
+
+        # Start hour, minute, and second entries
+        start_hour_value = start_hour_entry_check(self, self.start_hour.get())
+        start_minute_value = start_minute_entry_check(self, self.start_minute.get())
+        start_second_value = start_second_entry_check(self, self.start_second.get())
+
+        start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
+
+        # End hour, minute and second entries
+        end_hour_value = end_hour_entry_check(end_hour.get())
+        end_minute_value = end_minute_entry_check(end_minute.get())
+        end_second_value = end_second_entry_check(end_second.get())
+
+        end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
+
+        # Plot min and max entries
+        plot_min_value_x = self.plot_min_x.get()
+        plot_max_value_x = self.plot_max_x.get()
+        plot_min_value_y = self.plot_min_y.get()
+        plot_max_value_y = self.plot_max_y.get()
+        plot_min_value_z = self.plot_min_z.get()
+        plot_max_value_z = self.plot_min_z.get()
+
+        # Station code entry
+        station_code_value = self.station_code.get()
+        station_code_entry_check(station_code_value)
+
+        # File Format entry
+        file_selection_value = file_selection.get()
+        file_ending_value = file_format_entry_checker(file_selection_value)
+
+        # Putting info together
+        file_name_full = station_code_value + year_day_value + file_ending_value
+        time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
+        file_name = station_code_value + year_day_value + time_interval_string
+
+        try:
+            file = open(file_name_full, 'rb')
+        except:
+            error_message_pop_up("File open error", "couldn't find and open your file")
+
+        # Creating the arrays
+        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
+                                                                                     end_time_stamp, file_name)
+        # making the time array into datetime objects
+
+        # plotting the arrays
+        fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp,
+                                      end_time_stamp)
+
+        # Putting the arrays into the gui
+        canvas_plotter.plot(mainframe, fig)
     
     def cancel(self, root):
         root.destroy()
