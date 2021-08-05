@@ -33,10 +33,10 @@ Ted Stuff |
 - walk through lists of floats, and convert them into datetime objects --------------- |
 
 
-- canvas_plotter.py get main working ------------------------------------------------- |
+- canvas_plotter.py get main working ------------------------------------------------- done |
 
 - look over Erik's example class code ------------------------------------------------ |
-Class stuff ------------------------------------------------
+Class stuff ------------------------------------------------ working on
 - MUST use self.something
 - class names use java type naming convention ('FmCalc')
 - module follow all lower case and underscore naming conventions
