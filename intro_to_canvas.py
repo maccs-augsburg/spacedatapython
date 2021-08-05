@@ -452,7 +452,7 @@ def plot():
 
     # placing the canvas on the Tkinter window
     canvas.get_tk_widget().grid(column = 5, row = 5, columnspan = 5, rowspan = 20, padx = 15, pady = 10, sticky = (N, W, E, S))
-
+    
 
     
     # creating the Matplotlib toolbar
@@ -591,6 +591,9 @@ def main() :
 
     # dimensions of the main window
     window.geometry("500x500")
+
+    #Color the window so all systems are the same
+    window.configure(bg = 'grey95')
 
     #Call the 
     gui_entries(window)
