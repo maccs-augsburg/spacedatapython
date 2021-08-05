@@ -590,7 +590,7 @@ def main() :
     window.title('Single Graph Plotter')
 
     # dimensions of the main window
-    window.geometry("500x500")
+    window.geometry("1500x600")
 
     #Color the window so all systems are the same
     window.configure(bg = 'grey95')
