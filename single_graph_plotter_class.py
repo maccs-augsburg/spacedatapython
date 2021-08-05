@@ -78,7 +78,7 @@ class SingleGraphPlotter:
         
         self.end_second_entry_check( self.end_second.get()) : - test
 
-        self.station_code_entry_check( station_code_value) : - not done yet
+        self.station_code_entry_check( station_code_value) : - test
 
         self.file_format_entry_checker( file_selection_value) : - not done yet
 
@@ -296,6 +296,14 @@ class SingleGraphPlotter:
         if (len(year_day_value) == 0):
             self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
 
+    def station_code_entry_check(self, station_code_value):
+        # Checking to see if no input was put in the station code entry box
+        if(len(station_code_value) == 0):
+            # show error as no input was received
+            error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
+
+    
+        
     def start_hour_entry_check(self, start_hour_string):
         value = int(start_hour_string)
 
