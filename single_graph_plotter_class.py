@@ -64,25 +64,27 @@ class SingleGraphPlotter:
 
         self.execute_functions( *args) : --------------
                                              ---------------
-        self.year_day_entry_check( year_day_value) : - test
+        self.year_day_entry_check( year_day_value) : 
 
-        self.start_hour_entry_check( self.start_hour.get()) : - test
+        self.start_hour_entry_check( self.start_hour.get()) : 
         
-        self.start_minute_entry_check( self.start_minute.get()) : - test
+        self.start_minute_entry_check( self.start_minute.get()) : 
         
-        self.start_second_entry_check( self.start_second.get()) : - test
+        self.start_second_entry_check( self.start_second.get()) : 
 
-        self.end_hour_entry_check( self.end_hour.get()) : - test
+        self.end_hour_entry_check( self.end_hour.get()) : 
         
-        self.end_minute_entry_check( self.end_minute.get()) : - test
+        self.end_minute_entry_check( self.end_minute.get()) : 
         
-        self.end_second_entry_check( self.end_second.get()) : - test
+        self.end_second_entry_check( self.end_second.get()) : 
 
-        self.station_code_entry_check( station_code_value) : - test
+        self.station_code_entry_check( station_code_value) : 
 
-        self.file_format_entry_checker( file_selection_value) : - test
+        self.file_format_entry_check( file_selection_value) : 
 
-        self.error_message_pop_up( title, message) : - test
+        self.error_message_pop_up( title, message) : 
+        
+        self.warning_message_pop_up( title, message) : 
 
         
         
@@ -232,21 +234,25 @@ class SingleGraphPlotter:
         ############################
         ### Getting User Entries ###
         ############################
+        # Station code entry
+        station_code_value = self.station_code.get()
+        self.station_code_entry_check( station_code_value)
+        
         # year_day entry
         year_day_value = self.year_day.get()
         self.year_day_entry_check(year_day_value)
 
         # Start hour, minute, and second entries
-        start_hour_value = start_hour_entry_check(self, self.start_hour.get())
-        start_minute_value = start_minute_entry_check(self, self.start_minute.get())
-        start_second_value = start_second_entry_check(self, self.start_second.get())
+        start_hour_value = self.start_hour_entry_check( self.start_hour.get())
+        start_minute_value = self.start_minute_entry_check( self.start_minute.get())
+        start_second_value = self.start_second_entry_check( self.start_second.get())
 
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
 
         # End hour, minute and second entries
-        end_hour_value = end_hour_entry_check(end_hour.get())
-        end_minute_value = end_minute_entry_check(end_minute.get())
-        end_second_value = end_second_entry_check(end_second.get())
+        end_hour_value = self.end_hour_entry_check( self.end_hour.get())
+        end_minute_value = self.end_minute_entry_check( self.end_minute.get())
+        end_second_value = self.end_second_entry_check( self.end_second.get())
 
         end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
 
@@ -258,13 +264,9 @@ class SingleGraphPlotter:
         plot_min_value_z = self.plot_min_z.get()
         plot_max_value_z = self.plot_min_z.get()
 
-        # Station code entry
-        station_code_value = self.station_code.get()
-        station_code_entry_check(station_code_value)
-
         # File Format entry
-        file_selection_value = file_selection.get()
-        file_ending_value = file_format_entry_checker(file_selection_value)
+        file_selection_value = self.file_selection.get()
+        file_ending_value = self.file_format_entry_check( file_selection_value)
 
         #######################
         ### Making the plot ###
@@ -278,7 +280,7 @@ class SingleGraphPlotter:
         try:
             file = open(file_name_full, 'rb')
         except:
-            error_message_pop_up("File open error", "couldn't find and open your file")
+            self.error_message_pop_up("File open error", "couldn't find and open your file")
 
         # Creating the arrays
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
@@ -300,7 +302,7 @@ class SingleGraphPlotter:
         # Checking to see if no input was put in the station code entry box
         if(len(station_code_value) == 0):
             # show error as no input was received
-            error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
+            self.error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
 
     def file_format_entry_check(self, file_selection_value):
         # Setting the initial file ending value to an empty string
@@ -309,17 +311,17 @@ class SingleGraphPlotter:
         # Testing to see if user selected CDA-Web branch
         if(file_selection_value == '1'):
             # CDA-Web branch (NOT IMPLEMENTED)
-            warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+            self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
         # Testing to see if user selected IAGA2000 branch
         elif(file_selection_value == '2'):
             #IAGA2000 branch (NOT IMPLEMENTED)
-            warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+            self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
         # Testing to see if user selected IAGA2002 branch
         elif(file_selection_value == '3'):
             #IAGA2002 branch (NOT IMPLEMENTED)
-            warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+            self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
         # Testing to see if user selected Raw 2hz branch
         elif(file_selection_value == '4'):
@@ -329,12 +331,12 @@ class SingleGraphPlotter:
         # Testing to see if user selected other branch
         elif(file_selection_value == '7'):
             #Other option branch (NOT IMPLEMENTED YET) -- for now just show warning message and exit
-            warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+            self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
         # Otherwise we can assume that no option had been selected
         else:
             # Message box error when no file format option has been selected
-            error_message_pop_up(title="File format option error", message="Please select a file format option")
+            self.error_message_pop_up(title="File format option error", message="Please select a file format option")
 
         # Returning the string of the file type to be used
         return file_ending_value
@@ -343,13 +345,13 @@ class SingleGraphPlotter:
         value = int(start_hour_string)
 
         if(value > 23):
-        # Have error message box pop up because it can't be more than 23
-        error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
+            # Have error message box pop up because it can't be more than 23
+            self.error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
         
         # Testing to see if the inputted value is less than what it can be
         elif(value < 0):
             # Have error message box pop up because it can't be a negative number
-            error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
+            self.error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
 
         # Returning the start_hour_string so that whatever changes we made to it get returned
         return value
@@ -358,13 +360,13 @@ class SingleGraphPlotter:
         value = int(start_minute_string)
 
         if(value > 59):
-        # Have error messsage box pop up becuase it can't be more than 59
-        error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
+            # Have error messsage box pop up becuase it can't be more than 59
+            self.error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
 
         # Testing to see if the inputted value is less than what it can be
         elif(value < 0):
             # Have error message box pop up because it can't be a negative number
-            error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
+            self.error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
 
         # Returning the start_minute_string so whatever changes we made to it get returned
         return value
@@ -373,13 +375,13 @@ class SingleGraphPlotter:
         value = int(start_second_string)
 
         if(value > 59):
-        # Have error messsage box pop up becuase it can't be more than 59
-        error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
+            # Have error messsage box pop up becuase it can't be more than 59
+            self.error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
 
         # Testing to see if the inputted value is less than what it can be
         elif(value < 0):
             # Have error message box pop up because it can't be a negative number
-            error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
+            self.error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
 
         # Returning the start_second_string so whatever changes we made to it get returned
         return value
@@ -390,12 +392,12 @@ class SingleGraphPlotter:
         # Testing to see if the inputted value exceeds what it can be
         if(value > 23):
             # Have error message box pop up because it can't be more than 23
-            error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
+            self.error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
 
         # Testing to see if the inputted value is less than what it can be
         elif(value < 0):
             # Have error message box pop up because it can't be a negative number
-            error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
+            self.error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
 
         # Returning the end_hour_string so whatever changes we made to it get returned
         return value
@@ -406,12 +408,12 @@ class SingleGraphPlotter:
         # Testing to see if the inputted value exceeds what it can be
         if(value > 59):
             #Have error messsage box pop up becuase it can't be more than 59
-            error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
+            self.error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
 
         # Testing to see if the inputted value is less than what it can be
         elif(value < 0):
             # Have error message box pop up because it can't be a negative number
-            error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
+            self.error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
 
         # Returning the end_minute_string so whatever changes we made to it get returned
         return value
@@ -422,12 +424,12 @@ class SingleGraphPlotter:
         # Testing to see if the inputted value exceeds what it can be
         if(value > 59):
             # Have error messsage box pop up becuase it can't be more than 59
-            error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
+            self.error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
 
         # Testing to see if the inputted value is less than what it can be
         elif(value < 0):
             # Have error message box pop up because it can't be a negative number
-            error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
+            self.error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
 
         # Returning the end_second_string so whatever changes we made to it get returned
         return value
@@ -435,6 +437,10 @@ class SingleGraphPlotter:
         
     def error_message_pop_up(self, title, message):
         messagebox.showerror(title=title, message = "ERROR: " + message)
+        sys.exit(0)
+
+    def warning_message_pop_up(self, title, message):
+        messagebox.showwarning(title=title, message="WARNING: " + message)
         
     def cancel(self, root):
         root.destroy()
