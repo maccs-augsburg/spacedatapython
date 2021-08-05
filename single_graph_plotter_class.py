@@ -56,7 +56,7 @@ class SingleGraphPlotter:
         pass
 
 def main():
-    pass
+    hopefully_works = SingleGraphPlotter()
 
 if __name__ = "__main__":
     main()
