@@ -210,8 +210,8 @@ class SingleGraphPlotter:
         print("Passed Here")
         pass
     
-    def cancel(root):
-        pass
+    def cancel(self, root):
+        root.destroy()
 
 def main():
     hopefully_works = SingleGraphPlotter()
