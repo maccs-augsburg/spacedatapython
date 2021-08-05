@@ -66,23 +66,23 @@ class SingleGraphPlotter:
                                              ---------------
         self.year_day_entry_check( year_day_value) : - test
 
-        self.start_hour_entry_check( self.start_hour.get()) : - not done yet
+        self.start_hour_entry_check( self.start_hour.get()) : - test
         
-        self.start_minute_entry_check( self.start_minute.get()) : - not done yet
+        self.start_minute_entry_check( self.start_minute.get()) : - test
         
-        self.start_second_entry_check( self.start_second.get()) : - not done yet
+        self.start_second_entry_check( self.start_second.get()) : - test
 
-        self.end_hour_entry_check( self.end_hour.get()) : - not done yet
+        self.end_hour_entry_check( self.end_hour.get()) : - test
         
-        self.end_minute_entry_check( self.end_minute.get()) : - not done yet
+        self.end_minute_entry_check( self.end_minute.get()) : - test
         
-        self.end_second_entry_check( self.end_second.get()) : - not done yet
+        self.end_second_entry_check( self.end_second.get()) : - test
 
         self.station_code_entry_check( station_code_value) : - not done yet
 
         self.file_format_entry_checker( file_selection_value) : - not done yet
 
-        self.error_message_pop_up( title, message) : - working on
+        self.error_message_pop_up( title, message) : - test
 
         
         
@@ -234,7 +234,7 @@ class SingleGraphPlotter:
         ############################
         # year_day entry
         year_day_value = self.year_day.get()
-        year_day_entry_check(self, year_day_value)
+        self.year_day_entry_check(year_day_value)
 
         # Start hour, minute, and second entries
         start_hour_value = start_hour_entry_check(self, self.start_hour.get())
@@ -295,7 +295,101 @@ class SingleGraphPlotter:
     def year_day_entry_check(self, year_day_value):
         if (len(year_day_value) == 0):
             self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
-            
+
+    def start_hour_entry_check(self, start_hour_string):
+        value = int(start_hour_string)
+
+        if(value > 23):
+        # Have error message box pop up because it can't be more than 23
+        error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
+        
+        # Testing to see if the inputted value is less than what it can be
+        elif(value < 0):
+            # Have error message box pop up because it can't be a negative number
+            error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
+
+        # Returning the start_hour_string so that whatever changes we made to it get returned
+        return value
+
+    def start_minute_entry_check(self, start_minute_string):
+        value = int(start_minute_string)
+
+        if(value > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
+
+        # Testing to see if the inputted value is less than what it can be
+        elif(value < 0):
+            # Have error message box pop up because it can't be a negative number
+            error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
+
+        # Returning the start_minute_string so whatever changes we made to it get returned
+        return value
+        
+    def start_second_entry_check(self, start_second_string):
+        value = int(start_second_string)
+
+        if(value > 59):
+        # Have error messsage box pop up becuase it can't be more than 59
+        error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
+
+        # Testing to see if the inputted value is less than what it can be
+        elif(value < 0):
+            # Have error message box pop up because it can't be a negative number
+            error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
+
+        # Returning the start_second_string so whatever changes we made to it get returned
+        return value
+
+    def end_hour_entry_check(self, end_hour_string):
+        value = int(end_hour_string)
+
+        # Testing to see if the inputted value exceeds what it can be
+        if(value > 23):
+            # Have error message box pop up because it can't be more than 23
+            error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
+
+        # Testing to see if the inputted value is less than what it can be
+        elif(value < 0):
+            # Have error message box pop up because it can't be a negative number
+            error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
+
+        # Returning the end_hour_string so whatever changes we made to it get returned
+        return value
+
+    def end_minute_entry_check(self, end_minute_string):
+        value = int(end_minute_string)
+
+        # Testing to see if the inputted value exceeds what it can be
+        if(value > 59):
+            #Have error messsage box pop up becuase it can't be more than 59
+            error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
+
+        # Testing to see if the inputted value is less than what it can be
+        elif(value < 0):
+            # Have error message box pop up because it can't be a negative number
+            error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
+
+        # Returning the end_minute_string so whatever changes we made to it get returned
+        return value
+
+    def end_second_entry_check(self, end_second_string):
+        value = int(end_second_string)
+
+        # Testing to see if the inputted value exceeds what it can be
+        if(value > 59):
+            # Have error messsage box pop up becuase it can't be more than 59
+            error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
+
+        # Testing to see if the inputted value is less than what it can be
+        elif(value < 0):
+            # Have error message box pop up because it can't be a negative number
+            error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
+
+        # Returning the end_second_string so whatever changes we made to it get returned
+        return value
+    
+        
     def error_message_pop_up(self, title, message):
         messagebox.showerror(title=title, message = "ERROR: " + message)
         
