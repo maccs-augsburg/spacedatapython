@@ -194,8 +194,8 @@ class SingleGraphPlotter:
         radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=self.file_selection).grid(column=1, row=19, sticky=W)
 
         # Management buttons section
-        self.plot_button = ttk.Button(mainframe, text="Plot", command=lambda: execute_functions(mainframe)).grid(column=1, row = 20, sticky=W)
-        self.quit_button = ttk.Button(mainframe, text="Quit", command=lambda: cancel(root)).grid(column=1, row=20, sticky=E)
+        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 20, sticky=W)
+        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=20, sticky=E)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
@@ -206,7 +206,11 @@ class SingleGraphPlotter:
 
         root.mainloop()
 
-    def execute_functions(self, *args):
+    def execute_functions(self, mainframe, *args):
+        print("Passed Here")
+        pass
+    
+    def cancel(root):
         pass
 
 def main():
