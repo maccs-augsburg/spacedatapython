@@ -63,10 +63,7 @@ class SingleGraphPlotter:
         Instance methods:
 
         self.execute_functions(self, *args) : --------------
-                                        ---------------
-        self.gui_entries(self, mainframe, root) : -----
-                                                -------
-        self.
+                                             ---------------
         
 
     """
@@ -80,23 +77,45 @@ class SingleGraphPlotter:
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
 
-        gui_labels(self, mainframe)
+        ######################
+        ### Labels Section ###
+        ######################
+        # year_day label
+        ttk.Label(mainframe, text="Year Day:").grid(column=1, row=2, sticky=W)
 
-        gui_entries(self, mainframe, root)
+        # Start time labels
+        ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=3, sticky=W)
+        ttk.Label(mainframe, text="Start Minute:").grid(column=1, row=4, sticky=W)
+        ttk.Label(mainframe, text="Start Second:").grid(column=1, row=5, sticky=W)
+
+        # End time labels
+        ttk.Label(mainframe, text="End Hour:").grid(column=1, row=6, sticky=W)
+        ttk.Label(mainframe, text="End Minute:").grid(column=1, row=7, sticky=W)
+        ttk.Label(mainframe, text="End Second:").grid(column=1, row=8, sticky=W)
+
+        # Plot min and max labels
+        # X labels
+        ttk.Label(mainframe, text="Plot Min x:").grid(column=1, row=9, sticky=W)
+        ttk.Label(mainframe, text="Plot Max x:").grid(column=1, row=10, sticky=W)
+        # Y labels
+        ttk.Label(mainframe, text="Plot Min y:").grid(column=1, row=11, sticky=W)
+        ttk.Label(mainframe, text="Plot Max y:").grid(column=1, row=12, sticky=W)   
+        #Z labels
+        ttk.Label(mainframe, text="Plot Min z:").grid(column=1, row=13, sticky=W)
+        ttk.Label(mainframe, text="Plot Max z:").grid(column=1, row=14, sticky=W)
         
-        for child in mainframe.winfo_children(): 
-            child.grid_configure(padx=5, pady=5)
+        # Station file label
+        ttk.Label(mainframe, text="Station code:").grid(column=1, row=1, sticky=W)
 
-        #station_code_entry.focus()
+        # File format label
+        ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=15, sticky=W)
 
-        root.bind("<Return>", self.execute_functions)
-
-        root.mainloop()
-
-    def gui_labels(self, mainframe):
-        pass
-
-    def gui_entries(self, mainframe, root):
+        # setting the image to be the maccs logo
+        image=Image.open('maccslogo_870.jpeg')
+        image_file = ImageTk.PhotoImage(image)
+        image_label = ttk.Label(mainframe, image=image_file)
+        image_label.image = image_file
+        image_label.grid(column=5,row=1, columnspan=20, rowspan=30)
 
         ###########################
         ### Entry Boxes Section ###
@@ -162,7 +181,7 @@ class SingleGraphPlotter:
         ttk.Entry(mainframe, width=3, textvariable=self.plot_max_z).grid(column=1, row=14)
 
         ######################
-        ### Button section ###
+        ### Button Section ###
         ######################
         # Radiobutton section
         # file selection of type of file to open
@@ -178,6 +197,14 @@ class SingleGraphPlotter:
         self.plot_button = ttk.Button(mainframe, text="Plot", command=lambda: execute_functions(mainframe)).grid(column=1, row = 20, sticky=W)
         self.quit_button = ttk.Button(mainframe, text="Quit", command=lambda: cancel(root)).grid(column=1, row=20, sticky=E)
         
+        for child in mainframe.winfo_children(): 
+            child.grid_configure(padx=5, pady=5)
+
+        #station_code_entry.focus()
+
+        root.bind("<Return>", self.execute_functions)
+
+        root.mainloop()
 
     def execute_functions(self, *args):
         pass
@@ -185,5 +212,5 @@ class SingleGraphPlotter:
 def main():
     hopefully_works = SingleGraphPlotter()
 
-if __name__ = "__main__":
+if __name__ == "__main__":
     main()
