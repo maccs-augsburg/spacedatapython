@@ -2,8 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
-#NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
 import matplotlib.pyplot as plt
 
@@ -456,11 +455,13 @@ def plot():
 
     
     # creating the Matplotlib toolbar
-    #toolbar = NavigationToolbar2Tk(canvas, window)
+    toolbar_frame = Frame(window)
+    toolbar_frame.grid(row = 25, column = 1, sticky = (W))
+    toolbar = NavigationToolbar2Tk(canvas, toolbar_frame)
     #toolbar.update()
 
     # placing the toolbar on the Tkinter window
-    #canvas.get_tk_widget().grid(column = 2, row = 15, sticky = (N, W, E, S))
+    #canvas.get_tk_widget().grid(column = 3, row = 22, sticky = (N, W, E, S))
 
 def gui_entries(window) :
     """
