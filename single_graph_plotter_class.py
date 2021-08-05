@@ -64,7 +64,7 @@ class SingleGraphPlotter:
 
         self.execute_functions( *args) : --------------
                                              ---------------
-        self.year_day_entry_check( year_day_value) : - not done yet
+        self.year_day_entry_check( year_day_value) : - test
 
         self.start_hour_entry_check( self.start_hour.get()) : - not done yet
         
@@ -82,7 +82,7 @@ class SingleGraphPlotter:
 
         self.file_format_entry_checker( file_selection_value) : - not done yet
 
-        self.error_message_pop_up( title, message) : - not done yet
+        self.error_message_pop_up( title, message) : - working on
 
         
         
@@ -291,6 +291,11 @@ class SingleGraphPlotter:
 
         # Putting the arrays into the gui
         canvas_plotter.plot(mainframe, fig)
+
+    def year_day_entry_check(self, year_day_value):
+        if (len(year_day_value) == 0):
+            self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
+            
     
     def cancel(self, root):
         root.destroy()
