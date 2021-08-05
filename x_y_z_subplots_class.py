@@ -1,4 +1,4 @@
-# single_graph_plotter_class
+# x_y_z_subplots_class.py
 #
 # August 2021 -- Created -- Ted Strombeck
 #
