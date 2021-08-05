@@ -80,7 +80,7 @@ class SingleGraphPlotter:
 
         self.station_code_entry_check( station_code_value) : - test
 
-        self.file_format_entry_checker( file_selection_value) : - not done yet
+        self.file_format_entry_checker( file_selection_value) : - test
 
         self.error_message_pop_up( title, message) : - test
 
@@ -302,7 +302,42 @@ class SingleGraphPlotter:
             # show error as no input was received
             error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
 
-    
+    def file_format_entry_check(self, file_selection_value):
+        # Setting the initial file ending value to an empty string
+        file_ending_value = ''
+
+        # Testing to see if user selected CDA-Web branch
+        if(file_selection_value == '1'):
+            # CDA-Web branch (NOT IMPLEMENTED)
+            warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+
+        # Testing to see if user selected IAGA2000 branch
+        elif(file_selection_value == '2'):
+            #IAGA2000 branch (NOT IMPLEMENTED)
+            warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+
+        # Testing to see if user selected IAGA2002 branch
+        elif(file_selection_value == '3'):
+            #IAGA2002 branch (NOT IMPLEMENTED)
+            warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+
+        # Testing to see if user selected Raw 2hz branch
+        elif(file_selection_value == '4'):
+            #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
+            file_ending_value = '.2hz'
+
+        # Testing to see if user selected other branch
+        elif(file_selection_value == '7'):
+            #Other option branch (NOT IMPLEMENTED YET) -- for now just show warning message and exit
+            warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+
+        # Otherwise we can assume that no option had been selected
+        else:
+            # Message box error when no file format option has been selected
+            error_message_pop_up(title="File format option error", message="Please select a file format option")
+
+        # Returning the string of the file type to be used
+        return file_ending_value
         
     def start_hour_entry_check(self, start_hour_string):
         value = int(start_hour_string)
