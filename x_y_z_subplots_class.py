@@ -349,6 +349,20 @@ class SingleGraphPlotter:
             self.error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
 
     def file_format_entry_check(self, file_selection_value):
+        """
+        Checks the file_selection_entry value and either pops up a message if input was bad or specifies the ending value of the filename which specifies which type of file to use
+
+        Parameters
+        ----------
+        String
+            file_selection_value: the value that was inputted into the file_selection_entry box
+
+        Returns
+        -------
+        String
+            file_ending_value: the value that specifies the type of file to use
+            
+        """
         # Setting the initial file ending value to an empty string
         file_ending_value = ''
 
