@@ -57,29 +57,29 @@ class SingleGraphPlotter:
 
         Instance methods:
 
-        self.execute_functions( *args) : --------------
-                                             ---------------
-        self.year_day_entry_check( year_day_value) : 
-
-        self.start_hour_entry_check( self.start_hour.get()) : 
+        self.execute_functions( mainframe, *args) : reads in user entries in entry boxes in the gui and calls other functions to plot the results based on the user input
         
-        self.start_minute_entry_check( self.start_minute.get()) : 
-        
-        self.start_second_entry_check( self.start_second.get()) : 
+        self.year_day_entry_check( year_day_value) : reads the inputted year_day_value and checks to see if there was a value inputted in the entry box
 
-        self.end_hour_entry_check( self.end_hour.get()) : 
+        self.start_hour_entry_check( self.start_hour.get()) : reads the inputted hour value, converts it to an integer and checks to see if it is in the correct range
         
-        self.end_minute_entry_check( self.end_minute.get()) : 
+        self.start_minute_entry_check( self.start_minute.get()) : reads the inputted minute value, converts it to an integer and checks to see if it is in the correct range
         
-        self.end_second_entry_check( self.end_second.get()) : 
+        self.start_second_entry_check( self.start_second.get()) : reads the inputted second value, converts it to an integer and checks to see if it is in the correct range
 
-        self.station_code_entry_check( station_code_value) : 
-
-        self.file_format_entry_check( file_selection_value) : 
-
-        self.error_message_pop_up( title, message) : 
+        self.end_hour_entry_check( self.end_hour.get()) : reads the inputted hour value, converts it to an integer and checks to see if it is in the correct range
         
-        self.warning_message_pop_up( title, message) :
+        self.end_minute_entry_check( self.end_minute.get()) : reads the inputted minute value, converts it to an integer and checks to see if it is in the correct range
+        
+        self.end_second_entry_check( self.end_second.get()) : reads the inputted second value, converts it to an integer and checks to see if it is in the correct range
+
+        self.station_code_entry_check( station_code_value) : reads the inputted station_code_value and checks to see if there was a value inputted in the entry box
+
+        self.file_format_entry_check( file_selection_value) : reads the inputted file_selection_value and sets the correct file_ending_value for the type of file selected 
+
+        self.error_message_pop_up( title, message) : creates an error pop up message box with the given title and message
+        
+        self.warning_message_pop_up( title, message) : creates a warning pop up message box with the given title and message
 
         self.convert_hours_list_to_datetime_object( list_to_convert) : - Not yet implemented
     """
