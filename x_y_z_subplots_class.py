@@ -85,6 +85,7 @@ class SingleGraphPlotter:
     """
 
     def __init__(self):
+        # Initializing window object and specifying settings
         root = Tk()
         root.geometry('1400x800')
         root.title("Plot input")
@@ -183,6 +184,7 @@ class SingleGraphPlotter:
         self.plot_max_x.set(0)
         ttk.Entry(mainframe, width=3, textvariable=self.plot_max_x).grid(column=1, row=10)
 
+        # Plot min and max y
         self.plot_min_y = IntVar()
         self.plot_min_y.set(0)
         ttk.Entry(mainframe, width=3, textvariable=self.plot_min_y).grid(column=1, row=11)
@@ -190,6 +192,7 @@ class SingleGraphPlotter:
         self.plot_max_y.set(0)
         ttk.Entry(mainframe, width=3, textvariable=self.plot_max_y).grid(column=1, row=12)
 
+        # Plot min and max z
         self.plot_min_z = IntVar()
         self.plot_min_z.set(0)
         ttk.Entry(mainframe, width=3, textvariable=self.plot_min_z).grid(column=1, row=13)
@@ -217,10 +220,13 @@ class SingleGraphPlotter:
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
 
+        # starting tab control on the station code entry box
         station_code_entry.focus()
 
+        # Binding the return key to the execute function
         root.bind("<Return>", self.execute_functions)
 
+        # Keeping the program running
         root.mainloop()
 
     def execute_functions(self, mainframe, *args):
