@@ -305,7 +305,6 @@ class SingleGraphPlotter:
         canvas_plotter.plot(mainframe, fig)
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
-
         converted_list = []
         
         for i in range(len(list_to_convert)):
@@ -323,6 +322,15 @@ class SingleGraphPlotter:
         return converted_list
             
     def year_day_entry_check(self, year_day_value):
+        """
+        Checks the year day entry value to see if there was a value inputted for the yearday entry box
+
+        Parameters
+        ----------
+        String
+            year_day_value: the value that was inputted into the year_day_entry box
+        """
+        # Checking to see if any input was put in the yearday entry box
         if (len(year_day_value) == 0):
             self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
 
