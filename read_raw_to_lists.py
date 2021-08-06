@@ -4,7 +4,6 @@
 #  axes and a list of times.
 #
 #  2021 July  -- Created  -- Erik Steinmetz
-#  2021 August -- Modified -- Ted Strombeck
 #
 
 # Python 3 imports
