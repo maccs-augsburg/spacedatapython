@@ -85,6 +85,10 @@ class SingleGraphPlotter:
     """
 
     def __init__(self):
+        """ Initialization of the gui
+
+        Creates the gui's buttons, labels and displays the MACCS Logo in the window to initialize the gui.
+        """
         # Initializing window object and specifying settings
         root = Tk()
         root.geometry('1400x800')
@@ -230,6 +234,9 @@ class SingleGraphPlotter:
         root.mainloop()
 
     def execute_functions(self, mainframe, *args):
+        """
+        Obtains the values entered in the GUI and runs the plotting program with the inputted values
+        """
 
         ############################
         ### Getting User Entries ###
@@ -247,6 +254,7 @@ class SingleGraphPlotter:
         start_minute_value = self.start_minute_entry_check( self.start_minute.get())
         start_second_value = self.start_second_entry_check( self.start_second.get())
 
+        # creating the start time stamp
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
 
         # End hour, minute and second entries
@@ -254,6 +262,7 @@ class SingleGraphPlotter:
         end_minute_value = self.end_minute_entry_check( self.end_minute.get())
         end_second_value = self.end_second_entry_check( self.end_second.get())
 
+        # creating the end time stamp
         end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
 
         # Plot min and max entries
@@ -280,12 +289,13 @@ class SingleGraphPlotter:
         try:
             file = open(file_name_full, 'rb')
         except:
+            # popping up an error if we can't open the file
             self.error_message_pop_up("File open error", "couldn't find and open your file")
 
         # Creating the arrays
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
                                                                                      end_time_stamp, file_name)
-        # making the time array into datetime objects
+        # making the time array into datetime objects -- Not done yet
         
         # plotting the arrays
         fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp,
