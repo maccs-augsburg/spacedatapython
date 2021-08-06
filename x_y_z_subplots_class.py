@@ -21,43 +21,38 @@ import canvas_plotter
 
 class SingleGraphPlotter:
     """ A class containing a GUI for a single graph, x, y, and z plotter.
-
+        
         Instance properties:
 
-        self.station_code : --------
-                          ----------
-        self.year_day : ------------
-                      --------------
-        self.start_hour : ----------
-                        ------------
-        self.start_minute : --------
-                          ----------
-        self.start_second : --------
-                          ----------
-        self.end_hour : ------------
-                      --------------
-        self.end_minute : ----------
-                        ------------
-        self.end_second : ----------
-                        ------------
-        self.plot_min_x : ----------
-                        ------------
-        self.plot_max_x : ----------
-                        ------------
-        self.plot_min_y : ----------
-                        ------------
-        self.plot_max_y : ----------
-                        ------------
-        self.plot_min_z : ----------
-                        ------------
-        self.plot_max_z : ----------
-                        ------------
-        self.file_selection : ------
-                            --------
-        self.plot_button : ---------
-                         -----------
-        self.quit_button : ---------
-                         -----------
+        self.station_code : A StringVar that keeps track of the 2 Letter station code
+        
+        self.year_day : A StringVar that keeps track of the year and the day of the year in the format: YYDDD
+        
+        self.start_hour : An IntVar that keeps track of the starting hour
+        
+        self.start_minute : An IntVar that keeps track of the starting minute
+        
+        self.start_second : An IntVar that keeps track of the starting second
+        
+        self.end_hour : An IntVar that keeps track of the ending hour 
+        
+        self.end_minute : An IntVar that keeps track of the ending minute
+        
+        self.end_second : An IntVar that keeps track of the ending second
+        
+        self.plot_min_x : An IntVar that keeps track of the minimum x value to plot (leave 0 for default x values)
+        
+        self.plot_max_x : An IntVar that keeps track of the maximum x value to plot (leave 0 for default x values)
+        
+        self.plot_min_y : An IntVar that keeps track of the minimum y value to plot (leave 0 for default y values)
+        
+        self.plot_max_y : An IntVar that keeps track of the maximum y value to plot (leave 0 for default y values)
+        
+        self.plot_min_z : An IntVar that keeps track of the minimum z value to plot (leave 0 for default z values)
+        
+        self.plot_max_z : An IntVar that keeps track of the maximum z value to plot (leave 0 for default z values)
+        
+        self.file_selection : A StringVar that sets the correct file ending value based on what type of file is being handed over by the user to plot
         
 
         Instance methods:
@@ -142,7 +137,7 @@ class SingleGraphPlotter:
         ### Entry Boxes Section ###
         ###########################
         # Station file entries
-        self.station_code = StringVar('')
+        self.station_code = StringVar()
         station_code_entry = ttk.Entry(mainframe, width=4, textvariable=self.station_code)
         station_code_entry.grid(column=1, row=1)
 
@@ -309,7 +304,6 @@ class SingleGraphPlotter:
 
             converted_list.append(datetime.datetime(year=1111, month=1, day=1, hour=hour, minute=minute, second=second))
             
-
         return converted_list
             
     def year_day_entry_check(self, year_day_value):
