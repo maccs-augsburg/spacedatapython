@@ -20,49 +20,28 @@ Ted Stuff |
 - Canvas GUI refactor to look like original gui -------------------------------------- |
 - Get cancel button to close both windows instead of just one ------------------------ done |
 - Save as file option buttons? ------------------------------------------------------- |
-- x time axis ------------------------------------------------------------------------ almost done |
+- x time axis ------------------------------------------------------------------------ just adjust |
 - default file name and save it where it is running ---------------------------------- |
 - default screen size 900 tall and 1400 wide ----------------------------------------- done |
 - Implement it in gui ---------------------------------------------------------------- done |
 - No variables for ttk.Label --------------------------------------------------------- done |
 
-- No tilts -------------------------------------------------------------- | 
-- No microsecond -------------------------------------------------------- |
+- No tilts -------------------------------------------------------------- done | 
+- No microsecond -------------------------------------------------------- done |
 - Smaller ticks for smaller time periods --------------------------------------------- |
 - 5-6 ticks for smaller numbers ------------------------------------------------------ |
-- walk through lists of floats, and convert them into datetime objects --------------- |
+- walk through lists of floats, and convert them into datetime objects --------------- working on|
 
 
 - canvas_plotter.py get main working ------------------------------------------------- done |
 
 - look over Erik's example class code ------------------------------------------------ |
-Class stuff ------------------------------------------------ working on
-- MUST use self.something
-- class names use java type naming convention ('FmCalc')
-- module follow all lower case and underscore naming conventions
+Class stuff ------------------------------------------------ done
 
 New things -------------------------------------------------
-- *args - set of optional set of arguments
+- *args - set of optional set of arguments - done
 - Background area different color than the control area
 ------------------------------------------------------------
-
-
-class FmCalc():
-	"""
-	Test class
-	"""
-	
-	def __init__(self):
-		self.feet = StringVar()
-		
-	def calculate(self, *args):
-		try:
-			# do something
-
-main:
-	hopeful = FmCalc()
-
-
 
 Not yet required ----------------------------------------------------------------------|
 - implment changes that Erik makes (usually when we merge from main)
