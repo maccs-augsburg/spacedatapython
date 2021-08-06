@@ -335,6 +335,14 @@ class SingleGraphPlotter:
             self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
 
     def station_code_entry_check(self, station_code_value):
+        """
+        Checks the station_code_entry value and pops up an error message if it isn't a good entry
+
+        Parameters
+        ----------
+        String
+            station_code_value: the value that was inputted into the station_code_entry box
+        """
         # Checking to see if no input was put in the station code entry box
         if(len(station_code_value) == 0):
             # show error as no input was received
