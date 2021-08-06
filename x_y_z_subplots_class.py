@@ -400,6 +400,20 @@ class SingleGraphPlotter:
         return file_ending_value
         
     def start_hour_entry_check(self, start_hour_string):
+        """
+        Checks the start hour entry value and pops up an error message if it isn't a good entry
+
+        Parameters
+        ----------
+        String
+            start_hour_string: the value that was inputted into the start_hour_entry box
+
+        Returns
+        -------
+        Int
+            value: the int version of the inputted value in the start_hour_entry box
+        """
+        # making sure the inputted value is an int not a float
         value = int(start_hour_string)
 
         if(value > 23):
@@ -415,6 +429,20 @@ class SingleGraphPlotter:
         return value
 
     def start_minute_entry_check(self, start_minute_string):
+        """
+        Checks the start minute entry value and pops up an error message if it isn't a good entry
+
+        Parameters
+        ----------
+        String
+            start_minute_string: the value that was inputted into the start_minute_entry box
+
+        Returns
+        -------
+        Int
+            value: the inputted value in the start_minute_entry box
+        """
+        # making sure the inputted value is an int not a float
         value = int(start_minute_string)
 
         if(value > 59):
@@ -430,6 +458,20 @@ class SingleGraphPlotter:
         return value
         
     def start_second_entry_check(self, start_second_string):
+        """
+        Checks the start second entry value and pops up an error message if it isn't a good entry
+
+        Parameters
+        ----------
+        String
+            start_second_string: the value that was inputted into the start_second_entry box
+
+        Returns
+        -------
+        Int
+            value: the inputted value in the start_second_entry box
+        """
+        # making sure the inputted value is an int not a float
         value = int(start_second_string)
 
         if(value > 59):
@@ -445,6 +487,20 @@ class SingleGraphPlotter:
         return value
 
     def end_hour_entry_check(self, end_hour_string):
+        """
+        Checks the end hour entry value and pops up an error message if it isn't a good entry
+
+        Parameters
+        ----------
+        String
+            end_hour_string: the value that was inputted into the end_hour_entry box
+
+        Returns
+        -------
+        Int
+            value: the inputted value in the end_hour_entry box
+        """
+        # making sure the inputted value is an int not a float
         value = int(end_hour_string)
 
         # Testing to see if the inputted value exceeds what it can be
@@ -461,6 +517,20 @@ class SingleGraphPlotter:
         return value
 
     def end_minute_entry_check(self, end_minute_string):
+        """
+        Checks the end minute entry value and pops up an error message if it isn't a good entry
+
+        Parameters
+        ----------
+        String
+            end_minute_string: the value that was inputted into the end_minute_entry box
+
+        Returns
+        -------
+        Int
+            value: the inputted value in the end_hour_entry box
+        """
+        # making sure the inputted value is an int not a float
         value = int(end_minute_string)
 
         # Testing to see if the inputted value exceeds what it can be
@@ -477,6 +547,20 @@ class SingleGraphPlotter:
         return value
 
     def end_second_entry_check(self, end_second_string):
+        """
+        Checks the end second entry value and pops up an error message if it isn't a good entry
+
+        Parameters
+        ----------
+        String
+            end_second_string: the value that was inputted into the end_second_entry box
+
+        Returns
+        -------
+        Int
+            end_second_string: the inputted value in the end_second_entry box
+        """
+        # making sure the inputted value is an int not a float
         value = int(end_second_string)
 
         # Testing to see if the inputted value exceeds what it can be
