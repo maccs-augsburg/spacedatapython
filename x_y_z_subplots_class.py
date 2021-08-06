@@ -84,7 +84,9 @@ class SingleGraphPlotter:
 
         self.error_message_pop_up( title, message) : 
         
-        self.warning_message_pop_up( title, message) : 
+        self.warning_message_pop_up( title, message) :
+
+        self.convert_hours_list_to_datetime_object( list_to_convert) : - Not yet implemented
     """
 
     def __init__(self):
@@ -283,7 +285,7 @@ class SingleGraphPlotter:
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
                                                                                      end_time_stamp, file_name)
         # making the time array into datetime objects
-
+        
         # plotting the arrays
         fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp,
                                       end_time_stamp)
@@ -291,6 +293,25 @@ class SingleGraphPlotter:
         # Putting the arrays into the gui
         canvas_plotter.plot(mainframe, fig)
 
+    def convert_hours_list_to_datetime_object(self, list_to_convert):
+
+        converted_list = []
+        
+        for i in range(len(list_to_convert)):
+            total_time = list_to_convert[i]
+            hour = int(total_time / 24)
+
+            total_time = total_time - hour
+            minute = int(total_time / 59)
+
+            total_time = total_time - minute
+            second = total_time
+
+            converted_list.append(datetime.datetime(year=1111, month=1, day=1, hour=hour, minute=minute, second=second))
+            
+
+        return converted_list
+            
     def year_day_entry_check(self, year_day_value):
         if (len(year_day_value) == 0):
             self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
