@@ -53,6 +53,8 @@ class SingleGraphPlotter:
         self.plot_max_z : An IntVar that keeps track of the maximum z value to plot (leave 0 for default z values)
         
         self.file_selection : A StringVar that sets the correct file ending value based on what type of file is being handed over by the user to plot
+
+        self.canvas : A figure variable that keeps track of the current plot for saving purposes
         
 
         Instance methods:
@@ -97,6 +99,8 @@ class SingleGraphPlotter:
         mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
+
+        self.canvas = None
 
         ######################
         ### Labels Section ###
@@ -220,6 +224,8 @@ class SingleGraphPlotter:
         # Management buttons section
         ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=W)
         ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=21)
+        ttk.Button(mainframe, text="Save", command=lambda: some_function_here).grid(column=1, row=22, sticky=W)
+        ttk.Button(mainframe, text="Save As", command=lambda: some_function_here).grid(column=1, row=22)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
@@ -232,6 +238,8 @@ class SingleGraphPlotter:
 
         # Keeping the program running
         root.mainloop()
+
+    def save
 
     def execute_functions(self, mainframe, *args):
         """
@@ -592,6 +600,7 @@ class SingleGraphPlotter:
 
 def main():
     hopefully_works = SingleGraphPlotter()
+    
 
 if __name__ == "__main__":
     main()
