@@ -12,6 +12,7 @@ from tkinter import messagebox
 import sys
 import datetime
 from PIL import ImageTk, Image
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 
 # Plotter program imports
 import raw_to_plot
@@ -54,7 +55,7 @@ class SingleGraphPlotter:
         
         self.file_selection : A StringVar that sets the correct file ending value based on what type of file is being handed over by the user to plot
 
-        self.canvas : A figure variable that keeps track of the current plot for saving purposes
+        self.figure : A figure variable that keeps track of the current plot for saving purposes
         
 
         Instance methods:
@@ -84,6 +85,8 @@ class SingleGraphPlotter:
         self.warning_message_pop_up( title, message) : creates a warning pop up message box with the given title and message
 
         self.convert_hours_list_to_datetime_object( list_to_convert) : - Not yet implemented
+
+        
     """
 
     def __init__(self):
@@ -100,7 +103,8 @@ class SingleGraphPlotter:
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
 
-        self.canvas = None
+        # Canvas value for saving figure
+        self.figure = None
 
         ######################
         ### Labels Section ###
@@ -224,8 +228,8 @@ class SingleGraphPlotter:
         # Management buttons section
         ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=W)
         ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=21)
-        ttk.Button(mainframe, text="Save", command=lambda: some_function_here).grid(column=1, row=22, sticky=W)
-        ttk.Button(mainframe, text="Save As", command=lambda: some_function_here).grid(column=1, row=22)
+        #ttk.Button(mainframe, text="Save", command=lambda: some_function_here).grid(column=1, row=22, sticky=W)
+        #ttk.Button(mainframe, text="Save As", command=lambda: some_function_here).grid(column=1, row=22)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
@@ -238,8 +242,6 @@ class SingleGraphPlotter:
 
         # Keeping the program running
         root.mainloop()
-
-    def save
 
     def execute_functions(self, mainframe, *args):
         """
@@ -306,11 +308,17 @@ class SingleGraphPlotter:
         # making the time array into datetime objects -- Not done yet
         
         # plotting the arrays
-        fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp,
+        self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp,
                                       end_time_stamp)
 
         # Putting the arrays into the gui
-        canvas_plotter.plot(mainframe, fig)
+        # Storing that figure into a canvas object
+        canvas = FigureCanvasTkAgg(self.figure, master = mainframe)
+        canvas.draw()
+
+        # Placing canvas object into the window
+        canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=20)
+
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         converted_list = []
