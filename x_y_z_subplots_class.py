@@ -13,6 +13,7 @@ import sys
 import datetime
 from PIL import ImageTk, Image
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
+import subprocess
 
 # Plotter program imports
 import raw_to_plot
@@ -324,6 +325,7 @@ class SingleGraphPlotter:
 
     def save(self, fig, file_name):
         fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
+        subprocess.Popen(file_name + '.pdf', shell=True)
 
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
