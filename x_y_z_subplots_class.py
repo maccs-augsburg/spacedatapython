@@ -324,15 +324,6 @@ class SingleGraphPlotter:
         # Placing canvas object into the window
         canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=20)
 
-    def save(self, fig, file_name):
-        fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
-        subprocess.Popen(file_name + '.pdf', shell=True)
-
-    def save_as(self, fig, file_name):
-        files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
-        file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
-
-
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         converted_list = []
         
@@ -349,6 +340,38 @@ class SingleGraphPlotter:
             converted_list.append(datetime.datetime(year=1111, month=1, day=1, hour=hour, minute=minute, second=second))
             
         return converted_list
+
+    def save(self, fig, file_name):
+        """
+        Saves the plot into a default pdf file with the default string name
+        
+        Parameters
+        ----------
+        Figure
+            fig: The figure object that contains the plot and subplots information
+        String
+            file_name: the correctly formatted file name
+        """
+        # Saving the file as a defualt pdf
+        fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
+        # Opening the file after saving so the user knows it has been saved and can see it
+        subprocess.Popen(file_name + '.pdf', shell=True)
+
+    def save_as(self, fig, file_name):
+        """
+        Saves the plot into a default pdf file with the default string name that is able to be edited through user input and changed into a png or another supported filetype
+
+        Parameters
+        ----------
+         Figure
+            fig: The figure object that contains the plot and subplots information
+        String
+            file_name: the correctly formatted file name
+        """
+        # Specifying the supported file types that can be saved
+        files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
+        # Popping up the save as file dialog box
+        asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
             
     def year_day_entry_check(self, year_day_value):
         """
