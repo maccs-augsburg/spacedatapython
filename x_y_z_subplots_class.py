@@ -232,9 +232,9 @@ class SingleGraphPlotter:
 
         # Management buttons section
         ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=E)
-        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=2, row=21, sticky=W)
-        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=1, row=22, sticky=E)
-        ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=2, row=22, sticky=W)
+        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=4, row=21, sticky=W)
+        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=E)
+        ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=3, row=21, sticky=W)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
