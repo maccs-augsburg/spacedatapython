@@ -15,12 +15,13 @@ Ted Stuff |
 	git mv oldName.py new_name.py                                                       |
 - Remove old unused python files from repo ------------------------------------------- done |
 	git rm unused.py
-- Saving the figure buttons (save as and save) --------------------------------------- |
-- implement save (saves default name, default option as pdf)  ------------------------ |
-- implement save as (pops up save dialog box with default name) ---------------------- |
+- Saving the figure buttons (save as and save) --------------------------------------- done |
+- implement save (saves default name, default option as pdf)  ------------------------ done |
+- implement save as (pops up save dialog box with default name) ---------------------- done |
 - y scaling -------------------------------------------------------------------------- |
-- remove times from y and z subplots ------------------------------------------------- |
-- right align labels east, align entry boxes west -- 2 columns ----------------------- |
+- remove times from y and z subplots ------------------------------------------------- done |
+- right align labels east, align entry boxes west -- 2 columns ----------------------- done |
+- make plot, cancel, save, and save_as buttons on same line -------------------------- done |
 - background of canvas to be white --------------------------------------------------- |
 - background of control panel to be grey --------------------------------------------- |
 - Center the MACCS logo -------------------------------------------------------------- |
