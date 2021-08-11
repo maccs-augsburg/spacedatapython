@@ -11,8 +11,6 @@ the time-stamped x, y, and z values on its' own plot.
 """
 
 #TODO----------------------------------------------------------------------------------------------------------
-#   have file take in y-axis limits as parameters -------------------------------------------------> 
-#   Use file_naming.py for helping to name the files ----------------------------------------------> working on
 #--------------------------------------------------------------------------------------------------------------
 
 # Python 3 imports
@@ -83,7 +81,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
 
     ### hour list and determining which one to use
     #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
-    default_hours_arr = []
     x_axis_format = mdates.DateFormatter('%H')
     
     hours_arr = [] # list to use for custom times
@@ -99,7 +96,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         x_axis_label = "Universal Time in Hours (HH)"
         for i in range(24):
             if (i % 2 != 0):
-                default_hours_arr.append(datetime.datetime(year=year_of_record,
+                hours_arr.append(datetime.datetime(year=year_of_record,
                                                            month=month_of_record,
                                                            day=day_of_record,
                                                            hour = i,
@@ -235,33 +232,27 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     plt.ylabel('Bx')	# side label
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    if (default_hours_flag):
-        plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
-    else:
-        plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+    plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
+    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
 
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
     plt.plot(time_arr,y_arr, linewidth=1)
     plt.ylabel('By')	# side label
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    if (default_hours_flag):
-        plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
-    else:
-        plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+    plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
+    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     
     ### Third plot using z-axis data. Add the x-axis label at the bottom
     plt.subplot(313)
@@ -273,10 +264,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    if (default_hours_flag):
-        plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
-    else:
-        plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+    plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     #plt.gcf().autofmt_xdate()
 
