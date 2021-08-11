@@ -114,34 +114,34 @@ class SingleGraphPlotter:
         ### Labels Section ###
         ######################
         # year_day label
-        ttk.Label(mainframe, text="Year Day:").grid(column=1, row=2, sticky=W)
+        ttk.Label(mainframe, text="Year Day: ").grid(column=1, row=2, sticky=E)
 
         # Start time labels
-        ttk.Label(mainframe, text="Start Hour:").grid(column=1, row=3, sticky=W)
-        ttk.Label(mainframe, text="Start Minute:").grid(column=1, row=4, sticky=W)
-        ttk.Label(mainframe, text="Start Second:").grid(column=1, row=5, sticky=W)
+        ttk.Label(mainframe, text="Start Hour: ").grid(column=1, row=3, sticky=E)
+        ttk.Label(mainframe, text="Start Minute: ").grid(column=1, row=4, sticky=E)
+        ttk.Label(mainframe, text="Start Second: ").grid(column=1, row=5, sticky=E)
 
         # End time labels
-        ttk.Label(mainframe, text="End Hour:").grid(column=1, row=6, sticky=W)
-        ttk.Label(mainframe, text="End Minute:").grid(column=1, row=7, sticky=W)
-        ttk.Label(mainframe, text="End Second:").grid(column=1, row=8, sticky=W)
+        ttk.Label(mainframe, text="End Hour: ").grid(column=1, row=6, sticky=E)
+        ttk.Label(mainframe, text="End Minute: ").grid(column=1, row=7, sticky=E)
+        ttk.Label(mainframe, text="End Second: ").grid(column=1, row=8, sticky=E)
 
         # Plot min and max labels
         # X labels
-        ttk.Label(mainframe, text="Plot Min x:").grid(column=1, row=9, sticky=W)
-        ttk.Label(mainframe, text="Plot Max x:").grid(column=1, row=10, sticky=W)
+        ttk.Label(mainframe, text="Plot Min x: ").grid(column=1, row=9, sticky=E)
+        ttk.Label(mainframe, text="Plot Max x: ").grid(column=1, row=10, sticky=E)
         # Y labels
-        ttk.Label(mainframe, text="Plot Min y:").grid(column=1, row=11, sticky=W)
-        ttk.Label(mainframe, text="Plot Max y:").grid(column=1, row=12, sticky=W)   
+        ttk.Label(mainframe, text="Plot Min y: ").grid(column=1, row=11, sticky=E)
+        ttk.Label(mainframe, text="Plot Max y: ").grid(column=1, row=12, sticky=E)   
         #Z labels
-        ttk.Label(mainframe, text="Plot Min z:").grid(column=1, row=13, sticky=W)
-        ttk.Label(mainframe, text="Plot Max z:").grid(column=1, row=14, sticky=W)
+        ttk.Label(mainframe, text="Plot Min z: ").grid(column=1, row=13, sticky=E)
+        ttk.Label(mainframe, text="Plot Max z: ").grid(column=1, row=14, sticky=E)
         
         # Station file label
-        ttk.Label(mainframe, text="Station code:").grid(column=1, row=1, sticky=W)
+        ttk.Label(mainframe, text="Station code: ").grid(column=1, row=1, sticky=E)
 
         # File format label
-        ttk.Label(mainframe, text="Format of file to Open (pick from list below)").grid(column=1, row=15, sticky=W)
+        ttk.Label(mainframe, text="Format of file to Open: ").grid(column=1, row=15, columnspan=2,sticky=W)
 
         # setting the image to be the maccs logo
         image=Image.open('maccslogo_870.jpeg')
@@ -156,65 +156,65 @@ class SingleGraphPlotter:
         # Station file entries
         self.station_code = StringVar()
         station_code_entry = ttk.Entry(mainframe, width=4, textvariable=self.station_code)
-        station_code_entry.grid(column=1, row=1)
+        station_code_entry.grid(column=2, row=1, sticky=W)
 
         # year_day entry
         self.year_day = StringVar()
-        ttk.Entry(mainframe, width=6, textvariable=self.year_day).grid(column=1, row=2) 
+        ttk.Entry(mainframe, width=6, textvariable=self.year_day).grid(column=2, row=2, sticky=W) 
 
         # Start Hour entry
         self.start_hour = IntVar()
         self.start_hour.set(0)
-        ttk.Entry(mainframe, width=3, textvariable=self.start_hour).grid(column=1, row=3)
+        ttk.Entry(mainframe, width=3, textvariable=self.start_hour).grid(column=2, row=3, sticky=W)
 
         # Start Minute entry
         self.start_minute = IntVar()
         self.start_minute.set(0)
-        ttk.Entry(mainframe, width=3, textvariable=self.start_minute).grid(column=1, row=4)
+        ttk.Entry(mainframe, width=3, textvariable=self.start_minute).grid(column=2, row=4, sticky=W)
 
         # Start Second entry
         self.start_second = IntVar()
-        ttk.Entry(mainframe, width=3, textvariable=self.start_second).grid(column=1, row=5)
+        ttk.Entry(mainframe, width=3, textvariable=self.start_second).grid(column=2, row=5, sticky=W)
 
         # End Hour entry
         self.end_hour = IntVar()
         self.end_hour.set(23)
-        ttk.Entry(mainframe, width=3, textvariable=self.end_hour).grid(column=1, row=6)
+        ttk.Entry(mainframe, width=3, textvariable=self.end_hour).grid(column=2, row=6, sticky=W)
 
         # End Minute entry
         self.end_minute = IntVar()
         self.end_minute.set(59)
-        ttk.Entry(mainframe, width=3, textvariable=self.end_minute).grid(column=1, row=7)
+        ttk.Entry(mainframe, width=3, textvariable=self.end_minute).grid(column=2, row=7, sticky=W)
 
         # End Second entry
         self.end_second = IntVar()
         self.end_second.set(59)
-        ttk.Entry(mainframe, width=3, textvariable=self.end_second).grid(column=1, row=8)
+        ttk.Entry(mainframe, width=3, textvariable=self.end_second).grid(column=2, row=8, sticky=W)
 
         # Plot min and Plot max entries
         # Plot min and max x
         self.plot_min_x = IntVar()
         self.plot_min_x.set(0)
-        ttk.Entry(mainframe, width=3, textvariable=self.plot_min_x).grid(column=1, row=9)
+        ttk.Entry(mainframe, width=3, textvariable=self.plot_min_x).grid(column=2, row=9, sticky=W)
         self.plot_max_x = IntVar()
         self.plot_max_x.set(0)
-        ttk.Entry(mainframe, width=3, textvariable=self.plot_max_x).grid(column=1, row=10)
+        ttk.Entry(mainframe, width=3, textvariable=self.plot_max_x).grid(column=2, row=10, sticky=W)
 
         # Plot min and max y
         self.plot_min_y = IntVar()
         self.plot_min_y.set(0)
-        ttk.Entry(mainframe, width=3, textvariable=self.plot_min_y).grid(column=1, row=11)
+        ttk.Entry(mainframe, width=3, textvariable=self.plot_min_y).grid(column=2, row=11, sticky=W)
         self.plot_max_y = IntVar()
         self.plot_max_y.set(0)
-        ttk.Entry(mainframe, width=3, textvariable=self.plot_max_y).grid(column=1, row=12)
+        ttk.Entry(mainframe, width=3, textvariable=self.plot_max_y).grid(column=2, row=12, sticky=W)
 
         # Plot min and max z
         self.plot_min_z = IntVar()
         self.plot_min_z.set(0)
-        ttk.Entry(mainframe, width=3, textvariable=self.plot_min_z).grid(column=1, row=13)
+        ttk.Entry(mainframe, width=3, textvariable=self.plot_min_z).grid(column=2, row=13, sticky=W)
         self.plot_max_z = IntVar()
         self.plot_max_z.set(0)
-        ttk.Entry(mainframe, width=3, textvariable=self.plot_max_z).grid(column=1, row=14)
+        ttk.Entry(mainframe, width=3, textvariable=self.plot_max_z).grid(column=2, row=14, sticky=W)
 
         ######################
         ### Button Section ###
@@ -222,18 +222,18 @@ class SingleGraphPlotter:
         # Radiobutton section
         # file selection of type of file to open
         self.file_selection = StringVar()
-        radio_button_1 = Radiobutton(mainframe, text="CDAWEB -- Not working", value=1, variable=self.file_selection).grid(column=1, row=16, sticky=W)
-        radio_button_2 = Radiobutton(mainframe, text="IAGA2000 -- Not working ", value=2, variable=self.file_selection).grid(column=1, row=17, sticky=W)
-        radio_button_3 = Radiobutton(mainframe, text="IAGA2002 -- Not working", value=3, variable=self.file_selection).grid(column=1, row=18, sticky=W)
+        radio_button_1 = Radiobutton(mainframe, text="CDAWEB - NW", value=1, variable=self.file_selection).grid(column=1, row=16, sticky=(W), columnspan=2)
+        radio_button_2 = Radiobutton(mainframe, text="IAGA2000 - NW", value=2, variable=self.file_selection).grid(column=1, row=17, sticky=(W), columnspan=2)
+        radio_button_3 = Radiobutton(mainframe, text="IAGA2002 - NW", value=3, variable=self.file_selection).grid(column=1, row=18, sticky=(W), columnspan=2)
         # Add clean section
-        radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=self.file_selection).grid(column=1, row=19, sticky=W)
-        radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=self.file_selection).grid(column=1, row=20, sticky=W)
+        radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=self.file_selection).grid(column=1, row=19, sticky=(W), columnspan=2)
+        radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=self.file_selection).grid(column=1, row=20, sticky=(W), columnspan=2)
 
         # Management buttons section
-        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=W)
-        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=21)
-        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=1, row=22, sticky=W)
-        #ttk.Button(mainframe, text="Save As", command=lambda: some_function_here).grid(column=1, row=22)
+        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=E)
+        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=2, row=21, sticky=W)
+        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=1, row=22, sticky=E)
+        #ttk.Button(mainframe, text="Save As", command=lambda: some_function_here).grid(column=2, row=22, sticky=W)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
