@@ -56,7 +56,9 @@ class SingleGraphPlotter:
         self.file_selection : A StringVar that sets the correct file ending value based on what type of file is being handed over by the user to plot
 
         self.figure : A figure variable that keeps track of the current plot for saving purposes
-        
+
+        self.file_name : A String varaible that keeps track of the filename of the figure
+
 
         Instance methods:
 
@@ -86,7 +88,7 @@ class SingleGraphPlotter:
 
         self.convert_hours_list_to_datetime_object( list_to_convert) : - Not yet implemented
 
-        
+        self.save(fig, file_name) : - Not yet tested
     """
 
     def __init__(self):
@@ -103,8 +105,9 @@ class SingleGraphPlotter:
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
 
-        # Canvas value for saving figure
+        # Canvas and file name values for saving figure
         self.figure = None
+        self.file_name = None
 
         ######################
         ### Labels Section ###
@@ -228,7 +231,7 @@ class SingleGraphPlotter:
         # Management buttons section
         ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=W)
         ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=21)
-        #ttk.Button(mainframe, text="Save", command=lambda: some_function_here).grid(column=1, row=22, sticky=W)
+        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=1, row=22, sticky=W)
         #ttk.Button(mainframe, text="Save As", command=lambda: some_function_here).grid(column=1, row=22)
         
         for child in mainframe.winfo_children(): 
@@ -293,7 +296,7 @@ class SingleGraphPlotter:
         # file name and time interval string creation
         file_name_full = station_code_value + year_day_value + file_ending_value
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
-        file_name = station_code_value + year_day_value + time_interval_string
+        self.file_name = station_code_value + year_day_value + time_interval_string
 
         # trying to open the file
         try:
@@ -304,11 +307,11 @@ class SingleGraphPlotter:
 
         # Creating the arrays
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
-                                                                                     end_time_stamp, file_name)
+                                                                                     end_time_stamp, self.file_name)
         # making the time array into datetime objects -- Not done yet
         
         # plotting the arrays
-        self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name, start_time_stamp,
+        self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
                                       end_time_stamp)
 
         # Putting the arrays into the gui
@@ -318,6 +321,9 @@ class SingleGraphPlotter:
 
         # Placing canvas object into the window
         canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=20)
+
+    def save(self, fig, file_name):
+        fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
 
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
