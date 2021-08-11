@@ -7,6 +7,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter.filedialog import asksaveasfile
 
 # Python 3 imports
 import sys
@@ -233,7 +234,7 @@ class SingleGraphPlotter:
         ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=E)
         ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=2, row=21, sticky=W)
         ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=1, row=22, sticky=E)
-        #ttk.Button(mainframe, text="Save As", command=lambda: some_function_here).grid(column=2, row=22, sticky=W)
+        ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=2, row=22, sticky=W)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
@@ -326,6 +327,10 @@ class SingleGraphPlotter:
     def save(self, fig, file_name):
         fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
         subprocess.Popen(file_name + '.pdf', shell=True)
+
+    def save_as(self, fig, file_name):
+        files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
+        file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
 
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
