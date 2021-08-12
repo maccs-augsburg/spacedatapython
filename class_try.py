@@ -76,7 +76,35 @@ def __init__(self):
 
     ###Entry Boxes###
     self.year_day = StringVar()
-    ttk.Entry(window, width= 5, textvariable = year_day).grid(column = 2, row = 2,   sticky = W)
+    ttk.Entry(window, width= 5, textvariable = self.year_day).grid(column = 2, row = 2,   sticky = W)
 
     self.start_hour = IntVar()
+    self.start_hour.set(0)
+    ttk.Entry(window, width = 5, textvariable = self.start_hour).grid(column = 2, row = 3, sticky = W)
+
+    self.start_minute = IntVar()
+    self.start_minute.set(0)
+    ttk.Entry(window, width = 5, textvariable = self.start_minute).grid(column = 2, row = 4, sticky = W)
+
+    self.start_second = IntVar()
+    self.start_second.set(0)
+    ttk.Entry(window, width = 5, textvariable = self.start_second).grid(column = 2, row = 5,sticky = W)
+
+    self.end_hour = IntVar()
+    self.end_hour.set(23)
+    ttk.Entry(window, width = 5, textvariable = self.end_hour).grid(column = 2, row = 6, sticky = W)
+
+    self.end_minute = IntVar()
+    self.end_minute.set(59)
+    ttk.Entry(window, width = 5, textvariable = self.end_minute).grid(column = 2, row = 7, sticky = W)
+
+    self.end_second = IntVar()
+    self.end_second.set(59)
+    ttk.Entry(window, width = 5, textvariable = self.end_second).grid(column = 2, row = 8, sticky = W)
+
+    self.station_names = StringVar()
+    ttk.Entry(window, width = 5, textvariable = self.station_names).grid(column = 2, row = 1, pady = (25, 0), sticky = W)
+
+    
+
     
