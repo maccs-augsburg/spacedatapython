@@ -18,10 +18,12 @@ Ted Stuff |
 - Saving the figure buttons (save as and save) --------------------------------------- done |
 - implement save (saves default name, default option as pdf)  ------------------------ done |
 - implement save as (pops up save dialog box with default name) ---------------------- done |
-- y scaling -------------------------------------------------------------------------- |
+- y scaling -------------------------------------------------------------------------- done |
 - remove times from y and z subplots ------------------------------------------------- done |
 - right align labels east, align entry boxes west -- 2 columns ----------------------- done |
 - make plot, cancel, save, and save_as buttons on same line -------------------------- done |
+- edit x axis time so that only 6 - 7 ticks are shown -------------------------------- |
+- edit y axis format so that only 4 - 5 ticks are shown ------------------------------ |
 - background of canvas to be white --------------------------------------------------- |
 - background of control panel to be grey --------------------------------------------- |
 - Center the MACCS logo -------------------------------------------------------------- |
