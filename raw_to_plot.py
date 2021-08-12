@@ -29,73 +29,6 @@ import matplotlib.dates as mdates
 # Plotter program imports
 import read_raw_to_lists
 
-def find_differences_in_list (arr) :
-    """
-    Finds the difference between the minimum value and maximum values in the list
-    Parameters
-    ----------
-    List
-        arr: a list of valuees to find the difference in
-    Returns
-    -------
-    Float (not entirely sure)
-        The difference between the min and max values in the list
-    """
-
-    # if the list passed in is empty, then we can assume that something went wrong
-    if (len(arr) <= 0):
-        print("ERROR: find_differences_in_list parameter arr didn't contain any values")
-        sys.exit(0) # Exiting without an error code
-
-    # Otherwise set the max and min to the first item in the list
-    minimum_value = arr[0]
-    maximum_value = arr[0]
-
-    # iterate throughout the list
-    for item in arr:
-        if item > maximum_value:    # if item is greater than our max
-            maximum_value = item    #   assign a new max value
-        elif item < minimum_value:  # if item is smaller than our min
-            minimum_value = item    #   assign a new min value
-
-    # Once we find our max and min, get the difference and return it
-    difference = maximum_value - minimum_value
-    return difference
-
-def find_max_differences_of_three(x_arr, y_arr, z_arr) :
-    """
-    Finds the difference between the minimum value and maximum values in the list
-        for the x, y, and z lists
-    Parameters
-    ----------
-    List
-        x_arr: a list of x values to find the difference in
-        y_arr: a list of y values to find the difference in
-        z_arr: a list of z valeus to find the difference in
-    Returns
-    -------
-    Float (not entirely sure)
-        The maximum difference out of the differences in the 3 arrays
-    """
-
-    # getting the differences for the arrays
-    x_difference = find_differences_in_list(x_arr)
-    y_difference = find_differences_in_list(y_arr)
-    z_difference = find_differences_in_list(z_arr)
-
-    # setting the max to be the x_difference initially
-    max_difference = x_difference
-
-    # if statement to determine which difference is the max difference
-    if (y_difference > x_difference) and (y_difference > z_difference):
-        max_difference = y_difference
-    elif (z_difference > x_difference) and (z_difference > y_difference):
-        max_difference = z_difference
-
-    # returning the maximum difference out of all differences
-    return max_difference
-
-
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     """ Places x, y, z arrays on a plot.
 
@@ -175,6 +108,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     if not default_hours_flag:
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
+        second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -187,8 +121,19 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
                                                        minute= current_minute,
                                                        second = current_second))
                     current_hour += 2
+
+        elif (hour_difference >=5):
+            x_axis_label = "Universal Time in Hours (HH)"
+            for hour in range(stime.hour, etime.hour+1):
+                hours_arr.append(datetime.datetime(year=year_of_record,
+                                                   month=month_of_record,
+                                                   day=day_of_record,
+                                                   hour = current_hour,
+                                                   minute= current_minute,
+                                                   second = current_second))
+                current_hour += 1
                     
-        elif (hour_difference >= 3):
+        elif (hour_difference >= 2):
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -228,27 +173,63 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
-            
-        elif (minute_difference >= 10):
+        elif (minute_difference >= 20):
+            # assuming a 20 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                if minute % 5 == 0:
+                    hours_arr.append(datetime.datetime(year=year_of_record,
+                                                       month=month_of_record,
+                                                       day=day_of_record,
+                                                       hour=current_hour,
+                                                       minute=minute,
+                                                       second=current_second))
+
+        elif (minute_difference >=10):
             # assuming a 10 minute or more gap
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
-                for second in range(stime.second, etime.second+1):
-                    if second % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
-                                                           hour=current_hour,
-                                                           minute=minute,
-                                                           second=second))
-        elif (minute_difference >= 5):
-            # assuming a 5 minute gap
+                if minute % 3 == 0:
+                    hours_arr.append(datetime.datetime(year=year_of_record,
+                                                       month=month_of_record,
+                                                       day=day_of_record,
+                                                       hour=current_hour,
+                                                       minute=minute,
+                                                       second=current_second))
+                
+        elif (minute_difference >= 7):
+            # assuming a 7 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                if minute % 2 == 0:
+                    hours_arr.append(datetime.datetime(year=year_of_record,
+                                                       month=month_of_record,
+                                                       day=day_of_record,
+                                                       hour=current_hour,
+                                                       minute=minute,
+                                                       second=current_second))
+            
+        elif (minute_difference >= 2):
+            # assuming a 2 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                hours_arr.append(datetime.datetime(year=year_of_record,
+                                                   month=month_of_record,
+                                                   day=day_of_record,
+                                                   hour=current_hour,
+                                                   minute=minute,
+                                                   second=current_second))
+        elif (minute_difference >= 1):
+            # assuming a 1 minute or more gap
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 for second in range(stime.second, etime.second + 1):
-                    if second % 15 == 0:
+                    if second % 20 == 0:
                         hours_arr.append(datetime.datetime(year=year_of_record,
                                                            month=month_of_record,
                                                            day=day_of_record,
@@ -256,19 +237,67 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=second))
             
-        else:
-            # assuming less than a 5 minute gap
+        elif (second_difference >= 45):
+            # assuming 45 second or more gap
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                for second in range(stime.second, etime.second + 1):
-                    if second % 5 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
-                                                           hour=current_hour,
-                                                           minute=minute,
-                                                           second=second))
+            for second in range(stime.second, etime.second + 1):
+                if second % 15 == 0:
+                    hours_arr.append(datetime.datetime(year=year_of_record,
+                                                       month=month_of_record,
+                                                       day=day_of_record,
+                                                       hour=current_hour,
+                                                       minute=current_minute,
+                                                       second=second))
+        elif(second_difference >= 25):
+            # assuming 25 second or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for second in range(stime.second, etime.second + 1):
+                if second % 10 == 0:
+                    hours_arr.append(datetime.datetime(year=year_of_record,
+                                                       month=month_of_record,
+                                                       day=day_of_record,
+                                                       hour=current_hour,
+                                                       minute=current_minute,
+                                                       second=second))
+        elif(second_difference >= 10):
+            # assuming 10 second or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for second in range(stime.second, etime.second + 1):
+                if second % 3 == 0:
+                    hours_arr.append(datetime.datetime(year=year_of_record,
+                                                       month=month_of_record,
+                                                       day=day_of_record,
+                                                       hour=current_hour,
+                                                       minute=current_minute,
+                                                       second=second))
+
+        elif(second_difference >= 5):
+            # assuming 5 second or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for second in range(stime.second, etime.second + 1):
+                if second % 1.5 == 0:
+                    hours_arr.append(datetime.datetime(year=year_of_record,
+                                                       month=month_of_record,
+                                                       day=day_of_record,
+                                                       hour=current_hour,
+                                                       minute=current_minute,
+                                                       second=second))
+            
+        else:
+            # assuming less than a 5 second gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for second in range(stime.second, etime.second + 1):
+                hours_arr.append(datetime.datetime(year=year_of_record,
+                                                   month=month_of_record,
+                                                   day=day_of_record,
+                                                   hour=current_hour,
+                                                   minute=current_minute,
+                                                   second=second))
 
     # Getting the differences of the x, y and z arrays
     #max_difference_of_lists = find_max_differences_of_three(x_arr, y_arr, z_arr)
