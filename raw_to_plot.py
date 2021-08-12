@@ -377,12 +377,33 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     return fig
 
 def set_yaxis(yticks_list, scale_difference):
+    """
+    Updates the y axis ticks list with the given scale difference which fleshes out the list of the same size incrementing with the given scale_difference
+
+    Parameters
+    ----------
+    List
+        yticks_list: A list of values to update
+    Float
+        scale_difference: the float (usually some_number.00) that the list should increment by
+
+    Returns
+    -------
+    List
+        new_yticks: A list of the updated values
+    """
+    
+    # creating a new list to add the new values into
     new_yticks = []
+    # Keeping the starting point element the same
     new_yticks.append(yticks_list[0])
-    print(yticks_list)
+    
+    # Iterating through the rest of the list
     for i in range(1, len(yticks_list)):
+        # Adding the correctly updated value
         new_yticks.append(yticks_list[0] + (i * scale_difference))
-        
+
+    # Returning the list
     return new_yticks
 
 if __name__ == "__main__":
