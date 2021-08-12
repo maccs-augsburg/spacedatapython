@@ -29,6 +29,73 @@ import matplotlib.dates as mdates
 # Plotter program imports
 import read_raw_to_lists
 
+def find_differences_in_list (arr) :
+    """
+    Finds the difference between the minimum value and maximum values in the list
+    Parameters
+    ----------
+    List
+        arr: a list of valuees to find the difference in
+    Returns
+    -------
+    Float (not entirely sure)
+        The difference between the min and max values in the list
+    """
+
+    # if the list passed in is empty, then we can assume that something went wrong
+    if (len(arr) <= 0):
+        print("ERROR: find_differences_in_list parameter arr didn't contain any values")
+        sys.exit(0) # Exiting without an error code
+
+    # Otherwise set the max and min to the first item in the list
+    minimum_value = arr[0]
+    maximum_value = arr[0]
+
+    # iterate throughout the list
+    for item in arr:
+        if item > maximum_value:    # if item is greater than our max
+            maximum_value = item    #   assign a new max value
+        elif item < minimum_value:  # if item is smaller than our min
+            minimum_value = item    #   assign a new min value
+
+    # Once we find our max and min, get the difference and return it
+    difference = maximum_value - minimum_value
+    return difference
+
+def find_max_differences_of_three(x_arr, y_arr, z_arr) :
+    """
+    Finds the difference between the minimum value and maximum values in the list
+        for the x, y, and z lists
+    Parameters
+    ----------
+    List
+        x_arr: a list of x values to find the difference in
+        y_arr: a list of y values to find the difference in
+        z_arr: a list of z valeus to find the difference in
+    Returns
+    -------
+    Float (not entirely sure)
+        The maximum difference out of the differences in the 3 arrays
+    """
+
+    # getting the differences for the arrays
+    x_difference = find_differences_in_list(x_arr)
+    y_difference = find_differences_in_list(y_arr)
+    z_difference = find_differences_in_list(z_arr)
+
+    # setting the max to be the x_difference initially
+    max_difference = x_difference
+
+    # if statement to determine which difference is the max difference
+    if (y_difference > x_difference) and (y_difference > z_difference):
+        max_difference = y_difference
+    elif (z_difference > x_difference) and (z_difference > y_difference):
+        max_difference = z_difference
+
+    # returning the maximum difference out of all differences
+    return max_difference
+
+
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     """ Places x, y, z arrays on a plot.
 
@@ -203,22 +270,10 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=second))
 
-##        else:
-##            # assuming less than a minute gap
-##            x_axis_label = "Universal Time in Hours, Minutes, Seconds, and Microseconds (HH:MM:SS:mm)"
-##            x_axis_format = mdates.DateFormatter('%H:%M:%S.%f')
-##            for second in range(stime.second, etime.second+1):
-##                for microsecond in range(stime.microsecond, etime.microsecond+1):
-##                    if microsecond % 100:
-##                        hours_arr.append(datetime.datetime(year=year_of_record,
-##                                                           month=month_of_record,
-##                                                           day=day_of_record,
-##                                                           hour=current_hour,
-##                                                           minute=current_minute,
-##                                                           second=second,
-##                                                           microsecond=microsecond)) # Microseconds not working yet
-                
-
+    # Getting the differences of the x, y and z arrays
+    #max_difference_of_lists = find_max_differences_of_three(x_arr, y_arr, z_arr)
+    
+    
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.subplots_adjust(hspace=0.03)
@@ -233,26 +288,28 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     plt.ylabel('Bx')	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    x_yticks = plt.yticks()
 
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
     plt.plot(time_arr,y_arr, linewidth=1)
     plt.ylabel('By')	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    y_yticks = plt.yticks()
     
     ### Third plot using z-axis data. Add the x-axis label at the bottom
     plt.subplot(313)
@@ -260,17 +317,72 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     plt.ylabel('Bz')	# side label
     plt.xlabel(x_axis_label) # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
-    #plt.gcf().autofmt_xdate()
+    z_yticks = plt.yticks()
 
-    # returning the fig and plt objects
-    return fig #, plt 
+    # x, y, and z
+    x_yticks = x_yticks[0]
+    x_plot_scale = x_yticks[1] - x_yticks[0]
+    y_yticks = y_yticks[0]
+    y_plot_scale = y_yticks[1] - y_yticks[0]
+    z_yticks = z_yticks[0]
+    z_plot_scale = z_yticks[1] - z_yticks[0]
 
+    # setting the scale_differences array and finding max difference in list
+    scale_differences = [x_plot_scale, y_plot_scale, z_plot_scale]
+    max_scale_value = max(scale_differences)
+
+    # x suplot y_scaling section
+    if (x_plot_scale < max_scale_value):
+        x_yticks = set_yaxis(x_yticks, max_scale_value)
+        plt.subplot(311)
+        plt.gca().set_ylim(x_yticks[0], x_yticks[-1])
+
+        print(x_yticks)
+        
+        x_yticks = x_yticks[1:-1]
+        plt.yticks(x_yticks)
+
+    # y suplot y_scaling section
+    if (y_plot_scale < max_scale_value):
+        y_yticks = set_yaxis(y_yticks, max_scale_value)
+        plt.subplot(312)
+        plt.gca().set_ylim(y_yticks[0], y_yticks[-1])
+
+        print(y_yticks)
+        
+        y_yticks = y_yticks[1:-1]
+        plt.yticks(y_yticks)
+
+    # z suplot y_scaling section
+    if (z_plot_scale < max_scale_value):
+        z_yticks = set_yaxis(z_yticks, max_scale_value)
+        plt.subplot(313)
+        plt.gca().set_ylim(z_yticks[0], z_yticks[-1])
+
+        print(z_yticks)
+        
+        z_yticks = z_yticks[1:-1]
+        plt.yticks(z_yticks)
+    
+
+    
+    # returning the fig object
+    return fig
+
+def set_yaxis(yticks_list, scale_difference):
+    new_yticks = []
+    new_yticks.append(yticks_list[0])
+    print(yticks_list)
+    for i in range(1, len(yticks_list)):
+        new_yticks.append(yticks_list[0] + (i * scale_difference))
+        
+    return new_yticks
 
 if __name__ == "__main__":
     ### usage message in console
