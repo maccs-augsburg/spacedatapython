@@ -212,7 +212,15 @@ def execute_functions(self, mainframe, *args):
             
     return converted_list
 
-
+ def save(self, fig, file_name):
+     
+    """
+        
+    """
+    # Saving the file as a defualt pdf
+    fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
+    # Opening the file after saving so the user knows it has been saved and can see it
+    subprocess.Popen(file_name + '.pdf', shell=True)
 
 
 
