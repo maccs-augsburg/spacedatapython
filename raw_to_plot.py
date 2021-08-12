@@ -325,7 +325,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     z_yticks = plt.yticks()
 
-    # x, y, and z
+    # x, y, and z, y-axis plotting scale values
     x_yticks = x_yticks[0]
     x_plot_scale = x_yticks[1] - x_yticks[0]
     y_yticks = y_yticks[0]
@@ -339,38 +339,39 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
 
     # x suplot y_scaling section
     if (x_plot_scale < max_scale_value):
+        # getting new list with correct scale from set_yaxis function
         x_yticks = set_yaxis(x_yticks, max_scale_value)
+        # switching to the correct subplot
         plt.subplot(311)
+        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
         plt.gca().set_ylim(x_yticks[0], x_yticks[-1])
-
-        print(x_yticks)
-        
+        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
         x_yticks = x_yticks[1:-1]
         plt.yticks(x_yticks)
 
     # y suplot y_scaling section
     if (y_plot_scale < max_scale_value):
+        # getting new list with correct scale from set_yaxis function
         y_yticks = set_yaxis(y_yticks, max_scale_value)
+        # switching to the correct subplot
         plt.subplot(312)
+        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
         plt.gca().set_ylim(y_yticks[0], y_yticks[-1])
-
-        print(y_yticks)
-        
+        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
         y_yticks = y_yticks[1:-1]
         plt.yticks(y_yticks)
 
     # z suplot y_scaling section
     if (z_plot_scale < max_scale_value):
+        # getting new list with correct scale from set_yaxis function
         z_yticks = set_yaxis(z_yticks, max_scale_value)
+        # switching to the correct subplot
         plt.subplot(313)
+        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
         plt.gca().set_ylim(z_yticks[0], z_yticks[-1])
-
-        print(z_yticks)
-        
+        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
         z_yticks = z_yticks[1:-1]
         plt.yticks(z_yticks)
-    
-
     
     # returning the fig object
     return fig
