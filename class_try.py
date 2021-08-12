@@ -222,7 +222,15 @@ def execute_functions(self, mainframe, *args):
     # Opening the file after saving so the user knows it has been saved and can see it
     subprocess.Popen(file_name + '.pdf', shell=True)
 
-
+ def save_as(self, fig, file_name):
+     
+    """
+       
+    """
+    # Specifying the supported file types that can be saved
+    files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
+    # Popping up the save as file dialog box
+    asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
 
 
 
