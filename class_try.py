@@ -181,6 +181,44 @@ def execute_functions(self, mainframe, *args):
 
     xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, self.file_name)
 
+    graph_from_plotter_value_x = self.graph_from_plotter_x.get()
+    graph_from_plotter_value_y = self.graph_from_plotter_y.get()
+    graph_from_plotter_value_z = self.graph_from_plotter_z.get() 
+
+    fig = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option)
+
+    canvas = FigureCanvasTkAgg(self.figure, master = mainframe)
+    canvas.draw()
+
+    canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=20)
+
+
+
+ def convert_hours_list_to_datetime_object(self, list_to_convert):
+     
+    converted_list = []
+        
+    for i in range(len(list_to_convert)):
+        total_time = list_to_convert[i]
+        hour = int(total_time / 24)
+
+        total_time = total_time - hour
+        minute = int(total_time / 59)
+
+        total_time = total_time - minute
+        second = total_time
+
+        converted_list.append(datetime.datetime(year=1111, month=1, day=1, hour=hour, minute=minute, second=second))
+            
+    return converted_list
+
+
+
+
+
+
+
+
 
 
 
