@@ -162,4 +162,29 @@ def execute_functions(self, mainframe, *args):
     # creating the end time stamp
     end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
 
-    
+    file_selcetion_value = self.file_selection.get()
+    file_ending_value = self.file_format_entry_check(file_selection_value)
+
+
+    ###Makeing the Plot###
+    file_name_full = station_code_value + year_day_value + file_ending_value
+    time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
+    self.file_name = station_code_value + year_day_value + time_interval_string
+
+
+
+    try:
+        file = open(file_name_full, 'rb')
+    except:
+        # popping up an error if we can't open the file
+        self.error_message_pop_up("File open error", "couldn't find and open your file")
+
+    xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, self.file_name)
+
+
+
+
+
+
+
+
