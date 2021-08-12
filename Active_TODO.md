@@ -22,13 +22,12 @@ Ted Stuff |
 - remove times from y and z subplots ------------------------------------------------- done |
 - right align labels east, align entry boxes west -- 2 columns ----------------------- done |
 - make plot, cancel, save, and save_as buttons on same line -------------------------- done |
-- edit x axis time so that only 6 - 7 ticks are shown -------------------------------- |
-- edit y axis format so that only 4 - 5 ticks are shown ------------------------------ |
+- edit x axis time so that only 6 - 7 ticks are shown -------------------------------- done |
+- edit y axis format so that only 4 - 5 ticks are shown ------------------------------ done |
 - background of canvas to be white --------------------------------------------------- |
 - background of control panel to be grey --------------------------------------------- |
 - Center the MACCS logo -------------------------------------------------------------- |
-- Have clean file import as an option ------------------------------------------------ |
-- datetime conversion helper function ------------------------------------------------ |
-- move canvas_plotter.plot function over to the class -------------------------------- |
+- Have clean file import as an option ------------------------------------------------ done |
+- move canvas_plotter.plot function over to the class -------------------------------- done |
 - create an entry box with only digits? ---------------------------------------------- |
 --------------------------------------------------------------------------------------------
