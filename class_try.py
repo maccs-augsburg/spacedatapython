@@ -122,4 +122,12 @@ def __init__(self):
     clean_data = Radiobutton(mainframe, text = "Clean Data", value = 5, variable = self.file_selection).grid(column = 2, row = 19, padx = 25, sticky = W)
 
 
+    ###Buttons###
+    
+    ttk.Button(window, text = "Plot", command = lambda: self.execute_functions(mainframe)).grid(column = 2, row = 20,  sticky = W)
+    ttk.Button(window, text = "Cancel", command = lambda: self.cancel(window)).grid(column =1, row = 20, padx = 25, sticky = W)
+    ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=E)
+        ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
 
+
+    
