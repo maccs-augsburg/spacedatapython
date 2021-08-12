@@ -298,10 +298,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
-
-    # Getting the differences of the x, y and z arrays
-    #max_difference_of_lists = find_max_differences_of_three(x_arr, y_arr, z_arr)
-    
     
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
@@ -430,7 +426,10 @@ def set_yaxis(yticks_list, scale_difference):
     # Iterating through the rest of the list
     for i in range(1, len(yticks_list)):
         # Adding the correctly updated value
-        new_yticks.append(yticks_list[0] + (i * scale_difference))
+        if (len(new_yticks) < 5):
+            new_yticks.append(yticks_list[0] + (i * scale_difference))
+        else:
+            return new_yticks
 
     # Returning the list
     return new_yticks
