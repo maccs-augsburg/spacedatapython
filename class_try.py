@@ -29,4 +29,17 @@ def __init__(self):
     window = Tk()
     window.geometry('1500x600')
     window.title('X, Y and Z Plotter')
+
+    #mainframe = ttk.Frame(window, padding = "3 3 12 12")
+    #mainframe.grid(column = 0, row = 0, sticky = (N,W,E,S))
+
+    window.columnconfigure(0, weight = 1)
+    window.rowconfigure(0, weight = 1)
+
+    #File name values for saving figure
+    self.figure = None
+    self.file_name = None
+
+
+    
     
