@@ -124,10 +124,42 @@ def __init__(self):
 
     ###Buttons###
     
-    ttk.Button(window, text = "Plot", command = lambda: self.execute_functions(mainframe)).grid(column = 2, row = 20,  sticky = W)
-    ttk.Button(window, text = "Cancel", command = lambda: self.cancel(window)).grid(column =1, row = 20, padx = 25, sticky = W)
+    ttk.Button(mainframe, text = "Plot", command = lambda: self.execute_functions(mainframe)).grid(column = 2, row = 20,  sticky = W)
+    ttk.Button(mainframe, text = "Cancel", command = lambda: self.cancel(window)).grid(column =1, row = 20, padx = 25, sticky = W)
     ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=E)
-        ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
+    ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
 
+    #
+    for child in mainframe.winfo_children(): 
+            child.grid_configure(padx=5, pady=5)
+
+    #Puts our execute_functions to the return key
+    root.bind("<Return>", self.execute_functions)
+
+def execute_functions(self, mainframe, *args):
+    """
+    """
+
+    ###Getting the user entries###
+    station_names_value = self.station_names.get()
+    self.station_names_entry_check(station_names_value)
+
+    year_day_value = self.year_day.get()
+    self.year_day_entry_check(year_day_value)
+
+    start_hour_value = self.start_hour_entry_check(self.start_hour.get())
+    start_minute_value = self.start_minute_entry_check( self.start_minute.get())
+    start_second_value = self.start_second_entry_check( self.start_second.get())
+
+    # creating the start time stamp
+    start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
+
+    
+    end_hour_value = self.end_hour_entry_check( self.end_hour.get())
+    end_minute_value = self.end_minute_entry_check( self.end_minute.get())
+    end_second_value = self.end_second_entry_check( self.end_second.get())
+
+    # creating the end time stamp
+    end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
 
     
