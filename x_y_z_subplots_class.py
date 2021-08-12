@@ -223,10 +223,9 @@ class SingleGraphPlotter:
         # Radiobutton section
         # file selection of type of file to open
         self.file_selection = StringVar()
-        radio_button_1 = Radiobutton(mainframe, text="CDAWEB - NW", value=1, variable=self.file_selection).grid(column=1, row=16, sticky=(W), columnspan=2)
-        radio_button_2 = Radiobutton(mainframe, text="IAGA2000 - NW", value=2, variable=self.file_selection).grid(column=1, row=17, sticky=(W), columnspan=2)
-        radio_button_3 = Radiobutton(mainframe, text="IAGA2002 - NW", value=3, variable=self.file_selection).grid(column=1, row=18, sticky=(W), columnspan=2)
-        # Add clean section
+        radio_button_1 = Radiobutton(mainframe, text="IAGA2000 - NW", value=1, variable=self.file_selection).grid(column=1, row=16, sticky=(W), columnspan=2)
+        radio_button_2 = Radiobutton(mainframe, text="IAGA2002 - NW", value=2, variable=self.file_selection).grid(column=1, row=17, sticky=(W), columnspan=2)
+        radio_button_3 = Radiobutton(mainframe, text="Clean file", value=3, variable=self.file_selection).grid(column=1, row=18, sticky=(W), columnspan=2)
         radio_button_4 = Radiobutton(mainframe, text="Raw 2hz file", value=4, variable=self.file_selection).grid(column=1, row=19, sticky=(W), columnspan=2)
         radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=self.file_selection).grid(column=1, row=20, sticky=(W), columnspan=2)
 
@@ -308,13 +307,20 @@ class SingleGraphPlotter:
             self.error_message_pop_up("File open error", "couldn't find and open your file")
 
         # Creating the arrays
-        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
-                                                                                     end_time_stamp, self.file_name)
-        # making the time array into datetime objects -- Not done yet
+        if (file_selection_value == 4):
+            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
+                                                                                         end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
+                                          end_time_stamp)
+        elif (file_selection_value == 3):
+            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
+                                                                                           end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.figure = clean_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
+                                          end_time_stamp)
         
-        # plotting the arrays
-        self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
-                                      end_time_stamp)
+        
 
         # Putting the arrays into the gui
         # Storing that figure into a canvas object
@@ -335,7 +341,7 @@ class SingleGraphPlotter:
             minute = int(total_time / 59)
 
             total_time = total_time - minute
-            second = total_time
+            second = int(total_time)
 
             converted_list.append(datetime.datetime(year=1111, month=1, day=1, hour=hour, minute=minute, second=second))
             
@@ -420,22 +426,22 @@ class SingleGraphPlotter:
 
         # Testing to see if user selected CDA-Web branch
         if(file_selection_value == '1'):
-            # CDA-Web branch (NOT IMPLEMENTED)
+            # IAGA2000 branch (NOT IMPLEMENTED)
             self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
         # Testing to see if user selected IAGA2000 branch
         elif(file_selection_value == '2'):
-            #IAGA2000 branch (NOT IMPLEMENTED)
+            # IAGA2002 branch (NOT IMPLEMENTED)
             self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
         # Testing to see if user selected IAGA2002 branch
         elif(file_selection_value == '3'):
-            #IAGA2002 branch (NOT IMPLEMENTED)
-            self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+            #Clean file branch
+            file_ending_value = '.s2'
 
         # Testing to see if user selected Raw 2hz branch
         elif(file_selection_value == '4'):
-            #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
+            #Raw 2hz file branch
             file_ending_value = '.2hz'
 
         # Testing to see if user selected other branch
