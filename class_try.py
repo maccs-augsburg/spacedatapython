@@ -185,7 +185,7 @@ def execute_functions(self, mainframe, *args):
     graph_from_plotter_value_y = self.graph_from_plotter_y.get()
     graph_from_plotter_value_z = self.graph_from_plotter_z.get() 
 
-    fig = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option)
+    self.fig = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option)
 
     canvas = FigureCanvasTkAgg(self.figure, master = mainframe)
     canvas.draw()
@@ -297,6 +297,73 @@ def file_format_entry_check(self, file_selection_value):
 
     # Returning the string of the file type to be used
     return file_ending_value
+
+def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, filename, stime, etime, file_option):
+
+     """
+     Checks the radio button input to then produce either the X, Y or Z graph.
+
+     Parameters
+     ----------
+     graph_from_plotter_value :
+
+     xArr :
+
+     yArr :
+
+     zArr :
+
+     timeArr :
+
+     stime :
+
+     etime :
+
+     filename :
+
+     file_option :
+
+     raw_to_single_plot
+
+     Returns
+     -------
+     graph_from_plotter_value : 
+
+     
+     """
+     #If statement to decided if we want X, Y or Z plot
+     
+     #X,Y and Z Plot
+     if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3):
+         fig = one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option)
+    #Y and Z plot
+     elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
+         fig = one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option)
+    #X and Z plot 
+     elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3):
+         fig = one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime, file_option)
+    #X and Y plot
+     elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2):
+         fig = one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option)
+    #Z plot
+     elif(graph_from_plotter_value_z == 3):
+         fig = one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime, file_option)     
+    #Y plot
+     elif(graph_from_plotter_value_y == 2):
+         fig = one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime, file_option)
+    #X plot
+     elif(graph_from_plotter_value_x == 1):
+         fig = one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime, file_option)
+                  
+    #Warning Message
+     else:
+         self.warning_message(title = "File Format Option Error", message = "Please select a file format option")
+
+    #eturn graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
+     return fig
+
+
+
 
 
  def start_hour_entry_check(self, start_hour_string):
@@ -481,9 +548,26 @@ def end_second_entry_check(self, end_second_string):
     return value
 
 
+ def error_message_pop_up(self, title, message):
+     
+    # pops up error message box with the title and message inputted
+    messagebox.showerror(title=title, message = "ERROR: " + message)
+    sys.exit(0)
+
+def warning_message_pop_up(self, title, message):
+    # pops up warning message box with the title and message inputted
+    messagebox.showwarning(title=title, message="WARNING: " + message)
+        
+def cancel(self, root):
+    # Exits the gui without running any code after
+    root.destroy()
 
 
+def main():
+    x_y_z_plotter = ThreeGraphPlotter()
 
+if __name__ == "__main__":
+    main()
 
 
 
