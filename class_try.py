@@ -12,6 +12,7 @@ import sys
 import datetime
 from PIL import ImageTk, Image
 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 #imports from plotter functions
 
 import file_naming
@@ -138,6 +139,9 @@ class ThreeGraphPlotter:
 
         window.mainloop()
 
+
+    
+
     def execute_functions(self, mainframe, *args):
         """
         """
@@ -173,7 +177,9 @@ class ThreeGraphPlotter:
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_names_value + year_day_value + time_interval_string
 
-
+        graph_from_plotter_value_x = self.graph_from_plotter_x.get()
+        graph_from_plotter_value_y = self.graph_from_plotter_y.get()
+        graph_from_plotter_value_z = self.graph_from_plotter_z.get() 
 
         try:
             file = open(file_name_full, 'rb')
@@ -181,13 +187,26 @@ class ThreeGraphPlotter:
             # popping up an error if we can't open the file
             self.error_message_pop_up("File open error", "couldn't find and open your file")
 
-        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, self.file_name)
+        if (file_selection_value == '4'):
+            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
 
-        graph_from_plotter_value_x = self.graph_from_plotter_x.get()
-        graph_from_plotter_value_y = self.graph_from_plotter_y.get()
-        graph_from_plotter_value_z = self.graph_from_plotter_z.get() 
+            #graph_from_plotter_value_x = self.graph_from_plotter_x.get()
+            #graph_from_plotter_value_y = self.graph_from_plotter_y.get()
+            #graph_from_plotter_value_z = self.graph_from_plotter_z.get() 
 
-        self.fig = graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, file_name, start_time_stamp, end_time_stamp, file_option)
+            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, self.file_name, start_time_stamp, end_time_stamp, self.file_selection)
+
+        elif (file_selection_value == '5'):
+            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_raw(file, start_time_stampend_time_stamp, self.file_name)
+            # plotting the arrays
+            #self.figure = clean_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
+                                          #end_time_stamp)
+
+        #graph_from_plotter_value_x = self.graph_from_plotter_x.get()
+        #graph_from_plotter_value_y = self.graph_from_plotter_y.get()
+        #graph_from_plotter_value_z = self.graph_from_plotter_z.get() 
+
+        #self.fig = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, self.file_name, start_time_stamp, end_time_stamp, self.file_selection)
 
         canvas = FigureCanvasTkAgg(self.figure, master = mainframe)
         canvas.draw()
@@ -301,37 +320,37 @@ class ThreeGraphPlotter:
 
     def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, filename, stime, etime, file_option):
 
-         """
-         Checks the radio button input to then produce either the X, Y or Z graph.
+         #"""
+         #Checks the radio button input to then produce either the X, Y or Z graph.
 
-         Parameters
-         ----------
-         graph_from_plotter_value :
+         #Parameters
+         #----------
+         #graph_from_plotter_value :
 
-         xArr :
+         #xArr :
 
-         yArr :
+         #yArr :
 
-         zArr :
+         #zArr :
 
-         timeArr :
+         #timeArr :
 
-         stime :
+         #stime :
 
-         etime :
+         #etime :
 
-         filename :
+         #filename :
 
-         file_option :
+         #file_option :
 
-         raw_to_single_plot
+         #raw_to_single_plot
 
-         Returns
-         -------
-         graph_from_plotter_value : 
+         #Returns
+         #-------
+         #graph_from_plotter_value : 
 
          
-         """
+        # """
          #If statement to decided if we want X, Y or Z plot
          
          #X,Y and Z Plot
@@ -358,7 +377,7 @@ class ThreeGraphPlotter:
                       
         #Warning Message
          else:
-             self.warning_message(title = "File Format Option Error", message = "Please select a file format option")
+             self.warning_message_pop_up(title = "File Format Option Error", message = "Please select a file format option")
 
         #eturn graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
          return fig
