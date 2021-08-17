@@ -28,7 +28,7 @@ class ThreeGraphPlotter:
         """
         #Creation of the window 
         window = Tk()
-        window.geometry('1500x600')
+        window.geometry('1500x700')
         window.title('X, Y and Z Plotter')
 
         mainframe = ttk.Frame(window, padding = "3 3 12 12")
@@ -127,7 +127,7 @@ class ThreeGraphPlotter:
 
         ttk.Button(mainframe, text = "Plot", command = lambda: self.execute_functions(mainframe)).grid(column = 2, row = 20,  sticky = W)
         ttk.Button(mainframe, text = "Cancel", command = lambda: self.cancel(window)).grid(column =1, row = 20, padx = 25, sticky = W)
-        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=E)
+        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=W)
         ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
 
         #
