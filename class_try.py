@@ -5,6 +5,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter.filedialog import asksaveasfile
 
 
 #imports from python 
@@ -13,6 +14,7 @@ import datetime
 from PIL import ImageTk, Image
 
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
+import subprocess
 #imports from plotter functions
 
 import file_naming
@@ -190,9 +192,7 @@ class ThreeGraphPlotter:
         if (file_selection_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
 
-            #graph_from_plotter_value_x = self.graph_from_plotter_x.get()
-            #graph_from_plotter_value_y = self.graph_from_plotter_y.get()
-            #graph_from_plotter_value_z = self.graph_from_plotter_z.get() 
+             
 
             self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, self.file_name, start_time_stamp, end_time_stamp, self.file_selection)
 
@@ -202,12 +202,7 @@ class ThreeGraphPlotter:
             #self.figure = clean_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
                                           #end_time_stamp)
 
-        #graph_from_plotter_value_x = self.graph_from_plotter_x.get()
-        #graph_from_plotter_value_y = self.graph_from_plotter_y.get()
-        #graph_from_plotter_value_z = self.graph_from_plotter_z.get() 
-
-        #self.fig = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, one_array_plotted, self.file_name, start_time_stamp, end_time_stamp, self.file_selection)
-
+        
         canvas = FigureCanvasTkAgg(self.figure, master = mainframe)
         canvas.draw()
 
