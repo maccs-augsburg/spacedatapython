@@ -307,7 +307,6 @@ class SingleGraphPlotter:
             self.error_message_pop_up("File open error", "couldn't find and open your file")
 
         # Creating the arrays
-        print(file_selection_value)
         if (file_selection_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
                                                                                          end_time_stamp, self.file_name)
