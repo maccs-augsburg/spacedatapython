@@ -244,14 +244,12 @@ def create_time_list( stime, etime):
     # if we are only showing hours, we need the hours to be aligned in the correct spots
     if (stime.minute != 0) and (x_axis_label == 'Universal Time in Hours (HH)'):
         for i in range(len(hours_arr)):
-            print(hours_arr[i])
             hours_arr[i] = datetime.datetime(year=1111,
                                              month=1,
                                              day=1,
                                              hour=hours_arr[i].hour,
                                              minute = 0,
                                              second = hours_arr[i].second)
-            print(hours_arr[i])
     
 
     return hours_arr, x_axis_format, x_axis_label
