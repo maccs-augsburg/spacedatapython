@@ -17,6 +17,7 @@ the time-stamped x, y, and z values on its' own plot.
 import sys
 import datetime
 import numpy as np
+import statistics as stats
 
 # MACCS imports
 from raw_codecs import decode, time_of_record
@@ -83,13 +84,54 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.subplots_adjust(hspace=0.03)
 
+    # x min, max, middle and difference
+    x_max = max(x_arr)
+    x_min = min(x_arr)
+    x_mid = stats.median(x_arr)
+    x_difference = x_max - x_min
+
+    # y min, max, middle and difference
+    y_max = max(y_arr)
+    y_min = min(y_arr)
+    y_mid = stats.median(y_arr)
+    y_difference = y_max - y_min
+    
+    # z min, max, middle and difference
+    z_max = max(z_arr)
+    z_min = min(z_arr)
+    z_mid = stats.median(z_arr)
+    z_difference = z_max - z_min
+
+    # getting all differences and finding the biggest difference
+    differences = [x_difference, y_difference, z_difference]
+    max_difference = max(differences)
+
+    # increasing the max_difference by 5%
+    max_difference = max_difference + max_difference * 0.05
+
+    # x max and min
+    x_max = x_mid + max_difference
+    x_min = x_mid - max_difference
+
+    # y max and min
+    y_max = y_mid + max_difference
+    y_min = y_mid - max_difference
+
+    # z max and min
+    z_max = z_mid + max_difference
+    z_min = z_mid - max_difference
+
     ### first plot
+    
     # plt.ylim(minimum, maximum)
     plt.subplot(311)	# subplot allows multiple plots on 1 page
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
+    
+    plt.ylim(x_min, x_max)
+    
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     plt.ylabel('Bx')	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -104,6 +146,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
     plt.plot(time_arr,y_arr, linewidth=1)
+
+    plt.ylim(y_min, y_max)
+    
     plt.ylabel('By')	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -117,6 +162,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     ### Third plot using z-axis data. Add the x-axis label at the bottom
     plt.subplot(313)
     plt.plot(time_arr,z_arr, linewidth=1)
+
+    plt.ylim(z_min, z_max)
+    
     plt.ylabel('Bz')	# side label
     plt.xlabel(x_axis_label) # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -126,54 +174,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     z_yticks = plt.yticks()
-
-    # x, y, and z, y-axis plotting scale values
-    x_yticks = x_yticks[0]
-    x_plot_scale = x_yticks[1] - x_yticks[0]
-    y_yticks = y_yticks[0]
-    y_plot_scale = y_yticks[1] - y_yticks[0]
-    z_yticks = z_yticks[0]
-    z_plot_scale = z_yticks[1] - z_yticks[0]
-
-    # setting the scale_differences array and finding max difference in list
-    scale_differences = [x_plot_scale, y_plot_scale, z_plot_scale]
-    max_scale_value = max(scale_differences)
-
-    # x suplot y_scaling section
-    if (x_plot_scale < max_scale_value):
-        # getting new list with correct scale from set_yaxis function
-        x_yticks = set_yaxis(x_yticks, max_scale_value)
-        # switching to the correct subplot
-        plt.subplot(311)
-        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
-        plt.gca().set_ylim(x_yticks[0], x_yticks[-1])
-        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
-        x_yticks = x_yticks[1:-1]
-        plt.yticks(x_yticks)
-
-    # y suplot y_scaling section
-    if (y_plot_scale < max_scale_value):
-        # getting new list with correct scale from set_yaxis function
-        y_yticks = set_yaxis(y_yticks, max_scale_value)
-        # switching to the correct subplot
-        plt.subplot(312)
-        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
-        plt.gca().set_ylim(y_yticks[0], y_yticks[-1])
-        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
-        y_yticks = y_yticks[1:-1]
-        plt.yticks(y_yticks)
-
-    # z suplot y_scaling section
-    if (z_plot_scale < max_scale_value):
-        # getting new list with correct scale from set_yaxis function
-        z_yticks = set_yaxis(z_yticks, max_scale_value)
-        # switching to the correct subplot
-        plt.subplot(313)
-        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
-        plt.gca().set_ylim(z_yticks[0], z_yticks[-1])
-        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
-        z_yticks = z_yticks[1:-1]
-        plt.yticks(z_yticks)
     
     # returning the fig object
     return fig
