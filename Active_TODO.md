@@ -15,19 +15,15 @@ Ted Stuff |
 	git mv oldName.py new_name.py                                                       |
 - Remove old unused python files from repo ------------------------------------------- done |
 	git rm unused.py
-- Saving the figure buttons (save as and save) --------------------------------------- done |
-- implement save (saves default name, default option as pdf)  ------------------------ done |
-- implement save as (pops up save dialog box with default name) ---------------------- done |
-- y scaling -------------------------------------------------------------------------- done |
-- remove times from y and z subplots ------------------------------------------------- done |
-- right align labels east, align entry boxes west -- 2 columns ----------------------- done |
-- make plot, cancel, save, and save_as buttons on same line -------------------------- done |
-- edit x axis time so that only 6 - 7 ticks are shown -------------------------------- done |
-- edit y axis format so that only 4 - 5 ticks are shown ------------------------------ done |
-- background of canvas to be white --------------------------------------------------- |
-- background of control panel to be grey --------------------------------------------- |
-- Center the MACCS logo -------------------------------------------------------------- |
-- Have clean file import as an option ------------------------------------------------ done |
-- move canvas_plotter.plot function over to the class -------------------------------- done |
-- create an entry box with only digits? ---------------------------------------------- |
+- break out x time axis into separate file ------------------------------------------- done |
+- Dump the leftmost label on x-time axis if it goes over the origin ------------------ done |
+- x-time axis when the minutes != 0, labels are in incorrect spots ------------------- done |
+- 3 rows for options (Plot, \n Save, Save As... \n Quit) ----------------------------- done |
+- Add the unicode character for elipses on the Save As ------------------------------- done |
+- Put the 4:30 label at 4 ------------------------------------------------------------ done |
+- Get the centers of the two subplots and fix y-axis --------------------------------- done |
+- make end time defaulted to 24:00:00 ---------------- datetime objects only go to 23:59:59 |
+- "Open..." button to autofill in station code and yearday --------------------------- done |
+- Cancel button to cancel that file selection ------------------------- Not sure if needed? |
+- Heavy test x-axis time code -------------------------------------------------------- |
 --------------------------------------------------------------------------------------------
