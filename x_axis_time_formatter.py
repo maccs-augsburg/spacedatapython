@@ -21,6 +21,26 @@ import read_raw_to_lists
 
 
 def create_time_list( stime, etime):
+    """
+    Creates the correct time list for the x-axis labels for plotting within the given start and end times
+
+    Parameters
+    ----------
+    Datetime.time
+        stime: the starting time stamp
+        etime: the ending time stamp
+
+    Returns
+    -------
+    List
+        hours_arr: the list of datetime.datetime objects to be plotted
+
+    mdates.DateFormatter
+        x_axis_format: the DateFormatter object which specifies how to display the datetime.datetime objects
+
+    String
+        x_axis_label: the String value that will be used to label the x_axis
+    """
     x_axis_format = mdates.DateFormatter('%H')
     hours_arr = [] # list to use for custom times
     current_hour = stime.hour # setting the hour to start at
