@@ -231,5 +231,14 @@ def create_time_list( stime, etime):
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
+    # creating a datetime.time object to compare with the starting time
+    first_item = datetime.time(hour = hours_arr[0].hour,
+                               minute = hours_arr[0].minute,
+                               second = hours_arr[0].second)
+    # if the first item is the same as the starting time we don't plot it
+    # for visual purposes
+    if (first_item == stime):
+        hours_arr.pop(0)
+    
 
     return hours_arr, x_axis_format, x_axis_label
