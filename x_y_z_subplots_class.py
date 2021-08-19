@@ -230,10 +230,10 @@ class SingleGraphPlotter:
         radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=self.file_selection).grid(column=1, row=20, sticky=(W), columnspan=2)
 
         # Management buttons section
-        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, sticky=E)
-        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=4, row=21, sticky=W)
-        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=E)
-        ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=3, row=21, sticky=W)
+        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, columnspan=2, sticky=(W,E))
+        ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=23, columnspan=2, sticky=(W,E))
+        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=1, row=22, sticky=E)
+        ttk.Button(mainframe, text="Save As...", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=2, row=22, sticky=W)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
@@ -328,7 +328,7 @@ class SingleGraphPlotter:
         canvas.draw()
 
         # Placing canvas object into the window
-        canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=20)
+        canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=24)
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         converted_list = []
