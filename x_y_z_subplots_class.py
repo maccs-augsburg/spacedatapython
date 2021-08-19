@@ -8,6 +8,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
+from tkinter.filedialog import askopenfilename
 
 # Python 3 imports
 import sys
@@ -109,7 +110,7 @@ class SingleGraphPlotter:
 
         # Canvas and file name values for saving figure
         self.figure = None
-        self.file_name = None
+        self.file_name = ''
 
         ######################
         ### Labels Section ###
@@ -230,10 +231,11 @@ class SingleGraphPlotter:
         radio_button_7 = Radiobutton(mainframe, text="other -- Not working", value=7, variable=self.file_selection).grid(column=1, row=20, sticky=(W), columnspan=2)
 
         # Management buttons section
-        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21, columnspan=2, sticky=(W,E))
+        ttk.Button(mainframe, text="Plot", command=lambda: self.execute_functions(mainframe)).grid(column=1, row = 21)
         ttk.Button(mainframe, text="Quit", command=lambda: self.cancel(root)).grid(column=1, row=23, columnspan=2, sticky=(W,E))
         ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=1, row=22, sticky=E)
         ttk.Button(mainframe, text="Save As...", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=2, row=22, sticky=W)
+        ttk.Button(mainframe, text="Open file...", command=lambda: self.open_file()).grid(column=2, row=21)
         
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
@@ -346,6 +348,42 @@ class SingleGraphPlotter:
             converted_list.append(datetime.datetime(year=1111, month=1, day=1, hour=hour, minute=minute, second=second))
             
         return converted_list
+
+    def open_file(self):
+        # listing the types of file types we currently support
+        filetypes = (
+            ('Raw files', '*.2hz'),
+            ('Clean files', '*.s2')
+        )
+
+        # opening the dialog box
+        file_name = askopenfilename(title='test', filetypes = filetypes)
+
+        # splitting up the path and selecting the filename
+        self.file_name = file_name.split('/')[-1]
+
+        # setting the station code from the filename
+        self.station_code.set(self.file_name[0:2])
+
+        # setting the yearday from the filename
+        self.year_day.set(self.file_name[2:7])
+
+        # raw file selection branch
+        if (self.file_name[7:] == '.2hz'):
+            self.file_selection.set(4)
+            
+        # clean file selection branch
+        elif (self.file_name == '.s2'):
+            self.file_selection.set(3)
+
+        # else
+        else:
+            print('Option not available yet :(')
+        
+
+        
+
+        
 
     def save(self, fig, file_name):
         """
