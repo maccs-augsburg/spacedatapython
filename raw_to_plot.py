@@ -16,6 +16,7 @@ the time-stamped x, y, and z values on its' own plot.
 # Python 3 imports
 import sys
 import datetime
+import numpy as np
 
 # MACCS imports
 from raw_codecs import decode, time_of_record
@@ -196,16 +197,35 @@ def set_yaxis(yticks_list, scale_difference):
     
     # creating a new list to add the new values into
     new_yticks = []
-    # Keeping the starting point element the same
-    new_yticks.append(yticks_list[0])
     
-    # Iterating through the rest of the list
-    for i in range(1, len(yticks_list)):
-        # Adding the correctly updated value
-        if (len(new_yticks) < 5):
-            new_yticks.append(yticks_list[0] + (i * scale_difference))
-        else:
-            return new_yticks
+    # Keeping the starting point element the same
+    new_yticks.append(yticks_list[int(len(yticks_list)/2)])
+    
+    # Deleting the item from the yticks_list
+    yticks_list = np.delete(yticks_list, int(len(yticks_list)/2))
+
+    # below middle number for loop
+    for i in range(int(len(yticks_list) / 2)):
+        # Adding new item to our new list
+        new_yticks.append(new_yticks[0] - ((i+1) * scale_difference))
+        # Deleting item from the yticks_list
+        yticks_list = np.delete(yticks_list, i)
+
+    # above middle number for loop
+    for i in range(len(yticks_list)-1):
+        # Adding new item to our new list
+        new_yticks.append(new_yticks[0] + ((i+1) * scale_difference))
+
+    # sorting the list so that values are properly in order
+    new_yticks.sort()
+
+    # if the new_yticks list has more than 5 values we shrink it
+    # down by eliminating both the first and last digits until we
+    # get to 5 or less values in the list
+    if (len(new_yticks) > 5):
+        while(len(new_yticks) > 5):
+            new_yticks.pop(0)
+            new_yticks.pop(-1)
 
     # Returning the list
     return new_yticks
