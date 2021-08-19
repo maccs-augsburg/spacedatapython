@@ -54,11 +54,6 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
 
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
-
-    # Getting the year, month and day values from the date datetime.datetime object to use for datetime.datetime object creation
-    year_of_record = (int)(date[6:])
-    month_of_record = (int)(date[0:2])
-    day_of_record = (int)(date[3:5])
     
     # Quarter and three-quarter second constants expressed in terms of
     # hours to add to the time list
@@ -89,8 +84,8 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
             second = one_record[6]
 
             # converting it into hours for the time array but saving them as datetime objects
-            time_in_hours_quarter_second = datetime.datetime(year=year_of_record, month = month_of_record, day = day_of_record, hour=(int)((hour + (minute / 60) + second / 3600) + QUARTER_SECOND), minute=minute, second=second)
-            time_in_hours_three_quarter_second = datetime.datetime(year=year_of_record, month = month_of_record, day = day_of_record, hour=(int)((hour + (minute / 60) + second / 3600) + THREE_QUARTER_SECOND), minute=minute, second=second)
+            time_in_hours_quarter_second = datetime.datetime(year=1111, month = 1, day = 1, hour=(int)((hour + (minute / 60) + second / 3600) + QUARTER_SECOND), minute=minute, second=second)
+            time_in_hours_three_quarter_second = datetime.datetime(year=1111, month = 1, day = 1, hour=(int)((hour + (minute / 60) + second / 3600) + THREE_QUARTER_SECOND), minute=minute, second=second)
 
             # adding the datetime objects to the time_arr list
             time_arr.append(time_in_hours_quarter_second)
