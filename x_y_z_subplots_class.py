@@ -350,6 +350,10 @@ class SingleGraphPlotter:
         return converted_list
 
     def open_file(self):
+        """
+        Opens a open file dialog box where the user picks the appropriate file type. Once that is
+        selected, it inputs the data into the boxes automatically based on the filename.
+        """
         # listing the types of file types we currently support
         filetypes = (
             ('Raw files', '*.2hz'),
@@ -378,12 +382,7 @@ class SingleGraphPlotter:
 
         # else
         else:
-            print('Option not available yet :(')
-        
-
-        
-
-        
+            print('Option not available yet :(') 
 
     def save(self, fig, file_name):
         """
