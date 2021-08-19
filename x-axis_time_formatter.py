@@ -20,7 +20,7 @@ import matplotlib.dates as mdates
 import read_raw_to_lists
 
 
-def create_time_list( start_time, end_time):
+def create_time_list( stime, etime):
     x_axis_format = mdates.DateFormatter('%H')
     hours_arr = [] # list to use for custom times
     current_hour = stime.hour # setting the hour to start at
