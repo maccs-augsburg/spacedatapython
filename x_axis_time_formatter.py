@@ -42,6 +42,7 @@ def create_time_list( stime, etime):
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
 
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -239,6 +240,18 @@ def create_time_list( stime, etime):
     # for visual purposes
     if (first_item == stime):
         hours_arr.pop(0)
+
+    # if we are only showing hours, we need the hours to be aligned in the correct spots
+    if (stime.minute != 0) and (x_axis_label == 'Universal Time in Hours (HH)'):
+        for i in range(len(hours_arr)):
+            print(hours_arr[i])
+            hours_arr[i] = datetime.datetime(year=1111,
+                                             month=1,
+                                             day=1,
+                                             hour=hours_arr[i].hour,
+                                             minute = 0,
+                                             second = hours_arr[i].second)
+            print(hours_arr[i])
     
 
     return hours_arr, x_axis_format, x_axis_label
