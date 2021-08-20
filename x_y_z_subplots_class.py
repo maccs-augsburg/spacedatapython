@@ -25,6 +25,9 @@ import read_raw_to_lists
 import read_clean_to_lists
 import canvas_plotter
 
+# matplotlib import
+import matplotlib as plt
+
 class SingleGraphPlotter:
     """ A class containing a GUI for a single graph, x, y, and z plotter.
         
@@ -255,7 +258,6 @@ class SingleGraphPlotter:
         """
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
         """
-
         ############################
         ### Getting User Entries ###
         ############################
@@ -373,6 +375,14 @@ class SingleGraphPlotter:
 
         # setting the yearday from the filename
         self.year_day.set(self.file_name[2:7])
+
+        # resetting the start times and end times
+        self.start_hour.set(0)
+        self.start_minute.set(0)
+        self.start_second.set(0)
+        self.end_hour.set(23)
+        self.end_minute.set(59)
+        self.end_second.set(59)
 
         # raw file selection branch
         if (self.file_name[7:] == '.2hz'):
