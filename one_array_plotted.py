@@ -71,7 +71,7 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
 
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record, month=month_of_record,day=day_of_record,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+                hours_arr.append(datetime.datetime(year=1111, month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
             
 
     #Datestamp
@@ -99,9 +99,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             for i in range(hour_difference + 1):
                 factor = hour_difference % 2
                 if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour = current_hour,
                                                        minute= current_minute,
                                                        second = current_second))
@@ -110,9 +110,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
         elif (hour_difference >=5):
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour = current_hour,
                                                    minute= current_minute,
                                                    second = current_second))
@@ -124,9 +124,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -137,9 +137,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -152,9 +152,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -164,9 +164,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -177,9 +177,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -190,9 +190,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -202,9 +202,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=minute,
                                                    second=current_second))
@@ -215,9 +215,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             for minute in range(stime.minute, etime.minute+1):
                 for second in range(stime.second, etime.second + 1):
                     if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=current_hour,
                                                            minute=minute,
                                                            second=second))
@@ -228,9 +228,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -240,9 +240,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -252,9 +252,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -265,9 +265,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -277,9 +277,9 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))      
@@ -371,7 +371,7 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
 
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record,month=month_of_record,day=day_of_record,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+                hours_arr.append(datetime.datetime(year=1111,month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
             
 
 
@@ -396,7 +396,7 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
         x_axis_label = "Universal Time in Hours (HH)"
         for i in range(24):
             if (i % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record,month=month_of_record,day=day_of_record,hour = i,minute=current_minute,second = current_second))
+                hours_arr.append(datetime.datetime(year=1111,month=1,day=1,hour = i,minute=current_minute,second = current_second))
             
 
     # Create a loop that fills out an list with odd numbers from start time to end time
@@ -409,9 +409,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             for i in range(hour_difference + 1):
                 factor = hour_difference % 2
                 if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour = current_hour,
                                                        minute= current_minute,
                                                        second = current_second))
@@ -420,9 +420,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
         elif (hour_difference >=5):
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour = current_hour,
                                                    minute= current_minute,
                                                    second = current_second))
@@ -434,9 +434,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -447,9 +447,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -462,9 +462,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -474,9 +474,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -487,9 +487,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -500,9 +500,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -512,9 +512,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=minute,
                                                    second=current_second))
@@ -525,9 +525,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             for minute in range(stime.minute, etime.minute+1):
                 for second in range(stime.second, etime.second + 1):
                     if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=current_hour,
                                                            minute=minute,
                                                            second=second))
@@ -538,9 +538,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -550,9 +550,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -562,9 +562,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -575,9 +575,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -587,9 +587,9 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
@@ -670,7 +670,7 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
 
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record, month=month_of_record,day=day_of_record,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list     
+                hours_arr.append(datetime.datetime(year=1111, month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list     
 
 
     #Datestamp
@@ -700,9 +700,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             for i in range(hour_difference + 1):
                 factor = hour_difference % 2
                 if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour = current_hour,
                                                        minute= current_minute,
                                                        second = current_second))
@@ -711,9 +711,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
         elif (hour_difference >=5):
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour = current_hour,
                                                    minute= current_minute,
                                                    second = current_second))
@@ -725,9 +725,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -738,9 +738,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -753,9 +753,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -765,9 +765,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -778,9 +778,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -791,9 +791,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -803,9 +803,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=minute,
                                                    second=current_second))
@@ -816,9 +816,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             for minute in range(stime.minute, etime.minute+1):
                 for second in range(stime.second, etime.second + 1):
                     if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=current_hour,
                                                            minute=minute,
                                                            second=second))
@@ -829,9 +829,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -841,9 +841,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -853,9 +853,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -866,9 +866,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -878,9 +878,9 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
@@ -972,7 +972,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
 
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record,month=month_of_record,day=day_of_record,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+                hours_arr.append(datetime.datetime(year=1111,month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
             
 
 
@@ -999,9 +999,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             for i in range(hour_difference + 1):
                 factor = hour_difference % 2
                 if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour = current_hour,
                                                        minute= current_minute,
                                                        second = current_second))
@@ -1010,9 +1010,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
         elif (hour_difference >=5):
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour = current_hour,
                                                    minute= current_minute,
                                                    second = current_second))
@@ -1024,9 +1024,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1037,9 +1037,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1052,9 +1052,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1064,9 +1064,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -1077,9 +1077,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -1090,9 +1090,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -1102,9 +1102,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=minute,
                                                    second=current_second))
@@ -1115,9 +1115,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             for minute in range(stime.minute, etime.minute+1):
                 for second in range(stime.second, etime.second + 1):
                     if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=current_hour,
                                                            minute=minute,
                                                            second=second))
@@ -1128,9 +1128,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1140,9 +1140,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1152,9 +1152,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1165,9 +1165,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1177,9 +1177,9 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
@@ -1283,7 +1283,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
 
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record, month=month_of_record,day=day_of_record,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+                hours_arr.append(datetime.datetime(year=1111, month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
             
 
 
@@ -1310,9 +1310,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             for i in range(hour_difference + 1):
                 factor = hour_difference % 2
                 if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour = current_hour,
                                                        minute= current_minute,
                                                        second = current_second))
@@ -1321,9 +1321,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
         elif (hour_difference >=5):
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour = current_hour,
                                                    minute= current_minute,
                                                    second = current_second))
@@ -1335,9 +1335,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1348,9 +1348,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1363,9 +1363,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1375,8 +1375,8 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
                                                        day=day_of_record,
                                                        hour=current_hour,
                                                        minute=minute,
@@ -1388,9 +1388,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -1401,9 +1401,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -1413,9 +1413,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=minute,
                                                    second=current_second))
@@ -1426,9 +1426,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             for minute in range(stime.minute, etime.minute+1):
                 for second in range(stime.second, etime.second + 1):
                     if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=current_hour,
                                                            minute=minute,
                                                            second=second))
@@ -1439,9 +1439,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1451,9 +1451,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1463,10 +1463,10 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour=current_hour,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=1,
                                                        minute=current_minute,
                                                        second=second))
 
@@ -1476,9 +1476,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1488,9 +1488,9 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
@@ -1597,7 +1597,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
 
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record,month=month_of_record,day=day_of_record,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+                hours_arr.append(datetime.datetime(year=1111,month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
            
 
 
@@ -1620,9 +1620,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
         x_axis_label = "Universal Time in Hours (HH)"
         for i in range(24):
             if (i % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour = i,
                                                            minute=current_minute,
                                                            second = current_second))
@@ -1638,9 +1638,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             for i in range(hour_difference + 1):
                 factor = hour_difference % 2
                 if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour = current_hour,
                                                        minute= current_minute,
                                                        second = current_second))
@@ -1649,9 +1649,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
         elif (hour_difference >=5):
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour = current_hour,
                                                    minute= current_minute,
                                                    second = current_second))
@@ -1663,9 +1663,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1676,9 +1676,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1691,9 +1691,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -1703,9 +1703,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -1716,9 +1716,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -1729,9 +1729,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -1741,9 +1741,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=minute,
                                                    second=current_second))
@@ -1754,9 +1754,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             for minute in range(stime.minute, etime.minute+1):
                 for second in range(stime.second, etime.second + 1):
                     if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=current_hour,
                                                            minute=minute,
                                                            second=second))
@@ -1767,9 +1767,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1779,9 +1779,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1791,9 +1791,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1804,9 +1804,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -1816,9 +1816,9 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
@@ -1925,7 +1925,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
 
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record,month=month_of_record,day=day_of_record,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+                hours_arr.append(datetime.datetime(year=1111,month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
             
 
 
@@ -1949,9 +1949,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
         x_axis_label = "Universal Time in Hours (HH)"
         for i in range(24):
             if (i % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour = i,
                                                            minute=current_minute,
                                                            second = current_second))
@@ -1967,9 +1967,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             for i in range(hour_difference + 1):
                 factor = hour_difference % 2
                 if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour = current_hour,
                                                        minute= current_minute,
                                                        second = current_second))
@@ -1978,9 +1978,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
         elif (hour_difference >=5):
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour = current_hour,
                                                    minute= current_minute,
                                                    second = current_second))
@@ -1992,9 +1992,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -2005,9 +2005,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -2020,9 +2020,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             for hour in range(stime.hour, etime.hour+1):
                 for minute in range(stime.minute, etime.minute+1):
                     if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
@@ -2032,9 +2032,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -2045,9 +2045,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -2058,9 +2058,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
                 if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=minute,
                                                        second=current_second))
@@ -2070,9 +2070,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=minute,
                                                    second=current_second))
@@ -2083,9 +2083,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             for minute in range(stime.minute, etime.minute+1):
                 for second in range(stime.second, etime.second + 1):
                     if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
                                                            hour=current_hour,
                                                            minute=minute,
                                                            second=second))
@@ -2096,9 +2096,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -2108,9 +2108,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -2120,9 +2120,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -2133,9 +2133,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
                                                        hour=current_hour,
                                                        minute=current_minute,
                                                        second=second))
@@ -2145,9 +2145,9 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_optio
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
+                hours_arr.append(datetime.datetime(year=111,
+                                                   month=1,
+                                                   day=1,
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
