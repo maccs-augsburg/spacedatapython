@@ -25,5 +25,19 @@ Ted Stuff |
 - make end time defaulted to 24:00:00 ---------------- datetime objects only go to 23:59:59 |
 - "Open..." button to autofill in station code and yearday --------------------------- done |
 - Cancel button to cancel that file selection ------------------------- Not sure if needed? |
-- Heavy test x-axis time code -------------------------------------------------------- |
+- Zoom w Erik about y-axis ----------------------------------------------------------- done |
+- find the overall center point of the day in terms of y ----------------------------- done |
+- create function that finds the max and min of a list y axis ------------------------ done |
+- x diff, y diff, z diff ------------------------------------------------------------- done |
+- mid x , mid y, and mid z ----------------------------------------------------------- done |
+- find biggest difference + 5% ------------------------------------------------------- done |
+- halfway up the biggest diff + 5% --------------------------------------------------- done |
+- clean data file implemenation ------------------------------------------------------ done |
+- Heavy test x-axis time code -------------------------------------------------------- done |
+- Reset counters when selecting a new file ------------------------------------------- done |
 --------------------------------------------------------------------------------------------
+
+
+
+
+
