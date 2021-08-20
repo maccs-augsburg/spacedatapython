@@ -16,6 +16,7 @@ x, y, and z values on its' own plot.
 # Python 3 import
 import sys
 import datetime
+import statistics as stats
 
 # MACCS imports
 from raw_codecs import decode, time_of_record
@@ -28,6 +29,7 @@ import matplotlib.dates as mdates
 
 # Plotter program imports
 import read_clean_to_lists
+import x_axis_time_formatter
 
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     """ Places x, y, z arrays on a plot.
@@ -74,246 +76,70 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
 
-    year_of_record = (int)(date[6:])
-    month_of_record = (int)(date[0:2])
-    day_of_record = (int)(date[3:5])
-    
 
-    ### hour list and determining which one to use
-    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
-    x_axis_format = mdates.DateFormatter('%H')
-    
-    hours_arr = [] # list to use for custom times
-    current_hour = stime.hour # setting the hour to start at
-    current_minute = stime.minute # setting the minute to start at
-    current_second = stime.second # setting the second to start at
-    default_hours_flag = False # using a flag to better optimize operations
-    x_axis_label = ""
-
-    # setting the flag to true if the stime and etimes are the full 24 hours
-    if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
-        default_hours_flag = True
-        x_axis_label = "Universal Time in Hours (HH)"
-        for i in range(24):
-            if (i % 2 != 0):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
-                                                           hour = i,
-                                                           minute=current_minute,
-                                                           second = current_second))
-            
-
-    # Create a loop that fills out an list with odd numbers from start time to end time
-    if not default_hours_flag:
-        hour_difference = etime.hour - stime.hour # Getting the difference in time
-        minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
-        second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
-        if (hour_difference >= 8): # More than 8 hour branch
-            x_axis_label = "Universal Time in Hours (HH)"
-            for i in range(hour_difference + 1):
-                factor = hour_difference % 2
-                if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour = current_hour,
-                                                       minute= current_minute,
-                                                       second = current_second))
-                    current_hour += 2
-
-        elif (hour_difference >=5):
-            x_axis_label = "Universal Time in Hours (HH)"
-            for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
-                                                   hour = current_hour,
-                                                   minute= current_minute,
-                                                   second = current_second))
-                current_hour += 1
-                    
-        elif (hour_difference >= 2):
-            x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
-            x_axis_format = mdates.DateFormatter('%H:%M')
-            for hour in range(stime.hour, etime.hour+1):
-                for minute in range(stime.minute, etime.minute+1):
-                    if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
-                                                           hour=hour,
-                                                           minute=minute,
-                                                           second=current_second))
-
-        elif (hour_difference >= 1):
-            x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
-            x_axis_format = mdates.DateFormatter('%H:%M')
-            for hour in range(stime.hour, etime.hour+1):
-                for minute in range(stime.minute, etime.minute+1):
-                    if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
-                                                           hour=hour,
-                                                           minute=minute,
-                                                           second=current_second))
-            
-            
-        elif (minute_difference >= 30):
-            # assuming a 30 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for hour in range(stime.hour, etime.hour+1):
-                for minute in range(stime.minute, etime.minute+1):
-                    if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
-                                                           hour=hour,
-                                                           minute=minute,
-                                                           second=current_second))
-        elif (minute_difference >= 20):
-            # assuming a 20 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour=current_hour,
-                                                       minute=minute,
-                                                       second=current_second))
-
-        elif (minute_difference >=10):
-            # assuming a 10 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour=current_hour,
-                                                       minute=minute,
-                                                       second=current_second))
-                
-        elif (minute_difference >= 7):
-            # assuming a 7 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour=current_hour,
-                                                       minute=minute,
-                                                       second=current_second))
-            
-        elif (minute_difference >= 2):
-            # assuming a 2 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
-                                                   hour=current_hour,
-                                                   minute=minute,
-                                                   second=current_second))
-        elif (minute_difference >= 1):
-            # assuming a 1 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                for second in range(stime.second, etime.second + 1):
-                    if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=year_of_record,
-                                                           month=month_of_record,
-                                                           day=day_of_record,
-                                                           hour=current_hour,
-                                                           minute=minute,
-                                                           second=second))
-            
-        elif (second_difference >= 45):
-            # assuming 45 second or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour=current_hour,
-                                                       minute=current_minute,
-                                                       second=second))
-        elif(second_difference >= 25):
-            # assuming 25 second or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour=current_hour,
-                                                       minute=current_minute,
-                                                       second=second))
-        elif(second_difference >= 10):
-            # assuming 10 second or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour=current_hour,
-                                                       minute=current_minute,
-                                                       second=second))
-
-        elif(second_difference >= 5):
-            # assuming 5 second or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=year_of_record,
-                                                       month=month_of_record,
-                                                       day=day_of_record,
-                                                       hour=current_hour,
-                                                       minute=current_minute,
-                                                       second=second))
-            
-        else:
-            # assuming less than a 5 second gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=year_of_record,
-                                                   month=month_of_record,
-                                                   day=day_of_record,
-                                                   hour=current_hour,
-                                                   minute=current_minute,
-                                                   second=second))
+    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
     
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.subplots_adjust(hspace=0.03)
 
+    # x min, max, middle and difference
+    x_max = max(x_arr)
+    x_min = min(x_arr)
+    x_mid = stats.median(x_arr)
+    #x_mid = stats.mean(x_arr)
+    #x_mid = x_arr[int(len(x_arr)/2)]
+    x_difference = x_max - x_min
+
+    # y min, max, middle and difference
+    y_max = max(y_arr)
+    y_min = min(y_arr)
+    y_mid = stats.median(y_arr)
+    #y_mid = stats.mean(y_arr)
+    #y_mid = y_arr[int(len(y_arr)/2)]
+    y_difference = y_max - y_min
+    
+    # z min, max, middle and difference
+    z_max = max(z_arr)
+    z_min = min(z_arr)
+    z_mid = stats.median(z_arr)
+    #z_mid = stats.mean(z_arr)
+    #z_mid = z_arr[int(len(z_arr)/2)]
+    z_difference = z_max - z_min
+
+    # getting all differences and finding the biggest difference
+    differences = [x_difference, y_difference, z_difference]
+    max_difference = max(differences)
+
+    # increasing the max_difference by 5%
+    max_difference = max_difference + max_difference * 0.05
+
+    # x max and min
+    x_max = x_mid + max_difference
+    x_min = x_mid - max_difference
+
+    # y max and min
+    y_max = y_mid + max_difference
+    y_min = y_mid - max_difference
+
+    # z max and min
+    z_max = z_mid + max_difference
+    z_min = z_mid - max_difference
+
     ### first plot
+    
     # plt.ylim(minimum, maximum)
     plt.subplot(311)	# subplot allows multiple plots on 1 page
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
+    
+    plt.ylim(x_min, x_max)
+    
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     plt.ylabel('Bx')	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -325,9 +151,11 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
     plt.plot(time_arr,y_arr, linewidth=1)
+
+    plt.ylim(y_min, y_max)
+    
     plt.ylabel('By')	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -339,64 +167,18 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     ### Third plot using z-axis data. Add the x-axis label at the bottom
     plt.subplot(313)
     plt.plot(time_arr,z_arr, linewidth=1)
+
+    plt.ylim(z_min, z_max)
+    
     plt.ylabel('Bz')	# side label
     plt.xlabel(x_axis_label) # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     z_yticks = plt.yticks()
-
-    # x, y, and z, y-axis plotting scale values
-    x_yticks = x_yticks[0]
-    x_plot_scale = x_yticks[1] - x_yticks[0]
-    y_yticks = y_yticks[0]
-    y_plot_scale = y_yticks[1] - y_yticks[0]
-    z_yticks = z_yticks[0]
-    z_plot_scale = z_yticks[1] - z_yticks[0]
-
-    # setting the scale_differences array and finding max difference in list
-    scale_differences = [x_plot_scale, y_plot_scale, z_plot_scale]
-    max_scale_value = max(scale_differences)
-
-    # x suplot y_scaling section
-    if (x_plot_scale < max_scale_value):
-        # getting new list with correct scale from set_yaxis function
-        x_yticks = set_yaxis(x_yticks, max_scale_value)
-        # switching to the correct subplot
-        plt.subplot(311)
-        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
-        plt.gca().set_ylim(x_yticks[0], x_yticks[-1])
-        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
-        x_yticks = x_yticks[1:-1]
-        plt.yticks(x_yticks)
-
-    # y suplot y_scaling section
-    if (y_plot_scale < max_scale_value):
-        # getting new list with correct scale from set_yaxis function
-        y_yticks = set_yaxis(y_yticks, max_scale_value)
-        # switching to the correct subplot
-        plt.subplot(312)
-        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
-        plt.gca().set_ylim(y_yticks[0], y_yticks[-1])
-        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
-        y_yticks = y_yticks[1:-1]
-        plt.yticks(y_yticks)
-
-    # z suplot y_scaling section
-    if (z_plot_scale < max_scale_value):
-        # getting new list with correct scale from set_yaxis function
-        z_yticks = set_yaxis(z_yticks, max_scale_value)
-        # switching to the correct subplot
-        plt.subplot(313)
-        # Setting the ticks (not including the ticks on the top and bottom of the subplot)
-        plt.gca().set_ylim(z_yticks[0], z_yticks[-1])
-        # Preparing the setting the tick labels to also not include the ticks on top and bottom of subplot
-        z_yticks = z_yticks[1:-1]
-        plt.yticks(z_yticks)
     
     # returning the fig object
     return fig
@@ -420,16 +202,35 @@ def set_yaxis(yticks_list, scale_difference):
     
     # creating a new list to add the new values into
     new_yticks = []
-    # Keeping the starting point element the same
-    new_yticks.append(yticks_list[0])
     
-    # Iterating through the rest of the list
-    for i in range(1, len(yticks_list)):
-        # Adding the correctly updated value
-        if (len(new_yticks) < 5):
-            new_yticks.append(yticks_list[0] + (i * scale_difference))
-        else:
-            return new_yticks
+    # Keeping the starting point element the same
+    new_yticks.append(yticks_list[int(len(yticks_list)/2)])
+    
+    # Deleting the item from the yticks_list
+    yticks_list = np.delete(yticks_list, int(len(yticks_list)/2))
+
+    # below middle number for loop
+    for i in range(int(len(yticks_list) / 2)):
+        # Adding new item to our new list
+        new_yticks.append(new_yticks[0] - ((i+1) * scale_difference))
+        # Deleting item from the yticks_list
+        yticks_list = np.delete(yticks_list, i)
+
+    # above middle number for loop
+    for i in range(len(yticks_list)-1):
+        # Adding new item to our new list
+        new_yticks.append(new_yticks[0] + ((i+1) * scale_difference))
+
+    # sorting the list so that values are properly in order
+    new_yticks.sort()
+
+    # if the new_yticks list has more than 5 values we shrink it
+    # down by eliminating both the first and last digits until we
+    # get to 5 or less values in the list
+    if (len(new_yticks) > 5):
+        while(len(new_yticks) > 5):
+            new_yticks.pop(0)
+            new_yticks.pop(-1)
 
     # Returning the list
     return new_yticks
