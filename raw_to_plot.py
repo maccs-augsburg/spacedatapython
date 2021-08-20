@@ -87,25 +87,19 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     # x min, max, middle and difference
     x_max = max(x_arr)
     x_min = min(x_arr)
-    x_mid = stats.median(x_arr)
-    #x_mid = stats.mean(x_arr)
-    #x_mid = x_arr[int(len(x_arr)/2)]
+    x_mid = (x_max + x_min) / 2
     x_difference = x_max - x_min
 
     # y min, max, middle and difference
     y_max = max(y_arr)
     y_min = min(y_arr)
-    y_mid = stats.median(y_arr)
-    #y_mid = stats.mean(y_arr)
-    #y_mid = y_arr[int(len(y_arr)/2)]
+    y_mid = (y_max + y_min) / 2
     y_difference = y_max - y_min
     
     # z min, max, middle and difference
     z_max = max(z_arr)
     z_min = min(z_arr)
-    z_mid = stats.median(z_arr)
-    #z_mid = stats.mean(z_arr)
-    #z_mid = z_arr[int(len(z_arr)/2)]
+    z_mid = (z_max + z_min) / 2
     z_difference = z_max - z_min
 
     # getting all differences and finding the biggest difference
