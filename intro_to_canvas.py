@@ -1,10 +1,12 @@
+import matplotlib.pyplot as plt
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 import sys
 import datetime
