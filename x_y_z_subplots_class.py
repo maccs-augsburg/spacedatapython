@@ -19,8 +19,10 @@ import subprocess
 
 # Plotter program imports
 import raw_to_plot
+import clean_to_plot
 import file_naming
 import read_raw_to_lists
+import read_clean_to_lists
 import canvas_plotter
 
 class SingleGraphPlotter:
@@ -316,7 +318,7 @@ class SingleGraphPlotter:
             self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
                                           end_time_stamp)
         elif (file_selection_value == '3'):
-            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
+            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,
                                                                                            end_time_stamp, self.file_name)
             # plotting the arrays
             self.figure = clean_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
@@ -377,7 +379,7 @@ class SingleGraphPlotter:
             self.file_selection.set(4)
             
         # clean file selection branch
-        elif (self.file_name == '.s2'):
+        elif (self.file_name[7:] == '.s2'):
             self.file_selection.set(3)
 
         # else
