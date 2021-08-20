@@ -10,7 +10,7 @@
 import datetime
 import sys
 
-def create_datetime_lists_from_clean( raw_file, start_time, end_time, file_name):
+def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_name):
     """ Creates x, y, z, time, and flag lists based on the 2 Hz clean data file.
     
     Places x, y, z, time, and flag values into their own lists.
