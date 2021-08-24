@@ -687,7 +687,6 @@ class SingleGraphPlotter:
     def error_message_pop_up(self, title, message):
         # pops up error message box with the title and message inputted
         messagebox.showerror(title=title, message = "ERROR: " + message)
-        sys.exit(0)
 
     def warning_message_pop_up(self, title, message):
         # pops up warning message box with the title and message inputted
