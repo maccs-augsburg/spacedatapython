@@ -47,8 +47,8 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
     """
     # Quarter and three-quarter second constants expressed in terms of
     # hours to add to the time list
-    QUARTER_SECOND = 0.25 / 3600.0
-    THREE_QUARTER_SECOND = 0.75 / 3600.0
+##    QUARTER_SECOND = 0.25 / 3600.0
+##    THREE_QUARTER_SECOND = 0.75 / 3600.0
     
     # Lists to hold data and return at end of function
     x_arr = []	     # x plot point storage
@@ -80,16 +80,18 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
             time_in_hours_quarter_second = datetime.datetime(year=1111,
                                                              month = 1,
                                                              day = 1,
-                                                             hour=(int)((hour + (minute / 60) + second / 3600) + QUARTER_SECOND),
+                                                             hour=hour,
                                                              minute=minute,
-                                                             second=second)
+                                                             second=second,
+                                                             microsecond=250,000)
 
             time_in_hours_three_quarter_second = datetime.datetime(year=1111,
-                                                             month = 1,
-                                                             day = 1,
-                                                             hour=(int)((hour + (minute / 60) + second / 3600) + THREE_QUARTER_SECOND),
-                                                             minute=minute,
-                                                             second=second)
+                                                                   month = 1,
+                                                                   day = 1,
+                                                                   hour=hour,
+                                                                   minute=minute,
+                                                                   second=second,
+                                                                   microsecond=750,000)
             
             time_arr.append(time_in_hours_quarter_second)
             time_arr.append(time_in_hours_three_quarter_second)

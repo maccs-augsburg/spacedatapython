@@ -57,8 +57,8 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
     
     # Quarter and three-quarter second constants expressed in terms of
     # hours to add to the time list
-    QUARTER_SECOND = 0.25 / 3600.0
-    THREE_QUARTER_SECOND = 0.75 / 3600.0
+##    QUARTER_SECOND = 0.25 / 3600.0
+##    THREE_QUARTER_SECOND = 0.75 / 3600.0
     
     # Lists to hold data and return at end of function
     x_arr = []	    #x plot point storage
@@ -84,8 +84,20 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
             second = one_record[6]
 
             # converting it into hours for the time array but saving them as datetime objects
-            time_in_hours_quarter_second = datetime.datetime(year=1111, month = 1, day = 1, hour=(int)((hour + (minute / 60) + second / 3600) + QUARTER_SECOND), minute=minute, second=second)
-            time_in_hours_three_quarter_second = datetime.datetime(year=1111, month = 1, day = 1, hour=(int)((hour + (minute / 60) + second / 3600) + THREE_QUARTER_SECOND), minute=minute, second=second)
+            time_in_hours_quarter_second = datetime.datetime(year=1111,
+                                                             month = 1,
+                                                             day = 1,
+                                                             hour=hour,
+                                                             minute=minute,
+                                                             second=second,
+                                                             microsecond=250,000)
+            time_in_hours_three_quarter_second = datetime.datetime(year=1111,
+                                                                   month = 1,
+                                                                   day = 1,
+                                                                   hour=hour,
+                                                                   minute=minute,
+                                                                   second=second,
+                                                                   microsecond=750,000)
 
             # adding the datetime objects to the time_arr list
             time_arr.append(time_in_hours_quarter_second)
