@@ -174,10 +174,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     z_yticks = plt.yticks()
-
-    # closing the figure after using so that we don't use too much memory
-    # when opening multiple figures
-    plt.close()
     
     # returning the fig object
     return fig
