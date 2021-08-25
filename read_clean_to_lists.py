@@ -75,7 +75,13 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
         # if current time is greater than the start time we process and add it to arrays
         if current_time >= start_time :
 
+            # creating a test for no data variable
+            test_for_no_data = int.from_bytes(clean_record[4:8], byteorder='big', signed=True)
 
+            # if we don't have data, we don't add it to the time arrays
+            if test_for_no_data == 32767000:
+                continue
+            
             # converting it into hours for the time array 
             time_in_hours_quarter_second = datetime.datetime(year=1111,
                                                              month = 1,
