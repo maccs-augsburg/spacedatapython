@@ -97,7 +97,9 @@ class SingleGraphPlotter:
 
         self.convert_hours_list_to_datetime_object( list_to_convert) : - Not yet implemented
 
-        self.save(fig, file_name) : - Not yet tested
+        self.save(fig, file_name) : saves the matplotlib.pyplot.figure object to a default pdf
+
+        self.save_as(fig, file_name) : pops up a user dialog box to specify what type of file to save the matplotlib.pyplot.figure object as
     """
 
     def __init__(self):
@@ -429,7 +431,7 @@ class SingleGraphPlotter:
         # Popping up the save as file dialog box
         save_as_file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
         
-        if save_as_file is None: # if a user hits cancel it will return a Nonetype
+        if save_as_file is None: # if a user hits cancel it will return a Nonetype so we don't need to save anything
             return
         else: # somehow save the figure
             file_ending = save_as_file.name.split('/')[-1][-4:] #getting the ending value of the file
