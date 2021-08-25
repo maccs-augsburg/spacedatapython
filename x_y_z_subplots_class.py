@@ -16,6 +16,7 @@ import datetime
 from PIL import ImageTk, Image
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 import subprocess
+import os
 
 # Plotter program imports
 import raw_to_plot
@@ -426,8 +427,19 @@ class SingleGraphPlotter:
         # Specifying the supported file types that can be saved
         files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
         # Popping up the save as file dialog box
-        asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
+        save_as_file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
+        
+        if save_as_file is None: # if a user hits cancel it will return a Nonetype
+            return
+        else: # somehow save the figure
+            file_ending = save_as_file.name.split('/')[-1][-4:] #getting the ending value of the file
+            if file_ending == '.pdf': # Saving it as a pdf
+                fig.savefig(file_name + file_ending, format='pdf', dpi=1200)
+            elif file_ending == '.png': # Saving it as a png
+                fig.savefig(file_name + file_ending, format='png', dpi=1200)
             
+            
+        
     def year_day_entry_check(self, year_day_value):
         """
         Checks the year day entry value to see if there was a value inputted for the yearday entry box
