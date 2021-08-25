@@ -90,14 +90,14 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
                                                              hour=hour,
                                                              minute=minute,
                                                              second=second,
-                                                             microsecond=250,000)
+                                                             microsecond=250000)
             time_in_hours_three_quarter_second = datetime.datetime(year=1111,
                                                                    month = 1,
                                                                    day = 1,
                                                                    hour=hour,
                                                                    minute=minute,
                                                                    second=second,
-                                                                   microsecond=750,000)
+                                                                   microsecond=750000)
 
             # adding the datetime objects to the time_arr list
             time_arr.append(time_in_hours_quarter_second)
