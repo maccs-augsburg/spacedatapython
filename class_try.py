@@ -6,6 +6,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
+from tkinter.filedialog import askopenfilename
 
 
 #imports from python 
@@ -128,10 +129,10 @@ class ThreeGraphPlotter:
         ###Buttons###
 
         ttk.Button(mainframe, text = "Plot", command = lambda: self.execute_functions(mainframe)).grid(column = 2, row = 20,  sticky = W)
-        ttk.Button(mainframe, text = "Cancel", command = lambda: self.cancel(window)).grid(column =1, row = 20, padx = 25, sticky = W)
+        ttk.Button(mainframe, text = "Quit", command = lambda: self.cancel(window)).grid(column =1, row = 22,columnspan = 2,  padx = 25, sticky = W)
         ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=W)
-        ttk.Button(mainframe, text="Save As", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
-
+        ttk.Button(mainframe, text="Save As...", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
+        ttk.Button(mainframe, text="Open File...", command=lambda: self.open_file()).grid(column=1, row=20, sticky=W)
         #
         for child in mainframe.winfo_children(): 
                 child.grid_configure(padx=5, pady=5)
@@ -247,6 +248,49 @@ class ThreeGraphPlotter:
         # Popping up the save as file dialog box
         asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
 
+
+    def open_file(self):
+        """
+        Opens a open file dialog box where the user picks the appropriate file type. Once that is
+        selected, it inputs the data into the boxes automatically based on the filename.
+        """
+        # listing the types of file types we currently support
+        filetypes = (
+            ('Raw files', '*.2hz'),
+            ('Clean files', '*.s2')
+        )
+
+        # opening the dialog box
+        file_name = askopenfilename(title='test', filetypes = filetypes)
+
+        # splitting up the path and selecting the filename
+        self.file_name = file_name.split('/')[-1]
+
+        # setting the station code from the filename
+        self.station_names.set(self.file_name[0:2])
+
+        # setting the yearday from the filename
+        self.year_day.set(self.file_name[2:7])
+
+        # resetting the start times and end times
+        self.start_hour.set(0)
+        self.start_minute.set(0)
+        self.start_second.set(0)
+        self.end_hour.set(23)
+        self.end_minute.set(59)
+        self.end_second.set(59)
+
+        # raw file selection branch
+        if (self.file_name[7:] == '.2hz'):
+            self.file_selection.set(4)
+            
+        # clean file selection branch
+        elif (self.file_name[7:] == '.s2'):
+            self.file_selection.set(3)
+
+        # else
+        else:
+            print('Option not available yet :(')
 
     def year_day_entry_check(self, year_day_value):
 
