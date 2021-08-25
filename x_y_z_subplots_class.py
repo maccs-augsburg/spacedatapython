@@ -188,17 +188,17 @@ class SingleGraphPlotter:
 
         # End Hour entry
         self.end_hour = IntVar()
-        self.end_hour.set(23)
+        self.end_hour.set(24)
         ttk.Entry(mainframe, width=3, textvariable=self.end_hour).grid(column=2, row=6, sticky=W)
 
         # End Minute entry
         self.end_minute = IntVar()
-        self.end_minute.set(59)
+        self.end_minute.set(0)
         ttk.Entry(mainframe, width=3, textvariable=self.end_minute).grid(column=2, row=7, sticky=W)
 
         # End Second entry
         self.end_second = IntVar()
-        self.end_second.set(59)
+        self.end_second.set(0)
         ttk.Entry(mainframe, width=3, textvariable=self.end_second).grid(column=2, row=8, sticky=W)
 
         # Plot min and Plot max entries
@@ -375,9 +375,9 @@ class SingleGraphPlotter:
         self.start_hour.set(0)
         self.start_minute.set(0)
         self.start_second.set(0)
-        self.end_hour.set(23)
-        self.end_minute.set(59)
-        self.end_second.set(59)
+        self.end_hour.set(24)
+        self.end_minute.set(0)
+        self.end_second.set(0)
 
         # raw file selection branch
         if (self.file_name[7:] == '.2hz'):
