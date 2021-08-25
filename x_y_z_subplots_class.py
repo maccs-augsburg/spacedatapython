@@ -278,16 +278,17 @@ class SingleGraphPlotter:
         start_second_value = self.start_second_entry_check( self.start_second.get())
 
         # creating the start time stamp
-        start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
-
+        start_time_stamp = self.create_time_stamp(start_hour_value, start_minute_value, start_second_value)
+        
+        
         # End hour, minute and second entries
         end_hour_value = self.end_hour_entry_check( self.end_hour.get())
         end_minute_value = self.end_minute_entry_check( self.end_minute.get())
         end_second_value = self.end_second_entry_check( self.end_second.get())
 
         # creating the end time stamp
-        end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
-
+        end_time_stamp = self.create_time_stamp(end_hour_value, end_minute_value, end_second_value)
+        
         # Plot min and max entries
         plot_min_value_x = self.plot_min_x.get()
         plot_max_value_x = self.plot_max_x.get()
@@ -338,6 +339,11 @@ class SingleGraphPlotter:
 
         # Placing canvas object into the window
         canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=24)
+
+    def create_time_stamp(self, hour, minute, second):
+        time_stamp = datetime.time(hour=hour, minute=minute, second=second)
+
+        return time_stamp        
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         converted_list = []
@@ -537,7 +543,7 @@ class SingleGraphPlotter:
         # making sure the inputted value is an int not a float
         value = int(start_hour_string)
 
-        if(value > 23):
+        if(value > 24): # making it display as 24
             # Have error message box pop up because it can't be more than 23
             self.error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
         
@@ -625,7 +631,7 @@ class SingleGraphPlotter:
         value = int(end_hour_string)
 
         # Testing to see if the inputted value exceeds what it can be
-        if(value > 23):
+        if(value > 24): # making it display 24 hours
             # Have error message box pop up because it can't be more than 23
             self.error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
 
