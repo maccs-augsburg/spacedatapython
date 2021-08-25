@@ -341,26 +341,12 @@ class SingleGraphPlotter:
         canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=24)
 
     def create_time_stamp(self, hour, minute, second):
-        time_stamp = datetime.time(hour=hour, minute=minute, second=second)
+        if hour >= 24:
+            time_stamp = datetime.time(23, 59, 59)
+        else:
+            time_stamp = datetime.time(hour=hour, minute=minute, second=second)
 
         return time_stamp        
-
-    def convert_hours_list_to_datetime_object(self, list_to_convert):
-        converted_list = []
-        
-        for i in range(len(list_to_convert)):
-            total_time = list_to_convert[i]
-            hour = int(total_time / 24)
-
-            total_time = total_time - hour
-            minute = int(total_time / 59)
-
-            total_time = total_time - minute
-            second = int(total_time)
-
-            converted_list.append(datetime.datetime(year=1111, month=1, day=1, hour=hour, minute=minute, second=second))
-            
-        return converted_list
 
     def open_file(self):
         """
@@ -702,6 +688,23 @@ class SingleGraphPlotter:
 
         # Returning the end_second_string so whatever changes we made to it get returned
         return value
+
+    def convert_hours_list_to_datetime_object(self, list_to_convert):
+        converted_list = []
+        
+        for i in range(len(list_to_convert)):
+            total_time = list_to_convert[i]
+            hour = int(total_time / 24)
+
+            total_time = total_time - hour
+            minute = int(total_time / 59)
+
+            total_time = total_time - minute
+            second = int(total_time)
+
+            converted_list.append(datetime.datetime(year=1111, month=1, day=1, hour=hour, minute=minute, second=second))
+            
+        return converted_list
     
         
     def error_message_pop_up(self, title, message):
