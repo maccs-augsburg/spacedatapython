@@ -258,8 +258,9 @@ def create_time_list( stime, etime):
                                second = hours_arr[0].second)
     # if the first item is the same as the starting time we don't plot it
     # for visual purposes
-    if (first_item == stime):
-        hours_arr.pop(0)
+##    if (first_item == stime):
+##        hours_arr.pop(0)
+                                           
 
     # if we are only showing hours, we need the hours to be aligned in the correct spots
     if (stime.minute != 0) and (x_axis_label == 'Universal Time in Hours (HH)'):
