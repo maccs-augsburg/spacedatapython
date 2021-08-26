@@ -322,7 +322,7 @@ class SingleGraphPlotter:
                                                                                          end_time_stamp, self.file_name)
             # plotting the arrays
             self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp,
-                                          end_time_stamp)
+                                          end_time_stamp, min_x=plot_min_value_x, max_x=plot_max_value_x)
         elif (file_selection_value == '3'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,
                                                                                            end_time_stamp, self.file_name)

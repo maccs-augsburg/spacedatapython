@@ -32,7 +32,10 @@ import matplotlib.dates as mdates
 import read_raw_to_lists
 import x_axis_time_formatter
 
-def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
+def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
+                stime, etime, min_x=0, max_x=0,
+                min_y=0, max_y=0,
+                min_z=0, max_z=0) :
     """ Places x, y, z arrays on a plot.
 
     Places x, y, and z arrays which contain values from the
@@ -61,6 +64,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
         fig:
             figure object that contains the completed plot
     """
+    print(min_x, max_x)
+    print(min_y, max_y)
+    print(min_z, max_z)
 
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
@@ -129,8 +135,16 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename, stime, etime) :
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
+
+    if(min_x == 0 and max_x == 0):
+        plt.ylim(x_min, x_max)
+    elif(min_x == 0):
+        plt.ylim(x_min, max_x)
+    elif(max_x == 0):
+        plt.ylim(min_x, x_max)
+    else:
+        plt.ylim(min_x, max_x)
     
-    plt.ylim(x_min, x_max)
     
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     plt.ylabel('Bx')	# side label
