@@ -295,7 +295,7 @@ class SingleGraphPlotter:
         plot_min_value_y = self.plot_min_y.get()
         plot_max_value_y = self.plot_max_y.get()
         plot_min_value_z = self.plot_min_z.get()
-        plot_max_value_z = self.plot_min_z.get()
+        plot_max_value_z = self.plot_max_z.get()
 
         # File Format entry
         file_selection_value = self.file_selection.get()
