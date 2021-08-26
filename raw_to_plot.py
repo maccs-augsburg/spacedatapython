@@ -64,9 +64,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
         fig:
             figure object that contains the completed plot
     """
-    print(in_min_x, in_max_x)
-    print(in_min_y, in_max_y)
-    print(in_min_z, in_max_z)
 
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
