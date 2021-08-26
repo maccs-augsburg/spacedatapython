@@ -33,9 +33,9 @@ import read_raw_to_lists
 import x_axis_time_formatter
 
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
-                stime, etime, min_x=0, max_x=0,
-                min_y=0, max_y=0,
-                min_z=0, max_z=0) :
+                stime, etime, in_min_x=0, in_max_x=0,
+                in_min_y=0, in_max_y=0,
+                in_min_z=0, in_max_z=0) :
     """ Places x, y, z arrays on a plot.
 
     Places x, y, and z arrays which contain values from the
@@ -64,9 +64,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
         fig:
             figure object that contains the completed plot
     """
-    print(min_x, max_x)
-    print(min_y, max_y)
-    print(min_z, max_z)
+    print(in_min_x, in_max_x)
+    print(in_min_y, in_max_y)
+    print(in_min_z, in_max_z)
 
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
@@ -136,14 +136,14 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
                         # 1 indicates which subplot out of 3 to work on
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
 
-    if(min_x == 0 and max_x == 0):
+    if(in_min_x == 0 and in_max_x == 0):
         plt.ylim(x_min, x_max)
-    elif(min_x == 0):
-        plt.ylim(x_min, max_x)
-    elif(max_x == 0):
-        plt.ylim(min_x, x_max)
+    elif(in_min_x == 0):
+        plt.ylim(x_min, in_max_x)
+    elif(in_max_x == 0):
+        plt.ylim(in_min_x, x_max)
     else:
-        plt.ylim(min_x, max_x)
+        plt.ylim(in_min_x, in_max_x)
     
     
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
@@ -161,7 +161,14 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.subplot(312)
     plt.plot(time_arr,y_arr, linewidth=1)
 
-    plt.ylim(y_min, y_max)
+    if(in_min_y == 0 and in_max_y == 0):
+        plt.ylim(y_min, y_max)
+    elif(in_min_y == 0):
+        plt.ylim(y_min, in_max_y)
+    elif(in_max_y == 0):
+        plt.ylim(in_min_y, y_max)
+    else:
+        plt.ylim(in_min_y, in_max_y)
     
     plt.ylabel('By')	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -177,7 +184,14 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.subplot(313)
     plt.plot(time_arr,z_arr, linewidth=1)
 
-    plt.ylim(z_min, z_max)
+    if(in_min_z == 0 and in_max_z == 0):
+        plt.ylim(z_min, z_max)
+    elif(in_min_z == 0):
+        plt.ylim(z_min, in_max_z)
+    elif(in_max_z == 0):
+        plt.ylim(in_min_z, z_max)
+    else:
+        plt.ylim(in_min_z, in_max_z)
     
     plt.ylabel('Bz')	# side label
     plt.xlabel(x_axis_label) # label underneath
