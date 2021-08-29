@@ -59,8 +59,8 @@ def create_time_list( stime, etime):
                                                            second = current_second))
     else:
         # Going off of the second difference
-        hour_difference = 0
-        minute_difference = 0
+        hour_difference = 0 # TODO: remove
+        minute_difference = 0 # TODO: remove
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
 
         
@@ -69,7 +69,7 @@ def create_time_list( stime, etime):
             for i in range(int(second_difference / 3600) + 1):
                 factor = int(second_difference / 3600) % 2
                 if (i % 2 == factor):
-                    print(factor)
+                    print(factor) # TODO: remove
                     hours_arr.append(datetime.datetime(year=1111,
                                                        month=1,
                                                        day=1,
@@ -78,7 +78,7 @@ def create_time_list( stime, etime):
                                                        second = current_second))
                     current_hour += 2
 
-        elif ((second_difference * 3600) >=5): # More than or equal to 5 hour branch
+        elif ((second_difference / 3600) >=5): # More than or equal to 5 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
                 hours_arr.append(datetime.datetime(year=1111,
@@ -89,7 +89,7 @@ def create_time_list( stime, etime):
                                                    second = current_second))
                 current_hour += 1
                     
-        elif ((second_difference * 3600) >= 2):
+        elif ((second_difference / 3600) >= 2):
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -102,7 +102,7 @@ def create_time_list( stime, etime):
                                                            minute=minute,
                                                            second=current_second))
 
-        elif ((second_difference * 3600) >= 1):
+        elif ((second_difference / 3600) >= 1):
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -116,7 +116,7 @@ def create_time_list( stime, etime):
                                                            second=current_second))
             
             
-        elif (minute_difference >= 30):
+        elif ((second_difference / 60) >= 30):
             # assuming a 30 minute or more gap
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
@@ -255,10 +255,10 @@ def create_time_list( stime, etime):
                                                    minute=current_minute,
                                                    second=second))
     # creating a datetime.time object to compare with the starting time
-    print(hours_arr)
-##    first_item = datetime.time(hour = hours_arr[0].hour,
-##                               minute = hours_arr[0].minute,
-##                               second = hours_arr[0].second)
+    
+    first_item = datetime.time(hour = hours_arr[0].hour,
+                               minute = hours_arr[0].minute,
+                               second = hours_arr[0].second)
     # if the first item is the same as the starting time we don't plot it
     # for visual purposes
 ##    if (first_item == stime):
