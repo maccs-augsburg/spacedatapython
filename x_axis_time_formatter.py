@@ -164,7 +164,7 @@ def create_time_list( stime, etime):
                                                            minute=minute,
                                                            second=current_second))
                         
-        elif (minute_difference >= 20): # More than or equal to 20 minutes branch
+        elif ((second_difference / 60) >= 20): # More than or equal to 20 minutes branch
             # setting the x-axis label
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -183,7 +183,7 @@ def create_time_list( stime, etime):
                                                        minute=minute,
                                                        second=current_second))
 
-        elif (minute_difference >=10): # More than or equal to 10 minutes branch
+        elif ((second_difference / 60) >=10): # More than or equal to 10 minutes branch
             # setting the x-axis label
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -202,7 +202,7 @@ def create_time_list( stime, etime):
                                                        minute=minute,
                                                        second=current_second))
                 
-        elif (minute_difference >= 7): # More than or equal to 7 minutes branch
+        elif ((second_difference / 60) >= 7): # More than or equal to 7 minutes branch
             # setting the x-axis label
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -221,7 +221,7 @@ def create_time_list( stime, etime):
                                                        minute=minute,
                                                        second=current_second))
             
-        elif (minute_difference >= 2): # More than or equal to 2 minutes branch
+        elif ((second_difference / 60) >= 2): # More than or equal to 2 minutes branch
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
             # setting the x-axis datetime formatter
@@ -237,7 +237,7 @@ def create_time_list( stime, etime):
                                                    minute=minute,
                                                    second=current_second))
                 
-        elif (minute_difference >= 1): # More than or equal to 1 minute branch
+        elif ((second_difference / 60) >= 1): # More than or equal to 1 minute branch
             # setting the x-axis label
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
