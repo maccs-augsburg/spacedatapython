@@ -63,7 +63,6 @@ def create_time_list( stime, etime):
         minute_difference = 0 # TODO: remove
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
 
-        
         if ((second_difference / 3600) >= 8): # More than or equal to 8 hour branch
             # setting the x-axis label
             x_axis_label = "Universal Time in Hours (HH)"
@@ -74,7 +73,6 @@ def create_time_list( stime, etime):
                 
                 # Only adding the hour to the hours_arr if it is the same as the factor
                 if (i % 2 == factor):
-                    print(factor) # TODO: remove
                     # Adding to the hours_arr list
                     hours_arr.append(datetime.datetime(year=1111,
                                                        month=1,
@@ -236,8 +234,9 @@ def create_time_list( stime, etime):
                                                    hour=current_hour,
                                                    minute=minute,
                                                    second=current_second))
+
                 
-        elif ((second_difference / 60) >= 1): # More than or equal to 1 minute branch
+        elif (second_difference >= 60): # More than or equal to 1 minute branch
             # setting the x-axis label
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -315,7 +314,7 @@ def create_time_list( stime, etime):
                                                        minute=current_minute,
                                                        second=second))
 
-        elif(second_difference >= 5): # More than or equal to 5 seconds branch
+        elif(second_difference >= 6): # More than or equal to 5 seconds branch
             # setting the x-axis label
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -324,8 +323,8 @@ def create_time_list( stime, etime):
 
             # iterating through the seconds
             for second in range(stime.second, etime.second + 1):
-                # only appending the values for every 1 and 1/2 seconds
-                if second % 1.5 == 0:
+                # only appending the values for every 1 second
+                if second % 2 == 0:
                     # appending to the hours_arr list
                     hours_arr.append(datetime.datetime(year=1111,
                                                        month=1,
@@ -334,7 +333,7 @@ def create_time_list( stime, etime):
                                                        minute=current_minute,
                                                        second=second))
             
-        else: # Assuming a gap that is less than 5 seconds
+        else: # Assuming a gap that is less than 6 seconds
             # setting the x-axis label
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -350,17 +349,7 @@ def create_time_list( stime, etime):
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
-                
-    # creating a datetime.time object to compare with the starting time
-##    first_item = datetime.time(hour = hours_arr[0].hour,
-##                               minute = hours_arr[0].minute,
-##                               second = hours_arr[0].second)
-    # if the first item is the same as the starting time we don't plot it
-    # for visual purposes
-##    if (first_item == stime):
-##        hours_arr.pop(0)
                                            
-
     # if we are only showing hours, we need the hours to be aligned in the correct spots
     if (stime.minute != 0) and (x_axis_label == 'Universal Time in Hours (HH)'):
         for i in range(len(hours_arr)):
