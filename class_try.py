@@ -135,6 +135,18 @@ class ThreeGraphPlotter:
         ttk.Button(mainframe, text="Save As...", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
         ttk.Button(mainframe, text="Open File...", command=lambda: self.open_file()).grid(column=1, row=20, sticky=W)
         #
+
+        image=Image.open('maccslogo_870.jpeg')
+        image_file = ImageTk.PhotoImage(image)
+        image_label = ttk.Label(mainframe, image=image_file)
+        image_label.image = image_file
+        image_label.grid(column=7,row=1, columnspan=20, rowspan=30)
+
+
+
+
+
+        
         for child in mainframe.winfo_children(): 
                 child.grid_configure(padx=5, pady=5)
 
