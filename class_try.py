@@ -16,6 +16,7 @@ from PIL import ImageTk, Image
 
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 import subprocess
+import os
 #imports from plotter functions
 
 import file_naming
@@ -243,11 +244,23 @@ class ThreeGraphPlotter:
         """
            
         """
+        
         # Specifying the supported file types that can be saved
+        
         files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
         # Popping up the save as file dialog box
-        asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
+        save_as_file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
 
+        if save_as_file is None:
+            return
+        else:
+            file_ending = save_as_file.name.split('/')[-1][-4:]
+            if file_ending == ".pdf":
+                fig.savefig(file_name + file_ending, format = "pdf", dpi = 1200)
+            elif file_ending == ".png":
+                fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
+
+                
 
     def open_file(self):
         """
