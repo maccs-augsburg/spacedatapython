@@ -16,7 +16,7 @@ import station_names
 import read_clean_to_lists
 
 
-def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
+def x_plot(xArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the xArr and timeArr.
 
@@ -317,7 +317,7 @@ def x_plot(xArr, timeArr, filename, stime, etime, file_option) :
     
 
        
-def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
+def y_plot(yArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the yArr and timeArr.
 
@@ -617,7 +617,7 @@ def y_plot(yArr, timeArr, filename, stime, etime, file_option) :
 
    
 
-def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
+def z_plot(zArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the zArr and timeArr.
 
@@ -919,7 +919,7 @@ def z_plot(zArr, timeArr, filename, stime, etime, file_option) :
         #print(file_option + "is not supported filetype")
         #sys.exit(0)
 
-def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
+def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the zArr and timeArr.
 
@@ -1230,7 +1230,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime, file_option) :
         #print(file_option + "is not supported filetype")
         #sys.exit(0)
 
-def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
+def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the zArr and timeArr.
 
@@ -1544,7 +1544,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime, file_option) :
         #sys.exit(0)
 
 
-def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
+def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the zArr and timeArr.
 
@@ -1872,7 +1872,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime, file_option) :
         #sys.exit(0)
 
 
-def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime, file_option) :
+def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the zArr and timeArr.
 
