@@ -27,6 +27,19 @@ Ted's Stuff |
 - plot time both all the way on the left and all the way on the right ---------------- done |
 - Erik's converting the list reading into seconds instead of hours ------------------- |
 - Implement Erik's changes ----------------------------------------------------------- |
-- clean files put 01 hour at the very start when showing all 24 hours? bad file? ----- |
 --------------------------------------------------------------------------------------------
 
+New things to implement
+- rename main file to be "line_X.py" -- done
+- start displaying seconds when we are at or under 2 minutes
+- 
+
+Algorithm
+- x-axis time formatter create_time_list function passes in time_arr
+- first if statement (changes the label and the format)
+- elif statements reduction
+- pick a delta (10, 15, 20, 1hr)
+- walk through every single datetime in the list
+  	- if evenly divisible by delta
+		- tick_list.add(datetime object)
+- 

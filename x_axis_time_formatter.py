@@ -19,6 +19,15 @@ import matplotlib.dates as mdates
 # Plotter program imports
 import read_raw_to_lists
 
+def create_time_list( time_arr):
+    x_axis_format = mdates.DateFormatter('%H')
+    hours_arr = []
+    current_hour = time_arr[0].hour
+    current_minute = time_arr[0].minute
+    current_second = time_arr[0].second
+    x_axis_label = "Universal Time in Hours (HH)"
+
+    return hours_arr, x_axis_format, x_axis_label
 
 def create_time_list( stime, etime):
     """
@@ -105,6 +114,9 @@ def create_time_list( stime, etime):
             # setting the x-axis datetime formatter
             x_axis_format = mdates.DateFormatter('%H:%M')
 
+            
+            
+
             # iterating through the hours
             for hour in range(stime.hour, etime.hour+1):
                 # iterating through the minutes
@@ -115,9 +127,11 @@ def create_time_list( stime, etime):
                         hours_arr.append(datetime.datetime(year=1111,
                                                            month=1,
                                                            day=1,
-                                                           hour=hour,
-                                                           minute=minute,
+                                                           hour=current_hour,
+                                                           minute=current_minute,
                                                            second=current_second))
+                    current_minute += 1
+                current_hour += 1
 
         elif ((second_difference / 3600) >= 1): # More than or equal to 1 hour branch
             # setting the x-axis label
@@ -126,6 +140,9 @@ def create_time_list( stime, etime):
             # setting the x-axis datetime formatter
             x_axis_format = mdates.DateFormatter('%H:%M')
 
+            for second in range(second_difference):
+                hour = int(second / 3600)
+            
             # iterating through the hours
             for hour in range(stime.hour, etime.hour+1):
                 # iterating through the minutes
@@ -136,9 +153,11 @@ def create_time_list( stime, etime):
                         hours_arr.append(datetime.datetime(year=1111,
                                                            month=1,
                                                            day=1,
-                                                           hour=hour,
-                                                           minute=minute,
+                                                           hour=current_hour,
+                                                           minute=current_minute,
                                                            second=current_second))
+                    current_minute += 1
+                current_hour += 1
             
             
         elif ((second_difference / 60) >= 30): # More than or equal to 30 minutes branch
