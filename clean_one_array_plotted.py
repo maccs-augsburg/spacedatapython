@@ -1204,7 +1204,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
     plt.ylabel('Bx and By')
     plt.xlabel(x_axis_label)
 
-    plt.legend(loc = 'upper left', prop={'size': 6})
+    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -1517,7 +1517,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
     plt.xlabel(x_axis_label)
 
 
-    plt.legend(loc = 'upper left', prop={'size': 6})
+    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
     
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -1843,7 +1843,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
     plt.xlabel(x_axis_label)#x label 
 
 
-    plt.legend(loc = 'upper left', prop={'size': 6})#legend
+    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')#legend
     
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -2178,7 +2178,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     plt.ylabel('Bx, By and Bz')
     plt.xlabel(x_axis_label)
 
-    plt.legend(loc= 'upper left', prop={'size': 6})
+    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
