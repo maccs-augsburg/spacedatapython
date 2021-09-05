@@ -31,7 +31,9 @@ Ted's Stuff |
 
 New things to implement
 - rename main file to be "line_X.py" -- done
-- start displaying seconds when we are at or under 2 minutes
+- start displaying seconds only when we are going to use the seconds (at 3 minutes we display every 30 seconds)
+- starting at 2 mins/90 seconds (we display every 15 seconds)
+- need to catch reverse time
 - 
 
 Algorithm
