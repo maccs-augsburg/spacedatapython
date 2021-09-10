@@ -81,8 +81,14 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     
     default_array = False
+    delta = 0
     if (stime.hour == 0) and (stime.minute == 0) and (stime.second == 0) and (etime.hour == 23) and (etime.minute == 59) and (etime.second == 59):
     	default_array = True
+    	delta = (2 * 3600)
+    	
+    
+    	
+    
 
     #hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
     hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.new_create_time_list(time_arr, default_array)
