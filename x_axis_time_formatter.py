@@ -19,14 +19,24 @@ import matplotlib.dates as mdates
 # Plotter program imports
 import read_raw_to_lists
 
-def create_time_list( time_arr):
+def new_create_time_list( time_arr, delta=(2*3600), default_array=False): # initializing the delta to 2 hours (in seconds)
     x_axis_format = mdates.DateFormatter('%H')
     hours_arr = []
-    current_hour = time_arr[0].hour
-    current_minute = time_arr[0].minute
-    current_second = time_arr[0].second
+    #current_hour = time_arr[0].hour
+    #current_minute = time_arr[0].minute
+    #current_second = time_arr[0].second
     x_axis_label = "Universal Time in Hours (HH)"
-
+    time_in_seconds = -1
+    
+    if default_array:
+    	for item in time_arr:
+    		if item.hour % 2 != 0:
+    			hours_arr.append(item)
+    else:
+    	for item in time_arr:
+    		time_in_seconds = (item.hour * 3600) + (item.minute * 60) + item.second
+    		if (time_in_seconds % delta == 0):
+    			hours_arr.append(item)
     
 
     return hours_arr, x_axis_format, x_axis_label
@@ -71,12 +81,16 @@ def create_time_list( stime, etime):
     else:
         # Going off of the second difference
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
-
+        
+        print(second_difference / 3600)
+		
         if ((second_difference / 3600) >= 8): # More than or equal to 8 hour branch
             for second in range(second_difference):
                 test_hour = int(second / 3600)
                 test_minute = int(second / 60)
-                test_second = second - (test_hour * 3600) - (test_minute * 60)
+                test_second = second - int(test_hour * 3600) - int(test_minute * 60)
+                
+                print(test_second)
                 
                 #  showing results every 2 hours
                 if (test_hour % 2 == 0) and (test_minute == 0) and (test_second == 0):
@@ -387,6 +401,9 @@ def create_time_list( stime, etime):
                                              hour=hours_arr[i].hour,
                                              minute = 0,
                                              second = hours_arr[i].second)
+                                             
+                                             
+    print(hours_arr)
             
     
 
