@@ -81,8 +81,6 @@ def create_time_list( stime, etime):
     else:
         # Going off of the second difference
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
-        
-        print(second_difference / 3600)
 		
         if ((second_difference / 3600) >= 8): # More than or equal to 8 hour branch
             for second in range(second_difference):
@@ -90,16 +88,17 @@ def create_time_list( stime, etime):
                 test_minute = int(second / 60)
                 test_second = second - int(test_hour * 3600) - int(test_minute * 60)
                 
-                print(test_second)
-                
                 #  showing results every 2 hours
-                if (test_hour % 2 == 0) and (test_minute == 0) and (test_second == 0):
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour = test_hour + current_hour,
-                                                       minute = test_minute + current_minute,
-                                                       second = test_second))
+                if (test_hour % 2 == 0):
+                	hours_arr.append(datetime.datetime(year=1111, month=1, day=1, hour=test_hour, minute=0, second=0))
+                	test_hour += 2
+                # if (test_hour % 2 == 0) and (test_minute == 0) and (test_second == 0):
+#                     hours_arr.append(datetime.datetime(year=1111,
+#                                                        month=1,
+#                                                        day=1,
+#                                                        hour = test_hour + current_hour,
+#                                                        minute = test_minute + current_minute,
+#                                                        second = test_second))
             # setting the x-axis label
 ##            x_axis_label = "Universal Time in Hours (HH)"
 ##
@@ -403,7 +402,7 @@ def create_time_list( stime, etime):
                                              second = hours_arr[i].second)
                                              
                                              
-    print(hours_arr)
+    
             
     
 
