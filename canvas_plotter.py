@@ -58,17 +58,6 @@ def create_initial_gui(window, fig):
         Matplotlib.pyplot object
                 fig: the figure object of the graph to be graphed
         """
-        
-##        global plot_min_x, plot_max_x, plot_min_entry_x, plot_max_entry_x
-##        global plot_min_y, plot_max_y, plot_min_entry_y, plot_max_entry_y
-##        global plot_min_z, plot_max_z, plot_min_entry_z, plot_max_entry_z
-
-        # setting the image to be the maccs logo
-##        image=Image.open('maccslogo_870.jpeg')
-##        image_file = ImageTk.PhotoImage(image)
-##        image_label = ttk.Label(window, image=image_file)
-##        image_label.image = image_file
-##        image_label.grid(column=5,row=1, columnspan=8, rowspan=20)
 
         
         # plot min x label and entry box
@@ -122,38 +111,3 @@ def create_initial_gui(window, fig):
                            width = 10,
                            text='Quit')
         cancel_button.grid(column=2, row=7)
-
-def main():
-        ####################################
-        # MAIN DOES NOT WORK FOR RIGHT NOW #
-        ####################################
-
-        # Creating initial gui object
-        window = Tk()
-
-        # Setting the title
-        window.title('Plotting MACCS files')
-
-        # Adjusting the size
-        window.geometry('1400x900')
-
-        # Initializing the filename
-        file_name_full = 'PG20212.2hz'
-        file = open(file_name_full, 'rb')
-        stime = datetime.time(hour=0, minute=0, second=0)
-        etime = datetime.time(hour=23, minute=59, second=59)
-
-        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, stime, etime, file_name_full[0:7])
-
-        fig = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, file_name_full[0:7], stime, etime)
-
-        
-        # running the gui creation function
-        create_initial_gui(window, fig)
-
-        # keeping it running
-        window.mainloop()
-    
-
-if __name__ == "__main__":
-    main()
