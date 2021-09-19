@@ -11,6 +11,14 @@ the time-stamped x, y, and z values on its' own plot.
 """
 
 #TODO----------------------------------------------------------------------------------------------------------
+	# Get the new algorithm idea up and running ------------------------------------------------------ Not Done
+		# algorithm concept
+			# x-axis time formatter create_time_list function passes in time_arr
+			# first if statement (changes the label and format) 
+			# pick a delta (10, 15, 20, 1hr)
+			# walk through every single datetime in the list
+				# if evenly divisible by delta
+				# tick_list.add(datetime object)
 #--------------------------------------------------------------------------------------------------------------
 
 # Python 3 imports
@@ -80,19 +88,17 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     
-    default_array = False
-    delta = 0
-    if (stime.hour == 0) and (stime.minute == 0) and (stime.second == 0) and (etime.hour == 23) and (etime.minute == 59) and (etime.second == 59):
-    	default_array = True
-    	delta = (2 * 3600)
-    	
+    ### Code for future use -- this code below supports the new algorithm to be implemented in the future ### --------------------------------------------
+    # default_array = False
+    # delta = 0
+    # if (stime.hour == 0) and (stime.minute == 0) and (stime.second == 0) and (etime.hour == 23) and (etime.minute == 59) and (etime.second == 59):
+    # 	 default_array = True
+    #    delta = (2 * 3600)
+    # hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.new_create_time_list(time_arr, default_array)
     
-    	
-    
+    ### Code for future use -- this code above supports the new algorithm to be implemented in the future ### --------------------------------------------
 
-    #hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
-    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.new_create_time_list(time_arr, default_array)
-    
+    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
     
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
@@ -144,6 +150,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
                         # 1 indicates which subplot out of 3 to work on
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
 
+	# testing to see if we need to set the x and y limits for the first subplot
     if(in_min_x == 0 and in_max_x == 0):
         plt.ylim(x_min, x_max)
     elif(in_min_x == 0):
@@ -169,6 +176,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.subplot(312)
     plt.plot(time_arr,y_arr, linewidth=1)
 
+	# testing to see if we need to set the x and y limits for the second subplot
     if(in_min_y == 0 and in_max_y == 0):
         plt.ylim(y_min, y_max)
     elif(in_min_y == 0):
@@ -192,6 +200,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.subplot(313)
     plt.plot(time_arr,z_arr, linewidth=1)
 
+	# testing to see if we need to set the x and y limits for the third subplot
     if(in_min_z == 0 and in_max_z == 0):
         plt.ylim(z_min, z_max)
     elif(in_min_z == 0):
