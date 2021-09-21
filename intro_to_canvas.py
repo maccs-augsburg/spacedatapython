@@ -14,7 +14,6 @@ import datetime
 import one_array_plotted
 import read_raw_to_lists
 import file_naming
-#import read_clean_to_lists
 
 
 def error_message(title, message) :
@@ -60,13 +59,6 @@ def warning_message(title, message) :
      """
     messagebox.showwarning(title = title, message = "Warning: " + message)
 
-#def date_time_object_check(string_value) :
-     
-     #if(len(string_value) == 1):
-        #string_value = "0" + string_value
-
-     #return string_value
-
 
 def year_day_check(year_day_value):
 
@@ -99,9 +91,7 @@ def start_hour_entry_check(start_hour_value):
 
      Returns
      -------
-     
-
-     start_hour_value :      
+     start_hour_value : the start hour value as an int
      """
      #if(len(start_hour_value) == 1):
         #start_hour_value = "0" + start_hour_value
@@ -127,7 +117,7 @@ def start_minute_entry_check(start_minute_value):
 
      Returns
      -------
-     start_minute_value : 
+     start_minute_value :  the start minute value as an int
      """
      #if(len(start_minute_value) == 1):
         #start_minute_value = "0" + start_minute_value
@@ -153,7 +143,7 @@ def start_second_entry_check(start_second_value):
 
      Returns
      -------
-     start_second_value : 
+     start_second_value : the start second value as an int
      """
 
      #if(len(start_second_value) == 1):
