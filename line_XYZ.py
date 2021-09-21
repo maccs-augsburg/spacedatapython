@@ -27,11 +27,7 @@ import clean_one_array_plotted
 
 
 class ThreeGraphPlotter:
-    """
-    """
     def __init__(self):
-        """
-        """
         #Creation of the window 
         window = Tk()
         window.geometry('1500x700')
@@ -162,6 +158,11 @@ class ThreeGraphPlotter:
 
     def execute_functions(self, mainframe, *args):
         """
+        executes the functions that are in the gui
+
+        Parameters
+        ----------
+        mainframe : the main frame that the gui is placed in
         """
 
         ###Getting the user entries###
@@ -231,6 +232,17 @@ class ThreeGraphPlotter:
 
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
+        """
+        converts the hours list into datetime objects
+
+        Parameters
+        ----------
+        list_to_convert : the list of items to convert
+
+        Returns
+        -------
+        converted_list : the list of converted items
+        """
         converted_list = []
             
         for i in range(len(list_to_convert)):
@@ -250,7 +262,13 @@ class ThreeGraphPlotter:
     def save(self, fig, file_name):
          
         """
-            
+        saves the file as a pdf document
+
+        Parameters
+        ----------
+        fig : the plotted figure
+
+        file_name : the name of the file to be saved as
         """
         # Saving the file as a defualt pdf
         fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
@@ -260,7 +278,13 @@ class ThreeGraphPlotter:
     def save_as(self, fig, file_name):
          
         """
-           
+        saves the file as either a pdf or png
+
+        Parameters
+        ----------
+        fig : the plotted figure
+
+        file_name : the name of the file to be saved as
         """
         
         # Specifying the supported file types that can be saved
@@ -329,7 +353,6 @@ class ThreeGraphPlotter:
         Checks the year day entry value to see if there was a value inputted for the yearday entry box
         Parameters
         ----------
-        String
         year_day_value: the value that was inputted into the year_day_entry box
         """
         # Checking to see if any input was put in the yearday entry box
@@ -343,7 +366,6 @@ class ThreeGraphPlotter:
         Checks the station_code_entry value and pops up an error message if it isn't a good entry
         Parameters
         ----------
-        String
         station_code_value: the value that was inputted into the station_code_entry box
         """
         # Checking to see if no input was put in the station code entry box
@@ -356,6 +378,15 @@ class ThreeGraphPlotter:
 
     def file_format_entry_check(self, selection_file_value):
         """
+        checks the file selection value and sets the ending value to match it
+
+        Parameters
+        ----------
+        selection_file_value : the value of the file selection
+
+        Returns
+        -------
+        file_ending_value : the ending value of the file
         """
         if(selection_file_value == '1'):
             # CDA-Web branch (NOT IMPLEMENTED)
@@ -388,105 +419,104 @@ class ThreeGraphPlotter:
         # Returning the string of the file type to be used
         return file_ending_value
 
-    def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr,
-                                       timeArr, filename, stime, etime, selection_file):
+    def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, filename, stime, etime, selection_file):
 
-         #"""
-         #Checks the radio button input to then produce either the X, Y or Z graph.
+        """
+        Checks the gui entries
 
-         #Parameters
-         #----------
-         #graph_from_plotter_value :
+        Parameters
+        ----------
+        graph_from_plotter_value_x : the value from the gui to see if we need to plot x
 
-         #xArr :
+        graph_from_plotter_value_y : the value from the gui to see if we need to plot y
 
-         #yArr :
+        graph_from_plotter_value_z : the value from the gui to see if we need to plot z
 
-         #zArr :
+        xArr : the x array values
 
-         #timeArr :
+        yArr : the y array values
 
-         #stime :
+        zArr : the z array values
 
-         #etime :
+        timeArr : the time array values
 
-         #filename :
+        filename : the name of the file
 
-         #file_option :
+        stime : the start time stamp
 
-         #raw_to_single_plot
+        etime : the end time stamp
 
-         #Returns
-         #-------
-         #graph_from_plotter_value : 
+        selection_file : the selection file value
 
-         
-        # """
+        Returns
+        -------
+        fig : the plotted figure
+        """
          #If statement to decided if we want X, Y or Z plot
          
          #Raw X,Y and Z Plot
-         if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
-             fig = one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
+        if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
+            fig = one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
              
          #Clean X,Y, and Z plot   
-         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3 and selection_file == '5'):
-             fig = clean_one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
-        
+        elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3 and selection_file == '5'):
+            fig = clean_one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
+
              
         #Raw Y and Z plot
-         elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
-             fig = one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
+            fig = one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
 
         #Clean Y and Z plot
-         elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '5'):
-             fig = clean_one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '5'):
+            fig = clean_one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
              
         #Raw X and Z plot 
-         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3 and selection_file == '4'):
-             fig = one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3 and selection_file == '4'):
+            fig = one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
 
          #Clean X and Z plot 
-         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3 and selection_file == '5'):
-             fig = clean_one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
-  
+        elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3 and selection_file == '5'):
+            fig = clean_one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
+
         #Raw X and Y plot
-         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and selection_file == '4'):
-             fig = one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and selection_file == '4'):
+            fig = one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
 
         #Clean X and Y plot
-         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and selection_file == '5'):
-             fig = clean_one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
-    
+        elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and selection_file == '5'):
+            fig = clean_one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
+
         #Raw Z plot
-         elif(graph_from_plotter_value_z == 3 and selection_file == '4'):
-             fig = one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_z == 3 and selection_file == '4'):
+            fig = one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime)
 
         #Clean Z plot
-         elif(graph_from_plotter_value_z == 3 and selection_file == '5'):
-             fig = clean_one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime)
-     
+        elif(graph_from_plotter_value_z == 3 and selection_file == '5'):
+            fig = clean_one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime)
+
         #Raw Y plot
-         elif(graph_from_plotter_value_y == 2 and selection_file == '4'):
-             fig = one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_y == 2 and selection_file == '4'):
+            fig = one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime)
 
         #Clean Y plot
-         elif(graph_from_plotter_value_y == 2 and selection_file == '5'):
-             fig = clean_one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_y == 2 and selection_file == '5'):
+            fig = clean_one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime)
              
         #Raw X plot
-         elif(graph_from_plotter_value_x == 1 and selection_file == '4'):
-             fig = one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_x == 1 and selection_file == '4'):
+            fig = one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime)
 
         #Clean X plot
-         elif(graph_from_plotter_value_x == 1 and selection_file == '5'):
-             fig = clean_one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime)
+        elif(graph_from_plotter_value_x == 1 and selection_file == '5'):
+            fig = clean_one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime)
                       
         #Warning Message
-         else:
-             self.warning_message_pop_up(title = "File Format Option Error", message = "Please select a file format option")
+        else:
+            self.warning_message_pop_up(title = "File Format Option Error", message = "Please select a file format option")
 
         #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
-         return fig
+        return fig
 
 
 

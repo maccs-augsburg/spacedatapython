@@ -45,8 +45,6 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
     """
     # Quarter and three-quarter second constants expressed in terms of
     # hours to add to the time list
-##    QUARTER_SECOND = 0.25 / 3600.0
-##    THREE_QUARTER_SECOND = 0.75 / 3600.0
     
     # Lists to hold data and return at end of function
     x_arr = []	     # x plot point storage
