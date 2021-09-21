@@ -1,2 +1,0 @@
-#Linex Second GUI
-#Annabelle
