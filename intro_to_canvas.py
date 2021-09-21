@@ -295,29 +295,29 @@ def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter
 
      Parameters
      ----------
-     graph_from_plotter_value :
+     graph_from_plotter_value_x : the value to determine if we plot the x graph
 
-     xArr :
+     graph_from_plotter_value_y : the value to determine if we plot the y graph
 
-     yArr :
+     graph_from_plotter_value_z : the value to determine if we plot the z graph
 
-     zArr :
+     xArr : the array of x values
 
-     timeArr :
+     yArr : the array of y values
 
-     stime :
+     zArr : the array of z values
 
-     etime :
+     timeArr : the array of time values
 
-     filename :
+     stime : the start time stamp
 
-     file_option :
+     etime : the end time stamp
 
-     raw_to_single_plot
+     filename : the name of the file
 
      Returns
      -------
-     graph_from_plotter_value : 
+     fig : the plotted figure
 
      
      """
