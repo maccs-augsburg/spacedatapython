@@ -242,6 +242,15 @@ def station_names_entry_check(station_names_value):
 
 def file_format_entry_check(file_selection_value):
     """
+    sets the correct file ending value based on the file selection value
+
+    Parameters
+    ----------
+    file_selection_value : the value of the type of file to select
+
+    Returns
+    -------
+    file_ending_value : the value of the ending value of the file
     """
     if(file_selection_value == '1'):
         # CDA-Web branch (NOT IMPLEMENTED)
