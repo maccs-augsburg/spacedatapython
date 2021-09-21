@@ -2167,10 +2167,6 @@ if __name__ == "__main__" :
 
     arrayX, arrayY, arrayZ, timeArr = read_clean_to_lists(two_hz_binary_file, start_time, end_time)
     
-
-
-
-    #try:
     x_plot(arrayX, timeArr, filename, start_time, end_time)
     y_plot(arrayY, timeArr, filename, start_time, end_time)
     z_plot(arrayZ, timeArr, filename, start_time, end_time)
@@ -2178,11 +2174,6 @@ if __name__ == "__main__" :
     x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
     y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
     x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
-    
-    
-    #except:
-        #print('Could not plot arrays to testgraph.pdf')
-        #sys.exit(0)
 
 
 
