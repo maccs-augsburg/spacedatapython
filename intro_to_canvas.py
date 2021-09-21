@@ -93,8 +93,6 @@ def start_hour_entry_check(start_hour_value):
      -------
      start_hour_value : the start hour value as an int
      """
-     #if(len(start_hour_value) == 1):
-        #start_hour_value = "0" + start_hour_value
      value = (int)(start_hour_value)
      if(value > 23):
         error_message(title = "Start Hour Entry Error", message = "Start hour cannot be more than 23")
@@ -119,8 +117,6 @@ def start_minute_entry_check(start_minute_value):
      -------
      start_minute_value :  the start minute value as an int
      """
-     #if(len(start_minute_value) == 1):
-        #start_minute_value = "0" + start_minute_value
      value = (int)(start_minute_value)
      if(value > 59):
         error_message(title = "Start Minute Entry Error", message = "Start minute cannot be greater then 59")
@@ -145,9 +141,6 @@ def start_second_entry_check(start_second_value):
      -------
      start_second_value : the start second value as an int
      """
-
-     #if(len(start_second_value) == 1):
-        #start_second_value = "0" + start_second_value
      value = (int)(start_second_value)
      if(value > 59):
         error_message(title = "Start Second Entry Error", message = "Start second cannot be more then 59")
@@ -170,11 +163,9 @@ def end_hour_entry_check(end_hour_value):
 
      Returns
      -------
-     end_hour_value : 
+     end_hour_value : the end hour value as an int
      """
      
-     #if(len(end_hour_value) == 1):
-        #end_hour_value = "0" + end_hour_value
      value = (int)(end_hour_value)
      if(value > 23):
         error_message(title = "End Hour Entry Error", message = "End hour cannot be more then 23")
@@ -197,11 +188,8 @@ def end_minute_entry_check(end_minute_value):
 
      Returns
      -------
-     end_minute_value : 
+     end_minute_value : the end minute value as an int
      """
-     #if(len(end_minute_value) == 1):
-        #end_minute_value = "0" + end_minute_value
-
      value = (int)(end_minute_value)
      if(value > 59):
         error_message(title = "End Minute Entry Error", message = "End minute cannot be more then 59")
@@ -224,10 +212,8 @@ def end_second_entry_check(end_second_value):
 
      Returns
      -------
-     end_second_value : 
+     end_second_value : the end second value as an int
      """
-     #if(len(end_second_value) == 1):
-        #end_second_value = "0" + end_second_value
      value = (int)(end_second_value)
         
      if(value > 59):
