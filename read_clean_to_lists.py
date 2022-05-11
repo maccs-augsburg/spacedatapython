@@ -21,7 +21,6 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
     present in the raw, but replaced during despiking, 8 - near spike
     data, a record with its recorded data intact, but near enough to a
     spike to be questionable.
-
     Parameters
     ----------
     clean_file:
@@ -31,7 +30,6 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
         The datetime.time object from which to begin
     end_time:
         The datetime.time object at which to end
-
     Returns
     -------
     List
@@ -47,8 +45,6 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
     """
     # Quarter and three-quarter second constants expressed in terms of
     # hours to add to the time list
-##    QUARTER_SECOND = 0.25 / 3600.0
-##    THREE_QUARTER_SECOND = 0.75 / 3600.0
     
     # Lists to hold data and return at end of function
     x_arr = []	     # x plot point storage
@@ -131,6 +127,7 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
 
     # returning the 5 lists
     return x_arr, y_arr, z_arr, time_arr, flag_arr
+
 
 def create_lists_from_clean (clean_file, start_time, end_time) :
     """ Creates x, y, z, time, and flag lists based on the 2 Hz clean data file.
