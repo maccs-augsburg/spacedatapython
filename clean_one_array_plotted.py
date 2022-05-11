@@ -22,21 +22,21 @@ def x_plot(xArr, timeArr, filename, stime, etime) :
 
     Parameters
     ----------
-    xArr :
+    xArr : the array of x values
 
-    timeArr :
+    timeArr : the array of time values
 
-    filename :
+    filename : the name of the file
 
-    stime :
+    stime : the starting time stamp
 
-    etime :
+    etime : the ending time stamp
 
-    file_option :
+    file_option : the file option to save it as
 
     Returns
     -------
-    
+    fig: the plotted figure
     """
 
     
@@ -95,6 +95,7 @@ def x_plot(xArr, timeArr, filename, stime, etime) :
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -108,7 +109,7 @@ def x_plot(xArr, timeArr, filename, stime, etime) :
                                                        second = current_second))
                     current_hour += 2
 
-        elif (hour_difference >=5):
+        elif (hour_difference >=5): # More than 5 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
                 hours_arr.append(datetime.datetime(year=1111,
@@ -119,7 +120,7 @@ def x_plot(xArr, timeArr, filename, stime, etime) :
                                                    second = current_second))
                 current_hour += 1
                     
-        elif (hour_difference >= 2):
+        elif (hour_difference >= 2): # More than 2 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -132,7 +133,7 @@ def x_plot(xArr, timeArr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=current_second))
 
-        elif (hour_difference >= 1):
+        elif (hour_difference >= 1): # More than 1 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -294,8 +295,6 @@ def x_plot(xArr, timeArr, filename, stime, etime) :
     #Make an if statement about changing the label with the x axis changing 
     plt.xlabel(x_axis_label)
     
-
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -304,12 +303,6 @@ def x_plot(xArr, timeArr, filename, stime, etime) :
     plt.xticks(hours_arr)
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     x_yticks = plt.yticks()
-
-
-    #if (default_hours_flag):
-        #plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
-    #else:
-        #plt.xticks(hoursArr)
 
 
     return fig
@@ -323,20 +316,21 @@ def y_plot(yArr, timeArr, filename, stime, etime) :
 
     Parameters
     ----------
-    yArr :
+    yArr : the array of y values
 
-    timeArr :
+    timeArr : the array of time values
 
-    filename :
+    filename : the name of the file
 
-    stime :
+    stime : the start time stamp
 
-    etime :
+    etime : the end time stamp
 
-    file_option :
+    file_option : the file option to be saved as
 
     Returns
     -------
+    fig : the plotted figure
     
     """
     
@@ -349,10 +343,8 @@ def y_plot(yArr, timeArr, filename, stime, etime) :
 
 
     #List of the hours and finding which ones to use
-    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hours_arr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    #default_hours_flag = False # using a flag to better optimize operations
 
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
@@ -405,6 +397,7 @@ def y_plot(yArr, timeArr, filename, stime, etime) :
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -418,7 +411,7 @@ def y_plot(yArr, timeArr, filename, stime, etime) :
                                                        second = current_second))
                     current_hour += 2
 
-        elif (hour_difference >=5):
+        elif (hour_difference >=5): # More than 5 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
                 hours_arr.append(datetime.datetime(year=1111,
@@ -429,7 +422,7 @@ def y_plot(yArr, timeArr, filename, stime, etime) :
                                                    second = current_second))
                 current_hour += 1
                     
-        elif (hour_difference >= 2):
+        elif (hour_difference >= 2): # More than 2 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -442,7 +435,7 @@ def y_plot(yArr, timeArr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=current_second))
 
-        elif (hour_difference >= 1):
+        elif (hour_difference >= 1): # More than 1 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -603,8 +596,7 @@ def y_plot(yArr, timeArr, filename, stime, etime) :
     plt.title("Geomagnetic By of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('By')
     plt.xlabel(x_axis_label)
-
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -623,21 +615,21 @@ def z_plot(zArr, timeArr, filename, stime, etime) :
 
     Parameters
     ----------
-    zArr :
+    zArr : the array of z values
 
-    timeArr :
+    timeArr : the array of time values
 
-    filename :
+    filename : the name of the file
 
-    stime :
+    stime : the start time stamp
 
-    etime :
+    etime : the end time stamp
 
-    file_option :
+    file_option : the file option to be saved as
 
     Returns
     -------
-    
+    fig : the plotted figure
     """
     #To split up the file name 
     station = filename[0:2]
@@ -654,10 +646,8 @@ def z_plot(zArr, timeArr, filename, stime, etime) :
     x_axis_label = ""
     
     #List of the hours and finding which ones to use
-    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hours_arr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    #default_hours_flag = False # using a flag to better optimize operations
 
     
 
@@ -696,6 +686,7 @@ def z_plot(zArr, timeArr, filename, stime, etime) :
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -709,7 +700,7 @@ def z_plot(zArr, timeArr, filename, stime, etime) :
                                                        second = current_second))
                     current_hour += 2
 
-        elif (hour_difference >=5):
+        elif (hour_difference >=5):# More than 5 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
                 hours_arr.append(datetime.datetime(year=1111,
@@ -720,7 +711,7 @@ def z_plot(zArr, timeArr, filename, stime, etime) :
                                                    second = current_second))
                 current_hour += 1
                     
-        elif (hour_difference >= 2):
+        elif (hour_difference >= 2): # More than 2 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -733,7 +724,7 @@ def z_plot(zArr, timeArr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=current_second))
 
-        elif (hour_difference >= 1):
+        elif (hour_difference >= 1): # More than 1 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -895,8 +886,6 @@ def z_plot(zArr, timeArr, filename, stime, etime) :
     plt.ylabel('Bz')
     plt.xlabel(x_axis_label)
     
-
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -907,38 +896,27 @@ def z_plot(zArr, timeArr, filename, stime, etime) :
 
     return fig
 
-    
-
-    #add an if statement for when if they want a pdf or a png
-    #file_option = file_option.lower()
-    #if(file_option == 'pdf'):
-        #fig.savefig('z_array_plot.pdf', format='pdf', dpi=1200)
-    #elif(file_option == 'png'):
-        #fig.savefig('z_array_plot.png', format = 'png', dpi = 1200)
-    #else :
-        #print(file_option + "is not supported filetype")
-        #sys.exit(0)
-
 def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the zArr and timeArr.
 
     Parameters
     ----------
-    zArr :
+    xArr : the array of x values
 
-    timeArr :
+    yArr : the array of y values
 
-    filename :
+    timeArr : the array of time values
 
-    stime :
+    filename : the name of the file
 
-    etime :
+    stime : the start time stamp
 
-    file_option :
+    etime : the end time stamp
 
     Returns
     -------
+    fig : the plotted figure
     
     """
     #To split up the file name 
@@ -950,10 +928,8 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
 
 
     #List of the hours and finding which ones to use
-    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hours_arr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    #default_hours_flag = False # using a flag to better optimize operations
 
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
@@ -995,6 +971,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -1008,7 +985,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
                                                        second = current_second))
                     current_hour += 2
 
-        elif (hour_difference >=5):
+        elif (hour_difference >=5): # More than 5 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
                 hours_arr.append(datetime.datetime(year=1111,
@@ -1019,7 +996,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
                                                    second = current_second))
                 current_hour += 1
                     
-        elif (hour_difference >= 2):
+        elif (hour_difference >= 2): # More than 2 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -1032,7 +1009,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=current_second))
 
-        elif (hour_difference >= 1):
+        elif (hour_difference >= 1): # More than 1 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -1205,10 +1182,7 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
     plt.xlabel(x_axis_label)
 
     plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
-
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
-    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
@@ -1218,17 +1192,6 @@ def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
 
 
     return fig
-    
-
-    #add an if statement for when if they want a pdf or a png
-    #file_option = file_option.lower()
-    #if(file_option == 'pdf'):
-        #fig.savefig('x_and_y_plot.pdf', format='pdf', dpi=1200)
-    #elif(file_option == 'png'):
-        #fig.savefig('x_and_y_plot.png', format = 'png', dpi = 1200)
-    #else :
-        #print(file_option + "is not supported filetype")
-        #sys.exit(0)
 
 def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
     """
@@ -1236,21 +1199,21 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
 
     Parameters
     ----------
-    zArr :
+    xArr : the x array values
+    
+    zArr : the z array values
 
-    timeArr :
+    timeArr : the time array values
 
-    filename :
+    filename : the name of the file
 
-    stime :
+    stime : the start time stamp
 
-    etime :
-
-    file_option :
+    etime : the end time stamp
 
     Returns
     -------
-    
+    fig : the plotted figure
     """
     #To split up the file name 
     station = filename[0:2]
@@ -1261,10 +1224,8 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
 
 
     #List of the hours and finding which ones to use
-    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hours_arr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    #default_hours_flag = False # using a flag to better optimize operations
 
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
@@ -1306,6 +1267,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -1319,7 +1281,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
                                                        second = current_second))
                     current_hour += 2
 
-        elif (hour_difference >=5):
+        elif (hour_difference >=5): # More than 5 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
                 hours_arr.append(datetime.datetime(year=1111,
@@ -1330,7 +1292,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
                                                    second = current_second))
                 current_hour += 1
                     
-        elif (hour_difference >= 2):
+        elif (hour_difference >= 2): # More than 2 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -1343,7 +1305,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=current_second))
 
-        elif (hour_difference >= 1):
+        elif (hour_difference >= 1): # More than 1 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -1505,7 +1467,7 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
 
     z_values = zArr #The list of values to change 
     offset = zArr[0] #the amount to subtract from each value
-    z_values = list(map(lambda z : z - offset, z_values)) #applies the subtracti
+    z_values = list(map(lambda z : z - offset, z_values)) #applies the subtraction
 
 
     
@@ -1518,8 +1480,6 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
 
 
     plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
-    
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -1533,16 +1493,6 @@ def x_and_z_plot(xArr, zArr, timeArr, filename, stime, etime) :
 
     return fig
 
-    #add an if statement for when if they want a pdf or a png
-    #file_option = file_option.lower()
-    #if(file_option == 'pdf'):
-        #fig.savefig('x_and_z_plot.pdf', format='pdf', dpi=1200)
-    #elif(file_option == 'png'):
-        #fig.savefig('x_and_z_plot.png', format = 'png', dpi = 1200)
-    #else :
-        #print(file_option + "is not supported filetype")
-        #sys.exit(0)
-
 
 def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
     """
@@ -1550,21 +1500,21 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
 
     Parameters
     ----------
-    zArr :
+    yArr : the y array values
 
-    timeArr :
+    zArr : the z array values
 
-    filename :
+    timeArr : the time array values
 
-    stime :
+    filename : the name of the file
 
-    etime :
+    stime : the start time stamp
 
-    file_option :
+    etime : the end time stamp
 
     Returns
     -------
-    
+    fig : the plotted figure
     """
     #To split up the file name 
     station = filename[0:2]
@@ -1575,10 +1525,8 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
 
 
     #List of the hours and finding which ones to use
-    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hours_arr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    #default_hours_flag = False # using a flag to better optimize operations
 
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
@@ -1634,6 +1582,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -1647,7 +1596,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
                                                        second = current_second))
                     current_hour += 2
 
-        elif (hour_difference >=5):
+        elif (hour_difference >=5): # More than 5 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
                 hours_arr.append(datetime.datetime(year=1111,
@@ -1658,7 +1607,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
                                                    second = current_second))
                 current_hour += 1
                     
-        elif (hour_difference >= 2):
+        elif (hour_difference >= 2): # More than 2 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -1671,7 +1620,7 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=current_second))
 
-        elif (hour_difference >= 1):
+        elif (hour_difference >= 1): # More than 1 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -1844,8 +1793,6 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
 
 
     plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')#legend
-    
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -1859,17 +1806,6 @@ def y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime) :
     
 
     return fig
-    
-
-    #add an if statement for when if they want a pdf or a png
-    #file_option = file_option.lower()
-    #if(file_option == 'pdf'):
-        #fig.savefig('y_and_z_plot.pdf', format='pdf', dpi=1200)
-    #elif(file_option == 'png'):
-        #fig.savefig('y_and_z_plot.png', format = 'png', dpi = 1200)
-    #else :
-        #print(file_option + "is not supported filetype")
-        #sys.exit(0)
 
 
 def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
@@ -1878,20 +1814,23 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
 
     Parameters
     ----------
-    zArr :
+    xArr : the x array values
 
-    timeArr :
+    yArr : the y array values
 
-    filename :
+    zArr : the z array values
+    
+    timeArr : the time array values
 
-    stime :
+    filename : the name of the file
 
-    etime :
+    stime : the start time stamp
 
-    file_option :
+    etime : the end time stamp
 
     Returns
     -------
+    fig : the plotted figure
     
     """
     #To split up the file name 
@@ -1903,10 +1842,8 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
 
 
     #List of the hours and finding which ones to use
-    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hours_arr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    #default_hours_flag = False # using a flag to better optimize operations
 
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
@@ -1963,6 +1900,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -1976,7 +1914,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
                                                        second = current_second))
                     current_hour += 2
 
-        elif (hour_difference >=5):
+        elif (hour_difference >=5): # More than 5 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for hour in range(stime.hour, etime.hour+1):
                 hours_arr.append(datetime.datetime(year=1111,
@@ -1987,7 +1925,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
                                                    second = current_second))
                 current_hour += 1
                     
-        elif (hour_difference >= 2):
+        elif (hour_difference >= 2): # More than 2 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -2000,7 +1938,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
                                                            minute=minute,
                                                            second=current_second))
 
-        elif (hour_difference >= 1):
+        elif (hour_difference >= 1): # More than 1 hour branch
             x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
             x_axis_format = mdates.DateFormatter('%H:%M')
             for hour in range(stime.hour, etime.hour+1):
@@ -2179,8 +2117,6 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     plt.xlabel(x_axis_label)
 
     plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
-
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -2231,10 +2167,6 @@ if __name__ == "__main__" :
 
     arrayX, arrayY, arrayZ, timeArr = read_clean_to_lists(two_hz_binary_file, start_time, end_time)
     
-
-
-
-    #try:
     x_plot(arrayX, timeArr, filename, start_time, end_time)
     y_plot(arrayY, timeArr, filename, start_time, end_time)
     z_plot(arrayZ, timeArr, filename, start_time, end_time)
@@ -2242,12 +2174,6 @@ if __name__ == "__main__" :
     x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
     y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
     x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
-    
-    
-    #except:
-        #print('Could not plot arrays to testgraph.pdf')
-        #sys.exit(0)
-
 
 
 
