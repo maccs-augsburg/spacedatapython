@@ -15,7 +15,53 @@ import station_names
 import read_raw_to_lists
 #import read_to_clean_lists
 
-def x_plot(xArr, timeArr, filename, stime, etime) :
+def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
+    """
+    Creates a single plot of any axis x, y, z that we want to choose using the axis parameter
+    to eliminate the redundancy of code in the file 
+    
+
+    Parameters
+    ----------
+    axisArr : TYPE
+        DESCRIPTION.
+    timeArr : TYPE
+        DESCRIPTION.
+    filename : TYPE
+        DESCRIPTION.
+    stime : TYPE
+        DESCRIPTION.
+    etime : TYPE
+        DESCRIPTION.
+    axis : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    """
+    #Split up file name and put each piece of info into respective vars
+    station = filename[0:2] #name of station 
+    year_day_value = filename[2:7] # year and date of file
+    year_value = year_day_value[0:2] # year of file 
+    day_value = year_day_value[2:] #day of file 
+    station_name = station_name.find_full_name(station)#finds respective station name from station_name.py
+
+    #List of the hours and finding which ones to use
+    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
+    hours_arr = [] # list to use for custom times
+    currentTime = stime.hour # setting the time to the start
+    default_hours_flag = False # using a flag to better optimize operations
+
+    hours_arr = [] # list to use for custom times
+    current_hour = stime.hour # setting the hour to start at
+    current_minute = stime.minute # setting the minute to start at
+    current_second = stime.second # setting the second to start at
+    default_hours_flag = False # using a flag to better optimize operations
+    x_axis_label = ""
+    
+def x_plot(xArr, timeArr, filename, stime, etime):
     """
     Creates a single plot of just the xArr and timeArr.
 
@@ -2242,7 +2288,10 @@ if __name__ == "__main__" :
 
 
     #try:
-    x_plot(arrayX, timeArr, filename, start_time, end_time)
+    plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
+    #plot_axis(arrayY, timeArr, filename, stime, etime, Y)
+    #plot_axis(arrayZ, timeArr, filename, stime, etime, Z)
+    #x_plot(arrayX, timeArr, filename, start_time, end_time)
     y_plot(arrayY, timeArr, filename, start_time, end_time)
     z_plot(arrayZ, timeArr, filename, start_time, end_time)
     x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time)
