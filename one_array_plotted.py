@@ -22,22 +22,22 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
 
     Parameters
     ----------
-    axisArr : TYPE
-        DESCRIPTION.
-    timeArr : TYPE
-        DESCRIPTION.
-    filename : TYPE
-        DESCRIPTION.
-    stime : TYPE
-        DESCRIPTION.
-    etime : TYPE
-        DESCRIPTION.
-    axis : TYPE
-        DESCRIPTION.
+    axisArr : array of values 
+        is array of either x y or z axis that will be plotted .
+    timeArr : array of floats
+        array of time values that goes from 00:00:00 up to 23:59:59.
+    filename : String
+        name of the file we are reading.
+    stime : float
+        starting time stamp for the plot / file.
+    etime : float
+        ending time stamp for the plot / file.
+    axis : char
+        What axis we are working with X Y Z.
 
     Returns
     -------
-    None.
+    fig: The plotted figure.
 
     """
     #Split up file name and put each piece of info into respective vars
