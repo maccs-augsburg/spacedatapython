@@ -1,6 +1,6 @@
 #Plotting only one of the arrays
 #Created by- Annabelle Arns
-
+#Refractored by Chris Hance 5/12/2022
 
 #Imports matplotlib library 
 import matplotlib.pyplot as plt
