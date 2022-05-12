@@ -103,7 +103,29 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
                                                        second = current_second))
                     current_hour += 2
 
-    
+        elif (hour_difference >=5):
+            x_axis_label = "Universal Time in Hours (HH)"
+            for hour in range(stime.hour, etime.hour+1):
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour = current_hour,
+                                                   minute= current_minute,
+                                                   second = current_second))
+                current_hour += 1
+                    
+        elif (hour_difference >= 2):
+            x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
+            x_axis_format = mdates.DateFormatter('%H:%M')
+            for hour in range(stime.hour, etime.hour+1):
+                for minute in range(stime.minute, etime.minute+1):
+                    if minute % 30 == 0:
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
+                                                           hour=hour,
+                                                           minute=minute,
+                                                           second=current_second))
 def x_plot(xArr, timeArr, filename, stime, etime):
     """
     Creates a single plot of just the xArr and timeArr.
