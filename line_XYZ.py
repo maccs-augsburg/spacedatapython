@@ -465,7 +465,7 @@ class ThreeGraphPlotter:
              
         #Raw Y and Z plot
         elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
-            fig = one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
 
         #Clean Y and Z plot
         elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '5'):
@@ -473,7 +473,7 @@ class ThreeGraphPlotter:
              
         #Raw X and Z plot 
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3 and selection_file == '4'):
-            fig = one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
 
          #Clean X and Z plot 
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3 and selection_file == '5'):
@@ -481,7 +481,7 @@ class ThreeGraphPlotter:
 
         #Raw X and Y plot
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and selection_file == '4'):
-            fig = one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
 
         #Clean X and Y plot
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and selection_file == '5'):
@@ -489,7 +489,7 @@ class ThreeGraphPlotter:
 
         #Raw Z plot
         elif(graph_from_plotter_value_z == 3 and selection_file == '4'):
-            fig = one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
 
         #Clean Z plot
         elif(graph_from_plotter_value_z == 3 and selection_file == '5'):
@@ -497,7 +497,7 @@ class ThreeGraphPlotter:
 
         #Raw Y plot
         elif(graph_from_plotter_value_y == 2 and selection_file == '4'):
-            fig = one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
 
         #Clean Y plot
         elif(graph_from_plotter_value_y == 2 and selection_file == '5'):
@@ -505,7 +505,7 @@ class ThreeGraphPlotter:
              
         #Raw X plot
         elif(graph_from_plotter_value_x == 1 and selection_file == '4'):
-            fig = one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
 
         #Clean X plot
         elif(graph_from_plotter_value_x == 1 and selection_file == '5'):
