@@ -285,6 +285,15 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))  
+
+    fig = plt.figure(figsize=(12, 4))
+    
+    plt.plot(timeArr,axisArr, linewidth = 1)
+    plt.title("Geomagnetic Bx of " + station_name + "   YEARDAY: " + year_day_value + "   DATE: " + date) 
+    plt.ylabel('B' + axis)
+
+    #Make an if statement about changing the label with the x axis changing 
+    plt.xlabel(x_axis_label)
 def x_plot(xArr, timeArr, filename, stime, etime):
     """
     Creates a single plot of just the xArr and timeArr.
