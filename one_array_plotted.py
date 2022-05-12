@@ -46,7 +46,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     year_day_value = filename[2:7] # year and date of file
     year_value = year_day_value[0:2] # year of file 
     day_value = year_day_value[2:] #day of file 
-    station_name = station_name.find_full_name(station)#finds respective station name from station_name.py
+    station_name = station_names.find_full_name(station)#finds respective station name from station_name.py
 
     #List of the hours and finding which ones to use
     #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
@@ -60,6 +60,30 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     current_second = stime.second # setting the second to start at
     default_hours_flag = False # using a flag to better optimize operations
     x_axis_label = ""
+    
+    
+    #setting the flag to true if the start time and end time is the full 24 hour 
+    if (stime == datetime.time.fromisoformat("00:00:00") and etime == datetime.time.fromisoformat("23:59:59")):
+        default_hours_flag = True
+        x_axis_label = "Universal Time in Hours (HH)"
+        # for loop that fills in a list with odd numbers from start time to end 
+        for i in range(stime.hour, etime.hour, 1):
+            if (currentTime % 2 != 0): #only odd numbers
+                hours_arr.append(datetime.datetime(year=1111, month=1, day=1, hour = i, minute=current_minute, second = current_second))
+        
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
+
+    year_of_record = (int)(date[6:])
+    month_of_record = (int)(date[0:2])
+    day_of_record = (int)(date[3:5])
+
+    x_axis_format = mdates.DateFormatter('%H')
     
 def x_plot(xArr, timeArr, filename, stime, etime):
     """
@@ -2252,6 +2276,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
 
 
 if __name__ == "__main__" :
+    
     if len(sys.argv) < 2 :
         print( "Usage: python3 testPythonPlotter.py filename [starttime [endtime] ]")
         sys.exit(0) # Exiting without an error code
@@ -2282,22 +2307,25 @@ if __name__ == "__main__" :
         sys.exit(0) # Exiting without an error code
 
 
-    arrayX, arrayY, arrayZ, timeArr = read_raw_to_list(two_hz_binary_file, start_time, end_time)
+    arrayX, arrayY, arrayZ, timeArr = read_raw_to_lists(two_hz_binary_file, start_time, end_time)
     
 
-
+    X = 'X'
+    Y = 'Y'
+    Z = 'Z'
 
     #try:
-    plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
+    #plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
+    print("got past plot_axis")
     #plot_axis(arrayY, timeArr, filename, stime, etime, Y)
     #plot_axis(arrayZ, timeArr, filename, stime, etime, Z)
     #x_plot(arrayX, timeArr, filename, start_time, end_time)
-    y_plot(arrayY, timeArr, filename, start_time, end_time)
-    z_plot(arrayZ, timeArr, filename, start_time, end_time)
-    x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time)
-    x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
-    y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
-    x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
+#    y_plot(arrayY, timeArr, filename, start_time, end_time)
+  #  z_plot(arrayZ, timeArr, filename, start_time, end_time)
+   # x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time)
+    #x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
+    #y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
+    #x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
     
     
     #except:
