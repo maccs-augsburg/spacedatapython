@@ -457,69 +457,133 @@ class ThreeGraphPlotter:
         -------
         fig : the plotted figure
         """
-         #If statement to decided if we want X, Y or Z plot
-        '''
-        if (graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
-             
-            fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
-        
 
         '''
+        -- making some code here before deleting bottom one
+        -- can get rid of inside elif check once we know there is no difference between one_array and clean_one_array
+        -- can also get rid of file_state check if were only doing raw and clean, since arrays are going to contain the same vals.
+        
+        # create an alias from plotter values
+        # these values correspond to the checkbox state in GUI
+        # x == 1, y == 2, z ==3 when checked
+        # file_state either 4 or 5, raw = 4, clean = 5
+        
+        x_state = graph_from_plotter_value_x
+        y_state = graph_from_plotter_value_y
+        z_state = graph_from_plotter_valute_z
+        file_state = selection_file
+        '''
+        #If statement to decided if we want X, Y or Z plot
+        # X, Y, Z plot, clean or raw
+        if (x_state == 1 and y_state == 2 and z_state == 3):
+             
+            if (file_state == '4'):
+                fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
+            
+            elif (file_state == '5'):
+                fig = clean_one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
+                
+        # Y, Z plot, clean or raw
+        if (y_state == 2 and z_state == 3):
+            
+            if (file_state == '4'):
+                fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
+            
+            elif(file_state == '5'):
+                fig = clean_one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
+                
+        elif (x_state == 1 and z_state == 3):
+            
+            if (file_state == '4'):
+                fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
+            
+            elif(file_state == '5'):
+                fig = clean_one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
+        
+        elif (x_state == 1 and y_state == 2):
+            
+            if (file_state == '4'):
+                fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
+            
+            elif(file_state == '5'):
+                fig = clean_one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
+        
+        elif ( (x_state > 0 or y_state > 0 or z_state > 0) and file_state > 0):
+            
+            if (x_state == 1):
+                fig = one_array_plotted.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
+            
+            if(y_state == 2):
+                fig = one_array_plotted.plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
+            
+            if(z_state == 3):
+                fig = one_array_plotted.plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
+                
+        #Warning Message
+        else:
+            self.warning_message_pop_up(title = "File Format Option Error", message = "Please select a file format option")
+
+        #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
+        return fig
+        
+                
+        '''START COMMENT
+        
         #Raw X,Y and Z Plot
         # start cutting down on redundant code DONE
         if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
             fig = one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
              
-        #Clean X,Y, and Z plot   
+        #Clean X,Y, and Z plot    DONE
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3 and selection_file == '5'):
             fig = clean_one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
 
              
-        #Raw Y and Z plot
+        #Raw Y and Z plot         DONE
         elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
             fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
 
-        #Clean Y and Z plot
+        #Clean Y and Z plot       DONE
         elif(graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '5'):
             fig = clean_one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
              
-        #Raw X and Z plot 
+        #Raw X and Z plot         DONE
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3 and selection_file == '4'):
             fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
 
-         #Clean X and Z plot 
+         #Clean X and Z plo       DONE 
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_z == 3 and selection_file == '5'):
             fig = clean_one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
 
-        #Raw X and Y plot
+        #Raw X and Y plot         DONE
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and selection_file == '4'):
             fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
 
-        #Clean X and Y plot
+        #Clean X and Y plot       DONE
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and selection_file == '5'):
             fig = clean_one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
 
-        #Raw Z plot
+        #Raw Z plot               DONE
         elif(graph_from_plotter_value_z == 3 and selection_file == '4'):
             fig = one_array_plotted.plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
 
-        #Clean Z plot
+        #Clean Z plot             DONE
         elif(graph_from_plotter_value_z == 3 and selection_file == '5'):
             fig = clean_one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime)
 
-        #Raw Y plot
+        #Raw Y plot               DONE
         elif(graph_from_plotter_value_y == 2 and selection_file == '4'):
             fig = one_array_plotted.plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
 
-        #Clean Y plot
+        #Clean Y plot             DONE
         elif(graph_from_plotter_value_y == 2 and selection_file == '5'):
             fig = clean_one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime)
              
-        #Raw X plot
+        #Raw X plot               DONE
         elif(graph_from_plotter_value_x == 1 and selection_file == '4'):
             fig = one_array_plotted.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
 
-        #Clean X plot
+        #Clean X plot             DONE
         elif(graph_from_plotter_value_x == 1 and selection_file == '5'):
             fig = clean_one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime)
                       
@@ -529,7 +593,8 @@ class ThreeGraphPlotter:
 
         #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
         return fig
-
+    
+        END COMMENT''' 
 
 
 
