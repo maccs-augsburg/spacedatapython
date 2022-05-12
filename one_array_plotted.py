@@ -294,6 +294,25 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
 
     #Make an if statement about changing the label with the x axis changing 
     plt.xlabel(x_axis_label)
+    
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
+    plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
+    plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
+    plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
+    plt.xticks(hours_arr)
+    plt.gca().xaxis.set_major_formatter(x_axis_format)
+    x_yticks = plt.yticks()
+
+
+    #if (default_hours_flag):
+        #plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
+    #else:
+        #plt.xticks(hoursArr)
+
+
+    return fig
 def x_plot(xArr, timeArr, filename, stime, etime):
     """
     Creates a single plot of just the xArr and timeArr.
