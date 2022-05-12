@@ -505,7 +505,7 @@ class ThreeGraphPlotter:
              
         #Raw X plot
         elif(graph_from_plotter_value_x == 1 and selection_file == '4'):
-            fig = one_array_plotted.x_plot(xArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
 
         #Clean X plot
         elif(graph_from_plotter_value_x == 1 and selection_file == '5'):
