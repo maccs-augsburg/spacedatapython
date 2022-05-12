@@ -627,24 +627,31 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
 
 def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     """
-    Creates a single plot of just the zArr and timeArr.
-
+    Create a single plot of all three axis' x y and z ontop of each other with different color coding and a legend
+    
     Parameters
     ----------
-    zArr :
+    xArr : array of values 
+        the x axis values
 
-    timeArr :
+    yArr : array of values 
+        the y axis values
 
-    filename :
+    zArr : array of values 
+        the z axis values
+    
+    timeArr : array of floats
+        the time array values
 
-    stime :
+    filename : the name of the file
 
-    etime :
+    stime : the start time stamp
 
-    file_option :
+    etime : the end time stamp
 
     Returns
     -------
+    fig : the plotted figure
     
     """
     #To split up the file name 
@@ -1000,9 +1007,9 @@ if __name__ == "__main__" :
 
     #try:
     #plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
-    print("got past plot_axis")
-    plot_axis(arrayY, timeArr, filename, start_time, end_time, Y)
-    plot_axis(arrayZ, timeArr, filename, start_time, end_time, Z)
+   # print("got past plot_axis")
+    #plot_axis(arrayY, timeArr, filename, start_time, end_time, Y)
+    #plot_axis(arrayZ, timeArr, filename, start_time, end_time, Z)
     #x_plot(arrayX, timeArr, filename, start_time, end_time)
 #    y_plot(arrayY, timeArr, filename, start_time, end_time)
   #  z_plot(arrayZ, timeArr, filename, start_time, end_time)
