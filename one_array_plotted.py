@@ -321,8 +321,8 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
 
     Parameters
     ----------
-    firstArr : TYPE
-        DESCRIPTION.
+    firstArr : array of values 
+        is array of either x y or z axis that will be plotted ..
     secondArr : TYPE
         DESCRIPTION.
     timeArr : TYPE
