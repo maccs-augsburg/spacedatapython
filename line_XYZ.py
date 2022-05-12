@@ -112,7 +112,9 @@ class ThreeGraphPlotter:
         self.graph_from_plotter_x = IntVar()
         self.graph_from_plotter_y = IntVar()
         self.graph_from_plotter_z = IntVar()
-
+        
+        # https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/ttk-Checkbutton.html
+        # onvalue = 1 when checked inside gui by default, can also change onvalue to something we specify
         x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = self.graph_from_plotter_x, onvalue = 1).grid(column = 2, row = 10,padx = 25 , sticky = W)
         y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = self.graph_from_plotter_y, onvalue = 2).grid(column = 2, row = 11,padx = 25 , sticky = W) 
         z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = self.graph_from_plotter_z, onvalue = 3).grid(column = 2, row = 12,padx = 25 , sticky = W)
@@ -140,10 +142,6 @@ class ThreeGraphPlotter:
         image_label.image = image_file
         image_label.grid(column=7,row=1, columnspan=8, rowspan=24)
 
-
-
-
-
         
         for child in mainframe.winfo_children(): 
                 child.grid_configure(padx=5, pady=5)
@@ -151,10 +149,7 @@ class ThreeGraphPlotter:
         #Puts our execute_functions to the return key
         window.bind("<Return>", self.execute_functions)
 
-        window.mainloop()
-
-
-    
+        window.mainloop()    
 
     def execute_functions(self, mainframe, *args):
         """
@@ -191,11 +186,12 @@ class ThreeGraphPlotter:
         file_ending_value = self.file_format_entry_check(selection_file_value)
 
 
-        ###Makeing the Plot###
+        # Making the Plot
         file_name_full = station_names_value + year_day_value + file_ending_value
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_names_value + year_day_value + time_interval_string
-
+        
+        # Get associated values to GUI, if x,y,z checked, then they are set to some value, respectively 1, 2, 3
         graph_from_plotter_value_x = self.graph_from_plotter_x.get()
         graph_from_plotter_value_y = self.graph_from_plotter_y.get()
         graph_from_plotter_value_z = self.graph_from_plotter_z.get()
@@ -208,27 +204,36 @@ class ThreeGraphPlotter:
             self.error_message_pop_up("File open error", "couldn't find and open your file")
 
         if (selection_file_value == '4'):
-            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
-
-             
-
-            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr,
-                                                              timeArr, self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
-
             
+            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
+                                                              graph_from_plotter_value_y, 
+                                                              graph_from_plotter_value_z, 
+                                                              xArr, 
+                                                              yArr, 
+                                                              zArr,
+                                                              timeArr, 
+                                                              self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
+
         elif (selection_file_value == '5'):
+            
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr,
-                                                              timeArr, self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
+            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
+                                                              graph_from_plotter_value_y, 
+                                                              graph_from_plotter_value_z, 
+                                                              xArr, 
+                                                              yArr, 
+                                                              zArr,
+                                                              timeArr, 
+                                                              self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
                                           
-
         
         canvas = FigureCanvasTkAgg(self.figure, master = mainframe)
         canvas.draw()
 
         canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=24)
-
 
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
@@ -453,12 +458,19 @@ class ThreeGraphPlotter:
         fig : the plotted figure
         """
          #If statement to decided if we want X, Y or Z plot
-         
-         #Raw X,Y and Z Plot
-        if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
+        '''
+        if (graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3):
+             
+            fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
+        
+
+        '''
+        #Raw X,Y and Z Plot
+        # start cutting down on redundant code DONE
+        if(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y == 2 and graph_from_plotter_value_z == 3 and selection_file == '4'):
             fig = one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
              
-         #Clean X,Y, and Z plot   
+        #Clean X,Y, and Z plot   
         elif(graph_from_plotter_value_x == 1 and graph_from_plotter_value_y ==2 and graph_from_plotter_value_z == 3 and selection_file == '5'):
             fig = clean_one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
 
