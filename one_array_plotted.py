@@ -52,9 +52,6 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
     hours_arr = [] # list to use for custom times
     currentTime = stime.hour # setting the time to the start
-    default_hours_flag = False # using a flag to better optimize operations
-
-    hours_arr = [] # list to use for custom times
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
     current_second = stime.second # setting the second to start at
@@ -62,15 +59,18 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     x_axis_label = ""
     
     
-    #setting the flag to true if the start time and end time is the full 24 hour 
-    if (stime == datetime.time.fromisoformat("00:00:00") and etime == datetime.time.fromisoformat("23:59:59")):
+    # setting the flag to true if the stime and etimes are the full 24 hours
+    if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
         default_hours_flag = True
         x_axis_label = "Universal Time in Hours (HH)"
-        # for loop that fills in a list with odd numbers from start time to end 
-        for i in range(stime.hour, etime.hour, 1):
-            if (currentTime % 2 != 0): #only odd numbers
-                hours_arr.append(datetime.datetime(year=1111, month=1, day=1, hour = i, minute=current_minute, second = current_second))
-        
+    # Create a loop that fills out an list with odd numbers from start time to end time
+        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
+
+            # only adding the odd numbers to the list
+            if(currentTime % 2 != 0):
+                hours_arr.append(datetime.datetime(year=1111, month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+            
+
     #Datestamp
     if((int)(year_value) > 50):
         year_value = "19" + year_value
