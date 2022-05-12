@@ -489,7 +489,7 @@ class ThreeGraphPlotter:
 
         #Raw Z plot
         elif(graph_from_plotter_value_z == 3 and selection_file == '4'):
-            fig = one_array_plotted.z_plot(zArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
 
         #Clean Z plot
         elif(graph_from_plotter_value_z == 3 and selection_file == '5'):
@@ -497,7 +497,7 @@ class ThreeGraphPlotter:
 
         #Raw Y plot
         elif(graph_from_plotter_value_y == 2 and selection_file == '4'):
-            fig = one_array_plotted.y_plot(yArr, timeArr, filename, stime, etime)
+            fig = one_array_plotted.plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
 
         #Clean Y plot
         elif(graph_from_plotter_value_y == 2 and selection_file == '5'):
