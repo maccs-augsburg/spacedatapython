@@ -194,6 +194,20 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
                                                        minute=minute,
                                                        second=current_second))
                 
+
+            
+        elif (minute_difference >= 2):
+            # assuming a 2 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=minute,
+                                                   second=current_second))
+                
         elif (minute_difference >= 1):
             # assuming a 1 minute or more gap
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
@@ -209,18 +223,6 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
                                                            second=second))
             
             
-        elif (minute_difference >= 2):
-            # assuming a 2 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=1111,
-                                                   month=1,
-                                                   day=1,
-                                                   hour=current_hour,
-                                                   minute=minute,
-                                                   second=current_second))
-                
         elif (second_difference >= 45):
             # assuming 45 second or more gap
             x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
@@ -239,6 +241,32 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
             x_axis_format = mdates.DateFormatter('%H:%M:%S')
             for second in range(stime.second, etime.second + 1):
                 if second % 10 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=current_hour,
+                                                       minute=current_minute,
+                                                       second=second))
+                    
+        elif(second_difference >= 10):
+            # assuming 10 second or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for second in range(stime.second, etime.second + 1):
+                if second % 3 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=current_hour,
+                                                       minute=current_minute,
+                                                       second=second))
+
+        elif(second_difference >= 5):
+            # assuming 5 second or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for second in range(stime.second, etime.second + 1):
+                if second % 1.5 == 0:
                     hours_arr.append(datetime.datetime(year=1111,
                                                        month=1,
                                                        day=1,
