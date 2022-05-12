@@ -313,6 +313,73 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
 
     return fig
 
+def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime):
+    """
+    
+
+    Parameters
+    ----------
+    firstArr : TYPE
+        DESCRIPTION.
+    secondArr : TYPE
+        DESCRIPTION.
+    timeArr : TYPE
+        DESCRIPTION.
+    filename : TYPE
+        DESCRIPTION.
+    stime : TYPE
+        DESCRIPTION.
+    etime : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    None.
+
+    """
+
+    #Split up file name and put each piece of info into respective vars
+    station = filename[0:2] #name of station 
+    year_day_value = filename[2:7] # year and date of file
+    year_value = year_day_value[0:2] # year of file 
+    day_value = year_day_value[2:] #day of file 
+    station_name = station_names.find_full_name(station)#finds respective station name from station_name.py
+
+    #List of the hours and finding which ones to use
+    #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
+    hours_arr = [] # list to use for custom times
+    currentTime = stime.hour # setting the time to the start
+    current_hour = stime.hour # setting the hour to start at
+    current_minute = stime.minute # setting the minute to start at
+    current_second = stime.second # setting the second to start at
+    default_hours_flag = False # using a flag to better optimize operations
+    x_axis_label = ""
+    
+    x_axis_format = mdates.DateFormatter('%H')
+
+    # setting the flag to true if the stime and etimes are the full 24 hours
+    if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
+        default_hours_flag = True
+    # Create a loop that fills out an list with odd numbers from start time to end time
+        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
+            # only adding the odd numbers to the list
+            if(i % 2 != 0):
+                hours_arr.append(datetime.datetime(year=1111, month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+            
+
+    #Datestamp
+    if((int)(year_value) > 50):
+        year_value = "19" + year_value
+    else:
+        year_value = "20" + year_value
+
+    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
+
+    year_of_record = (int)(date[6:])
+    month_of_record = (int)(date[0:2])
+    day_of_record = (int)(date[3:5])
+
+    x_axis_format = mdates.DateFormatter('%H')
 
 def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
     """
