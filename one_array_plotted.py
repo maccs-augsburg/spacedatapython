@@ -154,6 +154,57 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
+                    
+        elif (minute_difference >= 20):
+            # assuming a 20 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                if minute % 5 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=current_hour,
+                                                       minute=minute,
+                                                       second=current_second))
+
+        elif (minute_difference >=10):
+            # assuming a 10 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                if minute % 3 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=current_hour,
+                                                       minute=minute,
+                                                       second=current_second))
+                    
+        elif (minute_difference >= 7):
+            # assuming a 7 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                if minute % 2 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=current_hour,
+                                                       minute=minute,
+                                                       second=current_second))
+            
+        elif (minute_difference >= 2):
+            # assuming a 2 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for minute in range(stime.minute, etime.minute+1):
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=minute,
+                                                   second=current_second))
 def x_plot(xArr, timeArr, filename, stime, etime):
     """
     Creates a single plot of just the xArr and timeArr.
