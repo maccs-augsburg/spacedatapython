@@ -85,6 +85,25 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
 
     x_axis_format = mdates.DateFormatter('%H')
     
+    #if the graph is not going to be in default 24 viewing we have to alter the graph to the respctive time frame 
+    if not default_hours_flag:
+        hour_difference = etime.hour - stime.hour # Getting the difference in time
+        minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
+        second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        if (hour_difference >= 8): # More than 8 hour branch
+            x_axis_label = "Universal Time in Hours (HH)"
+            for i in range(hour_difference + 1):
+                factor = hour_difference % 2
+                if (i % 2 == factor):
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour = current_hour,
+                                                       minute= current_minute,
+                                                       second = current_second))
+                    current_hour += 2
+
+    
 def x_plot(xArr, timeArr, filename, stime, etime):
     """
     Creates a single plot of just the xArr and timeArr.
