@@ -467,48 +467,49 @@ class ThreeGraphPlotter:
         # these values correspond to the checkbox state in GUI
         # x == 1, y == 2, z ==3 when checked
         # file_state either 4 or 5, raw = 4, clean = 5
-        
+        '''
         x_state = graph_from_plotter_value_x
         y_state = graph_from_plotter_value_y
-        z_state = graph_from_plotter_valute_z
-        file_state = selection_file
-        '''
+        z_state = graph_from_plotter_value_z
+        file_state = int(selection_file)
+        any_plot_state = x_state + y_state + file_state
+        
         #If statement to decided if we want X, Y or Z plot
         # X, Y, Z plot, clean or raw
         if (x_state == 1 and y_state == 2 and z_state == 3):
              
-            if (file_state == '4'):
+            if (file_state == 4):
                 fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
             
-            elif (file_state == '5'):
+            elif (file_state == 5):
                 fig = clean_one_array_plotted.x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime)
                 
         # Y, Z plot, clean or raw
-        if (y_state == 2 and z_state == 3):
+        elif (x_state == 0 and y_state == 2 and z_state == 3):
             
-            if (file_state == '4'):
+            if (file_state == 4):
                 fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
             
-            elif(file_state == '5'):
+            elif(file_state == 5):
                 fig = clean_one_array_plotted.y_and_z_plot(yArr, zArr, timeArr, filename, stime, etime)
                 
-        elif (x_state == 1 and z_state == 3):
+        elif (x_state == 1 and y_state == 0 and z_state == 3):
             
-            if (file_state == '4'):
+            if (file_state == 4):
                 fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
             
-            elif(file_state == '5'):
+            elif(file_state == 5):
                 fig = clean_one_array_plotted.x_and_z_plot(xArr,zArr, timeArr, filename, stime, etime)
         
-        elif (x_state == 1 and y_state == 2):
+        elif (x_state == 1 and y_state == 2 and z_state == 0):
             
-            if (file_state == '4'):
+            if (file_state == 4):
                 fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
             
-            elif(file_state == '5'):
+            elif(file_state == 5):
                 fig = clean_one_array_plotted.x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime)
         
-        elif ( (x_state > 0 or y_state > 0 or z_state > 0) and file_state > 0):
+        elif ( any_plot_state > 0 and file_state > 0):
             
             if (x_state == 1):
                 fig = one_array_plotted.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
