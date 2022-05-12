@@ -600,8 +600,8 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     plt.ylabel('B' + firstAxis + ' and B' + secondAxis)
     plt.xlabel(x_axis_label)
 
-    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
-
+    plt.legend( prop={'size': 8}, fontsize='medium')
+    #loc = 'upper left',
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
@@ -941,8 +941,8 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     plt.ylabel('Bx, By and Bz')
     plt.xlabel(x_axis_label)
 
-    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
-
+    plt.legend(prop={'size': 8}, fontsize='medium')
+#loc = 'upper left', 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
