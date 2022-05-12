@@ -15,11 +15,10 @@ import station_names
 import read_raw_to_lists
 #import read_to_clean_lists
 
-def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
+def plot_axis(axisArr, timeArr, filename, stime, etime, axis): 
     """
-    Creates a single plot of any axis x, y, z that we want to choose using the axis parameter
-    to eliminate the redundancy of code in the file 
-    
+    Create a single plot of any axis x, y, z that we want to choose using the axis parameter.
+    to eliminate the redundancy of code in the file .
 
     Parameters
     ----------
@@ -58,14 +57,13 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     default_hours_flag = False # using a flag to better optimize operations
     x_axis_label = ""
     
-    
+    x_axis_format = mdates.DateFormatter('%H')
+
     # setting the flag to true if the stime and etimes are the full 24 hours
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
         default_hours_flag = True
-        x_axis_label = "Universal Time in Hours (HH)"
     # Create a loop that fills out an list with odd numbers from start time to end time
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
-
             # only adding the odd numbers to the list
             if(currentTime % 2 != 0):
                 hours_arr.append(datetime.datetime(year=1111, month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
@@ -90,6 +88,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
         if (hour_difference >= 8): # More than 8 hour branch
             x_axis_label = "Universal Time in Hours (HH)"
             for i in range(hour_difference + 1):
@@ -1644,8 +1643,8 @@ if __name__ == "__main__" :
     #try:
     #plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
     print("got past plot_axis")
-    #plot_axis(arrayY, timeArr, filename, stime, etime, Y)
-    #plot_axis(arrayZ, timeArr, filename, stime, etime, Z)
+    plot_axis(arrayY, timeArr, filename, start_time, end_time, Y)
+    plot_axis(arrayZ, timeArr, filename, start_time, end_time, Z)
     #x_plot(arrayX, timeArr, filename, start_time, end_time)
 #    y_plot(arrayY, timeArr, filename, start_time, end_time)
   #  z_plot(arrayZ, timeArr, filename, start_time, end_time)
