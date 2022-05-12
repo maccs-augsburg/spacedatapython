@@ -65,7 +65,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     # Create a loop that fills out an list with odd numbers from start time to end time
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
             # only adding the odd numbers to the list
-            if(currentTime % 2 != 0):
+            if(i % 2 != 0):
                 hours_arr.append(datetime.datetime(year=1111, month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
             
 
@@ -82,7 +82,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     day_of_record = (int)(date[3:5])
 
     x_axis_format = mdates.DateFormatter('%H')
-    
+
     #if the graph is not going to be in default 24 viewing we have to alter the graph to the respctive time frame 
     if not default_hours_flag:
         hour_difference = etime.hour - stime.hour # Getting the difference in time
