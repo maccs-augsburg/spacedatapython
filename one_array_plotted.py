@@ -313,7 +313,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
 
     return fig
 
-def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime):
+def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxis, secondAxis):
     """
     
 
@@ -331,6 +331,10 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime):
         DESCRIPTION.
     etime : TYPE
         DESCRIPTION.
+    firstAxis : TYPE
+        Dsecprtion.
+    secondAxis : TYPE
+        Descprtion.
 
     Returns
     -------
@@ -575,7 +579,39 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime):
                                                    hour=current_hour,
                                                    minute=current_minute,
                                                    second=second))
+    fig = plt.figure(figsize=(12, 4))#size of graph
 
+    x_values = xArr #The list of values to change 
+    offset = xArr[0] #The amount to subtract from each value  
+    x_values = list(map(lambda x : x - offset, x_values)) #applies the subtraction x-offset to each value, converts the result back to a list
+
+    y_values = yArr #The list of values to change 
+    offset = yArr[0] #the amount to subtract from each value
+    y_values = list(map(lambda y : y - offset, y_values))
+    
+    
+    plt.plot(timeArr,x_values, linewidth = 1, label = 'Bx Values')
+    plt.plot(timeArr,y_values, linewidth = 1, label = 'By Values')
+    
+    plt.title("Geomagnetic Bx and By of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
+    plt.ylabel('Bx and By')
+    plt.xlabel(x_axis_label)
+
+    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
+
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
+    #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
+    plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
+    plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
+    plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
+    plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+    plt.gca().xaxis.set_major_formatter(x_axis_format)
+    plt.axhline(y = 0,color = 'tab:gray', linestyle = '-')
+
+
+    return fig
+    
 def x_and_y_plot(xArr, yArr, timeArr, filename, stime, etime) :
     """
     Creates a single plot of just the zArr and timeArr.
