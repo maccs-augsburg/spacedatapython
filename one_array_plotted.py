@@ -126,6 +126,34 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
                                                            hour=hour,
                                                            minute=minute,
                                                            second=current_second))
+                        
+        elif (hour_difference >= 1):
+            x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
+            x_axis_format = mdates.DateFormatter('%H:%M')
+            for hour in range(stime.hour, etime.hour+1):
+                for minute in range(stime.minute, etime.minute+1):
+                    if minute % 15 == 0:
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
+                                                           hour=hour,
+                                                           minute=minute,
+                                                           second=current_second))
+            
+            
+        elif (minute_difference >= 30):
+            # assuming a 30 minute or more gap
+            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+            x_axis_format = mdates.DateFormatter('%H:%M:%S')
+            for hour in range(stime.hour, etime.hour+1):
+                for minute in range(stime.minute, etime.minute+1):
+                    if minute % 10 == 0:
+                        hours_arr.append(datetime.datetime(year=1111,
+                                                           month=1,
+                                                           day=1,
+                                                           hour=hour,
+                                                           minute=minute,
+                                                           second=current_second))
 def x_plot(xArr, timeArr, filename, stime, etime):
     """
     Creates a single plot of just the xArr and timeArr.
