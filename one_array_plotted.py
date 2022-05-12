@@ -62,6 +62,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     # setting the flag to true if the stime and etimes are the full 24 hours
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
         default_hours_flag = True
+        x_axis_label = "Universal Time in Hours (HH)"
     # Create a loop that fills out an list with odd numbers from start time to end time
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
             # only adding the odd numbers to the list
@@ -315,7 +316,8 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
 
 def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxis, secondAxis):
     """
-    
+    Create a single plot of any TWO axis x, y, z that we want to choose using the axis parameters.
+    to eliminate the redundancy of code in the file .
 
     Parameters
     ----------
@@ -363,6 +365,7 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     # setting the flag to true if the stime and etimes are the full 24 hours
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
         default_hours_flag = True
+        x_axis_label = "Universal Time in Hours, (HH)"
     # Create a loop that fills out an list with odd numbers from start time to end time
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
             # only adding the odd numbers to the list
@@ -627,7 +630,7 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
 
 def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     """
-    Create a single plot of all three axis' x y and z ontop of each other with different color coding and a legend
+    Create a single plot of all three axis' x y and z ontop of each other with different color coding and a legend.
     
     Parameters
     ----------
@@ -685,7 +688,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
 
             # only adding the odd numbers to the list
-            if(currentTime % 2 != 0):
+            if(i % 2 != 0):
                 hours_arr.append(datetime.datetime(year=1111,month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
             
 
@@ -964,8 +967,6 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
         #sys.exit(0)
 
 
-
-
 if __name__ == "__main__" :
     
     if len(sys.argv) < 2 :
@@ -1001,9 +1002,9 @@ if __name__ == "__main__" :
     arrayX, arrayY, arrayZ, timeArr = read_raw_to_lists(two_hz_binary_file, start_time, end_time)
     
 
-    X = 'X'
-    Y = 'Y'
-    Z = 'Z'
+    #X = 'X'
+    #Y = 'Y'
+    #Z = 'Z'
 
     #try:
     #plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
