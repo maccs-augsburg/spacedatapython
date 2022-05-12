@@ -581,20 +581,20 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
                                                    second=second))
     fig = plt.figure(figsize=(12, 4))#size of graph
 
-    x_values = xArr #The list of values to change 
-    offset = xArr[0] #The amount to subtract from each value  
+    x_values = firstArr #The list of values to change 
+    offset = firstArr[0] #The amount to subtract from each value  
     x_values = list(map(lambda x : x - offset, x_values)) #applies the subtraction x-offset to each value, converts the result back to a list
 
-    y_values = yArr #The list of values to change 
-    offset = yArr[0] #the amount to subtract from each value
+    y_values = secondArr #The list of values to change 
+    offset = secondArr[0] #the amount to subtract from each value
     y_values = list(map(lambda y : y - offset, y_values))
     
     
-    plt.plot(timeArr,x_values, linewidth = 1, label = 'Bx Values')
-    plt.plot(timeArr,y_values, linewidth = 1, label = 'By Values')
+    plt.plot(timeArr,x_values, linewidth = 1, label = 'B' + firstAxis +' Values')
+    plt.plot(timeArr,y_values, linewidth = 1, label = 'B' + secondAxis+ ' Values')
     
-    plt.title("Geomagnetic Bx and By of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
-    plt.ylabel('Bx and By')
+    plt.title("Geomagnetic B" + firstAxis + " and B" + secondAxis + " of " + station_name + "    YEARDAY:  " +  year_day_value +   "  DATE: " + date) 
+    plt.ylabel('B' + firstAxis + ' and B' + secondAxis)
     plt.xlabel(x_axis_label)
 
     plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
