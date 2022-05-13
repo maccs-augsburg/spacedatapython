@@ -477,8 +477,8 @@ class ThreeGraphPlotter:
         # X, Y, Z plot, clean or raw
         # first check if all on, then two the two_plot checks, last should be one_axis
         if (x_state == 1 and y_state == 2 and z_state == 3):
-            #testing with clean data
-            if (file_state > 4):
+    
+            if (file_state >= 4):
                 fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
             
             # elif (file_state == 5):
@@ -486,8 +486,8 @@ class ThreeGraphPlotter:
                 
         # Y, Z plot, clean or raw
         elif (y_state == 2 and z_state == 3):
-            #testing with clean data
-            if (file_state > 4):
+            
+            if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
             
             # elif(file_state == 5):
@@ -495,7 +495,7 @@ class ThreeGraphPlotter:
                 
         elif (x_state == 1 and z_state == 3):
             
-            if (file_state == 4):
+            if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
             
             # elif(file_state == 5):
@@ -503,7 +503,7 @@ class ThreeGraphPlotter:
         
         elif (x_state == 1 and y_state == 2):
             
-            if (file_state == 4):
+            if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
             
             # elif(file_state == 5):
