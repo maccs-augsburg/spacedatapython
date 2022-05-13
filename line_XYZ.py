@@ -116,8 +116,8 @@ class ThreeGraphPlotter:
         # https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/ttk-Checkbutton.html
         # onvalue = 1 when checked inside gui by default, can also change onvalue to something we specify
         x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = self.graph_from_plotter_x, onvalue = 1).grid(column = 2, row = 10,padx = 25 , sticky = W)
-        y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = self.graph_from_plotter_y, onvalue = 2).grid(column = 2, row = 11,padx = 25 , sticky = W) 
-        z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = self.graph_from_plotter_z, onvalue = 3).grid(column = 2, row = 12,padx = 25 , sticky = W)
+        y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = self.graph_from_plotter_y, onvalue = 1).grid(column = 2, row = 11,padx = 25 , sticky = W) 
+        z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = self.graph_from_plotter_z, onvalue = 1).grid(column = 2, row = 12,padx = 25 , sticky = W)
 
         self.selection_file = StringVar()
         cda_web = Radiobutton(mainframe, text = "CDAWEB:NA", value = 1, variable = self.selection_file).grid(column = 2, row = 15, padx = 25,  sticky = W)
@@ -431,11 +431,11 @@ class ThreeGraphPlotter:
 
         Parameters
         ----------
-        graph_from_plotter_value_x : value from GUI, set to 1 if box is checked
+        graph_from_plotter_value_x : value from GUI, set to 1 if box is checked, 0 if not
 
-        graph_from_plotter_value_y : value from GUI, set to 2 if box is checked
+        graph_from_plotter_value_y : value from GUI, set to 1 if box is checked, 0 if not
 
-        graph_from_plotter_value_z : value from GUI, set to 3 if box is checked
+        graph_from_plotter_value_z : value from GUI, set to 1 if box is checked, 0 if not
 
         xArr : the x array values
 
@@ -467,25 +467,25 @@ class ThreeGraphPlotter:
         
         # X, Y, Z plot, clean or raw
         # first check if all on, then two the two_plot checks, last should be one_axis
-        if (x_state == 1 and y_state == 2 and z_state == 3):
+        if (x_state and y_state and z_state ):
     
             if (file_state >= 4):
                 fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
             
         # Y, Z plot, clean or raw
-        elif (y_state == 2 and z_state == 3):
+        elif (y_state and z_state):
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
         
         # X, Z plot, clean or raw
-        elif (x_state == 1 and z_state == 3):
+        elif (x_state and z_state):
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
             
         # X, Y plot, clean or raw
-        elif (x_state == 1 and y_state == 2):
+        elif (x_state and y_state):
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
@@ -493,13 +493,13 @@ class ThreeGraphPlotter:
         # For single axis plotting
         elif ( any_plot_state > 0 and file_state > 0):
             
-            if (x_state == 1):
+            if (x_state):
                 fig = one_array_plotted.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
             
-            if(y_state == 2):
+            if(y_state):
                 fig = one_array_plotted.plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
             
-            if(z_state == 3):
+            if(z_state):
                 fig = one_array_plotted.plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
                 
         #Warning Message
