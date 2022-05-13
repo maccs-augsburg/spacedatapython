@@ -472,7 +472,6 @@ class ThreeGraphPlotter:
         file_state = int(selection_file)
         any_plot_state = x_state + y_state + file_state
         
-        #If statement to decided if we want X, Y or Z plot
         # X, Y, Z plot, clean or raw
         # first check if all on, then two the two_plot checks, last should be one_axis
         if (x_state == 1 and y_state == 2 and z_state == 3):
@@ -485,17 +484,20 @@ class ThreeGraphPlotter:
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
-                
+        
+        # X, Z plot, clean or raw
         elif (x_state == 1 and z_state == 3):
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
             
+        # X, Y plot, clean or raw
         elif (x_state == 1 and y_state == 2):
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
-            
+        
+        # For single axis plotting
         elif ( any_plot_state > 0 and file_state > 0):
             
             if (x_state == 1):
