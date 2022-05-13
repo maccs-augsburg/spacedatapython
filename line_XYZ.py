@@ -427,15 +427,15 @@ class ThreeGraphPlotter:
     def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, filename, stime, etime, selection_file):
 
         """
-        Checks the gui entries
+        Checks the gui entries for plotting, x, y, z axis. If values are set, then we plot those axis
 
         Parameters
         ----------
-        graph_from_plotter_value_x : the value from the gui to see if we need to plot x
+        graph_from_plotter_value_x : value from GUI, set to 1 if box is checked
 
-        graph_from_plotter_value_y : the value from the gui to see if we need to plot y
+        graph_from_plotter_value_y : value from GUI, set to 2 if box is checked
 
-        graph_from_plotter_value_z : the value from the gui to see if we need to plot z
+        graph_from_plotter_value_z : value from GUI, set to 3 if box is checked
 
         xArr : the x array values
 
@@ -451,21 +451,14 @@ class ThreeGraphPlotter:
 
         etime : the end time stamp
 
-        selection_file : the selection file value
+        selection_file : value from GUI, if clean is checked value is set to 4, if raw --> set to 5
 
         Returns
         -------
         fig : the plotted figure
         """
-
-        '''
-        -- can get rid of file_state check if were only doing raw and clean, since arrays are going to contain the same vals.
-        
-        create an alias from plotter values
-        these values correspond to the checkbox state in GUI
-        x == 1, y == 2, z ==3 when checked
-        file_state either 4 or 5, raw = 4, clean = 5, others will throw error because not supported yet
-        '''
+    
+        # create an alias from plotter values
         x_state = graph_from_plotter_value_x
         y_state = graph_from_plotter_value_y
         z_state = graph_from_plotter_value_z
