@@ -459,8 +459,7 @@ class ThreeGraphPlotter:
         """
 
         '''
-        -- can get rid of inside elif check once we know there is no difference between one_array and clean_one_array
-        -- can also get rid of file_state check if were only doing raw and clean, since arrays are going to contain the same vals.
+        -- can get rid of file_state check if were only doing raw and clean, since arrays are going to contain the same vals.
         
         create an alias from plotter values
         these values correspond to the checkbox state in GUI
@@ -481,26 +480,22 @@ class ThreeGraphPlotter:
             if (file_state >= 4):
                 fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
             
-                
         # Y, Z plot, clean or raw
         elif (y_state == 2 and z_state == 3):
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
-            
                 
         elif (x_state == 1 and z_state == 3):
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
             
-        
         elif (x_state == 1 and y_state == 2):
             
             if (file_state >= 4):
                 fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
             
-        
         elif ( any_plot_state > 0 and file_state > 0):
             
             if (x_state == 1):
