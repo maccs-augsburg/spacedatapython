@@ -55,7 +55,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     
     x_axis_format = mdates.DateFormatter('%H')
     
-    x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
+    x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime)
 
     #Datestamp
     if((int)(year_value) > 50):
@@ -146,7 +146,7 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     # X_axis_label will return label corresponding to time gaps
     # hours_array will contain the timestamps for labeling x-axis
     # x_axis_format might be hours, hours and seconds
-    x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
+    x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime)
             
 
     #Datestamp
@@ -240,7 +240,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
 
     x_axis_format = mdates.DateFormatter('%H')
     
-    x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
+    x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime)
 
     #Datestamp
     if((int)(year_value) > 50):
@@ -296,8 +296,12 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     return fig
 
     #Actual Plot
-def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
+def x_axis_labeling (etime, stime):
     
+    '''
+    '''
+    
+    hours_arr = []
     current_hour = stime.hour
     current_minute = stime.minute
     current_second = stime.second
