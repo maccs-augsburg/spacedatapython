@@ -9,6 +9,7 @@
 # Python 3 imports
 import datetime
 import sys
+import numpy as np
 
 def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_name):
     """ Creates x, y, z, time, and flag lists based on the 2 Hz clean data file.
@@ -125,8 +126,13 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time, file_nam
         if current_time >= end_time :
             break
 
-    # returning the 5 lists
-    return x_arr, y_arr, z_arr, time_arr, flag_arr
+    np_x_arr = np.array(x_arr)
+    np_y_arr = np.array(y_arr)
+    np_z_arr = np.array(z_arr)
+    np_time_arr = np.array(time_arr)
+    np_flag_arr = np.array(flag_arr)
+    # returning the 4 lists -- This time, time_arr has datetime.datetime objects to display times on the x-axis of plots!
+    return np_x_arr, np_y_arr, np_z_arr, np_time_arr, np_flag_arr
 
 
 def create_lists_from_clean (clean_file, start_time, end_time) :
@@ -228,8 +234,13 @@ def create_lists_from_clean (clean_file, start_time, end_time) :
         if current_time >= end_time :
             break
 
-    # returning the 5 lists
-    return x_arr, y_arr, z_arr, time_arr, flag_arr
+    np_x_arr = np.array(x_arr)
+    np_y_arr = np.array(y_arr)
+    np_z_arr = np.array(z_arr)
+    np_time_arr = np.array(time_arr)
+    np_flag_arr = np.array(flag_arr)
+    # returning the 4 lists -- This time, time_arr has datetime.datetime objects to display times on the x-axis of plots!
+    return np_x_arr, np_y_arr, np_z_arr, np_time_arr, np_flag_arr
 
 if __name__ == "__main__" :
     if len(sys.argv) < 2 :
