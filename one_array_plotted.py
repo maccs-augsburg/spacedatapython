@@ -391,7 +391,7 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
 
     if not default_hours_flag:
         
-        x_axis_label, hours_arr = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
+        x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
         # hour_difference = etime.hour - stime.hour # Getting the difference in time
         # minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
         # second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
@@ -401,22 +401,22 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #         factor = hour_difference % 2
         #         if (i % 2 == factor):
         #             hours_arr.append(datetime.datetime(year=1111,
-        #                                                month=1,
-        #                                                day=1,
-        #                                                hour = current_hour,
-        #                                                minute= current_minute,
-        #                                                second = current_second))
+        #                                                 month=1,
+        #                                                 day=1,
+        #                                                 hour = current_hour,
+        #                                                 minute= current_minute,
+        #                                                 second = current_second))
         #             current_hour += 2
 
         # elif (hour_difference >=5):
         #     x_axis_label = "Universal Time in Hours (HH)"
         #     for hour in range(stime.hour, etime.hour+1):
         #         hours_arr.append(datetime.datetime(year=1111,
-        #                                            month=1,
-        #                                            day=1,
-        #                                            hour = current_hour,
-        #                                            minute= current_minute,
-        #                                            second = current_second))
+        #                                             month=1,
+        #                                             day=1,
+        #                                             hour = current_hour,
+        #                                             minute= current_minute,
+        #                                             second = current_second))
         #         current_hour += 1
                     
         # elif (hour_difference >= 2):
@@ -426,11 +426,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #         for minute in range(stime.minute, etime.minute+1):
         #             if minute % 30 == 0:
         #                 hours_arr.append(datetime.datetime(year=1111,
-        #                                                    month=1,
-        #                                                    day=1,
-        #                                                    hour=hour,
-        #                                                    minute=minute,
-        #                                                    second=current_second))
+        #                                                     month=1,
+        #                                                     day=1,
+        #                                                     hour=hour,
+        #                                                     minute=minute,
+        #                                                     second=current_second))
 
         # elif (hour_difference >= 1):
         #     x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
@@ -439,11 +439,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #         for minute in range(stime.minute, etime.minute+1):
         #             if minute % 15 == 0:
         #                 hours_arr.append(datetime.datetime(year=1111,
-        #                                                    month=1,
-        #                                                    day=1,
-        #                                                    hour=hour,
-        #                                                    minute=minute,
-        #                                                    second=current_second))
+        #                                                     month=1,
+        #                                                     day=1,
+        #                                                     hour=hour,
+        #                                                     minute=minute,
+        #                                                     second=current_second))
             
             
         # elif (minute_difference >= 30):
@@ -454,11 +454,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #         for minute in range(stime.minute, etime.minute+1):
         #             if minute % 10 == 0:
         #                 hours_arr.append(datetime.datetime(year=1111,
-        #                                                    month=1,
-        #                                                    day=1,
-        #                                                    hour=hour,
-        #                                                    minute=minute,
-        #                                                    second=current_second))
+        #                                                     month=1,
+        #                                                     day=1,
+        #                                                     hour=hour,
+        #                                                     minute=minute,
+        #                                                     second=current_second))
         # elif (minute_difference >= 20):
         #     # assuming a 20 minute or more gap
         #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
@@ -466,11 +466,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #     for minute in range(stime.minute, etime.minute+1):
         #         if minute % 5 == 0:
         #             hours_arr.append(datetime.datetime(year=1111,
-        #                                                month=1,
-        #                                                day=1,
-        #                                                hour=current_hour,
-        #                                                minute=minute,
-        #                                                second=current_second))
+        #                                                 month=1,
+        #                                                 day=1,
+        #                                                 hour=current_hour,
+        #                                                 minute=minute,
+        #                                                 second=current_second))
 
         # elif (minute_difference >=10):
         #     # assuming a 10 minute or more gap
@@ -479,11 +479,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #     for minute in range(stime.minute, etime.minute+1):
         #         if minute % 3 == 0:
         #             hours_arr.append(datetime.datetime(year=1111,
-        #                                                month=1,
-        #                                                day=1,
-        #                                                hour=current_hour,
-        #                                                minute=minute,
-        #                                                second=current_second))
+        #                                                 month=1,
+        #                                                 day=1,
+        #                                                 hour=current_hour,
+        #                                                 minute=minute,
+        #                                                 second=current_second))
                 
         # elif (minute_difference >= 7):
         #     # assuming a 7 minute or more gap
@@ -492,11 +492,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #     for minute in range(stime.minute, etime.minute+1):
         #         if minute % 2 == 0:
         #             hours_arr.append(datetime.datetime(year=1111,
-        #                                                month=1,
-        #                                                day=1,
-        #                                                hour=current_hour,
-        #                                                minute=minute,
-        #                                                second=current_second))
+        #                                                 month=1,
+        #                                                 day=1,
+        #                                                 hour=current_hour,
+        #                                                 minute=minute,
+        #                                                 second=current_second))
             
         # elif (minute_difference >= 2):
         #     # assuming a 2 minute or more gap
@@ -504,11 +504,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
         #     for minute in range(stime.minute, etime.minute+1):
         #         hours_arr.append(datetime.datetime(year=1111,
-        #                                            month=1,
-        #                                            day=1,
-        #                                            hour=current_hour,
-        #                                            minute=minute,
-        #                                            second=current_second))
+        #                                             month=1,
+        #                                             day=1,
+        #                                             hour=current_hour,
+        #                                             minute=minute,
+        #                                             second=current_second))
         # elif (minute_difference >= 1):
         #     # assuming a 1 minute or more gap
         #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
@@ -517,11 +517,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #         for second in range(stime.second, etime.second + 1):
         #             if second % 20 == 0:
         #                 hours_arr.append(datetime.datetime(year=1111,
-        #                                                    month=1,
-        #                                                    day=1,
-        #                                                    hour=current_hour,
-        #                                                    minute=minute,
-        #                                                    second=second))
+        #                                                     month=1,
+        #                                                     day=1,
+        #                                                     hour=current_hour,
+        #                                                     minute=minute,
+        #                                                     second=second))
             
         # elif (second_difference >= 45):
         #     # assuming 45 second or more gap
@@ -530,11 +530,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #     for second in range(stime.second, etime.second + 1):
         #         if second % 15 == 0:
         #             hours_arr.append(datetime.datetime(year=1111,
-        #                                                month=1,
-        #                                                day=1,
-        #                                                hour=current_hour,
-        #                                                minute=current_minute,
-        #                                                second=second))
+        #                                                 month=1,
+        #                                                 day=1,
+        #                                                 hour=current_hour,
+        #                                                 minute=current_minute,
+        #                                                 second=second))
         # elif(second_difference >= 25):
         #     # assuming 25 second or more gap
         #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
@@ -542,11 +542,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #     for second in range(stime.second, etime.second + 1):
         #         if second % 10 == 0:
         #             hours_arr.append(datetime.datetime(year=1111,
-        #                                                month=1,
-        #                                                day=1,
-        #                                                hour=current_hour,
-        #                                                minute=current_minute,
-        #                                                second=second))
+        #                                                 month=1,
+        #                                                 day=1,
+        #                                                 hour=current_hour,
+        #                                                 minute=current_minute,
+        #                                                 second=second))
         # elif(second_difference >= 10):
         #     # assuming 10 second or more gap
         #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
@@ -554,11 +554,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #     for second in range(stime.second, etime.second + 1):
         #         if second % 3 == 0:
         #             hours_arr.append(datetime.datetime(year=1111,
-        #                                                month=1,
-        #                                                day=1,
-        #                                                hour=current_hour,
-        #                                                minute=current_minute,
-        #                                                second=second))
+        #                                                 month=1,
+        #                                                 day=1,
+        #                                                 hour=current_hour,
+        #                                                 minute=current_minute,
+        #                                                 second=second))
 
         # elif(second_difference >= 5):
         #     # assuming 5 second or more gap
@@ -567,23 +567,23 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         #     for second in range(stime.second, etime.second + 1):
         #         if second % 1.5 == 0:
         #             hours_arr.append(datetime.datetime(year=1111,
-        #                                                month=1,
-        #                                                day=1,
-        #                                                hour=current_hour,
-        #                                                minute=current_minute,
-        #                                                second=second))
+        #                                                 month=1,
+        #                                                 day=1,
+        #                                                 hour=current_hour,
+        #                                                 minute=current_minute,
+        #                                                 second=second))
             
         # else:
         #     # assuming less than a 5 second gap
-        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_label = "Unsiversal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
         #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
         #     for second in range(stime.second, etime.second + 1):
         #         hours_arr.append(datetime.datetime(year=1111,
-        #                                            month=1,
-        #                                            day=1,
-        #                                            hour=current_hour,
-        #                                            minute=current_minute,
-        #                                            second=second))
+        #                                             month=1,
+        #                                             day=1,
+        #                                             hour=current_hour,
+        #                                             minute=current_minute,
+        #                                             second=second))
                 
     fig = plt.figure(figsize=(12, 4))#size of graph
 
@@ -1035,7 +1035,6 @@ def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
     current_minute = stime.minute
     current_second = stime.second
         
-        
     hour_difference = etime.hour - stime.hour # getting difference in time
     minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
     second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
@@ -1230,7 +1229,7 @@ def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
                                                minute=current_minute,
                                                second=second))
 
-    return x_axis_label, hours_arr
+    return x_axis_label, hours_arr, x_axis_format
 
 
 
