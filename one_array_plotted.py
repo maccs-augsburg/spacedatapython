@@ -353,10 +353,7 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
 
     #List of the hours and finding which ones to use
     hours_arr = [] # list to use for custom times
-    currentTime = stime.hour # setting the time to the start
-    current_hour = stime.hour # setting the hour to start at
-    current_minute = stime.minute # setting the minute to start at
-    current_second = stime.second # setting the second to start at
+    
     x_axis_label = ""
     
     x_axis_format = mdates.DateFormatter('%H')
@@ -411,7 +408,6 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     plt.axhline(y = 0,color = 'tab:gray', linestyle = '-')
-
 
     return fig
 
@@ -816,6 +812,9 @@ if __name__ == "__main__" :
     #Actual Plot
 def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
     
+    current_hour = stime.hour
+    current_minute = stime.minute
+    current_second = stime.second
     x_axis_format = mdates.DateFormatter('%H')
     
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
@@ -830,12 +829,10 @@ def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
                                                    hour = i,
                                                    minute = current_minute,
                                                    second = current_second))
-                
+        # if doing the default, can return immeditately, else go though the checks for formatting x-axis
         return x_axis_label, hours_arr, x_axis_format
         
-    current_hour = stime.hour
-    current_minute = stime.minute
-    current_second = stime.second
+
         
     hour_difference = etime.hour - stime.hour # getting difference in time
     minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
