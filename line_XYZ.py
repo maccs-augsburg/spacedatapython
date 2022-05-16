@@ -464,7 +464,7 @@ class ThreeGraphPlotter:
         y_state = graph_from_plotter_value_y
         z_state = graph_from_plotter_value_z
         file_state = int(selection_file)
-        any_plot_state = x_state + y_state + file_state
+        any_plot_state = x_state + y_state + z_state
         
         # X, Y, Z plot, clean or raw
         # first check if all on, then two the two_plot checks, last should be one_axis
