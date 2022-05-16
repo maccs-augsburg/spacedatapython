@@ -4,6 +4,7 @@
 #
 
 # tkinter imports
+import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -107,18 +108,21 @@ class SingleGraphPlotter:
         Creates the gui's buttons, labels and displays the MACCS Logo in the window to initialize the gui.
         """
         # Initializing window object and specifying settings
-        root = Tk()
+        root = tk.Tk()
         root.geometry('1400x800')
         root.title("Plot input")
         mainframe = ttk.Frame(root, padding="3 3 12 12")
         mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
         root.columnconfigure(0, weight=1)
         root.rowconfigure(0, weight=1)
+        
+        # Add a canvas in that frame
 
         # Canvas and file name values for saving figure
         self.figure = None
         self.file_name = ''
 
+        
         ######################
         ### Labels Section ###
         ######################
@@ -152,12 +156,12 @@ class SingleGraphPlotter:
         # File format label
         ttk.Label(mainframe, text="Format of file to Open: ").grid(column=1, row=15, columnspan=2,sticky=W)
 
-        # setting the image to be the maccs logo
-        image=Image.open('maccslogo_870.jpeg')
-        image_file = ImageTk.PhotoImage(image)
-        image_label = ttk.Label(mainframe, image=image_file)
-        image_label.image = image_file
-        image_label.grid(column=5,row=1, columnspan=20, rowspan=30)
+        #setting the image to be the maccs logo
+        #image=Image.open('maccslogo_870.jpeg')
+        #image_file = ImageTk.PhotoImage(image)
+        #image_label = ttk.Label(mainframe, image=image_file)
+        #image_label.image = image_file
+        #image_label.grid(column=5,row=1, columnspan=20, rowspan=30)
 
         ###########################
         ### Entry Boxes Section ###
@@ -244,16 +248,39 @@ class SingleGraphPlotter:
         ttk.Button(mainframe, text="Save As...", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=2, row=22, sticky=W)
         ttk.Button(mainframe, text="Open file...", command=lambda: self.open_file()).grid(column=2, row=21)
         
+        
         for child in mainframe.winfo_children(): 
             child.grid_configure(padx=5, pady=5)
 
         # starting tab control on the station code entry box
         station_code_entry.focus()
+        
+        
 
         # Binding the return key to the execute function
         root.bind("<Return>", self.execute_functions)
 
+
+##################################
+##############SCrollbar testing #############
+###############################
+        secondframe = tk.Frame(mainframe)
+        secondframe.grid(row=15, column=0, sticky=tk.NW)
+        
+        canvas = tk.Canvas(secondframe)
+        canvas.grid(row=0, column=0)
+        
+        # Link a scrollbar to the canvas
+        vsb = tk.Scrollbar(secondframe, orient=VERTICAL, command=canvas.yview)
+        vsb.grid(row=0, column=1, sticky='ns')
+        canvas.configure(yscrollcommand=vsb.set)
+        
+        canvas.create_window((0,0), window=secondframe, anchor="nw")
+        
         # Keeping the program running
+        root.bind('<MouseWheel>', lambda e: canvas.yview_scroll(e.delta//-120, 'units'))
+        ########################
+        ##########################
         root.mainloop()
 
     def execute_functions(self, mainframe, *args):
