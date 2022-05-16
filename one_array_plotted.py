@@ -510,16 +510,6 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     
     return fig
 
-    #add an if statement for when if they want a pdf or a png
-    #file_option = file_option.lower()
-    #if(file_option == 'pdf'):
-        #fig.savefig('x_y_and_z_plot.pdf', format='pdf', dpi=1200)
-    #elif(file_option == 'png'):
-        #fig.savefig('x_y_and_z_plot.png', format = 'png', dpi = 1200)
-    #else :
-        #print(file_option + "is not supported filetype")
-        #sys.exit(0)
-
 
 if __name__ == "__main__" :
     
