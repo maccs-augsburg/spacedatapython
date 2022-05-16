@@ -357,20 +357,25 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     current_hour = stime.hour # setting the hour to start at
     current_minute = stime.minute # setting the minute to start at
     current_second = stime.second # setting the second to start at
-    default_hours_flag = False # using a flag to better optimize operations
     x_axis_label = ""
     
     x_axis_format = mdates.DateFormatter('%H')
 
     # setting the flag to true if the stime and etimes are the full 24 hours
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
-        default_hours_flag = True
         x_axis_label = "Universal Time in Hours, (HH)"
     # Create a loop that fills out an list with odd numbers from start time to end time
         for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
             # only adding the odd numbers to the list
             if(i % 2 != 0):
-                hours_arr.append(datetime.datetime(year=1111, month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
+                hours_arr.append(datetime.datetime(year=1111, 
+                                                   month=1,
+                                                   day=1,
+                                                   hour = i,
+                                                   minute = current_minute,
+                                                   second = current_second))
+    else:
+        x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
             
 
     #Datestamp
@@ -385,15 +390,8 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     month_of_record = (int)(date[0:2])
     day_of_record = (int)(date[3:5])
 
-    x_axis_format = mdates.DateFormatter('%H')
     
-    #Actual Plot
-
-    if not default_hours_flag:
-        
-        x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
-
-                
+    #Actual Plot                
     fig = plt.figure(figsize=(12, 4))#size of graph
 
     x_values = firstArr #The list of values to change 
@@ -436,9 +434,6 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     #else :
         #print(file_option + "is not supported filetype")
         #sys.exit(0)
-
-
-
 
 def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     """
