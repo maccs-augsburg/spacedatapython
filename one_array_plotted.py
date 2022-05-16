@@ -361,21 +361,11 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     
     x_axis_format = mdates.DateFormatter('%H')
 
-    # setting the flag to true if the stime and etimes are the full 24 hours
-    if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
-        x_axis_label = "Universal Time in Hours, (HH)"
-    # Create a loop that fills out an list with odd numbers from start time to end time
-        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
-            # only adding the odd numbers to the list
-            if(i % 2 != 0):
-                hours_arr.append(datetime.datetime(year=1111, 
-                                                   month=1,
-                                                   day=1,
-                                                   hour = i,
-                                                   minute = current_minute,
-                                                   second = current_second))
-    else:
-        x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
+    #Calling our helper function to get our time_stamps inside our hours_arr for axis labeling and formatting
+    # X_axis_label will return label corresponding to time gaps
+    # hours_array will contain the timestamps for labeling x-axis
+    # x_axis_format might be hours, hours and seconds
+    x_axis_label, hours_arr, x_axis_format = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
             
 
     #Datestamp
@@ -425,15 +415,6 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
 
     return fig
 
-    #add an if statement for when if they want a pdf or a png
-    #file_option = file_option.lower()
-    #if(file_option == 'pdf'):
-        #fig.savefig('x_and_y_plot.pdf', format='pdf', dpi=1200)
-    #elif(file_option == 'png'):
-        #fig.savefig('x_and_y_plot.png', format = 'png', dpi = 1200)
-    #else :
-        #print(file_option + "is not supported filetype")
-        #sys.exit(0)
 
 def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     """
@@ -834,6 +815,23 @@ if __name__ == "__main__" :
 
     #Actual Plot
 def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
+    
+    x_axis_format = mdates.DateFormatter('%H')
+    
+    if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
+        x_axis_label = "Universal Time in Hours, (HH)"
+    # Create a loop that fills out an list with odd numbers from start time to end time
+        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
+            # only adding the odd numbers to the list
+            if(i % 2 != 0):
+                hours_arr.append(datetime.datetime(year=1111, 
+                                                   month=1,
+                                                   day=1,
+                                                   hour = i,
+                                                   minute = current_minute,
+                                                   second = current_second))
+                
+        return x_axis_label, hours_arr, x_axis_format
         
     current_hour = stime.hour
     current_minute = stime.minute
