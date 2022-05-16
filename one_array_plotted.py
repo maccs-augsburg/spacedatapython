@@ -390,198 +390,201 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     #Actual Plot
 
     if not default_hours_flag:
-        hour_difference = etime.hour - stime.hour # Getting the difference in time
-        minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
-        second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
-        if (hour_difference >= 8): # More than 8 hour branch
-            x_axis_label = "Universal Time in Hours (HH)"
-            for i in range(hour_difference + 1):
-                factor = hour_difference % 2
-                if (i % 2 == factor):
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour = current_hour,
-                                                       minute= current_minute,
-                                                       second = current_second))
-                    current_hour += 2
+        
+        x_axis_label, hours_arr = x_axis_labeling(etime, stime, hours_arr, x_axis_format)
+        # hour_difference = etime.hour - stime.hour # Getting the difference in time
+        # minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
+        # second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        # if (hour_difference >= 8): # More than 8 hour branch
+        #     x_axis_label = "Universal Time in Hours (HH)"
+        #     for i in range(hour_difference + 1):
+        #         factor = hour_difference % 2
+        #         if (i % 2 == factor):
+        #             hours_arr.append(datetime.datetime(year=1111,
+        #                                                month=1,
+        #                                                day=1,
+        #                                                hour = current_hour,
+        #                                                minute= current_minute,
+        #                                                second = current_second))
+        #             current_hour += 2
 
-        elif (hour_difference >=5):
-            x_axis_label = "Universal Time in Hours (HH)"
-            for hour in range(stime.hour, etime.hour+1):
-                hours_arr.append(datetime.datetime(year=1111,
-                                                   month=1,
-                                                   day=1,
-                                                   hour = current_hour,
-                                                   minute= current_minute,
-                                                   second = current_second))
-                current_hour += 1
+        # elif (hour_difference >=5):
+        #     x_axis_label = "Universal Time in Hours (HH)"
+        #     for hour in range(stime.hour, etime.hour+1):
+        #         hours_arr.append(datetime.datetime(year=1111,
+        #                                            month=1,
+        #                                            day=1,
+        #                                            hour = current_hour,
+        #                                            minute= current_minute,
+        #                                            second = current_second))
+        #         current_hour += 1
                     
-        elif (hour_difference >= 2):
-            x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
-            x_axis_format = mdates.DateFormatter('%H:%M')
-            for hour in range(stime.hour, etime.hour+1):
-                for minute in range(stime.minute, etime.minute+1):
-                    if minute % 30 == 0:
-                        hours_arr.append(datetime.datetime(year=1111,
-                                                           month=1,
-                                                           day=1,
-                                                           hour=hour,
-                                                           minute=minute,
-                                                           second=current_second))
+        # elif (hour_difference >= 2):
+        #     x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M')
+        #     for hour in range(stime.hour, etime.hour+1):
+        #         for minute in range(stime.minute, etime.minute+1):
+        #             if minute % 30 == 0:
+        #                 hours_arr.append(datetime.datetime(year=1111,
+        #                                                    month=1,
+        #                                                    day=1,
+        #                                                    hour=hour,
+        #                                                    minute=minute,
+        #                                                    second=current_second))
 
-        elif (hour_difference >= 1):
-            x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
-            x_axis_format = mdates.DateFormatter('%H:%M')
-            for hour in range(stime.hour, etime.hour+1):
-                for minute in range(stime.minute, etime.minute+1):
-                    if minute % 15 == 0:
-                        hours_arr.append(datetime.datetime(year=1111,
-                                                           month=1,
-                                                           day=1,
-                                                           hour=hour,
-                                                           minute=minute,
-                                                           second=current_second))
+        # elif (hour_difference >= 1):
+        #     x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M')
+        #     for hour in range(stime.hour, etime.hour+1):
+        #         for minute in range(stime.minute, etime.minute+1):
+        #             if minute % 15 == 0:
+        #                 hours_arr.append(datetime.datetime(year=1111,
+        #                                                    month=1,
+        #                                                    day=1,
+        #                                                    hour=hour,
+        #                                                    minute=minute,
+        #                                                    second=current_second))
             
             
-        elif (minute_difference >= 30):
-            # assuming a 30 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for hour in range(stime.hour, etime.hour+1):
-                for minute in range(stime.minute, etime.minute+1):
-                    if minute % 10 == 0:
-                        hours_arr.append(datetime.datetime(year=1111,
-                                                           month=1,
-                                                           day=1,
-                                                           hour=hour,
-                                                           minute=minute,
-                                                           second=current_second))
-        elif (minute_difference >= 20):
-            # assuming a 20 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                if minute % 5 == 0:
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour=current_hour,
-                                                       minute=minute,
-                                                       second=current_second))
+        # elif (minute_difference >= 30):
+        #     # assuming a 30 minute or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for hour in range(stime.hour, etime.hour+1):
+        #         for minute in range(stime.minute, etime.minute+1):
+        #             if minute % 10 == 0:
+        #                 hours_arr.append(datetime.datetime(year=1111,
+        #                                                    month=1,
+        #                                                    day=1,
+        #                                                    hour=hour,
+        #                                                    minute=minute,
+        #                                                    second=current_second))
+        # elif (minute_difference >= 20):
+        #     # assuming a 20 minute or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for minute in range(stime.minute, etime.minute+1):
+        #         if minute % 5 == 0:
+        #             hours_arr.append(datetime.datetime(year=1111,
+        #                                                month=1,
+        #                                                day=1,
+        #                                                hour=current_hour,
+        #                                                minute=minute,
+        #                                                second=current_second))
 
-        elif (minute_difference >=10):
-            # assuming a 10 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                if minute % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour=current_hour,
-                                                       minute=minute,
-                                                       second=current_second))
+        # elif (minute_difference >=10):
+        #     # assuming a 10 minute or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for minute in range(stime.minute, etime.minute+1):
+        #         if minute % 3 == 0:
+        #             hours_arr.append(datetime.datetime(year=1111,
+        #                                                month=1,
+        #                                                day=1,
+        #                                                hour=current_hour,
+        #                                                minute=minute,
+        #                                                second=current_second))
                 
-        elif (minute_difference >= 7):
-            # assuming a 7 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                if minute % 2 == 0:
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour=current_hour,
-                                                       minute=minute,
-                                                       second=current_second))
+        # elif (minute_difference >= 7):
+        #     # assuming a 7 minute or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for minute in range(stime.minute, etime.minute+1):
+        #         if minute % 2 == 0:
+        #             hours_arr.append(datetime.datetime(year=1111,
+        #                                                month=1,
+        #                                                day=1,
+        #                                                hour=current_hour,
+        #                                                minute=minute,
+        #                                                second=current_second))
             
-        elif (minute_difference >= 2):
-            # assuming a 2 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                hours_arr.append(datetime.datetime(year=1111,
-                                                   month=1,
-                                                   day=1,
-                                                   hour=current_hour,
-                                                   minute=minute,
-                                                   second=current_second))
-        elif (minute_difference >= 1):
-            # assuming a 1 minute or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for minute in range(stime.minute, etime.minute+1):
-                for second in range(stime.second, etime.second + 1):
-                    if second % 20 == 0:
-                        hours_arr.append(datetime.datetime(year=1111,
-                                                           month=1,
-                                                           day=1,
-                                                           hour=current_hour,
-                                                           minute=minute,
-                                                           second=second))
+        # elif (minute_difference >= 2):
+        #     # assuming a 2 minute or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for minute in range(stime.minute, etime.minute+1):
+        #         hours_arr.append(datetime.datetime(year=1111,
+        #                                            month=1,
+        #                                            day=1,
+        #                                            hour=current_hour,
+        #                                            minute=minute,
+        #                                            second=current_second))
+        # elif (minute_difference >= 1):
+        #     # assuming a 1 minute or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for minute in range(stime.minute, etime.minute+1):
+        #         for second in range(stime.second, etime.second + 1):
+        #             if second % 20 == 0:
+        #                 hours_arr.append(datetime.datetime(year=1111,
+        #                                                    month=1,
+        #                                                    day=1,
+        #                                                    hour=current_hour,
+        #                                                    minute=minute,
+        #                                                    second=second))
             
-        elif (second_difference >= 45):
-            # assuming 45 second or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                if second % 15 == 0:
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour=current_hour,
-                                                       minute=current_minute,
-                                                       second=second))
-        elif(second_difference >= 25):
-            # assuming 25 second or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                if second % 10 == 0:
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour=current_hour,
-                                                       minute=current_minute,
-                                                       second=second))
-        elif(second_difference >= 10):
-            # assuming 10 second or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                if second % 3 == 0:
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour=current_hour,
-                                                       minute=current_minute,
-                                                       second=second))
+        # elif (second_difference >= 45):
+        #     # assuming 45 second or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for second in range(stime.second, etime.second + 1):
+        #         if second % 15 == 0:
+        #             hours_arr.append(datetime.datetime(year=1111,
+        #                                                month=1,
+        #                                                day=1,
+        #                                                hour=current_hour,
+        #                                                minute=current_minute,
+        #                                                second=second))
+        # elif(second_difference >= 25):
+        #     # assuming 25 second or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for second in range(stime.second, etime.second + 1):
+        #         if second % 10 == 0:
+        #             hours_arr.append(datetime.datetime(year=1111,
+        #                                                month=1,
+        #                                                day=1,
+        #                                                hour=current_hour,
+        #                                                minute=current_minute,
+        #                                                second=second))
+        # elif(second_difference >= 10):
+        #     # assuming 10 second or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for second in range(stime.second, etime.second + 1):
+        #         if second % 3 == 0:
+        #             hours_arr.append(datetime.datetime(year=1111,
+        #                                                month=1,
+        #                                                day=1,
+        #                                                hour=current_hour,
+        #                                                minute=current_minute,
+        #                                                second=second))
 
-        elif(second_difference >= 5):
-            # assuming 5 second or more gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                if second % 1.5 == 0:
-                    hours_arr.append(datetime.datetime(year=1111,
-                                                       month=1,
-                                                       day=1,
-                                                       hour=current_hour,
-                                                       minute=current_minute,
-                                                       second=second))
+        # elif(second_difference >= 5):
+        #     # assuming 5 second or more gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for second in range(stime.second, etime.second + 1):
+        #         if second % 1.5 == 0:
+        #             hours_arr.append(datetime.datetime(year=1111,
+        #                                                month=1,
+        #                                                day=1,
+        #                                                hour=current_hour,
+        #                                                minute=current_minute,
+        #                                                second=second))
             
-        else:
-            # assuming less than a 5 second gap
-            x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-            x_axis_format = mdates.DateFormatter('%H:%M:%S')
-            for second in range(stime.second, etime.second + 1):
-                hours_arr.append(datetime.datetime(year=1111,
-                                                   month=1,
-                                                   day=1,
-                                                   hour=current_hour,
-                                                   minute=current_minute,
-                                                   second=second))
+        # else:
+        #     # assuming less than a 5 second gap
+        #     x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        #     x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        #     for second in range(stime.second, etime.second + 1):
+        #         hours_arr.append(datetime.datetime(year=1111,
+        #                                            month=1,
+        #                                            day=1,
+        #                                            hour=current_hour,
+        #                                            minute=current_minute,
+        #                                            second=second))
+                
     fig = plt.figure(figsize=(12, 4))#size of graph
 
     x_values = firstArr #The list of values to change 
@@ -705,8 +708,6 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     month_of_record = (int)(date[0:2])
     day_of_record = (int)(date[3:5])
     
-    #Actual Plot
-
 
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
         default_hours_flag = True
@@ -720,7 +721,8 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
                                                            minute=current_minute,
                                                            second = current_second))
             
-
+        
+    
     # Create a loop that fills out an list with odd numbers from start time to end time
     if not default_hours_flag:
         hour_difference = etime.hour - stime.hour # Getting the difference in time
@@ -1023,6 +1025,212 @@ if __name__ == "__main__" :
     #except:
         #print('Could not plot arrays to testgraph.pdf')
         #sys.exit(0)
+
+
+
+    #Actual Plot
+def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
+        
+    current_hour = stime.hour
+    current_minute = stime.minute
+    current_second = stime.second
+        
+        
+    hour_difference = etime.hour - stime.hour # getting difference in time
+    minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
+    second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
+        
+    if (hour_difference >= 8): # More than 8 hour branch
+        x_axis_label = "Universal Time in Hours (HH)"
+        for i in range(hour_difference + 1):
+            factor = hour_difference % 2
+            if (i % 2 == factor):
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour = current_hour,
+                                                   minute= current_minute,
+                                                   second = current_second))
+                current_hour += 2
+
+    elif (hour_difference >=5):
+        x_axis_label = "Universal Time in Hours (HH)"
+        for hour in range(stime.hour, etime.hour+1):
+            hours_arr.append(datetime.datetime(year=1111,
+                                               month=1,
+                                               day=1,
+                                               hour = current_hour,
+                                               minute= current_minute,
+                                               second = current_second))
+            current_hour += 1
+                
+    elif (hour_difference >= 2):
+        x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
+        x_axis_format = mdates.DateFormatter('%H:%M')
+        for hour in range(stime.hour, etime.hour+1):
+            for minute in range(stime.minute, etime.minute+1):
+                if minute % 30 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=hour,
+                                                       minute=minute,
+                                                       second=current_second))
+
+    elif (hour_difference >= 1):
+        x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
+        x_axis_format = mdates.DateFormatter('%H:%M')
+        for hour in range(stime.hour, etime.hour+1):
+            for minute in range(stime.minute, etime.minute+1):
+                if minute % 15 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=hour,
+                                                       minute=minute,
+                                                       second=current_second))
+        
+        
+    elif (minute_difference >= 30):
+        # assuming a 30 minute or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for hour in range(stime.hour, etime.hour+1):
+            for minute in range(stime.minute, etime.minute+1):
+                if minute % 10 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=hour,
+                                                       minute=minute,
+                                                       second=current_second))
+    elif (minute_difference >= 20):
+        # assuming a 20 minute or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for minute in range(stime.minute, etime.minute+1):
+            if minute % 5 == 0:
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=minute,
+                                                   second=current_second))
+
+    elif (minute_difference >=10):
+        # assuming a 10 minute or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for minute in range(stime.minute, etime.minute+1):
+            if minute % 3 == 0:
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=minute,
+                                                   second=current_second))
+            
+    elif (minute_difference >= 7):
+        # assuming a 7 minute or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for minute in range(stime.minute, etime.minute+1):
+            if minute % 2 == 0:
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=minute,
+                                                   second=current_second))
+        
+    elif (minute_difference >= 2):
+        # assuming a 2 minute or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for minute in range(stime.minute, etime.minute+1):
+            hours_arr.append(datetime.datetime(year=1111,
+                                               month=1,
+                                               day=1,
+                                               hour=current_hour,
+                                               minute=minute,
+                                               second=current_second))
+    elif (minute_difference >= 1):
+        # assuming a 1 minute or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for minute in range(stime.minute, etime.minute+1):
+            for second in range(stime.second, etime.second + 1):
+                if second % 20 == 0:
+                    hours_arr.append(datetime.datetime(year=1111,
+                                                       month=1,
+                                                       day=1,
+                                                       hour=current_hour,
+                                                       minute=minute,
+                                                       second=second))
+        
+    elif (second_difference >= 45):
+        # assuming 45 second or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for second in range(stime.second, etime.second + 1):
+            if second % 15 == 0:
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=current_minute,
+                                                   second=second))
+    elif(second_difference >= 25):
+        # assuming 25 second or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for second in range(stime.second, etime.second + 1):
+            if second % 10 == 0:
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=current_minute,
+                                                   second=second))
+    elif(second_difference >= 10):
+        # assuming 10 second or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for second in range(stime.second, etime.second + 1):
+            if second % 3 == 0:
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=current_minute,
+                                                   second=second))
+
+    elif(second_difference >= 5):
+        # assuming 5 second or more gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for second in range(stime.second, etime.second + 1):
+            if second % 1.5 == 0:
+                hours_arr.append(datetime.datetime(year=1111,
+                                                   month=1,
+                                                   day=1,
+                                                   hour=current_hour,
+                                                   minute=current_minute,
+                                                   second=second))
+        
+    else:
+        # assuming less than a 5 second gap
+        x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
+        x_axis_format = mdates.DateFormatter('%H:%M:%S')
+        for second in range(stime.second, etime.second + 1):
+            hours_arr.append(datetime.datetime(year=111,
+                                               month=1,
+                                               day=1,
+                                               hour=current_hour,
+                                               minute=current_minute,
+                                               second=second))
+
+    return x_axis_label, hours_arr
 
 
 
