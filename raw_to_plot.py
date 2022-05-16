@@ -105,20 +105,20 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     fig.subplots_adjust(hspace=0.03)
 
     # x min, max, middle and difference
-    x_max = np.amax(x_arr)
-    x_min = np.amin(x_arr)
+    x_max = np.max(x_arr)
+    x_min = np.min(x_arr)
     x_mid = (x_max + x_min) / 2
     x_difference = x_max - x_min
 
     # y min, max, middle and difference
-    y_max = max(y_arr)
-    y_min = min(y_arr)
+    y_max = np.max(y_arr)
+    y_min = np.min(y_arr)
     y_mid = (y_max + y_min) / 2
     y_difference = y_max - y_min
     
     # z min, max, middle and difference
-    z_max = max(z_arr)
-    z_min = min(z_arr)
+    z_max = np.max(z_arr)
+    z_min = np.min(z_arr)
     z_mid = (z_max + z_min) / 2
     z_difference = z_max - z_min
 
