@@ -295,66 +295,6 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     
     return fig
 
-
-if __name__ == "__main__" :
-    
-    if len(sys.argv) < 2 :
-        print( "Usage: python3 testPythonPlotter.py filename [starttime [endtime] ]")
-        sys.exit(0) # Exiting without an error code
-
-    filename = sys.argv[1]
-    file_option = "pdf"
-    
-
-    try:
-        two_hz_binary_file = open(filename, "rb")
-    except:
-        print('Can not open file: ' + filename)
-        sys.exit(0)
-    ### initializing start and end times
-    start_time = datetime.time.fromisoformat( "00:00:00")
-    end_time = datetime.time.fromisoformat("23:59:59")
-
-    if len(sys.argv) == 3 :
-        file_option = sys.argv[2]
-      
-    elif len(sys.argv) >= 4 :
-        start_time = datetime.time.fromisoformat(sys.argv[2])
-        end_time = datetime.time.fromisoformat(sys.argv[3])
-    if len(sys.argv) == 5:
-        file_option = sys.argv[4]
-    if len(sys.argv) >= 6:
-        print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
-        sys.exit(0) # Exiting without an error code
-
-
-    arrayX, arrayY, arrayZ, timeArr = read_raw_to_lists(two_hz_binary_file, start_time, end_time)
-    
-
-    #X = 'X'
-    #Y = 'Y'
-    #Z = 'Z'
-
-    #try:
-    #plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
-   # print("got past plot_axis")
-    #plot_axis(arrayY, timeArr, filename, start_time, end_time, Y)
-    #plot_axis(arrayZ, timeArr, filename, start_time, end_time, Z)
-    #x_plot(arrayX, timeArr, filename, start_time, end_time)
-#    y_plot(arrayY, timeArr, filename, start_time, end_time)
-  #  z_plot(arrayZ, timeArr, filename, start_time, end_time)
-   # x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time)
-    #x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
-    #y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
-    #x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
-    
-    
-    #except:
-        #print('Could not plot arrays to testgraph.pdf')
-        #sys.exit(0)
-
-
-
     #Actual Plot
 def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
     
@@ -575,3 +515,62 @@ def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
                                                second=second))
 
     return x_axis_label, hours_arr, x_axis_format
+
+
+if __name__ == "__main__" :
+    
+    if len(sys.argv) < 2 :
+        print( "Usage: python3 testPythonPlotter.py filename [starttime [endtime] ]")
+        sys.exit(0) # Exiting without an error code
+
+    filename = sys.argv[1]
+    file_option = "pdf"
+    
+
+    try:
+        two_hz_binary_file = open(filename, "rb")
+    except:
+        print('Can not open file: ' + filename)
+        sys.exit(0)
+    ### initializing start and end times
+    start_time = datetime.time.fromisoformat( "00:00:00")
+    end_time = datetime.time.fromisoformat("23:59:59")
+
+    if len(sys.argv) == 3 :
+        file_option = sys.argv[2]
+      
+    elif len(sys.argv) >= 4 :
+        start_time = datetime.time.fromisoformat(sys.argv[2])
+        end_time = datetime.time.fromisoformat(sys.argv[3])
+    if len(sys.argv) == 5:
+        file_option = sys.argv[4]
+    if len(sys.argv) >= 6:
+        print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
+        sys.exit(0) # Exiting without an error code
+
+
+    arrayX, arrayY, arrayZ, timeArr = read_raw_to_lists(two_hz_binary_file, start_time, end_time)
+    
+
+    #X = 'X'
+    #Y = 'Y'
+    #Z = 'Z'
+
+    #try:
+    #plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
+   # print("got past plot_axis")
+    #plot_axis(arrayY, timeArr, filename, start_time, end_time, Y)
+    #plot_axis(arrayZ, timeArr, filename, start_time, end_time, Z)
+    #x_plot(arrayX, timeArr, filename, start_time, end_time)
+#    y_plot(arrayY, timeArr, filename, start_time, end_time)
+  #  z_plot(arrayZ, timeArr, filename, start_time, end_time)
+   # x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time)
+    #x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
+    #y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
+    #x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
+    
+    
+    #except:
+        #print('Could not plot arrays to testgraph.pdf')
+        #sys.exit(0)
+
