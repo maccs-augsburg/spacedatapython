@@ -123,8 +123,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     z_difference = z_max - z_min
 
     # getting all differences and finding the biggest difference
-    differences = [x_difference, y_difference, z_difference]
-    max_difference = max(differences)
+    differences = np.array([x_difference, y_difference, z_difference])
+    #differences = [x_difference, y_difference, z_difference]
+    max_difference = np.max(differences)
 
     # increasing the max_difference by 5%
     max_difference = max_difference + max_difference * 0.05
