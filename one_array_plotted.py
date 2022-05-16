@@ -463,19 +463,6 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
 
     x_axis_format = mdates.DateFormatter('%H')
 
-    # setting the flag to true if the stime and etimes are the full 24 hours
-    if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
-        default_hours_flag = True
-
-    # Create a loop that fills out an list with odd numbers from start time to end time
-    if not default_hours_flag:
-        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
-
-            # only adding the odd numbers to the list
-            if(i % 2 != 0):
-                hours_arr.append(datetime.datetime(year=1111,month=1,day=1,hour = i,minute=current_minute,second = current_second)) # adding the odd numbers to the list
-            
-
 
     #Datestamp
     if((int)(year_value) > 50):
@@ -820,7 +807,7 @@ def x_axis_labeling (etime, stime, hours_arr, x_axis_format):
     if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
         x_axis_label = "Universal Time in Hours, (HH)"
     # Create a loop that fills out an list with odd numbers from start time to end time
-        for i in range(stime.hour, etime.hour, 1): #intial for loop to iterate throughout the given times
+        for i in range(24): #intial for loop to iterate throughout the given times
             # only adding the odd numbers to the list
             if(i % 2 != 0):
                 hours_arr.append(datetime.datetime(year=1111, 
