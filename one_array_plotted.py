@@ -85,6 +85,9 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     x_axis_format = mdates.DateFormatter('%H')
 
     #if the graph is not going to be in default 24 viewing we have to alter the graph to the respctive time frame 
+    '''
+    TURN THIS IF STATMENT INTO A HELPER FUNCTION 
+    '''
     if not default_hours_flag:
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
