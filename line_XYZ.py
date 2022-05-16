@@ -196,7 +196,8 @@ class ThreeGraphPlotter:
         graph_from_plotter_value_y = self.graph_from_plotter_y.get()
         graph_from_plotter_value_z = self.graph_from_plotter_z.get()
 
-
+        # Distinguishing between clean, and raw lists inside here. No need to check in graph_from_plotter_entry_check
+        # Do any file checks in here for future additions
         try:
             file = open(file_name_full, 'rb')
         except:
