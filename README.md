@@ -14,6 +14,9 @@ converting, and graphing the data files.
 Unix-style command line utility. Some may contain only utility functions.
 Some may contain tests.
 * All files must be written in python3.
+* Libraries used now include matplotlib and Pillow. Run pip3 install
+(matplotlib | Pillow) if not included already.
+* line_X and line_XYZ are GUI programs.
 
 ### What is here? ###
 
