@@ -1,6 +1,6 @@
 #Plotting only one of the arrays
 #Created by- Annabelle Arns
-
+#Refractored by Chris Hance 5/12/2022
 
 #Imports matplotlib library 
 import matplotlib.pyplot as plt
@@ -85,6 +85,9 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     x_axis_format = mdates.DateFormatter('%H')
 
     #if the graph is not going to be in default 24 viewing we have to alter the graph to the respctive time frame 
+    '''
+    TURN THIS IF STATMENT INTO A HELPER FUNCTION 
+    '''
     if not default_hours_flag:
         hour_difference = etime.hour - stime.hour # Getting the difference in time
         minute_difference = ((etime.hour * 60) + etime.minute) - ((stime.hour * 60) + stime.minute)
@@ -321,8 +324,8 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
 
     Parameters
     ----------
-    firstArr : TYPE
-        DESCRIPTION.
+    firstArr : array of values 
+        is array of either x y or z axis that will be plotted ..
     secondArr : TYPE
         DESCRIPTION.
     timeArr : TYPE
@@ -600,8 +603,8 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     plt.ylabel('B' + firstAxis + ' and B' + secondAxis)
     plt.xlabel(x_axis_label)
 
-    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
-
+    plt.legend( prop={'size': 8}, fontsize='medium')
+    #loc = 'upper left',
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     #plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
@@ -941,8 +944,8 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     plt.ylabel('Bx, By and Bz')
     plt.xlabel(x_axis_label)
 
-    plt.legend(loc = 'upper left', prop={'size': 8}, fontsize='medium')
-
+    plt.legend(prop={'size': 8}, fontsize='medium')
+#loc = 'upper left', 
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
