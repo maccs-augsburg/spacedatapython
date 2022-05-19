@@ -48,13 +48,18 @@ class MainWindow(QMainWindow):
 
         main_layout = QHBoxLayout()
         label_and_entry_layout = QGridLayout()
+
+
         test = QLabel("Test")
+        test2 = QLabel("placeholder")
         open_file_button = QPushButton("Open file")
-        # open_file_button.setCheckable(True)
-        # open_file_button.setChecked(False)
+
         open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
-        main_layout.addWidget(test)
-        main_layout.addWidget(open_file_button)
+        label_and_entry_layout.addWidget(test, 0, 0)
+        label_and_entry_layout.addWidget(open_file_button, 0, 1)
+        main_layout.addWidget(test2)
+
+        main_layout.addLayout(label_and_entry_layout)
 
         main_widget = QWidget()
         main_widget.setLayout(main_layout)
