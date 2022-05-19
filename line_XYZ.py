@@ -8,13 +8,16 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkinter.filedialog import asksaveasfile
 from tkinter.filedialog import askopenfilename
+from turtle import home
 
 #Import from PySide6 // QT
 from PyQt6.QtWidgets import (QMainWindow, QApplication, 
     QLabel, QLineEdit, 
     QVBoxLayout, QWidget, 
     QHBoxLayout, QGridLayout,
-    QPushButton)
+    QPushButton, QInputDialog,QFileDialog)
+from PyQt6.QtGui import QIcon,QAction
+from pathlib import Path
 
 #from PySide6.QtWidgets import QMainWindow
 
@@ -46,36 +49,42 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        main_layout = QGridLayout()
-        label_and_entry_layout = QHBoxLayout()
+        # Layouts 
+        self.main_layout = QGridLayout()
+        self.label_and_entry_layout = QHBoxLayout()
+
+        # Buttons 
+        self.open_file_button = QPushButton("Open file")
+        self.open_file_button.setMaximumWidth(75)
+
+        # Signals / Events
+        self.open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
+
+        #Widgets
+        self.open_file = LabelWidget("Open File")
 
 
-        open_file_button = QPushButton("Open file")
-        open_file_button.setMaximumWidth(75)
+        self.main_layout.addWidget(self.open_file, 0, 0)
+        self.main_layout.addWidget(self.open_file_button, 0, 1)
+        self.label_and_entry_layout.addChildWidget(LabelWidget("Hello"))
+        self.main_layout.addLayout(self.label_and_entry_layout,0,3)
 
-        open_file_button.clicked.connect(ButtonActions.open_file)
-        main_layout.addWidget(test, 0, 0)
-        main_layout.addWidget(open_file_button, 0, 1)
-        label_and_entry_layout.addWidget(test2)
-
-        main_layout.addLayout(label_and_entry_layout,0,3)
-
-        main_widget = QWidget()
-        main_widget.setLayout(main_layout)
-        main_widget.setMinimumSize(1000,800)
-        self.setCentralWidget(main_widget)
+        self.main_widget = QWidget()
+        self.main_widget.setLayout(self.main_layout)
+        self.main_widget.setMinimumSize(1000,800)
+        self.setCentralWidget(self.main_widget)
 
     def is_clicked(self):
         print("Yes")
 
-class LabelWidget(QtWidgets.QWidget):
-    def __init__(self) -> None:
-        super().__init__()
+class LabelWidget(QWidget):
+    def __init__(self,text):
+        super(LabelWidget, self).__init__()
+        self.label = QLabel()
+        self.label.setText(text)
+        self.label.setMaximumWidth(50)
 
-        test = QLabel("Test")
-        test.setMaximumWidth(25)
         
-        test2 = QLabel("placeholder")
 
 class ButtonActions:
 
@@ -416,8 +425,9 @@ class ThreeGraphPlotter:
         )
 
         # opening the dialog box
-        file_name = askopenfilename(title='test', filetypes = filetypes)
-
+        #file_name = askopenfilename(title='test', filetypes = filetypes)
+        #home_dir = str(Path(home))
+        file_name = QFileDialog.getOpenFileName()
         # splitting up the path and selecting the filename
         self.file_name = file_name.split('/')[-1]
 
