@@ -50,14 +50,10 @@ class MainWindow(QMainWindow):
         label_and_entry_layout = QHBoxLayout()
 
 
-        test = QLabel("Test")
-        test.setMaximumWidth(25)
-
-        test2 = QLabel("placeholder")
         open_file_button = QPushButton("Open file")
         open_file_button.setMaximumWidth(75)
 
-        open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
+        open_file_button.clicked.connect(ButtonActions.open_file)
         main_layout.addWidget(test, 0, 0)
         main_layout.addWidget(open_file_button, 0, 1)
         label_and_entry_layout.addWidget(test2)
@@ -71,6 +67,61 @@ class MainWindow(QMainWindow):
 
     def is_clicked(self):
         print("Yes")
+
+class LabelWidget(QtWidgets.QWidget):
+    def __init__(self) -> None:
+        super().__init__()
+
+        test = QLabel("Test")
+        test.setMaximumWidth(25)
+        
+        test2 = QLabel("placeholder")
+
+class ButtonActions:
+
+    def open_file(self):
+        """
+        Opens a open file dialog box where the user picks the appropriate file type. Once that is
+        selected, it inputs the data into the boxes automatically based on the filename.
+        """
+        # listing the types of file types we currently support
+        filetypes = (
+            ('Raw files', '*.2hz'),
+            ('Clean files', '*.s2')
+        )
+
+        # opening the dialog box
+        file_name = askopenfilename(title='test', filetypes = filetypes)
+
+        # splitting up the path and selecting the filename
+        self.file_name = file_name.split('/')[-1]
+
+        # setting the station code from the filename
+        self.station_names.set(self.file_name[0:2])
+
+        # setting the yearday from the filename
+        self.year_day.set(self.file_name[2:7])
+
+        # resetting the start times and end times
+        self.start_hour.set(0)
+        self.start_minute.set(0)
+        self.start_second.set(0)
+        self.end_hour.set(23)
+        self.end_minute.set(59)
+        self.end_second.set(59)
+
+        # raw file selection branch
+        if (self.file_name[7:] == '.2hz'):
+            self.selection_file.set(4)
+            
+        # clean file selection branch
+        elif (self.file_name[7:] == '.s2'):
+            self.selection_file.set(5)
+
+        # else
+        else:
+            print('Option not available yet :(')
+
 
 class ThreeGraphPlotter:
     def __init__(self):
@@ -282,7 +333,6 @@ class ThreeGraphPlotter:
 
         canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=24)
 
-
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         """
         converts the hours list into datetime objects
@@ -354,8 +404,6 @@ class ThreeGraphPlotter:
             elif file_ending == ".png":
                 fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
 
-                
-
     def open_file(self):
         """
         Opens a open file dialog box where the user picks the appropriate file type. Once that is
@@ -411,7 +459,6 @@ class ThreeGraphPlotter:
         if (len(year_day_value) == 0):
             self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
 
-
     def station_names_entry_check(self, station_names_value):
 
         """
@@ -424,9 +471,6 @@ class ThreeGraphPlotter:
         if(len(station_names_value) == 0):
             # show error as no input was received
             self.error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
-
-
-
 
     def file_format_entry_check(self, selection_file_value):
         """
@@ -584,7 +628,6 @@ class ThreeGraphPlotter:
         # Returning the start_hour_string so that whatever changes we made to it get returned
         return value
 
-
     def start_minute_entry_check(self, start_minute_string):
 
         """
@@ -613,8 +656,6 @@ class ThreeGraphPlotter:
         # Returning the start_minute_string so whatever changes we made to it get returned
         return value
 
-
-
     def start_second_entry_check(self, start_second_string):
 
         """
@@ -642,10 +683,6 @@ class ThreeGraphPlotter:
 
         # Returning the start_second_string so whatever changes we made to it get returned
         return value
-
-
-
-
 
     def end_hour_entry_check(self, end_hour_string):
 
@@ -676,8 +713,6 @@ class ThreeGraphPlotter:
         # Returning the end_hour_string so whatever changes we made to it get returned
         return value
 
-
-
     def end_minute_entry_check(self, end_minute_string):
 
         """
@@ -707,8 +742,6 @@ class ThreeGraphPlotter:
         # Returning the end_minute_string so whatever changes we made to it get returned
         return value
 
-
-
     def end_second_entry_check(self, end_second_string):
         """
         Checks the end second entry value and pops up an error message if it isn't a good entry
@@ -737,7 +770,6 @@ class ThreeGraphPlotter:
         # Returning the end_second_string so whatever changes we made to it get returned
         return value
 
-
     def error_message_pop_up(self, title, message):
          
         # pops up error message box with the title and message inputted
@@ -751,7 +783,6 @@ class ThreeGraphPlotter:
     def cancel(self, window):
         # Exits the gui without running any code after
         window.destroy()
-
 
 def main():
     app = QApplication(sys.argv)
