@@ -23,7 +23,6 @@ import file_naming
 import read_raw_to_lists
 import one_array_plotted
 import read_clean_to_lists
-import clean_one_array_plotted
 
 
 class ThreeGraphPlotter:
