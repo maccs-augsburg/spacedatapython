@@ -1,12 +1,21 @@
 #Gui implemented with classes
 #Annabelle
 
-#Imports from tkinter
-from tkinter import *
-from tkinter import ttk
-from tkinter import messagebox
-from tkinter.filedialog import asksaveasfile
-from tkinter.filedialog import askopenfilename
+# Imports from tkinter
+# from curses import window
+# from tkinter import *
+# from tkinter import ttk
+# from tkinter import messagebox
+# from tkinter.filedialog import asksaveasfile
+# from tkinter.filedialog import askopenfilename
+
+#Import from PySide6 // QT
+from PyQt6.QtWidgets import (QMainWindow, QApplication, 
+    QLabel, QLineEdit, 
+    QVBoxLayout, QWidget, 
+    QHBoxLayout, QGridLayout)
+
+#from PySide6.QtWidgets import QMainWindow
 
 
 #imports from python 
@@ -14,7 +23,14 @@ import sys
 import datetime
 from PIL import ImageTk, Image
 
+#Imports from matplotlib
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
+from matplotlib.backends.qt_compat import QtWidgets
+from matplotlib.backends.backend_qtagg import (
+    FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
+from matplotlib.figure import Figure
+
+import numpy as np
 import subprocess
 import os
 #imports from plotter functions
@@ -24,6 +40,21 @@ import read_raw_to_lists
 import one_array_plotted
 import read_clean_to_lists
 
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("MACCS Plotting Program")
+
+        main_layout = QHBoxLayout()
+
+        test = QLabel("Test")
+
+        main_layout.addWidget(test)
+
+        main_widget = QWidget()
+        main_widget.setLayout(main_layout)
+        main_widget.setMinimumSize(1000,800)
+        self.setCentralWidget(main_widget)
 
 class ThreeGraphPlotter:
     def __init__(self):
@@ -707,7 +738,11 @@ class ThreeGraphPlotter:
 
 
 def main():
-    x_y_z_plotter = ThreeGraphPlotter()
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    app.exec()
+    #x_y_z_plotter = ThreeGraphPlotter()
 
 if __name__ == "__main__":
     main()
