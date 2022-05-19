@@ -46,20 +46,23 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        main_layout = QHBoxLayout()
-        label_and_entry_layout = QGridLayout()
+        main_layout = QGridLayout()
+        label_and_entry_layout = QHBoxLayout()
 
 
         test = QLabel("Test")
+        test.setMaximumWidth(25)
+
         test2 = QLabel("placeholder")
         open_file_button = QPushButton("Open file")
+        open_file_button.setMaximumWidth(75)
 
         open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
-        label_and_entry_layout.addWidget(test, 0, 0)
-        label_and_entry_layout.addWidget(open_file_button, 0, 1)
-        main_layout.addWidget(test2)
+        main_layout.addWidget(test, 0, 0)
+        main_layout.addWidget(open_file_button, 0, 1)
+        label_and_entry_layout.addWidget(test2)
 
-        main_layout.addLayout(label_and_entry_layout)
+        main_layout.addLayout(label_and_entry_layout,0,3)
 
         main_widget = QWidget()
         main_widget.setLayout(main_layout)
