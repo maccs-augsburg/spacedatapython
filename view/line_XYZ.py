@@ -41,7 +41,7 @@ import os
 
 import file_naming
 import read_raw_to_lists
-import one_array_plotted
+from model.one_array_plotted import *
 import read_clean_to_lists
 
 class MainWindow(QMainWindow):
@@ -571,37 +571,37 @@ class ThreeGraphPlotter:
         if (x_state and y_state and z_state ):
     
             if (file_state >= 4):
-                fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
+                fig = x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
             
         # Y, Z plot, clean or raw
         elif (y_state and z_state):
             
             if (file_state >= 4):
-                fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
+                fig = plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
         
         # X, Z plot, clean or raw
         elif (x_state and z_state):
             
             if (file_state >= 4):
-                fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
+                fig = plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
             
         # X, Y plot, clean or raw
         elif (x_state and y_state):
             
             if (file_state >= 4):
-                fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
+                fig = plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
         
         # For single axis plotting
         elif ( any_plot_state > 0 and file_state > 0):
             
             if (x_state):
-                fig = one_array_plotted.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
+                fig = plot_axis(xArr, timeArr, filename, stime, etime, 'X')
             
             if(y_state):
-                fig = one_array_plotted.plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
+                fig = plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
             
             if(z_state):
-                fig = one_array_plotted.plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
+                fig = plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
                 
         #Warning Message
         else:
