@@ -18,8 +18,10 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 import subprocess
 import os
 
+sys.path.append("..")
+
 # Plotter program imports
-from model import raw_to_plot
+from model.raw_to_plot import *
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
@@ -153,7 +155,7 @@ class SingleGraphPlotter:
         ttk.Label(mainframe, text="Format of file to Open: ").grid(column=1, row=15, columnspan=2,sticky=W)
 
         # setting the image to be the maccs logo
-        image=Image.open('maccslogo_870.jpeg')
+        image=Image.open('images/maccslogo_870.jpeg')
         image_file = ImageTk.PhotoImage(image)
         image_label = ttk.Label(mainframe, image=image_file)
         image_label.image = image_file
@@ -320,14 +322,14 @@ class SingleGraphPlotter:
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
                                                                                          end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp, end_time_stamp,
+            self.figure = plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp, end_time_stamp,
                                                   in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
                                                   in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
                                                   in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
         elif (file_selection_value == '3'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp, end_time_stamp,
+            self.figure = plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp, end_time_stamp,
                                                     in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
                                                     in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
                                                     in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
