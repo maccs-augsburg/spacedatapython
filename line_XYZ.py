@@ -1,19 +1,20 @@
 #Gui implemented with classes
 #Annabelle
 
-# Imports from tkinter
-# from curses import window
-# from tkinter import *
-# from tkinter import ttk
-# from tkinter import messagebox
-# from tkinter.filedialog import asksaveasfile
-# from tkinter.filedialog import askopenfilename
+#Imports from tkinter
+#from curses import window
+from tkinter import *
+from tkinter import ttk
+from tkinter import messagebox
+from tkinter.filedialog import asksaveasfile
+from tkinter.filedialog import askopenfilename
 
 #Import from PySide6 // QT
 from PyQt6.QtWidgets import (QMainWindow, QApplication, 
     QLabel, QLineEdit, 
     QVBoxLayout, QWidget, 
-    QHBoxLayout, QGridLayout)
+    QHBoxLayout, QGridLayout,
+    QPushButton)
 
 #from PySide6.QtWidgets import QMainWindow
 
@@ -46,15 +47,22 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Plotting Program")
 
         main_layout = QHBoxLayout()
-
+        label_and_entry_layout = QGridLayout()
         test = QLabel("Test")
-
+        open_file_button = QPushButton("Open file")
+        # open_file_button.setCheckable(True)
+        # open_file_button.setChecked(False)
+        open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
         main_layout.addWidget(test)
+        main_layout.addWidget(open_file_button)
 
         main_widget = QWidget()
         main_widget.setLayout(main_layout)
         main_widget.setMinimumSize(1000,800)
         self.setCentralWidget(main_widget)
+
+    def is_clicked(self):
+        print("Yes")
 
 class ThreeGraphPlotter:
     def __init__(self):
