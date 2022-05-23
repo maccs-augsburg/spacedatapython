@@ -1,15 +1,16 @@
-from ast import Pass
-import sys
+# from ast import Pass
+# import sys
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QLabel,
     QToolBar, QStatusBar, QCheckBox,
-    QHBoxLayout, QVBoxLayout,
+    QHBoxLayout, QVBoxLayout, QGridLayout,
     QLineEdit, QWidget, QFormLayout
 )
-from PySide6.QtCore import Qt
+# from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
-# Adding this import for layout debugging
-from PySide6.QtGui import QPalette, QColor
+# # Adding this import for layout debugging
+# from PySide6.QtGui import QPalette, QColor
+from linex_gui_helper import LineEdit, Label, Color
 
 class MainWindow(QMainWindow):
 
@@ -20,14 +21,17 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Stacked Plots")
         self.setWindowIcon(QIcon("maccslogo_870.jpeg"))
         self.setMinimumHeight(600)
-        self.setMinimumWidth(1100)
+        self.setMinimumWidth(1200)
         self.station_code = ""
         
-        main_layout = QHBoxLayout()
+        #main_layout = QHBoxLayout()
+        main_layout = QGridLayout()
+        # only one????
+        print(main_layout.columnCount())
         #entry_layout = QVBoxLayout()
         entry_layout = QFormLayout()
         '''
-        Add widgets to entry_layout
+        Add widgets to entries form
         '''
         station_label = Label("Station Code: ")
         station_edit = LineEdit()
@@ -72,72 +76,20 @@ class MainWindow(QMainWindow):
         entry_layout.addRow(min_z_label, min_z_edit)
         entry_layout.addRow(max_z_label, max_z_edit)
 
+        dummy_layout = QVBoxLayout()
+        dummy_two_layout = QVBoxLayout()
 
-        main_layout.addLayout(entry_layout)
-        main_layout.addWidget(Color('green'))
+        dummy_layout.addWidget(Color('green'))
+        dummy_two_layout.addWidget(Color('red'))
+
+        main_layout.addLayout(entry_layout, 0, 0, 1, 1)
+        main_layout.addLayout(dummy_layout, 0, 2, 2, 2)
+        main_layout.addLayout(dummy_two_layout, 0, 4, 2, 2)
 
         widget = QWidget()
         widget.setLayout(main_layout)
         self.setCentralWidget(widget)
         
-# class attributes are before init, they are like static variables?
-# instance attributes are after init, they are unique to each one, more of what I want
-
-class LineEdit(QLineEdit):
-    ###########################################
-    #Anything in here is a static variable#####
-    ###########################################
-    # this explains the super() keyword and various variations you might see used in tutorials
-    #https://stackoverflow.com/questions/1607612/python-how-do-i-make-a-subclass-from-a-superclass
-    def __init__(self):
-        super().__init__()
-        #########################################################################
-        #Anything in here is an instance variable as long as it has self keyword#
-        #########################################################################
-        self.setMaxLength(7)
-        self.textEdited.connect(self.text_edited)
-        self.entry = "N/A"
-    #######################################################################
-    #Methods containing self, are instance methods#########################
-    #######################################################################
-    def text_edited(self, s):
-        # s is a string, confirmed wity print(type(s))
-        self.entry = s
-        # Don't have to pass self again, implied, but weird
-        print(self.get_entry())
-
-    def get_entry(self):
-        return self.entry
-
-class Label(QLabel):
-    def __init__(self, label_name):
-        super().__init__()
-
-        self.setText(label_name)
-        font = self.font()
-        font.setPointSize(12)
-        self.setFont(font)
-
-class Color(QWidget):
-
-    def __init__(self, color):
-        super(Color, self).__init__()
-        self.setAutoFillBackground(True)
-
-        palette = self.palette()
-        palette.setColor(QPalette.Window, QColor(color))
-        self.setPalette(palette)
-    
-# class EntryBox(LineEdit, Label):
-
-#     def __init__(self, label_name):
-#         super().__init__()
-
-#         self.line_edit = LineEdit()
-#         self.label = Label(label_name)
-
-#         self.label.setBuddy(self.line_edit)
-
 def main ():
 
     # use brackets if not using command line
