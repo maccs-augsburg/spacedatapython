@@ -67,6 +67,15 @@ class MainWindow(QMainWindow):
         self.end_min = QLabel("End Minute: ")
         self.end_sec = QLabel("End Second: ")
 
+        self.plot_min_x = QLabel("Plot Min x: ")
+        self.plot_max_x = QLabel("Plot Max x: ")
+
+        self.plot_min_y = QLabel("Plot Min y: ")
+        self.plot_max_y = QLabel("Plot Max y: ")
+
+        self.plot_min_z = QLabel("Plot Min z: ")
+        self.plot_max_z = QLabel("Plot Max z: ")
+
         self.maccs_logo = QLabel()
         self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
 
@@ -86,6 +95,14 @@ class MainWindow(QMainWindow):
         self.input_endmin = QLineEdit()
         self.input_endsec = QLineEdit()
 
+        self.input_min_x = QLineEdit()
+        self.input_max_x = QLineEdit()
+
+        self.input_min_y = QLineEdit()
+        self.input_max_y = QLineEdit()
+
+        self.input_min_z = QLineEdit()
+        self.input_max_z = QLineEdit()
 
         self.start_hour.setStyleSheet("")
         self.input_starthour.setStyleSheet("padding :1px")
@@ -135,18 +152,38 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.end_day, 5,0)
         self.label_and_entry_layout.addWidget(self.end_min, 6,0)
         self.label_and_entry_layout.addWidget(self.end_sec, 7,0)
+        
+        self.label_and_entry_layout.addWidget(self.plot_min_x, 8,0)
+        self.label_and_entry_layout.addWidget(self.plot_max_x, 9,0)
+        
+        self.label_and_entry_layout.addWidget(self.plot_min_y, 10,0)
+        self.label_and_entry_layout.addWidget(self.plot_max_y, 11,0)
+
+        self.label_and_entry_layout.addWidget(self.plot_min_z, 12,0)
+        self.label_and_entry_layout.addWidget(self.plot_max_z, 13,0)
 
         self.label_and_entry_layout.addWidget(self.input_station_code,0, 1)
         self.label_and_entry_layout.addWidget(self.input_year, 1, 1)
+
         self.label_and_entry_layout.addWidget(self.input_starthour, 2, 1)
         self.label_and_entry_layout.addWidget(self.input_startmin, 3, 1)
         self.label_and_entry_layout.addWidget(self.input_startsec, 4, 1)
+
         self.label_and_entry_layout.addWidget(self.input_endhour, 5, 1)
         self.label_and_entry_layout.addWidget(self.input_endmin, 6, 1)
         self.label_and_entry_layout.addWidget(self.input_endsec, 7, 1)
 
-        self.label_and_entry_layout.addWidget(self.open_file, 8, 0)
-        self.label_and_entry_layout.addWidget(self.open_file_button, 8, 1)
+        self.label_and_entry_layout.addWidget(self.input_min_x, 8,1)
+        self.label_and_entry_layout.addWidget(self.input_max_x, 9,1)
+        
+        self.label_and_entry_layout.addWidget(self.input_min_y, 10,1)
+        self.label_and_entry_layout.addWidget(self.input_max_y, 11,1)
+
+        self.label_and_entry_layout.addWidget(self.input_min_z, 12,1)
+        self.label_and_entry_layout.addWidget(self.input_max_z, 13,1)
+
+        self.label_and_entry_layout.addWidget(self.open_file, 14, 0)
+        self.label_and_entry_layout.addWidget(self.open_file_button, 14, 1)
 
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
         self.main_layout.addLayout(self.label_and_entry_layout)
