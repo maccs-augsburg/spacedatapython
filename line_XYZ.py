@@ -17,7 +17,7 @@ from PyQt6.QtWidgets import (QMainWindow, QApplication,
     QVBoxLayout, QWidget, 
     QHBoxLayout, QGridLayout,
     QPushButton, QInputDialog,
-    QFileDialog)
+    QFileDialog, QRadioButton)
 from PyQt6.QtGui import QIcon,QAction, QPixmap
 from PyQt6.QtCore import Qt
 from pathlib import Path
@@ -135,9 +135,18 @@ class MainWindow(QMainWindow):
         self.input_min_z.setMaximumWidth(50)
         self.input_max_z.setMaximumWidth(50)
 
-        ##############
-        ### Radial Selectors
-        ###############
+        ########################
+        ### Radial Selectors ###
+        ########################
+        '''
+        
+        '''
+        self.radio_iaga2000 = QRadioButton("IAGA2000 - NW")
+        self.radio_iaga2002 = QRadioButton("IAGA2002 - NW")
+        self.radio_clean_file = QRadioButton("Clean file")
+        self.radio_raw_file = QRadioButton("Raw 2hx file")
+        self.radio_other = QRadioButton("Other - Not working")
+
         ### Layouts ###
         ###############
         '''
@@ -198,10 +207,18 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.input_min_z, 12,1)
         self.label_and_entry_layout.addWidget(self.input_max_z, 13,1)
 
-        self.label_and_entry_layout.addWidget(self.open_file, 15, 0)
-        self.label_and_entry_layout.addWidget(self.open_file_button, 15, 1)
-
         self.label_and_entry_layout.addWidget(self.format_file_text, 14, 0)
+
+        self.label_and_entry_layout.addWidget(self.radio_iaga2000, 15,0)
+        self.label_and_entry_layout.addWidget(self.radio_iaga2002, 16,0)
+        self.label_and_entry_layout.addWidget(self.radio_clean_file, 17,0)
+        self.label_and_entry_layout.addWidget(self.radio_raw_file, 18, 0)
+        self.label_and_entry_layout.addWidget(self.radio_other, 19, 0)
+
+        self.label_and_entry_layout.addWidget(self.open_file, 20, 0)
+        self.label_and_entry_layout.addWidget(self.open_file_button, 20, 1)
+
+
 
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
         self.main_layout.addLayout(self.label_and_entry_layout)
