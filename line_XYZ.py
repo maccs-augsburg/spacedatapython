@@ -16,8 +16,9 @@ from PyQt6.QtWidgets import (QMainWindow, QApplication,
     QLabel, QLineEdit, 
     QVBoxLayout, QWidget, 
     QHBoxLayout, QGridLayout,
-    QPushButton, QInputDialog,QFileDialog)
-from PyQt6.QtGui import QIcon,QAction
+    QPushButton, QInputDialog,
+    QFileDialog)
+from PyQt6.QtGui import QIcon,QAction, QPixmap
 from pathlib import Path
 
 #from PySide6.QtWidgets import QMainWindow
@@ -50,29 +51,132 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        # Layouts 
-        self.main_layout = QGridLayout()
-        self.label_and_entry_layout = QHBoxLayout()
+        self.setGeometry(60,60, 1000,800)
+
+        ###############
+        ### Labels ####
+        ###############
+        self.station_code = QLabel("Station Code: ")
+        self.year_day = QLabel("Year Day: ")
+
+        self.start_hour = QLabel("Start Hour: ")
+        self.start_min = QLabel("Start Minute: ")
+        self.start_sec = QLabel("Start Second: ")
+
+        self.end_day = QLabel("End Hour: ")
+        self.end_min = QLabel("End Minute: ")
+        self.end_sec = QLabel("End Second: ")
+
+        self.maccs_logo = QLabel()
+        self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
+
+        # self.year_day.setFixedWidth(50)
+        # self.start_hour.setMidLineWidth(75)
+        # self.start_min.setMaximumWidth(75)
+        # self.start_sec.setMaximumWidth(75)
+        # self.end_day.setMaximumWidth(75)
+        # self.end_min.setMaximumWidth(75)
+        # self.end_sec.setMaximumWidth(75)
+        # self.start_hour.setMaximumHeight(10)
+        # self.year_day.adjustSize()
+        # self.start_hour.adjustSize()
+
+        ###################
+        ### Text Fields ###
+        ###################
+        self.input_station_code = QLineEdit()
+        self.input_year = QLineEdit()
+
+        self.input_starthour = QLineEdit()
+        self.input_startmin = QLineEdit()
+        self.input_startsec = QLineEdit()
+
+        self.input_endhour = QLineEdit()
+        self.input_endmin = QLineEdit()
+        self.input_endsec = QLineEdit()
+
+
+        self.start_hour.setStyleSheet("")
+        self.input_starthour.setStyleSheet("padding :1px")
+
+        self.start_min.setStyleSheet("border :3px solid blue")
+        self.input_startmin.setStyleSheet("padding :1px")
+
+        self.start_sec.setStyleSheet("padding :1px")
+        self.input_endsec.setStyleSheet("padding :1px")
+        self.input_station_code.setMaximumWidth(50)
+        self.input_starthour.setMaximumWidth(50)
+        self.input_startmin.setMaximumWidth(50)
+        self.input_startsec.setMaximumWidth(50)
+        self.input_endhour.setMaximumWidth(50)
+        self.input_endmin.setMaximumWidth(50)
+        self.input_endsec.setMaximumWidth(50)
+        self.input_year.setMaximumWidth(50)
+
+
+        #self.input_starthour.setMaximumHeight(20)
+        # self.input_startmin.setMaximumWidth(50)
+        # self.startsec_input.setMaximumWidth(50)
+        # self.endhour_input.setMaximumWidth(50)
+        # self.endmin_input.setMaximumWidth(50)
+        # self.endsec_input.setMaximumWidth(50)
+        # self.year_input.setMaximumWidth(50)
+        ###############
+        ### Layouts ###
+        ###############
+        '''
+        
+        '''
+        self.main_layout = QHBoxLayout()
+        self.label_and_entry_layout = QGridLayout()
 
         # Buttons 
         self.open_file_button = QPushButton("Open file")
-        self.open_file_button.setMaximumWidth(75)
+        self.open_file_button.setFixedWidth(75)
 
         # Signals / Events
         self.open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
 
         #Widgets
-        self.open_file = LabelWidget("Open File")
+        self.open_file = QLabel("Open File")
 
 
-        self.main_layout.addWidget(self.open_file, 0, 0)
-        self.main_layout.addWidget(self.open_file_button, 0, 1)
-        self.label_and_entry_layout.addChildWidget(LabelWidget("Hello"))
-        self.main_layout.addLayout(self.label_and_entry_layout,0,3)
+
+        self.label_and_entry_layout.addWidget(self.station_code,0,0)
+        self.label_and_entry_layout.addWidget(self.year_day, 1,0)
+
+        self.label_and_entry_layout.addWidget(self.start_hour, 2,0)
+        self.label_and_entry_layout.addWidget(self.start_min, 3,0)
+        self.label_and_entry_layout.addWidget(self.start_sec, 4,0)
+        
+        self.label_and_entry_layout.addWidget(self.end_day, 5,0)
+        self.label_and_entry_layout.addWidget(self.end_min, 6,0)
+        self.label_and_entry_layout.addWidget(self.end_sec, 7,0)
+
+        self.label_and_entry_layout.addWidget(self.input_station_code,0, 1)
+        self.label_and_entry_layout.addWidget(self.input_year, 1, 1)
+        self.label_and_entry_layout.addWidget(self.input_starthour, 2, 1)
+        self.label_and_entry_layout.addWidget(self.input_startmin, 3, 1)
+        self.label_and_entry_layout.addWidget(self.input_startsec, 4, 1)
+        self.label_and_entry_layout.addWidget(self.input_endhour, 5, 1)
+        self.label_and_entry_layout.addWidget(self.input_endmin, 6, 1)
+        self.label_and_entry_layout.addWidget(self.input_endsec, 7, 1)
+
+        self.label_and_entry_layout.addWidget(self.open_file, 8, 0)
+        self.label_and_entry_layout.addWidget(self.open_file_button, 8, 1)
+
+        self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
+        self.main_layout.addLayout(self.label_and_entry_layout)
+
+        self.main_layout.addWidget(self.test)
+        self.main_layout.addWidget(self.maccs_logo)
+        
+
+        #self.label_and_entry_layout.addChildWidget(LabelWidget("Hello"))
 
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
-        self.main_widget.setMinimumSize(1000,800)
+        #self.main_widget.setMinimumSize(1000,800)
         self.setCentralWidget(self.main_widget)
 
     def is_clicked(self):
