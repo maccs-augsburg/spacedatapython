@@ -78,6 +78,8 @@ class MainWindow(QMainWindow):
 
         self.format_file_text = QLabel("Format of File to Open: ")
 
+        self.open_file = QLabel("Open File")
+
         self.maccs_logo = QLabel()
         self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
 
@@ -110,8 +112,6 @@ class MainWindow(QMainWindow):
         self.input_min_z = QLineEdit()
         self.input_max_z = QLineEdit()
 
-
-
         # self.start_hour.setStyleSheet("")
         # self.input_starthour.setStyleSheet("padding :1px")
 
@@ -120,6 +120,7 @@ class MainWindow(QMainWindow):
 
         # self.start_sec.setStyleSheet("padding :1px")
         # self.input_endsec.setStyleSheet("padding :1px")
+
         self.input_station_code.setMaximumWidth(50)
         self.input_starthour.setMaximumWidth(50)
         self.input_startmin.setMaximumWidth(50)
@@ -163,9 +164,6 @@ class MainWindow(QMainWindow):
         self.open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
 
         #Widgets
-        self.open_file = QLabel("Open File")
-
-
 
         self.label_and_entry_layout.addWidget(self.station_code,0,0)
         self.label_and_entry_layout.addWidget(self.year_day, 1,0)
@@ -218,20 +216,17 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.open_file, 20, 0)
         self.label_and_entry_layout.addWidget(self.open_file_button, 20, 1)
 
-
-
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
         self.main_layout.addLayout(self.label_and_entry_layout)
 
         # self.main_layout.addWidget(self.test)
         self.main_layout.addWidget(self.maccs_logo)
         
-
         #self.label_and_entry_layout.addChildWidget(LabelWidget("Hello"))
 
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
-        #self.main_widget.setMinimumSize(1000,800)
+        self.main_widget.setMinimumSize(1000,800)
         self.setCentralWidget(self.main_widget)
 
     def is_clicked(self):
@@ -246,7 +241,9 @@ class LabelWidget(QWidget):
 
         
 
-class ButtonActions:
+class ButtonActions(MainWindow):
+    def __init__(self):
+        super().__init__()
 
     def open_file(self):
         """
@@ -266,8 +263,7 @@ class ButtonActions:
         self.file_name = file_name.split('/')[-1]
 
         # setting the station code from the filename
-        self.station_names.set(self.file_name[0:2])
-
+        station_code
         # setting the yearday from the filename
         self.year_day.set(self.file_name[2:7])
 
