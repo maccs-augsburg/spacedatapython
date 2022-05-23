@@ -70,16 +70,7 @@ class MainWindow(QMainWindow):
         self.maccs_logo = QLabel()
         self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
 
-        # self.year_day.setFixedWidth(50)
-        # self.start_hour.setMidLineWidth(75)
-        # self.start_min.setMaximumWidth(75)
-        # self.start_sec.setMaximumWidth(75)
-        # self.end_day.setMaximumWidth(75)
-        # self.end_min.setMaximumWidth(75)
-        # self.end_sec.setMaximumWidth(75)
-        # self.start_hour.setMaximumHeight(10)
-        # self.year_day.adjustSize()
-        # self.start_hour.adjustSize()
+        self.start_hour.setMaximumWidth(50)
 
         ###################
         ### Text Fields ###
@@ -113,14 +104,6 @@ class MainWindow(QMainWindow):
         self.input_endsec.setMaximumWidth(50)
         self.input_year.setMaximumWidth(50)
 
-
-        #self.input_starthour.setMaximumHeight(20)
-        # self.input_startmin.setMaximumWidth(50)
-        # self.startsec_input.setMaximumWidth(50)
-        # self.endhour_input.setMaximumWidth(50)
-        # self.endmin_input.setMaximumWidth(50)
-        # self.endsec_input.setMaximumWidth(50)
-        # self.year_input.setMaximumWidth(50)
         ###############
         ### Layouts ###
         ###############
