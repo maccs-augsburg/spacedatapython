@@ -19,8 +19,8 @@ from PyQt6.QtWidgets import (QMainWindow, QApplication,
     QPushButton, QInputDialog,
     QFileDialog)
 from PyQt6.QtGui import QIcon,QAction, QPixmap
+from PyQt6.QtCore import Qt
 from pathlib import Path
-
 #from PySide6.QtWidgets import QMainWindow
 
 
@@ -76,10 +76,16 @@ class MainWindow(QMainWindow):
         self.plot_min_z = QLabel("Plot Min z: ")
         self.plot_max_z = QLabel("Plot Max z: ")
 
+        self.format_file_text = QLabel("Format of File to Open: ")
+
         self.maccs_logo = QLabel()
         self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
 
         self.start_hour.setMaximumWidth(50)
+        # self.station_code.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        # self.year_day.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        # self.start_hour.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        #self.station_code.setScaledContents(False)
 
         ###################
         ### Text Fields ###
@@ -104,14 +110,16 @@ class MainWindow(QMainWindow):
         self.input_min_z = QLineEdit()
         self.input_max_z = QLineEdit()
 
-        self.start_hour.setStyleSheet("")
-        self.input_starthour.setStyleSheet("padding :1px")
 
-        self.start_min.setStyleSheet("border :3px solid blue")
-        self.input_startmin.setStyleSheet("padding :1px")
 
-        self.start_sec.setStyleSheet("padding :1px")
-        self.input_endsec.setStyleSheet("padding :1px")
+        # self.start_hour.setStyleSheet("")
+        # self.input_starthour.setStyleSheet("padding :1px")
+
+        # self.start_min.setStyleSheet("border :3px solid blue")
+        # self.input_startmin.setStyleSheet("padding :1px")
+
+        # self.start_sec.setStyleSheet("padding :1px")
+        # self.input_endsec.setStyleSheet("padding :1px")
         self.input_station_code.setMaximumWidth(50)
         self.input_starthour.setMaximumWidth(50)
         self.input_startmin.setMaximumWidth(50)
@@ -127,6 +135,8 @@ class MainWindow(QMainWindow):
         self.input_min_z.setMaximumWidth(50)
         self.input_max_z.setMaximumWidth(50)
 
+        ##############
+        ### Radial Selectors
         ###############
         ### Layouts ###
         ###############
@@ -188,13 +198,15 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.input_min_z, 12,1)
         self.label_and_entry_layout.addWidget(self.input_max_z, 13,1)
 
-        self.label_and_entry_layout.addWidget(self.open_file, 14, 0)
-        self.label_and_entry_layout.addWidget(self.open_file_button, 14, 1)
+        self.label_and_entry_layout.addWidget(self.open_file, 15, 0)
+        self.label_and_entry_layout.addWidget(self.open_file_button, 15, 1)
+
+        self.label_and_entry_layout.addWidget(self.format_file_text, 14, 0)
 
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
         self.main_layout.addLayout(self.label_and_entry_layout)
 
-        self.main_layout.addWidget(self.test)
+        # self.main_layout.addWidget(self.test)
         self.main_layout.addWidget(self.maccs_logo)
         
 
