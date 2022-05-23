@@ -120,6 +120,12 @@ class MainWindow(QMainWindow):
         self.input_endmin.setMaximumWidth(50)
         self.input_endsec.setMaximumWidth(50)
         self.input_year.setMaximumWidth(50)
+        self.input_min_x.setMaximumWidth(50)
+        self.input_max_x.setMaximumWidth(50)
+        self.input_min_y.setMaximumWidth(50)
+        self.input_max_y.setMaximumWidth(50)
+        self.input_min_z.setMaximumWidth(50)
+        self.input_max_z.setMaximumWidth(50)
 
         ###############
         ### Layouts ###
