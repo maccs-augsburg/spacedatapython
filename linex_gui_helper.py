@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QLineEdit, QWidget, QFormLayout, QFileDialog
 )
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPalette, QColor
+from PySide6.QtGui import QPalette, QColor, QIntValidator
 
 # class attributes are before init, they are like static variables?
 # instance attributes are after init, they are unique to each one, more of what I want
@@ -21,6 +21,11 @@ class LineEdit(QLineEdit):
         #Anything in here is an instance variable as long as it has self keyword#
         #########################################################################
         self.setMaxLength(7)
+        # commented out, don't see a way to unset for station code
+        #self.setValidator(QIntValidator())
+        # only accept digits
+        # https://doc.qt.io/qt-5/qlineedit.html
+        self.setInputMask("9999999")
         self.textEdited.connect(self.text_edited)
         self.entry = "N/A"
         self.setMaximumWidth(80)
@@ -40,7 +45,7 @@ class LineEdit(QLineEdit):
 
         if XXXXXX = all nums return as int
         '''
-        return self.entry
+        return self.text()
     '''
     When we open a new file, want to reset the entries to some default value
     start min/sec/hour to (0, 0, 0)
@@ -49,6 +54,7 @@ class LineEdit(QLineEdit):
     def set_entry(self, new_entry):
         
         self.entry = new_entry
+        self.setText(str(new_entry))
 
 class Label(QLabel):
     def __init__(self, label_name):
