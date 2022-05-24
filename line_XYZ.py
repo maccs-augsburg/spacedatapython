@@ -218,16 +218,13 @@ class MainWindow(QMainWindow):
 
         self.main_layout.addLayout(self.label_and_entry_layout)
 
-        self.main_layout.addWidget(self.test)
+        #self.main_layout.addWidget(self.test)
         self.main_layout.addWidget(self.maccs_logo)
 
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
         self.main_widget.setMinimumSize(1100,800)
         self.setCentralWidget(self.main_widget)
-
-    def is_clicked(self):
-        print("Yes")
 
     def open_file(self):
     
@@ -323,6 +320,9 @@ class MainWindow(QMainWindow):
                                                             timeArr, 
                                                             self.file_name, start_time_stamp, end_time_stamp, '4')
         self.fig = FigureCanvasQTAgg(self.figure)
+        toolbar = NavigationToolbar2QT(self.fig, self)
+        self.maccs_logo.setHidden(True)
+        self.main_layout.addWidget(toolbar)
         self.main_layout.addWidget(self.fig)
         
 
