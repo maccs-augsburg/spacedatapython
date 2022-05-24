@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QMainWindow, QApplication, QLabel,
     QToolBar, QStatusBar, QCheckBox,
     QHBoxLayout, QVBoxLayout, QGridLayout,
-    QLineEdit, QWidget, QFormLayout, QComboBox, QPushButton, QFileDialog
+    QLineEdit, QWidget, QFormLayout, QComboBox, QPushButton, QFileDialog, QMessageBox
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
@@ -32,6 +32,8 @@ class MainWindow(QMainWindow):
         self.station_edit = LineEdit()
         # only allow station edit to take 2 uppercase characters
         self.station_edit.setInputMask(">AA")
+        self.error_message = QMessageBox()
+        self.error_message.setText("Error Invalid Input")
 
         main_layout = QHBoxLayout()
         mac_label = QLabel()
@@ -113,6 +115,9 @@ class MainWindow(QMainWindow):
         file_button = QPushButton("Open File")
         file_button.clicked.connect(self.launch_dialog)
         entry_layout.addWidget(file_button)
+        plot_button = QPushButton("Plot File")
+        plot_button.clicked.connect(self.plot_graph)
+        entry_layout.addWidget(plot_button)
         ################################################
 
         # Add entry layout to the main layout
@@ -193,6 +198,33 @@ class MainWindow(QMainWindow):
     def plot_graph(self):
 
         station_code_value = self.station_edit.get_entry()
+        print(type(self.year_day_edit.get_entry()))
+        year_day_value = int(self.year_day_edit.get_entry())
+        start_hour_value = int(self.start_minute_edit.get_entry())
+        start_minute_value = int(self.start_minute_edit.get_entry())
+        start_second_value = int(self.start_second_edit.get_entry())
+        end_hour_value = int(self.end_hour_edit.get_entry())
+        end_minute_value = int(self.end_minute_edit.get_entry())
+        end_second_value = int(self.end_second_edit.get_entry())
+    
+
+    def station_code_entry_check (self):
+
+        if self.station_edit.get_entry() <= 1:
+            self.error_message.setText("Error invalid station code, needs to be 2 uppercase characters")
+            self.error_message.exec()
+            return True
+        # use this to return from plot_graph function rather than continuing through the checks    
+    
+    def year_day_entry_check(self):
+
+        if (len(self.year_day_edit) == 0):
+            self.error_message.setText("There was no input for the year day entry box")
+            self.error_message.exec()
+    
+    def start_hour_entry_check(self):
+
+        pass
 
 def main ():
 
