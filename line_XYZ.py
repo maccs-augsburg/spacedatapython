@@ -17,7 +17,8 @@ from PyQt6.QtWidgets import (QMainWindow, QApplication,
     QVBoxLayout, QWidget, 
     QHBoxLayout, QGridLayout,
     QPushButton, QInputDialog,
-    QFileDialog, QRadioButton)
+    QFileDialog, QRadioButton,
+    QCheckBox)
 from PyQt6.QtGui import QIcon,QAction, QPixmap
 from PyQt6.QtCore import Qt, QFile
 from pathlib import Path
@@ -80,18 +81,20 @@ class MainWindow(QMainWindow):
         self.end_min = QLabel("End Minute: ")
         self.end_sec = QLabel("End Second: ")
 
-
+        self.plot_xyz_label = QLabel("Plot X, Y, or Z: ")
 
         self.format_file_text = QLabel("Format of File to Open: ")
 
-        self.open_file = QLabel("Open File")
+        self.open_file_label = QLabel("Open File")
 
         self.maccs_logo = QLabel()
         self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
 
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
 
-        self.start_hour.setMaximumWidth(50)
+        self.start_hour.setMaximumWidth(60)
+        self.plot_xyz_label.setFixedHeight(20)
+        self.format_file_text.setFixedHeight(20)
 
         # self.station_code.setAlignment(Qt.AlignmentFlag.AlignLeft)
         # self.year_day.setAlignment(Qt.AlignmentFlag.AlignLeft)
@@ -123,7 +126,7 @@ class MainWindow(QMainWindow):
         # self.start_sec.setStyleSheet("padding :1px")
         # self.input_endsec.setStyleSheet("padding :1px")
 
-        self.input_station_code.setMaximumWidth(50)
+        self.input_station_code.setMaximumWidth(30)
         self.input_starthour.setMaximumWidth(50)
         self.input_startmin.setMaximumWidth(50)
         self.input_startsec.setMaximumWidth(50)
@@ -131,7 +134,14 @@ class MainWindow(QMainWindow):
         self.input_endmin.setMaximumWidth(50)
         self.input_endsec.setMaximumWidth(50)
         self.input_year.setMaximumWidth(50)
+        
+        #######################
+        ### Checkbox Select ###
+        #######################
 
+        self.checkbox_plotx = QCheckBox("X Plot")
+        self.checkbox_ploty = QCheckBox("Y Plot")
+        self.checkbox_plotz = QCheckBox("Z Plot")
 
         ########################
         ### Radial Selectors ###
@@ -191,7 +201,10 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.input_endmin, 6, 1)
         self.label_and_entry_layout.addWidget(self.input_endsec, 7, 1)
 
-
+        self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
+        self.label_and_entry_layout.addWidget(self.checkbox_plotx, 9, 0)
+        self.label_and_entry_layout.addWidget(self.checkbox_ploty, 10, 0)
+        self.label_and_entry_layout.addWidget(self.checkbox_plotz, 11, 0)
 
         self.label_and_entry_layout.addWidget(self.format_file_text, 14, 0)
 
@@ -201,7 +214,7 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.radio_raw_file, 18, 0)
         self.label_and_entry_layout.addWidget(self.radio_other, 19, 0)
 
-        self.label_and_entry_layout.addWidget(self.open_file, 20, 0)
+        self.label_and_entry_layout.addWidget(self.open_file_label, 20, 0)
         self.label_and_entry_layout.addWidget(self.open_file_button, 20, 1)
 
         
