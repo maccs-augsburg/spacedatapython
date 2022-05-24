@@ -24,12 +24,13 @@ class MainWindow(QMainWindow):
 
         ######## MAIN WINDOW SETTINGS #################
         self.setWindowTitle("MACCS Stacked Plots")
-        self.setWindowIcon(QIcon("maccslogo_870.jpeg"))
+        # self.setWindowIcon(QIcon("/Users/markortega-ponce/Desktop/ZMACCS/spacedatapython/maccslogo_nobg.png"))
         self.setMinimumHeight(WINDOW_HEIGHT)
         self.setMinimumWidth(WINDOW_WIDTH)
         self.station_code = ""
         station_label = Label("Station Code: ")
         self.station_edit = LineEdit()
+        # only allow station edit to take 2 uppercase characters
         self.station_edit.setInputMask(">AA")
 
         main_layout = QHBoxLayout()
@@ -188,6 +189,10 @@ class MainWindow(QMainWindow):
         self.end_hour_edit.set_entry(24)
         self.end_minute_edit.set_entry(0)
         self.end_second_edit.set_entry(0)
+
+    def plot_graph(self):
+
+        station_code_value = self.station_edit.get_entry()
 
 def main ():
 
