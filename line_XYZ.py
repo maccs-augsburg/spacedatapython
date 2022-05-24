@@ -3,6 +3,7 @@
 
 #Imports from tkinter
 #from curses import window
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -95,11 +96,6 @@ class MainWindow(QMainWindow):
         self.plot_xyz_label.setFixedHeight(20)
         self.format_file_text.setFixedHeight(20)
 
-        # self.station_code.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        # self.year_day.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        # self.start_hour.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        #self.station_code.setScaledContents(False)
-
         ###################
         ### Text Fields ###
         ###################
@@ -113,17 +109,6 @@ class MainWindow(QMainWindow):
         self.input_endhour = QLineEdit()
         self.input_endmin = QLineEdit()
         self.input_endsec = QLineEdit()
-
-
-
-        # self.start_hour.setStyleSheet("")
-        # self.input_starthour.setStyleSheet("padding :1px")
-
-        # self.start_min.setStyleSheet("border :3px solid blue")
-        # self.input_startmin.setStyleSheet("padding :1px")
-
-        # self.start_sec.setStyleSheet("padding :1px")
-        # self.input_endsec.setStyleSheet("padding :1px")
 
         self.input_station_code.setMaximumWidth(35)
         self.input_starthour.setMaximumWidth(35)
@@ -149,7 +134,7 @@ class MainWindow(QMainWindow):
         self.radio_iaga2000 = QRadioButton("IAGA2000 - NW")
         self.radio_iaga2002 = QRadioButton("IAGA2002 - NW")
         self.radio_clean_file = QRadioButton("Clean file")
-        self.radio_raw_file = QRadioButton("Raw 2hx file")
+        self.radio_raw_file = QRadioButton("Raw 2hz file")
         self.radio_other = QRadioButton("Other - Not working")
 
         ###############
@@ -163,15 +148,23 @@ class MainWindow(QMainWindow):
         ### Buttons ###
         ###############
          
-        self.open_file_button = QPushButton("Open file")
-        self.open_file_button.setFixedWidth(75)
+        self.button_open_file = QPushButton("Open file")
+        self.button_open_file.setFixedWidth(75)
+        self.button_plot = QPushButton('Plot')
+        self.button_plot.setFixedWidth(75)
+        self.button_quit = QPushButton('Quit')
+        self.button_quit.setFixedWidth(75)
+        self.button_save = QPushButton('Save')
+        self.button_save.setFixedWidth(75)
+        self.button_save_as = QPushButton('Save as...')
+        self.button_save_as.setFixedWidth(75)
 
         ########################
         ### Signals / Events ###
         ########################
 
-        self.open_file_button.clicked.connect(self.open_file)
-        
+        self.button_open_file.clicked.connect(self.open_file)
+        self.button_quit.clicked.connect(self.close)
         ###############
         ### Widgets ###
         ###############
@@ -212,19 +205,21 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.radio_clean_file, 17,0)
         self.label_and_entry_layout.addWidget(self.radio_raw_file, 18, 0)
         self.label_and_entry_layout.addWidget(self.radio_other, 19, 0)
-        self.label_and_entry_layout.addWidget(self.open_file_button, 20, 0)
+        self.label_and_entry_layout.addWidget(self.button_open_file, 20, 0)
+        self.label_and_entry_layout.addWidget(self.button_plot, 20, 1)
+        self.label_and_entry_layout.addWidget(self.button_save_as, 21, 0)
+        self.label_and_entry_layout.addWidget(self.button_save, 21, 1)
+        self.label_and_entry_layout.addWidget(self.button_quit, 22, 0)
 
         
         self.main_layout.addLayout(self.label_and_entry_layout)
 
-        # self.main_layout.addWidget(self.test)
+        self.main_layout.addWidget(self.test)
         self.main_layout.addWidget(self.maccs_logo)
-        
-        #self.label_and_entry_layout.addChildWidget(LabelWidget("Hello"))
 
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
-        self.main_widget.setMinimumSize(1000,800)
+        self.main_widget.setMinimumSize(1100,800)
         self.setCentralWidget(self.main_widget)
 
     def is_clicked(self):
@@ -240,7 +235,7 @@ class MainWindow(QMainWindow):
                 ('Raw files', '*.2hz'),
                 ('Clean files', '*.s2')
             ]
-
+            #home_dir = str(Path(home))
             # # opening the dialog box
             # file_name = askopenfilename(title='test', filetypes = filetypes)
             # file_name = QFileDialog()
@@ -279,6 +274,7 @@ class MainWindow(QMainWindow):
             else:
                 print('Option not available yet :(')
 
+        
 
 class LabelWidget(QWidget):
     def __init__(self,text):
@@ -635,9 +631,9 @@ class ThreeGraphPlotter(MainWindow):
         )
 
         # opening the dialog box
-        #file_name = askopenfilename(title='test', filetypes = filetypes)
-        #home_dir = str(Path(home))
-        file_name = QFileDialog.getOpenFileName()
+        file_name = askopenfilename(title='test', filetypes = filetypes)
+        
+
         # splitting up the path and selecting the filename
         self.file_name = file_name.split('/')[-1]
 
