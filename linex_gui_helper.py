@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import (
-    QMainWindow, QLabel, QLineEdit
+    QMainWindow, QLabel, 
+    QLineEdit, QWidget
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette, QColor
