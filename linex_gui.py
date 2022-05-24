@@ -28,6 +28,9 @@ class MainWindow(QMainWindow):
         self.setMinimumHeight(WINDOW_HEIGHT)
         self.setMinimumWidth(WINDOW_WIDTH)
         self.station_code = ""
+        station_label = Label("Station Code: ")
+        self.station_edit = LineEdit()
+        self.station_edit.setInputMask(">AA")
 
         main_layout = QHBoxLayout()
         mac_label = QLabel()
@@ -40,60 +43,58 @@ class MainWindow(QMainWindow):
 
         ######## SIDE ENTRIES FOR GUI ##################
         entry_layout = QGridLayout()
-        station_label = Label("Station Code: ")
-        station_edit = LineEdit()
         year_day_label = Label("Year Day: ")
-        year_day_edit = LineEdit()
+        self.year_day_edit = LineEdit()
         start_hour_label = Label("Start Hour: ")
-        start_hour_edit = LineEdit()
+        self.start_hour_edit = LineEdit()
         start_minute_label = Label("Start Minute: ")
-        start_minute_edit = LineEdit()
+        self.start_minute_edit = LineEdit()
         start_second_label = Label("Start Second: ")
-        start_second_edit = LineEdit()
+        self.start_second_edit = LineEdit()
         end_hour_label = Label("End Hour: ")
-        end_hour_edit = LineEdit()
+        self.end_hour_edit = LineEdit()
         end_minute_label = Label("End Minute: ")
-        end_minute_edit = LineEdit()
+        self.end_minute_edit = LineEdit()
         end_second_label = Label("End Second: ")
-        end_second_edit = LineEdit()
+        self.end_second_edit = LineEdit()
         min_x_label = Label("Plot Min X: ")
-        min_x_edit = LineEdit()
+        self.min_x_edit = LineEdit()
         max_x_label = Label("Plot Max X: ")
-        max_x_edit = LineEdit()
+        self.max_x_edit = LineEdit()
         min_y_label = Label("Plot Min Y: ")
-        min_y_edit = LineEdit()
+        self.min_y_edit = LineEdit()
         max_y_label = Label("Plot Max Y: ")
-        max_y_edit = LineEdit()
+        self.max_y_edit = LineEdit()
         min_z_label = Label("Plot Min Z: ")
-        min_z_edit = LineEdit()
+        self.min_z_edit = LineEdit()
         max_z_label = Label("Plot Max Z: ")
-        max_z_edit = LineEdit()
+        self.max_z_edit = LineEdit()
         entry_layout.addWidget(station_label, 0, 0)
-        entry_layout.addWidget(station_edit, 0, 1)
+        entry_layout.addWidget(self.station_edit, 0, 1)
         entry_layout.addWidget(year_day_label, 1, 0)
-        entry_layout.addWidget(year_day_edit, 1, 1)
+        entry_layout.addWidget(self.year_day_edit, 1, 1)
         entry_layout.addWidget(start_hour_label, 2, 0)
-        entry_layout.addWidget(start_hour_edit,2, 1)
+        entry_layout.addWidget(self.start_hour_edit,2, 1)
         entry_layout.addWidget(start_minute_label, 3, 0)
-        entry_layout.addWidget(start_minute_edit, 3, 1)
+        entry_layout.addWidget(self.start_minute_edit, 3, 1)
         entry_layout.addWidget(start_second_label, 4, 0)
-        entry_layout.addWidget(start_second_edit, 4, 1)
+        entry_layout.addWidget(self.start_second_edit, 4, 1)
         entry_layout.addWidget(end_hour_label, 5, 0)
-        entry_layout.addWidget(end_hour_edit, 5, 1)
+        entry_layout.addWidget(self.end_hour_edit, 5, 1)
         entry_layout.addWidget(end_minute_label, 6, 0)
-        entry_layout.addWidget(end_minute_edit, 6, 1)
+        entry_layout.addWidget(self.end_minute_edit, 6, 1)
         entry_layout.addWidget(end_second_label, 7, 0)
-        entry_layout.addWidget(end_second_edit, 7, 1)
+        entry_layout.addWidget(self.end_second_edit, 7, 1)
         entry_layout.addWidget(min_x_label, 8, 0)
-        entry_layout.addWidget(min_x_edit, 8, 1)
+        entry_layout.addWidget(self.min_x_edit, 8, 1)
         entry_layout.addWidget(min_y_label, 9, 0)
-        entry_layout.addWidget(min_y_edit, 9, 1)
+        entry_layout.addWidget(self.min_y_edit, 9, 1)
         entry_layout.addWidget(max_y_label, 10, 0)
-        entry_layout.addWidget(max_y_edit, 10, 1)
+        entry_layout.addWidget(self.max_y_edit, 10, 1)
         entry_layout.addWidget(min_z_label, 11, 0)
-        entry_layout.addWidget(min_z_edit, 11, 1)
+        entry_layout.addWidget(self.min_z_edit, 11, 1)
         entry_layout.addWidget(max_z_label, 12, 0)
-        entry_layout.addWidget(max_z_edit, 12, 1)
+        entry_layout.addWidget(self.max_z_edit, 12, 1)
         ################################################
 
         #### DROP DOWN MENU FOR FILE FORMATS ###########
@@ -130,25 +131,25 @@ class MainWindow(QMainWindow):
 
         if option == 0:
             # TODO: IAGA2000
-            response = self.get_file_name()
+            print("Option not available yet")
             pass
         elif option == 1:
             # TODO: IAGA2002
-            response = self.get_file_name()
-            pass
+            print("Option not available yet")
         elif option == 2:
+            # TODO: CLEAN FILE (.s2)
             file_filter = "Clean File (*.s2)"
             response = self.get_file_name(file_filter)
-            # TODO: CLEAN FILE
+        
         elif option == 3:
+            # TODO: RAW FILE (.2HZ)
             file_filter = "Raw File (*.2hz)"
             response = self.get_file_name(file_filter)
-            # TODO: RAW FILE
         elif option == 4:
-            # TODO: OTHER
-            pass
+            print("Option not available yet")
         else:
             print("Got nothing")
+
         
     def get_file_name(self, f_filter):
         # https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QFileDialog.html#PySide2.QtWidgets.PySide2.QtWidgets.QFileDialog.getOpenFileName
@@ -162,11 +163,31 @@ class MainWindow(QMainWindow):
             filter = file_filter
             #initialFilter = 'Clean File (*.s2)'
         )
-        # Documentation says QFileDiago.getOpenFileName returns
+        # Documentation says QFileDialog.getOpenFileName returns
         # (fileNames, filter used)
         # Example output to terminal
         # ('/Users/markortega-ponce/Desktop/ZMACCS/spacedatapython/CH20097.s2', 'Clean File (*.s2)')
         print(response)
+
+        # getting file path from tuple returned in response
+        filename = response[0]
+        print(filename)
+
+        # splitting up the path and selecting the filename
+        filename = filename.split('/')[-1]
+        print(filename)
+
+        # setting the station entry box from the filename
+        self.station_edit.set_entry(filename[0:2])
+        self.year_day_edit.set_entry(filename[2:7])
+        
+        # reset the start times and end times
+        self.start_hour_edit.set_entry(0)
+        self.start_minute_edit.set_entry(0)
+        self.start_second_edit.set_entry(0)
+        self.end_hour_edit.set_entry(24)
+        self.end_minute_edit.set_entry(0)
+        self.end_second_edit.set_entry(0)
 
 def main ():
 
