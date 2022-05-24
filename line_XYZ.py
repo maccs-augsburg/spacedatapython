@@ -165,6 +165,9 @@ class MainWindow(QMainWindow):
 
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
+        self.button_plot.clicked.connect(self.execute_plot_function)
+        self.button_save.clicked.connect(self.save)
+        self.button_save_as.clicked.connect(self.save_as)
         ###############
         ### Widgets ###
         ###############
@@ -179,8 +182,6 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.end_hour, 5,0)
         self.label_and_entry_layout.addWidget(self.end_min, 6,0)
         self.label_and_entry_layout.addWidget(self.end_sec, 7,0)
-        
-
 
         self.label_and_entry_layout.addWidget(self.input_station_code,0, 1)
         self.label_and_entry_layout.addWidget(self.input_year, 1, 1)
@@ -211,7 +212,6 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.button_save, 21, 1)
         self.label_and_entry_layout.addWidget(self.button_quit, 22, 0)
 
-        
         self.main_layout.addLayout(self.label_and_entry_layout)
 
         self.main_layout.addWidget(self.test)
@@ -226,6 +226,7 @@ class MainWindow(QMainWindow):
         print("Yes")
 
     def open_file(self):
+    
             """
             Opens a open file dialog box where the user picks the appropriate file type. Once that is
             selected, it inputs the data into the boxes automatically based on the filename.
@@ -273,6 +274,21 @@ class MainWindow(QMainWindow):
             # else
             else:
                 print('Option not available yet :(')
+   
+    def execute_plot_function(self):
+        '''
+        '''
+        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
+        # plotting the arrays
+        self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
+                                                            graph_from_plotter_value_y, 
+                                                            graph_from_plotter_value_z, 
+                                                            xArr, 
+                                                            yArr, 
+                                                            zArr,
+                                                            timeArr, 
+                                                            self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
+
 
         
 
