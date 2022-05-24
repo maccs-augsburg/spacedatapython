@@ -1,6 +1,9 @@
 #Gui implemented with classes
 #Annabelle
 
+#Refactored into PySide6 GUI 
+# Chris Hance may 2022
+
 #Imports from tkinter
 #from curses import window
 
@@ -278,6 +281,22 @@ class MainWindow(QMainWindow):
     def execute_plot_function(self):
         '''
         '''
+        station_name_value = self.input_station_code.selectedText()
+        year_day_value = self.input_year.selectedText()
+
+        start_hour_value = ThreeGraphPlotter.start_hour_entry_check(self.input_starthour.selectedText())
+        start_minute_value = ThreeGraphPlotter.start_minute_entry_check( self.input_startmin.selectedText())
+        start_second_value = ThreeGraphPlotter.start_second_entry_check( self.input_startsec.selectedText())
+
+        end_hour_value = ThreeGraphPlotter.end_hour_entry_check( self.input_endhour.selectedText())
+        end_minute_value = ThreeGraphPlotter.end_minute_entry_check( self.input_endmin.selectedText())
+        end_second_value = ThreeGraphPlotter.end_second_entry_check( self.input_endsec.selectedText())
+
+        # creating the start time stamp
+        start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
+        # creating the end time stamp
+        end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
+
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
         # plotting the arrays
         self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
@@ -287,8 +306,7 @@ class MainWindow(QMainWindow):
                                                             yArr, 
                                                             zArr,
                                                             timeArr, 
-                                                            self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
-
+                                                            self.file_name, start_time_stamp, end_time_stamp, station_name_value)
 
         
 
