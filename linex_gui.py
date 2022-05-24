@@ -1,10 +1,11 @@
 # from ast import Pass
-# import sys
+import sys
+import os
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QLabel,
     QToolBar, QStatusBar, QCheckBox,
     QHBoxLayout, QVBoxLayout, QGridLayout,
-    QLineEdit, QWidget, QFormLayout, QComboBox, QPushButton
+    QLineEdit, QWidget, QFormLayout, QComboBox, QPushButton, QFileDialog
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
@@ -27,7 +28,7 @@ class MainWindow(QMainWindow):
         self.setMinimumHeight(WINDOW_HEIGHT)
         self.setMinimumWidth(WINDOW_WIDTH)
         self.station_code = ""
-        
+
         main_layout = QHBoxLayout()
         mac_label = QLabel()
         # TODO: use sys import so it doesnt use my path
@@ -96,16 +97,19 @@ class MainWindow(QMainWindow):
         ################################################
 
         #### DROP DOWN MENU FOR FILE FORMATS ###########
-        self.options = ("IAGA2000 - NW", 
-                        "IAGA2002 - NW", 
-                        "Clean File", 
-                        "Raw 2hz File", 
-                        "Other -- Not Working")
+        self.options = ("IAGA2000 - NW",       # Index 0 
+                        "IAGA2002 - NW",       # Index 1
+                        "Clean File",          # Index 2
+                        "Raw 2hz File",        # Index 3
+                        "Other -- Not Working")# Index 4
 
         self.combo_box = QComboBox()
+        # Add items to combo box
         self.combo_box.addItems(self.options)
+        # Add combo box to entry layout
         entry_layout.addWidget(self.combo_box)
         file_button = QPushButton("Open File")
+        file_button.clicked.connect(self.launch_dialog)
         entry_layout.addWidget(file_button)
         ################################################
 
@@ -121,6 +125,7 @@ class MainWindow(QMainWindow):
         ################################################
 
     def launch_dialog(self):
+
         option = self.options.index(self.combo_box.currentText())
 
         if option == 0:
@@ -132,18 +137,36 @@ class MainWindow(QMainWindow):
             response = self.get_file_name()
             pass
         elif option == 2:
+            file_filter = "Clean File (*.s2)"
+            response = self.get_file_name(file_filter)
             # TODO: CLEAN FILE
-            pass
         elif option == 3:
+            file_filter = "Raw File (*.2hz)"
+            response = self.get_file_name(file_filter)
             # TODO: RAW FILE
-            pass
         elif option == 4:
             # TODO: OTHER
             pass
-
+        else:
+            print("Got nothing")
         
-    def get_file_name(self):
-        file_filter = ("Clean File (*s2);;Raw File (.2hz)")
+    def get_file_name(self, f_filter):
+        # https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QFileDialog.html#PySide2.QtWidgets.PySide2.QtWidgets.QFileDialog.getOpenFileName
+
+        file_filter = f_filter
+
+        response = QFileDialog.getOpenFileName(
+            parent = self,
+            caption = "Select a file",
+            dir = os.getcwd(),
+            filter = file_filter
+            #initialFilter = 'Clean File (*.s2)'
+        )
+        # Documentation says QFileDiago.getOpenFileName returns
+        # (fileNames, filter used)
+        # Example output to terminal
+        # ('/Users/markortega-ponce/Desktop/ZMACCS/spacedatapython/CH20097.s2', 'Clean File (*.s2)')
+        print(response)
 
 def main ():
 
