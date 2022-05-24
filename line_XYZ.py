@@ -71,7 +71,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
-
+        
         ###############
         ### Labels ####
         ###############
@@ -169,8 +169,8 @@ class MainWindow(QMainWindow):
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
         self.button_plot.clicked.connect(self.execute_plot_function)
-        self.button_save.clicked.connect(self.save)
-        self.button_save_as.clicked.connect(self.save_as)
+        # self.button_save.clicked.connect(self.save)
+        # self.button_save_as.clicked.connect(self.save_as)
         ###############
         ### Widgets ###
         ###############
@@ -265,18 +265,17 @@ class MainWindow(QMainWindow):
             self.input_endhour.setText("23")
             self.input_endmin.setText("59")
             self.input_endsec.setText("59")
-
-            # raw file selection branch
-            if (self.file_name[7:] == '.2hz'):
-                self.selection_file.set(4)
+  
+            # # raw file selection branch
+            # if (self.file_name[7:] == '.2hz'):
+            #     self.selection_file_value = 4
                 
-            # clean file selection branch
-            elif (self.file_name[7:] == '.s2'):
-                self.selection_file.set(5)
-
-            # else
-            else:
-                print('Option not available yet :(')
+            # # clean file selection branch
+            # elif (self.file_name[7:] == '.s2'):
+            #     self.selection_file_value = 5
+            # # else
+            # else:
+            #     print('Option not available yet :(')
    
     def execute_plot_function(self):
         '''
@@ -284,29 +283,43 @@ class MainWindow(QMainWindow):
         station_name_value = self.input_station_code.selectedText()
         year_day_value = self.input_year.selectedText()
 
-        start_hour_value = ThreeGraphPlotter.start_hour_entry_check(self.input_starthour.selectedText())
-        start_minute_value = ThreeGraphPlotter.start_minute_entry_check( self.input_startmin.selectedText())
-        start_second_value = ThreeGraphPlotter.start_second_entry_check( self.input_startsec.selectedText())
+        start_hour_value = ThreeGraphPlotter.start_hour_entry_check(self,self.input_starthour.text())
+        start_minute_value = ThreeGraphPlotter.start_minute_entry_check( self,self.input_startmin.text())
+        start_second_value = ThreeGraphPlotter.start_second_entry_check( self,self.input_startsec.text())
 
-        end_hour_value = ThreeGraphPlotter.end_hour_entry_check( self.input_endhour.selectedText())
-        end_minute_value = ThreeGraphPlotter.end_minute_entry_check( self.input_endmin.selectedText())
-        end_second_value = ThreeGraphPlotter.end_second_entry_check( self.input_endsec.selectedText())
+        end_hour_value = ThreeGraphPlotter.end_hour_entry_check( self,self.input_endhour.text())
+        end_minute_value = ThreeGraphPlotter.end_minute_entry_check(self, self.input_endmin.text())
+        end_second_value = ThreeGraphPlotter.end_second_entry_check( self,self.input_endsec.text())
 
         # creating the start time stamp
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
         # creating the end time stamp
         end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
 
+       # selection_file_value = self.selection_file_value
+        #file_ending_value = ThreeGraphPlotter.file_format_entry_check(selection_file_value)
+
+
+        # Making the Plot
+        file_name_full = station_name_value + year_day_value + '4'
+        time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
+        self.file_name = station_name_value + year_day_value + time_interval_string
+        try:
+            file = open(file_name_full, 'rb')
+        except:
+            # popping up an error if we can't open the file
+            ThreeGraphPlotter.error_message_pop_up(self,"File open error", "couldn't find and open your file")
+
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
         # plotting the arrays
-        self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
-                                                            graph_from_plotter_value_y, 
-                                                            graph_from_plotter_value_z, 
+        self.figure = ThreeGraphPlotter.graph_from_plotter_entry_check(1,
+                                                            1, 
+                                                            1, 
                                                             xArr, 
                                                             yArr, 
                                                             zArr,
                                                             timeArr, 
-                                                            self.file_name, start_time_stamp, end_time_stamp, station_name_value)
+                                                            self.file_name, start_time_stamp, end_time_stamp, '4')
 
         
 
