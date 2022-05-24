@@ -48,7 +48,20 @@ import read_clean_to_lists
 
 class MainWindow(QMainWindow):
     def __init__(self):
+
+        """ 
+        Description	
+    
+        
+        :type self:
+        :param self:
+    
+        :raises:
+    
+        :rtype:
+        """    
         super().__init__()
+       
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
@@ -63,7 +76,7 @@ class MainWindow(QMainWindow):
         self.start_min = QLabel("Start Minute: ")
         self.start_sec = QLabel("Start Second: ")
 
-        self.end_day = QLabel("End Hour: ")
+        self.end_hour = QLabel("End Hour: ")
         self.end_min = QLabel("End Minute: ")
         self.end_sec = QLabel("End Second: ")
 
@@ -83,7 +96,10 @@ class MainWindow(QMainWindow):
         self.maccs_logo = QLabel()
         self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
 
+        self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
+
         self.start_hour.setMaximumWidth(50)
+
         # self.station_code.setAlignment(Qt.AlignmentFlag.AlignLeft)
         # self.year_day.setAlignment(Qt.AlignmentFlag.AlignLeft)
         # self.start_hour.setAlignment(Qt.AlignmentFlag.AlignLeft)
@@ -139,31 +155,36 @@ class MainWindow(QMainWindow):
         ########################
         ### Radial Selectors ###
         ########################
-        '''
-        
-        '''
+
         self.radio_iaga2000 = QRadioButton("IAGA2000 - NW")
         self.radio_iaga2002 = QRadioButton("IAGA2002 - NW")
         self.radio_clean_file = QRadioButton("Clean file")
         self.radio_raw_file = QRadioButton("Raw 2hx file")
         self.radio_other = QRadioButton("Other - Not working")
 
+        ###############
         ### Layouts ###
         ###############
-        '''
-        
-        '''
+
         self.main_layout = QHBoxLayout()
         self.label_and_entry_layout = QGridLayout()
 
-        # Buttons 
+        ###############
+        ### Buttons ###
+        ###############
+         
         self.open_file_button = QPushButton("Open file")
         self.open_file_button.setFixedWidth(75)
 
-        # Signals / Events
-        self.open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
+        ########################
+        ### Signals / Events ###
+        ########################
 
-        #Widgets
+        self.open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
+        
+        ###############
+        ### Widgets ###
+        ###############
 
         self.label_and_entry_layout.addWidget(self.station_code,0,0)
         self.label_and_entry_layout.addWidget(self.year_day, 1,0)
@@ -172,7 +193,7 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.start_min, 3,0)
         self.label_and_entry_layout.addWidget(self.start_sec, 4,0)
         
-        self.label_and_entry_layout.addWidget(self.end_day, 5,0)
+        self.label_and_entry_layout.addWidget(self.end_hour, 5,0)
         self.label_and_entry_layout.addWidget(self.end_min, 6,0)
         self.label_and_entry_layout.addWidget(self.end_sec, 7,0)
         
@@ -216,7 +237,7 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.open_file, 20, 0)
         self.label_and_entry_layout.addWidget(self.open_file_button, 20, 1)
 
-        self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
+        
         self.main_layout.addLayout(self.label_and_entry_layout)
 
         # self.main_layout.addWidget(self.test)
@@ -232,6 +253,49 @@ class MainWindow(QMainWindow):
     def is_clicked(self):
         print("Yes")
 
+    def open_file(self):
+            """
+            Opens a open file dialog box where the user picks the appropriate file type. Once that is
+            selected, it inputs the data into the boxes automatically based on the filename.
+            """
+            # listing the types of file types we currently support
+            filetypes = (
+                ('Raw files', '*.2hz'),
+                ('Clean files', '*.s2')
+            )
+
+            # opening the dialog box
+            file_name = askopenfilename(title='test', filetypes = filetypes)
+
+            # splitting up the path and selecting the filename
+            self.file_name = file_name.split('/')[-1]
+
+            # setting the station code from the filename
+            
+            # setting the yearday from the filename
+            self.year_day.set(self.file_name[2:7])
+
+            # resetting the start times and end times
+            self.start_hour.setText(0)
+            self.start_min.setText(0)
+            self.start_sec.setText(0)
+            self.end_hour.setText(23)
+            self.end_min.setText(59)
+            self.end_sec.setText(59)
+
+            # raw file selection branch
+            if (self.file_name[7:] == '.2hz'):
+                self.selection_file.set(4)
+                
+            # clean file selection branch
+            elif (self.file_name[7:] == '.s2'):
+                self.selection_file.set(5)
+
+            # else
+            else:
+                print('Option not available yet :(')
+
+
 class LabelWidget(QWidget):
     def __init__(self,text):
         super(LabelWidget, self).__init__()
@@ -242,11 +306,16 @@ class LabelWidget(QWidget):
         
 
 class ButtonActions(MainWindow):
-    def __init__(self):
-        super().__init__()
-
     def open_file(self):
-        """
+    
+        """ Description
+        :type self:
+        :param self:
+    
+        :raises:
+    
+        :rtype:
+        """    """
         Opens a open file dialog box where the user picks the appropriate file type. Once that is
         selected, it inputs the data into the boxes automatically based on the filename.
         """
@@ -263,17 +332,17 @@ class ButtonActions(MainWindow):
         self.file_name = file_name.split('/')[-1]
 
         # setting the station code from the filename
-        station_code
+        self.station_code
         # setting the yearday from the filename
-        self.year_day.set(self.file_name[2:7])
+        self.year_day.setText(self.file_name[2:7])
 
         # resetting the start times and end times
-        self.start_hour.set(0)
-        self.start_minute.set(0)
-        self.start_second.set(0)
-        self.end_hour.set(23)
-        self.end_minute.set(59)
-        self.end_second.set(59)
+        self.start_hour.setText(0)
+        self.start_min.setText(0)
+        self.start_sec.setText(0)
+        self.end_hour.setText(23)
+        self.end_min.setText(59)
+        self.end_sec.setText(59)
 
         # raw file selection branch
         if (self.file_name[7:] == '.2hz'):
