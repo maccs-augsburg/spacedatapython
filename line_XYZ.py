@@ -35,6 +35,7 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 from matplotlib.backends.qt_compat import QtWidgets
 from matplotlib.backends.backend_qtagg import (
     FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
+from matplotlib.cbook import open_file_cm
 from matplotlib.figure import Figure
 
 import numpy as np
@@ -169,7 +170,7 @@ class MainWindow(QMainWindow):
         ### Signals / Events ###
         ########################
 
-        self.open_file_button.clicked.connect(ButtonActions.open_file)
+        self.open_file_button.clicked.connect(self.open_file)
         
         ###############
         ### Widgets ###
@@ -235,41 +236,41 @@ class MainWindow(QMainWindow):
             selected, it inputs the data into the boxes automatically based on the filename.
             """
             # listing the types of file types we currently support
-            filetypes = (
-                ('Raw files', '*.2hz'),
-                ('Clean files', '*.s2')
-            )
+            # filetypes = (
+            #     ('Raw files', '*.2hz'),
+            #     ('Clean files', '*.s2')
+            # )
 
-            # opening the dialog box
-            file_name = askopenfilename(title='test', filetypes = filetypes)
+            # # opening the dialog box
+            # file_name = askopenfilename(title='test', filetypes = filetypes)
 
-            # splitting up the path and selecting the filename
-            self.file_name = file_name.split('/')[-1]
+            # # splitting up the path and selecting the filename
+            # self.file_name = file_name.split('/')[-1]
 
-            # setting the station code from the filename
+            # # setting the station code from the filename
             
-            # setting the yearday from the filename
-            self.year_day.set(self.file_name[2:7])
+            # # setting the yearday from the filename
+            # self.year_day.set(self.file_name[2:7])
 
             # resetting the start times and end times
-            self.start_hour.setText(0)
-            self.start_min.setText(0)
-            self.start_sec.setText(0)
-            self.end_hour.setText(23)
-            self.end_min.setText(59)
-            self.end_sec.setText(59)
+            self.input_starthour.setText("0")
+            self.input_startmin.setText("0")
+            self.input_startsec.setText("0")
+            self.input_endhour.setText("23")
+            self.input_endmin.setText("59")
+            self.input_endsec.setText("59")
 
-            # raw file selection branch
-            if (self.file_name[7:] == '.2hz'):
-                self.selection_file.set(4)
+            # # raw file selection branch
+            # if (self.file_name[7:] == '.2hz'):
+            #     self.selection_file.set(4)
                 
-            # clean file selection branch
-            elif (self.file_name[7:] == '.s2'):
-                self.selection_file.set(5)
+            # # clean file selection branch
+            # elif (self.file_name[7:] == '.s2'):
+            #     self.selection_file.set(5)
 
-            # else
-            else:
-                print('Option not available yet :(')
+            # # else
+            # else:
+            #     print('Option not available yet :(')
 
 
 class LabelWidget(QWidget):
@@ -280,7 +281,10 @@ class LabelWidget(QWidget):
         self.label.setMaximumWidth(50)
 
 class ButtonActions(MainWindow):
-    def open_file(self):
+    def __init__(self):
+        MainWindow.__init__(self)
+    def open_file(self, input_hour):
+        
     
         """ Description
         :type self:
@@ -299,36 +303,36 @@ class ButtonActions(MainWindow):
             ('Clean files', '*.s2')
         )
 
-        # opening the dialog box
-        file_name = askopenfilename(title='test', filetypes = filetypes)
+        # # opening the dialog box
+        # file_name = askopenfilename(title='test', filetypes = filetypes)
 
-        # splitting up the path and selecting the filename
-        self.file_name = file_name.split('/')[-1]
+        # # splitting up the path and selecting the filename
+        # self.file_name = file_name.split('/')[-1]
 
-        # setting the station code from the filename
-        self.station_code
-        # setting the yearday from the filename
-        self.year_day.setText(self.file_name[2:7])
+        # # setting the station code from the filename
+        # self.station_code
+        # # setting the yearday from the filename
+        # self.year_day.setText(self.file_name[2:7])
 
+        self.input_starthour = input_hour
         # resetting the start times and end times
-        self.start_hour.setText(0)
-        self.start_min.setText(0)
-        self.start_sec.setText(0)
-        self.end_hour.setText(23)
-        self.end_min.setText(59)
-        self.end_sec.setText(59)
-
-        # raw file selection branch
-        if (self.file_name[7:] == '.2hz'):
-            self.selection_file.set(4)
+        self.input_starthour.setText("0")
+        # self.input_startmin.setText("0")
+        # self.input_startsec.setText("0")
+        # self.input_endhour.setText("23")
+        # self.input_endmin.setText("59")
+        # self.input_endsec.setText("59")
+        # # raw file selection branch
+        # if (self.file_name[7:] == '.2hz'):
+        #     self.selection_file.set(4)
             
-        # clean file selection branch
-        elif (self.file_name[7:] == '.s2'):
-            self.selection_file.set(5)
+        # # clean file selection branch
+        # elif (self.file_name[7:] == '.s2'):
+        #     self.selection_file.set(5)
 
-        # else
-        else:
-            print('Option not available yet :(')
+        # # else
+        # else:
+        #     print('Option not available yet :(')
 
 
 class ThreeGraphPlotter(MainWindow):
