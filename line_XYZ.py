@@ -85,8 +85,6 @@ class MainWindow(QMainWindow):
 
         self.format_file_text = QLabel("Format of File to Open: ")
 
-        self.open_file_label = QLabel("Open File")
-
         self.maccs_logo = QLabel()
         self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
 
@@ -126,14 +124,14 @@ class MainWindow(QMainWindow):
         # self.start_sec.setStyleSheet("padding :1px")
         # self.input_endsec.setStyleSheet("padding :1px")
 
-        self.input_station_code.setMaximumWidth(30)
-        self.input_starthour.setMaximumWidth(50)
-        self.input_startmin.setMaximumWidth(50)
-        self.input_startsec.setMaximumWidth(50)
-        self.input_endhour.setMaximumWidth(50)
-        self.input_endmin.setMaximumWidth(50)
-        self.input_endsec.setMaximumWidth(50)
-        self.input_year.setMaximumWidth(50)
+        self.input_station_code.setMaximumWidth(35)
+        self.input_starthour.setMaximumWidth(35)
+        self.input_startmin.setMaximumWidth(35)
+        self.input_startsec.setMaximumWidth(35)
+        self.input_endhour.setMaximumWidth(35)
+        self.input_endmin.setMaximumWidth(35)
+        self.input_endsec.setMaximumWidth(35)
+        self.input_year.setMaximumWidth(35)
         
         #######################
         ### Checkbox Select ###
@@ -171,7 +169,7 @@ class MainWindow(QMainWindow):
         ### Signals / Events ###
         ########################
 
-        self.open_file_button.clicked.connect(ThreeGraphPlotter.open_file)
+        self.open_file_button.clicked.connect(ButtonActions.open_file)
         
         ###############
         ### Widgets ###
@@ -213,9 +211,7 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.radio_clean_file, 17,0)
         self.label_and_entry_layout.addWidget(self.radio_raw_file, 18, 0)
         self.label_and_entry_layout.addWidget(self.radio_other, 19, 0)
-
-        self.label_and_entry_layout.addWidget(self.open_file_label, 20, 0)
-        self.label_and_entry_layout.addWidget(self.open_file_button, 20, 1)
+        self.label_and_entry_layout.addWidget(self.open_file_button, 20, 0)
 
         
         self.main_layout.addLayout(self.label_and_entry_layout)
