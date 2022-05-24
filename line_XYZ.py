@@ -236,21 +236,28 @@ class MainWindow(QMainWindow):
             selected, it inputs the data into the boxes automatically based on the filename.
             """
             # listing the types of file types we currently support
-            # filetypes = (
-            #     ('Raw files', '*.2hz'),
-            #     ('Clean files', '*.s2')
-            # )
+            filetypes = [
+                ('Raw files', '*.2hz'),
+                ('Clean files', '*.s2')
+            ]
 
             # # opening the dialog box
             # file_name = askopenfilename(title='test', filetypes = filetypes)
+            # file_name = QFileDialog()
+            # file_name.setFileMode(QFileDialog)
+            # file_name.setFilter('Clean files *.s2')
+            # file_name.getOpenFileName()
 
-            # # splitting up the path and selecting the filename
-            # self.file_name = file_name.split('/')[-1]
+            file_name = QFileDialog.getOpenFileName(self, 'Open File', 'C:\\Users\\hancec\\Desktop\\spacedatapython', 'Raw or Clean (*.2hz *.s2)')
+            file_name = str(file_name)
+            # splitting up the path and selecting the filename
+            self.file_name = file_name.split('/')[-1]
 
             # # setting the station code from the filename
-            
+            self.input_station_code.setText(str(self.file_name[0:2]))
+
             # # setting the yearday from the filename
-            # self.year_day.set(self.file_name[2:7])
+            self.input_year.setText(str(self.file_name[2:7]))
 
             # resetting the start times and end times
             self.input_starthour.setText("0")
@@ -260,17 +267,17 @@ class MainWindow(QMainWindow):
             self.input_endmin.setText("59")
             self.input_endsec.setText("59")
 
-            # # raw file selection branch
-            # if (self.file_name[7:] == '.2hz'):
-            #     self.selection_file.set(4)
+            # raw file selection branch
+            if (self.file_name[7:] == '.2hz'):
+                self.selection_file.set(4)
                 
-            # # clean file selection branch
-            # elif (self.file_name[7:] == '.s2'):
-            #     self.selection_file.set(5)
+            # clean file selection branch
+            elif (self.file_name[7:] == '.s2'):
+                self.selection_file.set(5)
 
-            # # else
-            # else:
-            #     print('Option not available yet :(')
+            # else
+            else:
+                print('Option not available yet :(')
 
 
 class LabelWidget(QWidget):
