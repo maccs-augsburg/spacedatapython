@@ -41,6 +41,7 @@ from matplotlib.backends.backend_qtagg import (
     FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 from matplotlib.cbook import open_file_cm
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 
 import numpy as np
 import subprocess
@@ -280,8 +281,8 @@ class MainWindow(QMainWindow):
     def execute_plot_function(self):
         '''
         '''
-        station_name_value = self.input_station_code.selectedText()
-        year_day_value = self.input_year.selectedText()
+        station_name_value = self.input_station_code.text()
+        year_day_value = self.input_year.text()
 
         start_hour_value = ThreeGraphPlotter.start_hour_entry_check(self,self.input_starthour.text())
         start_minute_value = ThreeGraphPlotter.start_minute_entry_check( self,self.input_startmin.text())
@@ -301,9 +302,10 @@ class MainWindow(QMainWindow):
 
 
         # Making the Plot
-        file_name_full = station_name_value + year_day_value + '4'
+        file_name_full = station_name_value + year_day_value + '.2hz'
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
+        print(file_name_full)
         try:
             file = open(file_name_full, 'rb')
         except:
@@ -312,7 +314,7 @@ class MainWindow(QMainWindow):
 
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
         # plotting the arrays
-        self.figure = ThreeGraphPlotter.graph_from_plotter_entry_check(1,
+        self.figure = ThreeGraphPlotter.graph_from_plotter_entry_check(self,1,
                                                             1, 
                                                             1, 
                                                             xArr, 
@@ -320,7 +322,8 @@ class MainWindow(QMainWindow):
                                                             zArr,
                                                             timeArr, 
                                                             self.file_name, start_time_stamp, end_time_stamp, '4')
-
+        self.fig = FigureCanvasQTAgg(self.figure)
+        self.main_layout.addWidget(self.fig)
         
 
 class LabelWidget(QWidget):
