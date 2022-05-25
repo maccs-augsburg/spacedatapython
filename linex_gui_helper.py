@@ -23,9 +23,7 @@ class LineEdit(QLineEdit):
     #Methods containing self, are instance methods#########################
     #######################################################################
     def text_edited(self, s):
-        # s is a string, confirmed wity print(type(s))
         self.entry = s
-        # Don't have to pass self again, implied, but weird
         print(self.get_entry())
 
     def get_entry(self):
@@ -42,7 +40,7 @@ class Label(QLabel):
 
         self.setText(label_name)
         font = self.font()
-        font.setPointSize(12)
+        font.setPointSize(13)
         self.setFont(font)
         self.setAlignment(Qt.AlignLeft)
         self.setMaximumWidth(80)
