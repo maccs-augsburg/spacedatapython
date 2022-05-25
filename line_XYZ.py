@@ -6,18 +6,18 @@
 
 #Import from PySide6 // QT
 
-from PyQt6.QtWidgets import (QMainWindow, QApplication, 
+from msilib.schema import CheckBox
+from PyQt6.QtWidgets import (
+    QMainWindow, QApplication, 
     QLabel, QLineEdit, 
     QStatusBar, QWidget, 
     QHBoxLayout, QGridLayout,
     QPushButton, QToolBar,
     QFileDialog, QRadioButton,
     QCheckBox)
-from PyQt6.QtGui import QIcon,QAction, QPixmap
+from PyQt6.QtGui import QIcon, QAction, QPixmap
 from PyQt6.QtCore import Qt, QSize
 from pathlib import Path
-#from PySide6.QtWidgets import QMainWindow
-
 
 #imports from python 
 import sys
@@ -147,9 +147,9 @@ class MainWindow(QMainWindow):
         ### Checkbox Select ###
         #######################
 
-        self.checkbox_plotx = QCheckBox("X Plot")
-        self.checkbox_ploty = QCheckBox("Y Plot")
-        self.checkbox_plotz = QCheckBox("Z Plot")
+        self.checkbox_plotx = QCheckBox("X Plot", self)
+        self.checkbox_ploty = QCheckBox("Y Plot", self)
+        self.checkbox_plotz = QCheckBox("Z Plot", self)
 
         ########################
         ### Radial Selectors ###
@@ -267,17 +267,20 @@ class MainWindow(QMainWindow):
 
             # # opening the dialog box
             home_dir = str(Path.home())
-            file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, 'Raw or Clean (*.2hz *.s2)')
+            file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, ' (*.2hz *.s2)')
             file_name = str(file_name)
             # splitting up the path and selecting the filename
+            self.file_name = file_name.split(',')[0]
+            print(self.file_name)
+
             self.file_name = file_name.split('/')[-1]
+            print(self.file_name)
 
             # # setting the station code from the filename
             self.input_station_code.setText(str(self.file_name[0:2]))
 
             # # setting the yearday from the filename
             self.input_year.setText(str(self.file_name[2:7]))
-
             # resetting the start times and end times
             self.input_starthour.setText("0")
             self.input_startmin.setText("0")
@@ -285,13 +288,13 @@ class MainWindow(QMainWindow):
             self.input_endhour.setText("23")
             self.input_endmin.setText("59")
             self.input_endsec.setText("59")
-
+            print(self.file_name[7:11])
             # raw file selection branch
             if (self.file_name[7:11] == '.2hz'):
                 self.selection_file_value = '4'
                 
             # clean file selection branch
-            elif (self.file_name[7:11] == '.s2'):
+            elif (self.file_name[7:10] == '.s2'):
                 self.selection_file_value = '5'
             # else
             else:
@@ -315,32 +318,56 @@ class MainWindow(QMainWindow):
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
         # creating the end time stamp
         end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
-        print(self.selection_file_value)
         file_value = self.selection_file_value
         file_ending_value = entry_checks.file_format_entry_check(file_value)
-        print(file_ending_value)
+       
 
         # Making the Plot
         file_name_full = station_name_value + year_day_value + file_ending_value
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
-        print(file_name_full)
+
+        ########
+        # TODO create signal value getter to determine what plots to display X Y or Z two or three 
+        ########
+        plot_x_axis = 0         
+        plot_y_axis = 0
+        plot_z_axis = 0
+        if (self.checkbox_plotx.isChecked()):
+            plot_x_axis = 1        
+        if (self.checkbox_ploty.isChecked()):
+            plot_y_axis = 1        
+        if (self.checkbox_plotz.isChecked()):
+            plot_z_axis = 1
+
         try:
             file = open(file_name_full, 'rb')
         except:
             # popping up an error if we can't open the file
             entry_checks.error_message_pop_up(self,"File open error", "couldn't find and open your file")
+        if (self.selection_file_value == '4'):
+            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.figure = entry_checks.graph_from_plotter_entry_check(plot_x_axis,
+                                                                plot_y_axis, 
+                                                                plot_z_axis, 
+                                                                xArr, 
+                                                                yArr, 
+                                                                zArr,
+                                                                timeArr, 
+                                                                self.file_name, start_time_stamp, end_time_stamp, '4')
+        elif (self.selection_file_value == '5'):
+            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.figure = entry_checks.graph_from_plotter_entry_check(1,
+                                                                1, 
+                                                                1, 
+                                                                xArr, 
+                                                                yArr, 
+                                                                zArr,
+                                                                timeArr, 
+                                                                self.file_name, start_time_stamp, end_time_stamp, '5')
 
-        xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
-        # plotting the arrays
-        self.figure = entry_checks.graph_from_plotter_entry_check(1,
-                                                            1, 
-                                                            1, 
-                                                            xArr, 
-                                                            yArr, 
-                                                            zArr,
-                                                            timeArr, 
-                                                            self.file_name, start_time_stamp, end_time_stamp, '4')
         self.fig = FigureCanvasQTAgg(self.figure)
         toolbar = NavigationToolbar2QT(self.fig, self)
         self.maccs_logo.setHidden(True)
