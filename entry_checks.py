@@ -8,6 +8,7 @@ from tkinter.filedialog import askopenfilename
 from turtle import home
 
 import one_array_plotted
+import sys
 
 def year_day_entry_check(self, year_day_value):
 
@@ -19,7 +20,7 @@ def year_day_entry_check(self, year_day_value):
     """
     # Checking to see if any input was put in the yearday entry box
     if (len(year_day_value) == 0):
-        self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
+        error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
 
 def station_names_entry_check(self, station_names_value):
 
@@ -32,7 +33,7 @@ def station_names_entry_check(self, station_names_value):
     # Checking to see if no input was put in the station code entry box
     if(len(station_names_value) == 0):
         # show error as no input was received
-        self.error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
+        error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
 
 def file_format_entry_check(self, selection_file_value):
     """
@@ -48,17 +49,17 @@ def file_format_entry_check(self, selection_file_value):
     """
     if(selection_file_value == '1'):
         # CDA-Web branch (NOT IMPLEMENTED)
-        self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
     # Testing to see if user selected IAGA2000 branch
     elif(selection_file_value == '2'):
         #IAGA2000 branch (NOT IMPLEMENTED)
-        self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
     # Testing to see if user selected IAGA2002 branch
     elif(selection_file_value == '3'):
         #IAGA2002 branch (NOT IMPLEMENTED)
-        self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
+        warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
 
     # Testing to see if user selected Raw 2hz branch
     elif(selection_file_value == '4'):
@@ -72,7 +73,7 @@ def file_format_entry_check(self, selection_file_value):
     # Otherwise we can assume that no option had been selected
     else:
         # Message box error when no file format option has been selected
-        self.error_message_pop_up(title="File format option error", message="Please select a file format option")
+        error_message_pop_up(title="File format option error", message="Please select a file format option")
 
     # Returning the string of the file type to be used
     return file_ending_value
@@ -157,7 +158,7 @@ def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_p
             
     #Warning Message
     else:
-        self.warning_message_pop_up(title = "File Format Option Error", message = "Please select a file format option")
+        warning_message_pop_up(title = "File Format Option Error", message = "Please select a file format option")
 
     #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
     return fig
@@ -180,12 +181,12 @@ def start_hour_entry_check(self, start_hour_string):
 
     if(value > 23):
         # Have error message box pop up because it can't be more than 23
-        self.error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
+        error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
         
     # Testing to see if the inputted value is less than what it can be
     elif(value < 0):
         # Have error message box pop up because it can't be a negative number
-        self.error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
+        error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
 
     # Returning the start_hour_string so that whatever changes we made to it get returned
     return value
@@ -208,12 +209,12 @@ def start_minute_entry_check(self, start_minute_string):
 
     if(value > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        self.error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
+        error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
 
     # Testing to see if the inputted value is less than what it can be
     elif(value < 0):
         # Have error message box pop up because it can't be a negative number
-        self.error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
+        error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
 
     # Returning the start_minute_string so whatever changes we made to it get returned
     return value
@@ -236,12 +237,12 @@ def start_second_entry_check(self, start_second_string):
 
     if(value > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        self.error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
+        error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
 
     # Testing to see if the inputted value is less than what it can be
     elif(value < 0):
         # Have error message box pop up because it can't be a negative number
-        self.error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
+        error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
 
     # Returning the start_second_string so whatever changes we made to it get returned
     return value
@@ -265,12 +266,12 @@ def end_hour_entry_check(self, end_hour_string):
     # Testing to see if the inputted value exceeds what it can be
     if(value > 23):
         # Have error message box pop up because it can't be more than 23
-        self.error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
+        error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
 
         # Testing to see if the inputted value is less than what it can be
     elif(value < 0):
         # Have error message box pop up because it can't be a negative number
-        self.error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
+        error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
 
     # Returning the end_hour_string so whatever changes we made to it get returned
     return value
@@ -294,12 +295,12 @@ def end_minute_entry_check(self, end_minute_string):
     # Testing to see if the inputted value exceeds what it can be
     if(value > 59):
         #Have error messsage box pop up becuase it can't be more than 59
-        self.error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
+        error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
 
     # Testing to see if the inputted value is less than what it can be
     elif(value < 0):
         # Have error message box pop up because it can't be a negative number
-        self.error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
+        error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
 
     # Returning the end_minute_string so whatever changes we made to it get returned
     return value
@@ -322,12 +323,12 @@ def end_second_entry_check(self, end_second_string):
     # Testing to see if the inputted value exceeds what it can be
     if(value > 59):
         # Have error messsage box pop up becuase it can't be more than 59
-        self.error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
+        error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
 
     # Testing to see if the inputted value is less than what it can be
     elif(value < 0):
         # Have error message box pop up because it can't be a negative number
-        self.error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
+        error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
 
     # Returning the end_second_string so whatever changes we made to it get returned
     return value
