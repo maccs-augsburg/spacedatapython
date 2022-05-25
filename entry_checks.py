@@ -1,16 +1,14 @@
+## Created by: Annabelle Arns 
+# Entry Check file moved from line_XYZ.py by Chris Hance 
+# Test bench // Checking each Entry from the file input for proper values
+# and then graphs the proper plot
 
-
-from tkinter import *
-from tkinter import ttk
 from tkinter import messagebox
-from tkinter.filedialog import asksaveasfile
-from tkinter.filedialog import askopenfilename
-from turtle import home
 
 import one_array_plotted
 import sys
 
-def year_day_entry_check(self, year_day_value):
+def year_day_entry_check( year_day_value):
 
     """
     Checks the year day entry value to see if there was a value inputted for the yearday entry box
@@ -22,7 +20,7 @@ def year_day_entry_check(self, year_day_value):
     if (len(year_day_value) == 0):
         error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
 
-def station_names_entry_check(self, station_names_value):
+def station_names_entry_check(station_names_value):
 
     """
     Checks the station_code_entry value and pops up an error message if it isn't a good entry
@@ -35,7 +33,7 @@ def station_names_entry_check(self, station_names_value):
         # show error as no input was received
         error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
 
-def file_format_entry_check(self, selection_file_value):
+def file_format_entry_check(selection_file_value):
     """
     checks the file selection value and sets the ending value to match it
 
@@ -78,7 +76,7 @@ def file_format_entry_check(self, selection_file_value):
     # Returning the string of the file type to be used
     return file_ending_value
 
-def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, filename, stime, etime, selection_file):
+def graph_from_plotter_entry_check(graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, filename, stime, etime, selection_file):
 
     """
     Checks the gui entries for plotting, x, y, z axis. If values are set, then we plot those axis
@@ -163,7 +161,7 @@ def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_p
     #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
     return fig
     
-def start_hour_entry_check(self, start_hour_string):
+def start_hour_entry_check(start_hour_string):
         
     """
     Checks the start hour entry value and pops up an error message if it isn't a good entry
@@ -191,7 +189,7 @@ def start_hour_entry_check(self, start_hour_string):
     # Returning the start_hour_string so that whatever changes we made to it get returned
     return value
 
-def start_minute_entry_check(self, start_minute_string):
+def start_minute_entry_check(start_minute_string):
 
     """
     Checks the start minute entry value and pops up an error message if it isn't a good entry
@@ -219,7 +217,7 @@ def start_minute_entry_check(self, start_minute_string):
     # Returning the start_minute_string so whatever changes we made to it get returned
     return value
 
-def start_second_entry_check(self, start_second_string):
+def start_second_entry_check(start_second_string):
 
     """
     Checks the start second entry value and pops up an error message if it isn't a good entry
@@ -247,7 +245,7 @@ def start_second_entry_check(self, start_second_string):
     # Returning the start_second_string so whatever changes we made to it get returned
     return value
 
-def end_hour_entry_check(self, end_hour_string):
+def end_hour_entry_check(end_hour_string):
 
     """
     Checks the end hour entry value and pops up an error message if it isn't a good entry
@@ -276,7 +274,7 @@ def end_hour_entry_check(self, end_hour_string):
     # Returning the end_hour_string so whatever changes we made to it get returned
     return value
 
-def end_minute_entry_check(self, end_minute_string):
+def end_minute_entry_check(end_minute_string):
 
     """
     Checks the end minute entry value and pops up an error message if it isn't a good entry
@@ -305,7 +303,7 @@ def end_minute_entry_check(self, end_minute_string):
     # Returning the end_minute_string so whatever changes we made to it get returned
     return value
 
-def end_second_entry_check(self, end_second_string):
+def end_second_entry_check(end_second_string):
     """
     Checks the end second entry value and pops up an error message if it isn't a good entry
     Parameters
@@ -333,13 +331,13 @@ def end_second_entry_check(self, end_second_string):
     # Returning the end_second_string so whatever changes we made to it get returned
     return value
 
-def error_message_pop_up(self, title, message):
+def error_message_pop_up(title, message):
         
     # pops up error message box with the title and message inputted
     messagebox.showerror(title=title, message = "ERROR: " + message)
     sys.exit(0)
 
-def warning_message_pop_up(self, title, message):
+def warning_message_pop_up(title, message):
     # pops up warning message box with the title and message inputted
     messagebox.showwarning(title=title, message="WARNING: " + message)
         
