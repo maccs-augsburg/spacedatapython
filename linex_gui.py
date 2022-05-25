@@ -7,19 +7,22 @@ import sys
 import os
 import datetime
 from PySide6.QtWidgets import (
-    QMainWindow, QApplication, QLabel,
+    QMainWindow, QApplication,
     QToolBar, QStatusBar, QCheckBox,
-    QHBoxLayout, QVBoxLayout, QGridLayout,
-    QLineEdit, QWidget, QFormLayout, QComboBox, QPushButton, QFileDialog, QMessageBox
+    QHBoxLayout, QGridLayout, QLabel,
+    QWidget, QComboBox, QPushButton, QFileDialog, QMessageBox
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
-# # Adding this import for layout debugging
-# from PySide6.QtGui import QPalette, QColor
-from linex_gui_helper import LineEdit, Label, Color
+
+from linex_gui_helper import LineEdit, Label, Color, PlotCanvas
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
+
+import matplotlib
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
 
 WINDOW_HEIGHT = 600
 WINDOW_WIDTH = 1000
@@ -275,6 +278,10 @@ class MainWindow(QMainWindow):
             )
             pass 
             
+        # sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
+        # sc.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
+        # self.setCentralWidget(sc)
+
 
     def station_code_entry_check (self):
 
