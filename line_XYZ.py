@@ -2,7 +2,7 @@
 #Annabelle
 
 #Refactored into PySide6 GUI 
-# Chris Hance may 2022
+# By Chris Hance may 2022
 
 #Import from PySide6 // QT
 
@@ -16,7 +16,6 @@ from PySide6.QtWidgets import (
     QCheckBox)
 from PySide6.QtGui import QIcon, QAction, QPixmap
 from PySide6.QtCore import Qt, QSize
-import pyqtgraph as pg
 from pathlib import Path
 
 #imports from python 
@@ -38,6 +37,7 @@ import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
 import entry_checks
+
 class MainWindow(QMainWindow):
     def __init__(self):
 
@@ -58,6 +58,7 @@ class MainWindow(QMainWindow):
 
         self.setGeometry(60,60, 1000,800)
         self.selection_file_value = ''
+
         ###############
         ### Toolbar ###
         ###############
@@ -122,13 +123,13 @@ class MainWindow(QMainWindow):
         self.input_station_code = QLineEdit()
         self.input_year = QLineEdit()
 
-        self.input_starthour = QLineEdit()
-        self.input_startmin = QLineEdit()
-        self.input_startsec = QLineEdit()
+        self.input_starthour = QLineEdit("0")
+        self.input_startmin = QLineEdit("0")
+        self.input_startsec = QLineEdit("0")
 
-        self.input_endhour = QLineEdit()
-        self.input_endmin = QLineEdit()
-        self.input_endsec = QLineEdit()
+        self.input_endhour = QLineEdit("23")
+        self.input_endmin = QLineEdit("59")
+        self.input_endsec = QLineEdit("59")
 
         self.input_station_code.setMaximumWidth(35)
         self.input_starthour.setMaximumWidth(35)
@@ -300,20 +301,20 @@ class MainWindow(QMainWindow):
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
 
-        start_hour_value = entry_checks.start_hour_entry_check(self.input_starthour.text())
-        start_minute_value = entry_checks.start_minute_entry_check( self.input_startmin.text())
-        start_second_value = entry_checks.start_second_entry_check( self.input_startsec.text())
+        start_hour_value = entry_checks.start_hour_entry_check(self,self.input_starthour.text())
+        start_minute_value = entry_checks.start_minute_entry_check(self, self.input_startmin.text())
+        start_second_value = entry_checks.start_second_entry_check( self,self.input_startsec.text())
 
-        end_hour_value = entry_checks.end_hour_entry_check( self.input_endhour.text())
-        end_minute_value = entry_checks.end_minute_entry_check(self.input_endmin.text())
-        end_second_value = entry_checks.end_second_entry_check( self.input_endsec.text())
+        end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
+        end_minute_value = entry_checks.end_minute_entry_check(self,self.input_endmin.text())
+        end_second_value = entry_checks.end_second_entry_check( self,self.input_endsec.text())
 
         # creating the start time stamp
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
         # creating the end time stamp
         end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
         file_value = self.selection_file_value
-        file_ending_value = entry_checks.file_format_entry_check(file_value)
+        file_ending_value = entry_checks.file_format_entry_check(self,file_value)
        
 
         # Making the Plot
@@ -337,7 +338,7 @@ class MainWindow(QMainWindow):
             file = open(file_name_full, 'rb')
         except:
             # popping up an error if we can't open the file
-            entry_checks.error_message_pop_up("File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
+            entry_checks.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
         if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
@@ -361,12 +362,14 @@ class MainWindow(QMainWindow):
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
 
-        self.fig = FigureCanvasQTAgg(self.figure)
-      #  pg.plot(self.figure)
-        toolbar = NavigationToolbar2QT(self.fig, self)
+        self.graph = FigureCanvasQTAgg(self.figure)
+        toolbar = NavigationToolbar2QT(self.graph, self)
         self.maccs_logo.setHidden(True)
         self.main_layout.addWidget(toolbar)
-        self.main_layout.addWidget(self.fig)
+        self.main_layout.addWidget(self.graph)
+
+    def update_canvas(self, graph):
+        print("does nothing ")
 
 
 
