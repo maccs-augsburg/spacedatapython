@@ -379,88 +379,10 @@ class MainWindow(QMainWindow):
         # pops up warning message box with the title and message inputted
         warning_mes = QMessageBox.warning(self, title,message)
 
-
-
-        
-###################
-## TO DO 
-##################
-'''
-MOVE WIDGET CALLS AND ALL BUTTON SIGNALS AND ACTIONS INTO OWN CLASS FOR BETTER CODE LAYOUT  
-'''
-#####
-
-class LabelWidget(QWidget):
-    def __init__(self,text):
-        super(LabelWidget, self).__init__()
-        self.label = QLabel()
-        self.label.setText(text)
-        self.label.setMaximumWidth(50)
- 
-# TODO Possible work on making widget create it owns class to clean up MainWindow Class
-####################
-### UNUSED CLASS ###
-####################
-class ButtonActions(MainWindow):
-    def __init__(self):
-        MainWindow.__init__(self)
-    def open_file(self, input_hour):
-        
-    
-        """ Description
-        :type self:
-        :param self:
-    
-        :raises:
-    
-        :rtype:
-        """    """
-        Opens a open file dialog box where the user picks the appropriate file type. Once that is
-        selected, it inputs the data into the boxes automatically based on the filename.
-        """
-        # listing the types of file types we currently support
-        filetypes = (
-            ('Raw files', '*.2hz'),
-            ('Clean files', '*.s2')
-        )
-
-        # # opening the dialog box
-        # file_name = askopenfilename(title='test', filetypes = filetypes)
-
-        # # splitting up the path and selecting the filename
-        # self.file_name = file_name.split('/')[-1]
-
-        # # setting the station code from the filename
-        # self.station_code
-        # # setting the yearday from the filename
-        # self.year_day.setText(self.file_name[2:7])
-
-        self.input_starthour = input_hour
-        # resetting the start times and end times
-        self.input_starthour.setText("0")
-        # self.input_startmin.setText("0")
-        # self.input_startsec.setText("0")
-        # self.input_endhour.setText("23")
-        # self.input_endmin.setText("59")
-        # self.input_endsec.setText("59")
-        # # raw file selection branch
-        # if (self.file_name[7:] == '.2hz'):
-        #     self.selection_file.set(4)
-            
-        # # clean file selection branch
-        # elif (self.file_name[7:] == '.s2'):
-        #     self.selection_file.set(5)
-
-        # # else
-        # else:
-        #     print('Option not available yet :(')
-
-###########
-### Note 
-###########
-class ThreeGraphPlotter(MainWindow):
- 
-
+    ##########
+# NOTICE ----------  I DONT KNOW WHAT THIS FUNCTION WAS USED FOR IN THREE GRAPH PLOTTER WORKS FINE WITH OUT IT AND ISNT USED ? 
+# BUT NOT GOING TO REMOVE UNTIL I FIGURE OUT WHAT IS NEEDED
+    ###########
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         """
         converts the hours list into datetime objects
@@ -532,49 +454,29 @@ class ThreeGraphPlotter(MainWindow):
             elif file_ending == ".png":
                 fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
 
-    def open_file(self):
-        """
-        Opens a open file dialog box where the user picks the appropriate file type. Once that is
-        selected, it inputs the data into the boxes automatically based on the filename.
-        """
-        # listing the types of file types we currently support
-        filetypes = (
-            ('Raw files', '*.2hz'),
-            ('Clean files', '*.s2')
-        )
-
-        # opening the dialog box
-        file_name = askopenfilename(title='test', filetypes = filetypes)
-        
-
-        # splitting up the path and selecting the filename
-        self.file_name = file_name.split('/')[-1]
-
-        # setting the station code from the filename
-        self.station_names.set(self.file_name[0:2])
-
-        # setting the yearday from the filename
-        self.year_day.set(self.file_name[2:7])
-
-        # resetting the start times and end times
-        self.start_hour.set(0)
-        self.start_minute.set(0)
-        self.start_second.set(0)
-        self.end_hour.set(23)
-        self.end_minute.set(59)
-        self.end_second.set(59)
-
-        # raw file selection branch
-        if (self.file_name[7:] == '.2hz'):
-            self.selection_file.set(4)
             
-        # clean file selection branch
-        elif (self.file_name[7:] == '.s2'):
-            self.selection_file.set(5)
+###################
+## TO DO 
+##################
+'''
+MOVE WIDGET CALLS AND ALL BUTTON SIGNALS AND ACTIONS INTO OWN CLASS FOR BETTER CODE LAYOUT  
+'''
+#####
 
-        # else
-        else:
-            print('Option not available yet :(')
+class LabelWidget(QWidget):
+    def __init__(self,text):
+        super(LabelWidget, self).__init__()
+        self.label = QLabel()
+        self.label.setText(text)
+        self.label.setMaximumWidth(50)
+ 
+# TODO Possible work on making widget create it owns class to clean up MainWindow Class
+####################
+### UNUSED CLASS ###
+####################
+class ButtonActions(MainWindow):
+    def __init__(self):
+        MainWindow.__init__(self)
 
 def main():
     app = QApplication(sys.argv)
