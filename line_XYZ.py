@@ -76,9 +76,23 @@ class MainWindow(QMainWindow):
         toolbar.addAction(zoom)
         toolbar.addSeparator()
 
-
-
         self.addToolBar(toolbar)
+    
+        ############
+        ### Menu ###
+        ############
+
+        menu = self.menuBar()
+        file_menu = menu.addMenu("&File")
+        file_menu.addAction(openfile)
+        file_menu.addAction(savefile)
+        file_menu.addAction(zoom)
+
+        edit_menu = menu.addMenu("&Edit")
+
+        tool_menu = menu.addMenu("&Tools")
+
+        help_menu = menu.addMenu("&Help")
         ###############
         ### Labels ####
         ###############
@@ -287,13 +301,13 @@ class MainWindow(QMainWindow):
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
 
-        start_hour_value = entry_checks.start_hour_entry_check(self,self.input_starthour.text())
-        start_minute_value = entry_checks.start_minute_entry_check( self,self.input_startmin.text())
-        start_second_value = entry_checks.start_second_entry_check( self,self.input_startsec.text())
+        start_hour_value = entry_checks.start_hour_entry_check(self.input_starthour.text())
+        start_minute_value = entry_checks.start_minute_entry_check( self.input_startmin.text())
+        start_second_value = entry_checks.start_second_entry_check( self.input_startsec.text())
 
-        end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
-        end_minute_value = entry_checks.end_minute_entry_check(self, self.input_endmin.text())
-        end_second_value = entry_checks.end_second_entry_check( self,self.input_endsec.text())
+        end_hour_value = entry_checks.end_hour_entry_check( self.input_endhour.text())
+        end_minute_value = entry_checks.end_minute_entry_check(self.input_endmin.text())
+        end_second_value = entry_checks.end_second_entry_check( self.input_endsec.text())
 
         # creating the start time stamp
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
@@ -317,7 +331,7 @@ class MainWindow(QMainWindow):
 
         xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
         # plotting the arrays
-        self.figure = entry_checks.graph_from_plotter_entry_check(self,1,
+        self.figure = entry_checks.graph_from_plotter_entry_check(1,
                                                             1, 
                                                             1, 
                                                             xArr, 
