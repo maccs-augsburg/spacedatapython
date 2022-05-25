@@ -219,17 +219,6 @@ class MainWindow(QMainWindow):
 
     def plot_graph(self):
 
-        # station_code_value = self.station_edit.get_entry()
-        # print(type(self.year_day_edit.get_entry()))
-        # year_day_value = int(self.year_day_edit.get_entry())
-        # start_hour_value = int(self.start_minute_edit.get_entry())
-        # start_minute_value = int(self.start_minute_edit.get_entry())
-        # start_second_value = int(self.start_second_edit.get_entry())
-        # end_hour_value = int(self.end_hour_edit.get_entry())
-        # end_minute_value = int(self.end_minute_edit.get_entry())
-        # end_second_value = int(self.end_second_edit.get_entry())
-
-        # If invalid input for the first two, return and stop plotting function
         station_code = self.station_code_edit
         if not self.station_code_entry_check():
             return        
