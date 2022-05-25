@@ -156,7 +156,7 @@ def graph_from_plotter_entry_check(self,graph_from_plotter_value_x,graph_from_pl
             
     #Warning Message
     else:
-        line_XYZ.MainWindow.warning_message_pop_up(self,"File Format Option Error",  "Please select a file format option")
+        line_XYZ.MainWindow.warning_message_pop_up(self,"File Format Option Error",  "Please select an axis\' to plot")
 
     #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
     return fig
@@ -179,12 +179,12 @@ def start_hour_entry_check(self,start_hour_string):
 
     if(value > 23):
         # Have error message box pop up because it can't be more than 23
-        line_XYZ.MainWindow.warning_message_pop_up(self,"Time Entry Error", "Invalid time entry in Start Min box \nValue too large\nPlease make sure value is less than 24")
+        line_XYZ.MainWindow.warning_message_pop_up(self,"Time Entry Error", "Invalid time entry in Start Hour box \nValue too large\nPlease make sure value is less than 24")
         
     # Testing to see if the inputted value is less than what it can be
     elif(value < 0):
         # Have error message box pop up because it can't be a negative number
-        line_XYZ.MainWindow.warning_message_pop_up(self,"Time Entry Error", "Invalid time entry in Start Min box \nValue too large\nPlease make sure value is greater or equal to 0")
+        line_XYZ.MainWindow.warning_message_pop_up(self,"Time Entry Error", "Invalid time entry in Start Hour box \nValue too small\nPlease make sure value is greater or equal to 0")
 
     # Returning the start_hour_string so that whatever changes we made to it get returned
     return value
@@ -212,7 +212,7 @@ def start_minute_entry_check(self,start_minute_string):
     # Testing to see if the inputted value is less than what it can be
     elif(value < 0):
         # Have error message box pop up because it can't be a negative number
-        line_XYZ.MainWindow.warning_message_pop_up(self,"Time Entry Error", "Invalid time entry in Start Min box \nValue too large\nPlease make sure value is greater or equal to 0")
+        line_XYZ.MainWindow.warning_message_pop_up(self,"Time Entry Error", "Invalid time entry in Start Min box \nValue too small\nPlease make sure value is greater or equal to 0")
 
     # Returning the start_minute_string so whatever changes we made to it get returned
     return value
