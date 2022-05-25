@@ -6,8 +6,7 @@
 
 #Import from PySide6 // QT
 
-from msilib.schema import CheckBox
-from PyQt6.QtWidgets import (
+from PySide6.QtWidgets import (
     QMainWindow, QApplication, 
     QLabel, QLineEdit, 
     QStatusBar, QWidget, 
@@ -15,8 +14,9 @@ from PyQt6.QtWidgets import (
     QPushButton, QToolBar,
     QFileDialog, QRadioButton,
     QCheckBox)
-from PyQt6.QtGui import QIcon, QAction, QPixmap
-from PyQt6.QtCore import Qt, QSize
+from PySide6.QtGui import QIcon, QAction, QPixmap
+from PySide6.QtCore import Qt, QSize
+import pyqtgraph as pg
 from pathlib import Path
 
 #imports from python 
@@ -25,12 +25,8 @@ import datetime
 from PIL import ImageTk, Image
 
 #Imports from matplotlib
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 from matplotlib.backends.qt_compat import QtWidgets
-from matplotlib.backends.backend_qtagg import (
-    FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
-from matplotlib.cbook import open_file_cm
-from matplotlib.figure import Figure
+
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 
 import numpy as np
@@ -299,6 +295,7 @@ class MainWindow(QMainWindow):
    
     def execute_plot_function(self):
         '''
+        Obtains the values entered in the GUI and runs the plotting program with the inputted values
         '''
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
@@ -363,20 +360,16 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
-        
-        print(flag, " before if ")
-        if (flag == 0):
-            self.fig = FigureCanvasQTAgg(self.figure)
-            toolbar = NavigationToolbar2QT(self.fig, self)
-            self.maccs_logo.setHidden(True)
-            self.main_layout.addWidget(toolbar)
-            self.main_layout.addWidget(self.fig)
-            flag = flag + 1
-            print(flag, ' in if')
-        else:
-            print(flag, " else ")
-            self.main_layout.removeWidget(self.fig)
-            self.main_layout.addWidget(self.fig)
+
+        self.fig = FigureCanvasQTAgg(self.figure)
+      #  pg.plot(self.figure)
+        toolbar = NavigationToolbar2QT(self.fig, self)
+        self.maccs_logo.setHidden(True)
+        self.main_layout.addWidget(toolbar)
+        self.main_layout.addWidget(self.fig)
+
+
+
         
 ###################
 ## TO DO 
@@ -392,7 +385,11 @@ class LabelWidget(QWidget):
         self.label = QLabel()
         self.label.setText(text)
         self.label.setMaximumWidth(50)
-
+ 
+# TODO Possible work on making widget create it owns class to clean up MainWindow Class
+####################
+### UNUSED CLASS ###
+####################
 class ButtonActions(MainWindow):
     def __init__(self):
         MainWindow.__init__(self)
@@ -447,7 +444,9 @@ class ButtonActions(MainWindow):
         # else:
         #     print('Option not available yet :(')
 
-
+###########
+### Note 
+###########
 class ThreeGraphPlotter(MainWindow):
     def __init__(self):
         #Creation of the window 
