@@ -4,27 +4,17 @@
 #Refactored into PySide6 GUI 
 # Chris Hance may 2022
 
-#Imports from tkinter
-#from curses import window
-
-from tkinter import *
-from tkinter import ttk
-from tkinter import messagebox
-from tkinter.filedialog import asksaveasfile
-from tkinter.filedialog import askopenfilename
-from turtle import home
-
 #Import from PySide6 // QT
 
 from PyQt6.QtWidgets import (QMainWindow, QApplication, 
     QLabel, QLineEdit, 
-    QVBoxLayout, QWidget, 
+    QStatusBar, QWidget, 
     QHBoxLayout, QGridLayout,
-    QPushButton, QInputDialog,
+    QPushButton, QToolBar,
     QFileDialog, QRadioButton,
     QCheckBox)
 from PyQt6.QtGui import QIcon,QAction, QPixmap
-from PyQt6.QtCore import Qt, QFile
+from PyQt6.QtCore import Qt, QSize
 from pathlib import Path
 #from PySide6.QtWidgets import QMainWindow
 
@@ -45,12 +35,11 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolb
 
 import numpy as np
 import subprocess
-import os
+
 #imports from plotter functions
 
 import file_naming
 import read_raw_to_lists
-import one_array_plotted
 import read_clean_to_lists
 import entry_checks
 class MainWindow(QMainWindow):
@@ -72,7 +61,24 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
-        
+
+        ###############
+        ### Toolbar ###
+        ###############
+        toolbar = QToolBar("Main Toolbar")    
+        toolbar.setIconSize(QSize(16,16))
+        openfile = QAction(QIcon("../folder-open.png"),"Open File", self)
+        savefile = QAction(QIcon("../disk.png"),"Save File", self)
+        zoom = QAction(QIcon("../magnifier-zoom-in.png"),"Zoom in", self)
+
+        toolbar.addAction(openfile)
+        toolbar.addAction(savefile)
+        toolbar.addAction(zoom)
+        toolbar.addSeparator()
+
+
+
+        self.addToolBar(toolbar)
         ###############
         ### Labels ####
         ###############
@@ -325,6 +331,13 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(toolbar)
         self.main_layout.addWidget(self.fig)
         
+###################
+## TO DO 
+##################
+'''
+MOVE WIDGET CALLS AND ALL BUTTON SIGNALS AND ACTIONS INTO OWN CLASS FOR BETTER CODE LAYOUT  
+'''
+#####
 
 class LabelWidget(QWidget):
     def __init__(self,text):
@@ -718,7 +731,6 @@ def main():
     window = MainWindow()
     window.show()
     app.exec()
-    #x_y_z_plotter = ThreeGraphPlotter()
 
 if __name__ == "__main__":
     main()
