@@ -6,16 +6,15 @@
 
 #Import from PySide6 // QT
 
-from PySide6.QtWidgets import (
-    QMainWindow, QApplication, 
-    QLabel, QLineEdit, 
-    QStatusBar, QWidget, 
-    QHBoxLayout, QGridLayout,
-    QPushButton, QToolBar,
-    QFileDialog, QRadioButton,
-    QCheckBox,QMessageBox)
+from PySide6.QtWidgets import (QMainWindow, QApplication, 
+                                QLabel, QLineEdit, 
+                                QStatusBar, QWidget, 
+                                QHBoxLayout, QGridLayout,
+                                QPushButton, QToolBar,
+                                QFileDialog, QRadioButton,
+                                QCheckBox,QMessageBox)
 from PySide6.QtGui import QIcon, QAction, QPixmap
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtCore import Qt, QSize, QSaveFile
 from pathlib import Path
 
 #imports from python 
@@ -27,7 +26,7 @@ from PIL import ImageTk, Image
 from matplotlib.backends.qt_compat import QtWidgets
 
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
-
+from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
 import subprocess
 
@@ -187,7 +186,7 @@ class MainWindow(QMainWindow):
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
         self.button_plot.clicked.connect(self.execute_plot_function)
-        # self.button_save.clicked.connect(self.save)
+        self.button_save.clicked.connect(self.save)
         # self.button_save_as.clicked.connect(self.save_as)
         ###############
         ### Widgets ###
@@ -411,7 +410,11 @@ class MainWindow(QMainWindow):
 
         return converted_list
 
-    def save(self, fig, file_name):
+
+########
+#### TODO Convert save and save as functions into PySide package useage isntead of TK 
+############
+    def save(self):
          
         """
         saves the file as a pdf document
@@ -422,10 +425,13 @@ class MainWindow(QMainWindow):
 
         file_name : the name of the file to be saved as
         """
+        
+        save_file.setFileName(self.file_name)
+        save_file.commit()
         # Saving the file as a defualt pdf
-        fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
+        #fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
         # Opening the file after saving so the user knows it has been saved and can see it
-        subprocess.Popen(file_name + '.pdf', shell=True)
+        #subprocess.Popen(save_file + '.pdf', shell=True)
 
     def save_as(self, fig, file_name):
          
