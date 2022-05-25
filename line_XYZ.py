@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
-
+        self.selection_file_value = ''
         ###############
         ### Toolbar ###
         ###############
@@ -257,13 +257,15 @@ class MainWindow(QMainWindow):
                 ('Raw files', '*.2hz'),
                 ('Clean files', '*.s2')
             ]
-            #home_dir = str(Path(home))
+
+            '''
+            CAUTION !!!
+            self.file_name[x : x] and file_name 
+            can cause issues currently if file names are a little off than what I (have) or currently if 
+            we use different files
+            '''
+
             # # opening the dialog box
-            # file_name = askopenfilename(title='test', filetypes = filetypes)
-            # file_name = QFileDialog()
-            # file_name.setFileMode(QFileDialog)
-            # file_name.setFilter('Clean files *.s2')
-            # file_name.getOpenFileName()
             home_dir = str(Path.home())
             file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, 'Raw or Clean (*.2hz *.s2)')
             file_name = str(file_name)
@@ -283,17 +285,17 @@ class MainWindow(QMainWindow):
             self.input_endhour.setText("23")
             self.input_endmin.setText("59")
             self.input_endsec.setText("59")
-  
-            # # raw file selection branch
-            # if (self.file_name[7:] == '.2hz'):
-            #     self.selection_file_value = 4
+
+            # raw file selection branch
+            if (self.file_name[7:11] == '.2hz'):
+                self.selection_file_value = '4'
                 
-            # # clean file selection branch
-            # elif (self.file_name[7:] == '.s2'):
-            #     self.selection_file_value = 5
-            # # else
-            # else:
-            #     print('Option not available yet :(')
+            # clean file selection branch
+            elif (self.file_name[7:11] == '.s2'):
+                self.selection_file_value = '5'
+            # else
+            else:
+                print('Option not available yet :(')
    
     def execute_plot_function(self):
         '''
@@ -313,13 +315,13 @@ class MainWindow(QMainWindow):
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
         # creating the end time stamp
         end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
-
-       # selection_file_value = self.selection_file_value
-        #file_ending_value = ThreeGraphPlotter.file_format_entry_check(selection_file_value)
-
+        print(self.selection_file_value)
+        file_value = self.selection_file_value
+        file_ending_value = entry_checks.file_format_entry_check(file_value)
+        print(file_ending_value)
 
         # Making the Plot
-        file_name_full = station_name_value + year_day_value + '.2hz'
+        file_name_full = station_name_value + year_day_value + file_ending_value
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
         print(file_name_full)
