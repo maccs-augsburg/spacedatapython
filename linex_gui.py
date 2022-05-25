@@ -1,6 +1,11 @@
-# from ast import Pass
+'''
+linex_gui.py
+May 2022 -- Created -- Mark Ortega-Ponce
+'''
+from ast import Pass
 import sys
 import os
+import datetime
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QLabel,
     QToolBar, QStatusBar, QCheckBox,
@@ -12,6 +17,9 @@ from PySide6.QtGui import QIcon, QPixmap
 # # Adding this import for layout debugging
 # from PySide6.QtGui import QPalette, QColor
 from linex_gui_helper import LineEdit, Label, Color
+import file_naming
+import read_raw_to_lists
+import read_clean_to_lists
 
 WINDOW_HEIGHT = 600
 WINDOW_WIDTH = 1000
@@ -34,6 +42,12 @@ class MainWindow(QMainWindow):
         self.station_edit.setInputMask(">AA")
         self.error_message = QMessageBox()
         self.error_message.setText("Error Invalid Input")
+        
+        #######################
+        self.file_extension = ""
+        self.filename = ""
+        self.launch_dialog_option = 0
+        #######################
 
         main_layout = QHBoxLayout()
         mac_label = QLabel()
@@ -137,21 +151,29 @@ class MainWindow(QMainWindow):
 
         if option == 0:
             # TODO: IAGA2000
+            self.launch_dialog_option = 0
             print("Option not available yet")
             pass
         elif option == 1:
             # TODO: IAGA2002
+            self.launch_dialog_option = 1
             print("Option not available yet")
         elif option == 2:
             # TODO: CLEAN FILE (.s2)
+            self.launch_dialog_option = 2
+            self.file_extension = ".s2"
             file_filter = "Clean File (*.s2)"
+        
             response = self.get_file_name(file_filter)
         
         elif option == 3:
             # TODO: RAW FILE (.2HZ)
+            self.launch_dialog_option = 3
+            self.file_extension = ".2hz"
             file_filter = "Raw File (*.2hz)"
             response = self.get_file_name(file_filter)
         elif option == 4:
+            self.launch_dialog_option = 4
             print("Option not available yet")
         else:
             print("Got nothing")
@@ -197,34 +219,120 @@ class MainWindow(QMainWindow):
 
     def plot_graph(self):
 
-        station_code_value = self.station_edit.get_entry()
-        print(type(self.year_day_edit.get_entry()))
-        year_day_value = int(self.year_day_edit.get_entry())
-        start_hour_value = int(self.start_minute_edit.get_entry())
-        start_minute_value = int(self.start_minute_edit.get_entry())
-        start_second_value = int(self.start_second_edit.get_entry())
-        end_hour_value = int(self.end_hour_edit.get_entry())
-        end_minute_value = int(self.end_minute_edit.get_entry())
-        end_second_value = int(self.end_second_edit.get_entry())
-    
+        # station_code_value = self.station_edit.get_entry()
+        # print(type(self.year_day_edit.get_entry()))
+        # year_day_value = int(self.year_day_edit.get_entry())
+        # start_hour_value = int(self.start_minute_edit.get_entry())
+        # start_minute_value = int(self.start_minute_edit.get_entry())
+        # start_second_value = int(self.start_second_edit.get_entry())
+        # end_hour_value = int(self.end_hour_edit.get_entry())
+        # end_minute_value = int(self.end_minute_edit.get_entry())
+        # end_second_value = int(self.end_second_edit.get_entry())
+
+        # If invalid input for the first two, return and stop plotting function
+        station_code = self.station_code_edit
+        if not self.station_code_entry_check():
+            return        
+        year_day = self.year_day_edit
+        if not self.year_day_entry_check():
+            return
+        start_hour = self.hour_entry_check()
+        start_minute = self.minute_entry_check()
+        start_second = self.second_entry_check()
+        end_hour = self.hour_entry_check()
+        end_minute = self.minute_entry_check()
+        end_second = self.second_entry_check()
+
+        min_x = self.min_x_edit.get_entry()
+        max_x = self.max_x_edit.get_entry()
+        min_y = self.min_y_edit.get_entry()
+        max_y = self.max_y_edit.get_entry()
+        min_z = self.min_z_edit.get_entry()
+        max_z = self.max_z_edit.get_entry()
+
+        start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
+        end_time_stamp = datetime.time(hour = end_hour, minute = end_minute, second = end_second)
+        time_interval_string = file_naming.create_time_interval_string_hms(start_hour, 
+                                                                           start_minute, 
+                                                                           start_second, 
+                                                                           end_hour, 
+                                                                           end_minute, 
+                                                                           end_second)
+        ####################################
+        ######### Making the plot ##########
+        ####################################
+        
+        # If file has been selected, and user chose plotting
+        # I am assuming file_extension has at least been set by the most recent file
+        # Means no checks needed, unless my loop invariant is incorrect
+        file_name_full = station_code + year_day + self.file_extension
+        self.filename = file_name_full
+
+        try:
+            file = open(file_name_full, 'rb')
+        except:
+            self.error_message.setText("File Open Error, couldn't open file")
+            self.error_message.exec()
+            return
+        
+        if self.launch_dialog_option == 3:
+            x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(
+                file, start_time_stamp, end_time_stamp, self.file_name
+            )
+            pass
+        if self.launch_dialog_option == 4:
+            x_arr, y_arr, z_arr, time_arr = read_clean_to_lists.create_datetime_lists_from_clean(
+                file, start_time_stamp, end_time_stamp, self.filename
+            )
+            pass 
+            
 
     def station_code_entry_check (self):
 
-        if self.station_edit.get_entry() <= 1:
+        if len(self.station_edit.get_entry()) <= 1:
             self.error_message.setText("Error invalid station code, needs to be 2 uppercase characters")
             self.error_message.exec()
-            return True
+            return False
         # use this to return from plot_graph function rather than continuing through the checks    
     
     def year_day_entry_check(self):
 
-        if (len(self.year_day_edit) == 0):
+        if (len(self.year_day_edit.get_entry()) == 0):
             self.error_message.setText("There was no input for the year day entry box")
             self.error_message.exec()
     
-    def start_hour_entry_check(self):
+    def hour_entry_check(self):
+         
+        hour = int(self.start_hour_edit.get_entry())
 
-        pass
+        if hour > 24 | hour < 0:
+            self.error_message.setText("Hour Entry Error. Valid input (0 - 23)")
+            self.error_message.exec()
+            return 0
+        else:
+            return hour
+
+    def minute_entry_check(self):
+        
+        minute = int(self.start_minute_edit.get_entry())
+
+        if minute > 59 | minute < 0:
+            self.error_message.setText("Minute Entry Error. Valid input (0 - 59)")
+            self.error_message.exec()
+            return 0
+        else:
+            return minute
+
+    def second_entry_check(self):
+
+        second = int(self.start_second_edit.get_entry())
+
+        if second > 59 | second < 0:
+            self.error_message.setText("Second Entry Error. Valid input (0- 59)")
+            self.error_message.exec()
+            return 0
+        else:
+            return second 
 
 def main ():
 
