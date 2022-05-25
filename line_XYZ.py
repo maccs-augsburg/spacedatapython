@@ -271,10 +271,8 @@ class MainWindow(QMainWindow):
             file_name = str(file_name)
             # splitting up the path and selecting the filename
             self.file_name = file_name.split(',')[0]
-            print(self.file_name)
 
             self.file_name = file_name.split('/')[-1]
-            print(self.file_name)
 
             # # setting the station code from the filename
             self.input_station_code.setText(str(self.file_name[0:2]))
@@ -288,7 +286,6 @@ class MainWindow(QMainWindow):
             self.input_endhour.setText("23")
             self.input_endmin.setText("59")
             self.input_endsec.setText("59")
-            print(self.file_name[7:11])
             # raw file selection branch
             if (self.file_name[7:11] == '.2hz'):
                 self.selection_file_value = '4'
@@ -359,9 +356,9 @@ class MainWindow(QMainWindow):
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = entry_checks.graph_from_plotter_entry_check(1,
-                                                                1, 
-                                                                1, 
+            self.figure = entry_checks.graph_from_plotter_entry_check(plot_x_axis,
+                                                                plot_y_axis, 
+                                                                plot_z_axis, 
                                                                 xArr, 
                                                                 yArr, 
                                                                 zArr,
