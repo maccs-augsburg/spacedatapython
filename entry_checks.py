@@ -1,14 +1,15 @@
 ## Created by: Annabelle Arns 
+
 # Entry Check file moved from line_XYZ.py by Chris Hance 
+# Refactored by Chris Hance 2022
+# Now using PySide GUI to display warning pop ups and Error Messeges 
 # Test bench // Checking each Entry from the file input for proper values
 # and then graphs the proper plot
 
-from tkinter import messagebox
-
 import one_array_plotted
 import line_XYZ
-import sys
-from PyQt6.QtWidgets import QMessageBox
+
+
 def year_day_entry_check( self,year_day_value):
 
     """
@@ -20,6 +21,7 @@ def year_day_entry_check( self,year_day_value):
     # Checking to see if any input was put in the yearday entry box
     if (len(year_day_value) == 0):
         line_XYZ.MainWindow.warning_message_pop_up(self,"Time Entry Error", "Invalid time entry in Year Day box \nValue invalid; Most likely empty\nPlease make sure value on file is correct")
+
 def station_names_entry_check(self,station_names_value):
 
     """
