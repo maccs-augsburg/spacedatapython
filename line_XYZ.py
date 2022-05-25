@@ -264,8 +264,8 @@ class MainWindow(QMainWindow):
             # file_name.setFileMode(QFileDialog)
             # file_name.setFilter('Clean files *.s2')
             # file_name.getOpenFileName()
-
-            file_name = QFileDialog.getOpenFileName(self, 'Open File', 'C:\\Users\\hancec\\Desktop\\spacedatapython', 'Raw or Clean (*.2hz *.s2)')
+            home_dir = str(Path.home())
+            file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, 'Raw or Clean (*.2hz *.s2)')
             file_name = str(file_name)
             # splitting up the path and selecting the filename
             self.file_name = file_name.split('/')[-1]
