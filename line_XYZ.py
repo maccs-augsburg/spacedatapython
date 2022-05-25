@@ -336,12 +336,11 @@ class MainWindow(QMainWindow):
             plot_y_axis = 1        
         if (self.checkbox_plotz.isChecked()):
             plot_z_axis = 1
-
         try:
             file = open(file_name_full, 'rb')
         except:
             # popping up an error if we can't open the file
-            entry_checks.error_message_pop_up(self,"File open error", "couldn't find and open your file")
+            entry_checks.error_message_pop_up("File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
         if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
@@ -364,12 +363,20 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
-
-        self.fig = FigureCanvasQTAgg(self.figure)
-        toolbar = NavigationToolbar2QT(self.fig, self)
-        self.maccs_logo.setHidden(True)
-        self.main_layout.addWidget(toolbar)
-        self.main_layout.addWidget(self.fig)
+        
+        print(flag, " before if ")
+        if (flag == 0):
+            self.fig = FigureCanvasQTAgg(self.figure)
+            toolbar = NavigationToolbar2QT(self.fig, self)
+            self.maccs_logo.setHidden(True)
+            self.main_layout.addWidget(toolbar)
+            self.main_layout.addWidget(self.fig)
+            flag = flag + 1
+            print(flag, ' in if')
+        else:
+            print(flag, " else ")
+            self.main_layout.removeWidget(self.fig)
+            self.main_layout.addWidget(self.fig)
         
 ###################
 ## TO DO 
