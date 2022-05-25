@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout, QGridLayout,
     QPushButton, QToolBar,
     QFileDialog, QRadioButton,
-    QCheckBox)
+    QCheckBox,QMessageBox)
 from PySide6.QtGui import QIcon, QAction, QPixmap
 from PySide6.QtCore import Qt, QSize
 from pathlib import Path
@@ -301,9 +301,9 @@ class MainWindow(QMainWindow):
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
 
-        start_hour_value = entry_checks.start_hour_entry_check(self,self.input_starthour.text())
+        start_hour_value = entry_checks.start_hour_entry_check(self, self.input_starthour.text())
         start_minute_value = entry_checks.start_minute_entry_check(self, self.input_startmin.text())
-        start_second_value = entry_checks.start_second_entry_check( self,self.input_startsec.text())
+        start_second_value = entry_checks.start_second_entry_check( self, self.input_startsec.text())
 
         end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
         end_minute_value = entry_checks.end_minute_entry_check(self,self.input_endmin.text())
@@ -338,11 +338,11 @@ class MainWindow(QMainWindow):
             file = open(file_name_full, 'rb')
         except:
             # popping up an error if we can't open the file
-            entry_checks.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
+            self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
         if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = entry_checks.graph_from_plotter_entry_check(plot_x_axis,
+            self.figure = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
@@ -353,7 +353,7 @@ class MainWindow(QMainWindow):
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = entry_checks.graph_from_plotter_entry_check(plot_x_axis,
+            self.figure = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
@@ -370,6 +370,14 @@ class MainWindow(QMainWindow):
 
     def update_canvas(self, graph):
         print("does nothing ")
+        
+    def error_message_pop_up(self,title, message):
+        error_mes = QMessageBox.critical(self, title, message)
+        sys.exit(0)
+
+    def warning_message_pop_up(self,title, message):
+        # pops up warning message box with the title and message inputted
+        warning_mes = QMessageBox.warning(self, title,message)
 
 
 
@@ -451,214 +459,7 @@ class ButtonActions(MainWindow):
 ### Note 
 ###########
 class ThreeGraphPlotter(MainWindow):
-    def __init__(self):
-        #Creation of the window 
-        window = Tk()
-        window.geometry('1500x700')
-        window.title('X, Y and Z Plotter')
-
-        mainframe = ttk.Frame(window, padding = "3 3 12 12")
-        mainframe.grid(column = 0, row = 0, sticky = (N,W,E,S))
-
-        window.columnconfigure(0, weight = 1)
-        window.rowconfigure(0, weight = 1)
-
-        #File name values for saving figure
-        self.figure = None
-        self.file_name = None
-
-        ###Labels###
-
-        #Year day entry box label 
-        ttk.Label(mainframe, text = "Year Day: ").grid(column = 1, row = 2, sticky = E)
-
-        #Start hour entry box label
-        ttk.Label(mainframe, text = "Start Hour: ").grid(column = 1, row = 3, sticky = E)
-
-        #Start minute entry box label
-        ttk.Label(mainframe, text = "Start Minute: ").grid(column = 1, row = 4,sticky = E)
-
-        #Start second entry box label
-        ttk.Label(mainframe, text = "Start Second: ").grid(column = 1, row = 5, sticky = E)
-
-        #End hour entry box label
-        ttk.Label(mainframe, text = "End Hour: ").grid(column = 1, row = 6, sticky = E)
-
-        #End minute entry box label
-        ttk.Label(mainframe, text = "End Minute: ").grid(column = 1, row = 7, sticky = E)
-
-        #End second entry box label
-        ttk.Label(mainframe, text = "End Second: ").grid(column = 1, row = 8, sticky = E)
-
-        #Plot x, y, or z checkbox label
-        ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 9, sticky = E)
-
-        #Station code entry box label
-        ttk.Label(mainframe, text = "Station Code: ").grid(column = 1, row = 1, pady = (25, 0), sticky = E)
-
-        #File option radiobutton label
-        ttk.Label(mainframe, text = "File Option: ").grid(column = 1, row = 14, sticky = E)
-
-
-
-        ###Entry Boxes###
-        self.year_day = StringVar()
-        ttk.Entry(mainframe, width= 5, textvariable = self.year_day).grid(column = 2, row = 2,   sticky = W)
-
-        self.start_hour = IntVar()
-        self.start_hour.set(0)
-        ttk.Entry(mainframe, width = 5, textvariable = self.start_hour).grid(column = 2, row = 3, sticky = W)
-
-        self.start_minute = IntVar()
-        self.start_minute.set(0)
-        ttk.Entry(mainframe, width = 5, textvariable = self.start_minute).grid(column = 2, row = 4, sticky = W)
-
-        self.start_second = IntVar()
-        self.start_second.set(0)
-        ttk.Entry(mainframe, width = 5, textvariable = self.start_second).grid(column = 2, row = 5,sticky = W)
-
-        self.end_hour = IntVar()
-        self.end_hour.set(23)
-        ttk.Entry(mainframe, width = 5, textvariable = self.end_hour).grid(column = 2, row = 6, sticky = W)
-
-        self.end_minute = IntVar()
-        self.end_minute.set(59)
-        ttk.Entry(mainframe, width = 5, textvariable = self.end_minute).grid(column = 2, row = 7, sticky = W)
-
-        self.end_second = IntVar()
-        self.end_second.set(59)
-        ttk.Entry(mainframe, width = 5, textvariable = self.end_second).grid(column = 2, row = 8, sticky = W)
-
-        self.station_names = StringVar()
-        ttk.Entry(mainframe, width = 5, textvariable = self.station_names).grid(column = 2, row = 1, pady = (25, 0), sticky = W)
-
-        ###Check Boxes and Radiobuttons###
-        self.graph_from_plotter_x = IntVar()
-        self.graph_from_plotter_y = IntVar()
-        self.graph_from_plotter_z = IntVar()
-        
-        # https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/ttk-Checkbutton.html
-        # onvalue = 1 when checked inside gui by default, can also change onvalue to something we specify
-        x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = self.graph_from_plotter_x, onvalue = 1).grid(column = 2, row = 10,padx = 25 , sticky = W)
-        y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = self.graph_from_plotter_y, onvalue = 1).grid(column = 2, row = 11,padx = 25 , sticky = W) 
-        z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = self.graph_from_plotter_z, onvalue = 1).grid(column = 2, row = 12,padx = 25 , sticky = W)
-
-        self.selection_file = StringVar()
-        cda_web = Radiobutton(mainframe, text = "CDAWEB:NA", value = 1, variable = self.selection_file).grid(column = 2, row = 15, padx = 25,  sticky = W)
-        iaga_00 = Radiobutton(mainframe, text = "IAGA2000:NA", value = 2, variable = self.selection_file).grid(column = 2, row = 16, padx = 25,  sticky = W)
-        iaga_02 = Radiobutton(mainframe, text = "IAGA2002:NA", value = 3, variable = self.selection_file).grid(column = 2, row = 17, padx = 25, sticky = W)
-        raw_hz_file = Radiobutton(mainframe, text = "Raw 2hz file", value = 4, variable = self.selection_file).grid(column = 2, row = 18, padx = 25,  sticky = W)
-        clean_data = Radiobutton(mainframe, text = "Clean Data", value = 5, variable = self.selection_file).grid(column = 2, row = 19, padx = 25, sticky = W)
-
-
-        ###Buttons###
-
-        ttk.Button(mainframe, text = "Plot", command = lambda: self.execute_functions(mainframe)).grid(column = 2, row = 20,  sticky = W)
-        ttk.Button(mainframe, text = "Quit", command = lambda: self.cancel(window)).grid(column =1, row = 22,columnspan = 2,  padx = 25, sticky = W)
-        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=W)
-        ttk.Button(mainframe, text="Save As...", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
-        ttk.Button(mainframe, text="Open File...", command=lambda: self.open_file()).grid(column=1, row=20, sticky=W)
-        #
-
-        image=Image.open('maccslogo_870.jpeg')
-        image_file = ImageTk.PhotoImage(image)
-        image_label = ttk.Label(mainframe, image=image_file)
-        image_label.image = image_file
-        image_label.grid(column=7,row=1, columnspan=8, rowspan=24)
-
-        
-        for child in mainframe.winfo_children(): 
-                child.grid_configure(padx=5, pady=5)
-
-        #Puts our execute_functions to the return key
-        window.bind("<Return>", self.execute_functions)
-
-        window.mainloop()    
-
-    def execute_functions(self, mainframe, *args):
-        """
-        executes the functions that are in the gui
-
-        Parameters
-        ----------
-        mainframe : the main frame that the gui is placed in
-        """
-
-        ###Getting the user entries###
-        station_names_value = self.station_names.get()
-        self.station_names_entry_check(station_names_value)
-
-        year_day_value = self.year_day.get()
-        self.year_day_entry_check(year_day_value)
-
-        start_hour_value = self.start_hour_entry_check(self.start_hour.get())
-        start_minute_value = self.start_minute_entry_check( self.start_minute.get())
-        start_second_value = self.start_second_entry_check( self.start_second.get())
-
-        # creating the start time stamp
-        start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
-
-
-        end_hour_value = self.end_hour_entry_check( self.end_hour.get())
-        end_minute_value = self.end_minute_entry_check( self.end_minute.get())
-        end_second_value = self.end_second_entry_check( self.end_second.get())
-
-        # creating the end time stamp
-        end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
-
-        selection_file_value = self.selection_file.get()
-        file_ending_value = self.file_format_entry_check(selection_file_value)
-
-
-        # Making the Plot
-        file_name_full = station_names_value + year_day_value + file_ending_value
-        time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
-        self.file_name = station_names_value + year_day_value + time_interval_string
-        
-        # Get associated values to GUI, if x,y,z checked, then they are set to some value, respectively 1, 2, 3
-        graph_from_plotter_value_x = self.graph_from_plotter_x.get()
-        graph_from_plotter_value_y = self.graph_from_plotter_y.get()
-        graph_from_plotter_value_z = self.graph_from_plotter_z.get()
-
-        # Distinguishing between clean, and raw lists inside here. No need to check in graph_from_plotter_entry_check
-        # Do any file checks in here for future additions
-        try:
-            file = open(file_name_full, 'rb')
-        except:
-            # popping up an error if we can't open the file
-            self.error_message_pop_up("File open error", "couldn't find and open your file")
-
-        if (selection_file_value == '4'):
-            
-            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
-            # plotting the arrays
-            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
-                                                              graph_from_plotter_value_y, 
-                                                              graph_from_plotter_value_z, 
-                                                              xArr, 
-                                                              yArr, 
-                                                              zArr,
-                                                              timeArr, 
-                                                              self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
-
-        elif (selection_file_value == '5'):
-            
-            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, self.file_name)
-            # plotting the arrays
-            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
-                                                              graph_from_plotter_value_y, 
-                                                              graph_from_plotter_value_z, 
-                                                              xArr, 
-                                                              yArr, 
-                                                              zArr,
-                                                              timeArr, 
-                                                              self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
-                                          
-        
-        canvas = FigureCanvasTkAgg(self.figure, master = mainframe)
-        canvas.draw()
-
-        canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=24)
+ 
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         """
