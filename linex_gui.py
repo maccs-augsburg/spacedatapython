@@ -37,6 +37,8 @@ from linex_gui_helper import LineEdit, Label, Color, PlotCanvas
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
+import raw_to_plot
+import clean_to_plot
 
 import matplotlib
 # FigureCanvasQTAgg wraps matplot image as a widget for it to be able to be added to layouts in QT
@@ -70,6 +72,7 @@ class MainWindow(QMainWindow):
         self.file_extension = ""
         self.filename = ""
         self.launch_dialog_option = 0
+        self.figure = None
         #######################
 
         self.main_layout = QHBoxLayout()
@@ -173,22 +176,20 @@ class MainWindow(QMainWindow):
     def launch_dialog(self):
 
         option = self.options.index(self.combo_box.currentText())
+        self.launch_dialog_option = option
 
         if option == 0:
             # TODO: IAGA2000
-            self.launch_dialog_option = 0
             print("Option not available yet")
             self.error_message.setText("Option Not Available Yet")
             self.error_message.exec()
         elif option == 1:
             # TODO: IAGA2002
-            self.launch_dialog_option = 1
             print("Option not available yet")
             self.error_message.setText("Option Not Available Yet")
             self.error_message.exec()
         elif option == 2:
             # TODO: CLEAN FILE (.s2)
-            self.launch_dialog_option = 2
             self.file_extension = ".s2"
             file_filter = "Clean File (*.s2)"
         
@@ -196,12 +197,10 @@ class MainWindow(QMainWindow):
         
         elif option == 3:
             # TODO: RAW FILE (.2HZ)
-            self.launch_dialog_option = 3
             self.file_extension = ".2hz"
             file_filter = "Raw File (*.2hz)"
             response = self.get_file_name(file_filter)
         elif option == 4:
-            self.launch_dialog_option = 4
             print("Option not available yet")
             self.error_message.setText("Option Not Available Yet")
             self.error_message.exec()
@@ -307,15 +306,28 @@ class MainWindow(QMainWindow):
             #keeps going I guess
         
         if self.launch_dialog_option == 3:
+
             x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(
-                file, start_time_stamp, end_time_stamp, self.file_name
-            )
-            pass
-        if self.launch_dialog_option == 4:
+                file, start_time_stamp, end_time_stamp, self.file_name)
+
+            self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, file_name_full,
+                                                  start_time_stamp, end_time_stamp,
+                                                 in_min_x=min_x, in_max_x=max_x,
+                                                 in_min_y=min_y, in_max_y=max_y,
+                                                 in_min_z=min_z, in_max_z=max_z)
+
+        elif self.launch_dialog_option == 4:
+
             x_arr, y_arr, z_arr, time_arr = read_clean_to_lists.create_datetime_lists_from_clean(
-                file, start_time_stamp, end_time_stamp, self.filename
-            )
-            pass 
+                file, start_time_stamp, end_time_stamp, self.filename)
+
+            self.figure = clean_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, file_name_full,
+                                                  start_time_stamp, end_time_stamp,
+                                                 in_min_x=min_x, in_max_x=max_x,
+                                                 in_min_y=min_y, in_max_y=max_y,
+                                                 in_min_z=min_z, in_max_z=max_z)
+    
+             
         
         print("making the canvas now")
         sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
