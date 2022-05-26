@@ -6,6 +6,7 @@
 
 #Import from PySide6 // QT
 
+from tkinter.filedialog import SaveAs
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
                                 QWidget, QHBoxLayout, 
@@ -257,7 +258,7 @@ class MainWindow(QMainWindow):
 
         self.main_layout.addLayout(self.label_and_entry_layout)
         self.main_layout.addLayout(self.graph_layout)
-        
+
         self.main_layout.addWidget(self.maccs_logo)
 
         self.main_widget = QWidget()
@@ -384,21 +385,17 @@ class MainWindow(QMainWindow):
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
                         
-        graph = FigureCanvasQTAgg(self.figure)
-        self.toolbar = NavigationToolbar2QT(graph, self)
+        self.graph = FigureCanvasQTAgg(self.figure)
+        self.toolbar = NavigationToolbar2QT(self.graph, self)
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar)
-        self.graph_layout.addWidget(graph)
- 
-        
-        # plt.plot(self.figure)
-        # plt.show()
-        #return graph
+        self.graph_layout.addWidget(self.graph)
 
     def update_canvas(self, figure):
         print("does nothing ")
         
     def error_message_pop_up(self,title, message):
+        # pops up error message box with the title and message inputted
         error_mes = QMessageBox.critical(self, title, message)
         sys.exit(0)
 
@@ -407,9 +404,10 @@ class MainWindow(QMainWindow):
         warning_mes = QMessageBox.warning(self, title,message)
 
     ##########
-# NOTICE ----------  I DONT KNOW WHAT THIS FUNCTION WAS USED FOR IN THREE GRAPH PLOTTER WORKS FINE WITH OUT IT AND ISNT USED ? 
-# BUT NOT GOING TO REMOVE UNTIL I FIGURE OUT WHAT IS NEEDED
+            # NOTICE ----------  I DONT KNOW WHAT THIS FUNCTION WAS USED FOR IN THREE GRAPH PLOTTER WORKS FINE WITH OUT IT AND ISNT USED ? 
+            # BUT NOT GOING TO REMOVE UNTIL I FIGURE OUT WHAT IS NEEDED
     ###########
+
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         """
         converts the hours list into datetime objects
@@ -454,15 +452,9 @@ class MainWindow(QMainWindow):
         file_name : the name of the file to be saved as
         """
 
-        pl.imsave(self.file_name, self.figure)
-        #fname = QFileDialog.getSaveFileName(self,file_name,'C:' )
-        #self.figure.savefig(str(fname))
-        # save_file.setFileName(self.file_name)
-        # save_file.commit()
-        # Saving the file as a defualt pdf
-        #fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
-        # Opening the file after saving so the user knows it has been saved and can see it
-        #subprocess.Popen(save_file + '.pdf', shell=True)
+        plt.savefig(self.file_name + ".pdf")
+        subprocess.Popen(self.file_name + '.pdf', shell=True)
+
 
     def save_as(self, fig, file_name):
          
