@@ -27,7 +27,8 @@ from PySide6.QtWidgets import (
     QMainWindow, QApplication,
     QToolBar, QStatusBar, QCheckBox,
     QHBoxLayout, QGridLayout, QLabel,
-    QWidget, QComboBox, QPushButton, QFileDialog, QMessageBox
+    QWidget, QComboBox, QPushButton, QFileDialog, QMessageBox,
+    QVBoxLayout
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
@@ -38,7 +39,9 @@ import read_raw_to_lists
 import read_clean_to_lists
 
 import matplotlib
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+# FigureCanvasQTAgg wraps matplot image as a widget for it to be able to be added to layouts in QT
+# Navigation is used for matplotlib functionalities, zooming in, zooming out, saving, etc...
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 
 WINDOW_HEIGHT = 600
@@ -159,6 +162,8 @@ class MainWindow(QMainWindow):
         # Add maccs logo to the main layout
         self.main_layout.addWidget(self.mac_label)
 
+        # Make another layout for toolbar and matplotlib 
+        self.plotting_layout = QVBoxLayout()
         ################################################
         widget = QWidget()
         widget.setLayout(self.main_layout)
@@ -200,7 +205,9 @@ class MainWindow(QMainWindow):
             print("Option not available yet")
             self.error_message.setText("Option Not Available Yet")
             self.error_message.exec()
-            print("Does it ever reach this line? Or where does it go after dialog?")
+            # it does, starts from where it left off
+            #print("Does it ever reach this line? Or where does it go after dialog?")
+
         else:
             print("Got nothing")
 
@@ -313,8 +320,11 @@ class MainWindow(QMainWindow):
         print("making the canvas now")
         sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
         sc.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
-        self.main_layout.addWidget(sc)
-        #self.setCentralWidget(sc)
+        matplotlib_toolbar = NavigationToolbar(sc, self)
+        self.plotting_layout.addWidget(matplotlib_toolbar)
+        self.plotting_layout.addWidget(sc)
+        self.main_layout.addLayout(self.plotting_layout)
+        #self.main_layout.setCentralWidget(sc)
         # Need to set label to hidden, or else it tries to fit logo with graph
         self.mac_label.setHidden(True)
         self.show()
