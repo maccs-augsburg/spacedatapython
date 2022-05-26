@@ -38,7 +38,8 @@ import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
 import raw_to_plot
-import clean_to_plot
+# forgot this wasn't being used anymore
+#import clean_to_plot
 
 import matplotlib
 # FigureCanvasQTAgg wraps matplot image as a widget for it to be able to be added to layouts in QT
@@ -47,7 +48,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationTool
 from matplotlib.figure import Figure
 
 WINDOW_HEIGHT = 600
-WINDOW_WIDTH = 1000
+WINDOW_WIDTH = 1200
 
 class MainWindow(QMainWindow):
 
@@ -130,14 +131,16 @@ class MainWindow(QMainWindow):
         entry_layout.addWidget(self.end_second_edit, 7, 1)
         entry_layout.addWidget(min_x_label, 8, 0)
         entry_layout.addWidget(self.min_x_edit, 8, 1)
-        entry_layout.addWidget(min_y_label, 9, 0)
-        entry_layout.addWidget(self.min_y_edit, 9, 1)
-        entry_layout.addWidget(max_y_label, 10, 0)
-        entry_layout.addWidget(self.max_y_edit, 10, 1)
-        entry_layout.addWidget(min_z_label, 11, 0)
-        entry_layout.addWidget(self.min_z_edit, 11, 1)
-        entry_layout.addWidget(max_z_label, 12, 0)
-        entry_layout.addWidget(self.max_z_edit, 12, 1)
+        entry_layout.addWidget(max_x_label, 9, 0)
+        entry_layout.addWidget(self.max_x_edit, 9, 1)
+        entry_layout.addWidget(min_y_label, 10, 0)
+        entry_layout.addWidget(self.min_y_edit, 10, 1)
+        entry_layout.addWidget(max_y_label, 11, 0)
+        entry_layout.addWidget(self.max_y_edit, 11, 1)
+        entry_layout.addWidget(min_z_label, 12, 0)
+        entry_layout.addWidget(self.min_z_edit, 12, 1)
+        entry_layout.addWidget(max_z_label, 13, 0)
+        entry_layout.addWidget(self.max_z_edit, 13, 1)
         ################################################
 
         #### DROP DOWN MENU FOR FILE FORMATS ###########
@@ -192,7 +195,6 @@ class MainWindow(QMainWindow):
             # TODO: CLEAN FILE (.s2)
             self.file_extension = ".s2"
             file_filter = "Clean File (*.s2)"
-        
             response = self.get_file_name(file_filter)
         
         elif option == 3:
@@ -245,9 +247,15 @@ class MainWindow(QMainWindow):
         self.start_hour_edit.set_entry(0)
         self.start_minute_edit.set_entry(0)
         self.start_second_edit.set_entry(0)
-        self.end_hour_edit.set_entry(24)
+        self.end_hour_edit.set_entry(23)
         self.end_minute_edit.set_entry(0)
         self.end_second_edit.set_entry(0)
+        self.min_x_edit.set_entry(0)
+        self.max_x_edit.set_entry(0)
+        self.min_y_edit.set_entry(0)
+        self.max_y_edit.set_entry(0)
+        self.min_z_edit.set_entry(0)
+        self.max_z_edit.set_entry(0)
 
     def plot_graph(self):
 
@@ -272,11 +280,17 @@ class MainWindow(QMainWindow):
 
         print("passed initial checks")
         min_x = self.min_x_edit.get_entry()
+        print(min_x)
         max_x = self.max_x_edit.get_entry()
+        print(max_x)
         min_y = self.min_y_edit.get_entry()
+        print(min_y)
         max_y = self.max_y_edit.get_entry()
+        print(max_y)
         min_z = self.min_z_edit.get_entry()
+        print(min_z)
         max_z = self.max_z_edit.get_entry()
+        print(max_z)
 
         start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
         end_time_stamp = datetime.time(hour = end_hour, minute = end_minute, second = end_second)
@@ -297,6 +311,7 @@ class MainWindow(QMainWindow):
         self.filename = file_name_full
 
         try:
+            #https://www.w3schools.com/python/ref_func_open.asp#:~:text=The%20open()%20function%20opens,our%20chapters%20about%20File%20Handling.
             file = open(file_name_full, 'rb')
         except:
             print(file_name_full)
@@ -305,33 +320,26 @@ class MainWindow(QMainWindow):
             #print("Where does program go after dialog window closes")
             #keeps going I guess
         
-        if self.launch_dialog_option == 3:
+        print(file)
+        print(self.launch_dialog_option)
 
-            x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(
-                file, start_time_stamp, end_time_stamp, self.file_name)
+        if self.launch_dialog_option == 2:
 
-            self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, file_name_full,
-                                                  start_time_stamp, end_time_stamp,
-                                                 in_min_x=min_x, in_max_x=max_x,
-                                                 in_min_y=min_y, in_max_y=max_y,
-                                                 in_min_z=min_z, in_max_z=max_z)
+            x_arr, y_arr, z_arr, time_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, file_name_full)
 
-        elif self.launch_dialog_option == 4:
+        elif self.launch_dialog_option == 3:
 
-            x_arr, y_arr, z_arr, time_arr = read_clean_to_lists.create_datetime_lists_from_clean(
-                file, start_time_stamp, end_time_stamp, self.filename)
+            x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, file_name_full)
 
-            self.figure = clean_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, file_name_full,
-                                                  start_time_stamp, end_time_stamp,
-                                                 in_min_x=min_x, in_max_x=max_x,
-                                                 in_min_y=min_y, in_max_y=max_y,
-                                                 in_min_z=min_z, in_max_z=max_z)
-    
-             
+        self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, self.filename, start_time_stamp, end_time_stamp,
+                                                in_min_x=min_x, in_max_x=max_x,
+                                                in_min_y=min_y, in_max_y=max_y,
+                                                in_min_z=min_z, in_max_z=max_z)
         
-        print("making the canvas now")
-        sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
-        sc.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
+        #print("making the canvas now")
+        #sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
+        #sc.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
+        sc = FigureCanvasQTAgg(self.figure)
         matplotlib_toolbar = NavigationToolbar(sc, self)
         self.plotting_layout.addWidget(matplotlib_toolbar)
         self.plotting_layout.addWidget(sc)
