@@ -4,9 +4,12 @@
 #Refactored into PySide6 GUI 
 # By Chris Hance may 2022
 
-#Import from PySide6 // QT
+
 
 from tkinter.filedialog import SaveAs
+
+#Import from PySide6 // QT
+
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
                                 QWidget, QHBoxLayout, 
@@ -17,6 +20,8 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 )
 from PySide6.QtGui import QIcon, QAction, QPixmap
 from PySide6.QtCore import  QSize
+
+# path for file open 
 from pathlib import Path
 
 #imports from python 
@@ -38,7 +43,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
 import subprocess
 
-#imports from plotter functions
+#imports from other python files
 
 import file_naming
 import read_raw_to_lists
@@ -375,6 +380,8 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '4')
+            plt.draw()
+            plt.show()
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
@@ -388,6 +395,7 @@ class MainWindow(QMainWindow):
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
             plt.draw()
             plt.show()
+        
         # fig.plot
         # plt.draw()
         # self.graph = FigureCanvasQTAgg(self.figure)
