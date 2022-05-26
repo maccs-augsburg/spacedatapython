@@ -353,7 +353,7 @@ class MainWindow(QMainWindow):
          
         hour = int(self.start_hour_edit.get_entry())
 
-        if hour > 24 | hour < 0:
+        if hour > 24 or hour < 0:
             self.error_message.setText("Hour Entry Error. Valid input (0 - 23)")
             self.error_message.exec()
             return 0
@@ -364,7 +364,7 @@ class MainWindow(QMainWindow):
         
         minute = int(self.start_minute_edit.get_entry())
 
-        if minute > 59 | minute < 0:
+        if minute > 59 or minute < 0:
             self.error_message.setText("Minute Entry Error. Valid input (0 - 59)")
             self.error_message.exec()
             return 0
@@ -375,7 +375,7 @@ class MainWindow(QMainWindow):
 
         second = int(self.start_second_edit.get_entry())
 
-        if second > 59 | second < 0:
+        if second > 59 or second < 0:
             self.error_message.setText("Second Entry Error. Valid input (0- 59)")
             self.error_message.exec()
             return 0
