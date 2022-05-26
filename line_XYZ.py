@@ -22,9 +22,13 @@ import sys
 import datetime
 from PIL import ImageTk, Image
 
+#pylab
+import pylab as pl
+
 #Imports from matplotlib
 from matplotlib.backends.qt_compat import QtWidgets
-
+import matplotlib.pyplot as plt
+import matplotlib.figure as fig
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
@@ -365,14 +369,14 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
-
-        self.graph = FigureCanvasQTAgg(self.figure)
-        toolbar = NavigationToolbar2QT(self.graph, self)
+        self.figure = fig.Figure()
+        self.figure = FigureCanvasQTAgg(self.figure)
+        self.toolbar = NavigationToolbar2QT(self.figure, self)
         self.maccs_logo.setHidden(True)
-        self.main_layout.addWidget(toolbar)
-        self.main_layout.addWidget(self.graph)
+        self.main_layout.addWidget(self.toolbar)
+        self.main_layout.addWidget(self.figure)
 
-    def update_canvas(self, graph):
+    def update_canvas(self, figure):
         print("does nothing ")
         
     def error_message_pop_up(self,title, message):
@@ -430,9 +434,12 @@ class MainWindow(QMainWindow):
 
         file_name : the name of the file to be saved as
         """
-        
-        save_file.setFileName(self.file_name)
-        save_file.commit()
+
+        pl.imsave(self.file_name, self.figure)
+        #fname = QFileDialog.getSaveFileName(self,file_name,'C:' )
+        #self.figure.savefig(str(fname))
+        # save_file.setFileName(self.file_name)
+        # save_file.commit()
         # Saving the file as a defualt pdf
         #fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
         # Opening the file after saving so the user knows it has been saved and can see it
