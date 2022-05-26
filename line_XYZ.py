@@ -444,12 +444,9 @@ class MainWindow(QMainWindow):
          
         """
         saves the file as a pdf document
-
-        Parameters
-        ----------
-        fig : the plotted figure
-
-        file_name : the name of the file to be saved as
+        
+        using self.file_name to get the filename already used for the specfic file we are using
+        plt.savefig grabs the most recent figure we have plotted
         """
 
         plt.savefig(self.file_name + ".pdf")
