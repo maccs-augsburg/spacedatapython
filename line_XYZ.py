@@ -8,11 +8,12 @@
 
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
-                                QStatusBar, QWidget, 
-                                QHBoxLayout, QGridLayout,
-                                QPushButton, QToolBar,
+                                QWidget, QHBoxLayout, 
+                                QGridLayout,QPushButton, 
+                                QToolBar,QVBoxLayout,
                                 QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox)
+                                QCheckBox,QMessageBox,
+                                )
 from PySide6.QtGui import QIcon, QAction, QPixmap
 from PySide6.QtCore import Qt, QSize, QSaveFile
 from pathlib import Path
@@ -72,6 +73,7 @@ class MainWindow(QMainWindow):
         ###############
         ### Toolbar ###
         ###############
+
         toolbar = QToolBar("Main Toolbar")    
         toolbar.setIconSize(QSize(16,16))
         openfile = QAction(QIcon("../images/folder-open.png"),"Open File", self)
@@ -100,9 +102,11 @@ class MainWindow(QMainWindow):
         tool_menu = menu.addMenu("&Tools")
 
         help_menu = menu.addMenu("&Help")
+
         ###############
         ### Labels ####
         ###############
+
         self.station_code = QLabel("Station Code: ")
         self.year_day = QLabel("Year Day: ")
 
@@ -130,6 +134,7 @@ class MainWindow(QMainWindow):
         ###################
         ### Text Fields ###
         ###################
+
         self.input_station_code = QLineEdit()
         self.input_year = QLineEdit()
 
@@ -174,6 +179,7 @@ class MainWindow(QMainWindow):
 
         self.main_layout = QHBoxLayout()
         self.label_and_entry_layout = QGridLayout()
+        self.graph_layout = QVBoxLayout()
 
         ###############
         ### Buttons ###
@@ -193,11 +199,13 @@ class MainWindow(QMainWindow):
         ########################
         ### Signals / Events ###
         ########################
+
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
         self.button_plot.clicked.connect(self.execute_plot_function)
         self.button_save.clicked.connect(self.save)
         # self.button_save_as.clicked.connect(self.save_as)
+
         ###############
         ### Widgets ###
         ###############
@@ -242,18 +250,14 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.button_save, 21, 1)
         self.label_and_entry_layout.addWidget(self.button_quit, 22, 0)
 
-        ######
-        #self.toolbar = NavigationToolbar2QT(fig, self)
-        #self.maccs_logo.setHidden(True)
-        #self.main_layout.addWidget(self.toolbar)
-        #self.main_layout.addWidget(graph)
- 
-        ######
+        ########################################
+        ### Adding all layouts into the main ###
+        ########################################
 
 
         self.main_layout.addLayout(self.label_and_entry_layout)
-
-        #self.main_layout.addWidget(self.test)
+        self.main_layout.addLayout(self.graph_layout)
+        
         self.main_layout.addWidget(self.maccs_logo)
 
         self.main_widget = QWidget()
@@ -379,10 +383,16 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
+                        
+        graph = FigureCanvasQTAgg(self.figure)
+        self.toolbar = NavigationToolbar2QT(graph, self)
+        self.maccs_logo.setHidden(True)
+        self.graph_layout.addWidget(self.toolbar)
+        self.graph_layout.addWidget(graph)
+ 
         
-        #graph = FigureCanvasQTAgg(self.figure)
-        plt.plot(self.figure)
-        plt.show()
+        # plt.plot(self.figure)
+        # plt.show()
         #return graph
 
     def update_canvas(self, figure):
