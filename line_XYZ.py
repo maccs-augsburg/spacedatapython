@@ -13,10 +13,10 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QGridLayout,QPushButton, 
                                 QToolBar,QVBoxLayout,
                                 QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox,
+                                QCheckBox,QMessageBox
                                 )
 from PySide6.QtGui import QIcon, QAction, QPixmap
-from PySide6.QtCore import Qt, QSize, QSaveFile
+from PySide6.QtCore import  QSize
 from pathlib import Path
 
 #imports from python 
@@ -317,10 +317,12 @@ class MainWindow(QMainWindow):
             else:
                 print('Option not available yet :(')
    
+                
     def execute_plot_function(self):
         '''
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
         '''
+        
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
 
@@ -336,8 +338,8 @@ class MainWindow(QMainWindow):
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
         # creating the end time stamp
         end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
-        file_value = self.selection_file_value
-        file_ending_value = entry_checks.file_format_entry_check(self,file_value)
+        #file_value = self.selection_file_value
+        file_ending_value = entry_checks.file_format_entry_check(self,self.selection_file_value)
        
 
         # Making the Plot
@@ -384,16 +386,20 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
-                        
-        self.graph = FigureCanvasQTAgg(self.figure)
-        self.toolbar = NavigationToolbar2QT(self.graph, self)
-        self.update_canvas()
+            plt.draw()
+            plt.show()
+        # fig.plot
+        # plt.draw()
+        # self.graph = FigureCanvasQTAgg(self.figure)
+        # self.toolbar = NavigationToolbar2QT(self.graph, self)
+        # self.update_canvas()
 
     def update_canvas(self):
+        #self.main_layout.addLayout(self.graph_layout)
         print(self.flag) 
         if self.flag == True:
             print('in if')
-            self.graph.setHidden(True)
+            self.graph_layout.removeWidget(self.graph)
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar)
         self.graph_layout.addWidget(self.graph)
