@@ -1,6 +1,23 @@
 '''
 linex_gui.py
 May 2022 -- Created -- Mark Ortega-Ponce
+
+If your on Mac system that don't use intel anymore
+https://phoenixnap.com/kb/install-pip-mac
+https://codingpub.dev/python-pip3-pipenv/
+https://codingpub.dev/python-install-virtualenv-and-virtualenvwrapper/
+
+Summary: I found installing libraries to be the most difficult
+         I recommend using pipenv environments
+
+make sure your using pip3 install matplotlib, numpy .... and so on
+
+I was using pip, but I guess that one installs the old architecture?
+Will throw errors, and lead you down a long goose chase for finding the solution
+
+I think another viable solution is anaconda environments
+
+But im pretty sure i've broken my python paths and have not done a clean reset
 '''
 from ast import Pass
 import sys
@@ -52,12 +69,12 @@ class MainWindow(QMainWindow):
         self.launch_dialog_option = 0
         #######################
 
-        main_layout = QHBoxLayout()
-        mac_label = QLabel()
+        self.main_layout = QHBoxLayout()
+        self.mac_label = QLabel()
         # TODO: use sys import so it doesnt use my path
         pixmap = QPixmap('/Users/markortega-ponce/Desktop/ZMACCS/spacedatapython/maccslogo_nobg.png')
-        mac_label.setPixmap(pixmap)
-        mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.mac_label.setPixmap(pixmap)
+        self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         #print(main_layout.columnCount())
         ################################################
 
@@ -138,13 +155,13 @@ class MainWindow(QMainWindow):
         ################################################
 
         # Add entry layout to the main layout
-        main_layout.addLayout(entry_layout)
+        self.main_layout.addLayout(entry_layout)
         # Add maccs logo to the main layout
-        main_layout.addWidget(mac_label)
+        self.main_layout.addWidget(self.mac_label)
 
         ################################################
         widget = QWidget()
-        widget.setLayout(main_layout)
+        widget.setLayout(self.main_layout)
         self.setCentralWidget(widget)
         ################################################
 
@@ -156,11 +173,14 @@ class MainWindow(QMainWindow):
             # TODO: IAGA2000
             self.launch_dialog_option = 0
             print("Option not available yet")
-            pass
+            self.error_message.setText("Option Not Available Yet")
+            self.error_message.exec()
         elif option == 1:
             # TODO: IAGA2002
             self.launch_dialog_option = 1
             print("Option not available yet")
+            self.error_message.setText("Option Not Available Yet")
+            self.error_message.exec()
         elif option == 2:
             # TODO: CLEAN FILE (.s2)
             self.launch_dialog_option = 2
@@ -178,6 +198,9 @@ class MainWindow(QMainWindow):
         elif option == 4:
             self.launch_dialog_option = 4
             print("Option not available yet")
+            self.error_message.setText("Option Not Available Yet")
+            self.error_message.exec()
+            print("Does it ever reach this line? Or where does it go after dialog?")
         else:
             print("Got nothing")
 
@@ -222,12 +245,18 @@ class MainWindow(QMainWindow):
 
     def plot_graph(self):
 
-        station_code = self.station_code_edit
+        print("Entered plot_graph callback function")
+        station_code = self.station_edit.get_entry()
         if not self.station_code_entry_check():
+            print(len(self.station_edit.get_entry()))
+            print("Failed station entry check, user entered: " + self.station_edit.get_entry())
             return        
-        year_day = self.year_day_edit
+        year_day = self.year_day_edit.get_entry()
         if not self.year_day_entry_check():
+            print("Failed year day entry check, user entered: " + self.year_day_edit.get_entry())
             return
+        
+        print("Passed year day, and station code checks")
         start_hour = self.hour_entry_check()
         start_minute = self.minute_entry_check()
         start_second = self.second_entry_check()
@@ -235,6 +264,7 @@ class MainWindow(QMainWindow):
         end_minute = self.minute_entry_check()
         end_second = self.second_entry_check()
 
+        print("passed initial checks")
         min_x = self.min_x_edit.get_entry()
         max_x = self.max_x_edit.get_entry()
         min_y = self.min_y_edit.get_entry()
@@ -263,9 +293,11 @@ class MainWindow(QMainWindow):
         try:
             file = open(file_name_full, 'rb')
         except:
+            print(file_name_full)
             self.error_message.setText("File Open Error, couldn't open file")
             self.error_message.exec()
-            return
+            #print("Where does program go after dialog window closes")
+            #keeps going I guess
         
         if self.launch_dialog_option == 3:
             x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(
@@ -277,26 +309,36 @@ class MainWindow(QMainWindow):
                 file, start_time_stamp, end_time_stamp, self.filename
             )
             pass 
-            
-        # sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
-        # sc.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
-        # self.setCentralWidget(sc)
+        
+        print("making the canvas now")
+        sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
+        sc.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
+        self.main_layout.addWidget(sc)
+        #self.setCentralWidget(sc)
+        # Need to set label to hidden, or else it tries to fit logo with graph
+        self.mac_label.setHidden(True)
+        self.show()
 
 
     def station_code_entry_check (self):
 
         if len(self.station_edit.get_entry()) <= 1:
+            print("Failed statio code entry check")
             self.error_message.setText("Error invalid station code, needs to be 2 uppercase characters")
             self.error_message.exec()
-            return False
-        # use this to return from plot_graph function rather than continuing through the checks    
+        
+        # If it passed check return True
+        return True
     
     def year_day_entry_check(self):
 
         if (len(self.year_day_edit.get_entry()) == 0):
             self.error_message.setText("There was no input for the year day entry box")
             self.error_message.exec()
-    
+
+        # If it passed check return True
+        return True
+
     def hour_entry_check(self):
          
         hour = int(self.start_hour_edit.get_entry())
@@ -335,7 +377,6 @@ def main ():
     # use brackets if not using command line
     # app = QApplication(sys.argv)
     app = QApplication([])
-
     window = MainWindow()
     window.show()
     app.exec()
