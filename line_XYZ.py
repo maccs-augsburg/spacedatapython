@@ -65,7 +65,7 @@ class MainWindow(QMainWindow):
         :rtype:
         """    
         super().__init__()
-       
+        self.flag = False
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
@@ -387,12 +387,17 @@ class MainWindow(QMainWindow):
                         
         self.graph = FigureCanvasQTAgg(self.figure)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
+        self.update_canvas()
+
+    def update_canvas(self):
+        print(self.flag) 
+        if self.flag == True:
+            print('in if')
+            self.graph.setHidden(True)
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar)
         self.graph_layout.addWidget(self.graph)
-
-    def update_canvas(self, figure):
-        print("does nothing ")
+        self.flag = True
         
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
