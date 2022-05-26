@@ -26,6 +26,8 @@ from PIL import ImageTk, Image
 import pylab as pl
 
 #Imports from matplotlib
+import matplotlib
+matplotlib.use('QtAgg')
 from matplotlib.backends.qt_compat import QtWidgets
 import matplotlib.pyplot as plt
 import matplotlib.figure as fig
@@ -191,7 +193,6 @@ class MainWindow(QMainWindow):
         ########################
         ### Signals / Events ###
         ########################
-
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
         self.button_plot.clicked.connect(self.execute_plot_function)
@@ -240,6 +241,15 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.button_save_as, 21, 0)
         self.label_and_entry_layout.addWidget(self.button_save, 21, 1)
         self.label_and_entry_layout.addWidget(self.button_quit, 22, 0)
+
+        ######
+        #self.toolbar = NavigationToolbar2QT(fig, self)
+        #self.maccs_logo.setHidden(True)
+        #self.main_layout.addWidget(self.toolbar)
+        #self.main_layout.addWidget(graph)
+ 
+        ######
+
 
         self.main_layout.addLayout(self.label_and_entry_layout)
 
@@ -369,12 +379,11 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
-        self.figure = fig.Figure()
-        self.figure = FigureCanvasQTAgg(self.figure)
-        self.toolbar = NavigationToolbar2QT(self.figure, self)
-        self.maccs_logo.setHidden(True)
-        self.main_layout.addWidget(self.toolbar)
-        self.main_layout.addWidget(self.figure)
+        
+        #graph = FigureCanvasQTAgg(self.figure)
+        plt.plot(self.figure)
+        plt.show()
+        #return graph
 
     def update_canvas(self, figure):
         print("does nothing ")
