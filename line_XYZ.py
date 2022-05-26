@@ -38,11 +38,16 @@ import read_clean_to_lists
 import entry_checks
 
 class MainWindow(QMainWindow):
+    '''
+    Class Containing GUI using PySide6 module from QT using its framework 
+    The Gui is able to Graph a Single graph that can plot any combantion of axis'
+    X Y or Z, one two, or three. While also able to alter the graph via zooming in and saving images of the graph
+
+    '''
     def __init__(self):
 
-        """ 
-        Description	
-    
+        """ 	
+        All the widgets so many o.o
         
         :type self:
         :param self:
@@ -63,9 +68,9 @@ class MainWindow(QMainWindow):
         ###############
         toolbar = QToolBar("Main Toolbar")    
         toolbar.setIconSize(QSize(16,16))
-        openfile = QAction(QIcon("../folder-open.png"),"Open File", self)
-        savefile = QAction(QIcon("../disk.png"),"Save File", self)
-        zoom = QAction(QIcon("../magnifier-zoom-in.png"),"Zoom in", self)
+        openfile = QAction(QIcon("../images/folder-open.png"),"Open File", self)
+        savefile = QAction(QIcon("../images/disk.png"),"Save File", self)
+        zoom = QAction(QIcon("../images/magnifier-zoom-in.png"),"Zoom in", self)
 
         toolbar.addAction(openfile)
         toolbar.addAction(savefile)
