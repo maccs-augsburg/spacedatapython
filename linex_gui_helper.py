@@ -9,6 +9,26 @@ import matplotlib
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
+# Python 3 imports
+import sys
+import datetime
+import numpy as np
+import statistics as stats
+
+# MACCS imports
+from raw_codecs import decode, time_of_record
+import station_names
+
+# Matplotlib imports
+import matplotlib.pyplot as plt
+from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
+import matplotlib.dates as mdates
+
+# Plotter program imports
+import read_raw_to_lists
+import x_axis_time_formatter
+
+
 class LineEdit(QLineEdit):
 
     def __init__(self):
@@ -36,9 +56,12 @@ class LineEdit(QLineEdit):
         self.entry = s
         print(self.get_entry())
 
+    # Wrapper around getter for QLineEdit, can also decide not to use and refactor with ide
+    # Chose this because method name is more memorable
     def get_entry(self):
         return self.text()
 
+    # Same situation here, want to keep the continuity in naming
     def set_entry(self, new_entry):
 
         self.entry = new_entry
@@ -74,3 +97,4 @@ class Color(QWidget):
         palette = self.palette()
         palette.setColor(QPalette.Window, QColor(color))
         self.setPalette(palette)
+
