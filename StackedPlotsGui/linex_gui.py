@@ -33,8 +33,11 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
 
-from linex_gui_helper import LineEdit, Label, Color
+from custom_widgets import LineEdit, Label, Color
 import entry_checks
+
+sys.path.append("../")
+
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
@@ -73,6 +76,7 @@ class MainWindow(QMainWindow):
         #######################
         self.file_extension = ""
         self.filename = ""
+        self.file_path = ""
         self.launch_dialog_option = 0
         self.figure = None
         #######################
@@ -232,6 +236,7 @@ class MainWindow(QMainWindow):
 
         # getting file path from tuple returned in response
         filename = response[0]
+        self.file_path = filename
         print(filename)
 
         # splitting up the path and selecting the filename
@@ -313,7 +318,8 @@ class MainWindow(QMainWindow):
 
         try:
             #https://www.w3schools.com/python/ref_func_open.asp#:~:text=The%20open()%20function%20opens,our%20chapters%20about%20File%20Handling.
-            file = open(file_name_full, 'rb')
+            # file should be one directory up
+            file = open(self.file_path, 'rb')
         except:
             print(file_name_full)
             self.error_message.setText("File Open Error, couldn't open file")
