@@ -33,7 +33,8 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
 
-from linex_gui_helper import LineEdit, Label, Color, PlotCanvas
+from linex_gui_helper import LineEdit, Label, Color
+import entry_checks
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
@@ -78,8 +79,7 @@ class MainWindow(QMainWindow):
 
         self.main_layout = QHBoxLayout()
         self.mac_label = QLabel()
-        # TODO: use sys import so it doesnt use my path
-        pixmap = QPixmap('/Users/markortega-ponce/Desktop/ZMACCS/spacedatapython/maccslogo_nobg.png')
+        pixmap = QPixmap('../maccslogo_nobg.png')
         self.mac_label.setPixmap(pixmap)
         self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         #print(main_layout.columnCount())
@@ -184,13 +184,13 @@ class MainWindow(QMainWindow):
         if option == 0:
             # TODO: IAGA2000
             print("Option not available yet")
-            self.error_message.setText("Option Not Available Yet")
-            self.error_message.exec()
+            self.warning_message_dialog("Option Not Available Yet")
+
         elif option == 1:
             # TODO: IAGA2002
             print("Option not available yet")
-            self.error_message.setText("Option Not Available Yet")
-            self.error_message.exec()
+            self.warning_message_dialog("Option Not Available Yet")
+
         elif option == 2:
             # TODO: CLEAN FILE (.s2)
             self.file_extension = ".s2"
@@ -202,13 +202,12 @@ class MainWindow(QMainWindow):
             self.file_extension = ".2hz"
             file_filter = "Raw File (*.2hz)"
             response = self.get_file_name(file_filter)
+
         elif option == 4:
             print("Option not available yet")
-            self.error_message.setText("Option Not Available Yet")
-            self.error_message.exec()
+            self.warning_message_dialog("Option Not Available Yet")
             # it does, starts from where it left off
             #print("Does it ever reach this line? Or where does it go after dialog?")
-
         else:
             print("Got nothing")
 
@@ -261,36 +260,30 @@ class MainWindow(QMainWindow):
 
         print("Entered plot_graph callback function")
         station_code = self.station_edit.get_entry()
-        if not self.station_code_entry_check():
+        if not entry_checks.station_code_entry_check(self):
             print(len(self.station_edit.get_entry()))
             print("Failed station entry check, user entered: " + self.station_edit.get_entry())
             return        
         year_day = self.year_day_edit.get_entry()
-        if not self.year_day_entry_check():
+        if not entry_checks.year_day_entry_check(self):
             print("Failed year day entry check, user entered: " + self.year_day_edit.get_entry())
             return
         
         print("Passed year day, and station code checks")
-        start_hour = self.hour_entry_check(self.start_hour_edit.get_entry(), 1)
-        start_minute = self.minute_entry_check(self.start_minute_edit.get_entry(), 1)
-        start_second = self.second_entry_check(self.start_second_edit.get_entry(), 1)
-        end_hour = self.hour_entry_check(self.end_hour_edit.get_entry(), 0)
-        end_minute = self.minute_entry_check(self.end_minute_edit.get_entry(), 0)
-        end_second = self.second_entry_check(self.end_second_edit.get_entry(), 0)
+        start_hour = entry_checks.hour_entry_check(self, self.start_hour_edit.get_entry(), 1)
+        start_minute = entry_checks.minute_entry_check(self, self.start_minute_edit.get_entry(), 1)
+        start_second = entry_checks.second_entry_check(self, self.start_second_edit.get_entry(), 1)
+        end_hour = entry_checks.hour_entry_check(self, self.end_hour_edit.get_entry(), 0)
+        end_minute = entry_checks.minute_entry_check(self, self.end_minute_edit.get_entry(), 0)
+        end_second = entry_checks.second_entry_check(self, self.end_second_edit.get_entry(), 0)
 
         print("passed initial checks")
         min_x = int(self.min_x_edit.get_entry())
-        print(min_x)
         max_x = int(self.max_x_edit.get_entry())
-        print(max_x)
         min_y = int(self.min_y_edit.get_entry())
-        print(min_y)
         max_y = int(self.max_y_edit.get_entry())
-        print(max_y)
         min_z = int(self.min_z_edit.get_entry())
-        print(min_z)
         max_z = int(self.max_z_edit.get_entry())
-        print(max_z)
 
         start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
 
@@ -346,9 +339,6 @@ class MainWindow(QMainWindow):
             in_min_z=min_z, in_max_z=max_z
         )
         
-        #print("making the canvas now")
-        #sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
-        #sc.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
         sc = FigureCanvasQTAgg(self.figure)
         matplotlib_toolbar = NavigationToolbar(sc, self)
         self.plotting_layout.addWidget(matplotlib_toolbar)
@@ -359,80 +349,14 @@ class MainWindow(QMainWindow):
         self.mac_label.setHidden(True)
         self.show()
 
+    def warning_message_dialog(self, message):
 
-    def station_code_entry_check (self):
+        self.error_message.setText(message)
+        self.error_message.exec()
 
-        if len(self.station_edit.get_entry()) <= 1:
-            print("Failed statio code entry check")
-            self.error_message.setText("Error invalid station code, needs to be 2 uppercase characters")
-            self.error_message.exec()
-        
-        # If it passed check return True
-        return True
-    
-    def year_day_entry_check(self):
-
-        if (len(self.year_day_edit.get_entry()) == 0):
-            self.error_message.setText("There was no input for the year day entry box")
-            self.error_message.exec()
-        # If it passed check return True
-        return True
-
-    def hour_entry_check(self, hour_entry, end_or_start):
-         
-        hour = int(hour_entry)
-
-        if hour > 24 or hour < 0:
-            self.error_message.setText("Hour Entry Error. Valid input (0 - 23)")
-            self.error_message.exec()
-        else:
-            return hour
-
-        if end_or_start:
-            self.start_hour_edit.set_entry(0)
-            return 0
-        else:
-            self.end_hour_edit.set_entry(24)
-            return 24
-
-    def minute_entry_check(self, minute_entry, end_or_start):
-        
-        minute = int(minute_entry)
-
-        if minute > 59 or minute < 0:
-            self.error_message.setText("Minute Entry Error. Valid input (0 - 59)")
-            self.error_message.exec()
-        else:
-            return minute
-        
-        if end_or_start:
-            self.start_minute_edit.set_entry(0)
-            return 0
-        else:
-            self.end_minute_edit.set_entry(59)
-            return 59
-
-    def second_entry_check(self, second_entry, end_or_start):
-
-        second = int(second_entry)
-
-        if second > 59 or second < 0:
-            self.error_message.setText("Second Entry Error. Valid input (0- 59)")
-            self.error_message.exec()
-        else:
-            return second
-        
-        if end_or_start:
-            self.start_second_edit.set_entry(0)
-            return 0
-        else:
-            self.end_second_edit.set_entry(59)
-            return 59
 
 def main ():
 
-    # use brackets if not using command line
-    # app = QApplication(sys.argv)
     app = QApplication([])
     window = MainWindow()
     window.show()
