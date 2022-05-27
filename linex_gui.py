@@ -279,17 +279,17 @@ class MainWindow(QMainWindow):
         end_second = self.second_entry_check()
 
         print("passed initial checks")
-        min_x = self.min_x_edit.get_entry()
+        min_x = int(self.min_x_edit.get_entry())
         print(min_x)
-        max_x = self.max_x_edit.get_entry()
+        max_x = int(self.max_x_edit.get_entry())
         print(max_x)
-        min_y = self.min_y_edit.get_entry()
+        min_y = int(self.min_y_edit.get_entry())
         print(min_y)
-        max_y = self.max_y_edit.get_entry()
+        max_y = int(self.max_y_edit.get_entry())
         print(max_y)
-        min_z = self.min_z_edit.get_entry()
+        min_z = int(self.min_z_edit.get_entry())
         print(min_z)
-        max_z = self.max_z_edit.get_entry()
+        max_z = int(self.max_z_edit.get_entry())
         print(max_z)
 
         start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
@@ -331,10 +331,12 @@ class MainWindow(QMainWindow):
 
             x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, file_name_full)
 
-        self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, self.filename, start_time_stamp, end_time_stamp,
-                                                in_min_x=min_x, in_max_x=max_x,
-                                                in_min_y=min_y, in_max_y=max_y,
-                                                in_min_z=min_z, in_max_z=max_z)
+
+        self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, self.filename, start_time_stamp, end_time_stamp, 
+            in_min_x=min_x, in_max_x=max_x,
+            in_min_y=min_y, in_max_y=max_y,
+            in_min_z=min_z, in_max_z=max_z
+        )
         
         #print("making the canvas now")
         #sc = PlotCanvas(self, width = 5, height = 4, dpi = 100)
