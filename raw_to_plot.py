@@ -160,7 +160,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     else:
         plt.ylim(in_min_x, in_max_x)
     
-    
+    print(hours_arr)
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     plt.ylabel('Bx')	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
