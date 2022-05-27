@@ -271,12 +271,12 @@ class MainWindow(QMainWindow):
             return
         
         print("Passed year day, and station code checks")
-        start_hour = self.hour_entry_check()
-        start_minute = self.minute_entry_check()
-        start_second = self.second_entry_check()
-        end_hour = self.hour_entry_check()
-        end_minute = self.minute_entry_check()
-        end_second = self.second_entry_check()
+        start_hour = self.hour_entry_check(self.start_hour_edit.get_entry())
+        start_minute = self.minute_entry_check(self.start_minute_edit.get_entry())
+        start_second = self.second_entry_check(self.start_second_edit.get_entry())
+        end_hour = self.hour_entry_check(self.end_hour_edit.get_entry())
+        end_minute = self.minute_entry_check(self.end_minute_edit.get_entry())
+        end_second = self.second_entry_check(self.end_second_edit.get_entry())
 
         print("passed initial checks")
         min_x = int(self.min_x_edit.get_entry())
@@ -371,9 +371,9 @@ class MainWindow(QMainWindow):
         # If it passed check return True
         return True
 
-    def hour_entry_check(self):
+    def hour_entry_check(self, hour_entry):
          
-        hour = int(self.start_hour_edit.get_entry())
+        hour = int(hour_entry)
 
         if hour > 24 or hour < 0:
             self.error_message.setText("Hour Entry Error. Valid input (0 - 23)")
@@ -382,9 +382,9 @@ class MainWindow(QMainWindow):
         else:
             return hour
 
-    def minute_entry_check(self):
+    def minute_entry_check(self, minute_entry):
         
-        minute = int(self.start_minute_edit.get_entry())
+        minute = int(minute_entry)
 
         if minute > 59 or minute < 0:
             self.error_message.setText("Minute Entry Error. Valid input (0 - 59)")
@@ -393,9 +393,9 @@ class MainWindow(QMainWindow):
         else:
             return minute
 
-    def second_entry_check(self):
+    def second_entry_check(self, second_entry):
 
-        second = int(self.start_second_edit.get_entry())
+        second = int(second_entry)
 
         if second > 59 or second < 0:
             self.error_message.setText("Second Entry Error. Valid input (0- 59)")
