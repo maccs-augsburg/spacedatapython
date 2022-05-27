@@ -247,7 +247,7 @@ class MainWindow(QMainWindow):
         self.start_hour_edit.set_entry(0)
         self.start_minute_edit.set_entry(0)
         self.start_second_edit.set_entry(0)
-        self.end_hour_edit.set_entry(23)
+        self.end_hour_edit.set_entry(24)
         self.end_minute_edit.set_entry(0)
         self.end_second_edit.set_entry(0)
         self.min_x_edit.set_entry(0)
