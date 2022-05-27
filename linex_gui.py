@@ -333,7 +333,7 @@ class MainWindow(QMainWindow):
 
         if self.launch_dialog_option == 2:
 
-            x_arr, y_arr, z_arr, time_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, file_name_full)
+            x_arr, y_arr, z_arr, time_arr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, file_name_full)
 
         elif self.launch_dialog_option == 3:
 
