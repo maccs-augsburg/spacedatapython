@@ -33,7 +33,7 @@ class LineEdit(QLineEdit):
     # Same situation here, want to keep the continuity in naming
     def set_entry(self, new_entry):
 
-        self.entry = new_entry
+        self.entry = str(new_entry)
         self.setText(str(new_entry))
 
 
