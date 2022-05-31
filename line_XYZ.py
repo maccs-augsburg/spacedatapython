@@ -322,7 +322,6 @@ class MainWindow(QMainWindow):
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
         '''
         # Getting entries from the user / the file
-
         #Station code and year
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
@@ -367,8 +366,6 @@ class MainWindow(QMainWindow):
         except:
             # popping up an error if we can't open the file
             self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
-
-        
 
         # Creating the arrays
         if (self.selection_file_value == '4'):
@@ -509,20 +506,9 @@ class MainWindow(QMainWindow):
 MOVE WIDGET CALLS AND ALL BUTTON SIGNALS AND ACTIONS INTO OWN CLASS FOR BETTER CODE LAYOUT  
 '''
 
-class LabelWidget(QWidget):
-    def __init__(self,text):
-        super(LabelWidget, self).__init__()
-        self.label = QLabel()
-        self.label.setText(text)
-        self.label.setMaximumWidth(50)
+
  
 # TODO Possible work on making widget create it owns class to clean up MainWindow Class
-####################
-### UNUSED CLASS ###
-####################
-class ButtonActions(MainWindow):
-    def __init__(self):
-        MainWindow.__init__(self)
 
 def main():
     app = QApplication(sys.argv)
