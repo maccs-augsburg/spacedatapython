@@ -346,7 +346,6 @@ class MainWindow(QMainWindow):
         #file_value = self.selection_file_value
         file_ending_value = entry_checks.file_format_entry_check(self,self.selection_file_value)
        
-
         # Making the Plot
         file_name_full = station_name_value + year_day_value + file_ending_value
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
@@ -358,6 +357,7 @@ class MainWindow(QMainWindow):
         plot_x_axis = 0         
         plot_y_axis = 0
         plot_z_axis = 0
+
         if (self.checkbox_plotx.isChecked()):
             plot_x_axis = 1        
         if (self.checkbox_ploty.isChecked()):
@@ -372,7 +372,7 @@ class MainWindow(QMainWindow):
         if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+            figure = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
@@ -380,12 +380,12 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '4')
-            plt.draw()
-            plt.show()
+            #plt.draw()
+            #plt.show()
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+            figure = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
@@ -393,25 +393,29 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
-            plt.draw()
-            plt.show()
+            #plt.draw()
+            #plt.show()
         
-        # fig.plot
-        # plt.draw()
-        # self.graph = FigureCanvasQTAgg(self.figure)
-        # self.toolbar = NavigationToolbar2QT(self.graph, self)
-        # self.update_canvas()
+        plt.draw()
+        plt.show()
+        #self.graph = FigureCanvasQTAgg(self.figure)
+        #self.toolbar = NavigationToolbar2QT(self.graph, self)
+        #self.update_canvas(figure)
 
-    def update_canvas(self):
+    def update_canvas(self,figure):
         #self.main_layout.addLayout(self.graph_layout)
+
         print(self.flag) 
         if self.flag == True:
             print('in if')
-            self.graph_layout.removeWidget(self.graph)
-        self.maccs_logo.setHidden(True)
-        self.graph_layout.addWidget(self.toolbar)
-        self.graph_layout.addWidget(self.graph)
+            plt.close(figure)
+        #self.maccs_logo.setHidden(True)
+        #self.graph_layout.addWidget(self.toolbar) 
+        #self.graph_layout.addWidget(self.graph)
+        plt.draw()
+        plt.show()
         self.flag = True
+    
         
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
@@ -422,10 +426,12 @@ class MainWindow(QMainWindow):
         # pops up warning message box with the title and message inputted
         warning_mes = QMessageBox.warning(self, title,message)
 
+    '''
     ##########
             # NOTICE ----------  I DONT KNOW WHAT THIS FUNCTION WAS USED FOR IN THREE GRAPH PLOTTER WORKS FINE WITH OUT IT AND ISNT USED ? 
             # BUT NOT GOING TO REMOVE UNTIL I FIGURE OUT WHAT IS NEEDED
     ###########
+    '''
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         """
@@ -455,10 +461,8 @@ class MainWindow(QMainWindow):
 
         return converted_list
 
-
-########
 #### TODO Convert save and save as functions into PySide package useage isntead of TK 
-############
+
     def save(self):
          
         """
@@ -470,7 +474,6 @@ class MainWindow(QMainWindow):
 
         plt.savefig(self.file_name + ".pdf")
         subprocess.Popen(self.file_name + '.pdf', shell=True)
-
 
     def save_as(self, fig, file_name):
          
@@ -499,14 +502,13 @@ class MainWindow(QMainWindow):
             elif file_ending == ".png":
                 fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
 
-            
+'''       
 ###################
 ## TO DO 
 ##################
-'''
+
 MOVE WIDGET CALLS AND ALL BUTTON SIGNALS AND ACTIONS INTO OWN CLASS FOR BETTER CODE LAYOUT  
 '''
-#####
 
 class LabelWidget(QWidget):
     def __init__(self,text):
