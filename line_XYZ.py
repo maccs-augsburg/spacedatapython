@@ -37,7 +37,7 @@ import matplotlib
 matplotlib.use('QtAgg')
 from matplotlib.backends.qt_compat import QtWidgets
 import matplotlib.pyplot as plt
-import matplotlib.figure as fig
+import matplotlib.figure as figure
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
@@ -321,8 +321,7 @@ class MainWindow(QMainWindow):
             # else
             else:
                 print('Option not available yet :(')
-   
-                
+    
     def execute_plot_function(self):
         '''
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
@@ -378,7 +377,7 @@ class MainWindow(QMainWindow):
         if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            figure = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
@@ -391,7 +390,7 @@ class MainWindow(QMainWindow):
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            figure = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
@@ -402,30 +401,48 @@ class MainWindow(QMainWindow):
             #plt.draw()
             #plt.show()
 
-        # Putting the arrays into the gui
-        plt.draw()
-        plt.show()
-        #self.graph = FigureCanvasQTAgg(self.figure)
-        #self.toolbar = NavigationToolbar2QT(self.graph, self)
-        #self.update_canvas(figure)
+       # self.canvas = MplCanvas(self, width=5, height=4,dpi=400)
+       # self.graph_layout.addWidget(self.canvas)
 
-    def update_canvas(self,figure):
+
+        for i in reversed(range(self.graph_layout.count())): 
+            self.graph_layout.itemAt(i).widget().setParent(None)
+        # Putting the arrays into the gui
+        #plt.draw()
+       #plt.show()
+        self.graph = FigureCanvasQTAgg(self.graph)
+        self.toolbar = NavigationToolbar2QT(self.graph, self)
+        self.maccs_logo.setHidden(True)
+        self.graph_layout.addWidget(self.toolbar) 
+        self.graph_layout.addWidget(self.graph)
+        #self.update_canvas(graph)
+
+    def update_canvas(self,graph):
         '''
         possible helper fucntion for execute functions to update and re-draw the graphs / plots 
         so that we can only have one singular graph on the GUI and not multiple. 
         '''
+        # self.graph = FigureCanvasQTAgg(graph)
+        # self.toolbar = NavigationToolbar2QT(self.graph, self)
+        # self.update_canvas(graph)
+
+        self.canvas.axes.cla() 
+        self.canvas.axes.plot(graph)
+        self.canvas.draw()
+
+
         #self.main_layout.addLayout(self.graph_layout)
 
-        print(self.flag) 
-        if self.flag == True:
-            print('in if')
-            plt.close(figure)
+        # print(self.flag) 
+        # if self.flag == True:
+        #     print('in if')
+        #     plt.close(figure)
         #self.maccs_logo.setHidden(True)
         #self.graph_layout.addWidget(self.toolbar) 
         #self.graph_layout.addWidget(self.graph)
-        plt.draw()
-        plt.show()
-        self.flag = True
+        # plt.draw()
+        # plt.show()
+        # self.flag = True
     
         
     def error_message_pop_up(self,title, message):
@@ -520,6 +537,15 @@ class MainWindow(QMainWindow):
 
 MOVE WIDGET CALLS AND ALL BUTTON SIGNALS AND ACTIONS INTO OWN CLASS FOR BETTER CODE LAYOUT  
 '''
+
+
+class MplCanvas(FigureCanvasQTAgg):
+
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111)
+        super(MplCanvas, self).__init__(fig)
+
 
 class LabelWidget(QWidget):
     def __init__(self,text):
