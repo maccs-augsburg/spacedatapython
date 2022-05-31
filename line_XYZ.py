@@ -45,7 +45,6 @@ class MainWindow(QMainWindow):
     Class Containing GUI using PySide6 module from QT using its framework 
     The Gui is able to Graph a Single graph that can plot any combantion of axis'
     X Y or Z, one two, or three. While also able to alter the graph via zooming in and saving images of the graph
-
     '''
     def __init__(self):
 
@@ -301,17 +300,23 @@ class MainWindow(QMainWindow):
             self.input_endhour.setText("23")
             self.input_endmin.setText("59")
             self.input_endsec.setText("59")
+
+            #temp var
+            file_type = ''
             # raw file selection branch
             if (self.file_name[7:11] == '.2hz'):
                 self.selection_file_value = '4'
+                file_type = '.2hz'
                 
             # clean file selection branch
             elif (self.file_name[7:10] == '.s2'):
                 self.selection_file_value = '5'
+                file_type = '.s2'
             # else
             else:
                 print('Option not available yet :(')
-    
+            # checks the radio button with the proper file type
+            self.check_box(file_type)
     def execute_plot_function(self):
         '''
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
@@ -363,6 +368,8 @@ class MainWindow(QMainWindow):
             # popping up an error if we can't open the file
             self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
 
+        
+
         # Creating the arrays
         if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
@@ -397,6 +404,13 @@ class MainWindow(QMainWindow):
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
+
+    def check_box(self,file_ending_value):
+        if file_ending_value == '.2hz':
+            self.radio_raw_file.setChecked(True)
+        elif file_ending_value == '.s2':
+            self.radio_clean_file.setChecked(True)
+        
 
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
@@ -466,7 +480,7 @@ class MainWindow(QMainWindow):
         fig : the plotted figure
 
         file_name : the name of the file to be saved as
-        """
+        
         
         # Specifying the supported file types that can be saved
         
@@ -482,6 +496,7 @@ class MainWindow(QMainWindow):
         #         fig.savefig(file_name + file_ending, format = "pdf", dpi = 1200)
         #     elif file_ending == ".png":
         #         fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
+        """
 
 '''       
 ###################
