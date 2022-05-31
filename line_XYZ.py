@@ -212,9 +212,9 @@ class MainWindow(QMainWindow):
         self.button_save.clicked.connect(self.save)
         # self.button_save_as.clicked.connect(self.save_as)
 
-        ###############
-        ### Widgets ###
-        ###############
+        ######################
+        ### Adding Widgets ###
+        ######################
 
         self.label_and_entry_layout.addWidget(self.station_code,0,0)
         self.label_and_entry_layout.addWidget(self.year_day, 1,0)
@@ -327,14 +327,18 @@ class MainWindow(QMainWindow):
         '''
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
         '''
-        
+        # Getting entries from the user / the file
+
+        #Station code and year
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
 
+        # Start hour, minute, and second entries
         start_hour_value = entry_checks.start_hour_entry_check(self, self.input_starthour.text())
         start_minute_value = entry_checks.start_minute_entry_check(self, self.input_startmin.text())
         start_second_value = entry_checks.start_second_entry_check( self, self.input_startsec.text())
 
+        # End hour, minute and second entries
         end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
         end_minute_value = entry_checks.end_minute_entry_check(self,self.input_endmin.text())
         end_second_value = entry_checks.end_second_entry_check( self,self.input_endsec.text())
@@ -351,9 +355,7 @@ class MainWindow(QMainWindow):
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
 
-        ########
-        # TODO create signal value getter to determine what plots to display X Y or Z two or three 
-        ########
+        # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
         plot_x_axis = 0         
         plot_y_axis = 0
         plot_z_axis = 0
@@ -364,11 +366,15 @@ class MainWindow(QMainWindow):
             plot_y_axis = 1        
         if (self.checkbox_plotz.isChecked()):
             plot_z_axis = 1
+
+        # trying to open the file
         try:
             file = open(file_name_full, 'rb')
         except:
             # popping up an error if we can't open the file
             self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
+
+        # Creating the arrays
         if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
@@ -395,7 +401,8 @@ class MainWindow(QMainWindow):
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
             #plt.draw()
             #plt.show()
-        
+
+        # Putting the arrays into the gui
         plt.draw()
         plt.show()
         #self.graph = FigureCanvasQTAgg(self.figure)
@@ -403,6 +410,10 @@ class MainWindow(QMainWindow):
         #self.update_canvas(figure)
 
     def update_canvas(self,figure):
+        '''
+        possible helper fucntion for execute functions to update and re-draw the graphs / plots 
+        so that we can only have one singular graph on the GUI and not multiple. 
+        '''
         #self.main_layout.addLayout(self.graph_layout)
 
         print(self.flag) 
@@ -491,16 +502,16 @@ class MainWindow(QMainWindow):
         
         files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
         # Popping up the save as file dialog box
-        save_as_file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
+        #save_as_file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
 
-        if save_as_file is None:
-            return
-        else:
-            file_ending = save_as_file.name.split('/')[-1][-4:]
-            if file_ending == ".pdf":
-                fig.savefig(file_name + file_ending, format = "pdf", dpi = 1200)
-            elif file_ending == ".png":
-                fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
+        # if save_as_file is None:
+        #     return
+        # else:
+        #     file_ending = save_as_file.name.split('/')[-1][-4:]
+        #     if file_ending == ".pdf":
+        #         fig.savefig(file_name + file_ending, format = "pdf", dpi = 1200)
+        #     elif file_ending == ".png":
+        #         fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
 
 '''       
 ###################
