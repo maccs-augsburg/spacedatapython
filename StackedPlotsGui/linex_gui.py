@@ -2,22 +2,12 @@
 linex_gui.py
 May 2022 -- Created -- Mark Ortega-Ponce
 
-If your on Mac system that don't use intel anymore
-https://phoenixnap.com/kb/install-pip-mac
-https://codingpub.dev/python-pip3-pipenv/
-https://codingpub.dev/python-install-virtualenv-and-virtualenvwrapper/
+# to make requirements file
+pipenv run pip freeze > requirements.txt
 
-Summary: I found installing libraries to be the most difficult
-         I recommend using pipenv environments
+# for someone else to be able to install those dependencies
+pipenv install -r path/to/requirements.txt
 
-make sure your using pip3 install matplotlib, numpy .... and so on
-
-I was using pip, but I guess that one installs the old architecture?
-Will throw errors, and lead you down a long goose chase for finding the solution
-
-I think another viable solution is anaconda environments
-
-But im pretty sure i've broken my python paths and have not done a clean reset
 '''
 from ast import Pass
 import sys
@@ -27,29 +17,30 @@ from PySide6.QtWidgets import (
     QMainWindow, QApplication,
     QToolBar, QStatusBar, QCheckBox,
     QHBoxLayout, QGridLayout, QLabel,
-    QWidget, QComboBox, QPushButton, QFileDialog, QMessageBox,
+    QWidget, QComboBox, QPushButton, 
+    QFileDialog, QMessageBox,
     QVBoxLayout
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
 
+#import matplotlib
+# FigureCanvasQTAgg wraps matplot image as a widget for it to be able to be added to layouts in QT
+# Navigation is used for matplotlib functionalities, zooming in, zooming out, saving, etc...
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+
+#### Importing our own files ####################
 from custom_widgets import LineEdit, Label, Color
 import entry_checks
 
+# Move back one directory to grab shared files between guis
 sys.path.append("../")
 
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
 import raw_to_plot
-# forgot this wasn't being used anymore
-#import clean_to_plot
-
-import matplotlib
-# FigureCanvasQTAgg wraps matplot image as a widget for it to be able to be added to layouts in QT
-# Navigation is used for matplotlib functionalities, zooming in, zooming out, saving, etc...
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
-from matplotlib.figure import Figure
 
 WINDOW_HEIGHT = 600
 WINDOW_WIDTH = 1200
@@ -62,14 +53,14 @@ class MainWindow(QMainWindow):
 
         ######## MAIN WINDOW SETTINGS #################
         self.setWindowTitle("MACCS Stacked Plots")
-        # self.setWindowIcon(QIcon("/Users/markortega-ponce/Desktop/ZMACCS/spacedatapython/maccslogo_nobg.png"))
+        self.setWindowIcon(QIcon("../maccslogo_nobg.png"))
         self.setMinimumHeight(WINDOW_HEIGHT)
         self.setMinimumWidth(WINDOW_WIDTH)
         self.station_code = ""
         station_label = Label("Station Code: ")
         self.station_edit = LineEdit()
-        # only allow station edit to take 2 uppercase characters
-        self.station_edit.setInputMask(">AA")
+        # Only allow station input to be 2-4 letter chars
+        self.station_edit.setInputMask(">AAAA")
         self.error_message = QMessageBox()
         self.error_message.setText("Error Invalid Input")
         
@@ -79,6 +70,15 @@ class MainWindow(QMainWindow):
         self.file_path = ""
         self.launch_dialog_option = 0
         self.figure = None
+        self.sc = None
+        self.sc_flag = False
+        self.matplotlib_toolbar = None
+        self.toolbar_flag = False
+        self.layout_flag = False
+        # Make another layout for toolbar and matplotlib
+        # We add this layout onto the gui once user has chosen a file
+        # Then it goes into plotting function and adds it at the end 
+        self.plotting_layout = QVBoxLayout()
         #######################
 
         self.main_layout = QHBoxLayout()
@@ -172,8 +172,6 @@ class MainWindow(QMainWindow):
         # Add maccs logo to the main layout
         self.main_layout.addWidget(self.mac_label)
 
-        # Make another layout for toolbar and matplotlib 
-        self.plotting_layout = QVBoxLayout()
         ################################################
         widget = QWidget()
         widget.setLayout(self.main_layout)
@@ -261,6 +259,7 @@ class MainWindow(QMainWindow):
         self.min_z_edit.set_entry(0)
         self.max_z_edit.set_entry(0)
 
+
     def plot_graph(self):
 
         print("Entered plot_graph callback function")
@@ -338,6 +337,20 @@ class MainWindow(QMainWindow):
 
             x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, file_name_full)
 
+        
+        min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entrie_checks(
+            x_arr,
+            y_arr,
+            z_arr,
+            min_x,
+            max_x,
+            min_y,
+            max_y,
+            min_z,
+            max_z
+        )
+
+        entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
 
         self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, self.filename, start_time_stamp, end_time_stamp, 
             in_min_x=min_x, in_max_x=max_x,
@@ -345,11 +358,46 @@ class MainWindow(QMainWindow):
             in_min_z=min_z, in_max_z=max_z
         )
         
-        sc = FigureCanvasQTAgg(self.figure)
-        matplotlib_toolbar = NavigationToolbar(sc, self)
-        self.plotting_layout.addWidget(matplotlib_toolbar)
-        self.plotting_layout.addWidget(sc)
-        self.main_layout.addLayout(self.plotting_layout)
+
+        '''
+
+        https://stackoverflow.com/questions/44321028/attempting-to-add-qlayout-to-qwidget-which-already-has-a-layout
+        https://stackoverflow.com/questions/5899826/pyqt-how-to-remove-a-widget
+
+        Getting this error, not sure how much it matters
+        QLayout::addChildLayout: layout "" already has a parent
+        Still functional, but would rather not have errors in the console output
+        Test with different files, right now im not sure if each new plotting figure
+        is associated with following toolbars, so if I decide to save second
+        plotted figure, am I saving the first one plotted or second?
+
+        This is solved with adding own save option, we call
+        '''
+        if self.sc_flag:
+            #self.sc.setHidden(True)
+            #self.sc.deleteLater()
+            self.sc.setParent(None)
+
+        self.sc = FigureCanvasQTAgg(self.figure)
+        self.sc_flag = True
+
+        if self.toolbar_flag:
+            #self.matplotlib_toolbar.setHidden(True)
+            # https://www.riverbankcomputing.com/static/Docs/PyQt4/qobject.html#deleteLater
+            #self.matplotlib_toolbar.deleteLater()
+            self.matplotlib_toolbar.setParent(None)
+
+        self.matplotlib_toolbar = NavigationToolbar(self.sc, self)
+        self.toolbar_flag = True
+
+        if not self.layout_flag:
+
+            self.plotting_layout.addWidget(self.matplotlib_toolbar)
+            self.plotting_layout.addWidget(self.sc)
+
+        # I think this is where error is occurring?
+        if not self.layout_flag:
+            self.main_layout.addLayout(self.plotting_layout)
         #self.main_layout.setCentralWidget(sc)
         # Need to set label to hidden, or else it tries to fit logo with graph
         self.mac_label.setHidden(True)
