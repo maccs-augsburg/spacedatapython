@@ -14,12 +14,10 @@ import sys
 import os
 import datetime
 from PySide6.QtWidgets import (
-    QMainWindow, QApplication,
-    QToolBar, QStatusBar, QCheckBox,
+    QMainWindow, QToolBar,
     QHBoxLayout, QGridLayout, QLabel,
     QWidget, QComboBox, QPushButton, 
-    QFileDialog, QMessageBox,
-    QVBoxLayout
+    QFileDialog, QMessageBox, QVBoxLayout, QApplication
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
@@ -48,7 +46,6 @@ WINDOW_WIDTH = 1200
 class MainWindow(QMainWindow):
 
     def __init__(self):
-        # Why does tutorial sometimes pass MainWindow, and other times it doesnt
         super(MainWindow, self).__init__()
 
         ######## MAIN WINDOW SETTINGS #################
@@ -73,8 +70,6 @@ class MainWindow(QMainWindow):
         self.sc = None
         self.sc_flag = False
         self.matplotlib_toolbar = None
-        self.toolbar_flag = False
-        self.layout_flag = False
         # Make another layout for toolbar and matplotlib
         # We add this layout onto the gui once user has chosen a file
         # Then it goes into plotting function and adds it at the end 
@@ -184,32 +179,27 @@ class MainWindow(QMainWindow):
         self.launch_dialog_option = option
 
         if option == 0:
-            # TODO: IAGA2000
-            print("Option not available yet")
-            self.warning_message_dialog("Option Not Available Yet")
+            self.warning_message_dialog("IAGA2000 Option Not Available Yet")
 
         elif option == 1:
-            # TODO: IAGA2002
-            print("Option not available yet")
-            self.warning_message_dialog("Option Not Available Yet")
+            self.warning_message_dialog("IAGA2002 Option Not Available Yet")
 
         elif option == 2:
-            # TODO: CLEAN FILE (.s2)
+
             self.file_extension = ".s2"
             file_filter = "Clean File (*.s2)"
             response = self.get_file_name(file_filter)
         
         elif option == 3:
-            # TODO: RAW FILE (.2HZ)
+
             self.file_extension = ".2hz"
             file_filter = "Raw File (*.2hz)"
             response = self.get_file_name(file_filter)
 
         elif option == 4:
-            print("Option not available yet")
+
             self.warning_message_dialog("Option Not Available Yet")
-            # it does, starts from where it left off
-            #print("Does it ever reach this line? Or where does it go after dialog?")
+
         else:
             print("Got nothing")
 
@@ -224,22 +214,16 @@ class MainWindow(QMainWindow):
             caption = "Select a file",
             dir = os.getcwd(),
             filter = file_filter
-            #initialFilter = 'Clean File (*.s2)'
         )
-        # Documentation says QFileDialog.getOpenFileName returns
-        # (fileNames, filter used)
-        # Example output to terminal
-        # ('/Users/markortega-ponce/Desktop/ZMACCS/spacedatapython/CH20097.s2', 'Clean File (*.s2)')
-        print(response)
 
         # getting file path from tuple returned in response
         filename = response[0]
         self.file_path = filename
-        print(filename)
+        #print(filename)
 
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
-        print(filename)
+        #print(filename)
 
         # setting the station entry box from the filename
         self.station_edit.set_entry(filename[0:2])
@@ -259,35 +243,22 @@ class MainWindow(QMainWindow):
         self.min_z_edit.set_entry(0)
         self.max_z_edit.set_entry(0)
 
-
     def plot_graph(self):
 
-        print("Entered plot_graph callback function")
         station_code = self.station_edit.get_entry()
         if not entry_checks.station_code_entry_check(self):
-            print(len(self.station_edit.get_entry()))
-            print("Failed station entry check, user entered: " + self.station_edit.get_entry())
-            return        
+            return
+
         year_day = self.year_day_edit.get_entry()
         if not entry_checks.year_day_entry_check(self):
-            print("Failed year day entry check, user entered: " + self.year_day_edit.get_entry())
             return
         
-        print("Passed year day, and station code checks")
         start_hour = entry_checks.hour_entry_check(self, self.start_hour_edit.get_entry(), 1)
         start_minute = entry_checks.minute_entry_check(self, self.start_minute_edit.get_entry(), 1)
         start_second = entry_checks.second_entry_check(self, self.start_second_edit.get_entry(), 1)
         end_hour = entry_checks.hour_entry_check(self, self.end_hour_edit.get_entry(), 0)
         end_minute = entry_checks.minute_entry_check(self, self.end_minute_edit.get_entry(), 0)
         end_second = entry_checks.second_entry_check(self, self.end_second_edit.get_entry(), 0)
-
-        print("passed initial checks")
-        min_x = int(self.min_x_edit.get_entry())
-        max_x = int(self.max_x_edit.get_entry())
-        min_y = int(self.min_y_edit.get_entry())
-        max_y = int(self.max_y_edit.get_entry())
-        min_z = int(self.min_z_edit.get_entry())
-        max_z = int(self.max_z_edit.get_entry())
 
         start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
 
@@ -299,35 +270,22 @@ class MainWindow(QMainWindow):
         else:
             end_time_stamp = datetime.time(hour = end_hour, minute = end_minute, second = end_second)
 
-        time_interval_string = file_naming.create_time_interval_string_hms(start_hour, 
-                                                                           start_minute, 
-                                                                           start_second, 
-                                                                           end_hour, 
-                                                                           end_minute, 
-                                                                           end_second)
+        time_interval_string = file_naming.create_time_interval_string_hms(start_hour, start_minute, start_second, 
+                                                                           end_hour, end_minute, end_second)
+
         ####################################
         ######### Making the plot ##########
         ####################################
-        
-        # If file has been selected, and user chose plotting
-        # I am assuming file_extension has at least been set by the most recent file
-        # Means no checks needed, unless my loop invariant is incorrect
+
         file_name_full = station_code + year_day + self.file_extension
         self.filename = file_name_full
 
         try:
-            #https://www.w3schools.com/python/ref_func_open.asp#:~:text=The%20open()%20function%20opens,our%20chapters%20about%20File%20Handling.
-            # file should be one directory up
+            # Open file object, read, binary
             file = open(self.file_path, 'rb')
         except:
-            print(file_name_full)
-            self.error_message.setText("File Open Error, couldn't open file")
-            self.error_message.exec()
-            #print("Where does program go after dialog window closes")
-            #keeps going I guess
+            self.warning_message_dialog("File Open Error, couldn't open file")
         
-        print(file)
-        print(self.launch_dialog_option)
 
         if self.launch_dialog_option == 2:
 
@@ -342,6 +300,13 @@ class MainWindow(QMainWindow):
         #     x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z
         # )
 
+        min_x = int(self.min_x_edit.get_entry())
+        max_x = int(self.max_x_edit.get_entry())
+        min_y = int(self.min_y_edit.get_entry())
+        max_y = int(self.max_y_edit.get_entry())
+        min_z = int(self.min_z_edit.get_entry())
+        max_z = int(self.max_z_edit.get_entry())
+
         min_x, max_x = entry_checks.axis_entry_checks_new(x_arr, min_x, max_x)
         min_y, max_y = entry_checks.axis_entry_checks_new(y_arr, min_y, max_y)
         min_z, max_z = entry_checks.axis_entry_checks_new(z_arr, min_z, max_z)
@@ -353,13 +318,10 @@ class MainWindow(QMainWindow):
             in_min_y=min_y, in_max_y=max_y,
             in_min_z=min_z, in_max_z=max_z
         )
-        
-
         '''
-
         https://stackoverflow.com/questions/44321028/attempting-to-add-qlayout-to-qwidget-which-already-has-a-layout
         https://stackoverflow.com/questions/5899826/pyqt-how-to-remove-a-widget
-
+        https://www.riverbankcomputing.com/static/Docs/PyQt4/qobject.html#deleteLater
         Getting this error, not sure how much it matters
         QLayout::addChildLayout: layout "" already has a parent
         Still functional, but would rather not have errors in the console output
@@ -370,33 +332,30 @@ class MainWindow(QMainWindow):
         This is solved with adding own save option, we call
         '''
         if self.sc_flag:
+            # All three essentially do the same thing?
             #self.sc.setHidden(True)
             #self.sc.deleteLater()
             self.sc.setParent(None)
 
-        self.sc = FigureCanvasQTAgg(self.figure)
-        self.sc_flag = True
-
-        if self.toolbar_flag:
+        if self.sc_flag:
             #self.matplotlib_toolbar.setHidden(True)
-            # https://www.riverbankcomputing.com/static/Docs/PyQt4/qobject.html#deleteLater
             #self.matplotlib_toolbar.deleteLater()
             self.matplotlib_toolbar.setParent(None)
 
+        if self.sc_flag:
+            self.plotting_layout.setParent(None)
+            
+        self.sc = FigureCanvasQTAgg(self.figure)
         self.matplotlib_toolbar = NavigationToolbar(self.sc, self)
-        self.toolbar_flag = True
 
-        if not self.layout_flag:
+        self.plotting_layout.addWidget(self.matplotlib_toolbar)
+        self.plotting_layout.addWidget(self.sc)
 
-            self.plotting_layout.addWidget(self.matplotlib_toolbar)
-            self.plotting_layout.addWidget(self.sc)
-
-        # I think this is where error is occurring?
-        if not self.layout_flag:
-            self.main_layout.addLayout(self.plotting_layout)
+        self.main_layout.addLayout(self.plotting_layout)
         #self.main_layout.setCentralWidget(sc)
         # Need to set label to hidden, or else it tries to fit logo with graph
         self.mac_label.setHidden(True)
+        self.sc_flag = True
         self.show()
 
     def warning_message_dialog(self, message):
