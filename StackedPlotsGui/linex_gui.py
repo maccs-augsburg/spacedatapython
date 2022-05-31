@@ -338,17 +338,13 @@ class MainWindow(QMainWindow):
             x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, file_name_full)
 
         
-        min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entrie_checks(
-            x_arr,
-            y_arr,
-            z_arr,
-            min_x,
-            max_x,
-            min_y,
-            max_y,
-            min_z,
-            max_z
-        )
+        # min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
+        #     x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z
+        # )
+
+        min_x, max_x = entry_checks.axis_entry_checks_new(x_arr, min_x, max_x)
+        min_y, max_y = entry_checks.axis_entry_checks_new(y_arr, min_y, max_y)
+        min_z, max_z = entry_checks.axis_entry_checks_new(z_arr, min_z, max_z)
 
         entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
 
