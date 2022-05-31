@@ -4,10 +4,6 @@
 #Refactored into PySide6 GUI 
 # By Chris Hance may 2022
 
-
-
-from tkinter.filedialog import SaveAs
-
 #Import from PySide6 // QT
 
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
@@ -27,24 +23,18 @@ from pathlib import Path
 #imports from python 
 import sys
 import datetime
-from PIL import ImageTk, Image
-
-#pylab
-import pylab as pl
 
 #Imports from matplotlib
 import matplotlib
 matplotlib.use('QtAgg')
-from matplotlib.backends.qt_compat import QtWidgets
+
 import matplotlib.pyplot as plt
 import matplotlib.figure as figure
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
-from matplotlib.backends.backend_pdf import PdfPages
-import numpy as np
+
 import subprocess
 
 #imports from other python files
-
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
@@ -398,7 +388,7 @@ class MainWindow(QMainWindow):
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
 
-
+        # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         for i in reversed(range(self.graph_layout.count())): 
             self.graph_layout.itemAt(i).widget().setParent(None)
         # Putting the arrays into the gui
@@ -408,7 +398,6 @@ class MainWindow(QMainWindow):
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
-        
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
         error_mes = QMessageBox.critical(self, title, message)
