@@ -105,11 +105,8 @@ def axis_entry_checks_old(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z
 
     # TODO: Ask if user would ever enter 0 for axis ranges, im assuming no, but ask anyway
     '''
-    Im just now realizing Teds function had a fault with it,
-    if user enters 0, it is never going to go through, always replaced by Ted's code
-    Now realizing it because I want to be able to update the values for the user
-    Does it even matter though? I have my QLabel widget keep track of entries
-    Should I set start entry to -1 and compare against that rather than 0?
+    If user enters 0, it is never going to go through, always replaced by old code.
+    Possibly start boxes with -1? Would look kinda weird
     '''
     if min_x == 0:
         min_x = int(default_min_x)
