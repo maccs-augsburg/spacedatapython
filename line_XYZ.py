@@ -385,8 +385,7 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '4')
-            #plt.draw()
-            #plt.show()
+
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
@@ -398,52 +397,17 @@ class MainWindow(QMainWindow):
                                                                 zArr,
                                                                 timeArr, 
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
-            #plt.draw()
-            #plt.show()
-
-       # self.canvas = MplCanvas(self, width=5, height=4,dpi=400)
-       # self.graph_layout.addWidget(self.canvas)
 
 
         for i in reversed(range(self.graph_layout.count())): 
             self.graph_layout.itemAt(i).widget().setParent(None)
         # Putting the arrays into the gui
-        #plt.draw()
-       #plt.show()
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
-        #self.update_canvas(graph)
 
-    def update_canvas(self,graph):
-        '''
-        possible helper fucntion for execute functions to update and re-draw the graphs / plots 
-        so that we can only have one singular graph on the GUI and not multiple. 
-        '''
-        # self.graph = FigureCanvasQTAgg(graph)
-        # self.toolbar = NavigationToolbar2QT(self.graph, self)
-        # self.update_canvas(graph)
-
-        self.canvas.axes.cla() 
-        self.canvas.axes.plot(graph)
-        self.canvas.draw()
-
-
-        #self.main_layout.addLayout(self.graph_layout)
-
-        # print(self.flag) 
-        # if self.flag == True:
-        #     print('in if')
-        #     plt.close(figure)
-        #self.maccs_logo.setHidden(True)
-        #self.graph_layout.addWidget(self.toolbar) 
-        #self.graph_layout.addWidget(self.graph)
-        # plt.draw()
-        # plt.show()
-        # self.flag = True
-    
         
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
