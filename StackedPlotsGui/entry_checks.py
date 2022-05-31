@@ -71,7 +71,7 @@ def second_entry_check(self, second_entry, end_or_start):
         return 59
 
 
-def axis_entrie_checks(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z):
+def axis_entry_checks_old(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z):
 
     default_min_x = min(x_arr)
     default_max_x = max(x_arr)
@@ -88,17 +88,11 @@ def axis_entrie_checks(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, m
     z_midpoint = (default_min_z + default_max_z) / 2
     default_z_range = default_max_z - default_min_z
 
-    # Problem with this is that Z-Values will always be the biggest range from what im seeing in test files
-    # So really we could always just assign it to default_z_range
-    # We want to add some space at top of bottom relative to their own axis range, not just one 
-
     # start normalizing ranges between all three graphs
-    #axis_ranges = [default_x_range, default_y_range, default_z_range]
-    #max_axis_range = max(axis_ranges)
-    # TODO: Ask if this was what they specifically wanted for paper purposes, or if they would rather have zoomed in, I guess I could add a button too, paper plot, or zoomed in plot   
+    axis_ranges = [default_x_range, default_y_range, default_z_range]
+    max_axis_range = max(axis_ranges)
     # increasing range by 5%
     # dont want min-max values to be on the edge of the graph from my understanding
-    '''
     max_axis_range = max_axis_range + max_axis_range * .05
 
     default_min_x = x_midpoint - max_axis_range
@@ -108,21 +102,6 @@ def axis_entrie_checks(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, m
     default_max_x = x_midpoint + max_axis_range
     default_max_y = y_midpoint + max_axis_range
     default_max_z = z_midpoint + max_axis_range
-    '''
-    # Or more accurately (y-axis padding) for top and bottom, so line doesnt touch border
-    axis_padding = .05
-    
-    x_padding = default_x_range * axis_padding
-    default_min_x = default_min_x - (x_padding)
-    default_max_x = default_max_x + (x_padding)
-    
-    y_padding = default_y_range * axis_padding
-    default_min_y = default_min_y - (y_padding)
-    default_max_y = default_max_y + (y_padding)
-
-    z_padding = default_z_range * axis_padding
-    default_min_z = default_min_z - (z_padding)
-    default_max_z = default_max_z + (z_padding)
 
     # TODO: Ask if user would ever enter 0 for axis ranges, im assuming no, but ask anyway
     '''
@@ -151,16 +130,9 @@ def axis_entrie_checks(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, m
         max_z = int(default_max_z)
     
 
-    # print("Mark Min_x: ", min_x)
-    # print("Mark Max_x: ", max_x)
-    # print("Mark Min_y: ", min_y)
-    # print("Mark Max_y: ", max_y)
-    # print("Mark Min_z: ", min_z)
-    # print("Mark Max_z: ", max_z)
-
     return min_x, max_x, min_y, max_y, min_z, max_z
 
-def axis_entry_checks(axis_array, min_value, max_value):
+def axis_entry_checks_new(axis_array, min_value, max_value):
 
     # if one of the values is zero then we don't return
     if min_value and max_value:
@@ -175,6 +147,9 @@ def axis_entry_checks(axis_array, min_value, max_value):
 
     axis_padding = axis_padding * default_range
 
+    default_min = default_min - axis_padding
+    default_max = default_max + axis_padding
+
     if min_value == 0:
         min_value = int(default_min)
     
@@ -185,12 +160,6 @@ def axis_entry_checks(axis_array, min_value, max_value):
 
 
 def set_axis_entrys(self, x_min, x_max, y_min, y_max, z_min, z_max):
-    # print("Mark Min_x: ", x_min)
-    # print("Mark Max_x: ", x_max)
-    # print("Mark Min_y: ", y_min)
-    # print("Mark Max_y: ", y_max)
-    # print("Mark Min_z: ", z_min)
-    # print("Mark Max_z: ", z_max)
 
     self.min_x_edit.set_entry(x_min)
     self.max_x_edit.set_entry(x_max)
