@@ -316,7 +316,7 @@ class MainWindow(QMainWindow):
             else:
                 print('Option not available yet :(')
             # checks the radio button with the proper file type
-            self.check_box(file_type)
+            self.radio_file_check(file_type)
     def execute_plot_function(self):
         '''
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
@@ -405,10 +405,13 @@ class MainWindow(QMainWindow):
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
-    def check_box(self,file_ending_value):
-        if file_ending_value == '.2hz':
+    def radio_file_check(self,file_type):
+        '''
+        function used to check the proper radio button with the file that is opened
+        '''
+        if file_type == '.2hz':
             self.radio_raw_file.setChecked(True)
-        elif file_ending_value == '.s2':
+        elif file_type == '.s2':
             self.radio_clean_file.setChecked(True)
         
 
