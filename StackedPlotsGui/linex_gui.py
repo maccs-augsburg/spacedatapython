@@ -10,6 +10,7 @@ pipenv install -r path/to/requirements.txt
 
 '''
 from ast import Pass
+import subprocess
 import sys
 import os
 import datetime
@@ -40,8 +41,8 @@ import read_raw_to_lists
 import read_clean_to_lists
 import raw_to_plot
 
-WINDOW_HEIGHT = 600
-WINDOW_WIDTH = 1200
+MINIMUM_WINDOW_HEIGHT = 600
+MINIMUM_WINDOW_WIDTH = 1200
 
 class MainWindow(QMainWindow):
 
@@ -51,8 +52,8 @@ class MainWindow(QMainWindow):
         ######## MAIN WINDOW SETTINGS #################
         self.setWindowTitle("MACCS Stacked Plots")
         self.setWindowIcon(QIcon("../maccslogo_nobg.png"))
-        self.setMinimumHeight(WINDOW_HEIGHT)
-        self.setMinimumWidth(WINDOW_WIDTH)
+        self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
         self.station_code = ""
         station_label = Label("Station Code: ")
         self.station_edit = LineEdit()
@@ -64,6 +65,7 @@ class MainWindow(QMainWindow):
         #######################
         self.file_extension = ""
         self.filename = ""
+        self.filename_noextension = ""
         self.file_path = ""
         self.launch_dialog_option = 0
         self.figure = None
@@ -160,6 +162,9 @@ class MainWindow(QMainWindow):
         plot_button = QPushButton("Plot File")
         plot_button.clicked.connect(self.plot_graph)
         entry_layout.addWidget(plot_button)
+        save_button = QPushButton("Save File")
+        save_button.clicked.connect(self.save_file)
+        entry_layout.addWidget(save_button)
         ################################################
 
         # Add entry layout to the main layout
@@ -243,6 +248,14 @@ class MainWindow(QMainWindow):
         self.min_z_edit.set_entry(0)
         self.max_z_edit.set_entry(0)
 
+    def save_file(self):
+        
+        filename = self.filename_noextension + '.pdf'
+
+        self.figure.savefig(filename, format='pdf', dpi=1200)
+        subprocess.Popen(filename, shell=True)
+        self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
+
     def plot_graph(self):
 
         station_code = self.station_edit.get_entry()
@@ -276,7 +289,7 @@ class MainWindow(QMainWindow):
         ####################################
         ######### Making the plot ##########
         ####################################
-
+        self.filename_noextension = station_code + year_day
         file_name_full = station_code + year_day + self.file_extension
         self.filename = file_name_full
 
@@ -344,7 +357,7 @@ class MainWindow(QMainWindow):
 
         if self.sc_flag:
             self.plotting_layout.setParent(None)
-            
+
         self.sc = FigureCanvasQTAgg(self.figure)
         self.matplotlib_toolbar = NavigationToolbar(self.sc, self)
 
