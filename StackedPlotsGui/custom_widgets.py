@@ -1,3 +1,9 @@
+'''
+custom_widgets.py
+
+May 2022 -- Created -- Mark Ortega-Ponce
+'''
+
 from PySide6.QtWidgets import (
     QMainWindow, QLabel,
     QLineEdit, QWidget
@@ -7,6 +13,8 @@ from PySide6.QtGui import QPalette, QColor
 
 
 class LineEdit(QLineEdit):
+    '''
+    '''
 
     def __init__(self):
         super().__init__()
