@@ -155,16 +155,19 @@ class MainWindow(QMainWindow):
         # Add items to combo box
         self.combo_box.addItems(self.options)
         # Add combo box to entry layout
-        entry_layout.addWidget(self.combo_box)
+        entry_layout.addWidget(self.combo_box, 14, 0)
         file_button = QPushButton("Open File")
         file_button.clicked.connect(self.launch_dialog)
-        entry_layout.addWidget(file_button)
+        entry_layout.addWidget(file_button, 14, 1)
         plot_button = QPushButton("Plot File")
         plot_button.clicked.connect(self.plot_graph)
-        entry_layout.addWidget(plot_button)
+        entry_layout.addWidget(plot_button, 15, 0, 1, 2)
         save_button = QPushButton("Save File")
         save_button.clicked.connect(self.save_file)
-        entry_layout.addWidget(save_button)
+        entry_layout.addWidget(save_button, 16, 0)
+        save_as_button = QPushButton("Save As")
+        save_as_button.clicked.connect(self.save_as)
+        entry_layout.addWidget(save_as_button, 16, 1)
         ################################################
 
         # Add entry layout to the main layout
@@ -247,14 +250,6 @@ class MainWindow(QMainWindow):
         self.max_y_edit.set_entry(0)
         self.min_z_edit.set_entry(0)
         self.max_z_edit.set_entry(0)
-
-    def save_file(self):
-        
-        filename = self.filename_noextension + '.pdf'
-
-        self.figure.savefig(filename, format='pdf', dpi=1200)
-        subprocess.Popen(filename, shell=True)
-        self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
 
     def plot_graph(self):
 
@@ -371,6 +366,44 @@ class MainWindow(QMainWindow):
         self.sc_flag = True
         self.show()
 
+    def save_file(self):
+        
+        if self.figure == None:
+            self.warning_message_dialog("No figure to be saved")
+            return
+
+        filename = self.filename_noextension + '.pdf'
+
+        self.figure.savefig(filename, format='pdf', dpi=1200)
+        subprocess.Popen(filename, shell=True)
+        self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
+
+    def save_as(self):
+
+        if self.figure == None:
+            self.warning_message_dialog("No figure to be saved")
+            return
+            
+        response = QFileDialog.getSaveFileName(
+            dir = os.getcwd(),
+            filter = "PDF (*.pdf);;PNG (*.png)"
+        )
+        # response returns tuple
+        # gets filename you put and returns as absolute path, along with filter
+        #filename = response[0]
+        # only grab filename, ignore file filter
+        filename, _ = response
+        # .pdf = 4
+        if len(filename) < 5:
+            return
+        # go to the end (-1) and find last '/', split there
+        filename = filename.split('/')[-1]
+
+        self.figure.savefig(filename, dpi=1200)
+        subprocess.Popen(filename, shell=True)
+        self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
+
+    
     def warning_message_dialog(self, message):
 
         self.error_message.setText(message)
