@@ -46,6 +46,23 @@ MINIMUM_WINDOW_WIDTH = 1200
 
 class MainWindow(QMainWindow):
 
+    ''' Main display for our gui, all additional widgets go in here
+    
+    Attributes:
+        self.file_extension: 
+        self.filename: 
+        self.file_path: Stores absolute file path returned in get_file_name function, String
+        self.launch_dialog_option: Stores option index from drop down box in gui, distinguishes how we should plot
+        self.figure: Stores figure made from plot_graph function. Uses: Save, display to user
+        self.figure_canvas: canvas for figure, wraps matplotlib image as a widget. Allows you to embed and hover over values
+        self.figure_canvas_flag: flag for removing old canvas, and plotting new file/values. First pass = False, rest = True
+        self.matplotlib_toolbar:
+        self.main_layout: QHBoxLayout, add other layouts/widgets on top of main layout in horizontal direction
+        self.entry_layout: QGridLayout, add user inputs here. layout.addWidget(row, column)
+        self.plotting_layout: QVBoxLayout, add matplotlibar then figure_canvas to have toolbar on top of plot
+        self.someVariableName_label: Labels for the user input boxes
+        self.someVariableName_edit: These variables allow for user to enter input, setters, and getters for these variables
+    '''
     def __init__(self):
         super(MainWindow, self).__init__()
 
@@ -69,8 +86,8 @@ class MainWindow(QMainWindow):
         self.file_path = ""
         self.launch_dialog_option = 0
         self.figure = None
-        self.sc = None
-        self.sc_flag = False
+        self.figure_canvas = None
+        self.figure_canvas_flag = False
         self.matplotlib_toolbar = None
         # Make another layout for toolbar and matplotlib
         # We add this layout onto the gui once user has chosen a file
@@ -339,21 +356,17 @@ class MainWindow(QMainWindow):
 
         This is solved with adding own save option, we call
         '''
-        if self.sc_flag:
+        if self.figure_canvas_flag:
             # All three essentially do the same thing?
             #self.sc.setHidden(True)
             #self.sc.deleteLater()
-            self.sc.setParent(None)
-
-        if self.sc_flag:
+            self.figure_canvas.setParent(None)
             #self.matplotlib_toolbar.setHidden(True)
             #self.matplotlib_toolbar.deleteLater()
             self.matplotlib_toolbar.setParent(None)
-
-        if self.sc_flag:
             self.plotting_layout.setParent(None)
 
-        self.sc = FigureCanvasQTAgg(self.figure)
+        self.figure_canvas = FigureCanvasQTAgg(self.figure)
         self.matplotlib_toolbar = NavigationToolbar(self.sc, self)
 
         self.plotting_layout.addWidget(self.matplotlib_toolbar)
@@ -363,7 +376,7 @@ class MainWindow(QMainWindow):
         #self.main_layout.setCentralWidget(sc)
         # Need to set label to hidden, or else it tries to fit logo with graph
         self.mac_label.setHidden(True)
-        self.sc_flag = True
+        self.figure_canvas_flag = True
         self.show()
 
     def save_file(self):
