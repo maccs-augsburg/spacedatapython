@@ -18,6 +18,7 @@ class LineEdit(QLineEdit):
         self.setInputMask("99999")
         self.textEdited.connect(self.text_edited)
         self.setAlignment(Qt.AlignCenter)
+        #self.setAlignment(Qt.AlignLeft)
         self.entry = "N/A"
         self.setMaximumWidth(80)
 
@@ -43,11 +44,10 @@ class Label(QLabel):
 
         self.setText(label_name)
         font = self.font()
-        font.setPointSize(13)
+        font.setPointSize(14)
         self.setFont(font)
         self.setAlignment(Qt.AlignLeft)
-        self.setMaximumWidth(80)
-
+        self.setMaximumWidth(85)
 
 class Color(QWidget):
 
