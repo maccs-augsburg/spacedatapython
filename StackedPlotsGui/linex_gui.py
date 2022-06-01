@@ -231,7 +231,6 @@ class MainWindow(QMainWindow):
         
     def get_file_name(self, f_filter):
         # https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QFileDialog.html#PySide2.QtWidgets.PySide2.QtWidgets.QFileDialog.getOpenFileName
-
         file_filter = f_filter
 
         response = QFileDialog.getOpenFileName(
@@ -240,9 +239,9 @@ class MainWindow(QMainWindow):
             dir = os.getcwd(),
             filter = file_filter
         )
-
-        # getting file path from tuple returned in response
-        filename = response[0]
+        # getting file path from tuple returned in response, ignoring second return param
+        # https://www.datacamp.com/tutorial/role-underscore-python
+        filename, _ = response
         self.file_path = filename
         #print(filename)
 
@@ -343,37 +342,20 @@ class MainWindow(QMainWindow):
             in_min_y=min_y, in_max_y=max_y,
             in_min_z=min_z, in_max_z=max_z
         )
-        '''
-        https://stackoverflow.com/questions/44321028/attempting-to-add-qlayout-to-qwidget-which-already-has-a-layout
-        https://stackoverflow.com/questions/5899826/pyqt-how-to-remove-a-widget
-        https://www.riverbankcomputing.com/static/Docs/PyQt4/qobject.html#deleteLater
-        Getting this error, not sure how much it matters
-        QLayout::addChildLayout: layout "" already has a parent
-        Still functional, but would rather not have errors in the console output
-        Test with different files, right now im not sure if each new plotting figure
-        is associated with following toolbars, so if I decide to save second
-        plotted figure, am I saving the first one plotted or second?
 
-        This is solved with adding own save option, we call
-        '''
         if self.figure_canvas_flag:
-            # All three essentially do the same thing?
-            #self.sc.setHidden(True)
-            #self.sc.deleteLater()
+
             self.figure_canvas.setParent(None)
-            #self.matplotlib_toolbar.setHidden(True)
-            #self.matplotlib_toolbar.deleteLater()
             self.matplotlib_toolbar.setParent(None)
             self.plotting_layout.setParent(None)
 
         self.figure_canvas = FigureCanvasQTAgg(self.figure)
-        self.matplotlib_toolbar = NavigationToolbar(self.sc, self)
+        self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
 
         self.plotting_layout.addWidget(self.matplotlib_toolbar)
         self.plotting_layout.addWidget(self.sc)
 
         self.main_layout.addLayout(self.plotting_layout)
-        #self.main_layout.setCentralWidget(sc)
         # Need to set label to hidden, or else it tries to fit logo with graph
         self.mac_label.setHidden(True)
         self.figure_canvas_flag = True
