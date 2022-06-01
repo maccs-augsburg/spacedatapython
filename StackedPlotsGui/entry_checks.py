@@ -1,4 +1,8 @@
+'''
+custom_widgets.py
 
+May 2022 -- Created -- Mark Ortega-Ponce
+'''
 
 def station_code_entry_check(self):
 
