@@ -255,10 +255,9 @@ class MainWindow(QMainWindow):
         #print(filename)
 
         # setting the station entry box from the filename
+        # Ex: CH 20097 .2hz
         self.station_edit.set_entry(filename[0:2])
         self.year_day_edit.set_entry(filename[2:7])
-        self.filename_noextension = filename[0:7]
-        print(self.filename_noextension)
         
         # reset the start times and end times
         self.start_hour_edit.set_entry(0)
