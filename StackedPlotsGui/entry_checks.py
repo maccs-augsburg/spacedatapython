@@ -5,27 +5,64 @@ May 2022 -- Created -- Mark Ortega-Ponce
 '''
 
 def station_code_entry_check(self):
+    '''
+    Additional check for the station code, 
+    makes sure it is 2-4 Uppercase Characters,
+    warns user if input was off
 
+    Returns
+    -------
+    Boolean
+        true/false: false it it failed test, true if it passed test
+    '''
     if len(self.station_edit.get_entry()) <= 1:
-        self.warning_message_dialog("Error invalid station code, needs to be 2-4 uppercase characters")
+        self.warning_message_dialog(
+            "Error invalid station code, needs to be 2-4 uppercase characters")
         return False
     # If it passed check return True
     return True
 
 def year_day_entry_check(self):
+    '''
+    Checks to see if there was any input for the 
+    year day value, warns user if input was off
 
+    Returns
+    -------
+    Boolean 
+        true/false: false if it failed test, true if it passed test
+    '''
     if (len(self.year_day_edit.get_entry()) == 0):
-        self.warning_message_dialog("There was no input for the year day entry box")
+        self.warning_message_dialog(
+            "There was no input for the year day entry box")
         return False
     # If it passed check return True
     return True
 
 def hour_entry_check(self, hour_entry, end_or_start):
+    '''
+    Checks both the start and end hour 
+    entries, warns use if input was off
+    Also sets the entries in the gui 
+
+    Parameters
+    ----------
+    String
+        hour_entry: The value that was inputted into start or end input
+    Int
+        end_or_start: If start enter a 1 or non-zero. If end enter 0
+    
+    Returns
+    -------
+    Int
+        hour: hour value in integer form for plotting
+    '''
 
     hour = int(hour_entry)
 
     if hour > 24 or hour < 0:
-        self.warning_message_dialog("Hour Entry Error. Valid input (0 - 23)")
+        self.warning_message_dialog(
+            "Hour Entry Error. Valid input (0 - 23)")
         if end_or_start:
             self.start_hour_edit.set_entry(0)
             return 0
@@ -41,11 +78,29 @@ def hour_entry_check(self, hour_entry, end_or_start):
     return hour
 
 def minute_entry_check(self, minute_entry, end_or_start):
+    '''
+    Checks both the start and end minute
+    entries, warns the user if input was off
+    Also sets the entries in the gui
+
+    Parameters
+    ----------
+    String
+        minute_entry: The value that was inputted into start or end input
+    Int
+        end_or_start: If start value, enter 1 or non-zero. If end enter 0
+    
+    Returns
+    -------
+    Int
+        minute: minute value in integer form for plotting
+    '''
 
     minute = int(minute_entry)
 
     if minute > 59 or minute < 0:
-        self.warning_message_dialog("Minute Entry Error. Valid input (0 - 59)")
+        self.warning_message_dialog(
+            "Minute Entry Error. Valid input (0 - 59)")
 
         if end_or_start:
             self.start_minute_edit.set_entry(0)
@@ -62,11 +117,28 @@ def minute_entry_check(self, minute_entry, end_or_start):
     return minute
 
 def second_entry_check(self, second_entry, end_or_start):
+    '''
+    Checks both the start and end second
+    entries, warns the user if input was off.
+    Also sets the entries in the gui
+
+    Parameters
+    ----------
+    String
+        second_entry: The value that was inputted into start of end input
+    Int
+        end_or_start: If start value, enter 1 or non-zero. If end enter 0
+    
+    Returns
+    -------
+        second: second value in integer form for plotting
+    '''
 
     second = int(second_entry)
 
     if second > 59 or second < 0:
-        self.warning_message_dialog("Second Entry Error. Valid input (0- 59)")
+        self.warning_message_dialog(
+            "Second Entry Error. Valid input (0- 59)")
 
         if end_or_start:
             self.start_second_edit.set_entry(0)
@@ -83,6 +155,25 @@ def second_entry_check(self, second_entry, end_or_start):
     return second
 
 def axis_entry_checks_old(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z):
+    '''
+    Old axis entry checks from 
+    raw_to_plot.py.plot_arrays() function
+    Normalizes range of graphs to be about the same
+    Present data in a non-biased view, rather than zoomed into min-max
+
+    Parameters
+    ----------
+    List
+        x_arr: array of x-values. Pulls min/max in case none were entered
+    List
+        y_arr: array of y-values. Pulls min/max in case none were entered
+    List
+        z_arr: array of z_values. Pulls min/max in case none were entered
+    Int
+        min_x: 
+
+
+    '''
 
     default_min_x = min(x_arr)
     default_max_x = max(x_arr)
