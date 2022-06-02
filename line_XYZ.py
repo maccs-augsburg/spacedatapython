@@ -26,7 +26,7 @@ import datetime
 
 #Imports from matplotlib
 import matplotlib
-matplotlib.use('QtAgg')
+matplotlib.use('qtagg')
 
 import matplotlib.pyplot as plt
 import matplotlib.figure as figure
@@ -71,9 +71,9 @@ class MainWindow(QMainWindow):
 
         toolbar = QToolBar("Main Toolbar")    
         toolbar.setIconSize(QSize(16,16))
-        openfile = QAction(QIcon("../images/folder-open.png"),"Open File", self)
-        savefile = QAction(QIcon("../images/disk.png"),"Save File", self)
-        zoom = QAction(QIcon("../images/magnifier-zoom-in.png"),"Zoom in", self)
+        openfile = QAction(QIcon("../spacedatapython/images/folder-open.png"),"Open File", self)
+        savefile = QAction(QIcon("../spacedatapython/images/disk.png"),"Save File", self)
+        zoom = QAction(QIcon("../spacedatapython/images/magnifier-zoom-in.png"),"Zoom in", self)
 
         toolbar.addAction(openfile)
         toolbar.addAction(savefile)
@@ -195,6 +195,9 @@ class MainWindow(QMainWindow):
         ### Signals / Events ###
         ########################
 
+        openfile.triggered.connect(self.open_file)
+        savefile.triggered.connect(self.save)
+        
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
         self.button_plot.clicked.connect(self.execute_plot_function)
