@@ -44,6 +44,7 @@ import raw_to_plot
 MINIMUM_WINDOW_HEIGHT = 600
 MINIMUM_WINDOW_WIDTH = 1200
 
+
 class MainWindow(QMainWindow):
 
     ''' Main display for our gui, all additional widgets go in here
@@ -232,11 +233,15 @@ class MainWindow(QMainWindow):
     def get_file_name(self, f_filter):
         # https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QFileDialog.html#PySide2.QtWidgets.PySide2.QtWidgets.QFileDialog.getOpenFileName
         file_filter = f_filter
+        # guis will be in the same folder, so go back one directory for shared files 
+        current_directory = os.getcwd()
+        directory_split = current_directory.split('/')[-1]
+        move_up_current_directory = "../" + directory_split
 
         response = QFileDialog.getOpenFileName(
             parent = self,
             caption = "Select a file",
-            dir = os.getcwd(),
+            dir = move_up_current_directory,
             filter = file_filter
         )
         # if user cancels button, dont want to execute function
