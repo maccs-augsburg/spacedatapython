@@ -277,12 +277,12 @@ class MainWindow(QMainWindow):
         if not entry_checks.year_day_entry_check(self):
             return
         
-        start_hour = entry_checks.hour_entry_check(self, self.start_hour_edit.get_entry(), 1)
-        start_minute = entry_checks.minute_entry_check(self, self.start_minute_edit.get_entry(), 1)
-        start_second = entry_checks.second_entry_check(self, self.start_second_edit.get_entry(), 1)
-        end_hour = entry_checks.hour_entry_check(self, self.end_hour_edit.get_entry(), 0)
-        end_minute = entry_checks.minute_entry_check(self, self.end_minute_edit.get_entry(), 0)
-        end_second = entry_checks.second_entry_check(self, self.end_second_edit.get_entry(), 0)
+        start_hour = entry_checks.hour_entry_check(self, int(self.start_hour_edit.get_entry()), 1)
+        start_minute = entry_checks.minute_entry_check(self, int(self.start_minute_edit.get_entry()), 1)
+        start_second = entry_checks.second_entry_check(self, int(self.start_second_edit.get_entry()), 1)
+        end_hour = entry_checks.hour_entry_check(self, int(self.end_hour_edit.get_entry()), 0)
+        end_minute = entry_checks.minute_entry_check(self, int(self.end_minute_edit.get_entry()), 0)
+        end_second = entry_checks.second_entry_check(self, int(self.end_second_edit.get_entry()), 0)
 
         start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
 
@@ -313,14 +313,20 @@ class MainWindow(QMainWindow):
 
         if self.launch_dialog_option == 2:
 
-            x_arr, y_arr, z_arr, time_arr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, file_name_full)
+            x_arr, y_arr, z_arr, time_arr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, 
+                                                                                                            start_time_stamp, 
+                                                                                                            end_time_stamp, 
+                                                                                                            file_name_full)
 
         elif self.launch_dialog_option == 3:
 
-            x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp, end_time_stamp, file_name_full)
+            x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, 
+                                                                                            start_time_stamp, 
+                                                                                            end_time_stamp, 
+                                                                                            file_name_full)
 
         
-        # min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
+        #min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
         #     x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z
         # )
 
@@ -337,11 +343,11 @@ class MainWindow(QMainWindow):
 
         entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
 
-        self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, self.filename, start_time_stamp, end_time_stamp, 
-            in_min_x=min_x, in_max_x=max_x,
-            in_min_y=min_y, in_max_y=max_y,
-            in_min_z=min_z, in_max_z=max_z
-        )
+        self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, 
+                                                self.filename, start_time_stamp, end_time_stamp, 
+                                                in_min_x=min_x, in_max_x=max_x,
+                                                in_min_y=min_y, in_max_y=max_y,
+                                                in_min_z=min_z, in_max_z=max_z)
 
         if self.figure_canvas_flag:
 
@@ -353,7 +359,7 @@ class MainWindow(QMainWindow):
         self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
 
         self.plotting_layout.addWidget(self.matplotlib_toolbar)
-        self.plotting_layout.addWidget(self.sc)
+        self.plotting_layout.addWidget(self.figure_canvas)
 
         self.main_layout.addLayout(self.plotting_layout)
         # Need to set label to hidden, or else it tries to fit logo with graph
