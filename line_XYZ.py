@@ -197,12 +197,12 @@ class MainWindow(QMainWindow):
 
         openfile.triggered.connect(self.open_file)
         savefile.triggered.connect(self.save)
-        
+
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
         self.button_plot.clicked.connect(self.execute_plot_function)
         self.button_save.clicked.connect(self.save)
-        # self.button_save_as.clicked.connect(self.save_as)
+        self.button_save_as.clicked.connect(self.save_as)
 
         ######################
         ### Adding Widgets ###
@@ -320,6 +320,7 @@ class MainWindow(QMainWindow):
                 print('Option not available yet :(')
             # checks the radio button with the proper file type
             self.radio_file_check(file_type)
+    
     def execute_plot_function(self):
         '''
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
@@ -412,8 +413,7 @@ class MainWindow(QMainWindow):
         if file_type == '.2hz':
             self.radio_raw_file.setChecked(True)
         elif file_type == '.s2':
-            self.radio_clean_file.setChecked(True)
-        
+            self.radio_clean_file.setChecked(True)    
 
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
@@ -473,45 +473,31 @@ class MainWindow(QMainWindow):
         plt.savefig(self.file_name + ".pdf")
         subprocess.Popen(self.file_name + '.pdf', shell=True)
 
-    def save_as(self, fig, file_name):
+    def save_as(self):
          
         """
         saves the file as either a pdf or png
-
-        Parameters
-        ----------
-        fig : the plotted figure
-
-        file_name : the name of the file to be saved as
-        
-        
-        # Specifying the supported file types that can be saved
+        """
         
         files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
+        file_type = QMessageBox()
+        file_type.setWindowTitle("Image Type")
+        file_type.setText("Selection image type \n .PDF or .PNG")
+        file_type.addButton
+        # if 
+        # plt.savefig(self.file_name + ".pdf")
+        # subprocess.Popen(self.file_name + '.pdf', shell=True)
+
+        # plt.savefig(self.file_name + ".png")
+        # subprocess.Popen(self.file_name + '.png', shell=True)
         # Popping up the save as file dialog box
-        #save_as_file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
+        
 
-        # if save_as_file is None:
-        #     return
-        # else:
-        #     file_ending = save_as_file.name.split('/')[-1][-4:]
-        #     if file_ending == ".pdf":
-        #         fig.savefig(file_name + file_ending, format = "pdf", dpi = 1200)
-        #     elif file_ending == ".png":
-        #         fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
-        """
-
-'''       
-###################
-## TO DO 
-##################
-
-MOVE WIDGET CALLS AND ALL BUTTON SIGNALS AND ACTIONS INTO OWN CLASS FOR BETTER CODE LAYOUT  
-'''
-
-
- 
-# TODO Possible work on making widget create it owns class to clean up MainWindow Class
+class CustomToolbar(NavigationToolbar2QT):
+    def __init__(self, canvas):
+        NavigationToolbar2QT.__init__(self,canvas)
+        FINAL_REMOVE_SUBPLOT_INT = 6
+        self.DeteleToolByPos(FINAL_REMOVE_SUBPLOT_INT)
 
 def main():
     app = QApplication(sys.argv)
