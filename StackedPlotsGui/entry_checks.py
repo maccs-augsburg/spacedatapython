@@ -2,18 +2,24 @@
 custom_widgets.py
 
 May 2022 -- Created -- Mark Ortega-Ponce
+
+https://docs.python.org/3/library/typing.html
+https://peps.python.org/pep-0008/
+
+Note: Types in params and ->, are just used for type hinting in IDE's.
+      Python does not enforce types.
 '''
 
-def station_code_entry_check(self):
+def station_code_entry_check(self) -> bool:
     '''
-    Additional check for the station code, 
-    makes sure it is 2-4 Uppercase Characters,
-    warns user if input was off
+    Additional check for the station code. 
+    Makes sure it is 2-4 character.
+    Warns user if input was off.
 
     Returns
     -------
-    Boolean
-        true/false: false it it failed test, true if it passed test
+    True/False : bool
+        False it it failed test, true if it passed test.
     '''
     if len(self.station_edit.get_entry()) <= 1:
         self.warning_message_dialog(
@@ -22,15 +28,15 @@ def station_code_entry_check(self):
     # If it passed check return True
     return True
 
-def year_day_entry_check(self):
+def year_day_entry_check(self) -> bool:
     '''
     Checks to see if there was any input for the 
-    year day value, warns user if input was off
+    year day value, warns user if input was off.
 
     Returns
     -------
-    Boolean 
-        true/false: false if it failed test, true if it passed test
+    True/False : bool
+        False if it failed test, true if it passed test.
     '''
     if (len(self.year_day_edit.get_entry()) == 0):
         self.warning_message_dialog(
@@ -39,26 +45,26 @@ def year_day_entry_check(self):
     # If it passed check return True
     return True
 
-def hour_entry_check(self, hour_entry, end_or_start):
+def hour_entry_check(self, hour_entry: int, end_or_start: int) -> int:
     '''
     Checks both the start and end hour 
-    entries, warns use if input was off
-    Also sets the entries in the gui 
+    entries, warns use if input was off.
+    Also sets the entries in the gui.
 
     Parameters
     ----------
-    String
-        hour_entry: The value that was inputted into start or end input
-    Int
-        end_or_start: If start enter a 1 or non-zero. If end enter 0
+    hour_entry : int
+        The value that was inputted into start or end input. Cast to int.
+    end_or_start : int
+        If hour is a start entry enter a 1 or non-zero. Else enter 0.
     
     Returns
     -------
-    Int
-        hour: hour value in integer form for plotting
+    hour : int
+        Hour value in integer form for plotting.
     '''
 
-    hour = int(hour_entry)
+    hour = hour_entry
 
     if hour > 24 or hour < 0:
         self.warning_message_dialog(
@@ -77,26 +83,26 @@ def hour_entry_check(self, hour_entry, end_or_start):
 
     return hour
 
-def minute_entry_check(self, minute_entry, end_or_start):
+def minute_entry_check(self, minute_entry: int, end_or_start: int) -> int:
     '''
     Checks both the start and end minute
-    entries, warns the user if input was off
-    Also sets the entries in the gui
+    entries. Warns the user if input was off.
+    Also sets the entries in the gui.
 
     Parameters
     ----------
-    String
-        minute_entry: The value that was inputted into start or end input
-    Int
-        end_or_start: If start value, enter 1 or non-zero. If end enter 0
+    minute_entry : int
+        The value that was inputted into start or end input. Cast to int. 
+    end_or_start : int
+        If minute is a start entry, enter 1 or non-zero. Else enter 0.
     
     Returns
     -------
-    Int
-        minute: minute value in integer form for plotting
+    minute : int
+        Minute value in integer form for plotting.
     '''
 
-    minute = int(minute_entry)
+    minute = minute_entry
 
     if minute > 59 or minute < 0:
         self.warning_message_dialog(
@@ -116,7 +122,7 @@ def minute_entry_check(self, minute_entry, end_or_start):
 
     return minute
 
-def second_entry_check(self, second_entry, end_or_start):
+def second_entry_check(self, second_entry: int, end_or_start: int) -> int:
     '''
     Checks both the start and end second
     entries, warns the user if input was off.
@@ -124,13 +130,14 @@ def second_entry_check(self, second_entry, end_or_start):
 
     Parameters
     ----------
-    String
-        second_entry: The value that was inputted into start of end input
-    Int
-        end_or_start: If start value, enter 1 or non-zero. If end enter 0
+    second_entry : str
+        The value that was inputted into start of end input
+    end_or_start : int
+        If second is a start entry, enter 1 or non-zero. Else enter 0.
     
     Returns
     -------
+    Int
         second: second value in integer form for plotting
     '''
 
@@ -154,12 +161,15 @@ def second_entry_check(self, second_entry, end_or_start):
 
     return second
 
-def axis_entry_checks_old(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z):
+def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list, 
+                        min_x: int, max_x: int, 
+                        min_y: int, max_y: int, 
+                        min_z: int, max_z: int) -> tuple[int,int,int,int,int,int]:
     '''
     Old axis entry checks from 
-    raw_to_plot.py.plot_arrays() function
-    Normalizes range of graphs to be about the same
-    Present data in a non-biased view, rather than zoomed into min-max
+    raw_to_plot.py.plot_arrays() function.
+    Normalizes range of graphs to be about the same.
+    Present data in a non-biased view, rather than zoomed into min-max range.
 
     Parameters
     ----------
@@ -170,9 +180,32 @@ def axis_entry_checks_old(x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z
     List
         z_arr: array of z_values. Pulls min/max in case none were entered
     Int
-        min_x: 
+        min_x: min_x entry from the user, if any
+    Int
+        max_x: max_x entry from the user, if any
+    Int
+        min_y: min_y entry from the user, if any
+    Int
+        max_y: max_y entry from the user, if any
+    Int
+        min_z: min_z entry from the user, if any
+    Int
+        max_z: max_z entry from the user, if any
 
-
+    Returns
+    -------
+    Int
+        min_x: Returns default min_x if no input, else returns input
+    Int
+        max_x: Return default max_x if no input, else returns input
+    Int
+        min_y: Return default min_y if no input, else returns input
+    Int
+        max_y: Returns default max_y if no input, else returns input
+    Int
+        min_z: Returns default min_z if no input, else returns input
+    Int
+        max_z: Returns default max_z if no input, else returns input
     '''
 
     default_min_x = min(x_arr)
