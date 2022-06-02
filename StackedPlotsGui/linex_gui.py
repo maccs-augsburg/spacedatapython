@@ -239,6 +239,9 @@ class MainWindow(QMainWindow):
             dir = os.getcwd(),
             filter = file_filter
         )
+        # if user cancels button, dont want to execute function
+        if len(response) == 0:
+            return
         # getting file path from tuple returned in response, ignoring second return param
         # https://www.datacamp.com/tutorial/role-underscore-python
         filename, _ = response
@@ -247,11 +250,15 @@ class MainWindow(QMainWindow):
 
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
+        # Ex: CH20097.2hz
+        self.filename = filename
         #print(filename)
 
         # setting the station entry box from the filename
         self.station_edit.set_entry(filename[0:2])
         self.year_day_edit.set_entry(filename[2:7])
+        self.filename_noextension = filename[0:7]
+        print(self.filename_noextension)
         
         # reset the start times and end times
         self.start_hour_edit.set_entry(0)
@@ -268,6 +275,10 @@ class MainWindow(QMainWindow):
         self.max_z_edit.set_entry(0)
 
     def plot_graph(self):
+        
+        if len(self.filename) == 0:
+            self.warning_message_dialog("No file to work with. Open a file with open file button.")
+            return
 
         station_code = self.station_edit.get_entry()
         if not entry_checks.station_code_entry_check(self):
@@ -300,15 +311,13 @@ class MainWindow(QMainWindow):
         ####################################
         ######### Making the plot ##########
         ####################################
-        self.filename_noextension = station_code + year_day
-        file_name_full = station_code + year_day + self.file_extension
-        self.filename = file_name_full
 
         try:
             # Open file object, read, binary
             file = open(self.file_path, 'rb')
         except:
             self.warning_message_dialog("File Open Error, couldn't open file")
+            return
         
 
         if self.launch_dialog_option == 2:
@@ -316,14 +325,14 @@ class MainWindow(QMainWindow):
             x_arr, y_arr, z_arr, time_arr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, 
                                                                                                             start_time_stamp, 
                                                                                                             end_time_stamp, 
-                                                                                                            file_name_full)
+                                                                                                            self.filename)
 
         elif self.launch_dialog_option == 3:
 
             x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, 
                                                                                             start_time_stamp, 
                                                                                             end_time_stamp, 
-                                                                                            file_name_full)
+                                                                                            self.filename)
 
         
         #min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
