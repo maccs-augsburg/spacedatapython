@@ -6,6 +6,7 @@
 
 #Import from PySide6 // QT
 
+#from curses import window
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
                                 QWidget, QHBoxLayout, 
@@ -338,6 +339,9 @@ class MainWindow(QMainWindow):
         '''
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
         '''
+
+
+
         # Getting entries from the user / the file
         #Station code and year
         station_name_value = self.input_station_code.text()
@@ -365,27 +369,37 @@ class MainWindow(QMainWindow):
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
 
-        # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
-        plot_x_axis = 0         
-        plot_y_axis = 0
-        plot_z_axis = 0
+        which_graph_type_box = QMessageBox(self)
 
-        if (self.checkbox_plotx.isChecked()):
-            plot_x_axis = 1        
-        if (self.checkbox_ploty.isChecked()):
-            plot_y_axis = 1        
-        if (self.checkbox_plotz.isChecked()):
-            plot_z_axis = 1
+        three_axis_option = which_graph_type_box.addButton(str('Three Axis'), QMessageBox.ActionRole)
+        stacked_display = which_graph_type_box.addButton(str('Stacked Display'),QMessageBox.ActionRole)
+        cancel_button = which_graph_type_box.addButton(str('Cancel'),QMessageBox.ActionRole)
+        window_title_text = which_graph_type_box.setWindowTitle("Graph type")
+        message_text = which_graph_type_box.setText("Choose what type of graphing layout you would like \n Three Axis Option or Stacked Display")
+        start = which_graph_type_box.exec()
 
-        # trying to open the file
-        try:
-            file = open(file_name_full, 'rb')
-        except:
-            # popping up an error if we can't open the file
-            self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
+        if which_graph_type_box.clickedButton() == three_axis_option:
 
-        #Creating the arrays
-        if choose_axis_plot:
+            # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
+            plot_x_axis = 0         
+            plot_y_axis = 0
+            plot_z_axis = 0
+
+            if (self.checkbox_plotx.isChecked()):
+                plot_x_axis = 1        
+            if (self.checkbox_ploty.isChecked()):
+                plot_y_axis = 1        
+            if (self.checkbox_plotz.isChecked()):
+                plot_z_axis = 1
+
+            # trying to open the file
+            try:
+                file = open(file_name_full, 'rb')
+            except:
+                # popping up an error if we can't open the file
+                self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
+
+            #Creating the arrays
             if (self.selection_file_value == '4'):
                 xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
                 # plotting the arrays
@@ -409,13 +423,22 @@ class MainWindow(QMainWindow):
                                                                     zArr,
                                                                     timeArr, 
                                                                     self.file_name, start_time_stamp, end_time_stamp, '5')
-        elif stacked_axis_plot:      
+        elif which_graph_type_box.clickedButton() == stacked_display:
+              
             plot_min_value_x =0 
             plot_min_value_y =0
             plot_min_value_z =0
             plot_max_value_x =0
             plot_max_value_y =0
             plot_max_value_z =0 
+
+            try:
+                file = open(file_name_full, 'rb')
+            except:
+                # popping up an error if we can't open the file
+                self.error_message_pop_up("File open error", "couldn't find and open your file")
+
+            # Creating the arrays
             if (self.selection_file_value == '4'):
                 xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
                                                                                             end_time_stamp, self.file_name)
@@ -424,6 +447,15 @@ class MainWindow(QMainWindow):
                                                     in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
                                                     in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
                                                     in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
+            elif (self.selection_file_value == '5'):
+                xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, self.file_name)
+                # plotting the arrays
+                self.graph = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp, end_time_stamp,
+                                                        in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
+                                                        in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
+                                                        in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
+            elif which_graph_type_box.clickedButton() == cancel_button:
+                which_graph_type_box.close()
 
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
