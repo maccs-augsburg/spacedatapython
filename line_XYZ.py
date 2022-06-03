@@ -465,14 +465,24 @@ class MainWindow(QMainWindow):
     def save(self):
          
         """
-        saves the file as a pdf document
-        
-        using self.file_name to get the filename already used for the specfic file we are using
-        plt.savefig grabs the most recent figure we have plotted
+        Description:
+            Saves the Graph as a PDF Image
+
+            file_type is a QMessageBox that pops up once the Save as QButton is pressed 
         """
 
-        plt.savefig(self.file_name + ".pdf")
-        subprocess.Popen(self.file_name + '.pdf', shell=True)
+        question_box = QMessageBox(self)
+
+        save_image_button = question_box.addButton(str('Save Image'), QMessageBox.ActionRole)
+        cancel_button = question_box.addButton(str('Cancel'),QMessageBox.ActionRole)
+
+        start = question_box.exec()
+
+        if question_box.clickedButton() == save_image_button:
+            plt.savefig(self.file_name + ".pdf")
+            subprocess.Popen(self.file_name + '.pdf', shell=True)
+        elif question_box.clickedButton() == cancel_button:
+            question_box.close()
 
     def save_as(self):
          
