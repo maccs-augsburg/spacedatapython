@@ -343,7 +343,19 @@ class MainWindow(QMainWindow):
     OR
     -- min and max X Y Z values 
 
-    Make sure entry checks are being done correctly 
+    After chosing what graph to display
+
+    Proper fields show up and another "ok" button is displayed by those fields and after inputting or 
+    checking click ok and plot is displayed and is faster    
+    after already chosing what style instead of going through the message box everytime 
+    sepreate the if statements of three axis and stack display into functions so that after we decided what 
+
+    -- Open File
+     -- Press Plot and Choose What Display you want Three Axis or Stacked Display (Rename button to choose graph type?)
+      -- Proper input fields will then be shown 
+                                            - Checkbox for three axis
+                                            - plot min and max text fields for stacked display
+        -- button by those fields that you press that plots the graph then can do normal alterations as before 
 
     '''
     def execute_plot_function(self):
