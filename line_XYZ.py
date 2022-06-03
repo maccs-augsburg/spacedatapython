@@ -475,7 +475,8 @@ class MainWindow(QMainWindow):
 
         save_image_button = question_box.addButton(str('Save Image'), QMessageBox.ActionRole)
         cancel_button = question_box.addButton(str('Cancel'),QMessageBox.ActionRole)
-
+        window_title_text = question_box.setWindowTitle("Save Image")
+        message_text = question_box.setText("Would you like to save this image as a PDF?")
         start = question_box.exec()
 
         if question_box.clickedButton() == save_image_button:
