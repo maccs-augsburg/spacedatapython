@@ -40,6 +40,7 @@ import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
 import entry_checks
+import raw_to_plot
 
 class MainWindow(QMainWindow):
     '''
@@ -73,13 +74,14 @@ class MainWindow(QMainWindow):
 
         toolbar = QToolBar("Main Toolbar")    
         toolbar.setIconSize(QSize(16,16))
-        openfile = QAction(QIcon("../spacedatapython/images/folder-open.png"),"Open File", self)
-        savefile = QAction(QIcon("../spacedatapython/images/disk.png"),"Save File", self)
-        zoom = QAction(QIcon("../spacedatapython/images/magnifier-zoom-in.png"),"Zoom in", self)
+        action_openfile = QAction(QIcon("../spacedatapython/images/folder-open.png"),"Open File", self)
+        action_savefile = QAction(QIcon("../spacedatapython/images/disk.png"),"Save File", self)
+        action_zoom = QAction(QIcon("../spacedatapython/images/magnifier-zoom-in.png"),"Zoom in", self)
+        action_help = QAction(QIcon("../spacedatapython/images/question-frame.png"),"Help", self)
 
-        toolbar.addAction(openfile)
-        toolbar.addAction(savefile)
-        toolbar.addAction(zoom)
+        toolbar.addAction(action_openfile)
+        toolbar.addAction(action_savefile)
+        toolbar.addAction(action_zoom)
         toolbar.addSeparator()
 
         self.addToolBar(toolbar)
@@ -90,15 +92,17 @@ class MainWindow(QMainWindow):
 
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
-        file_menu.addAction(openfile)
-        file_menu.addAction(savefile)
-        file_menu.addAction(zoom)
+        file_menu.addAction(action_openfile)
+        file_menu.addAction(action_savefile)
+        
 
         edit_menu = menu.addMenu("&Edit")
 
         tool_menu = menu.addMenu("&Tools")
+        tool_menu.addAction(action_zoom)
 
         help_menu = menu.addMenu("&Help")
+        help_menu.addAction(action_help)
 
         ###############
         ### Labels ####
@@ -201,8 +205,8 @@ class MainWindow(QMainWindow):
         ### Signals / Events ###
         ########################
 
-        openfile.triggered.connect(self.open_file)
-        savefile.triggered.connect(self.save)
+        action_openfile.triggered.connect(self.open_file)
+        action_savefile.triggered.connect(self.save)
 
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
@@ -380,30 +384,45 @@ class MainWindow(QMainWindow):
             # popping up an error if we can't open the file
             self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
 
-        # Creating the arrays
-        if (self.selection_file_value == '4'):
-            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
-            # plotting the arrays
-            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
-                                                                plot_y_axis, 
-                                                                plot_z_axis, 
-                                                                xArr, 
-                                                                yArr, 
-                                                                zArr,
-                                                                timeArr, 
-                                                                self.file_name, start_time_stamp, end_time_stamp, '4')
+        plot_min_value_x =0 
+        plot_min_value_y =0
+        plot_min_value_z =0
+        plot_max_value_x =0
+        plot_max_value_y =0
+        plot_max_value_z =0 
 
-        elif (self.selection_file_value == '5'):
-            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
+        if (self.selection_file_value == '4'):
+            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
+                                                                                         end_time_stamp, self.file_name)
             # plotting the arrays
-            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
-                                                                plot_y_axis, 
-                                                                plot_z_axis, 
-                                                                xArr, 
-                                                                yArr, 
-                                                                zArr,
-                                                                timeArr, 
-                                                                self.file_name, start_time_stamp, end_time_stamp, '5')
+            self.graph = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp, end_time_stamp,
+                                                  in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
+                                                  in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
+                                                  in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
+        # Creating the arrays
+        # if (self.selection_file_value == '4'):
+        #     xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
+        #     # plotting the arrays
+        #     self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+        #                                                         plot_y_axis, 
+        #                                                         plot_z_axis, 
+        #                                                         xArr, 
+        #                                                         yArr, 
+        #                                                         zArr,
+        #                                                         timeArr, 
+        #                                                         self.file_name, start_time_stamp, end_time_stamp, '4')
+
+        # elif (self.selection_file_value == '5'):
+        #     xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
+        #     # plotting the arrays
+        #     self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+        #                                                         plot_y_axis, 
+        #                                                         plot_z_axis, 
+        #                                                         xArr, 
+        #                                                         yArr, 
+        #                                                         zArr,
+        #                                                         timeArr, 
+        #                                                         self.file_name, start_time_stamp, end_time_stamp, '5')
 
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
@@ -420,6 +439,9 @@ class MainWindow(QMainWindow):
             self.graph_layout.itemAt(i).widget().setParent(None)      
         self.maccs_logo.setHidden(False)
 
+    def custom_toobar(self):
+        foobar = NavigationToolbar2QT(self.graph, self)
+        foobar.zoom()
 
     def radio_file_check(self,file_type):
         '''
