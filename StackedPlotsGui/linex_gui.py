@@ -28,6 +28,7 @@ from PySide6.QtGui import QIcon, QPixmap
 # Navigation is used for matplotlib functionalities, zooming in, zooming out, saving, etc...
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 
 #### Importing our own files ####################
 from custom_widgets import LineEdit, Label, Color
@@ -92,6 +93,15 @@ class MainWindow(QMainWindow):
         # We add this layout onto the gui once user has chosen a file
         # Then it goes into plotting function and adds it at the end 
         self.plotting_layout = QVBoxLayout()
+        #######################
+
+        #######################
+        self.zoom_min_x = 0
+        self.zoom_max_x = 0
+        self.zoom_min_y = 0
+        self.zoom_max_y = 0
+        self.zoom_min_z = 0
+        self.zoom_max_z = 0
         #######################
 
         self.main_layout = QHBoxLayout()
@@ -177,7 +187,12 @@ class MainWindow(QMainWindow):
         entry_layout.addWidget(file_button, 14, 1)
         plot_button = QPushButton("Plot File")
         plot_button.clicked.connect(self.plot_graph)
-        entry_layout.addWidget(plot_button, 15, 0, 1, 2)
+        # to span two columns = big button
+        #entry_layout.addWidget(plot_button, 15, 0, 1, 2)
+        entry_layout.addWidget(plot_button, 15, 0)
+        zoom_out_button = QPushButton("Regular View")
+        zoom_out_button.clicked.connect(self.zoom_out)
+        entry_layout.addWidget(zoom_out_button, 15, 1)
         save_button = QPushButton("Save File")
         save_button.clicked.connect(self.save_file)
         entry_layout.addWidget(save_button, 16, 0)
@@ -364,6 +379,35 @@ class MainWindow(QMainWindow):
                                                 in_min_y=min_y, in_max_y=max_y,
                                                 in_min_z=min_z, in_max_z=max_z)
 
+        # if self.figure_canvas_flag:
+
+        #     self.figure_canvas.setParent(None)
+        #     self.matplotlib_toolbar.setParent(None)
+        #     self.plotting_layout.setParent(None)
+
+        # self.figure_canvas = FigureCanvasQTAgg(self.figure)
+        # self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
+
+        # self.plotting_layout.addWidget(self.matplotlib_toolbar)
+        # self.plotting_layout.addWidget(self.figure_canvas)
+
+        # self.main_layout.addLayout(self.plotting_layout)
+        # # Need to set label to hidden, or else it tries to fit logo with graph
+        # self.mac_label.setHidden(True)
+        self.display_figure()
+
+
+
+        #print("I wonder if it stays here while figure is being shown?")
+        # Keeps going I guess, not sure if this slow down gui from showing? I dont think it is, but having some delay before this would be helpful?
+        self.zoom_min_x, self.zoom_max_x, self.zoom_min_y, self.zoom_max_y, self.zoom_min_z, self.zoom_max_z = entry_checks.axis_entry_checks_old(
+            x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z
+        )
+
+        #print("Finished doing this in the background")
+
+    def display_figure(self):
+
         if self.figure_canvas_flag:
 
             self.figure_canvas.setParent(None)
@@ -379,8 +423,25 @@ class MainWindow(QMainWindow):
         self.main_layout.addLayout(self.plotting_layout)
         # Need to set label to hidden, or else it tries to fit logo with graph
         self.mac_label.setHidden(True)
+
         self.figure_canvas_flag = True
         self.show()
+
+
+    def zoom_out(self):
+        print("Inside zoom out function")
+        fig = self.figure
+        plt.subplot(311)
+        plt.ylim(self.zoom_min_x, self.zoom_max_x)
+        plt.subplot(312)
+        plt.ylim(self.zoom_min_y, self.zoom_max_y)
+        plt.subplot(313)
+        plt.ylim(self.zoom_min_z, self.zoom_max_z)
+        
+        self.figure = fig
+
+        self.display_figure()
+
 
     def save_file(self):
         
