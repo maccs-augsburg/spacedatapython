@@ -478,12 +478,23 @@ class MainWindow(QMainWindow):
         """
         saves the file as either a pdf or png
         """
-        
-        files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
-        file_type = QMessageBox()
-        file_type.setWindowTitle("Image Type")
-        file_type.setText("Selection image type \n .PDF or .PNG")
-        file_type.addButton
+        #def information (parent, title, text, button0[, button1=QMessageBox.StandardButton.NoButton])
+
+        file_type = QMessageBox(self)
+        pdf_button = file_type.addButton(str("PDF"), QMessageBox.ActionRole)
+        png_button = file_type.addButton(str('PNG'), QMessageBox.ActionRole )
+        start = file_type.exec()
+        if file_type.clickedButton() == pdf_button:
+            plt.savefig(self.file_name + ".pdf")
+            subprocess.Popen(self.file_name + '.pdf', shell=True)
+        elif file_type.clickedButton() == png_button:
+            plt.savefig(self.file_name + ".png")
+            subprocess.Popen(self.file_name + '.png', shell=True)
+
+
+        # file_type.setWindowTitle("Image Type")
+        # file_type.setText("Selection image type \n .PDF or .PNG")
+        # file_type.addButton
         # if 
         # plt.savefig(self.file_name + ".pdf")
         # subprocess.Popen(self.file_name + '.pdf', shell=True)
