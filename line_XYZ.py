@@ -6,7 +6,6 @@
 
 #Import from PySide6 // QT
 
-#from curses import window
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
                                 QWidget, QHBoxLayout, 
@@ -24,14 +23,12 @@ from pathlib import Path
 #imports from python 
 import sys
 import datetime
-from isort import file
 
 #Imports from matplotlib
 import matplotlib
 matplotlib.use('qtagg')
 
 import matplotlib.pyplot as plt
-import matplotlib.figure as figure
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 
 import subprocess
@@ -335,12 +332,24 @@ class MainWindow(QMainWindow):
             # checks the radio button with the proper file type
             self.radio_file_check(file_type)
     
+
+
+    '''
+    TODO
+    IF putting both graphing dispaly into one 
+ 
+    I have to depending on what display show 
+    -- Checkboxs for X Y Z 
+    OR
+    -- min and max X Y Z values 
+
+    Make sure entry checks are being done correctly 
+
+    '''
     def execute_plot_function(self):
         '''
         Obtains the values entered in the GUI and runs the plotting program with the inputted values
         '''
-
-
 
         # Getting entries from the user / the file
         #Station code and year
@@ -369,6 +378,7 @@ class MainWindow(QMainWindow):
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
 
+        # Message box that asks what type of graph verison you want
         which_graph_type_box = QMessageBox(self)
 
         three_axis_option = which_graph_type_box.addButton(str('Three Axis'), QMessageBox.ActionRole)
@@ -423,6 +433,7 @@ class MainWindow(QMainWindow):
                                                                     zArr,
                                                                     timeArr, 
                                                                     self.file_name, start_time_stamp, end_time_stamp, '5')
+
         elif which_graph_type_box.clickedButton() == stacked_display:
               
             plot_min_value_x =0 
