@@ -461,8 +461,6 @@ class MainWindow(QMainWindow):
 
         return converted_list
 
-#### TODO Convert save and save as functions into PySide package useage isntead of TK 
-
     def save(self):
          
         """
