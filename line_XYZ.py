@@ -23,6 +23,7 @@ from pathlib import Path
 #imports from python 
 import sys
 import datetime
+from isort import file
 
 #Imports from matplotlib
 import matplotlib
@@ -476,33 +477,33 @@ class MainWindow(QMainWindow):
     def save_as(self):
          
         """
-        saves the file as either a pdf or png
+        Description:
+            Saves the Graph as an image with user chosing either a PDF or PNG option 
+            can easily incorperate more files as needed 
+
+            file_type is a QMessageBox that pops up once the Save as QButton is pressed 
         """
         #def information (parent, title, text, button0[, button1=QMessageBox.StandardButton.NoButton])
 
         file_type = QMessageBox(self)
+
         pdf_button = file_type.addButton(str("PDF"), QMessageBox.ActionRole)
-        png_button = file_type.addButton(str('PNG'), QMessageBox.ActionRole )
+        png_button = file_type.addButton(str('PNG'), QMessageBox.ActionRole)
+        cancel_button = file_type.addButton(str('Cancel'), QMessageBox.ActionRole)
+
+        window_title_text = file_type.setWindowTitle("Save as...")
+        message_text = file_type.setText("Select would image type you would like to save as... \n PDF or PNG")
+
         start = file_type.exec()
+
         if file_type.clickedButton() == pdf_button:
             plt.savefig(self.file_name + ".pdf")
             subprocess.Popen(self.file_name + '.pdf', shell=True)
         elif file_type.clickedButton() == png_button:
             plt.savefig(self.file_name + ".png")
             subprocess.Popen(self.file_name + '.png', shell=True)
-
-
-        # file_type.setWindowTitle("Image Type")
-        # file_type.setText("Selection image type \n .PDF or .PNG")
-        # file_type.addButton
-        # if 
-        # plt.savefig(self.file_name + ".pdf")
-        # subprocess.Popen(self.file_name + '.pdf', shell=True)
-
-        # plt.savefig(self.file_name + ".png")
-        # subprocess.Popen(self.file_name + '.png', shell=True)
-        # Popping up the save as file dialog box
-        
+        elif file_type.clickedButton() == cancel_button:
+            file_type.close()
 
 class CustomToolbar(NavigationToolbar2QT):
     def __init__(self, canvas):
