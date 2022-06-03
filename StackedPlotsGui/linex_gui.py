@@ -81,9 +81,7 @@ class MainWindow(QMainWindow):
         self.error_message.setText("Error Invalid Input")
         
         #######################
-        self.file_extension = ""
         self.filename = ""
-        self.filename_noextension = ""
         self.file_path = ""
         self.launch_dialog_option = 0
         self.figure = None
@@ -231,10 +229,13 @@ class MainWindow(QMainWindow):
 
         
     def get_file_name(self, f_filter):
-        # https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QFileDialog.html#PySide2.QtWidgets.PySide2.QtWidgets.QFileDialog.getOpenFileName
         file_filter = f_filter
-        # guis will be in the same folder, so go back one directory for shared files 
+        # guis will be in the same folder, so go back one 
+        # directory for shared files 
         current_directory = os.getcwd()
+        # gets current directory, and drops anything up to last backslash
+        # and add ../ in front of it to go back one, 
+        # annoying going back one directory in Finder
         directory_split = current_directory.split('/')[-1]
         move_up_current_directory = "../" + directory_split
 
@@ -247,7 +248,8 @@ class MainWindow(QMainWindow):
         # if user cancels button, dont want to execute function
         if len(response) == 0:
             return
-        # getting file path from tuple returned in response, ignoring second return param
+        # getting file path from tuple returned 
+        # in response, ignoring second return param
         # https://www.datacamp.com/tutorial/role-underscore-python
         filename, _ = response
         self.file_path = filename
