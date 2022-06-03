@@ -384,45 +384,46 @@ class MainWindow(QMainWindow):
             # popping up an error if we can't open the file
             self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
 
-        plot_min_value_x =0 
-        plot_min_value_y =0
-        plot_min_value_z =0
-        plot_max_value_x =0
-        plot_max_value_y =0
-        plot_max_value_z =0 
+        #Creating the arrays
+        if choose_axis_plot:
+            if (self.selection_file_value == '4'):
+                xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
+                # plotting the arrays
+                self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+                                                                    plot_y_axis, 
+                                                                    plot_z_axis, 
+                                                                    xArr, 
+                                                                    yArr, 
+                                                                    zArr,
+                                                                    timeArr, 
+                                                                    self.file_name, start_time_stamp, end_time_stamp, '4')
 
-        if (self.selection_file_value == '4'):
-            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
-                                                                                         end_time_stamp, self.file_name)
-            # plotting the arrays
-            self.graph = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp, end_time_stamp,
-                                                  in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
-                                                  in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
-                                                  in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
-        # Creating the arrays
-        # if (self.selection_file_value == '4'):
-        #     xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
-        #     # plotting the arrays
-        #     self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
-        #                                                         plot_y_axis, 
-        #                                                         plot_z_axis, 
-        #                                                         xArr, 
-        #                                                         yArr, 
-        #                                                         zArr,
-        #                                                         timeArr, 
-        #                                                         self.file_name, start_time_stamp, end_time_stamp, '4')
-
-        # elif (self.selection_file_value == '5'):
-        #     xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
-        #     # plotting the arrays
-        #     self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
-        #                                                         plot_y_axis, 
-        #                                                         plot_z_axis, 
-        #                                                         xArr, 
-        #                                                         yArr, 
-        #                                                         zArr,
-        #                                                         timeArr, 
-        #                                                         self.file_name, start_time_stamp, end_time_stamp, '5')
+            elif (self.selection_file_value == '5'):
+                xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
+                # plotting the arrays
+                self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+                                                                    plot_y_axis, 
+                                                                    plot_z_axis, 
+                                                                    xArr, 
+                                                                    yArr, 
+                                                                    zArr,
+                                                                    timeArr, 
+                                                                    self.file_name, start_time_stamp, end_time_stamp, '5')
+        elif stacked_axis_plot:      
+            plot_min_value_x =0 
+            plot_min_value_y =0
+            plot_min_value_z =0
+            plot_max_value_x =0
+            plot_max_value_y =0
+            plot_max_value_z =0 
+            if (self.selection_file_value == '4'):
+                xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,
+                                                                                            end_time_stamp, self.file_name)
+                # plotting the arrays
+                self.graph = raw_to_plot.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, start_time_stamp, end_time_stamp,
+                                                    in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
+                                                    in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
+                                                    in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
 
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
@@ -438,6 +439,7 @@ class MainWindow(QMainWindow):
         for i in reversed(range(self.graph_layout.count())): 
             self.graph_layout.itemAt(i).widget().setParent(None)      
         self.maccs_logo.setHidden(False)
+
 
     def custom_toobar(self):
         foobar = NavigationToolbar2QT(self.graph, self)
