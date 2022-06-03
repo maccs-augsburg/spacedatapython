@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QFileDialog, QRadioButton,
                                 QCheckBox,QMessageBox
                                 )
-from PySide6.QtGui import QIcon, QAction, QPixmap
+from PySide6.QtGui import QIcon, QAction, QPixmap, Qt
 from PySide6.QtCore import  QSize
 
 # path for file open 
@@ -121,6 +121,7 @@ class MainWindow(QMainWindow):
 
         self.maccs_logo = QLabel()
         self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
+        self.maccs_logo.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
 
@@ -161,7 +162,7 @@ class MainWindow(QMainWindow):
         self.checkbox_plotz = QCheckBox("Z Plot", self)
 
         ########################
-        ### Radial Selectors ###
+        ### Radio Selectors ###
         ########################
 
         self.radio_iaga2000 = QRadioButton("IAGA2000 - NW")
@@ -192,6 +193,9 @@ class MainWindow(QMainWindow):
         self.button_save.setFixedWidth(75)
         self.button_save_as = QPushButton('Save as...')
         self.button_save_as.setFixedWidth(75)
+        self.button_clear_plot = QPushButton('Clear Plot')
+        self.button_clear_plot.setFixedWidth(75)
+
 
         ########################
         ### Signals / Events ###
@@ -205,6 +209,7 @@ class MainWindow(QMainWindow):
         self.button_plot.clicked.connect(self.execute_plot_function)
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
+        self.button_clear_plot.clicked.connect(self.clear_plots)
 
         ######################
         ### Adding Widgets ###
@@ -244,11 +249,12 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.radio_clean_file, 17,0)
         self.label_and_entry_layout.addWidget(self.radio_raw_file, 18, 0)
         self.label_and_entry_layout.addWidget(self.radio_other, 19, 0)
-        self.label_and_entry_layout.addWidget(self.button_open_file, 20, 0)
-        self.label_and_entry_layout.addWidget(self.button_plot, 20, 1)
+        self.label_and_entry_layout.addWidget(self.button_plot, 20, 0)
+        self.label_and_entry_layout.addWidget(self.button_clear_plot, 20, 1)
         self.label_and_entry_layout.addWidget(self.button_save_as, 21, 0)
         self.label_and_entry_layout.addWidget(self.button_save, 21, 1)
-        self.label_and_entry_layout.addWidget(self.button_quit, 22, 0)
+        self.label_and_entry_layout.addWidget(self.button_open_file, 22, 0)
+        self.label_and_entry_layout.addWidget(self.button_quit, 22, 1)
 
         ########################################
         ### Adding all layouts into the main ###
@@ -288,6 +294,7 @@ class MainWindow(QMainWindow):
             home_dir = str(Path.home())
             file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, ' (*.2hz *.s2)')
             file_name = str(file_name)
+
             # splitting up the path and selecting the filename
             self.file_name = file_name.split(',')[0]
 
@@ -399,14 +406,20 @@ class MainWindow(QMainWindow):
                                                                 self.file_name, start_time_stamp, end_time_stamp, '5')
 
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
-        for i in reversed(range(self.graph_layout.count())): 
-            self.graph_layout.itemAt(i).widget().setParent(None)
+        self.clear_plots()
+    
         # Putting the arrays into the gui
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
+
+    def clear_plots(self):
+        for i in reversed(range(self.graph_layout.count())): 
+            self.graph_layout.itemAt(i).widget().setParent(None)      
+        self.maccs_logo.setHidden(False)
+
 
     def radio_file_check(self,file_type):
         '''
