@@ -46,6 +46,8 @@ class MainWindow(QMainWindow):
     Class Containing GUI using PySide6 module from QT using its framework 
     The Gui is able to Graph a Single graph that can plot any combantion of axis'
     X Y or Z, one two, or three. While also able to alter the graph via zooming in and saving images of the graph
+    We have ability to save as pdf or png using built in toolbar with matplotlib we can zoom and acess subplots of the graph
+    we can also pin point a zoom using the text labels on the left of the GUI and re pressing plot
     '''
     def __init__(self):
 
@@ -60,7 +62,6 @@ class MainWindow(QMainWindow):
         :rtype:
         """    
         super().__init__()
-        self.flag = False
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
