@@ -10,6 +10,13 @@ Note: Types in params and ->, are just used for type hinting in IDE's.
       Python does not enforce types.
       Try to stay under 80 characters for wrapping in IDE's.
 '''
+import sys
+import os
+cwd = os.getcwd()
+print(cwd)
+sys.path.append("../")
+import one_array_plotted
+os.chdir(cwd)
 
 def station_code_entry_check(self) -> bool:
     '''
@@ -318,6 +325,77 @@ def axis_entry_checks_new(axis_list: list,
 
     return min_value, max_value
 
+def graph_from_plotter_entry_check(self, xArr, yArr, zArr, timeArr, filename, stime, etime):
+    """
+    Checks the gui entries for plotting, x, y, z axis. If values are set, then we plot those axis
+    Parameters
+    ----------
+    graph_from_plotter_value_x : value from GUI, set to 1 if box is checked, 0 if not
+    graph_from_plotter_value_y : value from GUI, set to 1 if box is checked, 0 if not
+    graph_from_plotter_value_z : value from GUI, set to 1 if box is checked, 0 if not
+    xArr : the x array values
+    yArr : the y array values
+    zArr : the z array values
+    timeArr : the time array values
+    filename : the name of the file
+    stime : the start time stamp
+    etime : the end time stamp
+    selection_file : value from GUI, if clean is checked value is set to 4, if raw --> set to 5
+    Returns
+    -------
+    fig : the plotted figure
+    """
+
+    # create an alias from plotter values
+    x_state = self.x_checkbox.isChecked()
+    y_state = self.y_checkbox.isChecked()
+    z_state = self.z_checkbox.isChecked()
+    file_state = self.launch_dialog_option
+    any_plot_state = x_state + y_state + z_state
+
+    # X, Y, Z plot, clean or raw
+    # first check if all on, then two the two_plot checks, last should be one_axis
+    if (x_state and y_state and z_state):
+
+        fig = one_array_plotted.x_y_and_z_plot(
+            xArr, yArr, zArr, timeArr, filename, stime, etime)
+
+    # Y, Z plot, clean or raw
+    elif (y_state and z_state):
+
+        fig = one_array_plotted.plot_two_axis(
+            yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
+
+    # X, Z plot, clean or raw
+    elif (x_state and z_state):
+
+        fig = one_array_plotted.plot_two_axis(
+            xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
+
+    # X, Y plot, clean or raw
+    elif (x_state and y_state):
+
+        fig = one_array_plotted.plot_two_axis(
+            xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
+
+    # For single axis plotting
+    elif (any_plot_state > 0 and file_state > 0):
+
+        if (x_state):
+            fig = one_array_plotted.plot_axis(
+                xArr, timeArr, filename, stime, etime, 'X')
+
+        if(y_state):
+            fig = one_array_plotted.plot_axis(
+                yArr, timeArr, filename, stime, etime, 'Y')
+
+        if(z_state):
+            fig = one_array_plotted.plot_axis(
+                zArr, timeArr, filename, stime, etime, 'Z')
+
+    #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
+    return fig
+        
 
 def set_axis_entrys(self, x_min: int, x_max: int, y_min: 
                     int, y_max: int, z_min: int, z_max: int):
@@ -328,7 +406,7 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
     Gets converted to string when you set anyway.
     It will probably end up being an int when your working with
     it, so hinting that it should be an int.
-    
+
     Parameters
     ----------
     x_min : int
@@ -350,3 +428,5 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
     self.max_y_edit.set_entry(y_max)
     self.min_z_edit.set_entry(z_min)
     self.max_z_edit.set_entry(z_max)
+
+
