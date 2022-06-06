@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
     QMainWindow, QToolBar,
     QHBoxLayout, QGridLayout, QLabel,
     QWidget, QComboBox, QPushButton, 
-    QFileDialog, QMessageBox, QVBoxLayout, QApplication
+    QFileDialog, QMessageBox, QVBoxLayout, QApplication, QCheckBox
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
@@ -31,7 +31,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 #### Importing our own files ####################
-from custom_widgets import LineEdit, Label, Color
+from custom_widgets import LineEdit, Label, CheckBox, PushButton
 import entry_checks
 
 # Move back one directory to grab shared files between guis
@@ -83,12 +83,17 @@ class MainWindow(QMainWindow):
         
         #######################
         self.filename = ""
+        self.filename_noextension = ""
         self.file_path = ""
         self.launch_dialog_option = 0
         self.figure = None
         self.figure_canvas = None
         self.figure_canvas_flag = False
         self.matplotlib_toolbar = None
+        self.save_file_state = 0
+        self.save_filename = ""
+        self.file_num = 0
+        self.new_figure = 0
         # Make another layout for toolbar and matplotlib
         # We add this layout onto the gui once user has chosen a file
         # Then it goes into plotting function and adds it at the end 
@@ -156,19 +161,25 @@ class MainWindow(QMainWindow):
         entry_layout.addWidget(self.end_minute_edit, 6, 1)
         entry_layout.addWidget(end_second_label, 7, 0)
         entry_layout.addWidget(self.end_second_edit, 7, 1)
-        entry_layout.addWidget(min_x_label, 8, 0)
-        entry_layout.addWidget(self.min_x_edit, 8, 1)
-        entry_layout.addWidget(max_x_label, 9, 0)
-        entry_layout.addWidget(self.max_x_edit, 9, 1)
-        entry_layout.addWidget(min_y_label, 10, 0)
-        entry_layout.addWidget(self.min_y_edit, 10, 1)
-        entry_layout.addWidget(max_y_label, 11, 0)
-        entry_layout.addWidget(self.max_y_edit, 11, 1)
-        entry_layout.addWidget(min_z_label, 12, 0)
-        entry_layout.addWidget(self.min_z_edit, 12, 1)
-        entry_layout.addWidget(max_z_label, 13, 0)
-        entry_layout.addWidget(self.max_z_edit, 13, 1)
+        # entry_layout.addWidget(self.one_array_plotted_button, 8, 0)
+        # entry_layout.addWidget(self.x_checkbox, 8, 1)
+        # entry_layout.addWidget(self.y_checkbox, 8, 2)
+        # entry_layout.addWidget(self.z_checkbox, 8, 3)
+        entry_layout.addWidget(min_x_label, 9, 0)
+        entry_layout.addWidget(self.min_x_edit, 9, 1)
+        entry_layout.addWidget(max_x_label, 10, 0)
+        entry_layout.addWidget(self.max_x_edit, 10, 1)
+        entry_layout.addWidget(min_y_label, 11, 0)
+        entry_layout.addWidget(self.min_y_edit, 11, 1)
+        entry_layout.addWidget(max_y_label, 12, 0)
+        entry_layout.addWidget(self.max_y_edit, 12, 1)
+        entry_layout.addWidget(min_z_label, 13, 0)
+        entry_layout.addWidget(self.min_z_edit, 13, 1)
+        entry_layout.addWidget(max_z_label, 14, 0)
+        entry_layout.addWidget(self.max_z_edit, 14, 1)
         ################################################
+
+    
 
         #### DROP DOWN MENU FOR FILE FORMATS ###########
         self.options = ("IAGA2000 - NW",       # Index 0 
@@ -181,24 +192,36 @@ class MainWindow(QMainWindow):
         # Add items to combo box
         self.combo_box.addItems(self.options)
         # Add combo box to entry layout
-        entry_layout.addWidget(self.combo_box, 14, 0)
+        entry_layout.addWidget(self.combo_box, 16, 0)
         file_button = QPushButton("Open File")
         file_button.clicked.connect(self.launch_dialog)
-        entry_layout.addWidget(file_button, 14, 1)
+        entry_layout.addWidget(file_button, 16, 1)
         plot_button = QPushButton("Plot File")
         plot_button.clicked.connect(self.plot_graph)
         # to span two columns = big button
         #entry_layout.addWidget(plot_button, 15, 0, 1, 2)
-        entry_layout.addWidget(plot_button, 15, 0)
+        entry_layout.addWidget(plot_button, 17, 0)
         zoom_out_button = QPushButton("Regular View")
         zoom_out_button.clicked.connect(self.zoom_out)
-        entry_layout.addWidget(zoom_out_button, 15, 1)
+        entry_layout.addWidget(zoom_out_button, 17, 1)
         save_button = QPushButton("Save File")
         save_button.clicked.connect(self.save_file)
-        entry_layout.addWidget(save_button, 16, 0)
+        entry_layout.addWidget(save_button, 18, 0)
         save_as_button = QPushButton("Save As")
         save_as_button.clicked.connect(self.save_as)
-        entry_layout.addWidget(save_as_button, 16, 1)
+        entry_layout.addWidget(save_as_button, 18, 1)
+        #toggle_button = ToggleButton()
+        #entry_layout.addWidget(toggle_button)
+        horizontal_layout = QHBoxLayout()
+        self.one_array_plotted_button = PushButton("Single Graph (X, Y, Z)")
+        self.x_checkbox = CheckBox('x')
+        self.y_checkbox = CheckBox('y')
+        self.z_checkbox = CheckBox('z')
+        horizontal_layout.addWidget(self.one_array_plotted_button)
+        horizontal_layout.addWidget(self.x_checkbox)
+        horizontal_layout.addWidget(self.y_checkbox)
+        horizontal_layout.addWidget(self.z_checkbox)
+        entry_layout.addLayout(horizontal_layout,15, 0, 1, 2)
         ################################################
 
         # Add entry layout to the main layout
@@ -248,11 +271,9 @@ class MainWindow(QMainWindow):
         # guis will be in the same folder, so go back one 
         # directory for shared files 
         current_directory = os.getcwd()
-        # gets current directory, and drops anything up to last backslash
-        # and add ../ in front of it to go back one, 
-        # annoying going back one directory in Finder
-        directory_split = current_directory.split('/')[-1]
-        move_up_current_directory = "../" + directory_split
+        # go back one directory, similar to ls command
+        os.chdir('..')
+        move_up_current_directory = os.getcwd()
 
         response = QFileDialog.getOpenFileName(
             parent = self,
@@ -260,21 +281,23 @@ class MainWindow(QMainWindow):
             dir = move_up_current_directory,
             filter = file_filter
         )
+        # after picking file, move back to original location
+        os.chdir(current_directory)
+
         # if user cancels button, dont want to execute function
         if len(response) == 0:
             return
-        # getting file path from tuple returned 
-        # in response, ignoring second return param
+
         # https://www.datacamp.com/tutorial/role-underscore-python
         filename, _ = response
         self.file_path = filename
-        #print(filename)
-
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
         # Ex: CH20097.2hz
         self.filename = filename
-        #print(filename)
+        print(filename)
+        self.filename_noextension = filename.split('.')[0]
+        print(self.filename_noextension)
 
         # setting the station entry box from the filename
         # Ex: CH 20097 .2hz
@@ -308,6 +331,14 @@ class MainWindow(QMainWindow):
         year_day = self.year_day_edit.get_entry()
         if not entry_checks.year_day_entry_check(self):
             return
+
+        any_state = self.x_checkbox.isChecked() or self.y_checkbox.isChecked() or self.z_checkbox.isChecked()
+
+        if self.one_array_plotted_button.is_toggled():
+            if not any_state:
+                self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
+                return
+
         
         start_hour = entry_checks.hour_entry_check(self, int(self.start_hour_edit.get_entry()), 1)
         start_minute = entry_checks.minute_entry_check(self, int(self.start_minute_edit.get_entry()), 1)
@@ -372,39 +403,29 @@ class MainWindow(QMainWindow):
         min_z, max_z = entry_checks.axis_entry_checks_new(z_arr, min_z, max_z)
 
         entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
+        
+        if self.one_array_plotted_button.is_toggled():
 
-        self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, 
+            self.figure = entry_checks.graph_from_plotter_entry_check(self,x_arr, y_arr, z_arr, time_arr,
+                                                                    self.filename, 
+                                                                    start_time_stamp,
+                                                                    end_time_stamp)
+
+        else:
+
+            self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, 
                                                 self.filename, start_time_stamp, end_time_stamp, 
                                                 in_min_x=min_x, in_max_x=max_x,
                                                 in_min_y=min_y, in_max_y=max_y,
                                                 in_min_z=min_z, in_max_z=max_z)
 
-        # if self.figure_canvas_flag:
-
-        #     self.figure_canvas.setParent(None)
-        #     self.matplotlib_toolbar.setParent(None)
-        #     self.plotting_layout.setParent(None)
-
-        # self.figure_canvas = FigureCanvasQTAgg(self.figure)
-        # self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
-
-        # self.plotting_layout.addWidget(self.matplotlib_toolbar)
-        # self.plotting_layout.addWidget(self.figure_canvas)
-
-        # self.main_layout.addLayout(self.plotting_layout)
-        # # Need to set label to hidden, or else it tries to fit logo with graph
-        # self.mac_label.setHidden(True)
         self.display_figure()
 
-
-
-        #print("I wonder if it stays here while figure is being shown?")
         # Keeps going I guess, not sure if this slow down gui from showing? I dont think it is, but having some delay before this would be helpful?
         self.zoom_min_x, self.zoom_max_x, self.zoom_min_y, self.zoom_max_y, self.zoom_min_z, self.zoom_max_z = entry_checks.axis_entry_checks_old(
             x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z
         )
 
-        #print("Finished doing this in the background")
 
     def display_figure(self):
 
@@ -425,35 +446,73 @@ class MainWindow(QMainWindow):
         self.mac_label.setHidden(True)
 
         self.figure_canvas_flag = True
+        self.new_figure = self.figure + 1
+        self.file_num = self.file_num + 1
         self.show()
 
 
     def zoom_out(self):
-        print("Inside zoom out function")
+
+        if self.figure == None:
+            self.warning_message_dialog("No figure to work with")
+            return
+        # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html
+        # https://matplotlib.org/stable/tutorials/intermediate/tight_layout_guide.html#sphx-glr-tutorials-intermediate-tight-layout-guide-py
+        #https://stackoverflow.com/questions/10984085/automatically-rescale-ylim-and-xlim-in-matplotlib
         fig = self.figure
         plt.subplot(311)
+        print(plt.ylim())
         plt.ylim(self.zoom_min_x, self.zoom_max_x)
+        plt.plot()
         plt.subplot(312)
-        plt.ylim(self.zoom_min_y, self.zoom_max_y)
-        plt.subplot(313)
-        plt.ylim(self.zoom_min_z, self.zoom_max_z)
+        print(plt.ylim())
         
+        plt.ylim(self.zoom_min_y, self.zoom_max_y)
+        plt.plot()
+        plt.subplot(313)
+        print(plt.ylim())
+        plt.ylim(self.zoom_min_z, self.zoom_max_z)
+        plt.plot()
+        
+        #fig.draw()
         self.figure = fig
 
         self.display_figure()
 
-
+    # TODO: Use regular expressions for filter? Prevent bad input by accident
     def save_file(self):
         
         if self.figure == None:
             self.warning_message_dialog("No figure to be saved")
             return
 
-        filename = self.filename_noextension + '.pdf'
+        cwd = os.getcwd()
+        
+        if self.filename == None:
+            filename = self.filename_noextension + '.pdf'
+        else:
+            filename = self.filename
+        
+        file_list = os.listdir(cwd)
+
+        flag = False
+        for file in file_list:
+            if filename == file:
+                flag = True
+        
+        if not flag:
+            self.save_as()
+            return
+
+        # for file in file_list:
+        #     if filename == file and self.save_file_state:
+        #         self.warning_message_dialog("Do you wish to overwrite " + filename + "?")
+
 
         self.figure.savefig(filename, format='pdf', dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
+        self.save_file_state = 1
 
     def save_as(self):
 
@@ -475,12 +534,15 @@ class MainWindow(QMainWindow):
             return
         # go to the end (-1) and find last '/', split there
         filename = filename.split('/')[-1]
+        self.filename = filename
 
         self.figure.savefig(filename, dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
 
     
+    
+    # TODO: Use regular expressions for filter? Prevent bad input by accident
     def warning_message_dialog(self, message):
 
         self.error_message.setText(message)
