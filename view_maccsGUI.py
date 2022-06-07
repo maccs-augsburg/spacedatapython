@@ -216,8 +216,8 @@ class MainWindow(QMainWindow):
          
         self.button_open_file = QPushButton("Open file")
         self.button_open_file.setFixedWidth(75)
-        self.button_plot = QPushButton('Graph Style')
-        self.button_plot.setFixedWidth(75)
+        self.button_graph_style = QPushButton('Graph Style')
+        self.button_graph_style.setFixedWidth(75)
         self.button_quit = QPushButton('Quit')
         self.button_quit.setFixedWidth(75)
         self.button_save = QPushButton('Save')
@@ -226,6 +226,8 @@ class MainWindow(QMainWindow):
         self.button_save_as.setFixedWidth(75)
         self.button_clear_plot = QPushButton('Clear Plot')
         self.button_clear_plot.setFixedWidth(75)
+        self.button_plot_graph = QPushButton("Plot Graph")
+        self.button_plot_graph.setFixedWidth(75)
 
         ########################
         ### Signals / Events ###
@@ -236,7 +238,7 @@ class MainWindow(QMainWindow):
 
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
-        self.button_plot.clicked.connect(self.execute_plot_function)
+        self.button_graph_style.clicked.connect(self.choose_graph_style)
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
         self.button_clear_plot.clicked.connect(self.clear_plots)
@@ -286,20 +288,21 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(0), 9, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(1), 10, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(2), 11, 0)
+        self.label_and_entry_layout.addWidget(self.button_plot_graph, 15 ,0)
+        self.label_and_entry_layout.addWidget(self.format_file_text, 16, 0)
+        self.label_and_entry_layout.addWidget(self.radio_iaga2000, 17,0)
+        self.label_and_entry_layout.addWidget(self.radio_iaga2002, 18,0)
+        self.label_and_entry_layout.addWidget(self.radio_clean_file, 19,0)
+        self.label_and_entry_layout.addWidget(self.radio_raw_file, 20, 0)
+        self.label_and_entry_layout.addWidget(self.radio_other, 21, 0)
+        self.label_and_entry_layout.addWidget(self.button_graph_style, 22, 0)
+        self.label_and_entry_layout.addWidget(self.button_clear_plot, 22, 1)
+        self.label_and_entry_layout.addWidget(self.button_save_as, 23, 0)
+        self.label_and_entry_layout.addWidget(self.button_save, 23, 1)
+        self.label_and_entry_layout.addWidget(self.button_open_file, 24, 0)
+        self.label_and_entry_layout.addWidget(self.button_quit, 24, 1)
 
-        self.label_and_entry_layout.addWidget(self.format_file_text, 15, 0)
-        self.label_and_entry_layout.addWidget(self.radio_iaga2000, 16,0)
-        self.label_and_entry_layout.addWidget(self.radio_iaga2002, 17,0)
-        self.label_and_entry_layout.addWidget(self.radio_clean_file, 18,0)
-        self.label_and_entry_layout.addWidget(self.radio_raw_file, 19, 0)
-        self.label_and_entry_layout.addWidget(self.radio_other, 20, 0)
-        self.label_and_entry_layout.addWidget(self.button_plot, 21, 0)
-        self.label_and_entry_layout.addWidget(self.button_clear_plot, 21, 1)
-        self.label_and_entry_layout.addWidget(self.button_save_as, 22, 0)
-        self.label_and_entry_layout.addWidget(self.button_save, 22, 1)
-        self.label_and_entry_layout.addWidget(self.button_open_file, 23, 0)
-        self.label_and_entry_layout.addWidget(self.button_quit, 23, 1)
-
+        self.button_plot_graph.setHidden(True)
         self.set_stacked_options_hidden()
         self.set_three_axis_options_hidden()
 
@@ -433,16 +436,16 @@ class MainWindow(QMainWindow):
         self.file_name = station_name_value + year_day_value + time_interval_string
 
         # Message box that asks what type of graph verison you want
-        which_graph_type_box = QMessageBox(self)
+        self.which_graph_type_box = QMessageBox(self)
 
-        three_axis_option = which_graph_type_box.addButton(str('Three Axis'), QMessageBox.ActionRole)
-        stacked_display = which_graph_type_box.addButton(str('Stacked Display'),QMessageBox.ActionRole)
-        cancel_button = which_graph_type_box.addButton(str('Cancel'),QMessageBox.ActionRole)
-        window_title_text = which_graph_type_box.setWindowTitle("Graph type")
-        message_text = which_graph_type_box.setText("Choose what type of graphing layout you would like \n Three Axis Option or Stacked Display")
-        start = which_graph_type_box.exec()
+        self.three_axis_option = self.which_graph_type_box.addButton(str('Three Axis'), QMessageBox.ActionRole)
+        self.stacked_display = self.which_graph_type_box.addButton(str('Stacked Display'),QMessageBox.ActionRole)
+        self.cancel_button = self.which_graph_type_box.addButton(str('Cancel'),QMessageBox.ActionRole)
+        self.window_title_text = self.which_graph_type_box.setWindowTitle("Graph type")
+        self.message_text = self.which_graph_type_box.setText("Choose what type of graphing layout you would like \n Three Axis Option or Stacked Display")
+        self.start = self.which_graph_type_box.exec()
 
-        if which_graph_type_box.clickedButton() == three_axis_option:
+        if self.which_graph_type_box.clickedButton() == self.three_axis_option:
             self.set_stacked_options_hidden()
             self.set_three_axis_options_visable()
             # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
@@ -489,7 +492,7 @@ class MainWindow(QMainWindow):
                                                                     timeArr, 
                                                                     self.file_name, start_time_stamp, end_time_stamp, '5')
 
-        elif which_graph_type_box.clickedButton() == stacked_display:
+        elif self.which_graph_type_box.clickedButton() == self.stacked_display:
             self.set_stacked_options_visable()
             self.set_three_axis_options_hidden()
             
@@ -522,8 +525,159 @@ class MainWindow(QMainWindow):
                                                         in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
                                                         in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
                                                         in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
-            elif which_graph_type_box.clickedButton() == cancel_button:
-                which_graph_type_box.close()
+            elif self.which_graph_type_box.clickedButton() == self.cancel_button:
+                self.which_graph_type_box.close()
+
+        # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
+        self.clear_plots()
+    
+        # Putting the arrays into the gui
+        self.graph = FigureCanvasQTAgg(self.graph)
+        self.toolbar = NavigationToolbar2QT(self.graph, self)
+        self.maccs_logo.setHidden(True)
+        self.graph_layout.addWidget(self.toolbar) 
+        self.graph_layout.addWidget(self.graph)
+
+    def choose_graph_style(self):
+        '''
+        Obtains the values entered in the GUI and runs the plotting program with the inputted values
+        '''
+
+        # Getting entries from the user / the file
+        #Station code and year
+        station_name_value = self.input_station_code.text()
+        year_day_value = self.input_year.text()
+
+        # Start hour, minute, and second entries
+        start_hour_value = entry_checks.start_hour_entry_check(self, self.input_starthour.text())
+        start_minute_value = entry_checks.start_minute_entry_check(self, self.input_startmin.text())
+        start_second_value = entry_checks.start_second_entry_check( self, self.input_startsec.text())
+
+        # End hour, minute and second entries
+        end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
+        end_minute_value = entry_checks.end_minute_entry_check(self,self.input_endmin.text())
+        end_second_value = entry_checks.end_second_entry_check( self,self.input_endsec.text())
+
+        # creating the start time stamp
+        self.start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
+        # creating the end time stamp
+        self.end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
+        #file_value = self.selection_file_value
+        file_ending_value = entry_checks.file_format_entry_check(self,self.selection_file_value)
+       
+        # Making the Plot
+        self.file_name_full = station_name_value + year_day_value + file_ending_value
+        time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
+        self.file_name = station_name_value + year_day_value + time_interval_string
+
+        # Message box that asks what type of graph verison you want
+        self.which_graph_type_box = QMessageBox(self)
+
+        self.three_axis_option = self.which_graph_type_box.addButton(str('Three Axis'), QMessageBox.ActionRole)
+        self.stacked_display = self.which_graph_type_box.addButton(str('Stacked Display'),QMessageBox.ActionRole)
+        self.cancel_button = self.which_graph_type_box.addButton(str('Cancel'),QMessageBox.ActionRole)
+        self.window_title_text = self.which_graph_type_box.setWindowTitle("Graph type")
+        self.message_text = self.which_graph_type_box.setText("Choose what type of graphing layout you would like \n Three Axis Option or Stacked Display")
+        self.start = self.which_graph_type_box.exec()
+
+        if self.which_graph_type_box.clickedButton() == self.three_axis_option:
+            self.plot_three_axis()
+
+        elif self.which_graph_type_box.clickedButton() == self.stacked_display:
+            self.plot_stacked_axis()
+
+        elif self.which_graph_type_box.clickedButton() == self.cancel_button:
+            self.which_graph_type_box.close()
+
+    def plot_three_axis(self):
+        self.set_stacked_options_hidden()
+        self.set_three_axis_options_visable()
+        # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
+        plot_x_axis = 0         
+        plot_y_axis = 0
+        plot_z_axis = 0
+
+        if (self.checkbox_plotx.isChecked()):
+            plot_x_axis = 1        
+        if (self.checkbox_ploty.isChecked()):
+            plot_y_axis = 1        
+        if (self.checkbox_plotz.isChecked()):
+            plot_z_axis = 1
+
+        # trying to open the file
+        try:
+            file = open(self.file_name_full, 'rb')
+        except:
+            # popping up an error if we can't open the file
+            self.warning_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \n Try again please")
+
+        #Creating the arrays
+        if (self.selection_file_value == '4'):
+            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+                                                                plot_y_axis, 
+                                                                plot_z_axis, 
+                                                                xArr, 
+                                                                yArr, 
+                                                                zArr,
+                                                                timeArr, 
+                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '4')
+
+        elif (self.selection_file_value == '5'):
+            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+                                                                plot_y_axis, 
+                                                                plot_z_axis, 
+                                                                xArr, 
+                                                                yArr, 
+                                                                zArr,
+                                                                timeArr, 
+                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '5')
+        # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
+        self.clear_plots()
+    
+        # Putting the arrays into the gui
+        self.graph = FigureCanvasQTAgg(self.graph)
+        self.toolbar = NavigationToolbar2QT(self.graph, self)
+        self.maccs_logo.setHidden(True)
+        self.graph_layout.addWidget(self.toolbar) 
+        self.graph_layout.addWidget(self.graph)
+
+    def plot_stacked_axis(self):
+        self.set_stacked_options_visable()
+        self.set_three_axis_options_hidden()
+        
+        plot_min_value_x = int(self.input_min_x.text())
+        plot_max_value_x = int(self.input_max_x.text())
+        plot_min_value_y = int(self.input_min_y.text())
+        plot_max_value_y = int(self.input_max_y.text())
+        plot_min_value_z = int(self.input_min_z.text())
+        plot_max_value_z = int(self.input_max_z.text())
+
+        try:
+            file = open(self.file_name_full, 'rb')
+        except:
+            # popping up an error if we can't open the file
+            self.warning_message_pop_up(self,"File open error", "couldn't find and open your file")
+
+        # Creating the arrays
+        if (self.selection_file_value == '4'):
+            xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, self.start_time_stamp,
+                                                                                        self.end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.graph = plot_stacked_graphs.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, self.start_time_stamp, self.end_time_stamp,
+                                                in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
+                                                in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
+                                                in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
+        elif (self.selection_file_value == '5'):
+            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, self.start_time_stamp, self.end_time_stamp, self.file_name)
+            # plotting the arrays
+            self.graph = plot_stacked_graphs.plot_arrays(xArr, yArr, zArr, timeArr, self.file_name, self.start_time_stamp, self.end_time_stamp,
+                                                    in_min_x=plot_min_value_x, in_max_x=plot_max_value_x,
+                                                    in_min_y=plot_min_value_y, in_max_y=plot_max_value_y,
+                                                    in_min_z=plot_min_value_z, in_max_z=plot_max_value_z)
 
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
@@ -692,6 +846,7 @@ class MainWindow(QMainWindow):
         self.graph_display_button_group.button(0).setHidden(False)
         self.graph_display_button_group.button(1).setHidden(False)
         self.graph_display_button_group.button(2).setHidden(False)
+
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
