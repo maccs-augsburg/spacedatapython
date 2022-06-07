@@ -1,0 +1,14 @@
+cycler==0.11.0
+fonttools==4.33.3
+kiwisolver==1.4.2
+matplotlib==3.5.2
+numpy==1.22.4
+packaging==21.3
+Pillow==9.1.1
+pyparsing==3.0.9
+PySide6==6.3.0
+PySide6-Addons==6.3.0
+PySide6-Essentials==6.3.0
+python-dateutil==2.8.2
+shiboken6==6.3.0
+six==1.16.0

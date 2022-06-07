@@ -40,6 +40,12 @@ import matplotlib.dates as mdates
 import read_raw_to_lists
 import x_axis_time_formatter
 
+import sys
+import os
+# sys.path.append('../')
+# sys.path.append('/StackedPlotsGui')
+# import entry_checks
+
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
                 stime, etime, in_min_x=0, in_max_x=0,
                 in_min_y=0, in_max_y=0,
@@ -73,6 +79,11 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
             figure object that contains the completed plot
     """
 
+    # adding this here so it doesn't break Chris gui code, plan would be to remove this call
+    # and call inside plotting button function instead because all entry checks being made there
+    in_min_x, in_max_x, in_min_y, in_max_y, in_min_z, in_max_z = axis_entry_checks_old(
+             x_arr, y_arr, z_arr, in_min_x, in_max_x, in_min_y, in_max_y, in_min_z, in_max_z
+    )
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
     station_name = station_names.find_full_name(station) # Getting the station name
@@ -87,16 +98,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
 
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
-    
-    ### Code for future use -- this code below supports the new algorithm to be implemented in the future ### --------------------------------------------
-    # default_array = False
-    # delta = 0
-    # if (stime.hour == 0) and (stime.minute == 0) and (stime.second == 0) and (etime.hour == 23) and (etime.minute == 59) and (etime.second == 59):
-    # 	 default_array = True
-    #    delta = (2 * 3600)
-    # hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.new_create_time_list(time_arr, default_array)
-    
-    ### Code for future use -- this code above supports the new algorithm to be implemented in the future ### --------------------------------------------
 
     hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
     
@@ -104,113 +105,46 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.subplots_adjust(hspace=0.03)
 
-    # x min, max, middle and difference
-    x_max = max(x_arr)
-    x_min = min(x_arr)
-    x_mid = (x_max + x_min) / 2
-    x_difference = x_max - x_min
 
-    # y min, max, middle and difference
-    y_max = max(y_arr)
-    y_min = min(y_arr)
-    y_mid = (y_max + y_min) / 2
-    y_difference = y_max - y_min
-    
-    # z min, max, middle and difference
-    z_max = max(z_arr)
-    z_min = min(z_arr)
-    z_mid = (z_max + z_min) / 2
-    z_difference = z_max - z_min
-
-    # getting all differences and finding the biggest difference
-    differences = [x_difference, y_difference, z_difference]
-    max_difference = max(differences)
-
-    # increasing the max_difference by 5%
-    max_difference = max_difference + max_difference * 0.05
-
-    # x max and min
-    x_max = x_mid + max_difference
-    x_min = x_mid - max_difference
-
-    # y max and min
-    y_max = y_mid + max_difference
-    y_min = y_mid - max_difference
-
-    # z max and min
-    z_max = z_mid + max_difference
-    z_min = z_mid - max_difference
-
-    ### first plot
-    
+    ### first plot    
     # plt.ylim(minimum, maximum)
     plt.subplot(311)	# subplot allows multiple plots on 1 page
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
+    plt.ylim(in_min_x, in_max_x)
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
-
-	# testing to see if we need to set the x and y limits for the first subplot
-    if(in_min_x == 0 and in_max_x == 0):
-        plt.ylim(x_min, x_max)
-    elif(in_min_x == 0):
-        plt.ylim(x_min, in_max_x)
-    elif(in_max_x == 0):
-        plt.ylim(in_min_x, x_max)
-    else:
-        plt.ylim(in_min_x, in_max_x)
-    
-    
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
-    plt.ylabel('Bx')	# side label
+    plt.ylabel('Bx', labelpad=10)	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    plt.gca().axes.xaxis.set_visible(False)
     x_yticks = plt.yticks()
 
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
+    plt.ylim(in_min_y, in_max_y)
     plt.plot(time_arr,y_arr, linewidth=1)
-
-	# testing to see if we need to set the x and y limits for the second subplot
-    if(in_min_y == 0 and in_max_y == 0):
-        plt.ylim(y_min, y_max)
-    elif(in_min_y == 0):
-        plt.ylim(y_min, in_max_y)
-    elif(in_max_y == 0):
-        plt.ylim(in_min_y, y_max)
-    else:
-        plt.ylim(in_min_y, in_max_y)
-    
-    plt.ylabel('By')	# side label
+    plt.ylabel('By', labelpad=17)	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
-    plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
+    plt.gca().axes.xaxis.set_visible(False)
     y_yticks = plt.yticks()
     
     ### Third plot using z-axis data. Add the x-axis label at the bottom
     plt.subplot(313)
+    plt.ylim(in_min_z, in_max_z)
     plt.plot(time_arr,z_arr, linewidth=1)
-
-	# testing to see if we need to set the x and y limits for the third subplot
-    if(in_min_z == 0 and in_max_z == 0):
-        plt.ylim(z_min, z_max)
-    elif(in_min_z == 0):
-        plt.ylim(z_min, in_max_z)
-    elif(in_max_z == 0):
-        plt.ylim(in_min_z, z_max)
-    else:
-        plt.ylim(in_min_z, in_max_z)
-    
-    plt.ylabel('Bz')	# side label
+    plt.ylabel('Bz', labelpad=6)	# side label
     plt.xlabel(x_axis_label) # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -275,6 +209,114 @@ def set_yaxis(yticks_list, scale_difference):
     # Returning the list
     return new_yticks
 
+# adding this here for now, import not working for some reason
+# theres a quick fix with vscode, but not sure if it would work for every comp without vscode
+def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list, 
+                        min_x: int, max_x: int, 
+                        min_y: int, max_y: int, 
+                        min_z: int, max_z: int) -> tuple[int,int,int,
+                                                        int,int,int]:
+    '''
+    Old axis entry checks from 
+    raw_to_plot.plot_arrays() function.
+    Normalizes range of graphs to be about the same.
+    Present data in a non-biased view, rather than zoomed into min-max range.
+
+    Parameters
+    ----------
+    x_arr : list
+        List of x-values. Pulls min/max in case none were entered by user.
+    y_arr : list
+        List of y-values. Pulls min/max in case none were entered by user.
+    z_arr : list
+        List of z_values. Pulls min/max in case none were entered by user.
+    min_x : int
+        Min x entry from the user, if any.
+    max_x : int
+        Max x entry from the user, if any.
+    min_y : int
+        Min y entry from the user, if any.
+    max_y : int
+        Max y entry from the user, if any.
+    min_z : int
+        Min z entry from the user, if any.
+    max_z : int
+        Max z entry from the user, if any.
+
+    Returns
+    -------
+    min_x : int 
+        Returns default min_x if no input, else returns user input.
+    max_x : int
+        Returns default max_x if no input, else returns user input.
+    min_y : int
+        Returns default min_y if no input, else returns user input.
+    max_y : int
+        Returns default max_y if no input, else returns user input.
+    min_z : int
+        Returns default min_z if no input, else returns user input.
+    max_z : int
+        Returns default max_z if no input, else returns user input.
+    '''
+
+    default_min_x = min(x_arr)
+    default_max_x = max(x_arr)
+    x_midpoint = (default_min_x + default_max_x) / 2
+    default_x_range = default_max_x - default_min_x
+
+    default_min_y = min(y_arr)
+    default_max_y = max(y_arr)
+    y_midpoint = (default_min_y + default_max_y) / 2
+    default_y_range = default_max_y - default_min_y
+
+    default_min_z = min(z_arr)
+    default_max_z = max(z_arr)
+    z_midpoint = (default_min_z + default_max_z) / 2
+    default_z_range = default_max_z - default_min_z
+
+    # start normalizing ranges between all three graphs
+    axis_ranges = [default_x_range, default_y_range, default_z_range]
+    max_axis_range = max(axis_ranges)
+    # increasing range by 5%
+    # dont want min-max values to be on the 
+    # edge of the graph from my understanding
+    max_axis_range = max_axis_range + max_axis_range * .05
+
+    default_min_x = x_midpoint - max_axis_range
+    default_min_y = y_midpoint - max_axis_range
+    default_min_z = z_midpoint - max_axis_range
+
+    default_max_x = x_midpoint + max_axis_range
+    default_max_y = y_midpoint + max_axis_range
+    default_max_z = z_midpoint + max_axis_range
+
+    # TODO: Ask if user would ever enter 0, cant just assume, so ask.
+    '''
+    If user enters 0, it is never going to go through, 
+    always replaced by old code.
+    Possibly start boxes with -1? Would look kinda weird
+    '''
+    if min_x == 0:
+        min_x = int(default_min_x)
+
+    if max_x == 0:
+        max_x = int(default_max_x)
+
+    if min_y == 0:
+        min_y = int(default_min_y)
+    
+    if max_y == 0:
+        max_y = int(default_max_y)
+
+    if min_z == 0:
+        min_z = int(default_min_z)
+
+    if max_z == 0:
+        max_z = int(default_max_z)
+    
+
+    return min_x, max_x, min_y, max_y, min_z, max_z
+
 if __name__ == "__main__":
     ### usage message in console
     if len(sys.argv) < 2 :
@@ -322,3 +364,5 @@ if __name__ == "__main__":
     except:
         print('Could not plot arrays to testgraph.pdf, file is open')
         sys.exit(0) # Exiting without an error code
+
+
