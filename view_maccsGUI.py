@@ -173,7 +173,15 @@ class MainWindow(QMainWindow):
         self.input_endmin.setMaximumWidth(35)
         self.input_endsec.setMaximumWidth(35)
         self.input_year.setMaximumWidth(35)
-        
+        self.input_min_x.setMaximumWidth(35)
+        self.input_max_x.setMaximumWidth(35)
+        self.input_min_y.setMaximumWidth(35)
+        self.input_max_y.setMaximumWidth(35)
+        self.input_min_z.setMaximumWidth(35)
+        self.input_max_z.setMaximumWidth(35)
+
+
+
         #######################
         ### Checkbox Select ###
         #######################
@@ -265,8 +273,36 @@ class MainWindow(QMainWindow):
 
         #######
         ### Setting and then Hiding Checkbox or test fields dependings on graph type
+        ###
         self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
         self.plot_xyz_label.setHidden(True)
+
+
+        self.label_and_entry_layout.addWidget(self.input_min_x, 9,1)
+        self.label_and_entry_layout.addWidget(self.input_max_x, 10,1)
+        self.label_and_entry_layout.addWidget(self.input_min_y, 11,1)
+        self.label_and_entry_layout.addWidget(self.input_max_y, 12,1)
+        self.label_and_entry_layout.addWidget(self.input_min_z, 13,1)
+        self.label_and_entry_layout.addWidget(self.input_max_z, 14,1)
+
+        self.label_and_entry_layout.addWidget(self.min_x, 9,0)
+        self.label_and_entry_layout.addWidget(self.max_x, 10,0)
+        self.label_and_entry_layout.addWidget(self.min_y, 11,0)
+        self.label_and_entry_layout.addWidget(self.max_y, 12,0)
+        self.label_and_entry_layout.addWidget(self.min_z, 13,0)
+        self.label_and_entry_layout.addWidget(self.max_z, 14,0)
+        self.min_x.setHidden(True)
+        self.max_x.setHidden(True)
+        self.min_y.setHidden(True)
+        self.max_y.setHidden(True)
+        self.min_z.setHidden(True)
+        self.max_z.setHidden(True)
+        self.input_min_x.setHidden(True)
+        self.input_max_x.setHidden(True)
+        self.input_min_y.setHidden(True)
+        self.input_max_y.setHidden(True)
+        self.input_min_z.setHidden(True)
+        self.input_max_z.setHidden(True)
 
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(0), 9, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(1), 10, 0)
@@ -275,19 +311,18 @@ class MainWindow(QMainWindow):
         self.graph_display_button_group.button(1).setHidden(True)
         self.graph_display_button_group.button(2).setHidden(True)
 
-        self.label_and_entry_layout.addWidget(self.format_file_text, 14, 0)
-
-        self.label_and_entry_layout.addWidget(self.radio_iaga2000, 15,0)
-        self.label_and_entry_layout.addWidget(self.radio_iaga2002, 16,0)
-        self.label_and_entry_layout.addWidget(self.radio_clean_file, 17,0)
-        self.label_and_entry_layout.addWidget(self.radio_raw_file, 18, 0)
-        self.label_and_entry_layout.addWidget(self.radio_other, 19, 0)
-        self.label_and_entry_layout.addWidget(self.button_plot, 20, 0)
-        self.label_and_entry_layout.addWidget(self.button_clear_plot, 20, 1)
-        self.label_and_entry_layout.addWidget(self.button_save_as, 21, 0)
-        self.label_and_entry_layout.addWidget(self.button_save, 21, 1)
-        self.label_and_entry_layout.addWidget(self.button_open_file, 22, 0)
-        self.label_and_entry_layout.addWidget(self.button_quit, 22, 1)
+        self.label_and_entry_layout.addWidget(self.format_file_text, 15, 0)
+        self.label_and_entry_layout.addWidget(self.radio_iaga2000, 16,0)
+        self.label_and_entry_layout.addWidget(self.radio_iaga2002, 17,0)
+        self.label_and_entry_layout.addWidget(self.radio_clean_file, 18,0)
+        self.label_and_entry_layout.addWidget(self.radio_raw_file, 19, 0)
+        self.label_and_entry_layout.addWidget(self.radio_other, 20, 0)
+        self.label_and_entry_layout.addWidget(self.button_plot, 21, 0)
+        self.label_and_entry_layout.addWidget(self.button_clear_plot, 21, 1)
+        self.label_and_entry_layout.addWidget(self.button_save_as, 22, 0)
+        self.label_and_entry_layout.addWidget(self.button_save, 22, 1)
+        self.label_and_entry_layout.addWidget(self.button_open_file, 23, 0)
+        self.label_and_entry_layout.addWidget(self.button_quit, 23, 1)
 
         ########################################
         ### Adding all layouts into the main ###
