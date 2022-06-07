@@ -33,7 +33,7 @@ def station_names_entry_check(self,station_names_value):
     # Checking to see if no input was put in the station code entry box
     if(len(station_names_value) == 0):
         # show error as no input was received
-        view_maccsGUI.MainWindow.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
+        view_maccsGUI.MainWindow.warning_message_pop_up(self,"Station Code Error", "Invalid Station Code on file \nPlease make sure you select proper file \nExiting program")
 
 def file_format_entry_check(self,selection_file_value):
     """
@@ -73,7 +73,7 @@ def file_format_entry_check(self,selection_file_value):
     # Otherwise we can assume that no option had been selected
     else:
         # Message box error when no file format option has been selected
-        view_maccsGUI.MainWindow.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
+        view_maccsGUI.MainWindow.warning_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nPlease try again.")
 
     # Returning the string of the file type to be used
     return file_ending_value
