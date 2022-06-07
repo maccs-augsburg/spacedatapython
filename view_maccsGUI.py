@@ -188,7 +188,7 @@ class MainWindow(QMainWindow):
         self.checkbox_plotx = QCheckBox("X Plot", self)
         self.checkbox_ploty = QCheckBox("Y Plot", self)
         self.checkbox_plotz = QCheckBox("Z Plot", self)
-        
+        self.graph_display_button_group.setExclusive(False)
         self.graph_display_button_group.addButton(self.checkbox_plotx)
         self.graph_display_button_group.setId(self.checkbox_plotx,0)
         self.graph_display_button_group.addButton(self.checkbox_ploty)
@@ -275,7 +275,7 @@ class MainWindow(QMainWindow):
         ### Setting and then Hiding Checkbox or test fields dependings on graph type
         ###
         self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
-        self.plot_xyz_label.setHidden(True)
+       
 
 
         self.label_and_entry_layout.addWidget(self.input_min_x, 9,1)
@@ -291,25 +291,12 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.max_y, 12,0)
         self.label_and_entry_layout.addWidget(self.min_z, 13,0)
         self.label_and_entry_layout.addWidget(self.max_z, 14,0)
-        self.min_x.setHidden(True)
-        self.max_x.setHidden(True)
-        self.min_y.setHidden(True)
-        self.max_y.setHidden(True)
-        self.min_z.setHidden(True)
-        self.max_z.setHidden(True)
-        self.input_min_x.setHidden(True)
-        self.input_max_x.setHidden(True)
-        self.input_min_y.setHidden(True)
-        self.input_max_y.setHidden(True)
-        self.input_min_z.setHidden(True)
-        self.input_max_z.setHidden(True)
+        
 
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(0), 9, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(1), 10, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(2), 11, 0)
-        self.graph_display_button_group.button(0).setHidden(True)
-        self.graph_display_button_group.button(1).setHidden(True)
-        self.graph_display_button_group.button(2).setHidden(True)
+
 
         self.label_and_entry_layout.addWidget(self.format_file_text, 15, 0)
         self.label_and_entry_layout.addWidget(self.radio_iaga2000, 16,0)
@@ -323,7 +310,8 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.button_save, 22, 1)
         self.label_and_entry_layout.addWidget(self.button_open_file, 23, 0)
         self.label_and_entry_layout.addWidget(self.button_quit, 23, 1)
-
+        self.set_stacked_options_hidden()
+        self.set_three_axis_options_hidden()
         ########################################
         ### Adding all layouts into the main ###
         ########################################
@@ -465,7 +453,8 @@ class MainWindow(QMainWindow):
         start = which_graph_type_box.exec()
 
         if which_graph_type_box.clickedButton() == three_axis_option:
-
+            self.set_stacked_options_hidden()
+            self.set_three_axis_options_visable()
             # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
             plot_x_axis = 0         
             plot_y_axis = 0
@@ -511,7 +500,8 @@ class MainWindow(QMainWindow):
                                                                     self.file_name, start_time_stamp, end_time_stamp, '5')
 
         elif which_graph_type_box.clickedButton() == stacked_display:
-            
+            self.set_stacked_options_visable()
+            self.set_three_axis_options_hidden()
             plot_min_value_x =0 
             plot_min_value_y =0
             plot_min_value_z =0
@@ -670,6 +660,47 @@ class MainWindow(QMainWindow):
         elif file_type.clickedButton() == cancel_button:
             file_type.close()
 
+    def set_stacked_options_hidden(self):
+
+        self.min_x.setHidden(True)
+        self.max_x.setHidden(True)
+        self.min_y.setHidden(True)
+        self.max_y.setHidden(True)
+        self.min_z.setHidden(True)
+        self.max_z.setHidden(True)
+        self.input_min_x.setHidden(True)
+        self.input_max_x.setHidden(True)
+        self.input_min_y.setHidden(True)
+        self.input_max_y.setHidden(True)
+        self.input_min_z.setHidden(True)
+        self.input_max_z.setHidden(True)
+
+    def set_stacked_options_visable(self):
+
+        self.min_x.setHidden(False)
+        self.max_x.setHidden(False)
+        self.min_y.setHidden(False)
+        self.max_y.setHidden(False)
+        self.min_z.setHidden(False)
+        self.max_z.setHidden(False)
+        self.input_min_x.setHidden(False)
+        self.input_max_x.setHidden(False)
+        self.input_min_y.setHidden(False)
+        self.input_max_y.setHidden(False)
+        self.input_min_z.setHidden(False)
+        self.input_max_z.setHidden(False)
+
+    def set_three_axis_options_hidden(self):
+        self.plot_xyz_label.setHidden(True)
+        self.graph_display_button_group.button(0).setHidden(True)
+        self.graph_display_button_group.button(1).setHidden(True)
+        self.graph_display_button_group.button(2).setHidden(True)
+
+    def set_three_axis_options_visable(self):
+        self.plot_xyz_label.setHidden(False)
+        self.graph_display_button_group.button(0).setHidden(False)
+        self.graph_display_button_group.button(1).setHidden(False)
+        self.graph_display_button_group.button(2).setHidden(False)
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
