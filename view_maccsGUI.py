@@ -12,10 +12,11 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QGridLayout,QPushButton, 
                                 QToolBar,QVBoxLayout,
                                 QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox
+                                QCheckBox,QMessageBox, QButtonGroup
                                 )
 from PySide6.QtGui import QIcon, QAction, QPixmap, Qt
 from PySide6.QtCore import  QSize
+from PySide6 import QtCore, QtGui, QtWidgets
 
 # path for file open 
 from pathlib import Path
@@ -65,6 +66,8 @@ class MainWindow(QMainWindow):
 
         self.setGeometry(60,60, 1000,800)
         self.selection_file_value = ''
+
+        self.graph_display_button_group = QButtonGroup()
 
         ###############
         ### Toolbar ###
@@ -131,6 +134,15 @@ class MainWindow(QMainWindow):
         self.plot_xyz_label.setFixedHeight(20)
         self.format_file_text.setFixedHeight(20)
 
+        self.min_x = QLabel("Plot min x: ")
+        self.max_x = QLabel("Plot max x: ")
+
+        self.min_y = QLabel("Plot min y: ")
+        self.max_y = QLabel("Plot max y: ")
+
+        self.min_z = QLabel("Plot min z: ")
+        self.max_z = QLabel("Plot max z: ")
+
         ###################
         ### Text Fields ###
         ###################
@@ -146,6 +158,13 @@ class MainWindow(QMainWindow):
         self.input_endmin = QLineEdit("59")
         self.input_endsec = QLineEdit("59")
 
+        self.input_min_x = QLineEdit("0")
+        self.input_max_x = QLineEdit("0")
+        self.input_min_y = QLineEdit("0")
+        self.input_max_y = QLineEdit("0")
+        self.input_min_z = QLineEdit("0")
+        self.input_max_z = QLineEdit("0")
+
         self.input_station_code.setMaximumWidth(35)
         self.input_starthour.setMaximumWidth(35)
         self.input_startmin.setMaximumWidth(35)
@@ -158,15 +177,20 @@ class MainWindow(QMainWindow):
         #######################
         ### Checkbox Select ###
         #######################
-
         self.checkbox_plotx = QCheckBox("X Plot", self)
         self.checkbox_ploty = QCheckBox("Y Plot", self)
         self.checkbox_plotz = QCheckBox("Z Plot", self)
+        
+        self.graph_display_button_group.addButton(self.checkbox_plotx)
+        self.graph_display_button_group.setId(self.checkbox_plotx,0)
+        self.graph_display_button_group.addButton(self.checkbox_ploty)
+        self.graph_display_button_group.setId(self.checkbox_ploty,1)
+        self.graph_display_button_group.addButton(self.checkbox_plotz)
+        self.graph_display_button_group.setId(self.checkbox_plotz,2)
 
         ########################
         ### Radio Selectors ###
         ########################
-
         self.radio_iaga2000 = QRadioButton("IAGA2000 - NW")
         self.radio_iaga2002 = QRadioButton("IAGA2002 - NW")
         self.radio_clean_file = QRadioButton("Clean file")
@@ -239,10 +263,17 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.input_endmin, 6, 1)
         self.label_and_entry_layout.addWidget(self.input_endsec, 7, 1)
 
+        #######
+        ### Setting and then Hiding Checkbox or test fields dependings on graph type
         self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
-        self.label_and_entry_layout.addWidget(self.checkbox_plotx, 9, 0)
-        self.label_and_entry_layout.addWidget(self.checkbox_ploty, 10, 0)
-        self.label_and_entry_layout.addWidget(self.checkbox_plotz, 11, 0)
+        self.plot_xyz_label.setHidden(True)
+
+        self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(0), 9, 0)
+        self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(1), 10, 0)
+        self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(2), 11, 0)
+        self.graph_display_button_group.button(0).setHidden(True)
+        self.graph_display_button_group.button(1).setHidden(True)
+        self.graph_display_button_group.button(2).setHidden(True)
 
         self.label_and_entry_layout.addWidget(self.format_file_text, 14, 0)
 
@@ -331,8 +362,6 @@ class MainWindow(QMainWindow):
                 print('Option not available yet :(')
             # checks the radio button with the proper file type
             self.radio_file_check(file_type)
-    
-
 
     '''
     TODO
@@ -447,7 +476,7 @@ class MainWindow(QMainWindow):
                                                                     self.file_name, start_time_stamp, end_time_stamp, '5')
 
         elif which_graph_type_box.clickedButton() == stacked_display:
-              
+            
             plot_min_value_x =0 
             plot_min_value_y =0
             plot_min_value_z =0
@@ -494,7 +523,6 @@ class MainWindow(QMainWindow):
         for i in reversed(range(self.graph_layout.count())): 
             self.graph_layout.itemAt(i).widget().setParent(None)      
         self.maccs_logo.setHidden(False)
-
 
     def custom_toobar(self):
         foobar = NavigationToolbar2QT(self.graph, self)
@@ -606,12 +634,6 @@ class MainWindow(QMainWindow):
             subprocess.Popen(self.file_name + '.png', shell=True)
         elif file_type.clickedButton() == cancel_button:
             file_type.close()
-
-class CustomToolbar(NavigationToolbar2QT):
-    def __init__(self, canvas):
-        NavigationToolbar2QT.__init__(self,canvas)
-        FINAL_REMOVE_SUBPLOT_INT = 6
-        self.DeteleToolByPos(FINAL_REMOVE_SUBPLOT_INT)
 
 def main():
     app = QApplication(sys.argv)
