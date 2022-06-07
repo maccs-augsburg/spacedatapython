@@ -67,8 +67,6 @@ class MainWindow(QMainWindow):
         self.setGeometry(60,60, 1000,800)
         self.selection_file_value = ''
 
-        self.graph_display_button_group = QButtonGroup()
-
         ###############
         ### Toolbar ###
         ###############
@@ -185,10 +183,13 @@ class MainWindow(QMainWindow):
         #######################
         ### Checkbox Select ###
         #######################
+        self.graph_display_button_group = QButtonGroup()
+        self.graph_display_button_group.setExclusive(False)
+
         self.checkbox_plotx = QCheckBox("X Plot", self)
         self.checkbox_ploty = QCheckBox("Y Plot", self)
         self.checkbox_plotz = QCheckBox("Z Plot", self)
-        self.graph_display_button_group.setExclusive(False)
+
         self.graph_display_button_group.addButton(self.checkbox_plotx)
         self.graph_display_button_group.setId(self.checkbox_plotx,0)
         self.graph_display_button_group.addButton(self.checkbox_ploty)
@@ -219,7 +220,7 @@ class MainWindow(QMainWindow):
          
         self.button_open_file = QPushButton("Open file")
         self.button_open_file.setFixedWidth(75)
-        self.button_plot = QPushButton('Plot')
+        self.button_plot = QPushButton('Graph Style')
         self.button_plot.setFixedWidth(75)
         self.button_quit = QPushButton('Quit')
         self.button_quit.setFixedWidth(75)
@@ -271,13 +272,8 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.input_endmin, 6, 1)
         self.label_and_entry_layout.addWidget(self.input_endsec, 7, 1)
 
-        #######
-        ### Setting and then Hiding Checkbox or test fields dependings on graph type
-        ###
         self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
        
-
-
         self.label_and_entry_layout.addWidget(self.input_min_x, 9,1)
         self.label_and_entry_layout.addWidget(self.input_max_x, 10,1)
         self.label_and_entry_layout.addWidget(self.input_min_y, 11,1)
@@ -297,7 +293,6 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(1), 10, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(2), 11, 0)
 
-
         self.label_and_entry_layout.addWidget(self.format_file_text, 15, 0)
         self.label_and_entry_layout.addWidget(self.radio_iaga2000, 16,0)
         self.label_and_entry_layout.addWidget(self.radio_iaga2002, 17,0)
@@ -310,8 +305,10 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.button_save, 22, 1)
         self.label_and_entry_layout.addWidget(self.button_open_file, 23, 0)
         self.label_and_entry_layout.addWidget(self.button_quit, 23, 1)
+
         self.set_stacked_options_hidden()
         self.set_three_axis_options_hidden()
+
         ########################################
         ### Adding all layouts into the main ###
         ########################################
