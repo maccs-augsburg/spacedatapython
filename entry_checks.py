@@ -158,7 +158,7 @@ def graph_from_plotter_entry_check(self,graph_from_plotter_value_x,graph_from_pl
             
     #Warning Message
     else:
-        view_maccsGUI.MainWindow.warning_message_pop_up(self,"File Format Option Error",  "Please select an axis\' to plot")
+        view_maccsGUI.MainWindow.warning_message_pop_up(self,"Axis Selection",  "Please select an axis\' to plot")
 
     #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
     return fig
