@@ -226,8 +226,10 @@ class MainWindow(QMainWindow):
         self.button_save_as.setFixedWidth(75)
         self.button_clear_plot = QPushButton('Clear Plot')
         self.button_clear_plot.setFixedWidth(75)
-        self.button_plot_graph = QPushButton("Plot Graph")
-        self.button_plot_graph.setFixedWidth(75)
+        self.button_plot_three_axis = QPushButton("Plot Graph")
+        self.button_plot_three_axis.setFixedWidth(75)
+        self.button_plot_stacked_graph = QPushButton("Plot Graph")
+        self.button_plot_stacked_graph.setFixedWidth(75)
 
         ########################
         ### Signals / Events ###
@@ -242,6 +244,8 @@ class MainWindow(QMainWindow):
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
         self.button_clear_plot.clicked.connect(self.clear_plots)
+        self.button_plot_three_axis.clicked.connect(self.plot_three_axis)
+        self.button_plot_stacked_graph.clicked.connect(self.plot_stacked_axis)
 
         ######################
         ### Adding Widgets ###
@@ -288,7 +292,8 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(0), 9, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(1), 10, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(2), 11, 0)
-        self.label_and_entry_layout.addWidget(self.button_plot_graph, 15 ,0)
+        self.label_and_entry_layout.addWidget(self.button_plot_three_axis, 15 ,0)
+        self.label_and_entry_layout.addWidget(self.button_plot_stacked_graph,15 ,0)
         self.label_and_entry_layout.addWidget(self.format_file_text, 16, 0)
         self.label_and_entry_layout.addWidget(self.radio_iaga2000, 17,0)
         self.label_and_entry_layout.addWidget(self.radio_iaga2002, 18,0)
@@ -302,7 +307,8 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.button_open_file, 24, 0)
         self.label_and_entry_layout.addWidget(self.button_quit, 24, 1)
 
-        self.button_plot_graph.setHidden(True)
+        self.button_plot_three_axis.setHidden(True)
+        self.button_plot_stacked_graph.setHidden(True)
         self.set_stacked_options_hidden()
         self.set_three_axis_options_hidden()
 
@@ -404,10 +410,7 @@ class MainWindow(QMainWindow):
 
     '''
 
-    def choose_graph_style(self):
-        '''
-        Obtains the values entered in the GUI and runs the plotting program with the inputted values
-        '''
+    def get_graph_entries(self):
 
         # Getting entries from the user / the file
         #Station code and year
@@ -436,6 +439,12 @@ class MainWindow(QMainWindow):
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
 
+    def choose_graph_style(self):
+        '''
+        Obtains the values entered in the GUI and runs the plotting program with the inputted values
+        '''
+        
+
         # Message box that asks what type of graph verison you want
         self.which_graph_type_box = QMessageBox(self)
 
@@ -447,17 +456,27 @@ class MainWindow(QMainWindow):
         self.start = self.which_graph_type_box.exec()
 
         if self.which_graph_type_box.clickedButton() == self.three_axis_option:
-            self.plot_three_axis()
+            self.clear_plots()
+            self.set_stacked_options_hidden()
+            self.set_three_axis_options_visable()
+            self.button_plot_three_axis.setHidden(False)
+            self.button_plot_stacked_graph.setHidden(True)
+            
+
 
         elif self.which_graph_type_box.clickedButton() == self.stacked_display:
-            self.plot_stacked_axis()
+            self.clear_plots()
+            self.set_stacked_options_visable()
+            self.set_three_axis_options_hidden()
+            self.button_plot_stacked_graph.setHidden(False)
+            self.button_plot_three_axis.setHidden(True)
+            
 
         elif self.which_graph_type_box.clickedButton() == self.cancel_button:
             self.which_graph_type_box.close()
 
     def plot_three_axis(self):
-        self.set_stacked_options_hidden()
-        self.set_three_axis_options_visable()
+        self.get_graph_entries()
         # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
         plot_x_axis = 0         
         plot_y_axis = 0
@@ -512,9 +531,8 @@ class MainWindow(QMainWindow):
         self.graph_layout.addWidget(self.graph)
 
     def plot_stacked_axis(self):
-        self.set_stacked_options_visable()
-        self.set_three_axis_options_hidden()
-        
+        self.get_graph_entries()
+
         plot_min_value_x = int(self.input_min_x.text())
         plot_max_value_x = int(self.input_max_x.text())
         plot_min_value_y = int(self.input_min_y.text())
