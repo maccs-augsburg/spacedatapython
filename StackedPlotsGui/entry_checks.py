@@ -74,15 +74,15 @@ def hour_entry_check(self, hour_entry: int, end_or_start: int) -> int:
 
     hour = hour_entry
 
-    if hour > 24 or hour < 0:
+    if hour > 23 or hour < 0:
         self.warning_message_dialog(
             "Hour Entry Error. Valid input (0 - 23)")
         if end_or_start:
             self.start_hour_edit.set_entry(0)
             return 0
         else:
-            self.end_hour_edit.set_entry(24)
-            return 24
+            self.end_hour_edit.set_entry(23)
+            return 23
 
     if end_or_start:
         self.start_hour_edit.set_entry(hour)
@@ -428,5 +428,4 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
     self.max_y_edit.set_entry(y_max)
     self.min_z_edit.set_entry(z_min)
     self.max_z_edit.set_entry(z_max)
-
 

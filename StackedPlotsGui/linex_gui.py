@@ -18,15 +18,19 @@ from PySide6.QtWidgets import (
     QMainWindow, QToolBar,
     QHBoxLayout, QGridLayout, QLabel,
     QWidget, QComboBox, QPushButton, 
-    QFileDialog, QMessageBox, QVBoxLayout, QApplication, QCheckBox
+    QFileDialog, QMessageBox, QVBoxLayout, 
+    QApplication, QCheckBox
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
-
 #import matplotlib
-# FigureCanvasQTAgg wraps matplot image as a widget for it to be able to be added to layouts in QT
-# Navigation is used for matplotlib functionalities, zooming in, zooming out, saving, etc...
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
+# FigureCanvasQTAgg wraps matplot image as a widget 
+# for it to be able to be added to layouts in QT
+# Navigation is used for matplotlib functionalities, 
+# zooming in, zooming out, saving, etc...
+from matplotlib.backends.backend_qt5agg import (
+                                    FigureCanvasQTAgg, 
+                                    NavigationToolbar2QT as NavigationToolbar)
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
@@ -86,27 +90,34 @@ class MainWindow(QMainWindow):
         self.filename_noextension = ""
         self.file_path = ""
         self.launch_dialog_option = 0
+        #######################
         self.figure = None
         self.figure_canvas = None
         self.figure_canvas_flag = False
         self.matplotlib_toolbar = None
+        #######################
         self.save_file_state = 0
         self.save_filename = ""
         self.file_num = 0
         self.new_figure = 0
+        #######################
+        self.zoom_flag = False
+        self.x_arr = None
+        self.y_arr = None
+        self.z_arr = None
+        self.time_arr = None
+        self.start_time_stamp = None
+        self.end_time_stamp = None
+        self.min_x = 0
+        self.max_z = 0
+        self.min_y = 0
+        self.max_y = 0
+        self.min_z = 0
+        self.max_z = 0
         # Make another layout for toolbar and matplotlib
         # We add this layout onto the gui once user has chosen a file
         # Then it goes into plotting function and adds it at the end 
         self.plotting_layout = QVBoxLayout()
-        #######################
-
-        #######################
-        self.zoom_min_x = 0
-        self.zoom_max_x = 0
-        self.zoom_min_y = 0
-        self.zoom_max_y = 0
-        self.zoom_min_z = 0
-        self.zoom_max_z = 0
         #######################
 
         self.main_layout = QHBoxLayout()
@@ -161,10 +172,6 @@ class MainWindow(QMainWindow):
         entry_layout.addWidget(self.end_minute_edit, 6, 1)
         entry_layout.addWidget(end_second_label, 7, 0)
         entry_layout.addWidget(self.end_second_edit, 7, 1)
-        # entry_layout.addWidget(self.one_array_plotted_button, 8, 0)
-        # entry_layout.addWidget(self.x_checkbox, 8, 1)
-        # entry_layout.addWidget(self.y_checkbox, 8, 2)
-        # entry_layout.addWidget(self.z_checkbox, 8, 3)
         entry_layout.addWidget(min_x_label, 9, 0)
         entry_layout.addWidget(self.min_x_edit, 9, 1)
         entry_layout.addWidget(max_x_label, 10, 0)
@@ -180,7 +187,6 @@ class MainWindow(QMainWindow):
         ################################################
 
     
-
         #### DROP DOWN MENU FOR FILE FORMATS ###########
         self.options = ("IAGA2000 - NW",       # Index 0 
                         "IAGA2002 - NW",       # Index 1
@@ -288,7 +294,6 @@ class MainWindow(QMainWindow):
         if len(response) == 0:
             return
 
-        # https://www.datacamp.com/tutorial/role-underscore-python
         filename, _ = response
         self.file_path = filename
         # splitting up the path and selecting the filename
@@ -304,19 +309,7 @@ class MainWindow(QMainWindow):
         self.station_edit.set_entry(filename[0:2])
         self.year_day_edit.set_entry(filename[2:7])
         
-        # reset the start times and end times
-        self.start_hour_edit.set_entry(0)
-        self.start_minute_edit.set_entry(0)
-        self.start_second_edit.set_entry(0)
-        self.end_hour_edit.set_entry(24)
-        self.end_minute_edit.set_entry(0)
-        self.end_second_edit.set_entry(0)
-        self.min_x_edit.set_entry(0)
-        self.max_x_edit.set_entry(0)
-        self.min_y_edit.set_entry(0)
-        self.max_y_edit.set_entry(0)
-        self.min_z_edit.set_entry(0)
-        self.max_z_edit.set_entry(0)
+        self.reset_entries()
 
     def plot_graph(self):
         
@@ -332,13 +325,16 @@ class MainWindow(QMainWindow):
         if not entry_checks.year_day_entry_check(self):
             return
 
-        any_state = self.x_checkbox.isChecked() or self.y_checkbox.isChecked() or self.z_checkbox.isChecked()
+        x_state = self.x_checkbox.isChecked()
+        y_state = self.y_checkbox.isChecked()
+        z_state = self.z_checkbox.isChecked()
+
+        any_state = x_state or y_state or z_state
 
         if self.one_array_plotted_button.is_toggled():
             if not any_state:
                 self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
                 return
-
         
         start_hour = entry_checks.hour_entry_check(self, int(self.start_hour_edit.get_entry()), 1)
         start_minute = entry_checks.minute_entry_check(self, int(self.start_minute_edit.get_entry()), 1)
@@ -347,15 +343,15 @@ class MainWindow(QMainWindow):
         end_minute = entry_checks.minute_entry_check(self, int(self.end_minute_edit.get_entry()), 0)
         end_second = entry_checks.second_entry_check(self, int(self.end_second_edit.get_entry()), 0)
 
-        start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
+        self.start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
 
-        if end_hour >= 24:
+        if end_hour > 23:
             self.end_hour_edit.set_entry(23)
             self.end_minute_edit.set_entry(59)
             self.end_second_edit.set_entry(59)
-            end_time_stamp = datetime.time(23, 59, 59)
+            self.end_time_stamp = datetime.time(23, 59, 59)
         else:
-            end_time_stamp = datetime.time(hour = end_hour, minute = end_minute, second = end_second)
+            self.end_time_stamp = datetime.time(hour = end_hour, minute = end_minute, second = end_second)
 
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour, start_minute, start_second, 
                                                                            end_hour, end_minute, end_second)
@@ -374,23 +370,19 @@ class MainWindow(QMainWindow):
 
         if self.launch_dialog_option == 2:
 
-            x_arr, y_arr, z_arr, time_arr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, 
-                                                                                                            start_time_stamp, 
-                                                                                                            end_time_stamp, 
+            self.x_arr, self.y_arr, self.z_arr, self.time_arr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, 
+                                                                                                            self.start_time_stamp, 
+                                                                                                            self.end_time_stamp, 
                                                                                                             self.filename)
 
         elif self.launch_dialog_option == 3:
 
-            x_arr, y_arr, z_arr, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, 
-                                                                                            start_time_stamp, 
-                                                                                            end_time_stamp, 
+            self.x_arr, self.y_arr, self.z_arr, self.time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, 
+                                                                                            self.start_time_stamp, 
+                                                                                            self.end_time_stamp, 
                                                                                             self.filename)
 
         
-        #min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
-        #     x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z
-        # )
-
         min_x = int(self.min_x_edit.get_entry())
         max_x = int(self.max_x_edit.get_entry())
         min_y = int(self.min_y_edit.get_entry())
@@ -398,34 +390,46 @@ class MainWindow(QMainWindow):
         min_z = int(self.min_z_edit.get_entry())
         max_z = int(self.max_z_edit.get_entry())
 
-        min_x, max_x = entry_checks.axis_entry_checks_new(x_arr, min_x, max_x)
-        min_y, max_y = entry_checks.axis_entry_checks_new(y_arr, min_y, max_y)
-        min_z, max_z = entry_checks.axis_entry_checks_new(z_arr, min_z, max_z)
+        min_x, max_x = entry_checks.axis_entry_checks_new(self.x_arr, min_x, max_x)
+        min_y, max_y = entry_checks.axis_entry_checks_new(self.y_arr, min_y, max_y)
+        min_z, max_z = entry_checks.axis_entry_checks_new(self.z_arr, min_z, max_z)
+
 
         entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
         
         if self.one_array_plotted_button.is_toggled():
 
-            self.figure = entry_checks.graph_from_plotter_entry_check(self,x_arr, y_arr, z_arr, time_arr,
-                                                                    self.filename, 
-                                                                    start_time_stamp,
-                                                                    end_time_stamp)
+            self.figure = entry_checks.graph_from_plotter_entry_check(self, 
+                                                                self.x_arr, 
+                                                                self.y_arr, 
+                                                                self.z_arr, 
+                                                                self.time_arr,
+                                                                self.filename, 
+                                                                self.start_time_stamp,
+                                                                self.end_time_stamp)
+            self.reset_entries()
 
         else:
 
-            self.figure = raw_to_plot.plot_arrays(x_arr, y_arr, z_arr, time_arr, 
-                                                self.filename, start_time_stamp, end_time_stamp, 
+            self.figure = raw_to_plot.plot_arrays(self.x_arr, 
+                                                self.y_arr, 
+                                                self.z_arr, 
+                                                self.time_arr, 
+                                                self.filename, 
+                                                self.start_time_stamp, 
+                                                self.end_time_stamp, 
                                                 in_min_x=min_x, in_max_x=max_x,
                                                 in_min_y=min_y, in_max_y=max_y,
                                                 in_min_z=min_z, in_max_z=max_z)
 
+        self.min_x = min_x
+        self.max_x = max_x
+        self.min_y = min_y
+        self.max_y = max_y
+        self.min_z = min_z
+        self.max_z = max_z
+
         self.display_figure()
-
-        # Keeps going I guess, not sure if this slow down gui from showing? I dont think it is, but having some delay before this would be helpful?
-        self.zoom_min_x, self.zoom_max_x, self.zoom_min_y, self.zoom_max_y, self.zoom_min_z, self.zoom_max_z = entry_checks.axis_entry_checks_old(
-            x_arr, y_arr, z_arr, min_x, max_x, min_y, max_y, min_z, max_z
-        )
-
 
     def display_figure(self):
 
@@ -446,8 +450,8 @@ class MainWindow(QMainWindow):
         self.mac_label.setHidden(True)
 
         self.figure_canvas_flag = True
-        self.new_figure = self.figure + 1
-        self.file_num = self.file_num + 1
+        #self.new_figure = self.figure + 1
+        #self.file_num = self.file_num + 1
         self.show()
 
 
@@ -456,30 +460,45 @@ class MainWindow(QMainWindow):
         if self.figure == None:
             self.warning_message_dialog("No figure to work with")
             return
-        # https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.html
-        # https://matplotlib.org/stable/tutorials/intermediate/tight_layout_guide.html#sphx-glr-tutorials-intermediate-tight-layout-guide-py
-        #https://stackoverflow.com/questions/10984085/automatically-rescale-ylim-and-xlim-in-matplotlib
-        fig = self.figure
-        plt.subplot(311)
-        print(plt.ylim())
-        plt.ylim(self.zoom_min_x, self.zoom_max_x)
-        plt.plot()
-        plt.subplot(312)
-        print(plt.ylim())
-        
-        plt.ylim(self.zoom_min_y, self.zoom_max_y)
-        plt.plot()
-        plt.subplot(313)
-        print(plt.ylim())
-        plt.ylim(self.zoom_min_z, self.zoom_max_z)
-        plt.plot()
-        
-        #fig.draw()
-        self.figure = fig
+
+        if self.one_array_plotted_button.is_toggled():
+            self.warning_message_dialog(
+                "This feature only available for Three Graph Plotting right now")
+            return
+
+        if not self.zoom_flag:
+            self.figure = raw_to_plot.plot_arrays(self.x_arr, 
+                                                self.y_arr, 
+                                                self.z_arr, 
+                                                self.time_arr, 
+                                                self.filename, 
+                                                self.start_time_stamp, 
+                                                self.end_time_stamp,
+                                                in_min_x=0,in_max_x=0,in_min_y=0,in_max_y=0,in_min_z=0,in_max_z=0)
+            self.zoom_flag = True
+        else:
+            self.figure = raw_to_plot.plot_arrays(self.x_arr,
+                                                self.y_arr,
+                                                self.z_arr,
+                                                self.time_arr,
+                                                self.filename,
+                                                self.start_time_stamp,
+                                                self.end_time_stamp,
+                                                in_min_x=self.min_x, in_max_x=self.max_x,
+                                                in_min_y=self.min_y, in_max_y=self.max_y,
+                                                in_min_z=self.min_z, in_max_z=self.max_z)
+            self.zoom_flag = False
+           #self.plot_counter = self.plot_counter + 1
 
         self.display_figure()
 
-    # TODO: Use regular expressions for filter? Prevent bad input by accident
+    def zoom_in(self):
+        if self.figure == None:
+            self.warning_message_dialog("No figure to work with")
+            return
+        
+        pass
+
     def save_file(self):
         
         if self.figure == None:
@@ -488,10 +507,10 @@ class MainWindow(QMainWindow):
 
         cwd = os.getcwd()
         
-        if self.filename == None:
+        if self.save_filename == None:
             filename = self.filename_noextension + '.pdf'
         else:
-            filename = self.filename
+            filename = self.save_filename
         
         file_list = os.listdir(cwd)
 
@@ -504,15 +523,13 @@ class MainWindow(QMainWindow):
             self.save_as()
             return
 
-        # for file in file_list:
-        #     if filename == file and self.save_file_state:
-        #         self.warning_message_dialog("Do you wish to overwrite " + filename + "?")
-
 
         self.figure.savefig(filename, format='pdf', dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
         self.save_file_state = 1
+
+
 
     def save_as(self):
 
@@ -534,13 +551,12 @@ class MainWindow(QMainWindow):
             return
         # go to the end (-1) and find last '/', split there
         filename = filename.split('/')[-1]
-        self.filename = filename
+        self.save_filename = filename
 
         self.figure.savefig(filename, dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
-
-    
+        #self.save_as_counter = self.save_as_counter + 1
     
     # TODO: Use regular expressions for filter? Prevent bad input by accident
     def warning_message_dialog(self, message):
@@ -548,6 +564,20 @@ class MainWindow(QMainWindow):
         self.error_message.setText(message)
         self.error_message.exec()
 
+    def reset_entries(self):
+        # reset the start times and end times
+        self.start_hour_edit.set_entry(0)
+        self.start_minute_edit.set_entry(0)
+        self.start_second_edit.set_entry(0)
+        self.end_hour_edit.set_entry(23)
+        self.end_minute_edit.set_entry(59)
+        self.end_second_edit.set_entry(59)
+        self.min_x_edit.set_entry(0)
+        self.max_x_edit.set_entry(0)
+        self.min_y_edit.set_entry(0)
+        self.max_y_edit.set_entry(0)
+        self.min_z_edit.set_entry(0)
+        self.max_z_edit.set_entry(0)
 
 def main ():
 
