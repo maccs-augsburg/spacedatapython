@@ -16,7 +16,6 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 )
 from PySide6.QtGui import QIcon, QAction, QPixmap, Qt
 from PySide6.QtCore import  QSize
-from PySide6 import QtCore, QtGui, QtWidgets
 
 # path for file open 
 from pathlib import Path
@@ -93,7 +92,6 @@ class MainWindow(QMainWindow):
         file_menu = menu.addMenu("&File")
         file_menu.addAction(action_openfile)
         file_menu.addAction(action_savefile)
-        
 
         edit_menu = menu.addMenu("&Edit")
 
@@ -178,8 +176,6 @@ class MainWindow(QMainWindow):
         self.input_min_z.setMaximumWidth(35)
         self.input_max_z.setMaximumWidth(35)
 
-
-
         #######################
         ### Checkbox Select ###
         #######################
@@ -197,9 +193,9 @@ class MainWindow(QMainWindow):
         self.graph_display_button_group.addButton(self.checkbox_plotz)
         self.graph_display_button_group.setId(self.checkbox_plotz,2)
 
-        ########################
+        #######################
         ### Radio Selectors ###
-        ########################
+        #######################
         self.radio_iaga2000 = QRadioButton("IAGA2000 - NW")
         self.radio_iaga2002 = QRadioButton("IAGA2002 - NW")
         self.radio_clean_file = QRadioButton("Clean file")
@@ -230,7 +226,6 @@ class MainWindow(QMainWindow):
         self.button_save_as.setFixedWidth(75)
         self.button_clear_plot = QPushButton('Clear Plot')
         self.button_clear_plot.setFixedWidth(75)
-
 
         ########################
         ### Signals / Events ###
@@ -274,21 +269,20 @@ class MainWindow(QMainWindow):
 
         self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
        
-        self.label_and_entry_layout.addWidget(self.input_min_x, 9,1)
-        self.label_and_entry_layout.addWidget(self.input_max_x, 10,1)
-        self.label_and_entry_layout.addWidget(self.input_min_y, 11,1)
-        self.label_and_entry_layout.addWidget(self.input_max_y, 12,1)
-        self.label_and_entry_layout.addWidget(self.input_min_z, 13,1)
-        self.label_and_entry_layout.addWidget(self.input_max_z, 14,1)
+        self.label_and_entry_layout.addWidget(self.input_max_x, 9,1)
+        self.label_and_entry_layout.addWidget(self.input_min_x, 10,1)
+        self.label_and_entry_layout.addWidget(self.input_max_y, 11,1)
+        self.label_and_entry_layout.addWidget(self.input_min_y, 12,1)
+        self.label_and_entry_layout.addWidget(self.input_max_z, 13,1)
+        self.label_and_entry_layout.addWidget(self.input_min_z, 14,1)
 
-        self.label_and_entry_layout.addWidget(self.min_x, 9,0)
-        self.label_and_entry_layout.addWidget(self.max_x, 10,0)
-        self.label_and_entry_layout.addWidget(self.min_y, 11,0)
-        self.label_and_entry_layout.addWidget(self.max_y, 12,0)
-        self.label_and_entry_layout.addWidget(self.min_z, 13,0)
-        self.label_and_entry_layout.addWidget(self.max_z, 14,0)
+        self.label_and_entry_layout.addWidget(self.max_x, 9,0)
+        self.label_and_entry_layout.addWidget(self.min_x, 10,0)
+        self.label_and_entry_layout.addWidget(self.max_y, 11,0)
+        self.label_and_entry_layout.addWidget(self.min_y, 12,0)
+        self.label_and_entry_layout.addWidget(self.max_z, 13,0)
+        self.label_and_entry_layout.addWidget(self.min_z, 14,0)
         
-
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(0), 9, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(1), 10, 0)
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(2), 11, 0)
@@ -312,7 +306,6 @@ class MainWindow(QMainWindow):
         ########################################
         ### Adding all layouts into the main ###
         ########################################
-
 
         self.main_layout.addLayout(self.label_and_entry_layout)
         self.main_layout.addLayout(self.graph_layout)
@@ -499,12 +492,13 @@ class MainWindow(QMainWindow):
         elif which_graph_type_box.clickedButton() == stacked_display:
             self.set_stacked_options_visable()
             self.set_three_axis_options_hidden()
-            plot_min_value_x =0 
-            plot_min_value_y =0
-            plot_min_value_z =0
-            plot_max_value_x =0
-            plot_max_value_y =0
-            plot_max_value_z =0 
+            
+            plot_min_value_x = int(self.input_min_x.text())
+            plot_max_value_x = int(self.input_max_x.text())
+            plot_min_value_y = int(self.input_min_y.text())
+            plot_max_value_y = int(self.input_max_y.text())
+            plot_min_value_z = int(self.input_min_z.text())
+            plot_max_value_z = int(self.input_max_z.text())
 
             try:
                 file = open(file_name_full, 'rb')
