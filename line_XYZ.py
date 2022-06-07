@@ -23,7 +23,7 @@ from pathlib import Path
 #imports from python 
 import sys
 import datetime
-from isort import file
+
 
 #Imports from matplotlib
 import matplotlib

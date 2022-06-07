@@ -155,7 +155,7 @@ class SingleGraphPlotter:
         ttk.Label(mainframe, text="Format of file to Open: ").grid(column=1, row=15, columnspan=2,sticky=W)
 
         # setting the image to be the maccs logo
-        image=Image.open('images/maccslogo_870.jpeg')
+        image=Image.open('maccslogo_870.jpeg')
         image_file = ImageTk.PhotoImage(image)
         image_label = ttk.Label(mainframe, image=image_file)
         image_label.image = image_file
