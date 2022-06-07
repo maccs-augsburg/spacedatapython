@@ -419,7 +419,7 @@ class MainWindow(QMainWindow):
                 file = open(file_name_full, 'rb')
             except:
                 # popping up an error if we can't open the file
-                self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
+                self.warning_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \n Try again please")
 
             #Creating the arrays
             if (self.selection_file_value == '4'):
@@ -459,7 +459,7 @@ class MainWindow(QMainWindow):
                 file = open(file_name_full, 'rb')
             except:
                 # popping up an error if we can't open the file
-                self.error_message_pop_up("File open error", "couldn't find and open your file")
+                self.warning_message_pop_up(self,"File open error", "couldn't find and open your file")
 
             # Creating the arrays
             if (self.selection_file_value == '4'):
