@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
     QFileDialog, QMessageBox, QVBoxLayout, 
     QApplication, QCheckBox, QSizePolicy
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTime
 from PySide6.QtGui import QIcon, QPixmap
 #import matplotlib
 # FigureCanvasQTAgg wraps matplot image as a widget 
@@ -35,7 +35,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 #### Importing our own files ####################
-from custom_widgets import LineEdit, Label, CheckBox, PushButton, Spinbox
+from custom_widgets import LineEdit, Label, CheckBox, PushButton, Spinbox, Time
 import entry_checks
 
 # Move back one directory to grab shared files between guis
@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
         self.error_message = QMessageBox()
         self.error_message.setText("Error Invalid Input")
 
-        #######################
+        ################################################
         self.main_layout = QHBoxLayout()
         self.mac_label = QLabel()
         pixmap = QPixmap('../maccslogo_nobg.png')
@@ -94,22 +94,22 @@ class MainWindow(QMainWindow):
         #self.mac_label.setScaledContents(True)
         ################################################
         
-        #######################
+        ################################################
         self.filename = ""
         self.filename_noextension = ""
         self.file_path = ""
         self.launch_dialog_option = 0
-        #######################
+        ################################################
         self.figure = None
         self.figure_canvas = None
         self.figure_canvas_flag = False
         self.matplotlib_toolbar = None
-        #######################
+        ################################################
         self.save_file_state = 0
         self.save_filename = ""
         self.file_num = 0
         self.new_figure = 0
-        #######################
+        ################################################
         self.x_arr = None
         self.y_arr = None
         self.z_arr = None
@@ -134,17 +134,12 @@ class MainWindow(QMainWindow):
         xyz_layout = QGridLayout()
         year_day_label = Label("Year Day: ")
         self.year_day_edit = LineEdit()
-        start_hour_label = Label("Start Hour: ")
-        self.start_hour_edit = Spinbox(0, 23, 1)
-        start_minute_label = Label("Start Minute: ")
-        self.start_minute_edit = Spinbox(0, 59, 1)
-        start_second_label = Label("Start Second: ")
-        self.start_second_edit = Spinbox(0, 59, 1)
-        end_hour_label = Label("End Hour: ")
-        self.end_hour_edit = Spinbox(0, 23, 1)
-        end_minute_label = Label("End Minute: ")
-        self.end_minute_edit = Spinbox(0, 59, 1)
-        end_second_label = Label("End Second: ")
+        start_time_label = Label("Start Time: ")
+        self.start_time = Time()
+        self.start_time.set_start_time()
+        end_time_label = Label("End Time: ")
+        self.end_time = Time()
+        self.end_time.set_end_time()
         self.end_second_edit = Spinbox(0, 59, 1)
         self.min_x_label = Label("Plot Min X: ")
         self.min_x_edit = Spinbox(0, 99999, 10)
@@ -162,18 +157,10 @@ class MainWindow(QMainWindow):
         entry_layout.addWidget(self.station_edit, 0, 1)
         entry_layout.addWidget(year_day_label, 1, 0)
         entry_layout.addWidget(self.year_day_edit, 1, 1)
-        entry_layout.addWidget(start_hour_label, 2, 0)
-        entry_layout.addWidget(self.start_hour_edit,2, 1)
-        entry_layout.addWidget(start_minute_label, 3, 0)
-        entry_layout.addWidget(self.start_minute_edit, 3, 1)
-        entry_layout.addWidget(start_second_label, 4, 0)
-        entry_layout.addWidget(self.start_second_edit, 4, 1)
-        entry_layout.addWidget(end_hour_label, 5, 0)
-        entry_layout.addWidget(self.end_hour_edit, 5, 1)
-        entry_layout.addWidget(end_minute_label, 6, 0)
-        entry_layout.addWidget(self.end_minute_edit, 6, 1)
-        entry_layout.addWidget(end_second_label, 7, 0)
-        entry_layout.addWidget(self.end_second_edit, 7, 1)
+        entry_layout.addWidget(start_time_label, 2, 0)
+        entry_layout.addWidget(self.start_time,2, 1)
+        entry_layout.addWidget(end_time_label, 3, 0)
+        entry_layout.addWidget(self.end_time, 3, 1)
         xyz_layout.addWidget(self.min_x_label, 0, 0)
         xyz_layout.addWidget(self.min_x_edit, 0, 1)
         xyz_layout.addWidget(self.max_x_label, 1, 0)
@@ -188,7 +175,7 @@ class MainWindow(QMainWindow):
         xyz_layout.addWidget(self.max_z_edit, 5, 1)
         parent_layout.addLayout(entry_layout,0, 0)
         parent_layout.addLayout(xyz_layout,1, 0)
-        parent_layout.setRowStretch(0, 48)
+        parent_layout.setRowStretch(0, 24)
         parent_layout.setRowStretch(1, 36)
 
         ################################################
@@ -235,6 +222,8 @@ class MainWindow(QMainWindow):
         button_layout.addWidget(self.zoom_out_button, 1, 1)
         button_layout.addWidget(save_button, 2, 0)
         button_layout.addWidget(save_as_button, 2, 1)
+        # self.time = Time()
+        # button_layout.addWidget(self.time, 3, 0)
         parent_layout.addLayout(horizontal_layout,2, 0)
         parent_layout.setRowStretch(2, 6)
         parent_layout.addLayout(button_layout, 3, 0)
@@ -324,8 +313,7 @@ class MainWindow(QMainWindow):
         self.reset_entries()
 
     def plot_graph(self):
-        
-        print("inside plotting")
+
         if len(self.filename) == 0:
             self.warning_message_dialog(
                 "No file to work with. Open a file with open file button.")
@@ -358,12 +346,12 @@ class MainWindow(QMainWindow):
                 self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
                 return
 
-        start_hour = self.start_hour_edit.get_entry()
-        start_minute = self.start_minute_edit.get_entry()
-        start_second = self.start_second_edit.get_entry()
-        end_hour = self.end_hour_edit.get_entry()
-        end_minute = self.end_minute_edit.get_entry()
-        end_second = self.end_second_edit.get_entry()
+        start_hour = self.start_time.get_hour()
+        start_minute = self.start_time.get_minute()
+        start_second = self.start_time.get_second()
+        end_hour = self.end_time.get_hour()
+        end_minute = self.end_time.get_minute()
+        end_second = self.end_time.get_second()
 
         self.start_time_stamp = datetime.time(hour = start_hour,
                                             minute = start_minute, 
@@ -611,13 +599,9 @@ class MainWindow(QMainWindow):
         self.error_message.exec()
 
     def reset_entries(self):
-        # reset the start times and end times
-        self.start_hour_edit.set_entry(0)
-        self.start_minute_edit.set_entry(0)
-        self.start_second_edit.set_entry(0)
-        self.end_hour_edit.set_entry(23)
-        self.end_minute_edit.set_entry(59)
-        self.end_second_edit.set_entry(59)
+
+        self.start_time.set_start_time()
+        self.end_time.set_end_time()
         self.min_x_edit.set_entry(0)
         self.max_x_edit.set_entry(0)
         self.min_y_edit.set_entry(0)
