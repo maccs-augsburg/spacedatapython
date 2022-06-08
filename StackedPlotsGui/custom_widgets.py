@@ -6,12 +6,13 @@ May 2022 -- Created -- Mark Ortega-Ponce
 
 from PySide6.QtWidgets import (
     QMainWindow, QLabel,
-    QLineEdit, QWidget, QCheckBox, QPushButton
+    QLineEdit, QWidget, QCheckBox, QPushButton, QSizePolicy, QSpinBox
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette, QColor
 
-FONT_SIZE = 12
+FONT_SIZE = 13
+MINIMUM_HEIGHT = 25
 
 class LineEdit(QLineEdit):
     '''
@@ -30,6 +31,8 @@ class LineEdit(QLineEdit):
         #self.setAlignment(Qt.AlignLeft)
         self.entry = "N/A"
         self.setMaximumWidth(95)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setMaximumHeight(MINIMUM_HEIGHT)
 
     def text_edited(self, s):
         self.entry = s
@@ -55,8 +58,10 @@ class Label(QLabel):
         font = self.font()
         font.setPointSize(FONT_SIZE)
         self.setFont(font)
-        self.setAlignment(Qt.AlignLeft)
+        self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         self.setMaximumWidth(85)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setMaximumHeight(MINIMUM_HEIGHT)
 
 class CheckBox(QCheckBox):
     def __init__(self, label_name):
@@ -67,10 +72,11 @@ class CheckBox(QCheckBox):
         font.setPointSize(FONT_SIZE)
         self.setFont(font)
         self.setMaximumWidth(30)
-
+        self.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+        #self.setMinimumHeight(MINIMUM_HEIGHT)
 
 class PushButton(QPushButton):
-    def __init__(self, label_name):
+    def __init__(self, label_name, alternate_name):
         super().__init__()
 
         self.setText(label_name)
@@ -81,62 +87,77 @@ class PushButton(QPushButton):
         self.button_is_checked = False
         self.clicked.connect(self.button_toggle)
         self.setChecked(self.button_is_checked)
-        self.setMaximumWidth(145)
+        self.setMaximumWidth(145)#145
+        self.alternate_name = alternate_name
+        self.original_name = label_name
+        #self.setMaximumHeight(30)
+        #self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setMinimumHeight(MINIMUM_HEIGHT)
 
     def button_toggle(self, checked):
         self.button_is_checked = checked
-        # if checked:
-        #     self.setText("Stacked (X, Y, Z)")
-        # else:
-        #     pass
-        #     self.setText("Single Plot (X, Y, Z)")
         print(self.button_is_checked)
+        self.change_text()
     
     def is_toggled(self):
         return self.button_is_checked
 
+    def change_text(self):
 
-# class ToggleButton (QCheckBox):
-#     def __init__(self, width = 60, bg_color = '#777', circle_color = "#DDD", active_color = "#00Bcff"):
-#         super().__init__()
+        checked = self.is_toggled()
 
-#         self.bg_color = bg_color
-#         self.circle_color = circle_color
-#         self.active_color = active_color
+        if not checked:
+            self.setText(self.original_name)
+        else:
+            self.setText(self.alternate_name)
 
-#         self.stateChanged.connect(self.state_change)
+    def set_toggle_status_false(self):
+        self.button_is_checked = False
+        self.setChecked(False)
 
-#     def state_change(self, pos: QPoint):
-#         print("Status ", self.isChecked())
+class Spinbox(QSpinBox):
+    #https://doc.qt.io/qt-5/qspinbox.html#textChanged
+    def __init__(self, min_value, max_value, step_size):
+        super().__init__()
 
-#     def hitButton(self, pos: QPoint):
-#         return self.contentsRect().contains(pos)
+        font = self.font()
+        self.setFont(font)
+        font.setPointSize(FONT_SIZE)
+        #self.setMinimum(min_value)
+        #self.setMaximum(max_value)
+        self.setRange(min_value, max_value)
+        self.setSingleStep(step_size)
+        self.setWrapping(True)
 
-#     def paintEvent(self, e):
-#         p = QPainter(self)
-#         p.setRenderHint(QPainter.AntiAliasing)
-#         # Set as no pen
-#         p.setPen(Qt.NoPen)
+        self.valueChanged.connect(self.value_changed)
+        self.setAlignment(Qt.AlignCenter)
+        #self.setAlignment(Qt.AlignLeft)
+        self.entry = 0
+        self.setMaximumWidth(95)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setMaximumHeight(MINIMUM_HEIGHT)
 
-#         rect = QRect(0,0,self.width(), self.height())
+    def value_changed(self, i):
+        self.entry = i
+        print("Seeing if signal works", self.entry, "type: ",type(self.entry))
+        print(str(self.get_entry()))
+        print(type(self.get_entry()))
 
-#         if not self.is_checked():
+    # Wrapper around getter for QLineEdit, can also decide not to use and refactor with ide
+    # Chose this because method name is more memorable
+    def get_entry(self):
+        # returns int
+        #return self.text() # this works for some reason, copied over from line edit class, shouldnt work?
+        # this is in the documentation self.value(), but gives errors
+        return self.entry
 
-#             p.setBrush(QColor(self.bg_color))
-#             p.drawRoundedRect(0, 0, rect.width(), self.height(), self.height()/2, self.width() / 2)
-#             p.setBrush(QColor(self.circle_color))
-#             p.drawEllipse(3, 3, 22, 22)
-    
-#         else:
-#             p.setBrush(QColor(self.bg_color))
-#             p.drawRoundedRect(0, 0, rect.width(), self.height(), self.height()/2, self.width() / 2)
-#             p.setBrush(QColor(self.active_color))
-#             p.drawEllipse(3, 3, 22, 22)
-            
-#         # Close Q painter pen, else error
-#         p.end()
+    # Same situation here, want to keep the continuity in naming
+    def set_entry(self, new_entry):
+        print(new_entry, " : type : ", type(new_entry))
+        # emits valueChanged signal if new entry is different from old one
+        self.setValue(new_entry)
 
-
+        
 class Color(QWidget):
 
     def __init__(self, color):

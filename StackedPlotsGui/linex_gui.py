@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout, QGridLayout, QLabel,
     QWidget, QComboBox, QPushButton, 
     QFileDialog, QMessageBox, QVBoxLayout, 
-    QApplication, QCheckBox
+    QApplication, QCheckBox, QSizePolicy
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap
@@ -84,6 +84,14 @@ class MainWindow(QMainWindow):
         self.station_edit.setInputMask(">AAAA")
         self.error_message = QMessageBox()
         self.error_message.setText("Error Invalid Input")
+
+        #######################
+        self.main_layout = QHBoxLayout()
+        self.mac_label = QLabel()
+        pixmap = QPixmap('../maccslogo_nobg.png')
+        self.mac_label.setPixmap(pixmap)
+        self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        ################################################
         
         #######################
         self.filename = ""
@@ -114,22 +122,27 @@ class MainWindow(QMainWindow):
         self.max_y = 0
         self.min_z = 0
         self.max_z = 0
+
         # Make another layout for toolbar and matplotlib
         # We add this layout onto the gui once user has chosen a file
         # Then it goes into plotting function and adds it at the end 
         self.plotting_layout = QVBoxLayout()
-        #######################
-
-        self.main_layout = QHBoxLayout()
-        self.mac_label = QLabel()
-        pixmap = QPixmap('../maccslogo_nobg.png')
-        self.mac_label.setPixmap(pixmap)
-        self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        #print(main_layout.columnCount())
-        ################################################
 
         ######## SIDE ENTRIES FOR GUI ##################
+        parent_layout = QGridLayout()
+        #parent_layout.setSpacing(20)
+        #self.widget_one = QWidget()
         entry_layout = QGridLayout()
+        #self.widget_one.setLayout(entry_layout)
+        #entry_layout.setRowStretch(0, 48)
+        #entry_layout.setRowStretch(48)
+        self.xyz_layout = QGridLayout()
+        #self.widget_two = QWidget()
+        # TODO: Get rid of self in xyz layout, cant hide it
+        #self.widget_two.setLayout(self.xyz_layout)
+        #self.xyz_layout.setRowStretch(1, 36)
+        #self.xyz_layout.setRowStretch(36)
+        #self.xyz_layout.setVerticalStretch(36)
         year_day_label = Label("Year Day: ")
         self.year_day_edit = LineEdit()
         start_hour_label = Label("Start Hour: ")
@@ -144,17 +157,17 @@ class MainWindow(QMainWindow):
         self.end_minute_edit = LineEdit()
         end_second_label = Label("End Second: ")
         self.end_second_edit = LineEdit()
-        min_x_label = Label("Plot Min X: ")
+        self.min_x_label = Label("Plot Min X: ")
         self.min_x_edit = LineEdit()
-        max_x_label = Label("Plot Max X: ")
+        self.max_x_label = Label("Plot Max X: ")
         self.max_x_edit = LineEdit()
-        min_y_label = Label("Plot Min Y: ")
+        self.min_y_label = Label("Plot Min Y: ")
         self.min_y_edit = LineEdit()
-        max_y_label = Label("Plot Max Y: ")
+        self.max_y_label = Label("Plot Max Y: ")
         self.max_y_edit = LineEdit()
-        min_z_label = Label("Plot Min Z: ")
+        self.min_z_label = Label("Plot Min Z: ")
         self.min_z_edit = LineEdit()
-        max_z_label = Label("Plot Max Z: ")
+        self.max_z_label = Label("Plot Max Z: ")
         self.max_z_edit = LineEdit()
         entry_layout.addWidget(station_label, 0, 0)
         entry_layout.addWidget(self.station_edit, 0, 1)
@@ -172,21 +185,50 @@ class MainWindow(QMainWindow):
         entry_layout.addWidget(self.end_minute_edit, 6, 1)
         entry_layout.addWidget(end_second_label, 7, 0)
         entry_layout.addWidget(self.end_second_edit, 7, 1)
-        entry_layout.addWidget(min_x_label, 9, 0)
-        entry_layout.addWidget(self.min_x_edit, 9, 1)
-        entry_layout.addWidget(max_x_label, 10, 0)
-        entry_layout.addWidget(self.max_x_edit, 10, 1)
-        entry_layout.addWidget(min_y_label, 11, 0)
-        entry_layout.addWidget(self.min_y_edit, 11, 1)
-        entry_layout.addWidget(max_y_label, 12, 0)
-        entry_layout.addWidget(self.max_y_edit, 12, 1)
-        entry_layout.addWidget(min_z_label, 13, 0)
-        entry_layout.addWidget(self.min_z_edit, 13, 1)
-        entry_layout.addWidget(max_z_label, 14, 0)
-        entry_layout.addWidget(self.max_z_edit, 14, 1)
+        # entry_layout.addWidget(min_x_label, 9, 0)
+        # entry_layout.addWidget(self.min_x_edit, 9, 1)
+        # entry_layout.addWidget(max_x_label, 10, 0)
+        # entry_layout.addWidget(self.max_x_edit, 10, 1)
+        # entry_layout.addWidget(min_y_label, 11, 0)
+        # entry_layout.addWidget(self.min_y_edit, 11, 1)
+        # entry_layout.addWidget(max_y_label, 12, 0)
+        # entry_layout.addWidget(self.max_y_edit, 12, 1)
+        # entry_layout.addWidget(min_z_label, 13, 0)
+        # entry_layout.addWidget(self.min_z_edit, 13, 1)
+        # entry_layout.addWidget(max_z_label, 14, 0)
+        # entry_layout.addWidget(self.max_z_edit, 14, 1)
+
+        self.xyz_layout.addWidget(self.min_x_label, 0, 0)
+        self.xyz_layout.addWidget(self.min_x_edit, 0, 1)
+        self.xyz_layout.addWidget(self.max_x_label, 1, 0)
+        self.xyz_layout.addWidget(self.max_x_edit, 1, 1)
+        self.xyz_layout.addWidget(self.min_y_label, 2, 0)
+        self.xyz_layout.addWidget(self.min_y_edit, 2, 1)
+        self.xyz_layout.addWidget(self.max_y_label, 3, 0)
+        self.xyz_layout.addWidget(self.max_y_edit, 3, 1)
+        self.xyz_layout.addWidget(self.min_z_label, 4, 0)
+        self.xyz_layout.addWidget(self.min_z_edit, 4, 1)
+        self.xyz_layout.addWidget(self.max_z_label, 5, 0)
+        self.xyz_layout.addWidget(self.max_z_edit, 5, 1)
+        #fake_button_one = QPushButton("")
+        #fake_button_one.setFixedWidth(160)
+        #fake_button_one.setFixedHeight(0)
+        #fake_button_two = QPushButton("")
+        #fake_button_two.setFixedWidth(100)
+        #fake_button_two.setFixedHeight(0)
+        #xyz_layout.addWidget(fake_button_one, 6, 0)
+        #xyz_layout.addWidget(fake_button_two, 6, 1)
+        #entry_layout.addLayout(xyz_layout, 9, 0, 5, 2)
+
+        parent_layout.addLayout(entry_layout,0, 0)
+        #parent_layout.addWidget(self.widget_one, 0, 0)
+        parent_layout.addLayout(self.xyz_layout,1, 0)
+        #parent_layout.addWidget(self.widget_two, 1, 0)
+        parent_layout.setRowStretch(0, 48)
+        parent_layout.setRowStretch(1, 36)
+
         ################################################
 
-    
         #### DROP DOWN MENU FOR FILE FORMATS ###########
         self.options = ("IAGA2000 - NW",       # Index 0 
                         "IAGA2002 - NW",       # Index 1
@@ -198,28 +240,30 @@ class MainWindow(QMainWindow):
         # Add items to combo box
         self.combo_box.addItems(self.options)
         # Add combo box to entry layout
-        entry_layout.addWidget(self.combo_box, 16, 0)
+        #--entry_layout.addWidget(self.combo_box, 16, 0)
         file_button = QPushButton("Open File")
         file_button.clicked.connect(self.launch_dialog)
-        entry_layout.addWidget(file_button, 16, 1)
+        #--entry_layout.addWidget(file_button, 16, 1)
         plot_button = QPushButton("Plot File")
         plot_button.clicked.connect(self.plot_graph)
-        # to span two columns = big button
-        #entry_layout.addWidget(plot_button, 15, 0, 1, 2)
-        entry_layout.addWidget(plot_button, 17, 0)
-        zoom_out_button = QPushButton("Regular View")
-        zoom_out_button.clicked.connect(self.zoom_out)
-        entry_layout.addWidget(zoom_out_button, 17, 1)
+        #--entry_layout.addWidget(plot_button, 17, 0)
+        #zoom_out_button = QPushButton("Regular View")
+        self.zoom_out_button = PushButton("Zoom Out", "Zoom In")
+        self.zoom_out_button.clicked.connect(self.zoom_out)
+        #--entry_layout.addWidget(zoom_out_button, 17, 1)
         save_button = QPushButton("Save File")
         save_button.clicked.connect(self.save_file)
-        entry_layout.addWidget(save_button, 18, 0)
+        #--entry_layout.addWidget(save_button, 18, 0)
         save_as_button = QPushButton("Save As")
         save_as_button.clicked.connect(self.save_as)
-        entry_layout.addWidget(save_as_button, 18, 1)
-        #toggle_button = ToggleButton()
-        #entry_layout.addWidget(toggle_button)
+        #--entry_layout.addWidget(save_as_button, 18, 1)
+
+
         horizontal_layout = QHBoxLayout()
-        self.one_array_plotted_button = PushButton("Single Graph (X, Y, Z)")
+        #self.widget_three = QWidget()
+        #self.widget_three.setLayout(horizontal_layout)
+        #horizontal_layout.setRowStretch(2, 6)
+        self.one_array_plotted_button = PushButton("Single Graph (X, Y, Z)", "Three Graphs (X, Y, Z)")
         self.x_checkbox = CheckBox('x')
         self.y_checkbox = CheckBox('y')
         self.z_checkbox = CheckBox('z')
@@ -227,11 +271,32 @@ class MainWindow(QMainWindow):
         horizontal_layout.addWidget(self.x_checkbox)
         horizontal_layout.addWidget(self.y_checkbox)
         horizontal_layout.addWidget(self.z_checkbox)
-        entry_layout.addLayout(horizontal_layout,15, 0, 1, 2)
+        self.one_array_plotted_button.clicked.connect(self.update_layout)
+        #entry_layout.addLayout(horizontal_layout,15, 0, 1, 2)
+
+        button_layout = QGridLayout()
+        #self.widget_four = QWidget()
+        #self.widget_four.setLayout(button_layout)
+        #button_layout.setRowStretch(3,18)
+        button_layout.addWidget(self.combo_box, 0, 0)
+        button_layout.addWidget(file_button, 0, 1)
+        button_layout.addWidget(plot_button, 1, 0)
+        button_layout.addWidget(self.zoom_out_button, 1, 1)
+        button_layout.addWidget(save_button, 2, 0)
+        button_layout.addWidget(save_as_button, 2, 1)
+        #entry_layout.addLayout(button_layout,16,0,3,2)
+        
+        parent_layout.addLayout(horizontal_layout,2, 0)
+        #parent_layout.addWidget(self.widget_three, 2, 0)
+        parent_layout.setRowStretch(2, 6)
+        parent_layout.addLayout(button_layout, 3, 0)
+        #parent_layout.addWidget(self.widget_four, 3, 0)
+        parent_layout.setRowStretch(3, 18)
         ################################################
 
         # Add entry layout to the main layout
-        self.main_layout.addLayout(entry_layout)
+        #self.main_layout.addLayout(entry_layout)
+        self.main_layout.addLayout(parent_layout)
         # Add maccs logo to the main layout
         self.main_layout.addWidget(self.mac_label)
 
@@ -313,6 +378,7 @@ class MainWindow(QMainWindow):
 
     def plot_graph(self):
         
+        print("inside plotting")
         if len(self.filename) == 0:
             self.warning_message_dialog("No file to work with. Open a file with open file button.")
             return
@@ -367,7 +433,10 @@ class MainWindow(QMainWindow):
             self.warning_message_dialog("File Open Error, couldn't open file")
             return
         
-
+        '''
+        Once future file types are supported, add here.
+        Launch Dialog Option assigned when you open a file
+        '''
         if self.launch_dialog_option == 2:
 
             self.x_arr, self.y_arr, self.z_arr, self.time_arr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, 
@@ -458,6 +527,8 @@ class MainWindow(QMainWindow):
     def zoom_out(self):
 
         if self.figure == None:
+            self.zoom_out_button.set_toggle_status_false()
+            self.zoom_out_button.change_text()
             self.warning_message_dialog("No figure to work with")
             return
 
@@ -491,13 +562,6 @@ class MainWindow(QMainWindow):
            #self.plot_counter = self.plot_counter + 1
 
         self.display_figure()
-
-    def zoom_in(self):
-        if self.figure == None:
-            self.warning_message_dialog("No figure to work with")
-            return
-        
-        pass
 
     def save_file(self):
         
@@ -578,6 +642,25 @@ class MainWindow(QMainWindow):
         self.max_y_edit.set_entry(0)
         self.min_z_edit.set_entry(0)
         self.max_z_edit.set_entry(0)
+
+    def update_layout(self):
+
+        bool_value = self.one_array_plotted_button.is_toggled()
+
+        self.min_x_edit.setHidden(bool_value)
+        self.max_x_edit.setHidden(bool_value)
+        self.min_x_label.setHidden(bool_value)
+        self.max_x_label.setHidden(bool_value)
+
+        self.min_y_label.setHidden(bool_value)
+        self.max_y_label.setHidden(bool_value)
+        self.min_y_edit.setHidden(bool_value)
+        self.max_y_edit.setHidden(bool_value)
+
+        self.min_z_label.setHidden(bool_value)
+        self.max_z_label.setHidden(bool_value)
+        self.min_z_edit.setHidden(bool_value)
+        self.max_z_edit.setHidden(bool_value)
 
 def main ():
 
