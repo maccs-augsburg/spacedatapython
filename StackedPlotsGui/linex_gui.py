@@ -332,11 +332,19 @@ class MainWindow(QMainWindow):
             return
 
         station_code = self.station_edit.get_entry()
-        if not entry_checks.station_code_entry_check(self):
+        if not entry_checks.station_code_entry_check(station_code):
+
+            self.warning_message_dialog(
+            "Error invalid station code. Needs to be 2-4 characters")
+
             return
 
         year_day = self.year_day_edit.get_entry()
         if not entry_checks.year_day_entry_check(self):
+
+            self.warning_message_dialog(
+            "There was no input for the year day entry box")
+
             return
 
         x_state = self.x_checkbox.isChecked()
@@ -430,14 +438,17 @@ class MainWindow(QMainWindow):
         
         if self.one_array_plotted_button.is_toggled():
 
-            self.figure = entry_checks.graph_from_plotter_entry_check(self, 
-                                                                self.x_arr, 
-                                                                self.y_arr, 
-                                                                self.z_arr, 
-                                                                self.time_arr,
-                                                                self.filename, 
-                                                                self.start_time_stamp,
-                                                                self.end_time_stamp)
+            self.figure = entry_checks.graph_from_plotter_entry_check( 
+                                                        self.x_arr, 
+                                                        self.y_arr, 
+                                                        self.z_arr,
+                                                        self.x_checkbox.isChecked(),
+                                                        self.y_checkbox.isChecked(),
+                                                        self.z_checkbox.isChecked(), 
+                                                        self.time_arr,
+                                                        self.filename, 
+                                                        self.start_time_stamp,
+                                                        self.end_time_stamp)
             # Wont need this here since im hiding other plotting now
             #self.reset_entries()
 
