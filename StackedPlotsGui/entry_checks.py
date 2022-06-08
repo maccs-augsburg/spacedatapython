@@ -12,13 +12,14 @@ Note: Types in params and ->, are just used for type hinting in IDE's.
 '''
 import sys
 import os
+import datetime
 cwd = os.getcwd()
 print(cwd)
 sys.path.append("../")
 import one_array_plotted
 os.chdir(cwd)
 
-def station_code_entry_check(self) -> bool:
+def station_code_entry_check(station_name: str) -> bool:
     '''
     Additional check for the station code. 
     Makes sure station code entry is 2-4 characters.
@@ -29,9 +30,8 @@ def station_code_entry_check(self) -> bool:
     True/False : bool
         False it it failed test, true if it passed test.
     '''
-    if len(self.station_edit.get_entry()) <= 1:
-        self.warning_message_dialog(
-            "Error invalid station code. Needs to be 2-4 characters")
+
+    if len(station_name) <= 1:
         return False
     # If it passed check return True
     return True
@@ -47,8 +47,6 @@ def year_day_entry_check(self) -> bool:
         False if it failed test, true if it passed test.
     '''
     if (len(self.year_day_edit.get_entry()) == 0):
-        self.warning_message_dialog(
-            "There was no input for the year day entry box")
         return False
     # If it passed check return True
     return True
@@ -209,61 +207,71 @@ def axis_entry_checks_new(axis_list: list,
 
     return min_value, max_value
 
-def graph_from_plotter_entry_check(self, xArr, yArr, zArr, timeArr, filename, stime, etime):
+def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
+                                x_state: bool, y_state: bool,
+                                z_state: bool, timeArr: list, 
+                                filename: str, stime: datetime, 
+                                etime: datetime):
     """
     Checks the gui entries for plotting, x, y, z axis. If values are set, then we plot those axis
+
     Parameters
     ----------
-    graph_from_plotter_value_x : value from GUI, set to 1 if box is checked, 0 if not
-    graph_from_plotter_value_y : value from GUI, set to 1 if box is checked, 0 if not
-    graph_from_plotter_value_z : value from GUI, set to 1 if box is checked, 0 if not
-    xArr : the x array values
-    yArr : the y array values
-    zArr : the z array values
-    timeArr : the time array values
-    filename : the name of the file
-    stime : the start time stamp
-    etime : the end time stamp
-    selection_file : value from GUI, if clean is checked value is set to 4, if raw --> set to 5
+    xArr : list
+        The x array values.
+    yArr : list
+        The y array values.
+    zArr : list
+        The z array values.
+    x_state : bool
+        The state of x_checkbox in gui.
+    y_state : bool
+        The state of y_checkbox in gui.
+    z_state : bool
+        The state of z_checkbox in gui.
+    timeArr : list
+        The time array values.
+    filename : list 
+        The name of the file.
+    stime : Datetime
+        The start time stamp HH:MM:SS.
+    etime : Datetime
+        The end time stamp HH:MM:SS.
+
     Returns
     -------
-    fig : the plotted figure
+    fig : Matplotlib.Figure
+        The plotted figure.
     """
 
-    # create an alias from plotter values
-    x_state = self.x_checkbox.isChecked()
-    y_state = self.y_checkbox.isChecked()
-    z_state = self.z_checkbox.isChecked()
-    file_state = self.launch_dialog_option
-    any_plot_state = x_state + y_state + z_state
-
     # X, Y, Z plot, clean or raw
-    # first check if all on, then two the two_plot checks, last should be one_axis
-    if (x_state and y_state and z_state):
+    # first check if all on, then two the two_plot checks, 
+    # last should be one_axis
+    if x_state and y_state and z_state:
 
         fig = one_array_plotted.x_y_and_z_plot(
             xArr, yArr, zArr, timeArr, filename, stime, etime)
 
     # Y, Z plot, clean or raw
-    elif (y_state and z_state):
+    elif y_state and z_state:
 
         fig = one_array_plotted.plot_two_axis(
             yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
 
     # X, Z plot, clean or raw
-    elif (x_state and z_state):
+    elif x_state and z_state:
 
         fig = one_array_plotted.plot_two_axis(
             xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
 
     # X, Y plot, clean or raw
-    elif (x_state and y_state):
+    elif x_state and y_state:
 
         fig = one_array_plotted.plot_two_axis(
             xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
 
     # For single axis plotting
-    elif (any_plot_state > 0 and file_state > 0):
+    else:
 
         if (x_state):
             fig = one_array_plotted.plot_axis(
@@ -277,10 +285,14 @@ def graph_from_plotter_entry_check(self, xArr, yArr, zArr, timeArr, filename, st
             fig = one_array_plotted.plot_axis(
                 zArr, timeArr, filename, stime, etime, 'Z')
 
-    #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
+
     return fig
         
 
+'''
+Instance method, move back if this is bad practice?
+Trying to change some to not use self at all.
+'''
 def set_axis_entrys(self, x_min: int, x_max: int, y_min: 
                     int, y_max: int, z_min: int, z_max: int):
     '''
