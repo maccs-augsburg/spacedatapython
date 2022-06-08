@@ -593,15 +593,15 @@ class MainWindow(QMainWindow):
         # only grab filename, ignore file filter
         filename, _ = response
         # .pdf = 4
+        print(filename)
         if len(filename) < 5:
             return
         # go to the end (-1) and find last '/', split there
-        filename = filename.split('/')[-1]
-        self.save_filename = filename
+        self.save_filename = filename.split('/')[-1]
 
         self.figure.savefig(filename, dpi=1200)
         subprocess.Popen(filename, shell=True)
-        self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
+        self.warning_message_dialog("Saved " + self.save_filename)
         #self.save_as_counter = self.save_as_counter + 1
     
     # TODO: Use regular expressions for filter? Prevent bad input by accident
