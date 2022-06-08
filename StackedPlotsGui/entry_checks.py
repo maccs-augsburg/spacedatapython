@@ -71,7 +71,6 @@ def hour_entry_check(self, hour_entry: int, end_or_start: int) -> int:
     hour : int
         Hour value in integer form for plotting.
     '''
-
     hour = hour_entry
 
     if hour > 23 or hour < 0:
