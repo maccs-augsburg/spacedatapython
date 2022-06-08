@@ -19,9 +19,9 @@ from PySide6.QtWidgets import (
     QHBoxLayout, QGridLayout, QLabel,
     QWidget, QComboBox, QPushButton, 
     QFileDialog, QMessageBox, QVBoxLayout, 
-    QApplication, QCheckBox
+    QApplication, QCheckBox, QSizePolicy
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTime
 from PySide6.QtGui import QIcon, QPixmap
 #import matplotlib
 # FigureCanvasQTAgg wraps matplot image as a widget 
@@ -35,7 +35,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 #### Importing our own files ####################
-from custom_widgets import LineEdit, Label, CheckBox, PushButton
+from custom_widgets import LineEdit, Label, CheckBox, PushButton, Spinbox, Time
 import entry_checks
 
 # Move back one directory to grab shared files between guis
@@ -84,24 +84,32 @@ class MainWindow(QMainWindow):
         self.station_edit.setInputMask(">AAAA")
         self.error_message = QMessageBox()
         self.error_message.setText("Error Invalid Input")
+
+        ################################################
+        self.main_layout = QHBoxLayout()
+        self.mac_label = QLabel()
+        pixmap = QPixmap('../maccslogo_nobg.png')
+        self.mac_label.setPixmap(pixmap)
+        self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        #self.mac_label.setScaledContents(True)
+        ################################################
         
-        #######################
+        ################################################
         self.filename = ""
         self.filename_noextension = ""
         self.file_path = ""
         self.launch_dialog_option = 0
-        #######################
+        ################################################
         self.figure = None
         self.figure_canvas = None
         self.figure_canvas_flag = False
         self.matplotlib_toolbar = None
-        #######################
+        ################################################
         self.save_file_state = 0
         self.save_filename = ""
         self.file_num = 0
         self.new_figure = 0
-        #######################
-        self.zoom_flag = False
+        ################################################
         self.x_arr = None
         self.y_arr = None
         self.z_arr = None
@@ -114,79 +122,64 @@ class MainWindow(QMainWindow):
         self.max_y = 0
         self.min_z = 0
         self.max_z = 0
+
         # Make another layout for toolbar and matplotlib
         # We add this layout onto the gui once user has chosen a file
         # Then it goes into plotting function and adds it at the end 
         self.plotting_layout = QVBoxLayout()
-        #######################
-
-        self.main_layout = QHBoxLayout()
-        self.mac_label = QLabel()
-        pixmap = QPixmap('../maccslogo_nobg.png')
-        self.mac_label.setPixmap(pixmap)
-        self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        #print(main_layout.columnCount())
-        ################################################
 
         ######## SIDE ENTRIES FOR GUI ##################
+        parent_layout = QGridLayout()
         entry_layout = QGridLayout()
+        xyz_layout = QGridLayout()
         year_day_label = Label("Year Day: ")
         self.year_day_edit = LineEdit()
-        start_hour_label = Label("Start Hour: ")
-        self.start_hour_edit = LineEdit()
-        start_minute_label = Label("Start Minute: ")
-        self.start_minute_edit = LineEdit()
-        start_second_label = Label("Start Second: ")
-        self.start_second_edit = LineEdit()
-        end_hour_label = Label("End Hour: ")
-        self.end_hour_edit = LineEdit()
-        end_minute_label = Label("End Minute: ")
-        self.end_minute_edit = LineEdit()
-        end_second_label = Label("End Second: ")
-        self.end_second_edit = LineEdit()
-        min_x_label = Label("Plot Min X: ")
-        self.min_x_edit = LineEdit()
-        max_x_label = Label("Plot Max X: ")
-        self.max_x_edit = LineEdit()
-        min_y_label = Label("Plot Min Y: ")
-        self.min_y_edit = LineEdit()
-        max_y_label = Label("Plot Max Y: ")
-        self.max_y_edit = LineEdit()
-        min_z_label = Label("Plot Min Z: ")
-        self.min_z_edit = LineEdit()
-        max_z_label = Label("Plot Max Z: ")
-        self.max_z_edit = LineEdit()
+        start_time_label = Label("Start Time: ")
+        self.start_time = Time()
+        self.start_time.set_start_time()
+        end_time_label = Label("End Time: ")
+        self.end_time = Time()
+        self.end_time.set_end_time()
+        self.end_second_edit = Spinbox(0, 59, 1)
+        self.min_x_label = Label("Plot Min X: ")
+        self.min_x_edit = Spinbox(0, 99999, 10)
+        self.max_x_label = Label("Plot Max X: ")
+        self.max_x_edit = Spinbox(0, 99999, 10)
+        self.min_y_label = Label("Plot Min Y: ")
+        self.min_y_edit = Spinbox(0, 99999, 10)
+        self.max_y_label = Label("Plot Max Y: ")
+        self.max_y_edit = Spinbox(0, 99999, 10)
+        self.min_z_label = Label("Plot Min Z: ")
+        self.min_z_edit = Spinbox(0, 99999, 10)
+        self.max_z_label = Label("Plot Max Z: ")
+        self.max_z_edit = Spinbox(0, 99999, 10)
         entry_layout.addWidget(station_label, 0, 0)
         entry_layout.addWidget(self.station_edit, 0, 1)
         entry_layout.addWidget(year_day_label, 1, 0)
         entry_layout.addWidget(self.year_day_edit, 1, 1)
-        entry_layout.addWidget(start_hour_label, 2, 0)
-        entry_layout.addWidget(self.start_hour_edit,2, 1)
-        entry_layout.addWidget(start_minute_label, 3, 0)
-        entry_layout.addWidget(self.start_minute_edit, 3, 1)
-        entry_layout.addWidget(start_second_label, 4, 0)
-        entry_layout.addWidget(self.start_second_edit, 4, 1)
-        entry_layout.addWidget(end_hour_label, 5, 0)
-        entry_layout.addWidget(self.end_hour_edit, 5, 1)
-        entry_layout.addWidget(end_minute_label, 6, 0)
-        entry_layout.addWidget(self.end_minute_edit, 6, 1)
-        entry_layout.addWidget(end_second_label, 7, 0)
-        entry_layout.addWidget(self.end_second_edit, 7, 1)
-        entry_layout.addWidget(min_x_label, 9, 0)
-        entry_layout.addWidget(self.min_x_edit, 9, 1)
-        entry_layout.addWidget(max_x_label, 10, 0)
-        entry_layout.addWidget(self.max_x_edit, 10, 1)
-        entry_layout.addWidget(min_y_label, 11, 0)
-        entry_layout.addWidget(self.min_y_edit, 11, 1)
-        entry_layout.addWidget(max_y_label, 12, 0)
-        entry_layout.addWidget(self.max_y_edit, 12, 1)
-        entry_layout.addWidget(min_z_label, 13, 0)
-        entry_layout.addWidget(self.min_z_edit, 13, 1)
-        entry_layout.addWidget(max_z_label, 14, 0)
-        entry_layout.addWidget(self.max_z_edit, 14, 1)
+        entry_layout.addWidget(start_time_label, 2, 0)
+        entry_layout.addWidget(self.start_time,2, 1)
+        entry_layout.addWidget(end_time_label, 3, 0)
+        entry_layout.addWidget(self.end_time, 3, 1)
+        xyz_layout.addWidget(self.min_x_label, 0, 0)
+        xyz_layout.addWidget(self.min_x_edit, 0, 1)
+        xyz_layout.addWidget(self.max_x_label, 1, 0)
+        xyz_layout.addWidget(self.max_x_edit, 1, 1)
+        xyz_layout.addWidget(self.min_y_label, 2, 0)
+        xyz_layout.addWidget(self.min_y_edit, 2, 1)
+        xyz_layout.addWidget(self.max_y_label, 3, 0)
+        xyz_layout.addWidget(self.max_y_edit, 3, 1)
+        xyz_layout.addWidget(self.min_z_label, 4, 0)
+        xyz_layout.addWidget(self.min_z_edit, 4, 1)
+        xyz_layout.addWidget(self.max_z_label, 5, 0)
+        xyz_layout.addWidget(self.max_z_edit, 5, 1)
+        parent_layout.addLayout(entry_layout,0, 0)
+        parent_layout.addLayout(xyz_layout,1, 0)
+        parent_layout.setRowStretch(0, 24)
+        parent_layout.setRowStretch(1, 36)
+
         ################################################
 
-    
         #### DROP DOWN MENU FOR FILE FORMATS ###########
         self.options = ("IAGA2000 - NW",       # Index 0 
                         "IAGA2002 - NW",       # Index 1
@@ -198,28 +191,22 @@ class MainWindow(QMainWindow):
         # Add items to combo box
         self.combo_box.addItems(self.options)
         # Add combo box to entry layout
-        entry_layout.addWidget(self.combo_box, 16, 0)
         file_button = QPushButton("Open File")
         file_button.clicked.connect(self.launch_dialog)
-        entry_layout.addWidget(file_button, 16, 1)
         plot_button = QPushButton("Plot File")
         plot_button.clicked.connect(self.plot_graph)
-        # to span two columns = big button
-        #entry_layout.addWidget(plot_button, 15, 0, 1, 2)
-        entry_layout.addWidget(plot_button, 17, 0)
-        zoom_out_button = QPushButton("Regular View")
-        zoom_out_button.clicked.connect(self.zoom_out)
-        entry_layout.addWidget(zoom_out_button, 17, 1)
+        self.zoom_out_button = PushButton("Zoom Out", "Zoom In")
+        self.zoom_out_button.set_toggle_status_false()
+        self.zoom_out_button.clicked.connect(self.zoom_out)
         save_button = QPushButton("Save File")
         save_button.clicked.connect(self.save_file)
-        entry_layout.addWidget(save_button, 18, 0)
         save_as_button = QPushButton("Save As")
         save_as_button.clicked.connect(self.save_as)
-        entry_layout.addWidget(save_as_button, 18, 1)
-        #toggle_button = ToggleButton()
-        #entry_layout.addWidget(toggle_button)
         horizontal_layout = QHBoxLayout()
-        self.one_array_plotted_button = PushButton("Single Graph (X, Y, Z)")
+
+        self.one_array_plotted_button = PushButton(
+                        "Single Graph (X, Y, Z)", 
+                        "Three Graphs (X, Y, Z)")
         self.x_checkbox = CheckBox('x')
         self.y_checkbox = CheckBox('y')
         self.z_checkbox = CheckBox('z')
@@ -227,11 +214,25 @@ class MainWindow(QMainWindow):
         horizontal_layout.addWidget(self.x_checkbox)
         horizontal_layout.addWidget(self.y_checkbox)
         horizontal_layout.addWidget(self.z_checkbox)
-        entry_layout.addLayout(horizontal_layout,15, 0, 1, 2)
+        self.one_array_plotted_button.clicked.connect(self.update_layout)
+        button_layout = QGridLayout()
+        button_layout.addWidget(self.combo_box, 0, 0)
+        button_layout.addWidget(file_button, 0, 1)
+        button_layout.addWidget(plot_button, 1, 0)
+        button_layout.addWidget(self.zoom_out_button, 1, 1)
+        button_layout.addWidget(save_button, 2, 0)
+        button_layout.addWidget(save_as_button, 2, 1)
+        # self.time = Time()
+        # button_layout.addWidget(self.time, 3, 0)
+        parent_layout.addLayout(horizontal_layout,2, 0)
+        parent_layout.setRowStretch(2, 6)
+        parent_layout.addLayout(button_layout, 3, 0)
+        parent_layout.setRowStretch(3, 18)
         ################################################
 
         # Add entry layout to the main layout
-        self.main_layout.addLayout(entry_layout)
+        #self.main_layout.addLayout(entry_layout)
+        self.main_layout.addLayout(parent_layout)
         # Add maccs logo to the main layout
         self.main_layout.addWidget(self.mac_label)
 
@@ -312,17 +313,26 @@ class MainWindow(QMainWindow):
         self.reset_entries()
 
     def plot_graph(self):
-        
+
         if len(self.filename) == 0:
-            self.warning_message_dialog("No file to work with. Open a file with open file button.")
+            self.warning_message_dialog(
+                "No file to work with. Open a file with open file button.")
             return
 
         station_code = self.station_edit.get_entry()
-        if not entry_checks.station_code_entry_check(self):
+        if not entry_checks.station_code_entry_check(station_code):
+
+            self.warning_message_dialog(
+            "Error invalid station code. Needs to be 2-4 characters")
+
             return
 
         year_day = self.year_day_edit.get_entry()
         if not entry_checks.year_day_entry_check(self):
+
+            self.warning_message_dialog(
+            "There was no input for the year day entry box")
+
             return
 
         x_state = self.x_checkbox.isChecked()
@@ -335,26 +345,29 @@ class MainWindow(QMainWindow):
             if not any_state:
                 self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
                 return
+
+        start_hour = self.start_time.get_hour()
+        start_minute = self.start_time.get_minute()
+        start_second = self.start_time.get_second()
+        end_hour = self.end_time.get_hour()
+        end_minute = self.end_time.get_minute()
+        end_second = self.end_time.get_second()
+
+        self.start_time_stamp = datetime.time(hour = start_hour,
+                                            minute = start_minute, 
+                                            second = start_second)
+        self.end_time_stamp = datetime.time(hour = end_hour, 
+                                            minute = end_minute, 
+                                            second = end_second)
         
-        start_hour = entry_checks.hour_entry_check(self, int(self.start_hour_edit.get_entry()), 1)
-        start_minute = entry_checks.minute_entry_check(self, int(self.start_minute_edit.get_entry()), 1)
-        start_second = entry_checks.second_entry_check(self, int(self.start_second_edit.get_entry()), 1)
-        end_hour = entry_checks.hour_entry_check(self, int(self.end_hour_edit.get_entry()), 0)
-        end_minute = entry_checks.minute_entry_check(self, int(self.end_minute_edit.get_entry()), 0)
-        end_second = entry_checks.second_entry_check(self, int(self.end_second_edit.get_entry()), 0)
-
-        self.start_time_stamp = datetime.time(hour = start_hour, minute = start_minute, second = start_second)
-
-        if end_hour > 23:
-            self.end_hour_edit.set_entry(23)
-            self.end_minute_edit.set_entry(59)
-            self.end_second_edit.set_entry(59)
-            self.end_time_stamp = datetime.time(23, 59, 59)
-        else:
-            self.end_time_stamp = datetime.time(hour = end_hour, minute = end_minute, second = end_second)
-
-        time_interval_string = file_naming.create_time_interval_string_hms(start_hour, start_minute, start_second, 
-                                                                           end_hour, end_minute, end_second)
+        # TODO: Do I even need this? I think I just copied it over from old line_x file
+        time_interval_string = file_naming.create_time_interval_string_hms(
+                                                                start_hour, 
+                                                                start_minute, 
+                                                                start_second, 
+                                                                end_hour, 
+                                                                end_minute, 
+                                                                end_second)
 
         ####################################
         ######### Making the plot ##########
@@ -367,47 +380,65 @@ class MainWindow(QMainWindow):
             self.warning_message_dialog("File Open Error, couldn't open file")
             return
         
-
+        '''
+        Once future file types are supported, add here.
+        Launch Dialog Option assigned when you open a file
+        '''
         if self.launch_dialog_option == 2:
-
-            self.x_arr, self.y_arr, self.z_arr, self.time_arr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, 
-                                                                                                            self.start_time_stamp, 
-                                                                                                            self.end_time_stamp, 
-                                                                                                            self.filename)
+            # Doing short names to stay around 80-85 chars per row
+            x,y,z,t,f = read_clean_to_lists.create_datetime_lists_from_clean(
+                                                            file, 
+                                                            self.start_time_stamp, 
+                                                            self.end_time_stamp, 
+                                                            self.filename)
+            # easy to glance over, might be used for new feature?
+            flag_arr = f
 
         elif self.launch_dialog_option == 3:
+            # Doing short names to stay around 80-85 chars per row
+            x,y,z,t = read_raw_to_lists.create_datetime_lists_from_raw(
+                                                            file, 
+                                                            self.start_time_stamp,
+                                                            self.end_time_stamp, 
+                                                            self.filename)
+        # Assign those short names here
+        self.x_arr = x
+        self.y_arr = y
+        self.z_arr = z
+        self.time_arr = t
 
-            self.x_arr, self.y_arr, self.z_arr, self.time_arr = read_raw_to_lists.create_datetime_lists_from_raw(file, 
-                                                                                            self.start_time_stamp, 
-                                                                                            self.end_time_stamp, 
-                                                                                            self.filename)
+        min_x = self.min_x_edit.get_entry()
+        max_x = self.max_x_edit.get_entry()
+        min_y = self.min_y_edit.get_entry()
+        max_y = self.max_y_edit.get_entry()
+        min_z = self.min_z_edit.get_entry()
+        max_z = self.max_z_edit.get_entry()
 
-        
-        min_x = int(self.min_x_edit.get_entry())
-        max_x = int(self.max_x_edit.get_entry())
-        min_y = int(self.min_y_edit.get_entry())
-        max_y = int(self.max_y_edit.get_entry())
-        min_z = int(self.min_z_edit.get_entry())
-        max_z = int(self.max_z_edit.get_entry())
-
-        min_x, max_x = entry_checks.axis_entry_checks_new(self.x_arr, min_x, max_x)
-        min_y, max_y = entry_checks.axis_entry_checks_new(self.y_arr, min_y, max_y)
-        min_z, max_z = entry_checks.axis_entry_checks_new(self.z_arr, min_z, max_z)
+        min_x, max_x = entry_checks.axis_entry_checks_new(
+                                                        self.x_arr, min_x, max_x)
+        min_y, max_y = entry_checks.axis_entry_checks_new(
+                                                        self.y_arr, min_y, max_y)
+        min_z, max_z = entry_checks.axis_entry_checks_new(
+                                                        self.z_arr, min_z, max_z)
 
 
         entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
         
         if self.one_array_plotted_button.is_toggled():
 
-            self.figure = entry_checks.graph_from_plotter_entry_check(self, 
-                                                                self.x_arr, 
-                                                                self.y_arr, 
-                                                                self.z_arr, 
-                                                                self.time_arr,
-                                                                self.filename, 
-                                                                self.start_time_stamp,
-                                                                self.end_time_stamp)
-            self.reset_entries()
+            self.figure = entry_checks.graph_from_plotter_entry_check( 
+                                                        self.x_arr, 
+                                                        self.y_arr, 
+                                                        self.z_arr,
+                                                        self.x_checkbox.isChecked(),
+                                                        self.y_checkbox.isChecked(),
+                                                        self.z_checkbox.isChecked(), 
+                                                        self.time_arr,
+                                                        self.filename, 
+                                                        self.start_time_stamp,
+                                                        self.end_time_stamp)
+            # Wont need this here since im hiding other plotting now
+            #self.reset_entries()
 
         else:
 
@@ -422,6 +453,7 @@ class MainWindow(QMainWindow):
                                                 in_min_y=min_y, in_max_y=max_y,
                                                 in_min_z=min_z, in_max_z=max_z)
 
+
         self.min_x = min_x
         self.max_x = max_x
         self.min_y = min_y
@@ -430,6 +462,7 @@ class MainWindow(QMainWindow):
         self.max_z = max_z
 
         self.display_figure()
+
 
     def display_figure(self):
 
@@ -457,16 +490,21 @@ class MainWindow(QMainWindow):
 
     def zoom_out(self):
 
+        print(self.zoom_out_button.is_toggled())
         if self.figure == None:
+            self.zoom_out_button.set_toggle_status_false()
+            self.zoom_out_button.change_text()
             self.warning_message_dialog("No figure to work with")
             return
 
         if self.one_array_plotted_button.is_toggled():
+            self.zoom_out_button.set_toggle_status_false()
+            self.zoom_out_button.change_text()
             self.warning_message_dialog(
                 "This feature only available for Three Graph Plotting right now")
             return
 
-        if not self.zoom_flag:
+        if self.zoom_out_button.is_toggled():
             self.figure = raw_to_plot.plot_arrays(self.x_arr, 
                                                 self.y_arr, 
                                                 self.z_arr, 
@@ -474,8 +512,9 @@ class MainWindow(QMainWindow):
                                                 self.filename, 
                                                 self.start_time_stamp, 
                                                 self.end_time_stamp,
-                                                in_min_x=0,in_max_x=0,in_min_y=0,in_max_y=0,in_min_z=0,in_max_z=0)
-            self.zoom_flag = True
+                                                in_min_x=0,in_max_x=0,
+                                                in_min_y=0,in_max_y=0,
+                                                in_min_z=0,in_max_z=0)
         else:
             self.figure = raw_to_plot.plot_arrays(self.x_arr,
                                                 self.y_arr,
@@ -484,20 +523,15 @@ class MainWindow(QMainWindow):
                                                 self.filename,
                                                 self.start_time_stamp,
                                                 self.end_time_stamp,
-                                                in_min_x=self.min_x, in_max_x=self.max_x,
-                                                in_min_y=self.min_y, in_max_y=self.max_y,
-                                                in_min_z=self.min_z, in_max_z=self.max_z)
-            self.zoom_flag = False
+                                                in_min_x=self.min_x, 
+                                                in_max_x=self.max_x,
+                                                in_min_y=self.min_y, 
+                                                in_max_y=self.max_y,
+                                                in_min_z=self.min_z, 
+                                                in_max_z=self.max_z)
            #self.plot_counter = self.plot_counter + 1
 
         self.display_figure()
-
-    def zoom_in(self):
-        if self.figure == None:
-            self.warning_message_dialog("No figure to work with")
-            return
-        
-        pass
 
     def save_file(self):
         
@@ -547,15 +581,15 @@ class MainWindow(QMainWindow):
         # only grab filename, ignore file filter
         filename, _ = response
         # .pdf = 4
+        print(filename)
         if len(filename) < 5:
             return
         # go to the end (-1) and find last '/', split there
-        filename = filename.split('/')[-1]
-        self.save_filename = filename
+        self.save_filename = filename.split('/')[-1]
 
         self.figure.savefig(filename, dpi=1200)
         subprocess.Popen(filename, shell=True)
-        self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
+        self.warning_message_dialog("Saved " + self.save_filename)
         #self.save_as_counter = self.save_as_counter + 1
     
     # TODO: Use regular expressions for filter? Prevent bad input by accident
@@ -565,19 +599,37 @@ class MainWindow(QMainWindow):
         self.error_message.exec()
 
     def reset_entries(self):
-        # reset the start times and end times
-        self.start_hour_edit.set_entry(0)
-        self.start_minute_edit.set_entry(0)
-        self.start_second_edit.set_entry(0)
-        self.end_hour_edit.set_entry(23)
-        self.end_minute_edit.set_entry(59)
-        self.end_second_edit.set_entry(59)
+
+        self.start_time.set_start_time()
+        self.end_time.set_end_time()
         self.min_x_edit.set_entry(0)
         self.max_x_edit.set_entry(0)
         self.min_y_edit.set_entry(0)
         self.max_y_edit.set_entry(0)
         self.min_z_edit.set_entry(0)
         self.max_z_edit.set_entry(0)
+
+    def update_layout(self):
+
+        bool_value = self.one_array_plotted_button.is_toggled()
+
+        self.zoom_out_button.set_toggle_status_false()
+        self.zoom_out_button.change_text()
+
+        self.min_x_edit.setHidden(bool_value)
+        self.max_x_edit.setHidden(bool_value)
+        self.min_x_label.setHidden(bool_value)
+        self.max_x_label.setHidden(bool_value)
+
+        self.min_y_label.setHidden(bool_value)
+        self.max_y_label.setHidden(bool_value)
+        self.min_y_edit.setHidden(bool_value)
+        self.max_y_edit.setHidden(bool_value)
+
+        self.min_z_label.setHidden(bool_value)
+        self.max_z_label.setHidden(bool_value)
+        self.min_z_edit.setHidden(bool_value)
+        self.max_z_edit.setHidden(bool_value)
 
 def main ():
 
