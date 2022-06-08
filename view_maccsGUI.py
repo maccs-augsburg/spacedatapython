@@ -108,16 +108,10 @@ class MainWindow(QMainWindow):
         self.station_code = QLabel("Station Code: ")
         self.year_day = QLabel("Year Day: ")
 
-        self.start_hour = QLabel("Start Hour: ")
-        self.start_min = QLabel("Start Minute: ")
-        self.start_sec = QLabel("Start Second: ")
-
-        self.end_hour = QLabel("End Hour: ")
-        self.end_min = QLabel("End Minute: ")
-        self.end_sec = QLabel("End Second: ")
+        self.label_start_time = QLabel("Start Time: ")
+        self.label_end_time = QLabel("End Time: ")
 
         self.plot_xyz_label = QLabel("Plot X, Y, or Z: ")
-
         self.format_file_text = QLabel("Format of File to Open: ")
 
         self.maccs_logo = QLabel()
@@ -126,7 +120,7 @@ class MainWindow(QMainWindow):
 
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
 
-        self.start_hour.setMaximumWidth(60)
+        self.label_start_time.setMaximumWidth(60)
         self.plot_xyz_label.setFixedHeight(20)
         self.format_file_text.setFixedHeight(20)
 
@@ -146,14 +140,6 @@ class MainWindow(QMainWindow):
         self.input_station_code = QLineEdit()
         self.input_year = QLineEdit()
 
-        self.input_starthour = QLineEdit("0")
-        self.input_startmin = QLineEdit("0")
-        self.input_startsec = QLineEdit("0")
-
-        self.input_endhour = QLineEdit("23")
-        self.input_endmin = QLineEdit("59")
-        self.input_endsec = QLineEdit("59")
-
         self.input_min_x = QLineEdit("0")
         self.input_max_x = QLineEdit("0")
         self.input_min_y = QLineEdit("0")
@@ -162,12 +148,6 @@ class MainWindow(QMainWindow):
         self.input_max_z = QLineEdit("0")
 
         self.input_station_code.setMaximumWidth(35)
-        self.input_starthour.setMaximumWidth(35)
-        self.input_startmin.setMaximumWidth(35)
-        self.input_startsec.setMaximumWidth(35)
-        self.input_endhour.setMaximumWidth(35)
-        self.input_endmin.setMaximumWidth(35)
-        self.input_endsec.setMaximumWidth(35)
         self.input_year.setMaximumWidth(35)
         self.input_min_x.setMaximumWidth(35)
         self.input_max_x.setMaximumWidth(35)
@@ -271,24 +251,12 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.qtime_start_time, 2,1)
         self.label_and_entry_layout.addWidget(self.qtime_end_time, 3,1)
 
-        self.label_and_entry_layout.addWidget(self.start_hour, 2,0)
-        self.label_and_entry_layout.addWidget(self.start_min, 3,0)
-        self.label_and_entry_layout.addWidget(self.start_sec, 4,0)
-        
-        self.label_and_entry_layout.addWidget(self.end_hour, 5,0)
-        self.label_and_entry_layout.addWidget(self.end_min, 6,0)
-        self.label_and_entry_layout.addWidget(self.end_sec, 7,0)
+        self.label_and_entry_layout.addWidget(self.label_start_time, 2,0)
+        self.label_and_entry_layout.addWidget(self.label_end_time, 3,0)
 
         self.label_and_entry_layout.addWidget(self.input_station_code,0, 1)
         self.label_and_entry_layout.addWidget(self.input_year, 1, 1)
 
-        # self.label_and_entry_layout.addWidget(self.input_starthour, 2, 1)
-        # self.label_and_entry_layout.addWidget(self.input_startmin, 3, 1)
-        self.label_and_entry_layout.addWidget(self.input_startsec, 4, 1)
-
-        self.label_and_entry_layout.addWidget(self.input_endhour, 5, 1)
-        self.label_and_entry_layout.addWidget(self.input_endmin, 6, 1)
-        self.label_and_entry_layout.addWidget(self.input_endsec, 7, 1)
 
         self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
        
@@ -364,7 +332,7 @@ class MainWindow(QMainWindow):
 
             # # opening the dialog box
             home_dir = str(Path.home())
-            file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, ' (*.2hz *.s2)')
+            file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, '(*.2hz *.s2)')
             file_name = str(file_name)
 
             # splitting up the path and selecting the filename
@@ -378,13 +346,6 @@ class MainWindow(QMainWindow):
             # # setting the yearday from the filename
             self.input_year.setText(str(self.file_name[2:7]))
             # resetting the start times and end times
-
-            self.input_starthour.setText("0")
-            self.input_startmin.setText("0")
-            self.input_startsec.setText("0")
-            self.input_endhour.setText("23")
-            self.input_endmin.setText("59")
-            self.input_endsec.setText("59")
 
             #temp var
             file_type = ''
@@ -429,30 +390,23 @@ class MainWindow(QMainWindow):
     '''
 
     def get_graph_entries(self):
-
+        '''
+        Obtains the values the Widgets on the GUI 
+        Station name, Year Day, and the time from QTime
+        All values get checked for validlity then we create the time stamps and file name to pass on
+        '''
         # Getting entries from the user / the file
         #Station code and year
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
         
-        
-        
-        
-        
-        
         # Start hour, minute, and second entries
-        # start_hour_value = entry_checks.start_hour_entry_check(self, self.input_starthour.text())
-        # start_minute_value = entry_checks.start_minute_entry_check(self, self.input_startmin.text())
-        # start_second_value = entry_checks.start_second_entry_check( self, self.input_startsec.text())
 
         start_hour_value = entry_checks.start_hour_entry_check(self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(0)))
         start_minute_value = entry_checks.start_minute_entry_check(self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(1)))
         start_second_value = entry_checks.start_second_entry_check( self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(2)))
 
         # End hour, minute and second entries
-        # end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
-        # end_minute_value = entry_checks.end_minute_entry_check(self,self.input_endmin.text())
-        # end_second_value = entry_checks.end_second_entry_check( self,self.input_endsec.text())   
 
         end_hour_value = entry_checks.end_hour_entry_check( self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(0)))
         end_minute_value = entry_checks.end_minute_entry_check(self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(1)))
@@ -472,7 +426,9 @@ class MainWindow(QMainWindow):
 
     def choose_graph_style(self):
         '''
-        Obtains the values entered in the GUI and runs the plotting program with the inputted values
+        Message Box Pops up for user to select what kind of graph display they want
+        the stacked version with all three axis' on top of each other OR
+        three axis display where the user can choose 1-3 axis to view on the same graph show the derivatives of the axis 
         '''
         
 
@@ -507,6 +463,11 @@ class MainWindow(QMainWindow):
             self.which_graph_type_box.close()
 
     def plot_three_axis(self):
+        '''
+        Function to plot the three axis display using checkboxs to determine what axis are dispalyed
+        then values are checked for validility and then put into a figure via matplotlib
+        and then set into a PySide Canvas and embeded into our MainWindow
+        '''
         self.get_graph_entries()
         # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
         plot_x_axis = 0         
@@ -562,6 +523,11 @@ class MainWindow(QMainWindow):
         self.graph_layout.addWidget(self.graph)
 
     def plot_stacked_axis(self):
+        '''
+        Function to plot all three axis stacked up and the ability to change the min and max scale of each 
+        axis (Y axis) and values are checked for validility and then put into a figure via matplotlib
+        and then set into a PySide Canvas and embeded into our MainWindow
+        '''
         self.get_graph_entries()
 
         plot_min_value_x = int(self.input_min_x.text())
@@ -605,11 +571,19 @@ class MainWindow(QMainWindow):
         self.graph_layout.addWidget(self.graph)
 
     def clear_plots(self):
+        """
+        Simple function to clear the widgets in a layout 
+        This specifically removes all widgets in the graph layout 
+        which removes all graphs and canvas' in the layout so we can re-draw with an update graph when the user wants
+        """
         for i in reversed(range(self.graph_layout.count())): 
             self.graph_layout.itemAt(i).widget().setParent(None)      
         self.maccs_logo.setHidden(False)
 
     def custom_toobar(self):
+        '''
+        still in progress
+        '''
         foobar = NavigationToolbar2QT(self.graph, self)
         foobar.zoom()
 
