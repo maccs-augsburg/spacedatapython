@@ -6,9 +6,10 @@ May 2022 -- Created -- Mark Ortega-Ponce
 
 from PySide6.QtWidgets import (
     QMainWindow, QLabel,
-    QLineEdit, QWidget, QCheckBox, QPushButton, QSizePolicy, QSpinBox
+    QLineEdit, QWidget, QCheckBox, QPushButton,
+    QSizePolicy, QSpinBox, QTimeEdit
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QTime
 from PySide6.QtGui import QPalette, QColor
 
 FONT_SIZE = 13
@@ -157,6 +158,53 @@ class Spinbox(QSpinBox):
         # emits valueChanged signal if new entry is different from old one
         self.setValue(new_entry)
 
+class Time(QTimeEdit):
+    # http://man.hubwiz.com/docset/Qt_5.docset/Contents/Resources/Documents/doc.qt.io/qt-5/qtimeedit.html
+    # http://man.hubwiz.com/docset/Qt_5.docset/Contents/Resources/Documents/doc.qt.io/qt-5/qdatetimeedit.html#timeChanged
+    # http://man.hubwiz.com/docset/Qt_5.docset/Contents/Resources/Documents/doc.qt.io/qt-5/qdatetimeedit.html#time-prop
+    def __init__(self):
+        super().__init__()
+        self.min_time = QTime(0,0,0)
+        self.max_time = QTime(23,59,59)
+        self.time = QTime(0,0,0)
+        self.hour = 0
+        self.minute = 0
+        self.second = 0
+        font = self.font()
+        self.setFont(font)
+        font.setPointSize(FONT_SIZE)
+        self.setAlignment(Qt.AlignCenter)
+        self.setMaximumWidth(95)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setMaximumHeight(MINIMUM_HEIGHT)
+        self.setTimeRange(self.min_time, self.max_time)
+        self.setDisplayFormat("hh:mm:ss")
+        self.timeChanged.connect(self.time_changed)
+    
+    def time_changed(self, time):
+        self.time = time
+        self.update_values()
+        
+    def update_values(self):
+        # inherited function from QDateTimeEdit
+        self.hour = self.time.hour()
+        self.minute = self.time.minute()
+        self.second = self.time.second()
+        print(self.hour)
+        print(self.minute)
+        print(self.second)
+
+    def get_hour(self):
+        return self.hour
+    def get_minute(self):
+        return self.minute
+    def get_second(self):
+        return self.second
+
+    def set_start_time(self):
+        self.setTime(self.min_time)
+    def set_end_time(self):
+        self.setTime(self.max_time)
         
 class Color(QWidget):
 
