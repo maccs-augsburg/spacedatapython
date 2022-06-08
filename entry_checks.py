@@ -264,7 +264,7 @@ def end_hour_entry_check(self,end_hour_string):
     value = int(end_hour_string)
 
     # Testing to see if the inputted value exceeds what it can be
-    if(value > 23):
+    if(value > 24):
         # Have error message box pop up because it can't be more than 23
         view_maccsGUI.MainWindow.warning_message_pop_up(self,"Time Entry Error", "Invalid time entry in End Hour box \nValue too large\nPlease make sure value is less than 24")
 
