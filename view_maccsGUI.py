@@ -333,8 +333,9 @@ class MainWindow(QMainWindow):
             # # opening the dialog box
             home_dir = str(Path.home())
             file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, '(*.2hz *.s2)')
+            self.abs_file_name = file_name[0]
             file_name = str(file_name)
-
+            print(self.abs_file_name)
             # splitting up the path and selecting the filename
             self.file_name = file_name.split(',')[0]
 
@@ -483,10 +484,10 @@ class MainWindow(QMainWindow):
 
         # trying to open the file
         try:
-            file = open(self.file_name_full, 'rb')
+            file = open(self.abs_file_name, 'rb')
         except:
             # popping up an error if we can't open the file
-            self.warning_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \n Try again please")
+            self.warning_message_pop_up("File open error", "Couldn't find and open your file \nPlease make sure you select proper file \n Try again please")
 
         #Creating the arrays
         if (self.selection_file_value == '4'):
@@ -536,12 +537,12 @@ class MainWindow(QMainWindow):
         plot_max_value_y = int(self.input_max_y.text())
         plot_min_value_z = int(self.input_min_z.text())
         plot_max_value_z = int(self.input_max_z.text())
-
+        
         try:
-            file = open(self.file_name_full, 'rb')
+            file = open(self.abs_file_name, 'rb')
         except:
             # popping up an error if we can't open the file
-            self.warning_message_pop_up(self,"File open error", "couldn't find and open your file")
+            self.warning_message_pop_up("File open error", "couldn't find and open your file")
 
         # Creating the arrays
         if (self.selection_file_value == '4'):
