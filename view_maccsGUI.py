@@ -12,10 +12,10 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QGridLayout,QPushButton, 
                                 QToolBar,QVBoxLayout,
                                 QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox, QButtonGroup
+                                QCheckBox,QMessageBox, QButtonGroup, QTimeEdit
                                 )
 from PySide6.QtGui import QIcon, QAction, QPixmap, Qt
-from PySide6.QtCore import  QSize
+from PySide6.QtCore import  QSize, QTime
 
 # path for file open 
 from pathlib import Path
@@ -176,6 +176,20 @@ class MainWindow(QMainWindow):
         self.input_min_z.setMaximumWidth(35)
         self.input_max_z.setMaximumWidth(35)
 
+        #####################
+        ### QTime Widgets ###
+        #####################
+        self.qtime_start_time = QTimeEdit()
+        self.qtime_start_time.setTimeRange(QTime(00,00,00), QTime(24,00,00))
+        self.qtime_start_time.setDisplayFormat('hh:mm:ss')
+
+        self.qtime_end_time = QTimeEdit()
+        self.qtime_end_time.setTimeRange(QTime(00,00,00), QTime(24,00,00))
+        self.qtime_end_time.setDisplayFormat('hh:mm:ss')
+
+        self.qtime_start_time.setTime(QTime(00,00,00))
+        self.qtime_end_time.setTime(QTime(23,59,59))
+
         #######################
         ### Checkbox Select ###
         #######################
@@ -254,6 +268,9 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.station_code,0,0)
         self.label_and_entry_layout.addWidget(self.year_day, 1,0)
 
+        self.label_and_entry_layout.addWidget(self.qtime_start_time, 2,1)
+        self.label_and_entry_layout.addWidget(self.qtime_end_time, 3,1)
+
         self.label_and_entry_layout.addWidget(self.start_hour, 2,0)
         self.label_and_entry_layout.addWidget(self.start_min, 3,0)
         self.label_and_entry_layout.addWidget(self.start_sec, 4,0)
@@ -265,8 +282,8 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.input_station_code,0, 1)
         self.label_and_entry_layout.addWidget(self.input_year, 1, 1)
 
-        self.label_and_entry_layout.addWidget(self.input_starthour, 2, 1)
-        self.label_and_entry_layout.addWidget(self.input_startmin, 3, 1)
+        # self.label_and_entry_layout.addWidget(self.input_starthour, 2, 1)
+        # self.label_and_entry_layout.addWidget(self.input_startmin, 3, 1)
         self.label_and_entry_layout.addWidget(self.input_startsec, 4, 1)
 
         self.label_and_entry_layout.addWidget(self.input_endhour, 5, 1)
@@ -361,6 +378,7 @@ class MainWindow(QMainWindow):
             # # setting the yearday from the filename
             self.input_year.setText(str(self.file_name[2:7]))
             # resetting the start times and end times
+
             self.input_starthour.setText("0")
             self.input_startmin.setText("0")
             self.input_startsec.setText("0")
@@ -416,16 +434,29 @@ class MainWindow(QMainWindow):
         #Station code and year
         station_name_value = self.input_station_code.text()
         year_day_value = self.input_year.text()
-
+        
+        
+        
+        
+        
+        
         # Start hour, minute, and second entries
-        start_hour_value = entry_checks.start_hour_entry_check(self, self.input_starthour.text())
-        start_minute_value = entry_checks.start_minute_entry_check(self, self.input_startmin.text())
-        start_second_value = entry_checks.start_second_entry_check( self, self.input_startsec.text())
+        # start_hour_value = entry_checks.start_hour_entry_check(self, self.input_starthour.text())
+        # start_minute_value = entry_checks.start_minute_entry_check(self, self.input_startmin.text())
+        # start_second_value = entry_checks.start_second_entry_check( self, self.input_startsec.text())
+
+        start_hour_value = entry_checks.start_hour_entry_check(self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(0)))
+        start_minute_value = entry_checks.start_minute_entry_check(self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(1)))
+        start_second_value = entry_checks.start_second_entry_check( self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(2)))
 
         # End hour, minute and second entries
-        end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
-        end_minute_value = entry_checks.end_minute_entry_check(self,self.input_endmin.text())
-        end_second_value = entry_checks.end_second_entry_check( self,self.input_endsec.text())
+        # end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
+        # end_minute_value = entry_checks.end_minute_entry_check(self,self.input_endmin.text())
+        # end_second_value = entry_checks.end_second_entry_check( self,self.input_endsec.text())   
+
+        end_hour_value = entry_checks.end_hour_entry_check( self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(0)))
+        end_minute_value = entry_checks.end_minute_entry_check(self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(1)))
+        end_second_value = entry_checks.end_second_entry_check( self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(2)))
 
         # creating the start time stamp
         self.start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
