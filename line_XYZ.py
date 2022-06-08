@@ -1,241 +1,450 @@
 #Gui implemented with classes
 #Annabelle
 
-#Imports from tkinter
-from tkinter import *
-from tkinter import ttk
-from tkinter import messagebox
-from tkinter.filedialog import asksaveasfile
-from tkinter.filedialog import askopenfilename
+#Refactored into PySide6 GUI 
+# By Chris Hance may 2022
 
+#Import from PySide6 // QT
+
+from PySide6.QtWidgets import (QMainWindow, QApplication, 
+                                QLabel, QLineEdit, 
+                                QWidget, QHBoxLayout, 
+                                QGridLayout,QPushButton, 
+                                QToolBar,QVBoxLayout,
+                                QFileDialog, QRadioButton,
+                                QCheckBox,QMessageBox
+                                )
+from PySide6.QtGui import QIcon, QAction, QPixmap, Qt
+from PySide6.QtCore import  QSize
+
+# path for file open 
+from pathlib import Path
 
 #imports from python 
 import sys
 import datetime
-from PIL import ImageTk, Image
 
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
+
+#Imports from matplotlib
+import matplotlib
+matplotlib.use('qtagg')
+
+import matplotlib.pyplot as plt
+import matplotlib.figure as figure
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+
 import subprocess
-import os
-#imports from plotter functions
 
+#imports from other python files
 import file_naming
 import read_raw_to_lists
-import one_array_plotted
 import read_clean_to_lists
-import clean_one_array_plotted
+import entry_checks
 
-
-class ThreeGraphPlotter:
+class MainWindow(QMainWindow):
+    '''
+    Class Containing GUI using PySide6 module from QT using its framework 
+    The Gui is able to Graph a Single graph that can plot any combantion of axis'
+    X Y or Z, one two, or three. While also able to alter the graph via zooming in and saving images of the graph
+    We have ability to save as pdf or png using built in toolbar with matplotlib we can zoom and acess subplots of the graph
+    we can also pin point a zoom using the text labels on the left of the GUI and re pressing plot
+    '''
     def __init__(self):
-        #Creation of the window 
-        window = Tk()
-        window.geometry('1500x700')
-        window.title('X, Y and Z Plotter')
 
-        mainframe = ttk.Frame(window, padding = "3 3 12 12")
-        mainframe.grid(column = 0, row = 0, sticky = (N,W,E,S))
-
-        window.columnconfigure(0, weight = 1)
-        window.rowconfigure(0, weight = 1)
-
-        #File name values for saving figure
-        self.figure = None
-        self.file_name = None
-
-        ###Labels###
-
-        #Year day entry box label 
-        ttk.Label(mainframe, text = "Year Day: ").grid(column = 1, row = 2, sticky = E)
-
-        #Start hour entry box label
-        ttk.Label(mainframe, text = "Start Hour: ").grid(column = 1, row = 3, sticky = E)
-
-        #Start minute entry box label
-        ttk.Label(mainframe, text = "Start Minute: ").grid(column = 1, row = 4,sticky = E)
-
-        #Start second entry box label
-        ttk.Label(mainframe, text = "Start Second: ").grid(column = 1, row = 5, sticky = E)
-
-        #End hour entry box label
-        ttk.Label(mainframe, text = "End Hour: ").grid(column = 1, row = 6, sticky = E)
-
-        #End minute entry box label
-        ttk.Label(mainframe, text = "End Minute: ").grid(column = 1, row = 7, sticky = E)
-
-        #End second entry box label
-        ttk.Label(mainframe, text = "End Second: ").grid(column = 1, row = 8, sticky = E)
-
-        #Plot x, y, or z checkbox label
-        ttk.Label(mainframe, text = "Plot X, Y or Z: ").grid(column = 1, row = 9, sticky = E)
-
-        #Station code entry box label
-        ttk.Label(mainframe, text = "Station Code: ").grid(column = 1, row = 1, pady = (25, 0), sticky = E)
-
-        #File option radiobutton label
-        ttk.Label(mainframe, text = "File Option: ").grid(column = 1, row = 14, sticky = E)
-
-
-
-        ###Entry Boxes###
-        self.year_day = StringVar()
-        ttk.Entry(mainframe, width= 5, textvariable = self.year_day).grid(column = 2, row = 2,   sticky = W)
-
-        self.start_hour = IntVar()
-        self.start_hour.set(0)
-        ttk.Entry(mainframe, width = 5, textvariable = self.start_hour).grid(column = 2, row = 3, sticky = W)
-
-        self.start_minute = IntVar()
-        self.start_minute.set(0)
-        ttk.Entry(mainframe, width = 5, textvariable = self.start_minute).grid(column = 2, row = 4, sticky = W)
-
-        self.start_second = IntVar()
-        self.start_second.set(0)
-        ttk.Entry(mainframe, width = 5, textvariable = self.start_second).grid(column = 2, row = 5,sticky = W)
-
-        self.end_hour = IntVar()
-        self.end_hour.set(23)
-        ttk.Entry(mainframe, width = 5, textvariable = self.end_hour).grid(column = 2, row = 6, sticky = W)
-
-        self.end_minute = IntVar()
-        self.end_minute.set(59)
-        ttk.Entry(mainframe, width = 5, textvariable = self.end_minute).grid(column = 2, row = 7, sticky = W)
-
-        self.end_second = IntVar()
-        self.end_second.set(59)
-        ttk.Entry(mainframe, width = 5, textvariable = self.end_second).grid(column = 2, row = 8, sticky = W)
-
-        self.station_names = StringVar()
-        ttk.Entry(mainframe, width = 5, textvariable = self.station_names).grid(column = 2, row = 1, pady = (25, 0), sticky = W)
-
-        ###Check Boxes and Radiobuttons###
-        self.graph_from_plotter_x = IntVar()
-        self.graph_from_plotter_y = IntVar()
-        self.graph_from_plotter_z = IntVar()
+        """ 	
+        All the widgets so many o.o
         
-        # https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/ttk-Checkbutton.html
-        # onvalue = 1 when checked inside gui by default, can also change onvalue to something we specify
-        x_plot = ttk.Checkbutton(mainframe, text = "X Plot", variable = self.graph_from_plotter_x, onvalue = 1).grid(column = 2, row = 10,padx = 25 , sticky = W)
-        y_plot = ttk.Checkbutton(mainframe, text = "Y Plot", variable = self.graph_from_plotter_y, onvalue = 1).grid(column = 2, row = 11,padx = 25 , sticky = W) 
-        z_plot = ttk.Checkbutton(mainframe, text = "Z Plot", variable = self.graph_from_plotter_z, onvalue = 1).grid(column = 2, row = 12,padx = 25 , sticky = W)
+        :type self:
+        :param self:
+    
+        :raises:
+    
+        :rtype:
+        """    
+        super().__init__()
+        self.setWindowTitle("MACCS Plotting Program")
 
-        self.selection_file = StringVar()
-        cda_web = Radiobutton(mainframe, text = "CDAWEB:NA", value = 1, variable = self.selection_file).grid(column = 2, row = 15, padx = 25,  sticky = W)
-        iaga_00 = Radiobutton(mainframe, text = "IAGA2000:NA", value = 2, variable = self.selection_file).grid(column = 2, row = 16, padx = 25,  sticky = W)
-        iaga_02 = Radiobutton(mainframe, text = "IAGA2002:NA", value = 3, variable = self.selection_file).grid(column = 2, row = 17, padx = 25, sticky = W)
-        raw_hz_file = Radiobutton(mainframe, text = "Raw 2hz file", value = 4, variable = self.selection_file).grid(column = 2, row = 18, padx = 25,  sticky = W)
-        clean_data = Radiobutton(mainframe, text = "Clean Data", value = 5, variable = self.selection_file).grid(column = 2, row = 19, padx = 25, sticky = W)
+        self.setGeometry(60,60, 1000,800)
+        self.selection_file_value = ''
 
+        ###############
+        ### Toolbar ###
+        ###############
 
-        ###Buttons###
+        toolbar = QToolBar("Main Toolbar")    
+        toolbar.setIconSize(QSize(16,16))
+        openfile = QAction(QIcon("../spacedatapython/images/folder-open.png"),"Open File", self)
+        savefile = QAction(QIcon("../spacedatapython/images/disk.png"),"Save File", self)
+        zoom = QAction(QIcon("../spacedatapython/images/magnifier-zoom-in.png"),"Zoom in", self)
 
-        ttk.Button(mainframe, text = "Plot", command = lambda: self.execute_functions(mainframe)).grid(column = 2, row = 20,  sticky = W)
-        ttk.Button(mainframe, text = "Quit", command = lambda: self.cancel(window)).grid(column =1, row = 22,columnspan = 2,  padx = 25, sticky = W)
-        ttk.Button(mainframe, text="Save", command=lambda: self.save(self.figure, self.file_name)).grid(column=2, row=21, sticky=W)
-        ttk.Button(mainframe, text="Save As...", command=lambda: self.save_as(self.figure, self.file_name)).grid(column=1, row=21, sticky=W)
-        ttk.Button(mainframe, text="Open File...", command=lambda: self.open_file()).grid(column=1, row=20, sticky=W)
-        #
+        toolbar.addAction(openfile)
+        toolbar.addAction(savefile)
+        toolbar.addAction(zoom)
+        toolbar.addSeparator()
 
-        image=Image.open('maccslogo_870.jpeg')
-        image_file = ImageTk.PhotoImage(image)
-        image_label = ttk.Label(mainframe, image=image_file)
-        image_label.image = image_file
-        image_label.grid(column=7,row=1, columnspan=8, rowspan=24)
+        self.addToolBar(toolbar)
+    
+        ############
+        ### Menu ###
+        ############
 
+        menu = self.menuBar()
+        file_menu = menu.addMenu("&File")
+        file_menu.addAction(openfile)
+        file_menu.addAction(savefile)
+        file_menu.addAction(zoom)
+
+        edit_menu = menu.addMenu("&Edit")
+
+        tool_menu = menu.addMenu("&Tools")
+
+        help_menu = menu.addMenu("&Help")
+
+        ###############
+        ### Labels ####
+        ###############
+
+        self.station_code = QLabel("Station Code: ")
+        self.year_day = QLabel("Year Day: ")
+
+        self.start_hour = QLabel("Start Hour: ")
+        self.start_min = QLabel("Start Minute: ")
+        self.start_sec = QLabel("Start Second: ")
+
+        self.end_hour = QLabel("End Hour: ")
+        self.end_min = QLabel("End Minute: ")
+        self.end_sec = QLabel("End Second: ")
+
+        self.plot_xyz_label = QLabel("Plot X, Y, or Z: ")
+
+        self.format_file_text = QLabel("Format of File to Open: ")
+
+        self.maccs_logo = QLabel()
+        self.maccs_logo.setPixmap(QPixmap("maccslogo_870.jpeg"))
+        self.maccs_logo.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+
+        self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
+
+        self.start_hour.setMaximumWidth(60)
+        self.plot_xyz_label.setFixedHeight(20)
+        self.format_file_text.setFixedHeight(20)
+
+        ###################
+        ### Text Fields ###
+        ###################
+
+        self.input_station_code = QLineEdit()
+        self.input_year = QLineEdit()
+
+        self.input_starthour = QLineEdit("0")
+        self.input_startmin = QLineEdit("0")
+        self.input_startsec = QLineEdit("0")
+
+        self.input_endhour = QLineEdit("23")
+        self.input_endmin = QLineEdit("59")
+        self.input_endsec = QLineEdit("59")
+
+        self.input_station_code.setMaximumWidth(35)
+        self.input_starthour.setMaximumWidth(35)
+        self.input_startmin.setMaximumWidth(35)
+        self.input_startsec.setMaximumWidth(35)
+        self.input_endhour.setMaximumWidth(35)
+        self.input_endmin.setMaximumWidth(35)
+        self.input_endsec.setMaximumWidth(35)
+        self.input_year.setMaximumWidth(35)
         
-        for child in mainframe.winfo_children(): 
-                child.grid_configure(padx=5, pady=5)
+        #######################
+        ### Checkbox Select ###
+        #######################
 
-        #Puts our execute_functions to the return key
-        window.bind("<Return>", self.execute_functions)
+        self.checkbox_plotx = QCheckBox("X Plot", self)
+        self.checkbox_ploty = QCheckBox("Y Plot", self)
+        self.checkbox_plotz = QCheckBox("Z Plot", self)
 
-        window.mainloop()    
+        ########################
+        ### Radio Selectors ###
+        ########################
 
-    def execute_functions(self, mainframe, *args):
-        """
-        executes the functions that are in the gui
+        self.radio_iaga2000 = QRadioButton("IAGA2000 - NW")
+        self.radio_iaga2002 = QRadioButton("IAGA2002 - NW")
+        self.radio_clean_file = QRadioButton("Clean file")
+        self.radio_raw_file = QRadioButton("Raw 2hz file")
+        self.radio_other = QRadioButton("Other - Not working")
 
-        Parameters
-        ----------
-        mainframe : the main frame that the gui is placed in
-        """
+        ###############
+        ### Layouts ###
+        ###############
 
-        ###Getting the user entries###
-        station_names_value = self.station_names.get()
-        self.station_names_entry_check(station_names_value)
+        self.main_layout = QHBoxLayout()
+        self.label_and_entry_layout = QGridLayout()
+        self.graph_layout = QVBoxLayout()
 
-        year_day_value = self.year_day.get()
-        self.year_day_entry_check(year_day_value)
+        ###############
+        ### Buttons ###
+        ###############
+         
+        self.button_open_file = QPushButton("Open file")
+        self.button_open_file.setFixedWidth(75)
+        self.button_plot = QPushButton('Plot')
+        self.button_plot.setFixedWidth(75)
+        self.button_quit = QPushButton('Quit')
+        self.button_quit.setFixedWidth(75)
+        self.button_save = QPushButton('Save')
+        self.button_save.setFixedWidth(75)
+        self.button_save_as = QPushButton('Save as...')
+        self.button_save_as.setFixedWidth(75)
+        self.button_clear_plot = QPushButton('Clear Plot')
+        self.button_clear_plot.setFixedWidth(75)
 
-        start_hour_value = self.start_hour_entry_check(self.start_hour.get())
-        start_minute_value = self.start_minute_entry_check( self.start_minute.get())
-        start_second_value = self.start_second_entry_check( self.start_second.get())
+
+        ########################
+        ### Signals / Events ###
+        ########################
+
+        openfile.triggered.connect(self.open_file)
+        savefile.triggered.connect(self.save)
+
+        self.button_open_file.clicked.connect(self.open_file)
+        self.button_quit.clicked.connect(self.close)
+        self.button_plot.clicked.connect(self.execute_plot_function)
+        self.button_save.clicked.connect(self.save)
+        self.button_save_as.clicked.connect(self.save_as)
+        self.button_clear_plot.clicked.connect(self.clear_plots)
+
+        ######################
+        ### Adding Widgets ###
+        ######################
+
+        self.label_and_entry_layout.addWidget(self.station_code,0,0)
+        self.label_and_entry_layout.addWidget(self.year_day, 1,0)
+
+        self.label_and_entry_layout.addWidget(self.start_hour, 2,0)
+        self.label_and_entry_layout.addWidget(self.start_min, 3,0)
+        self.label_and_entry_layout.addWidget(self.start_sec, 4,0)
+        
+        self.label_and_entry_layout.addWidget(self.end_hour, 5,0)
+        self.label_and_entry_layout.addWidget(self.end_min, 6,0)
+        self.label_and_entry_layout.addWidget(self.end_sec, 7,0)
+
+        self.label_and_entry_layout.addWidget(self.input_station_code,0, 1)
+        self.label_and_entry_layout.addWidget(self.input_year, 1, 1)
+
+        self.label_and_entry_layout.addWidget(self.input_starthour, 2, 1)
+        self.label_and_entry_layout.addWidget(self.input_startmin, 3, 1)
+        self.label_and_entry_layout.addWidget(self.input_startsec, 4, 1)
+
+        self.label_and_entry_layout.addWidget(self.input_endhour, 5, 1)
+        self.label_and_entry_layout.addWidget(self.input_endmin, 6, 1)
+        self.label_and_entry_layout.addWidget(self.input_endsec, 7, 1)
+
+        self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
+        self.label_and_entry_layout.addWidget(self.checkbox_plotx, 9, 0)
+        self.label_and_entry_layout.addWidget(self.checkbox_ploty, 10, 0)
+        self.label_and_entry_layout.addWidget(self.checkbox_plotz, 11, 0)
+
+        self.label_and_entry_layout.addWidget(self.format_file_text, 14, 0)
+
+        self.label_and_entry_layout.addWidget(self.radio_iaga2000, 15,0)
+        self.label_and_entry_layout.addWidget(self.radio_iaga2002, 16,0)
+        self.label_and_entry_layout.addWidget(self.radio_clean_file, 17,0)
+        self.label_and_entry_layout.addWidget(self.radio_raw_file, 18, 0)
+        self.label_and_entry_layout.addWidget(self.radio_other, 19, 0)
+        self.label_and_entry_layout.addWidget(self.button_plot, 20, 0)
+        self.label_and_entry_layout.addWidget(self.button_clear_plot, 20, 1)
+        self.label_and_entry_layout.addWidget(self.button_save_as, 21, 0)
+        self.label_and_entry_layout.addWidget(self.button_save, 21, 1)
+        self.label_and_entry_layout.addWidget(self.button_open_file, 22, 0)
+        self.label_and_entry_layout.addWidget(self.button_quit, 22, 1)
+
+        ########################################
+        ### Adding all layouts into the main ###
+        ########################################
+
+
+        self.main_layout.addLayout(self.label_and_entry_layout)
+        self.main_layout.addLayout(self.graph_layout)
+
+        self.main_layout.addWidget(self.maccs_logo)
+
+        self.main_widget = QWidget()
+        self.main_widget.setLayout(self.main_layout)
+        self.main_widget.setMinimumSize(1100,800)
+        self.setCentralWidget(self.main_widget)
+
+    def open_file(self):
+    
+            """
+            Opens a open file dialog box where the user picks the appropriate file type. Once that is
+            selected, it inputs the data into the boxes automatically based on the filename.
+            """
+            # listing the types of file types we currently support
+            filetypes = [
+                ('Raw files', '*.2hz'),
+                ('Clean files', '*.s2')
+            ]
+
+            '''
+            CAUTION !!!
+            self.file_name[x : x] and file_name 
+            can cause issues currently if file names are a little off than what I (have) or currently if 
+            we use different files
+            '''
+
+            # # opening the dialog box
+            home_dir = str(Path.home())
+            file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, ' (*.2hz *.s2)')
+            file_name = str(file_name)
+
+            # splitting up the path and selecting the filename
+            self.file_name = file_name.split(',')[0]
+
+            self.file_name = file_name.split('/')[-1]
+
+            # # setting the station code from the filename
+            self.input_station_code.setText(str(self.file_name[0:2]))
+
+            # # setting the yearday from the filename
+            self.input_year.setText(str(self.file_name[2:7]))
+            # resetting the start times and end times
+            self.input_starthour.setText("0")
+            self.input_startmin.setText("0")
+            self.input_startsec.setText("0")
+            self.input_endhour.setText("23")
+            self.input_endmin.setText("59")
+            self.input_endsec.setText("59")
+
+            #temp var
+            file_type = ''
+            # raw file selection branch
+            if (self.file_name[7:11] == '.2hz'):
+                self.selection_file_value = '4'
+                file_type = '.2hz'
+                
+            # clean file selection branch
+            elif (self.file_name[7:10] == '.s2'):
+                self.selection_file_value = '5'
+                file_type = '.s2'
+            # else
+            else:
+                print('Option not available yet :(')
+            # checks the radio button with the proper file type
+            self.radio_file_check(file_type)
+    
+    def execute_plot_function(self):
+        '''
+        Obtains the values entered in the GUI and runs the plotting program with the inputted values
+        '''
+        # Getting entries from the user / the file
+        #Station code and year
+        station_name_value = self.input_station_code.text()
+        year_day_value = self.input_year.text()
+
+        # Start hour, minute, and second entries
+        start_hour_value = entry_checks.start_hour_entry_check(self, self.input_starthour.text())
+        start_minute_value = entry_checks.start_minute_entry_check(self, self.input_startmin.text())
+        start_second_value = entry_checks.start_second_entry_check( self, self.input_startsec.text())
+
+        # End hour, minute and second entries
+        end_hour_value = entry_checks.end_hour_entry_check( self,self.input_endhour.text())
+        end_minute_value = entry_checks.end_minute_entry_check(self,self.input_endmin.text())
+        end_second_value = entry_checks.end_second_entry_check( self,self.input_endsec.text())
 
         # creating the start time stamp
         start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
-
-
-        end_hour_value = self.end_hour_entry_check( self.end_hour.get())
-        end_minute_value = self.end_minute_entry_check( self.end_minute.get())
-        end_second_value = self.end_second_entry_check( self.end_second.get())
-
         # creating the end time stamp
         end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
-
-        selection_file_value = self.selection_file.get()
-        file_ending_value = self.file_format_entry_check(selection_file_value)
-
-
+        #file_value = self.selection_file_value
+        file_ending_value = entry_checks.file_format_entry_check(self,self.selection_file_value)
+       
         # Making the Plot
-        file_name_full = station_names_value + year_day_value + file_ending_value
+        file_name_full = station_name_value + year_day_value + file_ending_value
         time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
-        self.file_name = station_names_value + year_day_value + time_interval_string
-        
-        # Get associated values to GUI, if x,y,z checked, then they are set to some value, respectively 1, 2, 3
-        graph_from_plotter_value_x = self.graph_from_plotter_x.get()
-        graph_from_plotter_value_y = self.graph_from_plotter_y.get()
-        graph_from_plotter_value_z = self.graph_from_plotter_z.get()
+        self.file_name = station_name_value + year_day_value + time_interval_string
 
-        # Distinguishing between clean, and raw lists inside here. No need to check in graph_from_plotter_entry_check
-        # Do any file checks in here for future additions
+        # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
+        plot_x_axis = 0         
+        plot_y_axis = 0
+        plot_z_axis = 0
+
+        if (self.checkbox_plotx.isChecked()):
+            plot_x_axis = 1        
+        if (self.checkbox_ploty.isChecked()):
+            plot_y_axis = 1        
+        if (self.checkbox_plotz.isChecked()):
+            plot_z_axis = 1
+
+        # trying to open the file
         try:
             file = open(file_name_full, 'rb')
         except:
             # popping up an error if we can't open the file
-            self.error_message_pop_up("File open error", "couldn't find and open your file")
+            self.error_message_pop_up(self,"File open error", "Couldn't find and open your file \nPlease make sure you select proper file \nExiting program")
 
-        if (selection_file_value == '4'):
-            
+        # Creating the arrays
+        if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
-                                                              graph_from_plotter_value_y, 
-                                                              graph_from_plotter_value_z, 
-                                                              xArr, 
-                                                              yArr, 
-                                                              zArr,
-                                                              timeArr, 
-                                                              self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
+            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+                                                                plot_y_axis, 
+                                                                plot_z_axis, 
+                                                                xArr, 
+                                                                yArr, 
+                                                                zArr,
+                                                                timeArr, 
+                                                                self.file_name, start_time_stamp, end_time_stamp, '4')
 
-        elif (selection_file_value == '5'):
-            
-            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp, end_time_stamp, self.file_name)
+        elif (self.selection_file_value == '5'):
+            xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, start_time_stamp,end_time_stamp, self.file_name)
             # plotting the arrays
-            self.figure = self.graph_from_plotter_entry_check(graph_from_plotter_value_x,
-                                                              graph_from_plotter_value_y, 
-                                                              graph_from_plotter_value_z, 
-                                                              xArr, 
-                                                              yArr, 
-                                                              zArr,
-                                                              timeArr, 
-                                                              self.file_name, start_time_stamp, end_time_stamp, selection_file_value)
-                                          
-        
-        canvas = FigureCanvasTkAgg(self.figure, master = mainframe)
-        canvas.draw()
+            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+                                                                plot_y_axis, 
+                                                                plot_z_axis, 
+                                                                xArr, 
+                                                                yArr, 
+                                                                zArr,
+                                                                timeArr, 
+                                                                self.file_name, start_time_stamp, end_time_stamp, '5')
 
-        canvas.get_tk_widget().grid(column=4, row=1, columnspan=8, rowspan=24)
+        # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
+        self.clear_plots()
+    
+        # Putting the arrays into the gui
+        self.graph = FigureCanvasQTAgg(self.graph)
+        self.toolbar = NavigationToolbar2QT(self.graph, self)
+        self.maccs_logo.setHidden(True)
+        self.graph_layout.addWidget(self.toolbar) 
+        self.graph_layout.addWidget(self.graph)
 
+    def clear_plots(self):
+        for i in reversed(range(self.graph_layout.count())): 
+            self.graph_layout.itemAt(i).widget().setParent(None)      
+        self.maccs_logo.setHidden(False)
+
+
+    def radio_file_check(self,file_type):
+        '''
+        function used to check the proper radio button with the file that is opened
+        '''
+        if file_type == '.2hz':
+            self.radio_raw_file.setChecked(True)
+        elif file_type == '.s2':
+            self.radio_clean_file.setChecked(True)    
+
+    def error_message_pop_up(self,title, message):
+        # pops up error message box with the title and message inputted
+        error_mes = QMessageBox.critical(self, title, message)
+        sys.exit(0)
+
+    def warning_message_pop_up(self,title, message):
+        # pops up warning message box with the title and message inputted
+        warning_mes = QMessageBox.warning(self, title,message)
+
+    '''
+    ##########
+            # NOTICE ----------  I DONT KNOW WHAT THIS FUNCTION WAS USED FOR IN THREE GRAPH PLOTTER WORKS FINE WITH OUT IT AND ISNT USED ? 
+            # BUT NOT GOING TO REMOVE UNTIL I FIGURE OUT WHAT IS NEEDED
+    ###########
+    '''
 
     def convert_hours_list_to_datetime_object(self, list_to_convert):
         """
@@ -265,450 +474,71 @@ class ThreeGraphPlotter:
 
         return converted_list
 
-    def save(self, fig, file_name):
+    def save(self):
          
         """
-        saves the file as a pdf document
+        Description:
+            Saves the Graph as a PDF Image
 
-        Parameters
-        ----------
-        fig : the plotted figure
-
-        file_name : the name of the file to be saved as
+            file_type is a QMessageBox that pops up once the Save as QButton is pressed 
         """
-        # Saving the file as a defualt pdf
-        fig.savefig(file_name + '.pdf', format='pdf', dpi=1200)
-        # Opening the file after saving so the user knows it has been saved and can see it
-        subprocess.Popen(file_name + '.pdf', shell=True)
 
-    def save_as(self, fig, file_name):
+        question_box = QMessageBox(self)
+
+        save_image_button = question_box.addButton(str('Save Image'), QMessageBox.ActionRole)
+        cancel_button = question_box.addButton(str('Cancel'),QMessageBox.ActionRole)
+        window_title_text = question_box.setWindowTitle("Save Image")
+        message_text = question_box.setText("Would you like to save this image as a PDF?")
+        start = question_box.exec()
+
+        if question_box.clickedButton() == save_image_button:
+            plt.savefig(self.file_name + ".pdf")
+            subprocess.Popen(self.file_name + '.pdf', shell=True)
+        elif question_box.clickedButton() == cancel_button:
+            question_box.close()
+
+    def save_as(self):
          
         """
-        saves the file as either a pdf or png
+        Description:
+            Saves the Graph as an image with user chosing either a PDF or PNG option 
+            can easily incorperate more files as needed 
 
-        Parameters
-        ----------
-        fig : the plotted figure
-
-        file_name : the name of the file to be saved as
+            file_type is a QMessageBox that pops up once the Save as QButton is pressed 
         """
-        
-        # Specifying the supported file types that can be saved
-        
-        files = [('PDF Files', '*.pdf'), ('PNG Files', '*.png'), ('All Files', '*.*')]
-        # Popping up the save as file dialog box
-        save_as_file = asksaveasfile(filetypes = files, defaultextension = files, initialfile=(file_name + '.pdf'))
-
-        if save_as_file is None:
-            return
-        else:
-            file_ending = save_as_file.name.split('/')[-1][-4:]
-            if file_ending == ".pdf":
-                fig.savefig(file_name + file_ending, format = "pdf", dpi = 1200)
-            elif file_ending == ".png":
-                fig.savefig(file_name + file_ending, format = "png", dpi = 1200)
-
-                
-
-    def open_file(self):
-        """
-        Opens a open file dialog box where the user picks the appropriate file type. Once that is
-        selected, it inputs the data into the boxes automatically based on the filename.
-        """
-        # listing the types of file types we currently support
-        filetypes = (
-            ('Raw files', '*.2hz'),
-            ('Clean files', '*.s2')
-        )
-
-        # opening the dialog box
-        file_name = askopenfilename(title='test', filetypes = filetypes)
-
-        # splitting up the path and selecting the filename
-        self.file_name = file_name.split('/')[-1]
-
-        # setting the station code from the filename
-        self.station_names.set(self.file_name[0:2])
-
-        # setting the yearday from the filename
-        self.year_day.set(self.file_name[2:7])
-
-        # resetting the start times and end times
-        self.start_hour.set(0)
-        self.start_minute.set(0)
-        self.start_second.set(0)
-        self.end_hour.set(23)
-        self.end_minute.set(59)
-        self.end_second.set(59)
-
-        # raw file selection branch
-        if (self.file_name[7:] == '.2hz'):
-            self.selection_file.set(4)
-            
-        # clean file selection branch
-        elif (self.file_name[7:] == '.s2'):
-            self.selection_file.set(5)
-
-        # else
-        else:
-            print('Option not available yet :(')
-
-    def year_day_entry_check(self, year_day_value):
-
-        """
-        Checks the year day entry value to see if there was a value inputted for the yearday entry box
-        Parameters
-        ----------
-        year_day_value: the value that was inputted into the year_day_entry box
-        """
-        # Checking to see if any input was put in the yearday entry box
-        if (len(year_day_value) == 0):
-            self.error_message_pop_up(title='year_day_entry Error', message='There was no input for the year day entry box')
-
-
-    def station_names_entry_check(self, station_names_value):
-
-        """
-        Checks the station_code_entry value and pops up an error message if it isn't a good entry
-        Parameters
-        ----------
-        station_code_value: the value that was inputted into the station_code_entry box
-        """
-        # Checking to see if no input was put in the station code entry box
-        if(len(station_names_value) == 0):
-            # show error as no input was received
-            self.error_message_pop_up(title="Station code entry error", message="There was no input for the station code entry box")
-
-
-
-
-    def file_format_entry_check(self, selection_file_value):
-        """
-        checks the file selection value and sets the ending value to match it
-
-        Parameters
-        ----------
-        selection_file_value : the value of the file selection
-
-        Returns
-        -------
-        file_ending_value : the ending value of the file
-        """
-        if(selection_file_value == '1'):
-            # CDA-Web branch (NOT IMPLEMENTED)
-            self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
-
-        # Testing to see if user selected IAGA2000 branch
-        elif(selection_file_value == '2'):
-            #IAGA2000 branch (NOT IMPLEMENTED)
-            self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
-
-        # Testing to see if user selected IAGA2002 branch
-        elif(selection_file_value == '3'):
-            #IAGA2002 branch (NOT IMPLEMENTED)
-            self.warning_message_pop_up(title="File format option error", message="Sorry! But we don't have this option available yet, please try picking a different option")
-
-        # Testing to see if user selected Raw 2hz branch
-        elif(selection_file_value == '4'):
-            #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
-            file_ending_value = '.2hz'
-
-        elif(selection_file_value == '5'):
-            #Raw 2hz file branch (TODO: IMPLEMENT SECTION)
-            file_ending_value = '.s2'
-
-        # Otherwise we can assume that no option had been selected
-        else:
-            # Message box error when no file format option has been selected
-            self.error_message_pop_up(title="File format option error", message="Please select a file format option")
-
-        # Returning the string of the file type to be used
-        return file_ending_value
-
-    def graph_from_plotter_entry_check(self, graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, filename, stime, etime, selection_file):
-
-        """
-        Checks the gui entries for plotting, x, y, z axis. If values are set, then we plot those axis
-
-        Parameters
-        ----------
-        graph_from_plotter_value_x : value from GUI, set to 1 if box is checked, 0 if not
-
-        graph_from_plotter_value_y : value from GUI, set to 1 if box is checked, 0 if not
-
-        graph_from_plotter_value_z : value from GUI, set to 1 if box is checked, 0 if not
-
-        xArr : the x array values
-
-        yArr : the y array values
-
-        zArr : the z array values
-
-        timeArr : the time array values
-
-        filename : the name of the file
-
-        stime : the start time stamp
-
-        etime : the end time stamp
-
-        selection_file : value from GUI, if clean is checked value is set to 4, if raw --> set to 5
-
-        Returns
-        -------
-        fig : the plotted figure
-        """
-    
-        # create an alias from plotter values
-        x_state = graph_from_plotter_value_x
-        y_state = graph_from_plotter_value_y
-        z_state = graph_from_plotter_value_z
-        file_state = int(selection_file)
-        any_plot_state = x_state + y_state + z_state
-        
-        # X, Y, Z plot, clean or raw
-        # first check if all on, then two the two_plot checks, last should be one_axis
-        if (x_state and y_state and z_state ):
-    
-            if (file_state >= 4):
-                fig = one_array_plotted.x_y_and_z_plot (xArr, yArr, zArr, timeArr, filename, stime, etime)
-            
-        # Y, Z plot, clean or raw
-        elif (y_state and z_state):
-            
-            if (file_state >= 4):
-                fig = one_array_plotted.plot_two_axis(yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
-        
-        # X, Z plot, clean or raw
-        elif (x_state and z_state):
-            
-            if (file_state >= 4):
-                fig = one_array_plotted.plot_two_axis(xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
-            
-        # X, Y plot, clean or raw
-        elif (x_state and y_state):
-            
-            if (file_state >= 4):
-                fig = one_array_plotted.plot_two_axis(xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
-        
-        # For single axis plotting
-        elif ( any_plot_state > 0 and file_state > 0):
-            
-            if (x_state):
-                fig = one_array_plotted.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
-            
-            if(y_state):
-                fig = one_array_plotted.plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
-            
-            if(z_state):
-                fig = one_array_plotted.plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
-                
-        #Warning Message
-        else:
-            self.warning_message_pop_up(title = "File Format Option Error", message = "Please select a file format option")
-
-        #return graph_from_plotter_value_x, graph_from_plotter_value_y, graph_from_plotter_value_z, fig
-        return fig
-        
-    def start_hour_entry_check(self, start_hour_string):
-         
-        """
-        Checks the start hour entry value and pops up an error message if it isn't a good entry
-        Parameters
-        ----------
-        String
-        start_hour_string: the value that was inputted into the start_hour_entry box
-        Returns
-        -------
-        Int
-        value: the int version of the inputted value in the start_hour_entry box
-        """
-        # making sure the inputted value is an int not a float
-        value = int(start_hour_string)
-
-        if(value > 23):
-            # Have error message box pop up because it can't be more than 23
-            self.error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be more than 23")
-            
-        # Testing to see if the inputted value is less than what it can be
-        elif(value < 0):
-            # Have error message box pop up because it can't be a negative number
-            self.error_message_pop_up(title="Start Hour Entry Error", message="Start hour cannot be negative")
-
-        # Returning the start_hour_string so that whatever changes we made to it get returned
-        return value
-
-
-    def start_minute_entry_check(self, start_minute_string):
-
-        """
-        Checks the start minute entry value and pops up an error message if it isn't a good entry
-        Parameters
-        ----------
-        String
-        start_minute_string: the value that was inputted into the start_minute_entry box
-        Returns
-        -------
-        Int
-        value: the inputted value in the start_minute_entry box
-        """
-        # making sure the inputted value is an int not a float
-        value = int(start_minute_string)
-
-        if(value > 59):
-            # Have error messsage box pop up becuase it can't be more than 59
-            self.error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be more than 59")
-
-        # Testing to see if the inputted value is less than what it can be
-        elif(value < 0):
-            # Have error message box pop up because it can't be a negative number
-            self.error_message_pop_up(title="Start Minute Entry Error", message="Start minute cannot be negative")
-
-        # Returning the start_minute_string so whatever changes we made to it get returned
-        return value
-
-
-
-    def start_second_entry_check(self, start_second_string):
-
-        """
-        Checks the start second entry value and pops up an error message if it isn't a good entry
-        Parameters
-        ----------
-        String
-        start_second_string: the value that was inputted into the start_second_entry box
-        Returns
-        -------
-        Int
-        value: the inputted value in the start_second_entry box
-        """
-        # making sure the inputted value is an int not a float
-        value = int(start_second_string)
-
-        if(value > 59):
-            # Have error messsage box pop up becuase it can't be more than 59
-            self.error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be more than 59")
-
-        # Testing to see if the inputted value is less than what it can be
-        elif(value < 0):
-            # Have error message box pop up because it can't be a negative number
-            self.error_message_pop_up(title="Start Second Entry Error", message="Start second cannot be negative")
-
-        # Returning the start_second_string so whatever changes we made to it get returned
-        return value
-
-
-
-
-
-    def end_hour_entry_check(self, end_hour_string):
-
-        """
-        Checks the end hour entry value and pops up an error message if it isn't a good entry
-        Parameters
-        ----------
-        String
-            end_hour_string: the value that was inputted into the end_hour_entry box
-        Returns
-        -------
-        Int
-            value: the inputted value in the end_hour_entry box
-        """
-        # making sure the inputted value is an int not a float
-        value = int(end_hour_string)
-
-        # Testing to see if the inputted value exceeds what it can be
-        if(value > 23):
-            # Have error message box pop up because it can't be more than 23
-            self.error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be more than 23")
-
-         # Testing to see if the inputted value is less than what it can be
-        elif(value < 0):
-            # Have error message box pop up because it can't be a negative number
-            self.error_message_pop_up(title="End Hour Entry Error", message="End hour cannot be negative")
-
-        # Returning the end_hour_string so whatever changes we made to it get returned
-        return value
-
-
-
-    def end_minute_entry_check(self, end_minute_string):
-
-        """
-        Checks the end minute entry value and pops up an error message if it isn't a good entry
-        Parameters
-        ----------
-        String
-        end_minute_string: the value that was inputted into the end_minute_entry box
-        Returns
-        -------
-        Int
-        value: the inputted value in the end_hour_entry box
-        """
-        # making sure the inputted value is an int not a float
-        value = int(end_minute_string)
-
-        # Testing to see if the inputted value exceeds what it can be
-        if(value > 59):
-            #Have error messsage box pop up becuase it can't be more than 59
-            self.error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be more than 59")
-
-        # Testing to see if the inputted value is less than what it can be
-        elif(value < 0):
-            # Have error message box pop up because it can't be a negative number
-            self.error_message_pop_up(title="End Minute Entry Error", message="End minute cannot be negative")
-
-        # Returning the end_minute_string so whatever changes we made to it get returned
-        return value
-
-
-
-    def end_second_entry_check(self, end_second_string):
-        """
-        Checks the end second entry value and pops up an error message if it isn't a good entry
-        Parameters
-        ----------
-        String
-        end_second_string: the value that was inputted into the end_second_entry box
-        Returns
-        -------
-        Int
-        end_second_string: the inputted value in the end_second_entry box
-        """
-        # making sure the inputted value is an int not a float
-        value = int(end_second_string)
-
-        # Testing to see if the inputted value exceeds what it can be
-        if(value > 59):
-            # Have error messsage box pop up becuase it can't be more than 59
-            self.error_message_pop_up(title="End Second Entry Error", message="End second cannot be more than 59")
-
-        # Testing to see if the inputted value is less than what it can be
-        elif(value < 0):
-            # Have error message box pop up because it can't be a negative number
-            self.error_message_pop_up(title="End Second Entry Error", message="End second cannot be negative")
-
-        # Returning the end_second_string so whatever changes we made to it get returned
-        return value
-
-
-    def error_message_pop_up(self, title, message):
-         
-        # pops up error message box with the title and message inputted
-        messagebox.showerror(title=title, message = "ERROR: " + message)
-        sys.exit(0)
-
-    def warning_message_pop_up(self, title, message):
-        # pops up warning message box with the title and message inputted
-        messagebox.showwarning(title=title, message="WARNING: " + message)
-            
-    def cancel(self, window):
-        # Exits the gui without running any code after
-        window.destroy()
-
+        #def information (parent, title, text, button0[, button1=QMessageBox.StandardButton.NoButton])
+
+        file_type = QMessageBox(self)
+
+        pdf_button = file_type.addButton(str("PDF"), QMessageBox.ActionRole)
+        png_button = file_type.addButton(str('PNG'), QMessageBox.ActionRole)
+        cancel_button = file_type.addButton(str('Cancel'), QMessageBox.ActionRole)
+
+        window_title_text = file_type.setWindowTitle("Save as...")
+        message_text = file_type.setText("Select would image type you would like to save as... \n PDF or PNG")
+
+        start = file_type.exec()
+
+        if file_type.clickedButton() == pdf_button:
+            plt.savefig(self.file_name + ".pdf")
+            subprocess.Popen(self.file_name + '.pdf', shell=True)
+        elif file_type.clickedButton() == png_button:
+            plt.savefig(self.file_name + ".png")
+            subprocess.Popen(self.file_name + '.png', shell=True)
+        elif file_type.clickedButton() == cancel_button:
+            file_type.close()
+
+class CustomToolbar(NavigationToolbar2QT):
+    def __init__(self, canvas):
+        NavigationToolbar2QT.__init__(self,canvas)
+        FINAL_REMOVE_SUBPLOT_INT = 6
+        self.DeteleToolByPos(FINAL_REMOVE_SUBPLOT_INT)
 
 def main():
-    x_y_z_plotter = ThreeGraphPlotter()
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    app.exec()
 
 if __name__ == "__main__":
     main()

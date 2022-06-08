@@ -18,6 +18,8 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 import subprocess
 import os
 
+sys.path.append("..")
+
 # Plotter program imports
 import raw_to_plot
 import file_naming
@@ -434,8 +436,6 @@ class SingleGraphPlotter:
             elif file_ending == '.png': # Saving it as a png
                 fig.savefig(file_name + file_ending, format='png', dpi=1200)
             
-            
-        
     def year_day_entry_check(self, year_day_value):
         """
         Checks the year day entry value to see if there was a value inputted for the yearday entry box
