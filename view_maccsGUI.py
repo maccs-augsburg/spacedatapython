@@ -162,7 +162,11 @@ class MainWindow(QMainWindow):
         #####################
         self.custom_start_time = MinMaxTime()
         self.custom_end_time = MinMaxTime()
+        self.custom_start_time.time_widget.setTime(QTime(00,00,00))
+        self.custom_end_time.time_widget.setTime(QTime(23,59,59))
 
+        self.custom_start_time.setMaximumWidth(165)
+        self.custom_end_time.setMaximumWidth(165)
         #######################
         ### Checkbox Select ###
         #######################
@@ -401,16 +405,15 @@ class MainWindow(QMainWindow):
         year_day_value = self.input_year.text()
         
         # Start hour, minute, and second entries
-
-        start_hour_value = entry_checks.start_hour_entry_check(self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(0)))
-        start_minute_value = entry_checks.start_minute_entry_check(self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(1)))
-        start_second_value = entry_checks.start_second_entry_check( self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(2)))
+        start_hour_value = entry_checks.start_hour_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(0)))
+        start_minute_value = entry_checks.start_minute_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(1)))
+        start_second_value = entry_checks.start_second_entry_check( self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(2)))
 
         # End hour, minute and second entries
 
-        end_hour_value = entry_checks.end_hour_entry_check( self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(0)))
-        end_minute_value = entry_checks.end_minute_entry_check(self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(1)))
-        end_second_value = entry_checks.end_second_entry_check( self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(2)))
+        end_hour_value = entry_checks.end_hour_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(0)))
+        end_minute_value = entry_checks.end_minute_entry_check(self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(1)))
+        end_second_value = entry_checks.end_second_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(2)))
 
         # creating the start time stamp
         self.start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
