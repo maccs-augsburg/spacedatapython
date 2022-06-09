@@ -6,15 +6,17 @@
 
 #Import from PySide6 // QT
 
+
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
                                 QWidget, QHBoxLayout, 
                                 QGridLayout,QPushButton, 
                                 QToolBar,QVBoxLayout,
                                 QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox, QButtonGroup, QTimeEdit
+                                QCheckBox,QMessageBox, 
+                                QButtonGroup, QSizePolicy
                                 )
-from PySide6.QtGui import QIcon, QAction, QPixmap, Qt
+from PySide6.QtGui import QIcon, QAction, QPixmap, Qt, QPalette
 from PySide6.QtCore import  QSize, QTime
 
 # path for file open 
@@ -26,6 +28,7 @@ import datetime
 
 #Imports from matplotlib
 import matplotlib
+from numpy import minimum
 matplotlib.use('qtagg')
 
 import matplotlib.pyplot as plt
@@ -109,9 +112,26 @@ class MainWindow(QMainWindow):
         self.station_code = QLabel("Station Code: ")
         self.year_day = QLabel("Year Day: ")
 
+        pal = QPalette()
+        pal.setColor(QPalette.Window,'green')
+        self.year_day.setPalette(pal)
+        self.year_day.setAutoFillBackground(True)
+        
+        self.year_day.setSizePolicy(
+            QSizePolicy.Minimum,
+            QSizePolicy.Minimum
+        )
         self.label_start_time = QLabel("Start Time: ")
         self.label_end_time = QLabel("End Time: ")
 
+        self.label_start_time.setSizePolicy(
+            QSizePolicy.Minimum,
+            QSizePolicy.Minimum
+        )
+        self.label_end_time.setSizePolicy(
+            QSizePolicy.Minimum,
+            QSizePolicy.Minimum
+        )
         self.plot_xyz_label = QLabel("Plot X, Y, or Z: ")
         self.format_file_text = QLabel("Format of File to Open: ")
 
@@ -167,6 +187,7 @@ class MainWindow(QMainWindow):
 
         self.custom_start_time.setMaximumWidth(165)
         self.custom_end_time.setMaximumWidth(165)
+        self.custom_start_time.time_widget.setAlignment(Qt.AlignLeft)
         #######################
         ### Checkbox Select ###
         #######################
@@ -294,6 +315,8 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.button_save, 23, 1)
         self.label_and_entry_layout.addWidget(self.button_open_file, 24, 0)
         self.label_and_entry_layout.addWidget(self.button_quit, 24, 1)
+
+        self.label_and_entry_layout.columnStretch(50)
 
         self.button_plot_three_axis.setHidden(True)
         self.button_plot_stacked_graph.setHidden(True)
@@ -698,6 +721,9 @@ class MainWindow(QMainWindow):
             file_type.close()
 
     def set_stacked_options_hidden(self):
+        '''
+        Sets button group hidden when display type is not choosen
+        '''
 
         self.min_x.setHidden(True)
         self.max_x.setHidden(True)
@@ -713,6 +739,9 @@ class MainWindow(QMainWindow):
         self.input_max_z.setHidden(True)
 
     def set_stacked_options_visable(self):
+        '''
+        Sets button group visable when display type is choosen
+        '''
 
         self.min_x.setHidden(False)
         self.max_x.setHidden(False)
@@ -728,12 +757,20 @@ class MainWindow(QMainWindow):
         self.input_max_z.setHidden(False)
 
     def set_three_axis_options_hidden(self):
+        '''
+        Sets button group hidden when display type is not choosen
+        '''
+
         self.plot_xyz_label.setHidden(True)
         self.graph_display_button_group.button(0).setHidden(True)
         self.graph_display_button_group.button(1).setHidden(True)
         self.graph_display_button_group.button(2).setHidden(True)
 
     def set_three_axis_options_visable(self):
+        '''
+        Sets button group visable when display type is choosen
+        '''
+
         self.plot_xyz_label.setHidden(False)
         self.graph_display_button_group.button(0).setHidden(False)
         self.graph_display_button_group.button(1).setHidden(False)
@@ -742,6 +779,10 @@ class MainWindow(QMainWindow):
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
+    pal = QPalette()
+    pal.setColor(QPalette.Window,'white')
+    window.setPalette(pal)
+    window.setAutoFillBackground(True)
     window.show()
     app.exec()
 
