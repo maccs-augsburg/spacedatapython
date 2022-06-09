@@ -33,7 +33,7 @@ class MinMaxTime(QtWidgets.QWidget):
             QtWidgets.QSizePolicy.Fixed,
             QtWidgets.QSizePolicy.Fixed
         )
-
+        
         self.time_widget = QTimeEdit()
         self.time_widget.setTimeRange(QTime(00,00,00), QTime(24,00,00))
         self.time_widget.setDisplayFormat('hh:mm:ss')
@@ -53,6 +53,8 @@ class MinMaxTime(QtWidgets.QWidget):
         button_layout.addWidget(self.label_one)
         button_layout.addWidget(self.label_two)
         main_layout.addLayout(button_layout)
+        main_layout.setContentsMargins(0,0,0,0)
+        
 
 
         self.setLayout(main_layout)        
@@ -71,14 +73,14 @@ class MinMaxTime(QtWidgets.QWidget):
     def sizeHint(self):
         return QtCore.QSize(20,20)
     
-    # background paint of widget
-    def paintEvent(self, e):
-        painter = QtGui.QPainter(self)
-        brush = QtGui.QBrush()
-        brush.setColor(QtGui.QColor('blue'))
-        brush.setStyle(Qt.SolidPattern)
-        rect = QRect(0,0, painter.device().width(), painter.device().height())
-        painter.fillRect(rect,brush)
+    # # background paint of widget
+    # def paintEvent(self, e):
+    #     painter = QtGui.QPainter(self)
+    #     brush = QtGui.QBrush()
+    #     brush.setColor(QtGui.QColor('blue'))
+    #     brush.setStyle(Qt.SolidPattern)
+    #     rect = QRect(0,0, painter.device().width(), painter.device().height())
+    #     painter.fillRect(rect,brush)
         
 
 def main():
