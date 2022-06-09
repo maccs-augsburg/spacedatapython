@@ -9,12 +9,16 @@ clean .s2 data.
 
 ## **Contents**
 
-Application currently consists of 4 main files.
+Application currently consists of 6 main files.
 
 1. custom_widgets.py: Widgets with adjusted settings.
 2. entry_checks.py: File to check user entries.
-3. maccs_gui.py: Gui Application
+3. maccs_gui.py: Gui Application.
 4. requirements.txt: File to install dependencies needed.
+5. plot_three_axis_graphs.py: File to graph overlayed plots.
+6. plot_stacked_graphs.py: File to graph axis on 3 different plots, stacked.
+
+Note: Last two files are shared, so one directory back/up.
 
 ## **How to use**
 
@@ -25,7 +29,7 @@ Application currently consists of 4 main files.
 1. pip3 install PySide6
 2. pip3 install matplotlib
 
-## **Run Program**
+**Run Program**
 
 1. python3 maccs_gui.py
 
@@ -40,7 +44,8 @@ Note: Had a lot of issues trying to install matplotlib and pyside6.
 5. pipenv install -r path/to/requirements.txt
 6. Run application from inside Maccs_Application folder
 
-## **Run Program**
+**Run Program**
+
 1. python3 maccs_gui.py
 
 
