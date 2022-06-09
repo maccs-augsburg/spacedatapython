@@ -120,6 +120,9 @@ class MainWindow(QMainWindow):
         self.label_start_time = QLabel("Start Time: ")
         self.label_end_time = QLabel("End Time: ")
 
+        self.label_start_time.setPalette(pal)
+        self.label_start_time.setAutoFillBackground(True)
+
         self.plot_xyz_label = QLabel("Plot X, Y, or Z: ")
         self.format_file_text = QLabel("Format of File to Open: ")
 
@@ -211,6 +214,7 @@ class MainWindow(QMainWindow):
         self.graph_layout = QVBoxLayout()
 
         self.main_layout.setContentsMargins(5,0,0,0)
+        self.label_and_entry_layout.setVerticalSpacing(-10)
         
         ###############
         ### Buttons ###
