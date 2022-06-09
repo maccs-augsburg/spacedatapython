@@ -117,21 +117,9 @@ class MainWindow(QMainWindow):
         self.year_day.setPalette(pal)
         self.year_day.setAutoFillBackground(True)
         
-        self.year_day.setSizePolicy(
-            QSizePolicy.Minimum,
-            QSizePolicy.Minimum
-        )
         self.label_start_time = QLabel("Start Time: ")
         self.label_end_time = QLabel("End Time: ")
 
-        self.label_start_time.setSizePolicy(
-            QSizePolicy.Minimum,
-            QSizePolicy.Minimum
-        )
-        self.label_end_time.setSizePolicy(
-            QSizePolicy.Minimum,
-            QSizePolicy.Minimum
-        )
         self.plot_xyz_label = QLabel("Plot X, Y, or Z: ")
         self.format_file_text = QLabel("Format of File to Open: ")
 
@@ -222,6 +210,8 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout = QGridLayout()
         self.graph_layout = QVBoxLayout()
 
+        self.main_layout.setContentsMargins(5,0,0,0)
+        
         ###############
         ### Buttons ###
         ###############
@@ -316,8 +306,6 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.button_open_file, 24, 0)
         self.label_and_entry_layout.addWidget(self.button_quit, 24, 1)
 
-        self.label_and_entry_layout.columnStretch(50)
-
         self.button_plot_three_axis.setHidden(True)
         self.button_plot_stacked_graph.setHidden(True)
         self.set_stacked_options_hidden()
@@ -331,6 +319,7 @@ class MainWindow(QMainWindow):
         self.main_layout.addLayout(self.graph_layout)
 
         self.main_layout.addWidget(self.maccs_logo)
+    
 
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
