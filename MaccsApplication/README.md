@@ -18,18 +18,18 @@ Application currently consists of 4 main files.
 
 ## **How to use**
 
-##**Windows:**
+## **Windows:**
 
 **1st time using**
 
 1. pip3 install PySide6
 2. pip3 install matplotlib
 
-##**Run Program**
+## **Run Program**
 
 1. python3 maccs_gui.py
 
-##**Mac:** 
+## **Mac:** 
 
 Note: Had a lot of issues trying to install matplotlib and pyside6.
 
@@ -40,7 +40,7 @@ Note: Had a lot of issues trying to install matplotlib and pyside6.
 5. pipenv install -r path/to/requirements.txt
 6. Run application from inside Maccs_Application folder
 
-##**Run Program**
+## **Run Program**
 1. python3 maccs_gui.py
 
 
