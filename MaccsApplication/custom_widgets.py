@@ -37,7 +37,7 @@ class LineEdit(QLineEdit):
 
     def text_edited(self, s):
         self.entry = s
-        print(self.get_entry())
+        #print(self.get_entry())
 
     # Wrapper around getter for QLineEdit, can also decide not to use and refactor with ide
     # Chose this because method name is more memorable
@@ -94,10 +94,11 @@ class PushButton(QPushButton):
         #self.setMaximumHeight(30)
         #self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         #self.setMinimumHeight(MINIMUM_HEIGHT)
+        #self.setMaximumWidth(95)
 
     def button_toggle(self, checked):
         self.button_is_checked = checked
-        print(self.button_is_checked)
+        #print(self.button_is_checked)
         self.change_text()
     
     def is_toggled(self):
@@ -140,9 +141,9 @@ class Spinbox(QSpinBox):
 
     def value_changed(self, i):
         self.entry = i
-        print("Seeing if signal works", self.entry, "type: ",type(self.entry))
-        print(str(self.get_entry()))
-        print(type(self.get_entry()))
+        #print("Seeing if signal works", self.entry, "type: ",type(self.entry))
+        #print(str(self.get_entry()))
+        #print(type(self.get_entry()))
 
     # Wrapper around getter for QLineEdit, can also decide not to use and refactor with ide
     # Chose this because method name is more memorable
@@ -154,7 +155,7 @@ class Spinbox(QSpinBox):
 
     # Same situation here, want to keep the continuity in naming
     def set_entry(self, new_entry):
-        print(new_entry, " : type : ", type(new_entry))
+        #print(new_entry, " : type : ", type(new_entry))
         # emits valueChanged signal if new entry is different from old one
         self.setValue(new_entry)
 
@@ -183,17 +184,11 @@ class Time(QTimeEdit):
     
     def time_changed(self, time):
         self.time = time
-        self.update_values()
-        
-    def update_values(self):
         # inherited function from QDateTimeEdit
         self.hour = self.time.hour()
         self.minute = self.time.minute()
         self.second = self.time.second()
-        print(self.hour)
-        print(self.minute)
-        print(self.second)
-
+        
     def get_hour(self):
         return self.hour
     def get_minute(self):
