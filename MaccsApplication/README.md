@@ -9,7 +9,7 @@ clean .s2 data.
 
 ## **Contents**
 
-Application current consists of 4 main files:
+Application currently consists of 4 main files.
 
 1. custom_widgets.py: Widgets with adjusted settings.
 2. entry_checks.py: File to check user entries.
@@ -18,18 +18,18 @@ Application current consists of 4 main files:
 
 ## **How to use**
 
-**Windows:**
+##**Windows:**
 
 **1st time using**
 
 1. pip3 install PySide6
 2. pip3 install matplotlib
 
-**Run Program**
+##**Run Program**
 
 1. python3 maccs_gui.py
 
-**Mac:** 
+##**Mac:** 
 
 Note: Had a lot of issues trying to install matplotlib and pyside6.
 
@@ -40,16 +40,17 @@ Note: Had a lot of issues trying to install matplotlib and pyside6.
 5. pipenv install -r path/to/requirements.txt
 6. Run application from inside Maccs_Application folder
 
-**Run Program**
+##**Run Program**
 1. python3 maccs_gui.py
 
-Note: To activate environment, when you close out of window.
+
+**Note: To activate environment after closing out of window**
 
 1. pipenv shell
-2. heads to maccs_application folder
-3. run program
+2. Head to MaccsApplication folder
+3. Run program
 
-Useful pipenv commands:
+**Useful pipenv commands:**
 
 If you add more dependecies, you should update the requirements file.
 
