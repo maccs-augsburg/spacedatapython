@@ -38,13 +38,14 @@ class MinMaxTime(QtWidgets.QWidget):
         self.time_widget.setTimeRange(QTime(00,00,00), QTime(24,00,00))
         self.time_widget.setDisplayFormat('hh:mm:ss')
         
-        self.time_widget.setFixedWidth(75)
+        self.time_widget.setFixedWidth(65)
 
         self.label_one = QPushButton("Min?")
-        self.label_one.setMaximumWidth(50)
+        self.label_one.setMaximumSize(35,35)
         self.label_two = QPushButton("Max?")
-        self.label_two.setMaximumWidth(50)
-
+        self.label_two.setMaximumSize(35,35)
+        self.label_one.setContentsMargins(0,0,0,0)
+        self.label_two.setContentsMargins(0,0,0,0)
 
         self.label_two.clicked.connect(self.set_max_time)
         self.label_one.clicked.connect(self.set_min_time)
@@ -52,6 +53,7 @@ class MinMaxTime(QtWidgets.QWidget):
         main_layout.addWidget(self.time_widget)
         button_layout.addWidget(self.label_one)
         button_layout.addWidget(self.label_two)
+        button_layout.setContentsMargins(0,0,0,0)
         main_layout.addLayout(button_layout)
         main_layout.setContentsMargins(0,0,0,0)
         
@@ -68,19 +70,14 @@ class MinMaxTime(QtWidgets.QWidget):
     def set_min_time(self):
         self.time_widget.setTime(QTime(00,00,00))
 
-
-    # MAX SIZE OF WIDget
-    def sizeHint(self):
-        return QtCore.QSize(20,20)
-    
     # # background paint of widget
-    # def paintEvent(self, e):
-    #     painter = QtGui.QPainter(self)
-    #     brush = QtGui.QBrush()
-    #     brush.setColor(QtGui.QColor('blue'))
-    #     brush.setStyle(Qt.SolidPattern)
-    #     rect = QRect(0,0, painter.device().width(), painter.device().height())
-    #     painter.fillRect(rect,brush)
+    def paintEvent(self, e):
+        painter = QtGui.QPainter(self)
+        brush = QtGui.QBrush()
+        brush.setColor(QtGui.QColor('blue'))
+        brush.setStyle(Qt.SolidPattern)
+        rect = QRect(0,0, painter.device().width(), painter.device().height())
+        painter.fillRect(rect,brush)
         
 
 def main():
