@@ -39,6 +39,7 @@ import read_raw_to_lists
 import read_clean_to_lists
 import entry_checks
 import plot_stacked_graphs
+from custom_time_widget import MinMaxTime
 
 class MainWindow(QMainWindow):
     '''
@@ -159,16 +160,8 @@ class MainWindow(QMainWindow):
         #####################
         ### QTime Widgets ###
         #####################
-        self.qtime_start_time = QTimeEdit()
-        self.qtime_start_time.setTimeRange(QTime(00,00,00), QTime(24,00,00))
-        self.qtime_start_time.setDisplayFormat('hh:mm:ss')
-
-        self.qtime_end_time = QTimeEdit()
-        self.qtime_end_time.setTimeRange(QTime(00,00,00), QTime(24,00,00))
-        self.qtime_end_time.setDisplayFormat('hh:mm:ss')
-
-        self.qtime_start_time.setTime(QTime(00,00,00))
-        self.qtime_end_time.setTime(QTime(23,59,59))
+        self.custom_start_time = MinMaxTime()
+        self.custom_end_time = MinMaxTime()
 
         #######################
         ### Checkbox Select ###
@@ -245,11 +238,14 @@ class MainWindow(QMainWindow):
         ### Adding Widgets ###
         ######################
 
+        
+
         self.label_and_entry_layout.addWidget(self.station_code,0,0)
         self.label_and_entry_layout.addWidget(self.year_day, 1,0)
 
-        self.label_and_entry_layout.addWidget(self.qtime_start_time, 2,1)
-        self.label_and_entry_layout.addWidget(self.qtime_end_time, 3,1)
+        self.label_and_entry_layout.addWidget(self.custom_start_time,2, 1)
+        self.label_and_entry_layout.addWidget(self.custom_end_time,3, 1)
+
 
         self.label_and_entry_layout.addWidget(self.label_start_time, 2,0)
         self.label_and_entry_layout.addWidget(self.label_end_time, 3,0)
@@ -279,12 +275,15 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(2), 11, 0)
         self.label_and_entry_layout.addWidget(self.button_plot_three_axis, 15 ,0)
         self.label_and_entry_layout.addWidget(self.button_plot_stacked_graph,15 ,0)
+
         self.label_and_entry_layout.addWidget(self.format_file_text, 16, 0)
+
         self.label_and_entry_layout.addWidget(self.radio_iaga2000, 17,0)
         self.label_and_entry_layout.addWidget(self.radio_iaga2002, 18,0)
         self.label_and_entry_layout.addWidget(self.radio_clean_file, 19,0)
         self.label_and_entry_layout.addWidget(self.radio_raw_file, 20, 0)
         self.label_and_entry_layout.addWidget(self.radio_other, 21, 0)
+
         self.label_and_entry_layout.addWidget(self.button_graph_style, 22, 0)
         self.label_and_entry_layout.addWidget(self.button_clear_plot, 22, 1)
         self.label_and_entry_layout.addWidget(self.button_save_as, 23, 0)
