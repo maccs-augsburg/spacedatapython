@@ -3,10 +3,11 @@
 #Refractored by Chris Hance 5/12/2022
 
 #Imports matplotlib library 
-from matplotlib import image
 import matplotlib.pyplot as plt
+
 #from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 import matplotlib.dates as mdates
+from mpl_interactions import ioff, panhandler, zoom_factory
 
 
 import sys
@@ -17,7 +18,6 @@ import datetime
 #from raw_codecs import decode, time_of_record
 import station_names
 import read_raw_to_lists
-#import read_to_clean_lists
 
 def plot_axis(axisArr, timeArr, filename, stime, etime, axis): 
     """
@@ -75,8 +75,8 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
 
 
     fig = plt.figure(figsize=(12, 4))
-    
-    plt.plot(timeArr,axisArr, linewidth = 1)
+    fig, ax = plt.subplots()
+    ax.plot(timeArr,axisArr, linewidth = 1)
     plt.title("Geomagnetic B" + axis + " of " + station_name + "   YEARDAY: " + year_day_value + "   DATE: " + date) 
     plt.ylabel('B' + axis)
 
@@ -98,7 +98,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
         #plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     #else:
         #plt.xticks(hoursArr)
-
+    disconnect_zoom = zoom_factory(ax)
 
     return fig
 
@@ -198,7 +198,6 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     plt.axhline(y = 0,color = 'tab:gray', linestyle = '-')
 
     return fig
-
 
 def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     """
