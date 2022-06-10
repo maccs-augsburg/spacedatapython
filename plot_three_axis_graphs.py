@@ -3,13 +3,17 @@
 #Refractored by Chris Hance 5/12/2022
 
 #Imports matplotlib library 
+from matplotlib import image
 import matplotlib.pyplot as plt
 #from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 import matplotlib.dates as mdates
- 
+
+
 import sys
 import datetime
+
 #Imports from our other previous files 
+
 #from raw_codecs import decode, time_of_record
 import station_names
 import read_raw_to_lists
@@ -89,7 +93,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     x_yticks = plt.yticks()
 
-
+    
     #if (default_hours_flag):
         #plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     #else:
