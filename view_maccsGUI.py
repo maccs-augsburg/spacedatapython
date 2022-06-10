@@ -33,6 +33,7 @@ matplotlib.use('qtagg')
 
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+from mpl_interactions import ioff, panhandler, zoom_factory
 
 import subprocess
 
@@ -112,16 +113,16 @@ class MainWindow(QMainWindow):
         self.station_code = QLabel("Station Code: ")
         self.year_day = QLabel("Year Day: ")
 
-        pal = QPalette()
-        pal.setColor(QPalette.Window,'green')
-        self.year_day.setPalette(pal)
-        self.year_day.setAutoFillBackground(True)
+        # pal = QPalette()
+        # pal.setColor(QPalette.Window,'green')
+        # self.year_day.setPalette(pal)
+        # self.year_day.setAutoFillBackground(True)
         
         self.label_start_time = QLabel("Start Time: ")
         self.label_end_time = QLabel("End Time: ")
 
-        self.label_start_time.setPalette(pal)
-        self.label_start_time.setAutoFillBackground(True)
+        # self.label_start_time.setPalette(pal)
+        # self.label_start_time.setAutoFillBackground(True)
 
         self.plot_xyz_label = QLabel("Plot X, Y, or Z: ")
         self.format_file_text = QLabel("Format of File to Open: ")
@@ -133,6 +134,7 @@ class MainWindow(QMainWindow):
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
 
         self.label_start_time.setMaximumWidth(60)
+        self.year_day.setMaximumWidth(60)
         self.plot_xyz_label.setFixedHeight(20)
         self.format_file_text.setFixedHeight(20)
 
@@ -321,10 +323,8 @@ class MainWindow(QMainWindow):
 
         self.main_layout.addLayout(self.label_and_entry_layout)
         self.main_layout.addLayout(self.graph_layout)
-
         self.main_layout.addWidget(self.maccs_logo)
     
-
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
         self.main_widget.setMinimumSize(1100,800)
@@ -354,7 +354,7 @@ class MainWindow(QMainWindow):
             file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, '(*.2hz *.s2)')
             self.abs_file_name = file_name[0]
             file_name = str(file_name)
-            print(self.abs_file_name)
+
             # splitting up the path and selecting the filename
             self.file_name = file_name.split(',')[0]
 
@@ -369,6 +369,7 @@ class MainWindow(QMainWindow):
 
             #temp var
             file_type = ''
+
             # raw file selection branch
             if (self.file_name[7:11] == '.2hz'):
                 self.selection_file_value = '4'
@@ -378,6 +379,7 @@ class MainWindow(QMainWindow):
             elif (self.file_name[7:10] == '.s2'):
                 self.selection_file_value = '5'
                 file_type = '.s2'
+
             # else
             else:
                 print('Option not available yet :(')
@@ -534,6 +536,10 @@ class MainWindow(QMainWindow):
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
     
+        # with plt.ioff():
+        #     self.graph, ax = plt.subplots()
+
+        
         # Putting the arrays into the gui
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
