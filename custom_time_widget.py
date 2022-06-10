@@ -71,13 +71,13 @@ class MinMaxTime(QtWidgets.QWidget):
         self.time_widget.setTime(QTime(00,00,00))
 
     # # background paint of widget
-    def paintEvent(self, e):
-        painter = QtGui.QPainter(self)
-        brush = QtGui.QBrush()
-        brush.setColor(QtGui.QColor('blue'))
-        brush.setStyle(Qt.SolidPattern)
-        rect = QRect(0,0, painter.device().width(), painter.device().height())
-        painter.fillRect(rect,brush)
+    # def paintEvent(self, e):
+    #     painter = QtGui.QPainter(self)
+    #     brush = QtGui.QBrush()
+    #     brush.setColor(QtGui.QColor('blue'))
+    #     brush.setStyle(Qt.SolidPattern)
+    #     rect = QRect(0,0, painter.device().width(), painter.device().height())
+    #     painter.fillRect(rect,brush)
         
 
 def main():
