@@ -103,15 +103,16 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
-    fig.subplots_adjust(hspace=0.03)
+    fig.subplots_adjust(hspace=0.1)
 
 
     ### first plot    
     # plt.ylim(minimum, maximum)
-    plt.subplot(311)	# subplot allows multiple plots on 1 page
+    axis_x = plt.subplot(311)	# subplot allows multiple plots on 1 page
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
+    
     plt.ylim(in_min_x, in_max_x)
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
@@ -126,32 +127,32 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     x_yticks = plt.yticks()
 
     ### Now build the second plot, this time using y-axis data
-    plt.subplot(312)
+    axis_y = plt.subplot(312, sharex= axis_x)
     plt.ylim(in_min_y, in_max_y)
     plt.plot(time_arr,y_arr, linewidth=1)
     plt.ylabel('By', labelpad=17)	# side label
-    plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
+    # plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
-    plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
+    # plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
-    plt.gca().xaxis.set_major_formatter(x_axis_format)
+   # plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+   # plt.gca().xaxis.set_major_formatter(x_axis_format)
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.gca().axes.xaxis.set_visible(False)
     y_yticks = plt.yticks()
     
     ### Third plot using z-axis data. Add the x-axis label at the bottom
-    plt.subplot(313)
+    axis_z = plt.subplot(313, sharex= axis_x)
     plt.ylim(in_min_z, in_max_z)
     plt.plot(time_arr,z_arr, linewidth=1)
     plt.ylabel('Bz', labelpad=6)	# side label
-    plt.xlabel(x_axis_label) # label underneath
+    # plt.xlabel(x_axis_label) # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in', which='major', pad=10) # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
-    plt.gca().xaxis.set_major_formatter(x_axis_format)
+   # plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
+   # plt.gca().xaxis.set_major_formatter(x_axis_format)
     z_yticks = plt.yticks()
     
     # returning the fig object
@@ -340,18 +341,18 @@ if __name__ == "__main__":
     start_time = datetime.time.fromisoformat( "00:00:00")
     end_time = datetime.time.fromisoformat("23:59:59")
 
-    ### If we get more than 2 items in the console/command line
-    if len(sys.argv) == 3 : # if we have 3 items in the command line we assume that it is for specifying file type option
-        file_option = sys.argv[2]
-    elif len(sys.argv) >= 4 :
-        # iso format for a time is HH:MM:SS
-        start_time = datetime.time.fromisoformat(sys.argv[2])
-        end_time = datetime.time.fromisoformat(sys.argv[3])
-    if len(sys.argv) == 5:
-        file_option = sys.argv[4]
-    if len(sys.argv) >= 6:
-        print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
-        sys.exit(0) # Exiting without an error code
+    # ### If we get more than 2 items in the console/command line
+    # if len(sys.argv) == 3 : # if we have 3 items in the command line we assume that it is for specifying file type option
+    #     file_option = sys.argv[2]
+    # elif len(sys.argv) >= 4 :
+    #     # iso format for a time is HH:MM:SS
+    #     start_time = datetime.time.fromisoformat(sys.argv[2])
+    #     end_time = datetime.time.fromisoformat(sys.argv[3])
+    # if len(sys.argv) == 5:
+    #     file_option = sys.argv[4]
+    # if len(sys.argv) >= 6:
+    #     print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
+    #     sys.exit(0) # Exiting without an error code
 
 
     ### Creating x, y, and z arrays -- NOW INCLUDING START AND END TIMES!!!
@@ -360,7 +361,11 @@ if __name__ == "__main__":
     ### Plotting said arrays -- NOW INCLUDING START AND END TIMES AND FILE OPTION!!!
     # try and catch block to handle error in case file is already open
     try:
-        plot_arrays(arrayX, arrayY, arrayZ, time_arr, filename, start_time, end_time, file_option)
+        fig = plot_arrays(arrayX, arrayY, arrayZ, time_arr, filename, start_time, end_time, in_min_x=0, in_max_x=0,
+                in_min_y=0, in_max_y=0,
+                in_min_z=0, in_max_z=0)
+        plt.draw()
+        plt.show()
     except:
         print('Could not plot arrays to testgraph.pdf, file is open')
         sys.exit(0) # Exiting without an error code
