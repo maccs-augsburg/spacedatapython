@@ -119,7 +119,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.ylabel('Bx', labelpad=10)	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
-    plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
+    plt.gca().tick_params(axis='x', direction='in', which='major', pad=10) # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
@@ -131,13 +131,8 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.ylim(in_min_y, in_max_y)
     plt.plot(time_arr,y_arr, linewidth=1)
     plt.ylabel('By', labelpad=17)	# side label
-    # plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
-    # plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-   # plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
-   # plt.gca().xaxis.set_major_formatter(x_axis_format)
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.gca().axes.xaxis.set_visible(False)
     y_yticks = plt.yticks()
     
@@ -146,16 +141,13 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.ylim(in_min_z, in_max_z)
     plt.plot(time_arr,z_arr, linewidth=1)
     plt.ylabel('Bz', labelpad=6)	# side label
-    # plt.xlabel(x_axis_label) # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
-    plt.gca().tick_params(axis='x', direction='in', which='major', pad=10) # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-   # plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
-   # plt.gca().xaxis.set_major_formatter(x_axis_format)
     z_yticks = plt.yticks()
     
     # returning the fig object
+
     return fig
 
 def set_yaxis(yticks_list, scale_difference):
