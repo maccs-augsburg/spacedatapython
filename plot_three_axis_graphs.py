@@ -97,10 +97,14 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
         #plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     #else:
         #plt.xticks(hoursArr)
+    
+    #allows mouse wheel zoom
     ax = plt.gca()
     disconnect_zoom = zoom_factory(ax)
 
     return fig
+
+
 
 def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxis, secondAxis):
     """
@@ -298,7 +302,6 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     
     return fig
 
-
 if __name__ == "__main__" :
     
     if len(sys.argv) < 2 :
@@ -307,7 +310,6 @@ if __name__ == "__main__" :
 
     filename = sys.argv[1]
     file_option = "pdf"
-    
 
     try:
         two_hz_binary_file = open(filename, "rb")
