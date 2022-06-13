@@ -13,6 +13,7 @@ Note: Types in params and ->, are just used for type hinting in IDE's.
 import sys
 import os
 import datetime
+from profiler import profile
 cwd = os.getcwd()
 sys.path.append("../")
 import plot_three_axis_graphs
@@ -155,6 +156,7 @@ def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list,
     
 
     return min_x, max_x, min_y, max_y, min_z, max_z
+
 
 def axis_entry_checks_new(axis_list: list, 
                         min_value: int, max_value: int) -> tuple[int,int]:
