@@ -28,6 +28,7 @@ import datetime
 
 #Imports from matplotlib
 import matplotlib
+from matplotlib.axes import Axes
 from numpy import minimum
 matplotlib.use('qtagg')
 
@@ -545,13 +546,17 @@ class MainWindow(QMainWindow):
         
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
-        cid = self.graph.mpl_connect('button_press_event', self.onclick())
+        self.cid = self.graph.mpl_connect('button_press_event', self.onclick())
+       # print(self.graph.get_xlim())
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
     def onclick(event):
-        print(event)
+        left,right = plt.xlim()
+        
+        print(left,right)
+       # print(event)
         # print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
         #     ('double' if event.dblclick 
         #     else 'single',
@@ -560,7 +565,8 @@ class MainWindow(QMainWindow):
         #     event.y,
         #print(event.xdata)
         #     event.ydata))
-        #print("yes")
+        print("yes")
+
     def plot_stacked_axis(self):
         '''
         Function to plot all three axis stacked up and the ability to change the min and max scale of each 
