@@ -35,6 +35,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 from mpl_interactions import ioff, panhandler, zoom_factory
 
+
 import subprocess
 
 #imports from other python files
@@ -541,12 +542,25 @@ class MainWindow(QMainWindow):
 
         
         # Putting the arrays into the gui
+        
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
+        cid = self.graph.mpl_connect('button_press_event', self.onclick())
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
+    def onclick(event):
+        print(event)
+        # print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
+        #     ('double' if event.dblclick 
+        #     else 'single',
+        #     event.button,
+        #     event.x,
+        #     event.y,
+        #print(event.xdata)
+        #     event.ydata))
+        #print("yes")
     def plot_stacked_axis(self):
         '''
         Function to plot all three axis stacked up and the ability to change the min and max scale of each 
