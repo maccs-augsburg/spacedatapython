@@ -7,7 +7,7 @@ May 2022 -- Created -- Mark Ortega-Ponce
 from PySide6.QtWidgets import (
     QMainWindow, QLabel,
     QLineEdit, QWidget, QCheckBox, QPushButton,
-    QSizePolicy, QSpinBox, QTimeEdit
+    QSizePolicy, QSpinBox, QTimeEdit, QGridLayout, QHBoxLayout
 )
 from PySide6.QtCore import Qt, QTime
 from PySide6.QtGui import QPalette, QColor
@@ -60,7 +60,7 @@ class Label(QLabel):
         font.setPointSize(FONT_SIZE)
         self.setFont(font)
         self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-        self.setMaximumWidth(85)
+        self.setMaximumWidth(90)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         #self.setMaximumHeight(MINIMUM_HEIGHT)
 
@@ -77,7 +77,7 @@ class CheckBox(QCheckBox):
         #self.setMinimumHeight(MINIMUM_HEIGHT)
 
 class PushButton(QPushButton):
-    def __init__(self, label_name, alternate_name):
+    def __init__(self, label_name, alternate_name =""):
         super().__init__()
 
         self.setText(label_name)
@@ -116,6 +116,9 @@ class PushButton(QPushButton):
     def set_toggle_status_false(self):
         self.button_is_checked = False
         self.setChecked(False)
+    
+    def set_uncheckable(self):
+        self.setCheckable(False)
 
 class Spinbox(QSpinBox):
     #https://doc.qt.io/qt-5/qspinbox.html#textChanged
@@ -210,3 +213,32 @@ class Color(QWidget):
         palette = self.palette()
         palette.setColor(QPalette.Window, QColor(color))
         self.setPalette(palette)
+
+'''
+These are layouts with inherited QWidget properties.
+One being setHidden(). Layouts cannot be hidden, only widgets.
+Really serve no other purpose than that.
+Could move all the gui stuff here, but that means I would have
+to acces by doing Layout_name.some_entry_box.some_method()
+Althought it would serve the purpose of being explicit, and 
+knowing where to find everything.
+'''
+class Layout(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)
+
+    def add_widget(self, some_widget, row, col):    
+        self.layout.addWidget(some_widget, row, col)
+
+class HLayout(QWidget):
+    def __init__(self):
+        super().__init__()
+        
+        self.layout = QHBoxLayout()
+        self.setLayout(self.layout)
+
+    def add_widget(self, some_widget):
+        self.layout.addWidget(some_widget)
+        

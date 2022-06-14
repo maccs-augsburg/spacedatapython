@@ -16,6 +16,7 @@ import subprocess
 import sys
 import os
 import datetime
+from turtle import clear
 from PySide6.QtWidgets import (
     QMainWindow, QToolBar,
     QHBoxLayout, QGridLayout, QLabel,
@@ -23,7 +24,7 @@ from PySide6.QtWidgets import (
     QFileDialog, QMessageBox, QVBoxLayout, 
     QApplication, QCheckBox, QSizePolicy
 )
-from PySide6.QtCore import Qt, QTime
+from PySide6.QtCore import Qt, QTime, QSize
 from PySide6.QtGui import QIcon, QPixmap
 # FigureCanvasQTAgg wraps matplot image as a widget 
 from matplotlib.backends.backend_qt5agg import (
@@ -33,8 +34,9 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
 #### Importing our own files ####################
-from custom_widgets import LineEdit, Label, CheckBox, PushButton, Spinbox, Time
+from custom_widgets import LineEdit, Label, CheckBox, PushButton, Spinbox, Time, Layout, HLayout
 import entry_checks
+from profiler import profile
 
 # Move back one directory to grab shared files between guis
 sys.path.append("../")
@@ -93,6 +95,11 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("../maccslogo_nobg.png"))
         self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
         self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
+        toolbar = QToolBar("My main toolbar")
+        toolbar.setIconSize(QSize(16, 16))
+        toolbar.setMinimumHeight(25)
+        toolbar.setMinimumWidth(25)
+        self.addToolBar(toolbar)
         ################################################
         # Maccs Logo
         self.mac_label = QLabel()
@@ -118,8 +125,10 @@ class MainWindow(QMainWindow):
         self.plotting_layout = QVBoxLayout()
         # Parent Layout for entries, single graph button.
         # And other buttons
-        parent_layout = QGridLayout()
-        entry_layout = QGridLayout()
+        self.parent_layout = QGridLayout()
+        self.main_layout.addLayout(self.parent_layout, 1)
+        #entry_layout = QGridLayout()
+        entry_layout = Layout()
         xyz_layout = QGridLayout()
         ######## SIDE ENTRIES FOR GUI ##################
         year_day_label = Label("Year Day: ")
@@ -145,33 +154,34 @@ class MainWindow(QMainWindow):
         self.max_z_edit = Spinbox(0, 99999, 10)
         # Add common labels and Spinbox
         # to entry_layout
-        entry_layout.addWidget(station_label, 0, 0)
-        entry_layout.addWidget(self.station_edit, 0, 1)
-        entry_layout.addWidget(year_day_label, 1, 0)
-        entry_layout.addWidget(self.year_day_edit, 1, 1)
-        entry_layout.addWidget(start_time_label, 2, 0)
-        entry_layout.addWidget(self.start_time,2, 1)
-        entry_layout.addWidget(end_time_label, 3, 0)
-        entry_layout.addWidget(self.end_time, 3, 1)
+        entry_layout.add_widget(station_label, 0, 0)
+        entry_layout.add_widget(self.station_edit, 0, 1)
+        entry_layout.add_widget(year_day_label, 1, 0)
+        entry_layout.add_widget(self.year_day_edit, 1, 1)
+        entry_layout.add_widget(start_time_label, 2, 0)
+        entry_layout.add_widget(self.start_time,2, 1)
+        entry_layout.add_widget(end_time_label, 3, 0)
+        entry_layout.add_widget(self.end_time, 3, 1)
         # Add different labels and Spinbox
         # to xyz_layout
-        xyz_layout.addWidget(self.min_x_label, 0, 0)
-        xyz_layout.addWidget(self.min_x_edit, 0, 1)
-        xyz_layout.addWidget(self.max_x_label, 1, 0)
-        xyz_layout.addWidget(self.max_x_edit, 1, 1)
-        xyz_layout.addWidget(self.min_y_label, 2, 0)
-        xyz_layout.addWidget(self.min_y_edit, 2, 1)
-        xyz_layout.addWidget(self.max_y_label, 3, 0)
-        xyz_layout.addWidget(self.max_y_edit, 3, 1)
-        xyz_layout.addWidget(self.min_z_label, 4, 0)
-        xyz_layout.addWidget(self.min_z_edit, 4, 1)
-        xyz_layout.addWidget(self.max_z_label, 5, 0)
-        xyz_layout.addWidget(self.max_z_edit, 5, 1)
+        self.xyz_two_layout = Layout()
+        self.xyz_two_layout.add_widget(self.min_x_label, 0, 0)
+        self.xyz_two_layout.add_widget(self.min_x_edit, 0, 1)
+        self.xyz_two_layout.add_widget(self.max_x_label, 1, 0)
+        self.xyz_two_layout.add_widget(self.max_x_edit, 1, 1)
+        self.xyz_two_layout.add_widget(self.min_y_label, 2, 0)
+        self.xyz_two_layout.add_widget(self.min_y_edit, 2, 1)
+        self.xyz_two_layout.add_widget(self.max_y_label, 3, 0)
+        self.xyz_two_layout.add_widget(self.max_y_edit, 3, 1)
+        self.xyz_two_layout.add_widget(self.min_z_label, 4, 0)
+        self.xyz_two_layout.add_widget(self.min_z_edit, 4, 1)
+        self.xyz_two_layout.add_widget(self.max_z_label, 5, 0)
+        self.xyz_two_layout.add_widget(self.max_z_edit, 5, 1)
         # Add layouts to parent layout
-        parent_layout.addLayout(entry_layout,0, 0)
-        parent_layout.addLayout(xyz_layout,1, 0)
-        parent_layout.setRowStretch(0, 24)
-        parent_layout.setRowStretch(1, 36)
+        self.parent_layout.addWidget(entry_layout,0, 0)
+        self.parent_layout.addWidget(self.xyz_two_layout,1, 0)
+        self.parent_layout.setRowStretch(0, 24)
+        self.parent_layout.setRowStretch(1, 36)
 
         ################################################
 
@@ -189,23 +199,30 @@ class MainWindow(QMainWindow):
         # Add items to combo box
         self.combo_box.addItems(self.options)
         # Add combo box to entry layout
-        file_button = QPushButton("Open File")
+        file_button = PushButton("Open File")
+        file_button.set_uncheckable()
         file_button.clicked.connect(self.launch_dialog)
 
-        plot_button = QPushButton("Plot File")
+        plot_button = PushButton("Plot File")
+        plot_button.set_uncheckable()
+        plot_button.setMaximumWidth(180)
         plot_button.clicked.connect(self.plot_graph)
 
-        self.zoom_out_button = PushButton("Zoom Out", "Zoom In")
+        self.zoom_out_button = PushButton("Zoom In", "Zoom Out")
         self.zoom_out_button.set_toggle_status_false()
         self.zoom_out_button.clicked.connect(self.zoom_out)
 
-        save_button = QPushButton("Save File")
+        save_button = PushButton("Save File")
+        save_button.setMaximumWidth(180)
+        save_button.set_uncheckable()
         save_button.clicked.connect(self.save_file)
 
-        save_as_button = QPushButton("Save As")
+        save_as_button = PushButton("Save As")
+        save_as_button.set_uncheckable()
         save_as_button.clicked.connect(self.save_as)
 
-        horizontal_layout = QHBoxLayout()
+        #horizontal_layout = QHBoxLayout()
+        horizontal_layout = HLayout()
 
         self.one_array_plotted_button = PushButton(
                         "Single Graph (X, Y, Z)", 
@@ -214,31 +231,29 @@ class MainWindow(QMainWindow):
         self.x_checkbox = CheckBox('x')
         self.y_checkbox = CheckBox('y')
         self.z_checkbox = CheckBox('z')
+        horizontal_layout.add_widget(self.one_array_plotted_button)
+        horizontal_layout.add_widget(self.x_checkbox)
+        horizontal_layout.add_widget(self.y_checkbox)
+        horizontal_layout.add_widget(self.z_checkbox)
 
-        horizontal_layout.addWidget(self.one_array_plotted_button)
-        horizontal_layout.addWidget(self.x_checkbox)
-        horizontal_layout.addWidget(self.y_checkbox)
-        horizontal_layout.addWidget(self.z_checkbox)
-
-        button_layout = QGridLayout()
-        button_layout.addWidget(self.combo_box, 0, 0)
-        button_layout.addWidget(file_button, 0, 1)
-        button_layout.addWidget(plot_button, 1, 0)
-        button_layout.addWidget(self.zoom_out_button, 1, 1)
-        button_layout.addWidget(save_button, 2, 0)
-        button_layout.addWidget(save_as_button, 2, 1)
-
-        parent_layout.addLayout(horizontal_layout,2, 0)
-        parent_layout.setRowStretch(2, 6)
-        parent_layout.addLayout(button_layout, 3, 0)
-        parent_layout.setRowStretch(3, 18)
+        button_layout = Layout()
+        button_layout.add_widget(self.combo_box, 0, 0)
+        button_layout.add_widget(file_button, 0, 1)
+        button_layout.add_widget(plot_button, 1, 0)
+        button_layout.add_widget(self.zoom_out_button, 1, 1)
+        button_layout.add_widget(save_button, 2, 0)
+        button_layout.add_widget(save_as_button, 2, 1)
+        self.parent_layout.addWidget(horizontal_layout,2, 0)
+        self.parent_layout.setRowStretch(2, 6)
+        self.parent_layout.addWidget(button_layout, 3, 0)
+        self.parent_layout.setRowStretch(3, 18)
         ################################################
 
         # Add entry layout to the main layout
         #self.main_layout.addLayout(entry_layout)
-        self.main_layout.addLayout(parent_layout)
+        #self.main_layout.addLayout(self.parent_layout, 1)
         # Add maccs logo to the main layout
-        self.main_layout.addWidget(self.mac_label)
+        self.main_layout.addWidget(self.mac_label, 5)
         
         # Set final layout to widget, show in main
         ################################################
@@ -271,14 +286,9 @@ class MainWindow(QMainWindow):
         self.time_arr = None
         self.start_time_stamp = None
         self.end_time_stamp = None
-        self.min_x = 0
-        self.max_z = 0
-        self.min_y = 0
-        self.max_y = 0
-        self.min_z = 0
-        self.max_z = 0
         ################################################
-
+    
+    
     def launch_dialog(self):
         '''
         Instance function to select a file filter.
@@ -313,7 +323,6 @@ class MainWindow(QMainWindow):
         else:
             print("Got nothing")
 
-        
     def get_file_name(self, f_filter):
         file_filter = f_filter
         # guis will be in the same folder, so go back one 
@@ -353,7 +362,7 @@ class MainWindow(QMainWindow):
         
         self.reset_entries()
 
-    def plot_graph(self):
+    def checks(self):
 
         if len(self.filename) == 0:
             self.warning_message_dialog(
@@ -386,6 +395,10 @@ class MainWindow(QMainWindow):
             if not any_state:
                 self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
                 return
+
+    def plot_graph(self):
+        
+        self.checks()
 
         start_hour = self.start_time.get_hour()
         start_minute = self.start_time.get_minute()
@@ -455,16 +468,15 @@ class MainWindow(QMainWindow):
         min_z = self.min_z_edit.get_entry()
         max_z = self.max_z_edit.get_entry()
 
-        min_x, max_x = entry_checks.axis_entry_checks_new(
-                                                        self.x_arr, min_x, max_x)
-        min_y, max_y = entry_checks.axis_entry_checks_new(
-                                                        self.y_arr, min_y, max_y)
-        min_z, max_z = entry_checks.axis_entry_checks_new(
-                                                        self.z_arr, min_z, max_z)
+        min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
+            self.x_arr,
+            self.y_arr,
+            self.z_arr,
+            min_x, max_x,
+            min_y, max_y,
+            min_z, max_z
+        )
 
-
-        entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
-        
         if self.one_array_plotted_button.is_toggled():
 
             self.figure = entry_checks.graph_from_plotter_entry_check( 
@@ -478,32 +490,23 @@ class MainWindow(QMainWindow):
                                                         self.filename, 
                                                         self.start_time_stamp,
                                                         self.end_time_stamp)
-            # Wont need this here since im hiding other plotting now
-            #self.reset_entries()
-
         else:
 
-            self.figure = plot_stacked_graphs.plot_arrays(self.x_arr, 
-                                                self.y_arr, 
-                                                self.z_arr, 
-                                                self.time_arr, 
-                                                self.filename, 
-                                                self.start_time_stamp, 
-                                                self.end_time_stamp, 
-                                                in_min_x=min_x, in_max_x=max_x,
-                                                in_min_y=min_y, in_max_y=max_y,
-                                                in_min_z=min_z, in_max_z=max_z)
-
-
-        self.min_x = min_x
-        self.max_x = max_x
-        self.min_y = min_y
-        self.max_y = max_y
-        self.min_z = min_z
-        self.max_z = max_z
-
+            self.figure = plot_stacked_graphs.plot_arrays(self.x_arr,
+                                                self.y_arr,
+                                                self.z_arr,
+                                                self.time_arr,
+                                                self.filename,
+                                                self.start_time_stamp,
+                                                self.end_time_stamp,
+                                                in_min_x=min_x, 
+                                                in_max_x=max_x,
+                                                in_min_y=min_y, 
+                                                in_max_y=max_y,
+                                                in_min_z=min_z, 
+                                                in_max_z=max_z)
+            
         self.display_figure()
-
 
     def display_figure(self):
 
@@ -519,7 +522,7 @@ class MainWindow(QMainWindow):
         self.plotting_layout.addWidget(self.matplotlib_toolbar)
         self.plotting_layout.addWidget(self.figure_canvas)
 
-        self.main_layout.addLayout(self.plotting_layout)
+        self.main_layout.addLayout(self.plotting_layout, 5)
         # Need to set label to hidden, or else it tries to fit logo with graph
         self.mac_label.setHidden(True)
 
@@ -528,10 +531,10 @@ class MainWindow(QMainWindow):
         #self.file_num = self.file_num + 1
         self.show()
 
-
     def zoom_out(self):
 
-        print(self.zoom_out_button.is_toggled())
+        is_zoom_out_toggled = self.zoom_out_button.is_toggled()
+
         if self.figure == None:
             self.zoom_out_button.set_toggle_status_false()
             self.zoom_out_button.change_text()
@@ -545,33 +548,38 @@ class MainWindow(QMainWindow):
                 "This feature only available for Three Graph Plotting right now")
             return
 
-        if self.zoom_out_button.is_toggled():
-            self.figure = plot_stacked_graphs.plot_arrays(self.x_arr, 
-                                                self.y_arr, 
-                                                self.z_arr, 
-                                                self.time_arr, 
-                                                self.filename, 
-                                                self.start_time_stamp, 
-                                                self.end_time_stamp,
-                                                in_min_x=0,in_max_x=0,
-                                                in_min_y=0,in_max_y=0,
-                                                in_min_z=0,in_max_z=0)
-        else:
-            self.figure = plot_stacked_graphs.plot_arrays(self.x_arr,
-                                                self.y_arr,
-                                                self.z_arr,
-                                                self.time_arr,
-                                                self.filename,
-                                                self.start_time_stamp,
-                                                self.end_time_stamp,
-                                                in_min_x=self.min_x, 
-                                                in_max_x=self.max_x,
-                                                in_min_y=self.min_y, 
-                                                in_max_y=self.max_y,
-                                                in_min_z=self.min_z, 
-                                                in_max_z=self.max_z)
-           #self.plot_counter = self.plot_counter + 1
 
+        if is_zoom_out_toggled:
+
+            min_x, max_x = entry_checks.axis_entry_checks_new(self.x_arr, 0, 0)
+            min_y, max_y = entry_checks.axis_entry_checks_new(self.y_arr, 0, 0)
+            min_z, max_z = entry_checks.axis_entry_checks_new(self.z_arr, 0, 0)
+            
+        else:
+            min_x, max_x, min_y, max_y, min_z, max_z = 0,0,0,0,0,0
+
+            min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
+                self.x_arr,
+                self.y_arr,
+                self.z_arr,
+                min_x, max_x,
+                min_y, max_y,
+                min_z, max_z
+            )
+
+        entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
+
+        self.figure = plot_stacked_graphs.plot_arrays(self.x_arr, 
+                                            self.y_arr, 
+                                            self.z_arr, 
+                                            self.time_arr, 
+                                            self.filename, 
+                                            self.start_time_stamp, 
+                                            self.end_time_stamp,
+                                            in_min_x=min_x,in_max_x=max_x,
+                                            in_min_y=min_y,in_max_y=max_y,
+                                            in_min_z=min_z,in_max_z=max_z)
+           #self.plot_counter = self.plot_counter + 1
         self.display_figure()
 
     def save_file(self):
@@ -629,8 +637,8 @@ class MainWindow(QMainWindow):
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + self.save_filename)
         #self.save_as_counter = self.save_as_counter + 1
-    
-    # TODO: Use regular expressions for filter? Prevent bad input by accident
+
+
     def warning_message_dialog(self, message):
 
         self.error_message.setText(message)
@@ -653,21 +661,18 @@ class MainWindow(QMainWindow):
 
         self.zoom_out_button.set_toggle_status_false()
         self.zoom_out_button.change_text()
+        self.xyz_two_layout.setHidden(bool_value)
 
-        self.min_x_edit.setHidden(bool_value)
-        self.max_x_edit.setHidden(bool_value)
-        self.min_x_label.setHidden(bool_value)
-        self.max_x_label.setHidden(bool_value)
-
-        self.min_y_label.setHidden(bool_value)
-        self.max_y_label.setHidden(bool_value)
-        self.min_y_edit.setHidden(bool_value)
-        self.max_y_edit.setHidden(bool_value)
-
-        self.min_z_label.setHidden(bool_value)
-        self.max_z_label.setHidden(bool_value)
-        self.min_z_edit.setHidden(bool_value)
-        self.max_z_edit.setHidden(bool_value)
+        if bool_value:
+            self.parent_layout.setRowStretch(0, 27)
+            self.parent_layout.setRowStretch(1, 0)
+            self.parent_layout.setRowStretch(2, 3)
+            self.parent_layout.setRowStretch(3, 9)
+        else:
+            self.parent_layout.setRowStretch(0, 24)
+            self.parent_layout.setRowStretch(1, 36)
+            self.parent_layout.setRowStretch(2, 6)
+            self.parent_layout.setRowStretch(3, 18)
 
 def main ():
 

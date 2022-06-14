@@ -22,24 +22,46 @@ Note: Last two files are shared, so one directory back/up.
 
 ## **How to use**
 
-## **Windows:**
+## **Linux Ubuntu:**
 
 **1st time using**
 
-1. pip3 install PySide6
-2. pip3 install matplotlib
+1. Install git if you haven't: sudo apt install git-all
+2. Create an empty folder
+3. Open up terminal
+4. cd into empty folder
+5. git clone https://github.com/maccs-augsburg/spacedatapython . (period intentional)
+6. pip3 install PySide6
+7. pip3 install matplotlib
+8. cd into MaccsApplication folder
 
 **Run Program**
 
 1. python3 maccs_gui.py
 
-## **Mac:** 
+## **Windows:**
+
+**1st time using**
+
+1. Create empty folder
+2. Open up terminal
+3. cd into empty folder
+4. git clone https://github.com/maccs-augsburg/spacedatapython . (period intentional)
+5. pip3 install PySide6
+6. pip3 install matplotlib
+7. cd into MaccsApplication folder
+
+**Run Program**
+
+1. python3 maccs_gui.py
+
+## **Mac m1:** 
 
 Note: Had a lot of issues trying to install matplotlib and pyside6.
 
 1. Install pipenv
 2. Intall git
-3. Create empty folder where you want application.
+3. Create empty folder
 4. git clone https://github.com/maccs-augsburg/spacedatapython . (period intentional)
 5. pipenv install -r path/to/requirements.txt
 6. Run application from inside Maccs_Application folder
@@ -48,8 +70,22 @@ Note: Had a lot of issues trying to install matplotlib and pyside6.
 
 1. python3 maccs_gui.py
 
+## **Mac intel:**
 
-**Note: To activate environment after closing out of window**
+1. Create empty folder
+2. Open up terminal
+3. cd into empty folder
+4. git clone https://github.com/maccs-augsburg/spacedatapython . (period intentional)
+5. pip3 install PySide6
+6. pip3 install matplotlib
+7. cd into MaccsApplication folder
+
+**Run Program**
+
+1. python3 maccs_gui.py
+
+
+**Note: To activate environment after closing out of terminal window**
 
 1. pipenv shell
 2. Head to MaccsApplication folder
