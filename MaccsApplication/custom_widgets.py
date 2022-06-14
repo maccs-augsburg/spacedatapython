@@ -205,7 +205,7 @@ class Time(QTimeEdit):
     def set_start_time(self):
         self.setTime(self.min_time)
     def set_end_time(self):
-        self.setTime(self.max_time)
+        self.setTime(QTime(23,0,0))
 
 class Toolbar(QToolBar):
     def __init__(self):
@@ -234,7 +234,6 @@ class Color(QWidget):
         palette = self.palette()
         palette.setColor(QPalette.Window, QColor(color))
         self.setPalette(palette)
-
 
 '''
 These are layouts with inherited QWidget properties.
