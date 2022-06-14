@@ -7,10 +7,13 @@ May 2022 -- Created -- Mark Ortega-Ponce
 from PySide6.QtWidgets import (
     QMainWindow, QLabel,
     QLineEdit, QWidget, QCheckBox, QPushButton,
-    QSizePolicy, QSpinBox, QTimeEdit, QGridLayout, QHBoxLayout
+    QSizePolicy, QSpinBox, 
+    QTimeEdit, QGridLayout, 
+    QHBoxLayout, QToolBar, QVBoxLayout
 )
-from PySide6.QtCore import Qt, QTime
-from PySide6.QtGui import QPalette, QColor
+import os
+from PySide6.QtCore import Qt, QTime, QSize
+from PySide6.QtGui import QPalette, QColor, QIcon, QAction
 
 FONT_SIZE = 13
 MINIMUM_HEIGHT = 25
@@ -203,7 +206,25 @@ class Time(QTimeEdit):
         self.setTime(self.min_time)
     def set_end_time(self):
         self.setTime(self.max_time)
-        
+
+class Toolbar(QToolBar):
+    def __init__(self):
+        super().__init__()
+        self.setIconSize(QSize(16, 16))
+        self.setMinimumHeight(25)
+        self.setMinimumWidth(25)
+        self.home_action = QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
+        self.home_action.setStatusTip("Home")
+        self.open_action = QAction(QIcon("fugue-icons/folder-open.png"), "Open File Button", self)
+        self.open_action.setStatusTip("Open File")
+        self.save_action = QAction(QIcon("fugue-icons/disk-black.png"), "Save Button", self)
+        self.save_action.setStatusTip("Save")
+        self.addAction(self.home_action)
+        self.addSeparator()
+        self.addAction(self.save_action)
+        self.addSeparator()
+        self.addAction(self.open_action)
+
 class Color(QWidget):
 
     def __init__(self, color):
@@ -213,6 +234,7 @@ class Color(QWidget):
         palette = self.palette()
         palette.setColor(QPalette.Window, QColor(color))
         self.setPalette(palette)
+
 
 '''
 These are layouts with inherited QWidget properties.
@@ -241,4 +263,13 @@ class HLayout(QWidget):
 
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
-        
+
+class VLayout(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
+    
+    def add_widget(self, some_widget):
+        self.layout.addWidget(some_widget)
