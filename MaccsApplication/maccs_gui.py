@@ -139,7 +139,6 @@ class MainWindow(QMainWindow):
         end_time_label = Label("End Time: ")
         self.end_time = Time()
         self.end_time.set_end_time()
-        self.end_second_edit = Spinbox(0, 59, 1)
         self.min_x_label = Label("Plot Min X: ")
         self.min_x_edit = Spinbox(0, 99999, 10)
         self.max_x_label = Label("Plot Max X: ")
@@ -267,6 +266,7 @@ class MainWindow(QMainWindow):
         ################################################
         self.filename = ""
         self.one_plot_flag = False
+        self.stacked_plot_flag = False
         self.filename_noextension = ""
         self.file_path = ""
         self.launch_dialog_option = 0
@@ -376,7 +376,7 @@ class MainWindow(QMainWindow):
         if len(self.filename) == 0:
             self.warning_message_dialog(
                 "No file to work with. Open a file with open file button.")
-            return
+            return False
 
         station_code = self.station_edit.get_entry()
         if not entry_checks.station_code_entry_check(station_code):
@@ -384,7 +384,7 @@ class MainWindow(QMainWindow):
             self.warning_message_dialog(
             "Error invalid station code. Needs to be 2-4 characters")
 
-            return
+            return False
 
         year_day = self.year_day_edit.get_entry()
         if not entry_checks.year_day_entry_check(self):
@@ -392,7 +392,7 @@ class MainWindow(QMainWindow):
             self.warning_message_dialog(
             "There was no input for the year day entry box")
 
-            return
+            return False
 
         x_state = self.x_checkbox.isChecked()
         y_state = self.y_checkbox.isChecked()
@@ -403,7 +403,9 @@ class MainWindow(QMainWindow):
         if self.one_array_plotted_button.is_toggled():
             if not any_state:
                 self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
-                return
+                return False
+
+        return True
     
     def same_entries(self):
 
@@ -465,21 +467,33 @@ class MainWindow(QMainWindow):
             return True
 
     def time_stamp(self):
+        #https://doc.qt.io/qt-6/qdatetimeedit.html#maximumTime-prop
+        e_hour = self.end_time.get_hour()
+        e_minute = self.end_time.get_minute()
+        e_second = self.end_time.get_second()
 
         start_time_stamp = datetime.time(hour = self.start_time.get_hour(),
                                         minute = self.start_time.get_minute(),
                                         second = self.start_time.get_second())
         
-        end_time_stamp = datetime.time(hour = self.end_time.get_hour(),
-                                    minute = self.end_time.get_minute(),
-                                    second = self.end_time.get_second())
+        if e_hour == 23 and e_minute == 0 and e_second == 0:
+            end_time_stamp = datetime.time(hour = 23, minute = 59, second = 59)
+            print("Time stamp, default value")
+        else:
+            print("Time stamp, custom value")
+            print(self.end_time.get_hour())
+            end_time_stamp = datetime.time(hour = self.end_time.get_hour(),
+                                            minute = self.end_time.get_minute(),
+                                            second = self.end_time.get_second())
+
 
         return start_time_stamp, end_time_stamp
     
     
     def plot_graph(self):
         
-        self.checks()
+        if not self.checks():
+            return
 
         # only check after the first successful plot
         if self.figure_canvas_flag:
@@ -490,7 +504,7 @@ class MainWindow(QMainWindow):
                     return
             else:
 
-                if not self.same_entries():
+                if not self.same_entries() and self.stacked_plot_flag:
                     return
 
         start_hour = self.start_time.get_hour()
@@ -548,13 +562,19 @@ class MainWindow(QMainWindow):
         self.y_arr = y
         self.z_arr = z
         self.time_arr = t
-        
+        print("IN here")
         min_x = self.min_x_edit.get_entry()
+        print(min_x)
         max_x = self.max_x_edit.get_entry()
+        print(max_x)
         min_y = self.min_y_edit.get_entry()
+        print(min_y)
         max_y = self.max_y_edit.get_entry()
+        print(max_y)
         min_z = self.min_z_edit.get_entry()
+        print(min_z)
         max_z = self.max_z_edit.get_entry()
+        print(max_z)
 
         min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
             self.x_arr,
@@ -564,7 +584,13 @@ class MainWindow(QMainWindow):
             min_y, max_y,
             min_z, max_z
         )
-
+        print(min_x)
+        print(max_x)
+        print(min_y)
+        print(max_y)
+        print(min_z)
+        print(max_z)
+        print("IN here")
         self.min_x = min_x
         self.max_x = max_x
         self.min_y = min_y
@@ -593,6 +619,7 @@ class MainWindow(QMainWindow):
                                                         self.end_time_stamp)
 
             self.one_plot_flag = True
+            self.stacked_plot_flag = False
 
         else:
 
@@ -610,6 +637,7 @@ class MainWindow(QMainWindow):
                                                 in_min_z=min_z, 
                                                 in_max_z=max_z)
             self.one_plot_flag = False
+            self.stacked_plot_flag = True
         
         file.close()
         self.display_figure()
