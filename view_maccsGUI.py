@@ -598,8 +598,6 @@ class MainWindow(QMainWindow):
         else: 
             self.cid = self.graph.mpl_connect('button_press_event', self)
 
-
-
     def plot_stacked_axis(self):
         '''
         Function to plot all three axis stacked up and the ability to change the min and max scale of each 
