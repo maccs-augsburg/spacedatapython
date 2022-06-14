@@ -546,26 +546,31 @@ class MainWindow(QMainWindow):
         
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
-        self.cid = self.graph.mpl_connect('button_press_event', self.onclick())
+        self.cid = self.graph.mpl_connect('button_press_event', self)
        # print(self.graph.get_xlim())
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
-    def onclick(event):
-        left,right = plt.xlim()
-        
-        print(left,right)
+    def __call__(self,event):
+        #left,right = plt.xlim()
+        #left2,right2 = plt.xlim()
+        print('xlim before click: ', plt.xlim())
+        print("X data: ", event.xdata)
+        print("Y data: ", event.ydata)
+        print("X: ", event.x)
+        print("Y: ", event.y)
+        left = event.xdata
+        plt.xlim(left)
+        print('xlim after click; ', plt.xlim())
+        plt.draw()
+        plt.show()
        # print(event)
-        # print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
-        #     ('double' if event.dblclick 
-        #     else 'single',
-        #     event.button,
-        #     event.x,
-        #     event.y,
         #print(event.xdata)
-        #     event.ydata))
-        print("yes")
+        #print(
+        #    event.x,
+        #    event.y)
+        #print("yes")
 
     def plot_stacked_axis(self):
         '''
