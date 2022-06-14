@@ -546,31 +546,59 @@ class MainWindow(QMainWindow):
         
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
+       # x_values = []
         self.cid = self.graph.mpl_connect('button_press_event', self)
+        #print(self.cid)
        # print(self.graph.get_xlim())
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
     def __call__(self,event):
-        #left,right = plt.xlim()
+        # global x_values
+        # x_pos = event.xdata
+        # x_values.append(x_pos)
+        
+        # if len(x_values) == 2:
+        #     self.graph.mpl_disconnect(self.cid)
+        #     self.zoom_in(x_values[0],x_values[1])
+        
+        left = event.xdata % 1
+        left = left * 100000
         #left2,right2 = plt.xlim()
-        print('xlim before click: ', plt.xlim())
-        print("X data: ", event.xdata)
+        # print('xlim before click: ', plt.xlim())
+        #print(Axes.format_xdata(x=event.xdata))
+        left = float(left)
+        print("X data: ", datetime.datetime.fromtimestamp(left))
+        print(type(event.xdata))
         print("Y data: ", event.ydata)
         print("X: ", event.x)
         print("Y: ", event.y)
-        left = event.xdata
-        plt.xlim(left)
-        print('xlim after click; ', plt.xlim())
-        plt.draw()
-        plt.show()
+
+       # plt.xlim(left)
+        # print('xlim after click; ', plt.xlim())
+       # plt.draw()
+       # plt.show()
        # print(event)
         #print(event.xdata)
         #print(
         #    event.x,
         #    event.y)
         #print("yes")
+        #return x_data
+
+    def zoom_in(self, left_lim, right_lim):
+        plt.xlim(left_lim,right_lim)
+        plt.draw()
+        plt.show()
+
+    def zoom_in_helper(self, flag):
+        if flag == 0:
+            self.cid = self.graph.mpl_connect('button_press_event', self)
+        else: 
+            self.cid = self.graph.mpl_connect('button_press_event', self)
+
+
 
     def plot_stacked_axis(self):
         '''
