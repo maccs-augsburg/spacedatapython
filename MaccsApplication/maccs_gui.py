@@ -29,7 +29,7 @@ from PySide6.QtWidgets import (
     QCheckBox, QSizePolicy
 )
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtGui import QIcon, QPixmap, QAction
 # FigureCanvasQTAgg wraps matplot image as a widget 
 from matplotlib.backends.backend_qt5agg import (
                                     FigureCanvasQTAgg, 
@@ -101,6 +101,10 @@ class MainWindow(QMainWindow):
         toolbar.save_action.triggered.connect(self.save_file)
         toolbar.open_action.triggered.connect(self.launch_dialog)
         self.addToolBar(toolbar)
+        menu = self.menuBar()
+        file_menu = menu.addMenu("&File")
+        button_action =  QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
+        file_menu.addAction(button_action)
         ################################################
         # Maccs Logo
         self.mac_label = QLabel()
@@ -117,9 +121,6 @@ class MainWindow(QMainWindow):
         self.station_edit.setInputMask(">AAAA")
         self.error_message = QMessageBox()
         self.error_message.setText("Error Invalid Input")
-
-        menu = self.menuBar()
-        file_menu = menu.addMenu("&File")
         ################################################
         
         self.main_layout = QHBoxLayout()
@@ -217,9 +218,6 @@ class MainWindow(QMainWindow):
         save_as_button.set_uncheckable()
         save_as_button.clicked.connect(self.save_as)
 
-        #horizontal_layout = QHBoxLayout()
-        horizontal_layout = HLayout()
-
         self.one_array_plotted_button = PushButton(
                         "Single Graph (X, Y, Z)", 
                         "Three Graphs (X, Y, Z)")
@@ -228,6 +226,7 @@ class MainWindow(QMainWindow):
         self.y_checkbox = CheckBox('y')
         self.z_checkbox = CheckBox('z')
 
+        horizontal_layout = HLayout()
         horizontal_layout.add_widget(self.one_array_plotted_button)
         horizontal_layout.add_widget(self.x_checkbox)
         horizontal_layout.add_widget(self.y_checkbox)
@@ -268,6 +267,7 @@ class MainWindow(QMainWindow):
         ######### Important Instance Variables #########
         ################################################
         self.filename = ""
+        self.temp_filename = ""
         self.file_paths = []
         self.one_plot_flag = False
         self.stacked_plot_flag = False
@@ -494,11 +494,18 @@ class MainWindow(QMainWindow):
     
     
     def plot_graph(self):
-        
-        # if self.figure_canvas_flag:
+    
+        # if self.figure_canvas_flag and self.temp_filename != self.filename:
+        #     # deletes widgets, setting parent to none on widgets
+        #     # leaves them hanging in the background process
+        #     # not garbage collected, so have to delete
         #     self.figure_canvas.deleteLater()
+        #     plt.close(self.figure)
         #     self.matplotlib_toolbar.deleteLater()
+        #     print("Deleting until filename changes")
         
+        # self.temp_filename = self.filename
+
         # if checks test return false, don't plot
         if not self.checks():
             return
@@ -513,11 +520,16 @@ class MainWindow(QMainWindow):
                 # means no new info to plot
                 if not self.same_entries_one_toggled(self.plot_x, self.plot_y, self.plot_z) and self.one_plot_flag:
                     return
+                else:
+                    self.delete_figure()
+
             else:  
                 # if !(test failed) and we have plotted stacked already
                 # means no new info to plot
                 if not self.same_entries() and self.stacked_plot_flag:
                     return
+                else:
+                    self.delete_figure()
 
         start_hour = self.start_time.get_hour()
         start_minute = self.start_time.get_minute()
@@ -678,6 +690,12 @@ class MainWindow(QMainWindow):
         self.filename_same = True
         self.show()
 
+    def delete_figure(self):
+        
+        self.figure_canvas.deleteLater()
+        plt.close(self.figure)
+        self.matplotlib_toolbar.deleteLater()
+
     def zoom_out(self):
 
         is_zoom_out_toggled = self.zoom_out_button.is_toggled()
@@ -832,6 +850,10 @@ class MainWindow(QMainWindow):
             self.parent_layout.setRowStretch(2, 6)
             self.parent_layout.setRowStretch(3, 18)
 
+    def hide_entry_layout(self):
+        
+        self.xyz_two_layout.setHidden(True)
+        
 def main ():
 
     app = QApplication([])
