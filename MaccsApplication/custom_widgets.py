@@ -253,6 +253,9 @@ class Layout(QWidget):
     def add_widget(self, some_widget, row, col):    
         self.layout.addWidget(some_widget, row, col)
 
+    def set_row_stretch(self, row, factor):
+        self.layout.setRowStretch(row, factor):
+
 class HLayout(QWidget):
     def __init__(self):
         super().__init__()
