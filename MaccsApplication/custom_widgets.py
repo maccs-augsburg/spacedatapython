@@ -231,6 +231,7 @@ class Toolbar(QToolBar):
         self.addSeparator()
         self.addAction(self.hide_entry_action)
 
+
 class Color(QWidget):
 
     def __init__(self, color):
@@ -281,3 +282,6 @@ class VLayout(QWidget):
     
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
+
+
+#https://doc.qt.io/qt-6/qkeysequence.html#QKeySequence-3
