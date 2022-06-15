@@ -873,11 +873,10 @@ class MainWindow(QMainWindow):
             self.parent_layout.set_row_stretch(3, 18)
 
     def hide_entry_layout(self):
-
-        if self.toolbar.hide_entry_action.isChecked():
-            self.parent_layout.setHidden(True)
-        else:
-            self.parent_layout.setHidden(False)
+        
+        bool_value = self.toolbar.hide_entry_action.isChecked()
+        
+        self.parent_layout.setHidden(bool_value)
 
 def main ():
 
