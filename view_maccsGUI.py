@@ -92,6 +92,8 @@ class MainWindow(QMainWindow):
         self.addToolBar(toolbar)
     
         self.temp_var = 0
+        self.left_lim = 0.0
+        self.right_lim = 0.0
 
         ############
         ### Menu ###
@@ -550,20 +552,19 @@ class MainWindow(QMainWindow):
 
     def __call__(self,event):
         '''
-        
+        __call__ is the event listener connected to matplotlib 
+        it will listen for mouse clicks and record the xdata of the first and second click passing them to 
+        varibles that we will then set our new xlims too (left and right) 
         '''
-        # global x_values
-        # x_pos = event.xdata
-        # x_values.append(x_pos)
-        
-        # if len(x_values) == 2:
-        #     self.graph.mpl_disconnect(self.cid)
-        #     self.zoom_in(x_values[0],x_values[1])
-        
         if self.temp_var == 0:
-            print()
-        else:
-            print()
+            self.left_lim = event.xdata
+            #print(self.left_lim, ' in func')
+        elif self.temp_var == 1:
+            self.right_lim = event.xdata
+            #print(self.right_lim, ' in func')
+        elif self.temp_var == 2:
+            self.graph.mpl_disconnect(self.cid)
+
         self.temp_count()
         #print(self.temp_var) 
         self.temp_var = self.temp_var + 1
@@ -606,14 +607,15 @@ class MainWindow(QMainWindow):
         print(self.temp_var)
 
     def zoom_in(self):
-        self.cid = self.graph.mpl_connect('button_press_event', self)
-
-
-    def zoom_in_helper(self, flag):
-        if flag == 0:
+        yes = True
+        while yes:
             self.cid = self.graph.mpl_connect('button_press_event', self)
-        else: 
-            self.cid = self.graph.mpl_connect('button_press_event', self)
+            if self.temp_var == 2:
+                print('inside')
+                print(self.left_lim)
+                print(self.right_lim)
+                yes = False
+
 
     def plot_stacked_axis(self):
         '''
