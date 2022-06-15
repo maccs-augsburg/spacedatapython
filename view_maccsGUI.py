@@ -91,6 +91,8 @@ class MainWindow(QMainWindow):
 
         self.addToolBar(toolbar)
     
+        self.temp_var = 0
+
         ############
         ### Menu ###
         ############
@@ -114,17 +116,9 @@ class MainWindow(QMainWindow):
 
         self.station_code = QLabel("Station Code: ")
         self.year_day = QLabel("Year Day: ")
-
-        # pal = QPalette()
-        # pal.setColor(QPalette.Window,'green')
-        # self.year_day.setPalette(pal)
-        # self.year_day.setAutoFillBackground(True)
         
         self.label_start_time = QLabel("Start Time: ")
         self.label_end_time = QLabel("End Time: ")
-
-        # self.label_start_time.setPalette(pal)
-        # self.label_start_time.setAutoFillBackground(True)
 
         self.plot_xyz_label = QLabel("Plot X, Y, or Z: ")
         self.format_file_text = QLabel("Format of File to Open: ")
@@ -247,6 +241,7 @@ class MainWindow(QMainWindow):
 
         action_openfile.triggered.connect(self.open_file)
         action_savefile.triggered.connect(self.save)
+        action_zoom.triggered.connect(self.zoom_in)
 
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
@@ -547,7 +542,6 @@ class MainWindow(QMainWindow):
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
        # x_values = []
-        self.cid = self.graph.mpl_connect('button_press_event', self)
         #print(self.cid)
        # print(self.graph.get_xlim())
         self.maccs_logo.setHidden(True)
@@ -555,6 +549,9 @@ class MainWindow(QMainWindow):
         self.graph_layout.addWidget(self.graph)
 
     def __call__(self,event):
+        '''
+        
+        '''
         # global x_values
         # x_pos = event.xdata
         # x_values.append(x_pos)
@@ -563,34 +560,54 @@ class MainWindow(QMainWindow):
         #     self.graph.mpl_disconnect(self.cid)
         #     self.zoom_in(x_values[0],x_values[1])
         
-        left = event.xdata % 1
-        left = left * 100000
-        #left2,right2 = plt.xlim()
-        # print('xlim before click: ', plt.xlim())
-        #print(Axes.format_xdata(x=event.xdata))
-        left = float(left)
-        print("X data: ", datetime.datetime.fromtimestamp(left))
-        print(type(event.xdata))
-        print("Y data: ", event.ydata)
-        print("X: ", event.x)
-        print("Y: ", event.y)
+        if self.temp_var == 0:
+            print()
+        else:
+            print()
+        self.temp_count()
+        #print(self.temp_var) 
+        self.temp_var = self.temp_var + 1
 
+        # get first xlim on first click send to var
+        # get second xlim on second send send to var
+
+
+        # xdata = event.xdata
+        # print('X Data: ', xdata)
+        # print('X data % 1 : ', xdata % 1)
+        # xdata = xdata % 1
+        # print('X data % 1 * 100000 : ', xdata * 1000000)
+        # xdata = xdata * 1000000
+        # print('xdata as float: ', float(xdata) )
+        # print('xdata as datetime.datetime:  ', datetime.datetime.fromtimestamp(xdata))
+        # print('Type xdata: ', type(xdata))
+        # print()
+
+
+        # left = event.xdata % 1
+        # left = left * 100000
+        # #left2,right2 = plt.xlim()
+        # # print('xlim before click: ', plt.xlim())
+        # #print(Axes.format_xdata(x=event.xdata))
+        # left = float(left)
+        # print("X data: ", datetime.datetime.fromtimestamp(left))
+        # print(type(event.xdata))
+        # # print("Y data: ", event.ydata)
+        # # print("X: ", event.x)
+        # # print("Y: ", event.y)
+        # print()
        # plt.xlim(left)
         # print('xlim after click; ', plt.xlim())
        # plt.draw()
        # plt.show()
-       # print(event)
-        #print(event.xdata)
-        #print(
-        #    event.x,
-        #    event.y)
         #print("yes")
         #return x_data
+    def temp_count(self):
+        print(self.temp_var)
 
-    def zoom_in(self, left_lim, right_lim):
-        plt.xlim(left_lim,right_lim)
-        plt.draw()
-        plt.show()
+    def zoom_in(self):
+        self.cid = self.graph.mpl_connect('button_press_event', self)
+
 
     def zoom_in_helper(self, flag):
         if flag == 0:
