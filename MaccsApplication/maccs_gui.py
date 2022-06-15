@@ -96,11 +96,12 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("../maccslogo_nobg.png"))
         self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
         self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
-        toolbar = Toolbar()
-        toolbar.home_action.triggered.connect(self.home)
-        toolbar.save_action.triggered.connect(self.save_file)
-        toolbar.open_action.triggered.connect(self.launch_dialog)
-        self.addToolBar(toolbar)
+        self.toolbar = Toolbar()
+        self.toolbar.home_action.triggered.connect(self.home)
+        self.toolbar.save_action.triggered.connect(self.save_file)
+        self.toolbar.open_action.triggered.connect(self.toolbar_open)
+        self.toolbar.hide_entry_action.triggered.connect(self.hide_entry_layout)
+        self.addToolBar(self.toolbar)
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
         button_action =  QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
@@ -130,8 +131,8 @@ class MainWindow(QMainWindow):
         self.plotting_layout = VLayout()
         # Parent Layout for entries, single graph button.
         # And other buttons
-        self.parent_layout = QGridLayout()
-        self.main_layout.addLayout(self.parent_layout, 1)
+        self.parent_layout = Layout()
+        self.main_layout.addWidget(self.parent_layout, 1)
         entry_layout = Layout()
         xyz_layout = QGridLayout()
         ######## SIDE ENTRIES FOR GUI ##################
@@ -240,14 +241,14 @@ class MainWindow(QMainWindow):
         button_layout.add_widget(save_button, 2, 0)
         button_layout.add_widget(save_as_button, 2, 1)
 
-        self.parent_layout.addWidget(entry_layout,0, 0)
-        self.parent_layout.addWidget(self.xyz_two_layout,1, 0)
-        self.parent_layout.setRowStretch(0, 24)
-        self.parent_layout.setRowStretch(1, 36)
-        self.parent_layout.addWidget(horizontal_layout,2, 0)
-        self.parent_layout.setRowStretch(2, 6)
-        self.parent_layout.addWidget(button_layout, 3, 0)
-        self.parent_layout.setRowStretch(3, 18)
+        self.parent_layout.add_widget(entry_layout,0, 0)
+        self.parent_layout.add_widget(self.xyz_two_layout,1, 0)
+        self.parent_layout.set_row_stretch(0, 24)
+        self.parent_layout.set_row_stretch(1, 36)
+        self.parent_layout.add_widget(horizontal_layout,2, 0)
+        self.parent_layout.set_row_stretch(2, 6)
+        self.parent_layout.add_widget(button_layout, 3, 0)
+        self.parent_layout.set_row_stretch(3, 18)
         ################################################
 
         # Add entry layout to the main layout
@@ -356,7 +357,7 @@ class MainWindow(QMainWindow):
         os.chdir(current_directory)
         # if user cancels button, dont want to execute function
         if len(response[0]) == 0:
-            return
+            return False
 
         filename, _ = response
         self.file_path = filename
@@ -372,7 +373,23 @@ class MainWindow(QMainWindow):
         self.year_day_edit.set_entry(filename[2:7])
         
         self.reset_entries()
+        return True
 
+    def toolbar_open(self):
+
+        if not self.get_file_name("Raw File (*.2hz);;Clean File (*.s2)"):
+            return
+        # breaks up into [filename][extension]
+        extension = self.filename.split('.')[1]
+        print(extension)
+
+        if extension == "s2":
+            self.combo_box.setCurrentIndex(2)
+        
+        if extension == "2hz":
+            self.combo_box.setCurrentIndex(3)
+
+        self.launch_dialog_option = self.options.index(self.combo_box.currentText())
 
     def checks(self):
 
@@ -840,20 +857,23 @@ class MainWindow(QMainWindow):
         self.xyz_two_layout.setHidden(bool_value)
 
         if bool_value:
-            self.parent_layout.setRowStretch(0, 27)
-            self.parent_layout.setRowStretch(1, 0)
-            self.parent_layout.setRowStretch(2, 3)
-            self.parent_layout.setRowStretch(3, 9)
+            self.parent_layout.set_row_stretch(0, 27)
+            self.parent_layout.set_row_stretch(1, 0)
+            self.parent_layout.set_row_stretch(2, 3)
+            self.parent_layout.set_row_stretch(3, 9)
         else:
-            self.parent_layout.setRowStretch(0, 24)
-            self.parent_layout.setRowStretch(1, 36)
-            self.parent_layout.setRowStretch(2, 6)
-            self.parent_layout.setRowStretch(3, 18)
+            self.parent_layout.set_row_stretch(0, 24)
+            self.parent_layout.set_row_stretch(1, 36)
+            self.parent_layout.set_row_stretch(2, 6)
+            self.parent_layout.set_row_stretch(3, 18)
 
     def hide_entry_layout(self):
-        
-        self.xyz_two_layout.setHidden(True)
-        
+
+        if self.toolbar.hide_entry_action.isChecked():
+            self.parent_layout.setHidden(True)
+        else:
+            self.parent_layout.setHidden(False)
+
 def main ():
 
     app = QApplication([])
