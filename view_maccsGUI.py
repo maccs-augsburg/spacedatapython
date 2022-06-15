@@ -564,6 +564,7 @@ class MainWindow(QMainWindow):
             #print(self.right_lim, ' in func')
         elif self.temp_var == 2:
             self.graph.mpl_disconnect(self.cid)
+            self.zoom_in()
 
         self.temp_count()
         #print(self.temp_var) 
@@ -607,14 +608,15 @@ class MainWindow(QMainWindow):
         print(self.temp_var)
 
     def zoom_in(self):
-        yes = True
-        while yes:
-            self.cid = self.graph.mpl_connect('button_press_event', self)
-            if self.temp_var == 2:
-                print('inside')
-                print(self.left_lim)
-                print(self.right_lim)
-                yes = False
+        self.cid = self.graph.mpl_connect('button_press_event', self)
+        if self.temp_var == 2:
+            print('inside')
+            self.graph.mpl_disconnect(self.cid)
+            print(self.left_lim)
+            print(self.right_lim)
+            plt.xlim(self.left_lim, self.right_lim)
+            plt.draw()
+            plt.show()
 
 
     def plot_stacked_axis(self):
