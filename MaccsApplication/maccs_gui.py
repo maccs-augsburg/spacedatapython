@@ -29,7 +29,7 @@ from PySide6.QtWidgets import (
     QCheckBox, QSizePolicy
 )
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QIcon, QPixmap, QAction
+from PySide6.QtGui import QIcon, QPixmap, QAction, QKeySequence
 # FigureCanvasQTAgg wraps matplot image as a widget 
 from matplotlib.backends.backend_qt5agg import (
                                     FigureCanvasQTAgg, 
@@ -102,10 +102,29 @@ class MainWindow(QMainWindow):
         self.toolbar.open_action.triggered.connect(self.toolbar_open)
         self.toolbar.hide_entry_action.triggered.connect(self.hide_entry_layout)
         self.addToolBar(self.toolbar)
+
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
-        button_action =  QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
-        file_menu.addAction(button_action)
+        #file_menu = menu.addMenu("&Open...                   ")
+        open_action = QAction("Open...       ", self)
+        open_action.triggered.connect(self.toolbar_open)
+        # https://support.microsoft.com/en-us/office/keyboard-shortcuts-in-word-95ef89dd-7142-4b50-afb2-f762f663ceb2#bkmk_frequentwin
+        open_action.setShortcut(QKeySequence("Ctrl+O"))
+        file_menu.addSeparator()
+        file_menu.addAction(open_action)
+        file_submenu = file_menu.addMenu("Open Recent")
+        open_recent_action = QAction("Open Recent", self)
+        #open_recent_action.triggered.connect(self.open_recent)
+        file_submenu.addAction(open_recent_action)
+        file_menu.addSeparator()
+        save_action = QAction("Save", self)
+        save_action.triggered.connect(self.save_file)
+        save_action.setShortcut(QKeySequence("Ctrl+S"))
+        file_menu.addAction(save_action)
+        save_as_action = QAction("Save As...", self)
+        save_as_action.triggered.connect(self.save_as)
+        save_as_action.setShortcut(QKeySequence("Ctrl+Shift+S"))
+        file_menu.addAction(save_as_action)
         ################################################
         # Maccs Logo
         self.mac_label = QLabel()
@@ -268,7 +287,6 @@ class MainWindow(QMainWindow):
         ######### Important Instance Variables #########
         ################################################
         self.filename = ""
-        self.temp_filename = ""
         self.file_paths = []
         self.one_plot_flag = False
         self.stacked_plot_flag = False
@@ -458,7 +476,7 @@ class MainWindow(QMainWindow):
             print("passed test")
             return True
     
-    def same_entries_one_toggled(self, x, y, z):
+    def same_entries_one_toggled(self):
         
         start_time_stamp, end_time_stamp = self.time_stamp()
 
@@ -512,17 +530,6 @@ class MainWindow(QMainWindow):
     
     def plot_graph(self):
     
-        # if self.figure_canvas_flag and self.temp_filename != self.filename:
-        #     # deletes widgets, setting parent to none on widgets
-        #     # leaves them hanging in the background process
-        #     # not garbage collected, so have to delete
-        #     self.figure_canvas.deleteLater()
-        #     plt.close(self.figure)
-        #     self.matplotlib_toolbar.deleteLater()
-        #     print("Deleting until filename changes")
-        
-        # self.temp_filename = self.filename
-
         # if checks test return false, don't plot
         if not self.checks():
             return
@@ -535,7 +542,7 @@ class MainWindow(QMainWindow):
             if self.one_array_plotted_button.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
-                if not self.same_entries_one_toggled(self.plot_x, self.plot_y, self.plot_z) and self.one_plot_flag:
+                if not self.same_entries_one_toggled() and self.one_plot_flag:
                     return
                 else:
                     self.delete_figure()
@@ -690,25 +697,23 @@ class MainWindow(QMainWindow):
 
             self.figure_canvas.setParent(None)
             self.matplotlib_toolbar.setParent(None)
-            #self.plotting_layout.setParent(None)
-            #plt.close(self.figure_canvas)
-    
+
         self.figure_canvas = FigureCanvasQTAgg(self.figure)
         self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
 
         self.plotting_layout.add_widget(self.matplotlib_toolbar)
         self.plotting_layout.add_widget(self.figure_canvas)
-
         self.main_layout.addWidget(self.plotting_layout, 5)
-        # Need to set label to hidden, or else it tries to fit logo with graph
+
         self.mac_label.setHidden(True)
 
         self.figure_canvas_flag = True
-        self.filename_same = True
         self.show()
 
     def delete_figure(self):
-        
+        '''Deletes widgets, setting parent to none on widgets
+        leaves them hanging in the background process.
+        Not garbage collected, so have to delete'''
         self.figure_canvas.deleteLater()
         plt.close(self.figure)
         self.matplotlib_toolbar.deleteLater()
