@@ -13,7 +13,6 @@ Note: Types in params and ->, are just used for type hinting in IDE's.
 import sys
 import os
 import datetime
-from profiler import profile
 cwd = os.getcwd()
 sys.path.append("../")
 import plot_three_axis_graphs

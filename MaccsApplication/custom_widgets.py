@@ -4,13 +4,17 @@ custom_widgets.py
 May 2022 -- Created -- Mark Ortega-Ponce
 '''
 
+from turtle import clear
 from PySide6.QtWidgets import (
     QMainWindow, QLabel,
     QLineEdit, QWidget, QCheckBox, QPushButton,
-    QSizePolicy, QSpinBox, QTimeEdit, QGridLayout, QHBoxLayout
+    QSizePolicy, QSpinBox, 
+    QTimeEdit, QGridLayout, 
+    QHBoxLayout, QToolBar, QVBoxLayout
 )
-from PySide6.QtCore import Qt, QTime
-from PySide6.QtGui import QPalette, QColor
+import os
+from PySide6.QtCore import Qt, QTime, QSize
+from PySide6.QtGui import QPalette, QColor, QIcon, QAction
 
 FONT_SIZE = 13
 MINIMUM_HEIGHT = 25
@@ -202,8 +206,31 @@ class Time(QTimeEdit):
     def set_start_time(self):
         self.setTime(self.min_time)
     def set_end_time(self):
-        self.setTime(self.max_time)
-        
+        self.setTime(QTime(23,0,0))
+
+class Toolbar(QToolBar):
+    def __init__(self):
+        super().__init__()
+        self.setIconSize(QSize(16, 16))
+        self.setMinimumHeight(25)
+        self.setMinimumWidth(25)
+        self.home_action = QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
+        self.home_action.setStatusTip("Home")
+        self.open_action = QAction(QIcon("fugue-icons/folder-open.png"), "Open File Button", self)
+        self.open_action.setStatusTip("Open File")
+        self.save_action = QAction(QIcon("fugue-icons/disk-black.png"), "Save Button", self)
+        self.save_action.setStatusTip("Save")
+        self.hide_entry_action = QAction(QIcon("fugue-icons/inactive_eye.png"), "Hide Entries", self)
+        self.hide_entry_action.setCheckable(True)
+        self.hide_entry_action.setStatusTip("Hide Side Entries")
+        self.addAction(self.home_action)
+        self.addSeparator()
+        self.addAction(self.save_action)
+        self.addSeparator()
+        self.addAction(self.open_action)
+        self.addSeparator()
+        self.addAction(self.hide_entry_action)
+
 class Color(QWidget):
 
     def __init__(self, color):
@@ -232,6 +259,9 @@ class Layout(QWidget):
     def add_widget(self, some_widget, row, col):    
         self.layout.addWidget(some_widget, row, col)
 
+    def set_row_stretch(self, row, factor):
+        self.layout.setRowStretch(row, factor)
+
 class HLayout(QWidget):
     def __init__(self):
         super().__init__()
@@ -241,4 +271,13 @@ class HLayout(QWidget):
 
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
-        
+
+class VLayout(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
+    
+    def add_widget(self, some_widget):
+        self.layout.addWidget(some_widget)

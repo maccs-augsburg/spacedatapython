@@ -10,33 +10,40 @@ pipenv install -r path/to/requirements.txt
 
 Usage: python3 maccs_gui.py
 
+Tutorial for PySide6
+
+https://www.pythonguis.com/pyside6-tutorial/
+
 '''
 from ast import Pass
 import subprocess
 import sys
 import os
 import datetime
-from turtle import clear
+from unittest.main import MAIN_EXAMPLES
 from PySide6.QtWidgets import (
     QMainWindow, QToolBar,
     QHBoxLayout, QGridLayout, QLabel,
-    QWidget, QComboBox, QPushButton, 
-    QFileDialog, QMessageBox, QVBoxLayout, 
-    QApplication, QCheckBox, QSizePolicy
+    QWidget, QComboBox, QFileDialog, 
+    QMessageBox, QVBoxLayout, QApplication, 
+    QCheckBox, QSizePolicy
 )
-from PySide6.QtCore import Qt, QTime, QSize
-from PySide6.QtGui import QIcon, QPixmap
+from PySide6.QtCore import Qt, QSize
+from PySide6.QtGui import QIcon, QPixmap, QAction
 # FigureCanvasQTAgg wraps matplot image as a widget 
 from matplotlib.backends.backend_qt5agg import (
                                     FigureCanvasQTAgg, 
                                     NavigationToolbar2QT as NavigationToolbar)
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+from numpy import min_scalar_type
 
 #### Importing our own files ####################
-from custom_widgets import LineEdit, Label, CheckBox, PushButton, Spinbox, Time, Layout, HLayout
+from custom_widgets import (
+    LineEdit, Label, CheckBox, 
+    PushButton, Spinbox, Time, Layout, HLayout,
+    Toolbar, VLayout)
 import entry_checks
-from profiler import profile
 
 # Move back one directory to grab shared files between guis
 sys.path.append("../")
@@ -80,12 +87,6 @@ class MainWindow(QMainWindow):
         self.time_arr: Stores last hour values list.
         self.start_time_stamp: Stores last start time_stamp used.
         self.end_time_stamp: Stores last end time_stamp used.
-        self.min_x: Stores last min_x value used.
-        self.max_z: Stores last max_x value used.
-        self.min_y: Stores last min_y value used.
-        self.max_y: Stores last max_y value used.
-        self.min_z: Stores last min_z value used.
-        self.max_z: Stores last max_z values used.
     '''
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -95,11 +96,16 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("../maccslogo_nobg.png"))
         self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
         self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
-        toolbar = QToolBar("My main toolbar")
-        toolbar.setIconSize(QSize(16, 16))
-        toolbar.setMinimumHeight(25)
-        toolbar.setMinimumWidth(25)
-        self.addToolBar(toolbar)
+        self.toolbar = Toolbar()
+        self.toolbar.home_action.triggered.connect(self.home)
+        self.toolbar.save_action.triggered.connect(self.save_file)
+        self.toolbar.open_action.triggered.connect(self.toolbar_open)
+        self.toolbar.hide_entry_action.triggered.connect(self.hide_entry_layout)
+        self.addToolBar(self.toolbar)
+        menu = self.menuBar()
+        file_menu = menu.addMenu("&File")
+        button_action =  QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
+        file_menu.addAction(button_action)
         ################################################
         # Maccs Logo
         self.mac_label = QLabel()
@@ -122,12 +128,11 @@ class MainWindow(QMainWindow):
         # Make another layout for toolbar and matplotlib
         # We add this layout onto the gui once user has chosen a file
         # Then it goes into plotting function and adds it at the end 
-        self.plotting_layout = QVBoxLayout()
+        self.plotting_layout = VLayout()
         # Parent Layout for entries, single graph button.
         # And other buttons
-        self.parent_layout = QGridLayout()
-        self.main_layout.addLayout(self.parent_layout, 1)
-        #entry_layout = QGridLayout()
+        self.parent_layout = Layout()
+        self.main_layout.addWidget(self.parent_layout, 1)
         entry_layout = Layout()
         xyz_layout = QGridLayout()
         ######## SIDE ENTRIES FOR GUI ##################
@@ -139,7 +144,6 @@ class MainWindow(QMainWindow):
         end_time_label = Label("End Time: ")
         self.end_time = Time()
         self.end_time.set_end_time()
-        self.end_second_edit = Spinbox(0, 59, 1)
         self.min_x_label = Label("Plot Min X: ")
         self.min_x_edit = Spinbox(0, 99999, 10)
         self.max_x_label = Label("Plot Max X: ")
@@ -177,12 +181,6 @@ class MainWindow(QMainWindow):
         self.xyz_two_layout.add_widget(self.min_z_edit, 4, 1)
         self.xyz_two_layout.add_widget(self.max_z_label, 5, 0)
         self.xyz_two_layout.add_widget(self.max_z_edit, 5, 1)
-        # Add layouts to parent layout
-        self.parent_layout.addWidget(entry_layout,0, 0)
-        self.parent_layout.addWidget(self.xyz_two_layout,1, 0)
-        self.parent_layout.setRowStretch(0, 24)
-        self.parent_layout.setRowStretch(1, 36)
-
         ################################################
 
         #### DROP DOWN MENU FOR FILE FORMATS ###########
@@ -221,9 +219,6 @@ class MainWindow(QMainWindow):
         save_as_button.set_uncheckable()
         save_as_button.clicked.connect(self.save_as)
 
-        #horizontal_layout = QHBoxLayout()
-        horizontal_layout = HLayout()
-
         self.one_array_plotted_button = PushButton(
                         "Single Graph (X, Y, Z)", 
                         "Three Graphs (X, Y, Z)")
@@ -231,6 +226,8 @@ class MainWindow(QMainWindow):
         self.x_checkbox = CheckBox('x')
         self.y_checkbox = CheckBox('y')
         self.z_checkbox = CheckBox('z')
+
+        horizontal_layout = HLayout()
         horizontal_layout.add_widget(self.one_array_plotted_button)
         horizontal_layout.add_widget(self.x_checkbox)
         horizontal_layout.add_widget(self.y_checkbox)
@@ -243,10 +240,15 @@ class MainWindow(QMainWindow):
         button_layout.add_widget(self.zoom_out_button, 1, 1)
         button_layout.add_widget(save_button, 2, 0)
         button_layout.add_widget(save_as_button, 2, 1)
-        self.parent_layout.addWidget(horizontal_layout,2, 0)
-        self.parent_layout.setRowStretch(2, 6)
-        self.parent_layout.addWidget(button_layout, 3, 0)
-        self.parent_layout.setRowStretch(3, 18)
+
+        self.parent_layout.add_widget(entry_layout,0, 0)
+        self.parent_layout.add_widget(self.xyz_two_layout,1, 0)
+        self.parent_layout.set_row_stretch(0, 24)
+        self.parent_layout.set_row_stretch(1, 36)
+        self.parent_layout.add_widget(horizontal_layout,2, 0)
+        self.parent_layout.set_row_stretch(2, 6)
+        self.parent_layout.add_widget(button_layout, 3, 0)
+        self.parent_layout.set_row_stretch(3, 18)
         ################################################
 
         # Add entry layout to the main layout
@@ -266,6 +268,10 @@ class MainWindow(QMainWindow):
         ######### Important Instance Variables #########
         ################################################
         self.filename = ""
+        self.temp_filename = ""
+        self.file_paths = []
+        self.one_plot_flag = False
+        self.stacked_plot_flag = False
         self.filename_noextension = ""
         self.file_path = ""
         self.launch_dialog_option = 0
@@ -286,8 +292,16 @@ class MainWindow(QMainWindow):
         self.time_arr = None
         self.start_time_stamp = None
         self.end_time_stamp = None
+        self.min_x = 0
+        self.max_x = 0
+        self.min_y = 0
+        self.max_y = 0
+        self.min_z = 0
+        self.max_z = 0
         ################################################
-    
+        self.plot_x = 0
+        self.plot_y = 0
+        self.plot_z = 0
     
     def launch_dialog(self):
         '''
@@ -324,6 +338,7 @@ class MainWindow(QMainWindow):
             print("Got nothing")
 
     def get_file_name(self, f_filter):
+
         file_filter = f_filter
         # guis will be in the same folder, so go back one 
         # directory for shared files 
@@ -340,34 +355,48 @@ class MainWindow(QMainWindow):
         )
         # after picking file, move back to original location
         os.chdir(current_directory)
-
         # if user cancels button, dont want to execute function
-        if len(response) == 0:
-            return
+        if len(response[0]) == 0:
+            return False
 
         filename, _ = response
         self.file_path = filename
+        self.file_paths.append(self.file_path)
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
         # Ex: CH20097.2hz
         self.filename = filename
-        #print(filename)
         self.filename_noextension = filename.split('.')[0]
-        #print(self.filename_noextension)
-
         # setting the station entry box from the filename
         # Ex: CH 20097 .2hz
         self.station_edit.set_entry(filename[0:2])
         self.year_day_edit.set_entry(filename[2:7])
         
         self.reset_entries()
+        return True
+
+    def toolbar_open(self):
+
+        if not self.get_file_name("Raw File (*.2hz);;Clean File (*.s2)"):
+            return
+        # breaks up into [filename][extension]
+        extension = self.filename.split('.')[1]
+        print(extension)
+
+        if extension == "s2":
+            self.combo_box.setCurrentIndex(2)
+        
+        if extension == "2hz":
+            self.combo_box.setCurrentIndex(3)
+
+        self.launch_dialog_option = self.options.index(self.combo_box.currentText())
 
     def checks(self):
 
         if len(self.filename) == 0:
             self.warning_message_dialog(
                 "No file to work with. Open a file with open file button.")
-            return
+            return False
 
         station_code = self.station_edit.get_entry()
         if not entry_checks.station_code_entry_check(station_code):
@@ -375,7 +404,7 @@ class MainWindow(QMainWindow):
             self.warning_message_dialog(
             "Error invalid station code. Needs to be 2-4 characters")
 
-            return
+            return False
 
         year_day = self.year_day_edit.get_entry()
         if not entry_checks.year_day_entry_check(self):
@@ -383,7 +412,7 @@ class MainWindow(QMainWindow):
             self.warning_message_dialog(
             "There was no input for the year day entry box")
 
-            return
+            return False
 
         x_state = self.x_checkbox.isChecked()
         y_state = self.y_checkbox.isChecked()
@@ -394,11 +423,130 @@ class MainWindow(QMainWindow):
         if self.one_array_plotted_button.is_toggled():
             if not any_state:
                 self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
-                return
+                return False
 
-    def plot_graph(self):
+        return True
+    
+    def same_entries(self):
+
+        start_time_stamp, end_time_stamp = self.time_stamp()
+
+        flag = 0
         
-        self.checks()
+        if start_time_stamp == self.start_time_stamp:
+            flag += 1
+        if end_time_stamp == self.end_time_stamp:
+            flag += 1
+        if self.min_x == self.min_x_edit.get_entry():
+            flag += 1
+        if self.max_x == self.max_x_edit.get_entry():
+            flag += 1
+        if self.min_y == self.min_y_edit.get_entry():
+            flag += 1
+        if self.max_y == self.max_y_edit.get_entry():
+            flag += 1
+        if self.min_z == self.min_z_edit.get_entry():
+            flag += 1
+        if self.max_z == self.max_z_edit.get_entry():
+            flag += 1
+
+        if flag == 8:
+            # exact same entries
+            print("failed test")
+            return False
+        else:
+            print("passed test")
+            return True
+    
+    def same_entries_one_toggled(self, x, y, z):
+        
+        start_time_stamp, end_time_stamp = self.time_stamp()
+
+        flag = 0
+
+        if start_time_stamp == self.start_time_stamp:
+            flag += 1
+        if end_time_stamp == self.end_time_stamp:
+            flag += 1
+
+        if self.plot_x == self.x_checkbox.isChecked():
+            flag += 1
+        
+        if self.plot_y == self.y_checkbox.isChecked():
+            flag += 1
+        
+        if self.plot_z == self.z_checkbox.isChecked():
+            flag += 1
+        
+
+        if flag == 5:
+            print("failed test")
+            return False
+        else:
+            print("passed test")
+            return True
+
+    def time_stamp(self):
+        #https://doc.qt.io/qt-6/qdatetimeedit.html#maximumTime-prop
+        e_hour = self.end_time.get_hour()
+        e_minute = self.end_time.get_minute()
+        e_second = self.end_time.get_second()
+
+        start_time_stamp = datetime.time(hour = self.start_time.get_hour(),
+                                        minute = self.start_time.get_minute(),
+                                        second = self.start_time.get_second())
+        
+        if e_hour == 23 and e_minute == 0 and e_second == 0:
+            end_time_stamp = datetime.time(hour = 23, minute = 59, second = 59)
+            print("Time stamp, default value")
+        else:
+            print("Time stamp, custom value")
+            print(self.end_time.get_hour())
+            end_time_stamp = datetime.time(hour = self.end_time.get_hour(),
+                                            minute = self.end_time.get_minute(),
+                                            second = self.end_time.get_second())
+
+
+        return start_time_stamp, end_time_stamp
+    
+    
+    def plot_graph(self):
+    
+        # if self.figure_canvas_flag and self.temp_filename != self.filename:
+        #     # deletes widgets, setting parent to none on widgets
+        #     # leaves them hanging in the background process
+        #     # not garbage collected, so have to delete
+        #     self.figure_canvas.deleteLater()
+        #     plt.close(self.figure)
+        #     self.matplotlib_toolbar.deleteLater()
+        #     print("Deleting until filename changes")
+        
+        # self.temp_filename = self.filename
+
+        # if checks test return false, don't plot
+        if not self.checks():
+            return
+
+        # only check after the first successful plot
+        # gets set at the end of this function and remains True
+
+        if self.figure_canvas_flag:
+            # if this is toggled, do following test
+            if self.one_array_plotted_button.is_toggled():
+                # if !(test failed) and we have plotted one_plot already
+                # means no new info to plot
+                if not self.same_entries_one_toggled(self.plot_x, self.plot_y, self.plot_z) and self.one_plot_flag:
+                    return
+                else:
+                    self.delete_figure()
+
+            else:  
+                # if !(test failed) and we have plotted stacked already
+                # means no new info to plot
+                if not self.same_entries() and self.stacked_plot_flag:
+                    return
+                else:
+                    self.delete_figure()
 
         start_hour = self.start_time.get_hour()
         start_minute = self.start_time.get_minute()
@@ -407,12 +555,7 @@ class MainWindow(QMainWindow):
         end_minute = self.end_time.get_minute()
         end_second = self.end_time.get_second()
 
-        self.start_time_stamp = datetime.time(hour = start_hour,
-                                            minute = start_minute, 
-                                            second = start_second)
-        self.end_time_stamp = datetime.time(hour = end_hour, 
-                                            minute = end_minute, 
-                                            second = end_second)
+        self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         
         # TODO: Do I even need this? I think I just copied it over from old line_x file
         time_interval_string = file_naming.create_time_interval_string_hms(
@@ -437,6 +580,7 @@ class MainWindow(QMainWindow):
         '''
         Once future file types are supported, add here.
         Launch Dialog Option assigned when you open a file
+        Adding a coupe more else if checks to get datetime lists
         '''
         if self.launch_dialog_option == 2:
             # Doing short names to stay around 80-85 chars per row
@@ -461,6 +605,7 @@ class MainWindow(QMainWindow):
         self.z_arr = z
         self.time_arr = t
 
+        # get current stacked plot entries
         min_x = self.min_x_edit.get_entry()
         max_x = self.max_x_edit.get_entry()
         min_y = self.min_y_edit.get_entry()
@@ -468,6 +613,7 @@ class MainWindow(QMainWindow):
         min_z = self.min_z_edit.get_entry()
         max_z = self.max_z_edit.get_entry()
 
+        # normalize the data to display even ticks
         min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
             self.x_arr,
             self.y_arr,
@@ -476,20 +622,41 @@ class MainWindow(QMainWindow):
             min_y, max_y,
             min_z, max_z
         )
+        # assign these to self to keep track of what's been plotted
+        self.min_x = min_x
+        self.max_x = max_x
+        self.min_y = min_y
+        self.max_y = max_y
+        self.min_z = min_z
+        self.max_z = max_z
 
+        entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
+        # if one plot button is toggled
+        # call necessary functions for one plot
         if self.one_array_plotted_button.is_toggled():
+            
+            # keeping track of whats been plotted already
+            self.plot_x = self.x_checkbox.isChecked()
+            self.plot_y = self.y_checkbox.isChecked()
+            self.plot_z = self.z_checkbox.isChecked()
 
             self.figure = entry_checks.graph_from_plotter_entry_check( 
                                                         self.x_arr, 
                                                         self.y_arr, 
                                                         self.z_arr,
-                                                        self.x_checkbox.isChecked(),
-                                                        self.y_checkbox.isChecked(),
-                                                        self.z_checkbox.isChecked(), 
+                                                        self.plot_x,
+                                                        self.plot_y,
+                                                        self.plot_z, 
                                                         self.time_arr,
                                                         self.filename, 
                                                         self.start_time_stamp,
                                                         self.end_time_stamp)
+            # set one plot flag to true, meaning we have plotted at least once
+            self.one_plot_flag = True
+            # set stacked flag to false, meaning next time we plot it
+            # it will be the first time again
+            self.stacked_plot_flag = False
+
         else:
 
             self.figure = plot_stacked_graphs.plot_arrays(self.x_arr,
@@ -505,31 +672,46 @@ class MainWindow(QMainWindow):
                                                 in_max_y=max_y,
                                                 in_min_z=min_z, 
                                                 in_max_z=max_z)
-            
+            # set one plot flag to false, meaning next time we plot it
+            # it will be the first time again
+            self.one_plot_flag = False
+            # set staacked flag to true, meaninig we have plotted at least once
+            self.stacked_plot_flag = True
+        
+        # close opened file
+        file.close()
         self.display_figure()
 
     def display_figure(self):
+
+        self.plotting_layout.setHidden(False)
 
         if self.figure_canvas_flag:
 
             self.figure_canvas.setParent(None)
             self.matplotlib_toolbar.setParent(None)
-            self.plotting_layout.setParent(None)
-
+            #self.plotting_layout.setParent(None)
+            #plt.close(self.figure_canvas)
+    
         self.figure_canvas = FigureCanvasQTAgg(self.figure)
         self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
 
-        self.plotting_layout.addWidget(self.matplotlib_toolbar)
-        self.plotting_layout.addWidget(self.figure_canvas)
+        self.plotting_layout.add_widget(self.matplotlib_toolbar)
+        self.plotting_layout.add_widget(self.figure_canvas)
 
-        self.main_layout.addLayout(self.plotting_layout, 5)
+        self.main_layout.addWidget(self.plotting_layout, 5)
         # Need to set label to hidden, or else it tries to fit logo with graph
         self.mac_label.setHidden(True)
 
         self.figure_canvas_flag = True
-        #self.new_figure = self.figure + 1
-        #self.file_num = self.file_num + 1
+        self.filename_same = True
         self.show()
+
+    def delete_figure(self):
+        
+        self.figure_canvas.deleteLater()
+        plt.close(self.figure)
+        self.matplotlib_toolbar.deleteLater()
 
     def zoom_out(self):
 
@@ -568,6 +750,13 @@ class MainWindow(QMainWindow):
             )
 
         entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
+
+        self.min_x = min_x
+        self.max_x = max_x
+        self.min_y = min_y
+        self.max_y = max_y
+        self.min_z = min_z
+        self.max_z = max_z
 
         self.figure = plot_stacked_graphs.plot_arrays(self.x_arr, 
                                             self.y_arr, 
@@ -636,8 +825,12 @@ class MainWindow(QMainWindow):
         self.figure.savefig(filename, dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + self.save_filename)
-        #self.save_as_counter = self.save_as_counter + 1
 
+    def home(self):
+
+        self.plotting_layout.setHidden(True)
+        self.mac_label.setHidden(False)
+        self.reset_entries()
 
     def warning_message_dialog(self, message):
 
@@ -664,15 +857,22 @@ class MainWindow(QMainWindow):
         self.xyz_two_layout.setHidden(bool_value)
 
         if bool_value:
-            self.parent_layout.setRowStretch(0, 27)
-            self.parent_layout.setRowStretch(1, 0)
-            self.parent_layout.setRowStretch(2, 3)
-            self.parent_layout.setRowStretch(3, 9)
+            self.parent_layout.set_row_stretch(0, 27)
+            self.parent_layout.set_row_stretch(1, 0)
+            self.parent_layout.set_row_stretch(2, 3)
+            self.parent_layout.set_row_stretch(3, 9)
         else:
-            self.parent_layout.setRowStretch(0, 24)
-            self.parent_layout.setRowStretch(1, 36)
-            self.parent_layout.setRowStretch(2, 6)
-            self.parent_layout.setRowStretch(3, 18)
+            self.parent_layout.set_row_stretch(0, 24)
+            self.parent_layout.set_row_stretch(1, 36)
+            self.parent_layout.set_row_stretch(2, 6)
+            self.parent_layout.set_row_stretch(3, 18)
+
+    def hide_entry_layout(self):
+
+        if self.toolbar.hide_entry_action.isChecked():
+            self.parent_layout.setHidden(True)
+        else:
+            self.parent_layout.setHidden(False)
 
 def main ():
 
