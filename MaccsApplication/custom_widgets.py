@@ -4,6 +4,7 @@ custom_widgets.py
 May 2022 -- Created -- Mark Ortega-Ponce
 '''
 
+from turtle import clear
 from PySide6.QtWidgets import (
     QMainWindow, QLabel,
     QLineEdit, QWidget, QCheckBox, QPushButton,
@@ -219,11 +220,16 @@ class Toolbar(QToolBar):
         self.open_action.setStatusTip("Open File")
         self.save_action = QAction(QIcon("fugue-icons/disk-black.png"), "Save Button", self)
         self.save_action.setStatusTip("Save")
+        self.hide_entry_action = QAction(QIcon("fugue-icons/inactive_eye.png"), "Hide Entries", self)
+        self.hide_entry_action.setCheckable(True)
+        self.hide_entry_action.setStatusTip("Hide Side Entries")
         self.addAction(self.home_action)
         self.addSeparator()
         self.addAction(self.save_action)
         self.addSeparator()
         self.addAction(self.open_action)
+        self.addSeparator()
+        self.addAction(self.hide_entry_action)
 
 class Color(QWidget):
 
