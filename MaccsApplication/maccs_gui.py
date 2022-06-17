@@ -13,7 +13,7 @@ Usage: python3 maccs_gui.py
 Tutorial for PySide6
 
 https://www.pythonguis.com/pyside6-tutorial/
-
+Hello this is a change to see if source control is working
 '''
 from ast import Pass
 from fileinput import filename
@@ -418,10 +418,10 @@ class MainWindow(QMainWindow):
         filename = filename.split('/')[-1]
         #https://www.w3schools.com/python/python_file_write.asp
         #https://thispointer.com/python-how-to-insert-lines-at-the-top-of-a-file/
-        f = open("open_recent/recent.txt", "a")
-        f.write(self.file_path + "\n")
-        #f.write(filename + "\n")
-        f.close()
+        # f = open("open_recent/recent.txt", "a")
+        # f.write(self.file_path + "\n")
+        # #f.write(filename + "\n")
+        # f.close()
         # Ex: CH20097.2hz
         self.filename = filename
         self.filename_noextension = filename.split('.')[0]
