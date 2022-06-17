@@ -16,6 +16,7 @@ https://www.pythonguis.com/pyside6-tutorial/
 
 '''
 from ast import Pass
+from fileinput import filename
 import subprocess
 import sys
 import os
@@ -116,6 +117,37 @@ class MainWindow(QMainWindow):
         open_recent_action = QAction("Open Recent", self)
         #open_recent_action.triggered.connect(self.open_recent)
         file_submenu.addAction(open_recent_action)
+
+        # f = open("open_recent/recent.txt", "r")
+        # self.file_list = f.readlines()
+        # f.close()
+        # open_one = QAction(self.file_list[0], self)
+        # open_one.triggered.connect(self.open_recent)
+        # file_submenu.addAction(open_one)
+        # file_submenu.addAction(open_one)
+        # open_two = QAction(self.file_list[1], self)
+        # file_submenu.addAction(open_two)
+        # open_two.triggered.connect(self.open_recent)
+        # open_three = QAction(self.file_list[2], self)
+        # file_submenu.addAction(open_three)
+        # open_three.triggered.connect(self.open_recent)
+        # open_four = QAction(self.file_list[3], self)
+        # file_submenu.addAction(open_four)
+        # open_four.triggered.connect(self.open_recent)
+        # open_five = QAction(self.file_list[4], self)
+        # open_five.triggered.connect(self.open_recent)
+        # file_submenu.addAction(open_five)
+
+        '''
+        https://www.w3schools.com/python/python_sets.asp
+        https://www.w3schools.com/python/python_dictionaries.asp
+        lets say we have a set of file_paths, meaning we only take distinct paths
+        we add it to our set, so now we can access by index.
+        We could do a quick search through the set/list, maybe hashmap?
+        once we found name, we access our QAction by index, we get the name by index
+        we split it, and get the filename, we assign to our instance variables
+        plot right away?
+        '''
         file_menu.addSeparator()
         save_action = QAction("Save", self)
         save_action.triggered.connect(self.save_file)
@@ -215,6 +247,7 @@ class MainWindow(QMainWindow):
         self.combo_box = QComboBox()
         # Add items to combo box
         self.combo_box.addItems(self.options)
+        self.combo_box.setCurrentIndex(3)
         # Add combo box to entry layout
         file_button = PushButton("Open File")
         file_button.set_uncheckable()
@@ -380,8 +413,15 @@ class MainWindow(QMainWindow):
         filename, _ = response
         self.file_path = filename
         self.file_paths.append(self.file_path)
+
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
+        #https://www.w3schools.com/python/python_file_write.asp
+        #https://thispointer.com/python-how-to-insert-lines-at-the-top-of-a-file/
+        f = open("open_recent/recent.txt", "a")
+        f.write(self.file_path + "\n")
+        #f.write(filename + "\n")
+        f.close()
         # Ex: CH20097.2hz
         self.filename = filename
         self.filename_noextension = filename.split('.')[0]
@@ -408,6 +448,9 @@ class MainWindow(QMainWindow):
             self.combo_box.setCurrentIndex(3)
 
         self.launch_dialog_option = self.options.index(self.combo_box.currentText())
+
+    def open_recent(self):
+        pass
 
     def checks(self):
 
@@ -722,7 +765,7 @@ class MainWindow(QMainWindow):
 
         is_zoom_out_toggled = self.zoom_out_button.is_toggled()
 
-        if self.figure == None:
+        if self.figure is None:
             self.zoom_out_button.set_toggle_status_false()
             self.zoom_out_button.change_text()
             self.warning_message_dialog("No figure to work with")
@@ -778,13 +821,13 @@ class MainWindow(QMainWindow):
 
     def save_file(self):
         
-        if self.figure == None:
+        if self.figure is None:
             self.warning_message_dialog("No figure to be saved")
             return
 
         cwd = os.getcwd()
         
-        if self.save_filename == None:
+        if self.save_filename is None:
             filename = self.filename_noextension + '.pdf'
         else:
             filename = self.save_filename
@@ -807,7 +850,7 @@ class MainWindow(QMainWindow):
 
     def save_as(self):
 
-        if self.figure == None:
+        if self.figure is None:
             self.warning_message_dialog("No figure to be saved")
             return
             
@@ -835,6 +878,8 @@ class MainWindow(QMainWindow):
 
         self.plotting_layout.setHidden(True)
         self.mac_label.setHidden(False)
+        self.one_plot_flag = False
+        self.stacked_plot_flag = False
         self.reset_entries()
 
     def warning_message_dialog(self, message):
