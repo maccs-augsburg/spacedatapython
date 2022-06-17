@@ -212,8 +212,8 @@ class Toolbar(QToolBar):
     def __init__(self):
         super().__init__()
         self.setIconSize(QSize(16, 16))
-        self.setMinimumHeight(25)
-        self.setMinimumWidth(25)
+        self.setMinimumHeight(30)
+        self.setMinimumWidth(30)
         self.home_action = QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
         self.home_action.setStatusTip("Home")
         self.open_action = QAction(QIcon("fugue-icons/folder-open.png"), "Open File Button", self)
@@ -231,6 +231,17 @@ class Toolbar(QToolBar):
         self.addSeparator()
         self.addAction(self.hide_entry_action)
 
+# class Action(QAction):
+#     def __init__(self):
+#         super().__init__()
+
+#         self.filepath = None
+#         self.filename = None
+
+#     def add_filepath(self, filepath):
+#         self.filepath = filepath
+#     def add_filename(self, filename):
+#         self.filename = filename
 
 class Color(QWidget):
 
