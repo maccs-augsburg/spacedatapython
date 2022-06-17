@@ -1,0 +1,31 @@
+Hello this is a test. Currently have working folder somewhere else, I have been meaning to fix this.
+
+1. Copied down my current branch m-branch into a new folder ZZZPyside
+2. Set up pip environment (for some reason it doesn't let me do it inside
+	MaccsFolder which is the one connected to GitHub)
+	
+	Ran this command inside /Users/markortega-ponce/Desktop/ZZZPyside
+
+	- pipenv install -r /Users/markortega-ponce/Desktop/ZZZPyside/spacedatapython/MaccsApplication
+	
+3. Ok, environment working. Dependencies working.
+4. I tested on different folder and initialize a git repo with git init command inside
+	/Users/markortega-ponce/Desktop/ZZZPyside
+	
+	I then opened the .git config file from connected repo with "open .config."
+	I copied all the files, and copied them over to the .git config file from new folder.
+	This worked, but since connected repo has the .config file inside spacedatapython folder,
+	and I put it one directory up "/Users/markortega-ponce/Desktop/ZZZPyside"
+	it showed as me having deleted all the files. I dont want to delete all previous commits
+	so I started over again following the steps above.
+
+5. Ok, all steps repeated, this time I initialized my repo inside the spacedatapython folder
+	I tried moving the folder from previous step with BBEdit, but it wasn't letting
+	me, so I thought repeating these steps was quicker.
+
+	Ok. I copied over all the files/settings, (reasoning is, nothing has been set by me so far,
+	so copying over the settings should work, also have same files and everything.
+
+	Ok, now its not showing me having deleted all the files in the directory.
+
+	Try pushing this up to m-branch. 
