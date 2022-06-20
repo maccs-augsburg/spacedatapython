@@ -81,7 +81,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis, zoom, left_xlim, r
 
     #Make an if statement about changing the label with the x axis changing 
     plt.xlabel(x_axis_label)
-    
+
     #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.autoscale(enable=True, axis='y') # adjusting y axis scaling
@@ -91,11 +91,10 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis, zoom, left_xlim, r
     plt.xticks(hours_arr)
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     #x_yticks = plt.yticks()
+
     if zoom == True:
         print('in if stmt x lim')
-        plt.xlim(left_xlim,right_xlim)
-    
-    #if (default_hours_flag):
+        plt.xlim(left_xlim,right_xlim)    #if (default_hours_flag):
         #plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     #else:
         #plt.xticks(hoursArr)
