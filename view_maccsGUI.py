@@ -179,6 +179,7 @@ class MainWindow(QMainWindow):
         self.custom_start_time.setMaximumWidth(165)
         self.custom_end_time.setMaximumWidth(165)
         self.custom_start_time.time_widget.setAlignment(Qt.AlignLeft)
+
         #######################
         ### Checkbox Select ###
         #######################
@@ -258,8 +259,6 @@ class MainWindow(QMainWindow):
         ### Adding Widgets ###
         ######################
 
-        
-
         self.label_and_entry_layout.addWidget(self.station_code,0,0)
         self.label_and_entry_layout.addWidget(self.year_day, 1,0)
 
@@ -272,7 +271,6 @@ class MainWindow(QMainWindow):
 
         self.label_and_entry_layout.addWidget(self.input_station_code,0, 1)
         self.label_and_entry_layout.addWidget(self.input_year, 1, 1)
-
 
         self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
        
@@ -523,6 +521,7 @@ class MainWindow(QMainWindow):
         it will listen for mouse clicks and record the xdata of the first and second click passing them to 
         varibles that we will then set our new xlims too (left and right) 
         '''
+
         if self.temp_var == 0:
             self.left_lim = event.xdata
             #print(self.left_lim, ' in func')
@@ -536,10 +535,6 @@ class MainWindow(QMainWindow):
         self.temp_count()
         #print(self.temp_var) 
         self.temp_var = self.temp_var + 1
-
-        # get first xlim on first click send to var
-        # get second xlim on second send send to var
-
 
         # xdata = event.xdata
         # print('X Data: ', xdata)
