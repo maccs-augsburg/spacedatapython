@@ -249,7 +249,7 @@ class MainWindow(QMainWindow):
 
         action_openfile.triggered.connect(self.open_file)
         action_savefile.triggered.connect(self.save)
-        action_zoom.triggered.connect(self.zoom_in)
+        action_zoom.triggered.connect(self.zoom_in_listener)
 
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
@@ -522,6 +522,7 @@ class MainWindow(QMainWindow):
         __call__ is the event listener connected to matplotlib 
         it will listen for mouse clicks and record the xdata of the first and second click passing them to 
         varibles that we will then set our new xlims too (left and right) 
+        after left and right x lims are stored we call the proper graph 
         '''
 
         if self.temp_var == 0:
@@ -548,7 +549,13 @@ class MainWindow(QMainWindow):
         # print()
 
 
-    def zoom_in(self):
+    def zoom_in_listener(self):
+        '''
+        Starts event listening that listens for clicks after clicking the zoom icon
+        and uses the __call__ function to handle to clicks 
+        and we get two clicks we call other function in __call__ after zoom_in_listner is called after button events happened
+        the values are reset so we can continune more zoomin 
+        '''
         self.cid = self.graph.mpl_connect('button_press_event', self)
         if self.temp_var > 1:
             self.temp_var = 0
