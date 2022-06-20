@@ -13,22 +13,14 @@ file. Start and end times may also be selected.
 # Python 3 imports
 import sys
 import datetime
-import numpy as np
-import statistics as stats
 
 # MACCS imports
 from raw_codecs import decode, time_of_record
 import station_names
 from plot_stacked_graphs import plot_arrays
 
-# Matplotlib imports
-import matplotlib.pyplot as plt
-from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
-import matplotlib.dates as mdates
-
 # Plotter program imports
 import read_raw_to_lists
-import x_axis_time_formatter
 
 import sys
 import os
@@ -42,6 +34,12 @@ if __name__ == "__main__":
         
     # filename
     filename = sys.argv[1]
+    base_filename = os.path.basename( filename) # no path included, just the filename
+    station_code = base_filename[0:2]
+    print( "station code is", station_code)
+    year_doy = base_filename[2:7]
+    print( "year and day of year is", year_doy)
+    
     # file option
     file_option = 'pdf' # defaulting with the pdf option
 
@@ -71,18 +69,18 @@ if __name__ == "__main__":
 
 
     ### Creating x, y, and z arrays -- NOW INCLUDING START AND END TIMES!!!
-    arrayX, arrayY, arrayZ, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(two_hz_binary_file, start_time, end_time, os.path.basename( filename))
+    arrayX, arrayY, arrayZ, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(two_hz_binary_file, start_time, end_time, base_filename)
 
     print("Got the arrays, starttime", start_time, " endtime", end_time)
     ### Plotting said arrays -- NOW INCLUDING START AND END TIMES AND FILE OPTION!!!
     # try and catch block to handle error in case file is already open
     try:
-        filename = os.path.basename( filename)
-        figure = plot_arrays(arrayX, arrayY, arrayZ, time_arr, filename, start_time, end_time, 0, 0, 0, 0, 0, 0)
+        #filename = os.path.basename( filename)
+        figure = plot_arrays(arrayX, arrayY, arrayZ, time_arr, base_filename, start_time, end_time, 0, 0, 0, 0, 0, 0)
         print("Got the figure.")
-        #plt.show()
-        figure.savefig( "thisistest.png", format='png', dpi=1200)
-        print("Saved to thisistest.png")
+        out_filename = station_code + year_doy + ".png"
+        figure.savefig( out_filename, format='png', dpi=1200)
+        print("Saved to", out_filename)
     except:
         print('Could not plot arrays to testgraph.pdf, file is open')
         sys.exit(0) # Exiting without an error code
