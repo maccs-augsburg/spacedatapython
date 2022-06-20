@@ -18,8 +18,6 @@ from pathlib import Path
 import sys
 import datetime
 
-
-
 class MinMaxTime(QtWidgets.QWidget,):
     
     def __init__(self,text, *args,**kwargs,):
@@ -55,11 +53,8 @@ class MinMaxTime(QtWidgets.QWidget,):
         button_layout.setContentsMargins(0,0,0,0)
         main_layout.addLayout(button_layout)
         main_layout.setContentsMargins(0,0,0,0)
-        
-
 
         self.setLayout(main_layout)        
-
 
     #set Qtime() to max 23 59 59 
     def set_max_time(self):
@@ -68,16 +63,6 @@ class MinMaxTime(QtWidgets.QWidget,):
     #sets QTime() to min 00 00 00
     def set_min_time(self):
         self.time_widget.setTime(QTime(00,00,00))
-
-    # # background paint of widget
-    # def paintEvent(self, e):
-    #     painter = QtGui.QPainter(self)
-    #     brush = QtGui.QBrush()
-    #     brush.setColor(QtGui.QColor('blue'))
-    #     brush.setStyle(Qt.SolidPattern)
-    #     rect = QRect(0,0, painter.device().width(), painter.device().height())
-    #     painter.fillRect(rect,brush)
-        
 
 def main():
     app = QApplication(sys.argv)
