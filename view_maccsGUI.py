@@ -511,12 +511,8 @@ class MainWindow(QMainWindow):
         self.clear_plots()
 
         # Putting the arrays into the gui
-        
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
-       # x_values = []
-        #print(self.cid)
-       # print(self.graph.get_xlim())
         self.maccs_logo.setHidden(True)
         self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
@@ -533,10 +529,10 @@ class MainWindow(QMainWindow):
             #print(self.left_lim, ' in func')
         elif self.temp_var == 1:
             self.right_lim = event.xdata
-        else:
             self.graph.mpl_disconnect(self.cid)
-            self.zoom_in()
-        self.temp_count()
+            self.zoom_flag = True
+            print('zoom flag in zoom in func: ', self.zoom_flag)
+            self.plot_three_axis()
         #print(self.temp_var) 
         self.temp_var = self.temp_var + 1
 
@@ -551,23 +547,12 @@ class MainWindow(QMainWindow):
         # print('Type xdata: ', type(xdata))
         # print()
 
-    def temp_count(self):
-        print(self.temp_var)
 
     def zoom_in(self):
         self.cid = self.graph.mpl_connect('button_press_event', self)
-        if self.temp_var == 2:
-            print('inside')
-            self.graph.mpl_disconnect(self.cid)
-            print(self.left_lim)
-            print(self.right_lim)
-            self.zoom_flag = True
-            print('zoom flag in zoom in func: ', self.zoom_flag)
-            self.plot_three_axis()
-            #plt.xlim(self.left_lim, self.right_lim)
-           # plt.draw()
-           # plt.show()
-        self.zoom_flag = False
+        if self.temp_var > 1:
+            self.temp_var = 0
+            self.zoom_flag = False
 
     def plot_stacked_axis(self):
         '''
@@ -576,7 +561,6 @@ class MainWindow(QMainWindow):
         and then set into a PySide Canvas and embeded into our MainWindow
         '''
         self.get_graph_entries()
-
         plot_min_value_x = int(self.input_min_x.text())
         plot_max_value_x = int(self.input_max_x.text())
         plot_min_value_y = int(self.input_min_y.text())
