@@ -20,9 +20,9 @@ import datetime
 
 
 
-class MinMaxTime(QtWidgets.QWidget):
+class MinMaxTime(QtWidgets.QWidget,):
     
-    def __init__(self, *args,**kwargs):
+    def __init__(self,text, *args,**kwargs,):
 
         super(MinMaxTime,self).__init__(*args,**kwargs)
 
@@ -40,19 +40,18 @@ class MinMaxTime(QtWidgets.QWidget):
         
         self.time_widget.setFixedWidth(65)
 
-        self.label_one = QPushButton("Min?")
+        self.label_one = QPushButton(text)
         self.label_one.setMaximumSize(35,35)
-        self.label_two = QPushButton("Max?")
-        self.label_two.setMaximumSize(35,35)
-        self.label_one.setContentsMargins(0,0,0,0)
-        self.label_two.setContentsMargins(0,0,0,0)
 
-        self.label_two.clicked.connect(self.set_max_time)
-        self.label_one.clicked.connect(self.set_min_time)
+        self.label_one.setContentsMargins(0,0,0,0)
+        
+        if text == 'Min':
+            self.label_one.clicked.connect(self.set_min_time)
+        else:
+            self.label_one.clicked.connect(self.set_max_time)
 
         main_layout.addWidget(self.time_widget)
         button_layout.addWidget(self.label_one)
-        button_layout.addWidget(self.label_two)
         button_layout.setContentsMargins(0,0,0,0)
         main_layout.addLayout(button_layout)
         main_layout.setContentsMargins(0,0,0,0)
