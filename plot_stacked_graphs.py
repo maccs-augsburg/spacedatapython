@@ -22,7 +22,6 @@ the time-stamped x, y, and z values on its' own plot.
 #--------------------------------------------------------------------------------------------------------------
 
 # Python 3 imports
-import sys
 import datetime
 import numpy as np
 import statistics as stats
@@ -40,11 +39,6 @@ import matplotlib.dates as mdates
 import read_raw_to_lists
 import x_axis_time_formatter
 
-import sys
-import os
-# sys.path.append('../')
-# sys.path.append('/StackedPlotsGui')
-# import entry_checks
 
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
                 stime, etime, in_min_x=0, in_max_x=0,
@@ -58,13 +52,13 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     Parameters
     ----------
     x_arr:
-        List of x values from a 2 Hz raw data file.
+        List of x values from a 2 Hz data file.
     y_arr:
-        List of y values from a 2 Hz raw data file.
+        List of y values from a 2 Hz data file.
     z_arr:
-        List of z values from a 2 Hz raw data file.
+        List of z values from a 2 Hz data file.
     time_arr:
-        List of time values from a 2Hz raw data file.
+        List of time values from a 2Hz data file in datetime.datetime format.
     filename:
         Name of the 2Hz raw data file.
     stime:
@@ -81,14 +75,13 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
 
     
     #print( "called plot_arrays(", len(x_arr), ",", len(y_arr.len), ",", len(time_arr), ",", len(time_arr))
-    print( "foo", len( x_arr), len( time_arr), stime, etime)
-    print( " time at 100,000 is ", time_arr[100000])
+
     # adding this here so it doesn't break Chris gui code, plan would be to remove this call
     # and call inside plotting button function instead because all entry checks being made there
     in_min_x, in_max_x, in_min_y, in_max_y, in_min_z, in_max_z = axis_entry_checks_old(
              x_arr, y_arr, z_arr, in_min_x, in_max_x, in_min_y, in_max_y, in_min_z, in_max_z
     )
-    print("   about to split the filename", filename)
+
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
     station_name = station_names.find_full_name(station) # Getting the station name
@@ -110,19 +103,15 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.subplots_adjust(hspace=0.03)
 
-    print( "   created a figure")
     ### first plot    
     # plt.ylim(minimum, maximum)
     plt.subplot(311)	# subplot allows multiple plots on 1 page
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
-    print("   created the subplot, inminx is", in_min_x, " while inmaxx is", in_max_x)
     plt.ylim(in_min_x, in_max_x)
-    print( "   about to plot")
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
-    print( "Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date)
     # Commits gone, this is to change padding on y-axis for graphs.
     # Should look nice for papers, not sure if there is a certain margin scientific papers need.
     plt.ylabel('Bx', labelpad=10)	# side label
@@ -137,7 +126,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.gca().axes.xaxis.set_visible(False)
     x_yticks = plt.yticks()
 
-    print("   done with first plot")
     ### Now build the second plot, this time using y-axis data
     plt.subplot(312)
     plt.ylim(in_min_y, in_max_y)
@@ -170,9 +158,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     z_yticks = plt.yticks()
-    print( "about to show")
-    plt.show()
-    print( "   about to return figure")
     # returning the fig object
     return fig
 
@@ -335,58 +320,3 @@ def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list,
     
 
     return min_x, max_x, min_y, max_y, min_z, max_z
-
-if __name__ == "__main__":
-    ### usage message in console
-    if len(sys.argv) < 2 :
-        print( "Usage: python3 testPythonPlotter.py filename [starttime [endtime] ]")
-        sys.exit(0) # Exiting without an error code
-        
-    # filename
-    filename = sys.argv[1]
-    # file option
-    file_option = 'pdf' # defaulting with the pdf option
-
-    # try and catch block for bad file name
-    try:
-        two_hz_binary_file = open(filename, "rb") # attempting to open the file
-    except:
-        print('Could not open file: ' + filename)
-        sys.exit(0) # Exiting without an error code
-
-    ### initializing start and end times
-    start_time = datetime.time.fromisoformat( "00:00:00")
-    end_time = datetime.time.fromisoformat("23:59:59")
-
-    ### If we get more than 2 items in the console/command line
-    if len(sys.argv) == 3 : # if we have 3 items in the command line we assume that it is for specifying file type option
-        file_option = sys.argv[2]
-    elif len(sys.argv) >= 4 :
-        # iso format for a time is HH:MM:SS
-        start_time = datetime.time.fromisoformat(sys.argv[2])
-        end_time = datetime.time.fromisoformat(sys.argv[3])
-    if len(sys.argv) == 5:
-        file_option = sys.argv[4]
-    if len(sys.argv) >= 6:
-        print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
-        sys.exit(0) # Exiting without an error code
-
-
-    ### Creating x, y, and z arrays -- NOW INCLUDING START AND END TIMES!!!
-    arrayX, arrayY, arrayZ, time_arr = read_raw_to_lists.create_datetime_lists_from_raw(two_hz_binary_file, start_time, end_time, os.path.basename( filename))
-
-    print("Got the arrays, starttime", start_time, " endtime", end_time)
-    ### Plotting said arrays -- NOW INCLUDING START AND END TIMES AND FILE OPTION!!!
-    # try and catch block to handle error in case file is already open
-    try:
-        filename = os.path.basename( filename)
-        figure = plot_arrays(arrayX, arrayY, arrayZ, time_arr, filename, start_time, end_time, 0, 0, 0, 0, 0, 0)
-        print("Got the figure.")
-        plt.show()
-        figure.savefig( "thisistest.png", format='png', dpi=1200)
-        print("Saved to thisistest.png")
-    except:
-        print('Could not plot arrays to testgraph.pdf, file is open')
-        sys.exit(0) # Exiting without an error code
-
-
