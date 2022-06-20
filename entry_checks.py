@@ -78,7 +78,7 @@ def file_format_entry_check(self,selection_file_value):
     # Returning the string of the file type to be used
     return file_ending_value
 
-def graph_from_plotter_entry_check(self,graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, filename, stime, etime, selection_file):
+def graph_from_plotter_entry_check(self,graph_from_plotter_value_x,graph_from_plotter_value_y, graph_from_plotter_value_z, xArr, yArr, zArr, timeArr, filename, stime, etime, selection_file,zoom, left_xlim, right_xlim):
 
     """
     Checks the gui entries for plotting, x, y, z axis. If values are set, then we plot those axis
@@ -148,13 +148,16 @@ def graph_from_plotter_entry_check(self,graph_from_plotter_value_x,graph_from_pl
     elif ( any_plot_state > 0 and file_state > 0):
         
         if (x_state):
-            fig = plot_three_axis_graphs.plot_axis(xArr, timeArr, filename, stime, etime, 'X')
+            print(zoom)
+            print(left_xlim)
+            print(right_xlim)
+            fig = plot_three_axis_graphs.plot_axis(xArr, timeArr, filename, stime, etime, 'X',zoom, left_xlim, right_xlim)
         
         if(y_state):
-            fig = plot_three_axis_graphs.plot_axis(yArr, timeArr, filename, stime, etime, 'Y')
+            fig = plot_three_axis_graphs.plot_axis(yArr, timeArr, filename, stime, etime, 'Y',zoom, left_xlim, right_xlim)
         
         if(z_state):
-            fig = plot_three_axis_graphs.plot_axis(zArr, timeArr, filename, stime, etime, 'Z')
+            fig = plot_three_axis_graphs.plot_axis(zArr, timeArr, filename, stime, etime, 'Z',zoom, left_xlim, right_xlim)
             
     #Warning Message
     else:
