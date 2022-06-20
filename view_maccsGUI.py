@@ -171,8 +171,8 @@ class MainWindow(QMainWindow):
         #####################
         ### QTime Widgets ###
         #####################
-        self.custom_start_time = MinMaxTime()
-        self.custom_end_time = MinMaxTime()
+        self.custom_start_time = MinMaxTime('Min')
+        self.custom_end_time = MinMaxTime('Max')
         self.custom_start_time.time_widget.setTime(QTime(00,00,00))
         self.custom_end_time.time_widget.setTime(QTime(23,59,59))
 
@@ -385,31 +385,6 @@ class MainWindow(QMainWindow):
             # checks the radio button with the proper file type
             self.radio_file_check(file_type)
 
-    '''
-    TODO
-    IF putting both graphing dispaly into one 
- 
-    I have to depending on what display show 
-    -- Checkboxs for X Y Z 
-    OR
-    -- min and max X Y Z values 
-
-    After chosing what graph to display
-
-    Proper fields show up and another "ok" button is displayed by those fields and after inputting or 
-    checking click ok and plot is displayed and is faster    
-    after already chosing what style instead of going through the message box everytime 
-    sepreate the if statements of three axis and stack display into functions so that after we decided what 
-
-    -- Open File
-     -- Press Plot and Choose What Display you want Three Axis or Stacked Display (Rename button to choose graph type?)
-      -- Proper input fields will then be shown 
-                                            - Checkbox for three axis
-                                            - plot min and max text fields for stacked display
-        -- button by those fields that you press that plots the graph then can do normal alterations as before 
-
-    '''
-
     def get_graph_entries(self):
         '''
         Obtains the values the Widgets on the GUI 
@@ -451,7 +426,6 @@ class MainWindow(QMainWindow):
         three axis display where the user can choose 1-3 axis to view on the same graph show the derivatives of the axis 
         '''
         
-
         # Message box that asks what type of graph verison you want
         self.which_graph_type_box = QMessageBox(self)
 
@@ -469,15 +443,12 @@ class MainWindow(QMainWindow):
             self.button_plot_three_axis.setHidden(False)
             self.button_plot_stacked_graph.setHidden(True)
             
-
-
         elif self.which_graph_type_box.clickedButton() == self.stacked_display:
             self.clear_plots()
             self.set_stacked_options_visable()
             self.set_three_axis_options_hidden()
             self.button_plot_stacked_graph.setHidden(False)
             self.button_plot_three_axis.setHidden(True)
-            
 
         elif self.which_graph_type_box.clickedButton() == self.cancel_button:
             self.which_graph_type_box.close()
@@ -534,11 +505,7 @@ class MainWindow(QMainWindow):
                                                                 self.file_name, self.start_time_stamp, self.end_time_stamp, '5')
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
-    
-        # with plt.ioff():
-        #     self.graph, ax = plt.subplots()
 
-        
         # Putting the arrays into the gui
         
         self.graph = FigureCanvasQTAgg(self.graph)
