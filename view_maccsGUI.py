@@ -91,6 +91,11 @@ class MainWindow(QMainWindow):
 
         self.addToolBar(toolbar)
     
+        ###########################
+        ### Place Holder Values ###
+        ###########################
+
+        self.zoom_flag = False
         self.temp_var = 0
         self.left_lim = 0.0
         self.right_lim = 0.0
@@ -477,6 +482,7 @@ class MainWindow(QMainWindow):
             # popping up an error if we can't open the file
             self.warning_message_pop_up("File open error", "Couldn't find and open your file \nPlease make sure you select proper file \n Try again please")
 
+        print('Zoom boolean in view three plot: ',self.zoom_flag)
         #Creating the arrays
         if (self.selection_file_value == '4'):
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
@@ -488,7 +494,7 @@ class MainWindow(QMainWindow):
                                                                 yArr, 
                                                                 zArr,
                                                                 timeArr, 
-                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '4')
+                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '4',self.zoom_flag, self.left_lim, self.right_lim)
 
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
@@ -500,7 +506,7 @@ class MainWindow(QMainWindow):
                                                                 yArr, 
                                                                 zArr,
                                                                 timeArr, 
-                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '5')
+                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '5',self.zoom_flag, self.left_lim, self.right_lim)
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
 
@@ -527,11 +533,9 @@ class MainWindow(QMainWindow):
             #print(self.left_lim, ' in func')
         elif self.temp_var == 1:
             self.right_lim = event.xdata
-            #print(self.right_lim, ' in func')
-        elif self.temp_var == 2:
+        else:
             self.graph.mpl_disconnect(self.cid)
             self.zoom_in()
-
         self.temp_count()
         #print(self.temp_var) 
         self.temp_var = self.temp_var + 1
@@ -547,25 +551,6 @@ class MainWindow(QMainWindow):
         # print('Type xdata: ', type(xdata))
         # print()
 
-
-        # left = event.xdata % 1
-        # left = left * 100000
-        # #left2,right2 = plt.xlim()
-        # # print('xlim before click: ', plt.xlim())
-        # #print(Axes.format_xdata(x=event.xdata))
-        # left = float(left)
-        # print("X data: ", datetime.datetime.fromtimestamp(left))
-        # print(type(event.xdata))
-        # # print("Y data: ", event.ydata)
-        # # print("X: ", event.x)
-        # # print("Y: ", event.y)
-        # print()
-       # plt.xlim(left)
-        # print('xlim after click; ', plt.xlim())
-       # plt.draw()
-       # plt.show()
-        #print("yes")
-        #return x_data
     def temp_count(self):
         print(self.temp_var)
 
@@ -576,10 +561,13 @@ class MainWindow(QMainWindow):
             self.graph.mpl_disconnect(self.cid)
             print(self.left_lim)
             print(self.right_lim)
-            plt.xlim(self.left_lim, self.right_lim)
-            plt.draw()
-            plt.show()
-
+            self.zoom_flag = True
+            print('zoom flag in zoom in func: ', self.zoom_flag)
+            self.plot_three_axis()
+            #plt.xlim(self.left_lim, self.right_lim)
+           # plt.draw()
+           # plt.show()
+        self.zoom_flag = False
 
     def plot_stacked_axis(self):
         '''
