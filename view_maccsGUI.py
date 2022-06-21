@@ -29,6 +29,7 @@ import matplotlib
 from matplotlib.ft2font import LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 
 from numpy import minimum
@@ -542,10 +543,6 @@ class MainWindow(QMainWindow):
             #
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
             # plotting the arrays
-            #print('xArr: ', xArr)
-           # print('yArr: ', yArr)
-           # print('zArr: ', zArr)
-            #print('timeArr: ', timeArr)
             self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
@@ -573,7 +570,7 @@ class MainWindow(QMainWindow):
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
         self.maccs_logo.setHidden(True)
-        self.graph_layout.addWidget(self.toolbar) 
+       # self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
     def __call__(self,event):
@@ -583,18 +580,38 @@ class MainWindow(QMainWindow):
         varibles that we will then set our new xlims too (left and right) 
         after left and right x lims are stored we call the proper graph 
         '''
-
+        datetime_object = mdates.num2date(event.xdata)
+        time_value_on_click= datetime.datetime.strftime(datetime_object,"%H %M %S")
+        zoom_values = time_value_on_click.split(" ")
+        
         if self.temp_var == 0:
-            self.left_lim = event.xdata
+           # self.left_lim = event.xdata
+            self.custom_start_time.time_widget.setTime(QTime(int(zoom_values[0]),int(zoom_values[1]),int(zoom_values[2])))
+
             #print(self.left_lim, ' in func')
         elif self.temp_var == 1:
-            self.right_lim = event.xdata
+            self.custom_end_time.time_widget.setTime(QTime(int(zoom_values[0]),int(zoom_values[1]),int(zoom_values[2])))
+           # self.right_lim = event.xdata
             self.graph.mpl_disconnect(self.cid)
-            self.zoom_flag = True
-            print('zoom flag in zoom in func: ', self.zoom_flag)
+           # self.zoom_flag = True
             self.plot_three_axis()
         #print(self.temp_var) 
         self.temp_var = self.temp_var + 1
+
+
+
+        
+
+        # if not self.time_flag:
+        #     self.datetime_object_one = datetime_object
+        #     self.y_coord_one = event.ydata
+        #     print(self.datetime_object_one, self.y_coord_one)
+        #     self.time_flag = True
+        # else:
+        #     self.datetime_object_two = datetime_object
+        #     self.y_coord_two = event.ydata
+        #     print(self.datetime_object_two, self.y_coord_two)
+        #     self.time_zoom()
 
         # xdata = event.xdata
         # print('X Data: ', xdata)
