@@ -102,12 +102,22 @@ class MainWindow(QMainWindow):
 
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
-        # menu.addSeparator()
-        # tool_menu = menu.addMenu("&Tools")
-        # zoom_in_action = QAction("Zoom In")
-        # zoom_in_action.setStatusTip("Pick two points on the x-axis to zoom in")
-        # tool_menu.addAction(zoom_in_action)
-        # help_menu = menu.addMenu("&Help")
+        tool_menu = menu.addMenu("&Tools")
+        help_menu = menu.addMenu("&Help")
+    
+        zoom_in_action = QAction("Zoom In       ", self)
+        zoom_in_action.triggered.connect(self.time_zoom)
+        zoom_in_action.setStatusTip("Pick two points on the x-axis to zoom in")
+        tool_menu.addAction(zoom_in_action)
+
+        help_zoom_action = QAction("Zoom in help ", self)
+        help_zoom_action.triggered.connect(self.help_menu_zoom_button)
+        help_menu.addAction(help_zoom_action)
+
+        help_time_action = QAction("Why is time set to 23:00:00 and not 23:59:59?", self)
+        help_time_action.triggered.connect(self.help_menu_time_button)
+        help_menu.addAction(help_time_action)
+
         #file_menu = menu.addMenu("&Open...                   ")
         open_action = QAction("Open...       ", self)
         open_action.triggered.connect(self.toolbar_open)
@@ -767,6 +777,12 @@ class MainWindow(QMainWindow):
             self.zoom_out_button.set_toggle_status_false()
             return
 
+        # if we went through menu, still want to set zoom button to blue
+        # on first pass self.time_flag is false, set to true when we pick first point
+        # so we only go through this once
+        if not self.zoom_out_button.is_toggled() and not self.time_flag:
+            self.zoom_out_button.set_toggle_status_true()
+
         self.cid = self.figure_canvas.mpl_connect("button_press_event", self)
 
         if self.time_flag:
@@ -1006,6 +1022,13 @@ class MainWindow(QMainWindow):
         bool_value = self.toolbar.hide_entry_action.isChecked()
         
         self.parent_layout.setHidden(bool_value)
+
+    def help_menu_zoom_button(self):
+        self.warning_message_dialog("Zoom In Button: Pick two points on the plot.\nFirst point picked should be smaller than the second point to avoid error.")
+
+    def help_menu_time_button(self):
+        self.warning_message_dialog(
+            "Default time is set to 23:00:00 for convenience.\nAllows user to change hour values faster without having to adjust MM:SS.\nStill graphs as 23:59:59 (whole day).")
 
 def main ():
 
