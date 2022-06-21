@@ -50,8 +50,8 @@ import read_raw_to_lists
 import read_clean_to_lists
 import plot_stacked_graphs
 
-MINIMUM_WINDOW_HEIGHT = 600
-MINIMUM_WINDOW_WIDTH = 1200
+MINIMUM_WINDOW_HEIGHT = 700
+MINIMUM_WINDOW_WIDTH = 1400
 
 class MainWindow(QMainWindow):
 
@@ -886,7 +886,7 @@ class MainWindow(QMainWindow):
             self.save_as()
             return
 
-
+        #self.figure.set_size_inches(12, 7)
         self.figure.savefig(filename, format='pdf', dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
@@ -912,7 +912,7 @@ class MainWindow(QMainWindow):
             return
         # go to the end (-1) and find last '/', split there
         self.save_filename = filename.split('/')[-1]
-
+        #self.figure.set_size_inches(12, 7)
         self.figure.savefig(filename, dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + self.save_filename)
