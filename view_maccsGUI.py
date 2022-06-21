@@ -26,6 +26,7 @@ import datetime
 
 #Imports from matplotlib
 import matplotlib
+from matplotlib.ft2font import LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
@@ -38,9 +39,8 @@ import subprocess
 from file_naming import create_time_interval_string_hms
 import read_raw_to_lists
 import read_clean_to_lists
-from entry_checks import ( start_hour_entry_check, start_minute_entry_check, start_second_entry_check,
-                            end_hour_entry_check, end_minute_entry_check, end_second_entry_check,
-                            graph_from_plotter_entry_check, file_format_entry_check)
+import entry_checks
+#from entry_checks import start_hour_entry_check, start_minute_entry_check, start_second_entry_check,end_hour_entry_check, end_minute_entry_check, end_second_entry_check, graph_from_plotter_entry_check, file_format_entry_check
 import plot_stacked_graphs
 from custom_time_widget import MinMaxTime
 
@@ -123,7 +123,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
-        self.selection_file_value = ''
 
         ###############
         ### Toolbar ###
@@ -147,6 +146,7 @@ class MainWindow(QMainWindow):
         ### Place Holder Values ###
         ###########################
 
+        self.selection_file_value = ''
         self.zoom_flag = False
         self.temp_var = 0
         self.left_lim = 0.0
@@ -266,7 +266,6 @@ class MainWindow(QMainWindow):
         ###############
         ### Layouts ###
         ###############
-
         self.main_layout = QHBoxLayout()
         self.label_and_entry_layout = QGridLayout()
         self.graph_layout = QVBoxLayout()
@@ -452,22 +451,22 @@ class MainWindow(QMainWindow):
         year_day_value = self.input_year.text()
         
         # Start hour, minute, and second entries
-        start_hour_value = start_hour_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(0)))
-        start_minute_value = start_minute_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(1)))
-        start_second_value = start_second_entry_check( self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(2)))
+        start_hour_value = entry_checks.start_hour_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(0)))
+        start_minute_value = entry_checks.start_minute_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(1)))
+        start_second_value = entry_checks.start_second_entry_check( self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(2)))
 
         # End hour, minute and second entries
 
-        end_hour_value = end_hour_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(0)))
-        end_minute_value = end_minute_entry_check(self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(1)))
-        end_second_value = end_second_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(2)))
+        end_hour_value = entry_checks.end_hour_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(0)))
+        end_minute_value = entry_checks.end_minute_entry_check(self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(1)))
+        end_second_value = entry_checks.end_second_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(2)))
 
         # creating the start time stamp
         self.start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
         # creating the end time stamp
         self.end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
         #file_value = self.selection_file_value
-        file_ending_value = file_format_entry_check(self,self.selection_file_value)
+        file_ending_value = entry_checks.file_format_entry_check(self,self.selection_file_value)
        
         # Making the Plot
         self.file_name_full = station_name_value + year_day_value + file_ending_value
@@ -543,7 +542,11 @@ class MainWindow(QMainWindow):
             #
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
             # plotting the arrays
-            self.graph = graph_from_plotter_entry_check(self,plot_x_axis,
+            #print('xArr: ', xArr)
+           # print('yArr: ', yArr)
+           # print('zArr: ', zArr)
+            #print('timeArr: ', timeArr)
+            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
@@ -555,7 +558,7 @@ class MainWindow(QMainWindow):
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
             # plotting the arrays
-            self.graph = graph_from_plotter_entry_check(self,plot_x_axis,
+            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
