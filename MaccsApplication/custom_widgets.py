@@ -208,6 +208,9 @@ class Time(QTimeEdit):
     def set_end_time(self):
         self.setTime(QTime(23,0,0))
 
+    def set_own_time(self, hour, minute, second):
+        self.setTime(QTime(hour, minute, second))
+
 class Toolbar(QToolBar):
     def __init__(self):
         super().__init__()
