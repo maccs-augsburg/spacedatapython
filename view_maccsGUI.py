@@ -40,10 +40,12 @@ from mpl_interactions import ioff, panhandler, zoom_factory
 import subprocess
 
 #imports from other python files
-import file_naming
+from file_naming import create_time_interval_string_hms
 import read_raw_to_lists
 import read_clean_to_lists
-import entry_checks
+from entry_checks import ( start_hour_entry_check, start_minute_entry_check, start_second_entry_check,
+                            end_hour_entry_check, end_minute_entry_check, end_second_entry_check,
+                            graph_from_plotter_entry_check, file_format_entry_check)
 import plot_stacked_graphs
 from custom_time_widget import MinMaxTime
 
@@ -400,26 +402,26 @@ class MainWindow(QMainWindow):
         year_day_value = self.input_year.text()
         
         # Start hour, minute, and second entries
-        start_hour_value = entry_checks.start_hour_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(0)))
-        start_minute_value = entry_checks.start_minute_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(1)))
-        start_second_value = entry_checks.start_second_entry_check( self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(2)))
+        start_hour_value = start_hour_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(0)))
+        start_minute_value = start_minute_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(1)))
+        start_second_value = start_second_entry_check( self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(2)))
 
         # End hour, minute and second entries
 
-        end_hour_value = entry_checks.end_hour_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(0)))
-        end_minute_value = entry_checks.end_minute_entry_check(self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(1)))
-        end_second_value = entry_checks.end_second_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(2)))
+        end_hour_value = end_hour_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(0)))
+        end_minute_value = end_minute_entry_check(self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(1)))
+        end_second_value = end_second_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(2)))
 
         # creating the start time stamp
         self.start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
         # creating the end time stamp
         self.end_time_stamp = datetime.time(hour=end_hour_value, minute=end_minute_value, second=end_second_value)
         #file_value = self.selection_file_value
-        file_ending_value = entry_checks.file_format_entry_check(self,self.selection_file_value)
+        file_ending_value = file_format_entry_check(self,self.selection_file_value)
        
         # Making the Plot
         self.file_name_full = station_name_value + year_day_value + file_ending_value
-        time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
+        time_interval_string = create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
 
     def choose_graph_style(self):
@@ -462,12 +464,16 @@ class MainWindow(QMainWindow):
         then values are checked for validility and then put into a figure via matplotlib
         and then set into a PySide Canvas and embeded into our MainWindow
         '''
+        #calls the function that will always check the validility of the values in each text field and box prior to graphing 
+        # if anything is wrong incorrect etc we will display a warning / error 
         self.get_graph_entries()
-        # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
+
+        # Setting default values of the checkbox values 
         plot_x_axis = 0         
         plot_y_axis = 0
         plot_z_axis = 0
 
+        #if 0 we dont plot that axis if checked its value is 1 and it is plotted 
         if (self.checkbox_plotx.isChecked()):
             plot_x_axis = 1        
         if (self.checkbox_ploty.isChecked()):
@@ -482,12 +488,12 @@ class MainWindow(QMainWindow):
             # popping up an error if we can't open the file
             self.warning_message_pop_up("File open error", "Couldn't find and open your file \nPlease make sure you select proper file \n Try again please")
 
-        print('Zoom boolean in view three plot: ',self.zoom_flag)
         #Creating the arrays
         if (self.selection_file_value == '4'):
+            #
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
             # plotting the arrays
-            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+            self.graph = graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
@@ -499,7 +505,7 @@ class MainWindow(QMainWindow):
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
             # plotting the arrays
-            self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
+            self.graph = graph_from_plotter_entry_check(self,plot_x_axis,
                                                                 plot_y_axis, 
                                                                 plot_z_axis, 
                                                                 xArr, 
