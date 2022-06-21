@@ -550,7 +550,7 @@ class MainWindow(QMainWindow):
                                                                 yArr, 
                                                                 zArr,
                                                                 timeArr, 
-                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '4',self.zoom_flag, self.left_lim, self.right_lim)
+                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '4')
 
         elif (self.selection_file_value == '5'):
             xArr, yArr, zArr, timeArr, flag_arr = read_clean_to_lists.create_datetime_lists_from_clean(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
@@ -562,7 +562,7 @@ class MainWindow(QMainWindow):
                                                                 yArr, 
                                                                 zArr,
                                                                 timeArr, 
-                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '5',self.zoom_flag, self.left_lim, self.right_lim)
+                                                                self.file_name, self.start_time_stamp, self.end_time_stamp, '5')
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
 
@@ -591,7 +591,10 @@ class MainWindow(QMainWindow):
             self.custom_end_time.time_widget.setTime(QTime(int(zoom_values[0]),int(zoom_values[1]),int(zoom_values[2])))
 
             self.graph.mpl_disconnect(self.cid)
-            self.plot_three_axis()
+            if self.button_plot_stacked_graph.isHidden() == True:
+                self.plot_three_axis()
+            elif self.button_plot_three_axis.isHidden() == True:
+                self.plot_stacked_axis()
         self.temp_var = self.temp_var + 1
 
     def zoom_in_listener(self):
@@ -604,7 +607,6 @@ class MainWindow(QMainWindow):
         self.cid = self.graph.mpl_connect('button_press_event', self)
         if self.temp_var > 1:
             self.temp_var = 0
-            self.zoom_flag = False
 
     def plot_stacked_axis(self):
         '''
