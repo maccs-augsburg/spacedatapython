@@ -576,53 +576,23 @@ class MainWindow(QMainWindow):
     def __call__(self,event):
         '''
         __call__ is the event listener connected to matplotlib 
-        it will listen for mouse clicks and record the xdata of the first and second click passing them to 
-        varibles that we will then set our new xlims too (left and right) 
-        after left and right x lims are stored we call the proper graph 
+        it will listen for mouse clicks and record the xdata of the first and second click and converting them from matplotlib dates to datetime objects
+        and then stripping the time down to hour min second spliting the values and settime our Time widget to that time and replotting normally so the scale is auto as it aslways is 
+
         '''
         datetime_object = mdates.num2date(event.xdata)
         time_value_on_click= datetime.datetime.strftime(datetime_object,"%H %M %S")
         zoom_values = time_value_on_click.split(" ")
         
         if self.temp_var == 0:
-           # self.left_lim = event.xdata
             self.custom_start_time.time_widget.setTime(QTime(int(zoom_values[0]),int(zoom_values[1]),int(zoom_values[2])))
 
-            #print(self.left_lim, ' in func')
         elif self.temp_var == 1:
             self.custom_end_time.time_widget.setTime(QTime(int(zoom_values[0]),int(zoom_values[1]),int(zoom_values[2])))
-           # self.right_lim = event.xdata
+
             self.graph.mpl_disconnect(self.cid)
-           # self.zoom_flag = True
             self.plot_three_axis()
-        #print(self.temp_var) 
         self.temp_var = self.temp_var + 1
-
-
-
-        
-
-        # if not self.time_flag:
-        #     self.datetime_object_one = datetime_object
-        #     self.y_coord_one = event.ydata
-        #     print(self.datetime_object_one, self.y_coord_one)
-        #     self.time_flag = True
-        # else:
-        #     self.datetime_object_two = datetime_object
-        #     self.y_coord_two = event.ydata
-        #     print(self.datetime_object_two, self.y_coord_two)
-        #     self.time_zoom()
-
-        # xdata = event.xdata
-        # print('X Data: ', xdata)
-        # print('X data % 1 : ', xdata % 1)
-        # xdata = xdata % 1
-        # print('X data % 1 * 100000 : ', xdata * 1000000)
-        # xdata = xdata * 1000000
-        # print('xdata as float: ', float(xdata) )
-        # print('xdata as datetime.datetime:  ', datetime.datetime.fromtimestamp(xdata))
-        # print('Type xdata: ', type(xdata))
-        # print()
 
     def zoom_in_listener(self):
         '''
