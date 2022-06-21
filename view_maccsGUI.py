@@ -50,13 +50,54 @@ import plot_stacked_graphs
 from custom_time_widget import MinMaxTime
 
 class MainWindow(QMainWindow):
-    '''
-    Class Containing GUI using PySide6 module from QT using its framework 
-    The Gui is able to Graph a Single graph that can plot any combantion of axis'
-    X Y or Z, one two, or three. While also able to alter the graph via zooming in and saving images of the graph
-    We have ability to save as pdf or png using built in toolbar with matplotlib we can zoom and acess subplots of the graph
-    we can also pin point a zoom using the text labels on the left of the GUI and re pressing plot
-    '''
+    """
+    Using PySide6 creates GUI that display and visualizes data coming from the Magtometers in the artic from files currently
+    in .2hz or .s2 format. 
+    This Class holds all GUI related functions and widgets to display the proper information. 
+
+    ''' 
+
+    Methods
+    -----------
+    open_file
+        Creates a dialog for the user to select a file in .2hz or .s2 format and once selected 
+        sets proper widgets input to match the data read from file
+    get_graph_entries
+
+    choose_graph_style
+
+    plot_three_axis
+
+    __call__
+
+    zoom_in_listener
+
+    plot_stacked_axis
+
+    clear_plots
+
+    custom_toobar
+
+    radio_file_check
+
+    error_message_pop_up
+
+    warning_message_pop_up
+
+    convert_hours_list_to_datetime_object
+
+    save
+
+    save_as
+
+    set_stacked_options_hidden
+
+    set_stacked_options_visable
+
+    set_three_axis_options_hidden
+
+    set_three_axis_options_visable
+    """
     def __init__(self):
 
         """ 	
@@ -553,7 +594,6 @@ class MainWindow(QMainWindow):
         # print('xdata as datetime.datetime:  ', datetime.datetime.fromtimestamp(xdata))
         # print('Type xdata: ', type(xdata))
         # print()
-
 
     def zoom_in_listener(self):
         '''
