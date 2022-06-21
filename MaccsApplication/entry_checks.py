@@ -293,8 +293,6 @@ def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
 Instance method, move back if this is bad practice?
 Trying to change some to not use self at all.
 '''
-
-
 def set_axis_entrys(self, x_min: int, x_max: int, y_min:
                     int, y_max: int, z_min: int, z_max: int):
     '''
@@ -327,98 +325,100 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
     self.min_z_edit.set_entry(z_min)
     self.max_z_edit.set_entry(z_max)
 
+'''
+Instance methods, move back if this is bad practice?
+Trying to change some to not use self at all.
+'''
+def checks(self):
 
+    if len(self.filename) == 0:
+        self.warning_message_dialog(
+            "No file to work with. Open a file with open file button.")
+        return False
 
-# def checks(self):
+    station_code = self.station_edit.get_entry()
+    if not station_code_entry_check(station_code):
 
-#     if len(self.filename) == 0:
-#         self.warning_message_dialog(
-#             "No file to work with. Open a file with open file button.")
-#         return False
+        self.warning_message_dialog(
+            "Error invalid station code. Needs to be 2-4 characters")
 
-#     station_code = self.station_edit.get_entry()
-#     if not station_code_entry_check(station_code):
+        return False
 
-#         self.warning_message_dialog(
-#             "Error invalid station code. Needs to be 2-4 characters")
+    year_day = self.year_day_edit.get_entry()
+    if not year_day_entry_check(self):
 
-#         return False
+        self.warning_message_dialog(
+            "There was no input for the year day entry box")
 
-#     year_day = self.year_day_edit.get_entry()
-#     if not year_day_entry_check(self):
+        return False
 
-#         self.warning_message_dialog(
-#             "There was no input for the year day entry box")
+    x_state = self.x_checkbox.isChecked()
+    y_state = self.y_checkbox.isChecked()
+    z_state = self.z_checkbox.isChecked()
 
-#         return False
+    any_state = x_state or y_state or z_state
 
-#     x_state = self.x_checkbox.isChecked()
-#     y_state = self.y_checkbox.isChecked()
-#     z_state = self.z_checkbox.isChecked()
+    if self.one_array_plotted_button.is_toggled():
+        if not any_state:
+            self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
+            return False
 
-#     any_state = x_state or y_state or z_state
+    return True
 
-#     if self.one_array_plotted_button.is_toggled():
-#         if not any_state:
-#             self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
-#             return False
+def same_entries(self):
 
-#     return True
+    start_time_stamp, end_time_stamp = self.time_stamp()
 
-# def same_entries(self):
+    flag = 0
 
-#     start_time_stamp, end_time_stamp = self.time_stamp()
+    if start_time_stamp == self.start_time_stamp:
+        flag += 1
+    if end_time_stamp == self.end_time_stamp:
+        flag += 1
+    if self.min_x == self.min_x_edit.get_entry():
+        flag += 1
+    if self.max_x == self.max_x_edit.get_entry():
+        flag += 1
+    if self.min_y == self.min_y_edit.get_entry():
+        flag += 1
+    if self.max_y == self.max_y_edit.get_entry():
+        flag += 1
+    if self.min_z == self.min_z_edit.get_entry():
+        flag += 1
+    if self.max_z == self.max_z_edit.get_entry():
+        flag += 1
 
-#     flag = 0
+    if flag == 8:
+        # exact same entries
+        print("failed test")
+        return False
+    else:
+        print("passed test")
+        return True
 
-#     if start_time_stamp == self.start_time_stamp:
-#         flag += 1
-#     if end_time_stamp == self.end_time_stamp:
-#         flag += 1
-#     if self.min_x == self.min_x_edit.get_entry():
-#         flag += 1
-#     if self.max_x == self.max_x_edit.get_entry():
-#         flag += 1
-#     if self.min_y == self.min_y_edit.get_entry():
-#         flag += 1
-#     if self.max_y == self.max_y_edit.get_entry():
-#         flag += 1
-#     if self.min_z == self.min_z_edit.get_entry():
-#         flag += 1
-#     if self.max_z == self.max_z_edit.get_entry():
-#         flag += 1
+def same_entries_one_toggled(self):
 
-#     if flag == 8:
-#         # exact same entries
-#         print("failed test")
-#         return False
-#     else:
-#         print("passed test")
-#         return True
+    start_time_stamp, end_time_stamp = self.time_stamp()
 
-# def same_entries_one_toggled(self):
+    flag = 0
 
-#     start_time_stamp, end_time_stamp = self.time_stamp()
+    if start_time_stamp == self.start_time_stamp:
+        flag += 1
+    if end_time_stamp == self.end_time_stamp:
+        flag += 1
 
-#     flag = 0
+    if self.plot_x == self.x_checkbox.isChecked():
+        flag += 1
 
-#     if start_time_stamp == self.start_time_stamp:
-#         flag += 1
-#     if end_time_stamp == self.end_time_stamp:
-#         flag += 1
+    if self.plot_y == self.y_checkbox.isChecked():
+        flag += 1
 
-#     if self.plot_x == self.x_checkbox.isChecked():
-#         flag += 1
+    if self.plot_z == self.z_checkbox.isChecked():
+        flag += 1
 
-#     if self.plot_y == self.y_checkbox.isChecked():
-#         flag += 1
-
-#     if self.plot_z == self.z_checkbox.isChecked():
-#         flag += 1
-
-#     if flag == 5:
-#         print("failed test")
-#         return False
-#     else:
-#         print("passed test")
-#         return True
+    if flag == 5:
+        print("failed test")
+        return False
+    else:
+        print("passed test")
+        return True
