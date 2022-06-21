@@ -63,15 +63,25 @@ class MainWindow(QMainWindow):
         Creates a dialog for the user to select a file in .2hz or .s2 format and once selected 
         sets proper widgets input to match the data read from file
     get_graph_entries
-
+        Grabs each widgets input and checks the value in each field if valid or not along with
+        creating a time interval string from datetime object from our start and end time 
     choose_graph_style
-
+        After Graph Style button is press dialog box is opened for user to select what style of graph they want
+        three axis on seperate graphs stacked vertically or one graph and able to choose which axis(s) is displayed
+        once graph style is displayed proper widget fields are shown in respect to the graph style
     plot_three_axis
-
+        Display the graph in which you can choose what axis(s) you want displayed on one graph with the use of 
+        checkboxes the file is grabed from open_file and opened and then read from read_raw_to_lists to create a datetime arr for the x axis
+        and then graphed into a FigureCanvas that is embbed within our PySide6 
     __call__
-
+        Event Listener that allows the graph to be zoomed in by clicking two points on the graph
+        the first click is the left side of the new zoomed in plot and second click the the end of the right side
+        after our second click we disconnect the listener and recall the plot function to replot the graph with the new xlims
     zoom_in_listener
-
+        Starts the connection to __call__ and waits for user to press the zoom button on the toolbar 
+        once that is clicked the connection is made to __call__ and allows for clicks to be listened too
+        if we have already zoomed in (pressed the zoom button and clicked twice) and then we recall this function
+        we reset the flags and allow for xlims to be re written over
     plot_stacked_axis
 
     clear_plots
