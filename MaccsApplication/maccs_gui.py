@@ -43,6 +43,11 @@ from custom_widgets import (
     Layout, HLayout,
     Toolbar, VLayout)
 import entry_checks
+from entry_checks import (
+    same_entries,
+    same_entries_one_toggled,
+    checks
+)
 # Move back one directory to grab shared files between guis
 sys.path.append("../")
 import file_naming
@@ -472,100 +477,100 @@ class MainWindow(QMainWindow):
     def open_recent(self):
         pass
 
-    def checks(self):
+    # def checks(self):
 
-        if len(self.filename) == 0:
-            self.warning_message_dialog(
-                "No file to work with. Open a file with open file button.")
-            return False
+    #     if len(self.filename) == 0:
+    #         self.warning_message_dialog(
+    #             "No file to work with. Open a file with open file button.")
+    #         return False
 
-        station_code = self.station_edit.get_entry()
-        if not entry_checks.station_code_entry_check(station_code):
+    #     station_code = self.station_edit.get_entry()
+    #     if not entry_checks.station_code_entry_check(station_code):
 
-            self.warning_message_dialog(
-            "Error invalid station code. Needs to be 2-4 characters")
+    #         self.warning_message_dialog(
+    #         "Error invalid station code. Needs to be 2-4 characters")
 
-            return False
+    #         return False
 
-        year_day = self.year_day_edit.get_entry()
-        if not entry_checks.year_day_entry_check(self):
+    #     year_day = self.year_day_edit.get_entry()
+    #     if not entry_checks.year_day_entry_check(self):
 
-            self.warning_message_dialog(
-            "There was no input for the year day entry box")
+    #         self.warning_message_dialog(
+    #         "There was no input for the year day entry box")
 
-            return False
+    #         return False
 
-        x_state = self.x_checkbox.isChecked()
-        y_state = self.y_checkbox.isChecked()
-        z_state = self.z_checkbox.isChecked()
+    #     x_state = self.x_checkbox.isChecked()
+    #     y_state = self.y_checkbox.isChecked()
+    #     z_state = self.z_checkbox.isChecked()
 
-        any_state = x_state or y_state or z_state
+    #     any_state = x_state or y_state or z_state
 
-        if self.one_array_plotted_button.is_toggled():
-            if not any_state:
-                self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
-                return False
+    #     if self.one_array_plotted_button.is_toggled():
+    #         if not any_state:
+    #             self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
+    #             return False
 
-        return True
+    #     return True
     
-    def same_entries(self):
+    # def same_entries(self):
 
-        start_time_stamp, end_time_stamp = self.time_stamp()
+    #     start_time_stamp, end_time_stamp = self.time_stamp()
 
-        flag = 0
+    #     flag = 0
         
-        if start_time_stamp == self.start_time_stamp:
-            flag += 1
-        if end_time_stamp == self.end_time_stamp:
-            flag += 1
-        if self.min_x == self.min_x_edit.get_entry():
-            flag += 1
-        if self.max_x == self.max_x_edit.get_entry():
-            flag += 1
-        if self.min_y == self.min_y_edit.get_entry():
-            flag += 1
-        if self.max_y == self.max_y_edit.get_entry():
-            flag += 1
-        if self.min_z == self.min_z_edit.get_entry():
-            flag += 1
-        if self.max_z == self.max_z_edit.get_entry():
-            flag += 1
+    #     if start_time_stamp == self.start_time_stamp:
+    #         flag += 1
+    #     if end_time_stamp == self.end_time_stamp:
+    #         flag += 1
+    #     if self.min_x == self.min_x_edit.get_entry():
+    #         flag += 1
+    #     if self.max_x == self.max_x_edit.get_entry():
+    #         flag += 1
+    #     if self.min_y == self.min_y_edit.get_entry():
+    #         flag += 1
+    #     if self.max_y == self.max_y_edit.get_entry():
+    #         flag += 1
+    #     if self.min_z == self.min_z_edit.get_entry():
+    #         flag += 1
+    #     if self.max_z == self.max_z_edit.get_entry():
+    #         flag += 1
 
-        if flag == 8:
-            # exact same entries
-            print("failed test")
-            return False
-        else:
-            print("passed test")
-            return True
+    #     if flag == 8:
+    #         # exact same entries
+    #         print("failed test")
+    #         return False
+    #     else:
+    #         print("passed test")
+    #         return True
     
-    def same_entries_one_toggled(self):
+    # def same_entries_one_toggled(self):
         
-        start_time_stamp, end_time_stamp = self.time_stamp()
+    #     start_time_stamp, end_time_stamp = self.time_stamp()
 
-        flag = 0
+    #     flag = 0
 
-        if start_time_stamp == self.start_time_stamp:
-            flag += 1
-        if end_time_stamp == self.end_time_stamp:
-            flag += 1
+    #     if start_time_stamp == self.start_time_stamp:
+    #         flag += 1
+    #     if end_time_stamp == self.end_time_stamp:
+    #         flag += 1
 
-        if self.plot_x == self.x_checkbox.isChecked():
-            flag += 1
+    #     if self.plot_x == self.x_checkbox.isChecked():
+    #         flag += 1
         
-        if self.plot_y == self.y_checkbox.isChecked():
-            flag += 1
+    #     if self.plot_y == self.y_checkbox.isChecked():
+    #         flag += 1
         
-        if self.plot_z == self.z_checkbox.isChecked():
-            flag += 1
+    #     if self.plot_z == self.z_checkbox.isChecked():
+    #         flag += 1
         
 
-        if flag == 5:
-            print("failed test")
-            return False
-        else:
-            print("passed test")
-            return True
+    #     if flag == 5:
+    #         print("failed test")
+    #         return False
+    #     else:
+    #         print("passed test")
+    #         return True
 
     def time_stamp(self):
         #https://doc.qt.io/qt-6/qdatetimeedit.html#maximumTime-prop
@@ -594,7 +599,7 @@ class MainWindow(QMainWindow):
     def plot_graph(self):
     
         # if checks test return false, don't plot
-        if not self.checks():
+        if not checks(self):
             return
 
         # only check after the first successful plot
@@ -605,7 +610,7 @@ class MainWindow(QMainWindow):
             if self.one_array_plotted_button.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
-                if not self.same_entries_one_toggled() and self.one_plot_flag:
+                if not same_entries_one_toggled(self) and self.one_plot_flag:
                     return
                 else:
                     self.delete_figure()
@@ -613,7 +618,7 @@ class MainWindow(QMainWindow):
             else:  
                 # if !(test failed) and we have plotted stacked already
                 # means no new info to plot
-                if not self.same_entries() and self.stacked_plot_flag:
+                if not same_entries(self) and self.stacked_plot_flag:
                     return
                 else:
                     self.delete_figure()
