@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
     plot_three_axis
         Display the graph in which you can choose what axis(s) you want displayed on one graph with the use of 
         checkboxes the file is grabed from open_file and opened and then read from read_raw_to_lists to create a datetime arr for the x axis
-        and then graphed into a FigureCanvas that is embbed within our PySide6 
+        and then graphed into a FigureCanvas that is embedded into our MainWindow
     __call__
         Event Listener that allows the graph to be zoomed in by clicking two points on the graph
         the first click is the left side of the new zoomed in plot and second click the the end of the right side
@@ -83,30 +83,34 @@ class MainWindow(QMainWindow):
         if we have already zoomed in (pressed the zoom button and clicked twice) and then we recall this function
         we reset the flags and allow for xlims to be re written over
     plot_stacked_axis
-
+        Plots all three axis on one canvas but three graphs that are stacked vertically ontop of each other
+        we check for valid entries values in our widgets with get_graph_entries and then we open the file 
+        create the x axis values with datetime objects and graphed into a FigureCanvas that is embedded into our MainWindow
     clear_plots
-
-    custom_toobar
-
+        Clears all widgets in our graph layout which only holds our FigureCanvas' 
+        function is used anytime the user wants to clear the graph or we replot a graph with updated values 
     radio_file_check
-
+        Visual aid for the user after file is opened and selected the proper radio button is auto selected to the file type
+        .2hz or .s2
     error_message_pop_up
-
+        pops up error message box with the title and message inputted
     warning_message_pop_up
-
+        pops up warning message box with the title and message inputted
     convert_hours_list_to_datetime_object
-
+        (Currently not used created by Ted, keeping for the sake of not knowing what we can use it for)
+        converts the hours list into datetime objects
     save
-
+        Saves the Graph as a PDF Image
     save_as
-
+        Opens Dialog box that user presses to save the graph as PDF or PNG 
     set_stacked_options_hidden
-
+        Sets button group hidden when display type is not choosen
     set_stacked_options_visable
-
+        Sets button group visable when display type is choosen
     set_three_axis_options_hidden
-
+        Sets button group hidden when display type is not choosen
     set_three_axis_options_visable
+        Sets button group visable when display type is choosen
     """
     def __init__(self):
 
@@ -674,13 +678,6 @@ class MainWindow(QMainWindow):
             self.graph_layout.itemAt(i).widget().setParent(None)      
         self.maccs_logo.setHidden(False)
 
-    def custom_toobar(self):
-        '''
-        still in progress
-        '''
-        foobar = NavigationToolbar2QT(self.graph, self)
-        foobar.zoom()
-
     def radio_file_check(self,file_type):
         '''
         function used to check the proper radio button with the file that is opened
@@ -735,9 +732,7 @@ class MainWindow(QMainWindow):
         return converted_list
 
     def save(self):
-         
         """
-        Description:
             Saves the Graph as a PDF Image
 
             file_type is a QMessageBox that pops up once the Save as QButton is pressed 
@@ -760,7 +755,6 @@ class MainWindow(QMainWindow):
     def save_as(self):
          
         """
-        Description:
             Saves the Graph as an image with user chosing either a PDF or PNG option 
             can easily incorperate more files as needed 
 
