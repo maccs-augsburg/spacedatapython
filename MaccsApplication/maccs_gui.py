@@ -15,40 +15,36 @@ Tutorial for PySide6
 https://www.pythonguis.com/pyside6-tutorial/
 Hello this is a change to see if source control is working
 '''
-from ast import Pass
-from fileinput import filename
 import subprocess
 import sys
 import os
 import datetime
-from unittest.main import MAIN_EXAMPLES
 from PySide6.QtWidgets import (
-    QMainWindow, QToolBar,
-    QHBoxLayout, QGridLayout, QLabel,
+    QMainWindow,QHBoxLayout, 
+    QGridLayout, QLabel,
     QWidget, QComboBox, QFileDialog, 
-    QMessageBox, QVBoxLayout, QApplication, 
-    QCheckBox, QSizePolicy
+    QMessageBox, QApplication 
 )
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon, QPixmap, QAction, QKeySequence
 # FigureCanvasQTAgg wraps matplot image as a widget 
 from matplotlib.backends.backend_qt5agg import (
                                     FigureCanvasQTAgg, 
                                     NavigationToolbar2QT as NavigationToolbar)
+
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
-from numpy import min_scalar_type
+import matplotlib.dates as mdates
 
 #### Importing our own files ####################
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
-    PushButton, Spinbox, Time, Layout, HLayout,
+    PushButton, Spinbox, Time, 
+    Layout, HLayout,
     Toolbar, VLayout)
 import entry_checks
-
 # Move back one directory to grab shared files between guis
 sys.path.append("../")
-
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
@@ -106,6 +102,12 @@ class MainWindow(QMainWindow):
 
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
+        # menu.addSeparator()
+        # tool_menu = menu.addMenu("&Tools")
+        # zoom_in_action = QAction("Zoom In")
+        # zoom_in_action.setStatusTip("Pick two points on the x-axis to zoom in")
+        # tool_menu.addAction(zoom_in_action)
+        # help_menu = menu.addMenu("&Help")
         #file_menu = menu.addMenu("&Open...                   ")
         open_action = QAction("Open...       ", self)
         open_action.triggered.connect(self.toolbar_open)
@@ -114,7 +116,7 @@ class MainWindow(QMainWindow):
         file_menu.addSeparator()
         file_menu.addAction(open_action)
         file_submenu = file_menu.addMenu("Open Recent")
-        open_recent_action = QAction("Open Recent", self)
+        open_recent_action = QAction("Open Recent (In Development)", self)
         #open_recent_action.triggered.connect(self.open_recent)
         file_submenu.addAction(open_recent_action)
 
@@ -258,9 +260,10 @@ class MainWindow(QMainWindow):
         plot_button.setMaximumWidth(180)
         plot_button.clicked.connect(self.plot_graph)
 
-        self.zoom_out_button = PushButton("Zoom In", "Zoom Out")
+        self.zoom_out_button = PushButton("Zoom In", "Zoom In")
         self.zoom_out_button.set_toggle_status_false()
-        self.zoom_out_button.clicked.connect(self.zoom_out)
+        #self.zoom_out_button.clicked.connect(self.zoom_out)
+        self.zoom_out_button.clicked.connect(self.time_zoom)
 
         save_button = PushButton("Save File")
         save_button.setMaximumWidth(180)
@@ -353,6 +356,12 @@ class MainWindow(QMainWindow):
         self.plot_x = 0
         self.plot_y = 0
         self.plot_z = 0
+        ################################################
+        self.time_flag = False
+        self.datetime_object_one = None
+        self.y_coord_one = None
+        self.datetime_object_two = None
+        self.y_coord_two = None
     
     def launch_dialog(self):
         '''
@@ -731,6 +740,81 @@ class MainWindow(QMainWindow):
         # close opened file
         file.close()
         self.display_figure()
+
+    def __call__(self, event):
+
+        datetime_object = mdates.num2date(event.xdata)
+
+        if not self.time_flag:
+            self.datetime_object_one = datetime_object
+            self.y_coord_one = event.ydata
+            print(self.datetime_object_one, self.y_coord_one)
+            self.time_flag = True
+        else:
+            self.datetime_object_two = datetime_object
+            self.y_coord_two = event.ydata
+            print(self.datetime_object_two, self.y_coord_two)
+            self.time_zoom()
+
+        print("-----------------------------------------")
+
+    def time_zoom(self):
+        # connect figure to mpl_in...
+        # https://matplotlib.org/stable/users/explain/event_handling.html
+
+        if self.figure is None:
+            # soft warning, no dialog
+            self.zoom_out_button.set_toggle_status_false()
+            return
+
+        self.cid = self.figure_canvas.mpl_connect("button_press_event", self)
+
+        if self.time_flag:
+            self.figure_canvas.mpl_disconnect(self.cid)
+            self.zoom_out_button.set_toggle_status_false()
+            self.time_flag = False
+            if not self.check_datetimes():
+                return
+            hour, minute, second, e_hour, e_minute, e_second = self.get_times(
+                self.datetime_object_one,
+                self.datetime_object_two
+            )
+            self.start_time.set_own_time(hour, minute, second)
+            self.end_time.set_own_time(e_hour, e_minute, e_second)
+            self.plot_graph()
+
+    def get_times(self, datetime_object, datetime_object_two):
+
+        start_h = int(datetime_object.strftime("%H"))
+        start_min = int(datetime_object.strftime("%M"))
+        start_sec = int(datetime_object.strftime("%S"))
+        end_h = int(datetime_object_two.strftime("%H"))
+        end_min = int(datetime_object_two.strftime("%M"))
+        end_sec = int(datetime_object_two.strftime("%S"))
+
+        # if same hour, then dont want to set min to 0
+        if start_h == end_h:
+
+            return start_h, start_min, 0, end_h, end_min, 0
+        
+        # want to graph by integer hour values, can change based on feedback
+        if end_h - start_h > 1:
+
+            if start_min > 30:
+                start_h += 1
+            
+            if end_min > 30:
+                end_h += 1
+
+        return start_h, 0, 0, end_h, 0, 0
+        
+    def check_datetimes(self):
+        if self.datetime_object_one > self.datetime_object_two:
+            print("Failed Datetime Test in Zoom In function.")
+            self.warning_message_dialog("Second time cannot be greater than the first, please try again")
+            return False
+        else:
+            return True
 
     def display_figure(self):
 
