@@ -528,6 +528,14 @@ class MainWindow(QMainWindow):
                 else:
                     self.delete_figure()
 
+        if self.figure_canvas_flag:
+            # can probably remove this duplicate, just hacking away right now
+            start_time_stamp, end_time_stamp = self.time_stamp()
+
+            if (start_time_stamp != self.start_time_stamp) or (end_time_stamp != self.end_time_stamp):
+                # reset entries after a time change
+                self.reset_axis_entries()
+
         start_hour = self.start_time.get_hour()
         start_minute = self.start_time.get_minute()
         start_second = self.start_time.get_second()
@@ -706,6 +714,7 @@ class MainWindow(QMainWindow):
                 self.datetime_object_one,
                 self.datetime_object_two
             )
+            self.reset_entries()
             self.start_time.set_own_time(hour, minute, second)
             self.end_time.set_own_time(e_hour, e_minute, e_second)
             self.plot_graph()
@@ -850,7 +859,15 @@ class MainWindow(QMainWindow):
         self.max_y_edit.set_entry(0)
         self.min_z_edit.set_entry(0)
         self.max_z_edit.set_entry(0)
-
+    
+    def reset_axis_entries(self):
+        self.min_x_edit.set_entry(0)
+        self.max_x_edit.set_entry(0)
+        self.min_y_edit.set_entry(0)
+        self.max_y_edit.set_entry(0)
+        self.min_z_edit.set_entry(0)
+        self.max_z_edit.set_entry(0)
+    
     def update_layout(self):
 
         bool_value = self.one_array_plotted_button.is_toggled()
