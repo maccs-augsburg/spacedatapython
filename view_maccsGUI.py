@@ -5,8 +5,6 @@
 # By Chris Hance may 2022
 
 #Import from PySide6 // QT
-
-
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
                                 QWidget, QHBoxLayout, 
@@ -28,14 +26,11 @@ import datetime
 
 #Imports from matplotlib
 import matplotlib
-from matplotlib.axes import Axes
-from numpy import minimum
 matplotlib.use('qtagg')
-
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
-from mpl_interactions import ioff, panhandler, zoom_factory
 
+from numpy import minimum
 
 import subprocess
 
