@@ -230,6 +230,8 @@ class Toolbar(QToolBar):
         self.hide_entry_action = QAction(QIcon("fugue-icons/inactive_eye.png"), "Hide Entries", self)
         self.hide_entry_action.setCheckable(True)
         self.hide_entry_action.setStatusTip("Hide Side Entries")
+        self.zoom_action = QAction(QIcon("fugue-icons/magnifier-zoom-in.png"), "Zoom In", self)
+        self.zoom_action.setStatusTip("Click on two points on the x-axis.")
         self.addAction(self.home_action)
         self.addSeparator()
         self.addAction(self.save_action)
@@ -237,6 +239,8 @@ class Toolbar(QToolBar):
         self.addAction(self.open_action)
         self.addSeparator()
         self.addAction(self.hide_entry_action)
+        self.addSeparator()
+        self.addAction(self.zoom_action)
 
 # class Action(QAction):
 #     def __init__(self):
