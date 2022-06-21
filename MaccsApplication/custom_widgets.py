@@ -121,6 +121,10 @@ class PushButton(QPushButton):
         self.button_is_checked = False
         self.setChecked(False)
     
+    def set_toggle_status_true(self):
+        self.button_is_checked = True
+        self.setChecked(True)
+    
     def set_uncheckable(self):
         self.setCheckable(False)
 
