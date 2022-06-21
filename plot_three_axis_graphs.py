@@ -19,7 +19,7 @@ import station_names
 import read_raw_to_lists
 import x_axis_time_formatter
 
-def plot_axis(axisArr, timeArr, filename, stime, etime, axis, zoom, left_xlim, right_xlim): 
+def plot_axis(axisArr, timeArr, filename, stime, etime, axis): 
     """
     Create a single plot of any axis x, y, z that we want to choose using the axis parameter.
     to eliminate the redundancy of code in the file .
@@ -89,9 +89,6 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis, zoom, left_xlim, r
     plt.xticks(hours_arr)
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     #x_yticks = plt.yticks()
-
-    if zoom == True:
-        plt.xlim(left_xlim,right_xlim)
         
     #if (default_hours_flag):
         #plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
