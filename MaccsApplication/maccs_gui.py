@@ -862,64 +862,6 @@ class MainWindow(QMainWindow):
         plt.close(self.figure)
         self.matplotlib_toolbar.deleteLater()
 
-    def zoom_out(self):
-
-        is_zoom_out_toggled = self.zoom_out_button.is_toggled()
-
-        if self.figure is None:
-            self.zoom_out_button.set_toggle_status_false()
-            self.zoom_out_button.change_text()
-            self.warning_message_dialog("No figure to work with")
-            return
-
-        if self.one_array_plotted_button.is_toggled():
-            self.zoom_out_button.set_toggle_status_false()
-            self.zoom_out_button.change_text()
-            self.warning_message_dialog(
-                "This feature only available for Three Graph Plotting right now")
-            return
-
-
-        if is_zoom_out_toggled:
-
-            min_x, max_x = entry_checks.axis_entry_checks_new(self.x_arr, 0, 0)
-            min_y, max_y = entry_checks.axis_entry_checks_new(self.y_arr, 0, 0)
-            min_z, max_z = entry_checks.axis_entry_checks_new(self.z_arr, 0, 0)
-            
-        else:
-            min_x, max_x, min_y, max_y, min_z, max_z = 0,0,0,0,0,0
-
-            min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
-                self.x_arr,
-                self.y_arr,
-                self.z_arr,
-                min_x, max_x,
-                min_y, max_y,
-                min_z, max_z
-            )
-
-        entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
-
-        self.min_x = min_x
-        self.max_x = max_x
-        self.min_y = min_y
-        self.max_y = max_y
-        self.min_z = min_z
-        self.max_z = max_z
-
-        self.figure = plot_stacked_graphs.plot_arrays(self.x_arr, 
-                                            self.y_arr, 
-                                            self.z_arr, 
-                                            self.time_arr, 
-                                            self.filename, 
-                                            self.start_time_stamp, 
-                                            self.end_time_stamp,
-                                            in_min_x=min_x,in_max_x=max_x,
-                                            in_min_y=min_y,in_max_y=max_y,
-                                            in_min_z=min_z,in_max_z=max_z)
-           #self.plot_counter = self.plot_counter + 1
-        self.display_figure()
-
     def save_file(self):
         
         if self.figure is None:
