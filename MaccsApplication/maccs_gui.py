@@ -13,48 +13,45 @@ Usage: python3 maccs_gui.py
 Tutorial for PySide6
 
 https://www.pythonguis.com/pyside6-tutorial/
-
+Hello this is a change to see if source control is working
 '''
-from ast import Pass
 import subprocess
 import sys
 import os
 import datetime
-from unittest.main import MAIN_EXAMPLES
 from PySide6.QtWidgets import (
-    QMainWindow, QToolBar,
-    QHBoxLayout, QGridLayout, QLabel,
+    QMainWindow,QHBoxLayout, 
+    QGridLayout, QLabel,
     QWidget, QComboBox, QFileDialog, 
-    QMessageBox, QVBoxLayout, QApplication, 
-    QCheckBox, QSizePolicy
+    QMessageBox, QApplication 
 )
-from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QIcon, QPixmap, QAction
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon, QPixmap, QAction, QKeySequence
 # FigureCanvasQTAgg wraps matplot image as a widget 
 from matplotlib.backends.backend_qt5agg import (
                                     FigureCanvasQTAgg, 
                                     NavigationToolbar2QT as NavigationToolbar)
+
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
-from numpy import min_scalar_type
+import matplotlib.dates as mdates
 
 #### Importing our own files ####################
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
-    PushButton, Spinbox, Time, Layout, HLayout,
+    PushButton, Spinbox, Time, 
+    Layout, HLayout,
     Toolbar, VLayout)
 import entry_checks
-
 # Move back one directory to grab shared files between guis
 sys.path.append("../")
-
 import file_naming
 import read_raw_to_lists
 import read_clean_to_lists
 import plot_stacked_graphs
 
-MINIMUM_WINDOW_HEIGHT = 600
-MINIMUM_WINDOW_WIDTH = 1200
+MINIMUM_WINDOW_HEIGHT = 700
+MINIMUM_WINDOW_WIDTH = 1400
 
 class MainWindow(QMainWindow):
 
@@ -101,11 +98,78 @@ class MainWindow(QMainWindow):
         self.toolbar.save_action.triggered.connect(self.save_file)
         self.toolbar.open_action.triggered.connect(self.toolbar_open)
         self.toolbar.hide_entry_action.triggered.connect(self.hide_entry_layout)
+        self.toolbar.zoom_action.triggered.connect(self.time_zoom)
         self.addToolBar(self.toolbar)
+
         menu = self.menuBar()
         file_menu = menu.addMenu("&File")
-        button_action =  QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
-        file_menu.addAction(button_action)
+        tool_menu = menu.addMenu("&Tools")
+        help_menu = menu.addMenu("&Help")
+    
+        zoom_in_action = QAction("Zoom In       ", self)
+        zoom_in_action.triggered.connect(self.time_zoom)
+        zoom_in_action.setStatusTip("Pick two points on the x-axis to zoom in")
+        tool_menu.addAction(zoom_in_action)
+
+        help_zoom_action = QAction("Zoom in help ", self)
+        help_zoom_action.triggered.connect(self.help_menu_zoom_button)
+        help_menu.addAction(help_zoom_action)
+
+        help_time_action = QAction("Why is time set to 23:00:00 and not 23:59:59?", self)
+        help_time_action.triggered.connect(self.help_menu_time_button)
+        help_menu.addAction(help_time_action)
+
+        #file_menu = menu.addMenu("&Open...                   ")
+        open_action = QAction("Open...       ", self)
+        open_action.triggered.connect(self.toolbar_open)
+        # https://support.microsoft.com/en-us/office/keyboard-shortcuts-in-word-95ef89dd-7142-4b50-afb2-f762f663ceb2#bkmk_frequentwin
+        open_action.setShortcut(QKeySequence("Ctrl+O"))
+        file_menu.addSeparator()
+        file_menu.addAction(open_action)
+        file_submenu = file_menu.addMenu("Open Recent")
+        open_recent_action = QAction("Open Recent (In Development)", self)
+        #open_recent_action.triggered.connect(self.open_recent)
+        file_submenu.addAction(open_recent_action)
+
+        # f = open("open_recent/recent.txt", "r")
+        # self.file_list = f.readlines()
+        # f.close()
+        # open_one = QAction(self.file_list[0], self)
+        # open_one.triggered.connect(self.open_recent)
+        # file_submenu.addAction(open_one)
+        # file_submenu.addAction(open_one)
+        # open_two = QAction(self.file_list[1], self)
+        # file_submenu.addAction(open_two)
+        # open_two.triggered.connect(self.open_recent)
+        # open_three = QAction(self.file_list[2], self)
+        # file_submenu.addAction(open_three)
+        # open_three.triggered.connect(self.open_recent)
+        # open_four = QAction(self.file_list[3], self)
+        # file_submenu.addAction(open_four)
+        # open_four.triggered.connect(self.open_recent)
+        # open_five = QAction(self.file_list[4], self)
+        # open_five.triggered.connect(self.open_recent)
+        # file_submenu.addAction(open_five)
+
+        '''
+        https://www.w3schools.com/python/python_sets.asp
+        https://www.w3schools.com/python/python_dictionaries.asp
+        lets say we have a set of file_paths, meaning we only take distinct paths
+        we add it to our set, so now we can access by index.
+        We could do a quick search through the set/list, maybe hashmap?
+        once we found name, we access our QAction by index, we get the name by index
+        we split it, and get the filename, we assign to our instance variables
+        plot right away?
+        '''
+        file_menu.addSeparator()
+        save_action = QAction("Save", self)
+        save_action.triggered.connect(self.save_file)
+        save_action.setShortcut(QKeySequence("Ctrl+S"))
+        file_menu.addAction(save_action)
+        save_as_action = QAction("Save As...", self)
+        save_as_action.triggered.connect(self.save_as)
+        save_as_action.setShortcut(QKeySequence("Ctrl+Shift+S"))
+        file_menu.addAction(save_as_action)
         ################################################
         # Maccs Logo
         self.mac_label = QLabel()
@@ -196,6 +260,7 @@ class MainWindow(QMainWindow):
         self.combo_box = QComboBox()
         # Add items to combo box
         self.combo_box.addItems(self.options)
+        self.combo_box.setCurrentIndex(3)
         # Add combo box to entry layout
         file_button = PushButton("Open File")
         file_button.set_uncheckable()
@@ -206,9 +271,10 @@ class MainWindow(QMainWindow):
         plot_button.setMaximumWidth(180)
         plot_button.clicked.connect(self.plot_graph)
 
-        self.zoom_out_button = PushButton("Zoom In", "Zoom Out")
+        self.zoom_out_button = PushButton("Zoom In", "Zoom In")
         self.zoom_out_button.set_toggle_status_false()
-        self.zoom_out_button.clicked.connect(self.zoom_out)
+        #self.zoom_out_button.clicked.connect(self.zoom_out)
+        self.zoom_out_button.clicked.connect(self.time_zoom)
 
         save_button = PushButton("Save File")
         save_button.setMaximumWidth(180)
@@ -268,7 +334,6 @@ class MainWindow(QMainWindow):
         ######### Important Instance Variables #########
         ################################################
         self.filename = ""
-        self.temp_filename = ""
         self.file_paths = []
         self.one_plot_flag = False
         self.stacked_plot_flag = False
@@ -302,6 +367,12 @@ class MainWindow(QMainWindow):
         self.plot_x = 0
         self.plot_y = 0
         self.plot_z = 0
+        ################################################
+        self.time_flag = False
+        self.datetime_object_one = None
+        self.y_coord_one = None
+        self.datetime_object_two = None
+        self.y_coord_two = None
     
     def launch_dialog(self):
         '''
@@ -362,8 +433,15 @@ class MainWindow(QMainWindow):
         filename, _ = response
         self.file_path = filename
         self.file_paths.append(self.file_path)
+
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
+        #https://www.w3schools.com/python/python_file_write.asp
+        #https://thispointer.com/python-how-to-insert-lines-at-the-top-of-a-file/
+        # f = open("open_recent/recent.txt", "a")
+        # f.write(self.file_path + "\n")
+        # #f.write(filename + "\n")
+        # f.close()
         # Ex: CH20097.2hz
         self.filename = filename
         self.filename_noextension = filename.split('.')[0]
@@ -390,6 +468,9 @@ class MainWindow(QMainWindow):
             self.combo_box.setCurrentIndex(3)
 
         self.launch_dialog_option = self.options.index(self.combo_box.currentText())
+
+    def open_recent(self):
+        pass
 
     def checks(self):
 
@@ -458,7 +539,7 @@ class MainWindow(QMainWindow):
             print("passed test")
             return True
     
-    def same_entries_one_toggled(self, x, y, z):
+    def same_entries_one_toggled(self):
         
         start_time_stamp, end_time_stamp = self.time_stamp()
 
@@ -512,17 +593,6 @@ class MainWindow(QMainWindow):
     
     def plot_graph(self):
     
-        # if self.figure_canvas_flag and self.temp_filename != self.filename:
-        #     # deletes widgets, setting parent to none on widgets
-        #     # leaves them hanging in the background process
-        #     # not garbage collected, so have to delete
-        #     self.figure_canvas.deleteLater()
-        #     plt.close(self.figure)
-        #     self.matplotlib_toolbar.deleteLater()
-        #     print("Deleting until filename changes")
-        
-        # self.temp_filename = self.filename
-
         # if checks test return false, don't plot
         if not self.checks():
             return
@@ -535,7 +605,7 @@ class MainWindow(QMainWindow):
             if self.one_array_plotted_button.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
-                if not self.same_entries_one_toggled(self.plot_x, self.plot_y, self.plot_z) and self.one_plot_flag:
+                if not self.same_entries_one_toggled() and self.one_plot_flag:
                     return
                 else:
                     self.delete_figure()
@@ -682,6 +752,87 @@ class MainWindow(QMainWindow):
         file.close()
         self.display_figure()
 
+    def __call__(self, event):
+
+        datetime_object = mdates.num2date(event.xdata)
+
+        if not self.time_flag:
+            self.datetime_object_one = datetime_object
+            self.y_coord_one = event.ydata
+            print(self.datetime_object_one, self.y_coord_one)
+            self.time_flag = True
+        else:
+            self.datetime_object_two = datetime_object
+            self.y_coord_two = event.ydata
+            print(self.datetime_object_two, self.y_coord_two)
+            self.time_zoom()
+
+        print("-----------------------------------------")
+
+    def time_zoom(self):
+        # connect figure to mpl_in...
+        # https://matplotlib.org/stable/users/explain/event_handling.html
+
+        if self.figure is None:
+            # soft warning, no dialog
+            self.zoom_out_button.set_toggle_status_false()
+            return
+
+        # if we went through menu, still want to set zoom button to blue
+        # on first pass self.time_flag is false, set to true when we pick first point
+        # so we only go through this once
+        if not self.zoom_out_button.is_toggled() and not self.time_flag:
+            self.zoom_out_button.set_toggle_status_true()
+
+        self.cid = self.figure_canvas.mpl_connect("button_press_event", self)
+
+        if self.time_flag:
+            self.figure_canvas.mpl_disconnect(self.cid)
+            self.zoom_out_button.set_toggle_status_false()
+            self.time_flag = False
+            if not self.check_datetimes():
+                return
+            hour, minute, second, e_hour, e_minute, e_second = self.get_times(
+                self.datetime_object_one,
+                self.datetime_object_two
+            )
+            self.start_time.set_own_time(hour, minute, second)
+            self.end_time.set_own_time(e_hour, e_minute, e_second)
+            self.plot_graph()
+
+    def get_times(self, datetime_object, datetime_object_two):
+
+        start_h = int(datetime_object.strftime("%H"))
+        start_min = int(datetime_object.strftime("%M"))
+        start_sec = int(datetime_object.strftime("%S"))
+        end_h = int(datetime_object_two.strftime("%H"))
+        end_min = int(datetime_object_two.strftime("%M"))
+        end_sec = int(datetime_object_two.strftime("%S"))
+
+        # if same hour, then dont want to set min to 0
+        if start_h == end_h:
+
+            return start_h, start_min, 0, end_h, end_min, 0
+        
+        # want to graph by integer hour values, can change based on feedback
+        if end_h - start_h > 1:
+
+            if start_min > 30:
+                start_h += 1
+            
+            if end_min > 30:
+                end_h += 1
+
+        return start_h, 0, 0, end_h, 0, 0
+        
+    def check_datetimes(self):
+        if self.datetime_object_one > self.datetime_object_two:
+            print("Failed Datetime Test in Zoom In function.")
+            self.warning_message_dialog("Second time cannot be greater than the first, please try again")
+            return False
+        else:
+            return True
+
     def display_figure(self):
 
         self.plotting_layout.setHidden(False)
@@ -690,96 +841,36 @@ class MainWindow(QMainWindow):
 
             self.figure_canvas.setParent(None)
             self.matplotlib_toolbar.setParent(None)
-            #self.plotting_layout.setParent(None)
-            #plt.close(self.figure_canvas)
-    
+
         self.figure_canvas = FigureCanvasQTAgg(self.figure)
         self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
 
         self.plotting_layout.add_widget(self.matplotlib_toolbar)
         self.plotting_layout.add_widget(self.figure_canvas)
-
         self.main_layout.addWidget(self.plotting_layout, 5)
-        # Need to set label to hidden, or else it tries to fit logo with graph
+
         self.mac_label.setHidden(True)
 
         self.figure_canvas_flag = True
-        self.filename_same = True
         self.show()
 
     def delete_figure(self):
-        
+        '''Deletes widgets, setting parent to none on widgets
+        leaves them hanging in the background process.
+        Not garbage collected, so have to delete'''
         self.figure_canvas.deleteLater()
         plt.close(self.figure)
         self.matplotlib_toolbar.deleteLater()
 
-    def zoom_out(self):
-
-        is_zoom_out_toggled = self.zoom_out_button.is_toggled()
-
-        if self.figure == None:
-            self.zoom_out_button.set_toggle_status_false()
-            self.zoom_out_button.change_text()
-            self.warning_message_dialog("No figure to work with")
-            return
-
-        if self.one_array_plotted_button.is_toggled():
-            self.zoom_out_button.set_toggle_status_false()
-            self.zoom_out_button.change_text()
-            self.warning_message_dialog(
-                "This feature only available for Three Graph Plotting right now")
-            return
-
-
-        if is_zoom_out_toggled:
-
-            min_x, max_x = entry_checks.axis_entry_checks_new(self.x_arr, 0, 0)
-            min_y, max_y = entry_checks.axis_entry_checks_new(self.y_arr, 0, 0)
-            min_z, max_z = entry_checks.axis_entry_checks_new(self.z_arr, 0, 0)
-            
-        else:
-            min_x, max_x, min_y, max_y, min_z, max_z = 0,0,0,0,0,0
-
-            min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
-                self.x_arr,
-                self.y_arr,
-                self.z_arr,
-                min_x, max_x,
-                min_y, max_y,
-                min_z, max_z
-            )
-
-        entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
-
-        self.min_x = min_x
-        self.max_x = max_x
-        self.min_y = min_y
-        self.max_y = max_y
-        self.min_z = min_z
-        self.max_z = max_z
-
-        self.figure = plot_stacked_graphs.plot_arrays(self.x_arr, 
-                                            self.y_arr, 
-                                            self.z_arr, 
-                                            self.time_arr, 
-                                            self.filename, 
-                                            self.start_time_stamp, 
-                                            self.end_time_stamp,
-                                            in_min_x=min_x,in_max_x=max_x,
-                                            in_min_y=min_y,in_max_y=max_y,
-                                            in_min_z=min_z,in_max_z=max_z)
-           #self.plot_counter = self.plot_counter + 1
-        self.display_figure()
-
     def save_file(self):
         
-        if self.figure == None:
+        if self.figure is None:
             self.warning_message_dialog("No figure to be saved")
             return
 
         cwd = os.getcwd()
         
-        if self.save_filename == None:
+        if self.save_filename is None:
             filename = self.filename_noextension + '.pdf'
         else:
             filename = self.save_filename
@@ -795,14 +886,14 @@ class MainWindow(QMainWindow):
             self.save_as()
             return
 
-
+        #self.figure.set_size_inches(12, 7)
         self.figure.savefig(filename, format='pdf', dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + filename + " in: " + os.getcwd())
 
     def save_as(self):
 
-        if self.figure == None:
+        if self.figure is None:
             self.warning_message_dialog("No figure to be saved")
             return
             
@@ -821,7 +912,7 @@ class MainWindow(QMainWindow):
             return
         # go to the end (-1) and find last '/', split there
         self.save_filename = filename.split('/')[-1]
-
+        #self.figure.set_size_inches(12, 7)
         self.figure.savefig(filename, dpi=1200)
         subprocess.Popen(filename, shell=True)
         self.warning_message_dialog("Saved " + self.save_filename)
@@ -830,6 +921,8 @@ class MainWindow(QMainWindow):
 
         self.plotting_layout.setHidden(True)
         self.mac_label.setHidden(False)
+        self.one_plot_flag = False
+        self.stacked_plot_flag = False
         self.reset_entries()
 
     def warning_message_dialog(self, message):
@@ -868,11 +961,17 @@ class MainWindow(QMainWindow):
             self.parent_layout.set_row_stretch(3, 18)
 
     def hide_entry_layout(self):
+        
+        bool_value = self.toolbar.hide_entry_action.isChecked()
+        
+        self.parent_layout.setHidden(bool_value)
 
-        if self.toolbar.hide_entry_action.isChecked():
-            self.parent_layout.setHidden(True)
-        else:
-            self.parent_layout.setHidden(False)
+    def help_menu_zoom_button(self):
+        self.warning_message_dialog("Zoom In Button: Pick two points on the plot.\nFirst point picked should be smaller than the second point to avoid error.")
+
+    def help_menu_time_button(self):
+        self.warning_message_dialog(
+            "Default time is set to 23:00:00 for convenience.\nAllows user to change hour values faster without having to adjust MM:SS.\nStill graphs as 23:59:59 (whole day).")
 
 def main ():
 

@@ -121,6 +121,10 @@ class PushButton(QPushButton):
         self.button_is_checked = False
         self.setChecked(False)
     
+    def set_toggle_status_true(self):
+        self.button_is_checked = True
+        self.setChecked(True)
+    
     def set_uncheckable(self):
         self.setCheckable(False)
 
@@ -208,12 +212,15 @@ class Time(QTimeEdit):
     def set_end_time(self):
         self.setTime(QTime(23,0,0))
 
+    def set_own_time(self, hour, minute, second):
+        self.setTime(QTime(hour, minute, second))
+
 class Toolbar(QToolBar):
     def __init__(self):
         super().__init__()
         self.setIconSize(QSize(16, 16))
-        self.setMinimumHeight(25)
-        self.setMinimumWidth(25)
+        self.setMinimumHeight(30)
+        self.setMinimumWidth(30)
         self.home_action = QAction(QIcon("fugue-icons/home.png"), "Home Button", self)
         self.home_action.setStatusTip("Home")
         self.open_action = QAction(QIcon("fugue-icons/folder-open.png"), "Open File Button", self)
@@ -223,6 +230,8 @@ class Toolbar(QToolBar):
         self.hide_entry_action = QAction(QIcon("fugue-icons/inactive_eye.png"), "Hide Entries", self)
         self.hide_entry_action.setCheckable(True)
         self.hide_entry_action.setStatusTip("Hide Side Entries")
+        self.zoom_action = QAction(QIcon("fugue-icons/magnifier-zoom-in.png"), "Zoom In", self)
+        self.zoom_action.setStatusTip("Click on two points on the x-axis.")
         self.addAction(self.home_action)
         self.addSeparator()
         self.addAction(self.save_action)
@@ -230,6 +239,20 @@ class Toolbar(QToolBar):
         self.addAction(self.open_action)
         self.addSeparator()
         self.addAction(self.hide_entry_action)
+        self.addSeparator()
+        self.addAction(self.zoom_action)
+
+# class Action(QAction):
+#     def __init__(self):
+#         super().__init__()
+
+#         self.filepath = None
+#         self.filename = None
+
+#     def add_filepath(self, filepath):
+#         self.filepath = filepath
+#     def add_filename(self, filename):
+#         self.filename = filename
 
 class Color(QWidget):
 
@@ -281,3 +304,6 @@ class VLayout(QWidget):
     
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
+
+
+#https://doc.qt.io/qt-6/qkeysequence.html#QKeySequence-3

@@ -2,6 +2,7 @@ cycler==0.11.0
 fonttools==4.33.3
 kiwisolver==1.4.2
 matplotlib==3.5.2
+mpl-interactions==0.21.0
 numpy==1.22.4
 packaging==21.3
 Pillow==9.1.1

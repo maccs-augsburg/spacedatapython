@@ -35,6 +35,7 @@ def station_code_entry_check(station_name: str) -> bool:
     # If it passed check return True
     return True
 
+
 def year_day_entry_check(self) -> bool:
     '''
     Checks to see if there was any input for the 
@@ -50,11 +51,12 @@ def year_day_entry_check(self) -> bool:
     # If it passed check return True
     return True
 
-def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list, 
-                        min_x: int, max_x: int, 
-                        min_y: int, max_y: int, 
-                        min_z: int, max_z: int) -> tuple[int,int,int,
-                                                        int,int,int]:
+
+def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list,
+                          min_x: int, max_x: int,
+                          min_y: int, max_y: int,
+                          min_z: int, max_z: int) -> tuple[int, int, int,
+                                                           int, int, int]:
     '''
     Old axis entry checks from 
     raw_to_plot.plot_arrays() function.
@@ -117,7 +119,7 @@ def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list,
     axis_ranges = [default_x_range, default_y_range, default_z_range]
     max_axis_range = max(axis_ranges)
     # increasing range by 5%
-    # dont want min-max values to be on the 
+    # dont want min-max values to be on the
     # edge of the graph from my understanding
     max_axis_range = max_axis_range + max_axis_range * .05
 
@@ -143,7 +145,7 @@ def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list,
 
     if min_y == 0:
         min_y = int(default_min_y)
-    
+
     if max_y == 0:
         max_y = int(default_max_y)
 
@@ -152,14 +154,12 @@ def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list,
 
     if max_z == 0:
         max_z = int(default_max_z)
-    
 
     return min_x, max_x, min_y, max_y, min_z, max_z
 
 
-def axis_entry_checks_new(axis_list: list, 
-                        min_value: int, max_value: int) -> tuple[int,int]:
-
+def axis_entry_checks_new(axis_list: list,
+                          min_value: int, max_value: int) -> tuple[int, int]:
     '''
     New axis entry checks function. Gets the range for each axis graph by
     getting the min max values from their respective list of x/y/z values.
@@ -174,7 +174,7 @@ def axis_entry_checks_new(axis_list: list,
         Min x, y, or z value. Either from user, or default value.
     max_value: int
         Min x, y, or z value. Either from user, or default value.
-    
+
     Returns
     -------
     min_value : int
@@ -185,7 +185,7 @@ def axis_entry_checks_new(axis_list: list,
     # If one of the values is zero then we don't return
     # Means user entered no input for one or both of the values.
     if min_value and max_value:
-        return min_value, max_value 
+        return min_value, max_value
 
     default_min = min(axis_list)
     default_max = max(axis_list)
@@ -201,17 +201,18 @@ def axis_entry_checks_new(axis_list: list,
 
     if min_value == 0:
         min_value = int(default_min)
-    
+
     if max_value == 0:
         max_value = int(default_max)
 
     return min_value, max_value
 
+
 def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
-                                x_state: bool, y_state: bool,
-                                z_state: bool, timeArr: list, 
-                                filename: str, stime: datetime, 
-                                etime: datetime):
+                                   x_state: bool, y_state: bool,
+                                   z_state: bool, timeArr: list,
+                                   filename: str, stime: datetime,
+                                   etime: datetime):
     """
     Checks the gui entries for plotting, x, y, z axis. If values are set, then we plot those axis
 
@@ -245,7 +246,7 @@ def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
     """
 
     # X, Y, Z plot, clean or raw
-    # first check if all on, then two the two_plot checks, 
+    # first check if all on, then two the two_plot checks,
     # last should be one_axis
     if x_state and y_state and z_state:
 
@@ -285,15 +286,16 @@ def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
             fig = plot_three_axis_graphs.plot_axis(
                 zArr, timeArr, filename, stime, etime, 'Z')
 
-
     return fig
-        
+
 
 '''
 Instance method, move back if this is bad practice?
 Trying to change some to not use self at all.
 '''
-def set_axis_entrys(self, x_min: int, x_max: int, y_min: 
+
+
+def set_axis_entrys(self, x_min: int, x_max: int, y_min:
                     int, y_max: int, z_min: int, z_max: int):
     '''
     Sets the min/max values for x, y, z inside the gui.
@@ -325,3 +327,98 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
     self.min_z_edit.set_entry(z_min)
     self.max_z_edit.set_entry(z_max)
 
+
+
+# def checks(self):
+
+#     if len(self.filename) == 0:
+#         self.warning_message_dialog(
+#             "No file to work with. Open a file with open file button.")
+#         return False
+
+#     station_code = self.station_edit.get_entry()
+#     if not station_code_entry_check(station_code):
+
+#         self.warning_message_dialog(
+#             "Error invalid station code. Needs to be 2-4 characters")
+
+#         return False
+
+#     year_day = self.year_day_edit.get_entry()
+#     if not year_day_entry_check(self):
+
+#         self.warning_message_dialog(
+#             "There was no input for the year day entry box")
+
+#         return False
+
+#     x_state = self.x_checkbox.isChecked()
+#     y_state = self.y_checkbox.isChecked()
+#     z_state = self.z_checkbox.isChecked()
+
+#     any_state = x_state or y_state or z_state
+
+#     if self.one_array_plotted_button.is_toggled():
+#         if not any_state:
+#             self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
+#             return False
+
+#     return True
+
+# def same_entries(self):
+
+#     start_time_stamp, end_time_stamp = self.time_stamp()
+
+#     flag = 0
+
+#     if start_time_stamp == self.start_time_stamp:
+#         flag += 1
+#     if end_time_stamp == self.end_time_stamp:
+#         flag += 1
+#     if self.min_x == self.min_x_edit.get_entry():
+#         flag += 1
+#     if self.max_x == self.max_x_edit.get_entry():
+#         flag += 1
+#     if self.min_y == self.min_y_edit.get_entry():
+#         flag += 1
+#     if self.max_y == self.max_y_edit.get_entry():
+#         flag += 1
+#     if self.min_z == self.min_z_edit.get_entry():
+#         flag += 1
+#     if self.max_z == self.max_z_edit.get_entry():
+#         flag += 1
+
+#     if flag == 8:
+#         # exact same entries
+#         print("failed test")
+#         return False
+#     else:
+#         print("passed test")
+#         return True
+
+# def same_entries_one_toggled(self):
+
+#     start_time_stamp, end_time_stamp = self.time_stamp()
+
+#     flag = 0
+
+#     if start_time_stamp == self.start_time_stamp:
+#         flag += 1
+#     if end_time_stamp == self.end_time_stamp:
+#         flag += 1
+
+#     if self.plot_x == self.x_checkbox.isChecked():
+#         flag += 1
+
+#     if self.plot_y == self.y_checkbox.isChecked():
+#         flag += 1
+
+#     if self.plot_z == self.z_checkbox.isChecked():
+#         flag += 1
+
+#     if flag == 5:
+#         print("failed test")
+#         return False
+#     else:
+#         print("passed test")
+#         return True
