@@ -67,7 +67,6 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis, zoom, left_xlim, r
         year_value = "20" + year_value
 
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
-
     year_of_record = (int)(date[6:])
     month_of_record = (int)(date[0:2])
     day_of_record = (int)(date[3:5])
@@ -92,7 +91,6 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis, zoom, left_xlim, r
     #x_yticks = plt.yticks()
 
     if zoom == True:
-        print('in if stmt x lim')
         plt.xlim(left_xlim,right_xlim)
         
     #if (default_hours_flag):
