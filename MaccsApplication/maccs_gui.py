@@ -98,6 +98,7 @@ class MainWindow(QMainWindow):
         self.toolbar.save_action.triggered.connect(self.save_file)
         self.toolbar.open_action.triggered.connect(self.toolbar_open)
         self.toolbar.hide_entry_action.triggered.connect(self.hide_entry_layout)
+        self.toolbar.zoom_action.triggered.connect(self.time_zoom)
         self.addToolBar(self.toolbar)
 
         menu = self.menuBar()
