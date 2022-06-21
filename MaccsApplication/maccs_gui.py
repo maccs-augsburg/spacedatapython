@@ -750,12 +750,12 @@ class MainWindow(QMainWindow):
         if self.figure_canvas_flag:
 
             self.figure_canvas.setParent(None)
-            self.matplotlib_toolbar.setParent(None)
+            #self.matplotlib_toolbar.setParent(None)
 
         self.figure_canvas = FigureCanvasQTAgg(self.figure)
-        self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
+        #self.matplotlib_toolbar = NavigationToolbar(self.figure_canvas, self)
 
-        self.plotting_layout.add_widget(self.matplotlib_toolbar)
+        #self.plotting_layout.add_widget(self.matplotlib_toolbar)
         self.plotting_layout.add_widget(self.figure_canvas)
         self.main_layout.addWidget(self.plotting_layout, 5)
 
@@ -770,7 +770,7 @@ class MainWindow(QMainWindow):
         Not garbage collected, so have to delete'''
         self.figure_canvas.deleteLater()
         plt.close(self.figure)
-        self.matplotlib_toolbar.deleteLater()
+        #self.matplotlib_toolbar.deleteLater()
 
     def save_file(self):
         
