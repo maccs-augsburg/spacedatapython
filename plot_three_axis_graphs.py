@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from mpl_interactions import ioff, panhandler, zoom_factory
 
-
 import sys
 import datetime
 
@@ -94,7 +93,9 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis, zoom, left_xlim, r
 
     if zoom == True:
         print('in if stmt x lim')
-        plt.xlim(left_xlim,right_xlim)    #if (default_hours_flag):
+        plt.xlim(left_xlim,right_xlim)
+        
+    #if (default_hours_flag):
         #plt.xticks(default_hours_arr) # setting the xaxis time ticks to 1 to 24 hours
     #else:
         #plt.xticks(hoursArr)
