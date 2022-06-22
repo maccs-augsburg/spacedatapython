@@ -87,9 +87,6 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr)
-    print('-------------------')
-    print(hours_arr)
-    print('-------------------')
 
     plt.gca().xaxis.set_major_formatter(x_axis_format)
     #x_yticks = plt.yticks()
