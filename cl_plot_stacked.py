@@ -35,15 +35,17 @@ def main():
     # time or the output file type
     parser = argparse.ArgumentParser()
     parser.add_argument('--png', action='store_true')
-    parser.add_argument('filename', type=str)
-    parser.add_argument('stime', type=str, nargs='?', default="00:00:00")
-    parser.add_argument('etime', type=str, nargs='?', default="23:59:59")
+    parser.add_argument('filename', type=str, help="The name of the input file.")
+    parser.add_argument('stime', type=str, nargs='?', 
+        default="00:00:00", help="The start time for the plot.")
+    parser.add_argument('etime', type=str, nargs='?',
+        default="23:59:59", help="The end time for the plot.")
     args = parser.parse_args()
     
     # the base_filename has no path included, just the filename
     base_filename = os.path.basename( args.filename)
     extension = os.path.splitext(base_filename)[1]
-    print(f"extension is {extension}")
+
     # starttime, endtime, and output file type
     start_time = datetime.time.fromisoformat( args.stime)
     end_time = datetime.time.fromisoformat( args.etime)
@@ -63,9 +65,11 @@ def main():
     if extension == '.2hz' :
         arrayX, arrayY, arrayZ, time_arr = create_datetime_lists_from_raw(
             two_hz_binary_file, start_time, end_time, base_filename)
+        level_for_filename = "0"
     elif extension == '.s2' :
         arrayX, arrayY, arrayZ, time_arr, flags_arr = create_datetime_lists_from_clean(
             two_hz_binary_file, start_time, end_time, base_filename)
+        level_for_filename = "1"
     else:
         print(f"What kind of file was that?")  # FIXME - better error handling
         sys.exit(0)
@@ -79,7 +83,7 @@ def main():
     ### Write the plot to a file
     try:
         print("Got the figure.")
-        out_filename = base_filename[0:7] + "." + output_file_type
+        out_filename = base_filename[0:7] + "_l"+ level_for_filename + "_half_sec." + output_file_type
         figure.savefig( out_filename, format=output_file_type, dpi=1200)
         print(f"Saved to {out_filename}")
     except:
