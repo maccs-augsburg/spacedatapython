@@ -367,5 +367,5 @@ def create_time_list( stime, etime):
 											 minute = 0,
 											 second = hours_arr[i].second)
 
-
+	print('Hours arrs in X axis : ' , hours_arr)
 	return hours_arr, x_axis_format, x_axis_label
