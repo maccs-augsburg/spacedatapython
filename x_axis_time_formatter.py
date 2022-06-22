@@ -45,6 +45,7 @@ def create_time_list( stime, etime):
 
 	# default time construction
 	if (default_array):
+		#hours_arr = [0,2,4,6,8,10,12,14,16,18,20,22,24]
 		for i in range(24):
 			if (i % 2 != 0):
 				hours_arr.append(datetime.datetime(year=1111,
