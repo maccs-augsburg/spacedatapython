@@ -123,7 +123,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setGeometry(60,60, 1000,800)
+        # dont let resizing ? test it  
+        self.setGeometry(60,60, 1600,1000)
 
         ###############
         ### Toolbar ###
@@ -652,7 +653,7 @@ class MainWindow(QMainWindow):
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
         self.maccs_logo.setHidden(True)
-        self.graph_layout.addWidget(self.toolbar) 
+        #self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
     def clear_plots(self):
