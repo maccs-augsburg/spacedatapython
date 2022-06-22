@@ -145,7 +145,8 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     z_yticks = plt.yticks()
-    
+    plt.xlabel(x_axis_label)
+
     # returning the fig object
 
     return fig
