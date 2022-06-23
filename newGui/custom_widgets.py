@@ -273,7 +273,7 @@ to acces by doing Layout_name.some_entry_box.some_method()
 Althought it would serve the purpose of being explicit, and 
 knowing where to find everything.
 '''
-class Layout(QWidget):
+class GridLayout(QWidget):
     def __init__(self):
         super().__init__()
         self.layout = QGridLayout()
