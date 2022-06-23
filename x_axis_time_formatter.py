@@ -30,6 +30,7 @@ def create_time_list( stime, etime):
 	current_hour = stime.hour # setting the hour to start at
 	current_minute = stime.minute # setting the minute to start at
 	current_second = stime.second # setting the second to start at
+
 	x_axis_label = "Universal Time in Hours (HH)" # The label of the x-axis to use
 	default_array = False
 
@@ -57,13 +58,11 @@ def create_time_list( stime, etime):
 	else:
 		# Going off of the second difference
 		second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
-
+		
 		if ((second_difference / 3600) >= 8): # More than or equal to 8 hour branch
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours (HH)"
-			print()
 
-			print(' More than or equal to 8 hour branch')
 			# iterating throughout the hours
 			for i in range(int(second_difference / 3600) + 1):
 				factor = int(second_difference / 3600) % 2
@@ -79,12 +78,11 @@ def create_time_list( stime, etime):
 													   second = current_second))
 					# incrementing current_hour
 					current_hour += 2
-			print(hours_arr)
+		# 	print(hours_arr)
 		elif ((second_difference / 3600) >=5): # More than or equal to 5 hour branch
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours (HH)"
-			print()
-			print('More than or equal to 5 hour branch')
+
 			# iterating throughout the hours and adding every hour to the hours_arr list
 			for hour in range(stime.hour, etime.hour+1):
 				hours_arr.append(datetime.datetime(year=1111,
@@ -95,18 +93,13 @@ def create_time_list( stime, etime):
 												   second = current_second))
 				# incrementing current_hour
 				current_hour += 1
-			print(hours_arr)
 		elif ((second_difference / 3600) >= 2): # More than or equal to 2 hour branch
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
-			print('More than or equal to 2 hour branch')
+
 			# setting the x-axis datetime formatter
 			x_axis_format = mdates.DateFormatter('%H:%M')
 			# iterating through the hours
-			print('stime hour: ', stime.hour)
-			print('etime hour: ',etime.hour)			
-			print('stime minute: ',stime.minute)
-			print('etime minute: ',etime.minute)
 			for hour in range(stime.hour, etime.hour + 1):
 				#print('hour: ' , hour)
 				# iterating through the minutes
@@ -121,7 +114,6 @@ def create_time_list( stime, etime):
 														   hour=hour,
 														   minute=minute,
 														   second=current_second))
-			print(hours_arr)
 		elif ((second_difference / 3600) >= 1): # More than or equal to 1 hour branch
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
@@ -185,7 +177,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the minutes
-			for minute in range(0, abs(stime.minute - (etime.minute + 1))):
+			for minute in range(0, (60 - (abs(stime.minute - (etime.minute + 1))))):
 				# only appending the values for every 5 minutes
 				if minute % 5 == 0:
 					# appending to the hours_arr list
@@ -204,7 +196,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the minutes
-			for minute in range(stime.minute, etime.minute+1):
+			for minute in range(0, (60 - (abs(stime.minute - (etime.minute + 1))))):
 				# only appending the values for every 3 minutes
 				if minute % 3 == 0:
 					# appending to the hours_arr list
@@ -223,7 +215,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the minutes
-			for minute in range(0, abs(stime.minute - (etime.minute + 1))):
+			for minute in range(0, (60 - (abs(stime.minute - (etime.minute + 1))))):
 				# only appending the values for every 2 minutes
 				if minute % 2 == 0:
 					# appending to the hours_arr list
@@ -241,7 +233,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the minutes
-			for minute in range(0, abs(stime.minute - (etime.minute + 1))):
+			for minute in range(0, (60 - (abs(stime.minute - (etime.minute + 1))))):
 				# appending to the hours_arr list for every minute
 				hours_arr.append(datetime.datetime(year=1111,
 												   month=1,
@@ -259,9 +251,9 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the minutes
-			for minute in range(0, abs(stime.minute - (etime.minute + 1))):
+			for minute in range(0, (60 - (abs(stime.minute - (etime.minute + 1))))):
 				# iterating through the seconds
-				for second in range(0, abs(stime.second - (etime.second + 1))):
+				for second in range(0, (60 - (abs(stime.second - (etime.second + 1))))):
 					# only appending the values for every 20 seconds
 					if second % 20 == 0:
 						# appending to the hours_arr list
@@ -280,7 +272,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the seconds
-			for second in range(0, abs(stime.second - (etime.second + 1))):
+			for second in range(0, (60 - (abs(stime.second - (etime.second + 1))))):
 				# only appending the values for every 15 seconds
 				if second % 15 == 0:
 					# appending to the hours_arr list
@@ -299,7 +291,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the seconds
-			for second in range(0, abs(stime.second - (etime.second + 1))):
+			for second in range(0, (60 - (abs(stime.second - (etime.second + 1))))):
 				# only appending the values for every 10 seconds
 				if second % 10 == 0:
 					# appending to the hours_arr list
@@ -318,7 +310,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the seconds
-			for second in range(0, abs(stime.second - (etime.second + 1))):
+			for second in range(0, (60 - (abs(stime.second - (etime.second + 1))))):
 				# only appending the values for every 3 seconds
 				if second % 3 == 0:
 					# appending to the hours_arr list
@@ -337,7 +329,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the seconds
-			for second in range(0, abs(stime.second - (etime.second + 1))):
+			for second in range(0, (60 - (abs(stime.second - (etime.second + 1))))):
 				# only appending the values for every 1 second
 				if second % 2 == 0:
 					# appending to the hours_arr list
@@ -356,7 +348,7 @@ def create_time_list( stime, etime):
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
 
 			# iterating through the seconds
-			for second in range(0, abs(stime.second - (etime.second + 1))):
+			for second in range(0, (60 - (abs(stime.second - (etime.second + 1))))):
 				# appending to the hours_arr list for every second
 				hours_arr.append(datetime.datetime(year=1111,
 												   month=1,
@@ -375,5 +367,4 @@ def create_time_list( stime, etime):
 											 minute = 0,
 											 second = hours_arr[i].second)
 
-	print('Hours arrs in X axis : ' , hours_arr)
 	return hours_arr, x_axis_format, x_axis_label
