@@ -262,6 +262,7 @@ class MainWindow(QMainWindow):
         self.combo_box.addItems(self.options)
         self.combo_box.setCurrentIndex(3)
         # Add combo box to entry layout
+        
         file_button = PushButton("Open File")
         file_button.set_uncheckable()
         file_button.clicked.connect(self.launch_dialog)
