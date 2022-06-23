@@ -14,6 +14,8 @@ where timeInterval is blank if it is the whole day and cadence is
 
 """
 
+import os
+
 def create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
     """
     Creates a time interval string for a filename given the hour, minute, and second
@@ -71,3 +73,41 @@ def create_time_interval_string( start_second, end_second) :
     end_second = end_second % 60
     return create_time_interval_string_hms( start_hour, start_minute, start_second, 
                                             end_hour, end_minute, end_second)
+
+def create_2hz_plot_file_name( filename, start_time, end_time) :
+    """
+    Creates a filename appropriate for a 2 Hz plot.
+    
+    Parameters
+    ----------
+    filename:
+        The name of the file in SSYYDDD.ext format
+    start_time
+        The start time for the plot as a string in HH:MM:SS format.
+    end_time
+        The end time for the plot as a string in HH:MM:SS format
+        
+    Returns
+    -------
+    string
+        The name for the file containing the plot with no extension.
+    """
+    
+    # grab the station name, year, and day of year from the name
+    name_year_doy = filename[0:7].lower()
+    
+    # grab the file extension from the name to determine the processing level
+    extension = os.path.splitext(filename)[1]
+    if extension == '.2hz' :
+        proc_level = "0"
+    elif extension == '.s2' :
+        proc_level = "1"
+        
+    # grab the time interval string
+    interval_string = create_time_interval_string_hms(
+        int(start_time[0:2]), int(start_time[3:5]), int(start_time[6:8]),
+        int(end_time[0:2]), int(end_time[3:5]), int(end_time[6:8]))
+    
+    # return the answer
+    return f"{name_year_doy}{interval_string}_l{proc_level}_half_sec"
+    
