@@ -34,7 +34,7 @@ import subprocess
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
     PushButton, Spinbox, Time, 
-    Layout, HLayout,
+    GridLayout, HLayout,
     Toolbar, VLayout)
 
 from custom_time_widget import MinMaxTime
@@ -64,8 +64,21 @@ class MainWindow(QMainWindow):
 
         self.setGeometry(60,60, 1000,800)
 
+        ###########################
+        ### Place Holder Values ###
+        ###########################
         self.selection_file_value = ''
         self.temp_var = 0
+        
+        ##################
+        ### Maccs Logo ###
+        ##################
+
+        # Maccs Logo
+        self.mac_label = QLabel()
+        pixmap = QPixmap('../maccslogo_nobg.png')
+        self.mac_label.setPixmap(pixmap)
+        self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
         ###############
         ### Toolbar ###
@@ -111,9 +124,13 @@ class MainWindow(QMainWindow):
         #TODO add more layouts that add the group widgets from marks custom widget file
         # layout for buttons and checkboxs
         self.main_layout = QHBoxLayout()
-        self.label_and_entry_layout = QGridLayout()
-        self.graph_layout = QVBoxLayout()
+        self.parent_label_layout = GridLayout()
+        self.labels_and_text_fields_layout = GridLayout()
 
+        self.graph_layout = VLayout()
+        self.checkbox_layout = HLayout()
+        self.button_layout = GridLayout()
+        self.min_max_xyz_layout = GridLayout()
         ###############
         ### Labels ####
         ###############
@@ -138,6 +155,12 @@ class MainWindow(QMainWindow):
         self.spinbox_min_y = Spinbox(0, 99999, 10)
         self.spinbox_max_z = Spinbox(0, 99999, 10)
         self.spinbox_min_z = Spinbox(0, 99999, 10)
+
+        ###################
+        ### Text Fields ###
+        ###################
+        self.input_station_code = LineEdit()
+        self.input_year = LineEdit()
 
         #####################
         ### QTime Widgets ###
@@ -166,6 +189,46 @@ class MainWindow(QMainWindow):
         # Add items to combo box
         self.combo_box_files.addItems(self.file_options)
         self.combo_box_files.setCurrentIndex(3)
+
+        #######################
+        ### Checkbox Select ###
+        #######################
+        
+        self.checkbox_plotx = CheckBox("X Plot")
+        self.checkbox_ploty = CheckBox("Y Plot")
+        self.checkbox_plotz = CheckBox("Z Plot")
+
+        ###############
+        ### Buttons ###
+        ###############
+        self.button_open_file = PushButton("Open file")
+        self.button_graph_style = PushButton('Graph Style')
+        self.button_quit = PushButton('Quit')
+        self.button_save = PushButton('Save')
+        self.button_save_as = PushButton('Save as...')
+        self.button_clear_plot = PushButton('Clear Plot')
+        self.button_plot_three_axis = PushButton("Plot Graph")
+        self.button_plot_stacked_graph = PushButton("Plot Graph")
+
+        ######################
+        ### Adding Widgets ###
+        ######################
+        self.labels_and_text_fields_layout.add_widget(self.station_label,0,0)
+
+        #######################################
+        ### Adding layouts into main Layout ###
+        #######################################
+        self.main_layout.addWidget(self.parent_label_layout,1)
+        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout,0,0)
+        self.parent_label_layout.add_widget(self.min_max_xyz_layout,1,0)
+        self.parent_label_layout.add_widget(self.checkbox_layout,2,0)
+        self.parent_label_layout.add_widget(self.button_layout,3,0)
+                #######
+        ### Set Central Widget ###
+        main_widget = QWidget()
+        main_widget.setLayout(self.main_layout)
+        self.setCentralWidget(main_widget)
+
 
     def __call__(self,event):
         '''
