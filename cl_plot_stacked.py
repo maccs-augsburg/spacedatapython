@@ -31,13 +31,14 @@ def main():
     command line arguments as input parameters.    
     """
     
-    # Read and process the command line arguments. They are
+    ### Retrieve from the command line arguments and store information
+    ### or the default values in variables
+    
+    # Read the command line arguments. They are
     #  optional flag for file type - default to pdf
-    #  the filename
+    #  required filename
     #  optional starttime - default to "00:00:00"
     #  optional endtime - default to "23:59:59"
-    # if there are three args the third one will be either the start
-    # time or the output file type
     parser = argparse.ArgumentParser()
     parser.add_argument('--png', action='store_true', help="output to a png file")
     parser.add_argument('filename', type=str, help="name of the input file")
@@ -56,7 +57,6 @@ def main():
     end_time = datetime.time.fromisoformat( args.etime)
     output_file_type = 'pdf' # defaulting with the pdf option
     if args.png:
-        print( "args.png is true")
         output_file_type = 'png'
 
     ### Open the file for reading
