@@ -105,8 +105,8 @@ def create_2hz_plot_file_name( filename, start_time, end_time) :
         
     # grab the time interval string
     interval_string = create_time_interval_string_hms(
-        start_time[0:2], start_time[3:5], start_time[6:8],
-        end_time[0:2], end_time[3:5], end_time[6:8])
+        int(start_time[0:2]), int(start_time[3:5]), int(start_time[6:8]),
+        int(end_time[0:2]), int(end_time[3:5]), int(end_time[6:8]))
     
     # return the answer
     return f"{name_year_doy}{interval_string}_l{proc_level}_half_sec"
