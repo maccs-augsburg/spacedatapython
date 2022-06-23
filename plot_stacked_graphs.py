@@ -101,14 +101,15 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
-    fig.subplots_adjust(hspace=0.03)
+    fig.subplots_adjust(hspace=0.1)
 
     ### first plot    
     # plt.ylim(minimum, maximum)
-    plt.subplot(311)	# subplot allows multiple plots on 1 page
+    axis_x = plt.subplot(311)	# subplot allows multiple plots on 1 page
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
+    
     plt.ylim(in_min_x, in_max_x)
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
@@ -117,7 +118,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.ylabel('Bx', labelpad=10)	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
-    plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
+    plt.gca().tick_params(axis='x', direction='in', which='major', pad=10) # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
     plt.gca().xaxis.set_major_formatter(x_axis_format)
@@ -127,38 +128,28 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     x_yticks = plt.yticks()
 
     ### Now build the second plot, this time using y-axis data
-    plt.subplot(312)
+    axis_y = plt.subplot(312, sharex= axis_x)
     plt.ylim(in_min_y, in_max_y)
     plt.plot(time_arr,y_arr, linewidth=1)
     # Change padding here for 2nd graph
     plt.ylabel('By', labelpad=17)	# side label
-    plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
-    plt.gca().tick_params(axis='x', direction='in') # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
-    plt.gca().xaxis.set_major_formatter(x_axis_format)
-    #plt.gca().axes.xaxis.set_ticklabels([]) # removing x axis numbers
-    # last line would remove (_, y) x from interactive matplotlib
-    # this next line makes it visible
     plt.gca().axes.xaxis.set_visible(False)
     y_yticks = plt.yticks()
     
     ### Third plot using z-axis data. Add the x-axis label at the bottom
-    plt.subplot(313)
+    axis_z = plt.subplot(313, sharex= axis_x)
     plt.ylim(in_min_z, in_max_z)
     plt.plot(time_arr,z_arr, linewidth=1)
     # Changed padding here for 3rd graph
     plt.ylabel('Bz', labelpad=6)	# side label
-    plt.xlabel(x_axis_label) # label underneath
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
-    plt.gca().tick_params(axis='x', direction='in', which='major', pad=10) # x axis ticks inverted
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
-    plt.xticks(hours_arr) # setting the xaxis time ticks to custom values
-    plt.gca().xaxis.set_major_formatter(x_axis_format)
     z_yticks = plt.yticks()
     # returning the fig object
+
     return fig
 
 def set_yaxis(yticks_list, scale_difference):

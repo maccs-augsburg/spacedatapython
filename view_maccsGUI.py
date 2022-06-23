@@ -5,16 +5,16 @@
 # By Chris Hance may 2022
 
 #Import from PySide6 // QT
-
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
                                 QWidget, QHBoxLayout, 
                                 QGridLayout,QPushButton, 
                                 QToolBar,QVBoxLayout,
                                 QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox, QButtonGroup, QTimeEdit
+                                QCheckBox,QMessageBox, 
+                                QButtonGroup, QSizePolicy
                                 )
-from PySide6.QtGui import QIcon, QAction, QPixmap, Qt
+from PySide6.QtGui import QIcon, QAction, QPixmap, Qt, QPalette
 from PySide6.QtCore import  QSize, QTime
 
 # path for file open 
@@ -26,28 +26,88 @@ import datetime
 
 #Imports from matplotlib
 import matplotlib
+from matplotlib.ft2font import LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH
 matplotlib.use('qtagg')
-
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+
+from numpy import minimum
 
 import subprocess
 
 #imports from other python files
-import file_naming
+from file_naming import create_time_interval_string_hms
 import read_raw_to_lists
 import read_clean_to_lists
 import entry_checks
+#from entry_checks import start_hour_entry_check, start_minute_entry_check, start_second_entry_check,end_hour_entry_check, end_minute_entry_check, end_second_entry_check, graph_from_plotter_entry_check, file_format_entry_check
 import plot_stacked_graphs
+from custom_time_widget import MinMaxTime
 
 class MainWindow(QMainWindow):
-    '''
-    Class Containing GUI using PySide6 module from QT using its framework 
-    The Gui is able to Graph a Single graph that can plot any combantion of axis'
-    X Y or Z, one two, or three. While also able to alter the graph via zooming in and saving images of the graph
-    We have ability to save as pdf or png using built in toolbar with matplotlib we can zoom and acess subplots of the graph
-    we can also pin point a zoom using the text labels on the left of the GUI and re pressing plot
-    '''
+    """
+    Using PySide6 creates GUI that display and visualizes data coming from the Magtometers in the artic from files currently
+    in .2hz or .s2 format. 
+    This Class holds all GUI related functions and widgets to display the proper information. 
+
+    ''' 
+
+    Methods
+    -----------
+    open_file
+        Creates a dialog for the user to select a file in .2hz or .s2 format and once selected 
+        sets proper widgets input to match the data read from file
+    get_graph_entries
+        Grabs each widgets input and checks the value in each field if valid or not along with
+        creating a time interval string from datetime object from our start and end time 
+    choose_graph_style
+        After Graph Style button is press dialog box is opened for user to select what style of graph they want
+        three axis on seperate graphs stacked vertically or one graph and able to choose which axis(s) is displayed
+        once graph style is displayed proper widget fields are shown in respect to the graph style
+    plot_three_axis
+        Display the graph in which you can choose what axis(s) you want displayed on one graph with the use of 
+        checkboxes the file is grabed from open_file and opened and then read from read_raw_to_lists to create a datetime arr for the x axis
+        and then graphed into a FigureCanvas that is embedded into our MainWindow
+    __call__
+        Event Listener that allows the graph to be zoomed in by clicking two points on the graph
+        the first click is the left side of the new zoomed in plot and second click the the end of the right side
+        after our second click we disconnect the listener and recall the plot function to replot the graph with the new xlims
+    zoom_in_listener
+        Starts the connection to __call__ and waits for user to press the zoom button on the toolbar 
+        once that is clicked the connection is made to __call__ and allows for clicks to be listened too
+        if we have already zoomed in (pressed the zoom button and clicked twice) and then we recall this function
+        we reset the flags and allow for xlims to be re written over
+    plot_stacked_axis
+        Plots all three axis on one canvas but three graphs that are stacked vertically ontop of each other
+        we check for valid entries values in our widgets with get_graph_entries and then we open the file 
+        create the x axis values with datetime objects and graphed into a FigureCanvas that is embedded into our MainWindow
+    clear_plots
+        Clears all widgets in our graph layout which only holds our FigureCanvas' 
+        function is used anytime the user wants to clear the graph or we replot a graph with updated values 
+    radio_file_check
+        Visual aid for the user after file is opened and selected the proper radio button is auto selected to the file type
+        .2hz or .s2
+    error_message_pop_up
+        pops up error message box with the title and message inputted
+    warning_message_pop_up
+        pops up warning message box with the title and message inputted
+    convert_hours_list_to_datetime_object
+        (Currently not used created by Ted, keeping for the sake of not knowing what we can use it for)
+        converts the hours list into datetime objects
+    save
+        Saves the Graph as a PDF Image
+    save_as
+        Opens Dialog box that user presses to save the graph as PDF or PNG 
+    set_stacked_options_hidden
+        Sets button group hidden when display type is not choosen
+    set_stacked_options_visable
+        Sets button group visable when display type is choosen
+    set_three_axis_options_hidden
+        Sets button group hidden when display type is not choosen
+    set_three_axis_options_visable
+        Sets button group visable when display type is choosen
+    """
     def __init__(self):
 
         """ 	
@@ -64,7 +124,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
-        self.selection_file_value = ''
 
         ###############
         ### Toolbar ###
@@ -84,6 +143,16 @@ class MainWindow(QMainWindow):
 
         self.addToolBar(toolbar)
     
+        ###########################
+        ### Place Holder Values ###
+        ###########################
+
+        self.selection_file_value = ''
+        self.zoom_flag = False
+        self.temp_var = 0
+        self.left_lim = 0.0
+        self.right_lim = 0.0
+
         ############
         ### Menu ###
         ############
@@ -107,7 +176,7 @@ class MainWindow(QMainWindow):
 
         self.station_code = QLabel("Station Code: ")
         self.year_day = QLabel("Year Day: ")
-
+        
         self.label_start_time = QLabel("Start Time: ")
         self.label_end_time = QLabel("End Time: ")
 
@@ -121,6 +190,7 @@ class MainWindow(QMainWindow):
         self.test = QLabel("Welcome to the Magnetometer Array for Cusp and Cleft Studies")
 
         self.label_start_time.setMaximumWidth(60)
+        self.year_day.setMaximumWidth(60)
         self.plot_xyz_label.setFixedHeight(20)
         self.format_file_text.setFixedHeight(20)
 
@@ -159,16 +229,14 @@ class MainWindow(QMainWindow):
         #####################
         ### QTime Widgets ###
         #####################
-        self.qtime_start_time = QTimeEdit()
-        self.qtime_start_time.setTimeRange(QTime(00,00,00), QTime(24,00,00))
-        self.qtime_start_time.setDisplayFormat('hh:mm:ss')
+        self.custom_start_time = MinMaxTime('Min')
+        self.custom_end_time = MinMaxTime('Max')
+        self.custom_start_time.time_widget.setTime(QTime(00,00,00))
+        self.custom_end_time.time_widget.setTime(QTime(23,59,59))
 
-        self.qtime_end_time = QTimeEdit()
-        self.qtime_end_time.setTimeRange(QTime(00,00,00), QTime(24,00,00))
-        self.qtime_end_time.setDisplayFormat('hh:mm:ss')
-
-        self.qtime_start_time.setTime(QTime(00,00,00))
-        self.qtime_end_time.setTime(QTime(23,59,59))
+        self.custom_start_time.setMaximumWidth(165)
+        self.custom_end_time.setMaximumWidth(165)
+        self.custom_start_time.time_widget.setAlignment(Qt.AlignLeft)
 
         #######################
         ### Checkbox Select ###
@@ -199,11 +267,13 @@ class MainWindow(QMainWindow):
         ###############
         ### Layouts ###
         ###############
-
         self.main_layout = QHBoxLayout()
         self.label_and_entry_layout = QGridLayout()
         self.graph_layout = QVBoxLayout()
 
+        self.main_layout.setContentsMargins(5,0,0,0)
+        self.label_and_entry_layout.setVerticalSpacing(-10)
+        
         ###############
         ### Buttons ###
         ###############
@@ -231,6 +301,7 @@ class MainWindow(QMainWindow):
 
         action_openfile.triggered.connect(self.open_file)
         action_savefile.triggered.connect(self.save)
+        action_zoom.triggered.connect(self.zoom_in_listener)
 
         self.button_open_file.clicked.connect(self.open_file)
         self.button_quit.clicked.connect(self.close)
@@ -248,15 +319,15 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.station_code,0,0)
         self.label_and_entry_layout.addWidget(self.year_day, 1,0)
 
-        self.label_and_entry_layout.addWidget(self.qtime_start_time, 2,1)
-        self.label_and_entry_layout.addWidget(self.qtime_end_time, 3,1)
+        self.label_and_entry_layout.addWidget(self.custom_start_time,2, 1)
+        self.label_and_entry_layout.addWidget(self.custom_end_time,3, 1)
+
 
         self.label_and_entry_layout.addWidget(self.label_start_time, 2,0)
         self.label_and_entry_layout.addWidget(self.label_end_time, 3,0)
 
         self.label_and_entry_layout.addWidget(self.input_station_code,0, 1)
         self.label_and_entry_layout.addWidget(self.input_year, 1, 1)
-
 
         self.label_and_entry_layout.addWidget(self.plot_xyz_label, 8, 0)
        
@@ -279,12 +350,15 @@ class MainWindow(QMainWindow):
         self.label_and_entry_layout.addWidget(self.graph_display_button_group.button(2), 11, 0)
         self.label_and_entry_layout.addWidget(self.button_plot_three_axis, 15 ,0)
         self.label_and_entry_layout.addWidget(self.button_plot_stacked_graph,15 ,0)
+
         self.label_and_entry_layout.addWidget(self.format_file_text, 16, 0)
+
         self.label_and_entry_layout.addWidget(self.radio_iaga2000, 17,0)
         self.label_and_entry_layout.addWidget(self.radio_iaga2002, 18,0)
         self.label_and_entry_layout.addWidget(self.radio_clean_file, 19,0)
         self.label_and_entry_layout.addWidget(self.radio_raw_file, 20, 0)
         self.label_and_entry_layout.addWidget(self.radio_other, 21, 0)
+
         self.label_and_entry_layout.addWidget(self.button_graph_style, 22, 0)
         self.label_and_entry_layout.addWidget(self.button_clear_plot, 22, 1)
         self.label_and_entry_layout.addWidget(self.button_save_as, 23, 0)
@@ -303,9 +377,8 @@ class MainWindow(QMainWindow):
 
         self.main_layout.addLayout(self.label_and_entry_layout)
         self.main_layout.addLayout(self.graph_layout)
-
         self.main_layout.addWidget(self.maccs_logo)
-
+    
         self.main_widget = QWidget()
         self.main_widget.setLayout(self.main_layout)
         self.main_widget.setMinimumSize(1100,800)
@@ -335,7 +408,7 @@ class MainWindow(QMainWindow):
             file_name = QFileDialog.getOpenFileName(self, 'Open File', home_dir, '(*.2hz *.s2)')
             self.abs_file_name = file_name[0]
             file_name = str(file_name)
-            print(self.abs_file_name)
+
             # splitting up the path and selecting the filename
             self.file_name = file_name.split(',')[0]
 
@@ -350,6 +423,7 @@ class MainWindow(QMainWindow):
 
             #temp var
             file_type = ''
+
             # raw file selection branch
             if (self.file_name[7:11] == '.2hz'):
                 self.selection_file_value = '4'
@@ -359,36 +433,12 @@ class MainWindow(QMainWindow):
             elif (self.file_name[7:10] == '.s2'):
                 self.selection_file_value = '5'
                 file_type = '.s2'
+
             # else
             else:
                 print('Option not available yet :(')
             # checks the radio button with the proper file type
             self.radio_file_check(file_type)
-
-    '''
-    TODO
-    IF putting both graphing dispaly into one 
- 
-    I have to depending on what display show 
-    -- Checkboxs for X Y Z 
-    OR
-    -- min and max X Y Z values 
-
-    After chosing what graph to display
-
-    Proper fields show up and another "ok" button is displayed by those fields and after inputting or 
-    checking click ok and plot is displayed and is faster    
-    after already chosing what style instead of going through the message box everytime 
-    sepreate the if statements of three axis and stack display into functions so that after we decided what 
-
-    -- Open File
-     -- Press Plot and Choose What Display you want Three Axis or Stacked Display (Rename button to choose graph type?)
-      -- Proper input fields will then be shown 
-                                            - Checkbox for three axis
-                                            - plot min and max text fields for stacked display
-        -- button by those fields that you press that plots the graph then can do normal alterations as before 
-
-    '''
 
     def get_graph_entries(self):
         '''
@@ -402,16 +452,15 @@ class MainWindow(QMainWindow):
         year_day_value = self.input_year.text()
         
         # Start hour, minute, and second entries
-
-        start_hour_value = entry_checks.start_hour_entry_check(self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(0)))
-        start_minute_value = entry_checks.start_minute_entry_check(self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(1)))
-        start_second_value = entry_checks.start_second_entry_check( self, self.qtime_start_time.sectionText(self.qtime_start_time.sectionAt(2)))
+        start_hour_value = entry_checks.start_hour_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(0)))
+        start_minute_value = entry_checks.start_minute_entry_check(self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(1)))
+        start_second_value = entry_checks.start_second_entry_check( self, self.custom_start_time.time_widget.sectionText(self.custom_start_time.time_widget.sectionAt(2)))
 
         # End hour, minute and second entries
 
-        end_hour_value = entry_checks.end_hour_entry_check( self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(0)))
-        end_minute_value = entry_checks.end_minute_entry_check(self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(1)))
-        end_second_value = entry_checks.end_second_entry_check( self, self.qtime_end_time.sectionText(self.qtime_end_time.sectionAt(2)))
+        end_hour_value = entry_checks.end_hour_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(0)))
+        end_minute_value = entry_checks.end_minute_entry_check(self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(1)))
+        end_second_value = entry_checks.end_second_entry_check( self, self.custom_end_time.time_widget.sectionText(self.custom_end_time.time_widget.sectionAt(2)))
 
         # creating the start time stamp
         self.start_time_stamp = datetime.time(hour=start_hour_value, minute=start_minute_value, second=start_second_value)
@@ -422,7 +471,7 @@ class MainWindow(QMainWindow):
        
         # Making the Plot
         self.file_name_full = station_name_value + year_day_value + file_ending_value
-        time_interval_string = file_naming.create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
+        time_interval_string = create_time_interval_string_hms(start_hour_value, start_minute_value, start_second_value, end_hour_value, end_minute_value, end_second_value)
         self.file_name = station_name_value + year_day_value + time_interval_string
 
     def choose_graph_style(self):
@@ -432,7 +481,6 @@ class MainWindow(QMainWindow):
         three axis display where the user can choose 1-3 axis to view on the same graph show the derivatives of the axis 
         '''
         
-
         # Message box that asks what type of graph verison you want
         self.which_graph_type_box = QMessageBox(self)
 
@@ -450,15 +498,12 @@ class MainWindow(QMainWindow):
             self.button_plot_three_axis.setHidden(False)
             self.button_plot_stacked_graph.setHidden(True)
             
-
-
         elif self.which_graph_type_box.clickedButton() == self.stacked_display:
             self.clear_plots()
             self.set_stacked_options_visable()
             self.set_three_axis_options_hidden()
             self.button_plot_stacked_graph.setHidden(False)
             self.button_plot_three_axis.setHidden(True)
-            
 
         elif self.which_graph_type_box.clickedButton() == self.cancel_button:
             self.which_graph_type_box.close()
@@ -469,12 +514,16 @@ class MainWindow(QMainWindow):
         then values are checked for validility and then put into a figure via matplotlib
         and then set into a PySide Canvas and embeded into our MainWindow
         '''
+        #calls the function that will always check the validility of the values in each text field and box prior to graphing 
+        # if anything is wrong incorrect etc we will display a warning / error 
         self.get_graph_entries()
-        # Setting default values of the checkbox values if 0 we dont plot that axis if checked its a 1 and it is plotted 
+
+        # Setting default values of the checkbox values 
         plot_x_axis = 0         
         plot_y_axis = 0
         plot_z_axis = 0
 
+        #if 0 we dont plot that axis if checked its value is 1 and it is plotted 
         if (self.checkbox_plotx.isChecked()):
             plot_x_axis = 1        
         if (self.checkbox_ploty.isChecked()):
@@ -491,6 +540,7 @@ class MainWindow(QMainWindow):
 
         #Creating the arrays
         if (self.selection_file_value == '4'):
+            #
             xArr, yArr, zArr, timeArr = read_raw_to_lists.create_datetime_lists_from_raw(file, self.start_time_stamp,self.end_time_stamp, self.file_name)
             # plotting the arrays
             self.graph = entry_checks.graph_from_plotter_entry_check(self,plot_x_axis,
@@ -515,13 +565,48 @@ class MainWindow(QMainWindow):
                                                                 self.file_name, self.start_time_stamp, self.end_time_stamp, '5')
         # Clears all widgets in the graph_layout, and allows for only one graph to be displayed at a time
         self.clear_plots()
-    
+
         # Putting the arrays into the gui
         self.graph = FigureCanvasQTAgg(self.graph)
         self.toolbar = NavigationToolbar2QT(self.graph, self)
         self.maccs_logo.setHidden(True)
-        self.graph_layout.addWidget(self.toolbar) 
+       # self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
+
+    def __call__(self,event):
+        '''
+        __call__ is the event listener connected to matplotlib 
+        it will listen for mouse clicks and record the xdata of the first and second click and converting them from matplotlib dates to datetime objects
+        and then stripping the time down to hour min second spliting the values and settime our Time widget to that time and replotting normally so the scale is auto as it aslways is 
+
+        '''
+        datetime_object = mdates.num2date(event.xdata)
+        time_value_on_click= datetime.datetime.strftime(datetime_object,"%H %M %S")
+        zoom_values = time_value_on_click.split(" ")
+        
+        if self.temp_var == 0:
+            self.custom_start_time.time_widget.setTime(QTime(int(zoom_values[0]),int(zoom_values[1]),int(zoom_values[2])))
+
+        elif self.temp_var == 1:
+            self.custom_end_time.time_widget.setTime(QTime(int(zoom_values[0]),int(zoom_values[1]),int(zoom_values[2])))
+
+            self.graph.mpl_disconnect(self.cid)
+            if self.button_plot_stacked_graph.isHidden() == True:
+                self.plot_three_axis()
+            elif self.button_plot_three_axis.isHidden() == True:
+                self.plot_stacked_axis()
+        self.temp_var = self.temp_var + 1
+
+    def zoom_in_listener(self):
+        '''
+        Starts event listening that listens for clicks after clicking the zoom icon
+        and uses the __call__ function to handle to clicks 
+        and we get two clicks we call other function in __call__ after zoom_in_listner is called after button events happened
+        the values are reset so we can continune more zoomin 
+        '''
+        self.cid = self.graph.mpl_connect('button_press_event', self)
+        if self.temp_var > 1:
+            self.temp_var = 0
 
     def plot_stacked_axis(self):
         '''
@@ -530,7 +615,6 @@ class MainWindow(QMainWindow):
         and then set into a PySide Canvas and embeded into our MainWindow
         '''
         self.get_graph_entries()
-
         plot_min_value_x = int(self.input_min_x.text())
         plot_max_value_x = int(self.input_max_x.text())
         plot_min_value_y = int(self.input_min_y.text())
@@ -580,13 +664,6 @@ class MainWindow(QMainWindow):
         for i in reversed(range(self.graph_layout.count())): 
             self.graph_layout.itemAt(i).widget().setParent(None)      
         self.maccs_logo.setHidden(False)
-
-    def custom_toobar(self):
-        '''
-        still in progress
-        '''
-        foobar = NavigationToolbar2QT(self.graph, self)
-        foobar.zoom()
 
     def radio_file_check(self,file_type):
         '''
@@ -642,9 +719,7 @@ class MainWindow(QMainWindow):
         return converted_list
 
     def save(self):
-         
         """
-        Description:
             Saves the Graph as a PDF Image
 
             file_type is a QMessageBox that pops up once the Save as QButton is pressed 
@@ -667,7 +742,6 @@ class MainWindow(QMainWindow):
     def save_as(self):
          
         """
-        Description:
             Saves the Graph as an image with user chosing either a PDF or PNG option 
             can easily incorperate more files as needed 
 
@@ -696,6 +770,9 @@ class MainWindow(QMainWindow):
             file_type.close()
 
     def set_stacked_options_hidden(self):
+        '''
+        Sets button group hidden when display type is not choosen
+        '''
 
         self.min_x.setHidden(True)
         self.max_x.setHidden(True)
@@ -711,6 +788,9 @@ class MainWindow(QMainWindow):
         self.input_max_z.setHidden(True)
 
     def set_stacked_options_visable(self):
+        '''
+        Sets button group visable when display type is choosen
+        '''
 
         self.min_x.setHidden(False)
         self.max_x.setHidden(False)
@@ -726,12 +806,20 @@ class MainWindow(QMainWindow):
         self.input_max_z.setHidden(False)
 
     def set_three_axis_options_hidden(self):
+        '''
+        Sets button group hidden when display type is not choosen
+        '''
+
         self.plot_xyz_label.setHidden(True)
         self.graph_display_button_group.button(0).setHidden(True)
         self.graph_display_button_group.button(1).setHidden(True)
         self.graph_display_button_group.button(2).setHidden(True)
 
     def set_three_axis_options_visable(self):
+        '''
+        Sets button group visable when display type is choosen
+        '''
+
         self.plot_xyz_label.setHidden(False)
         self.graph_display_button_group.button(0).setHidden(False)
         self.graph_display_button_group.button(1).setHidden(False)
@@ -740,6 +828,10 @@ class MainWindow(QMainWindow):
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
+    pal = QPalette()
+    pal.setColor(QPalette.Window,'white')
+    window.setPalette(pal)
+    window.setAutoFillBackground(True)
     window.show()
     app.exec()
 
