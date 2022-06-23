@@ -215,9 +215,9 @@ class MainWindow(QMainWindow):
         ######################
         self.labels_and_text_fields_layout.add_widget(self.station_label,0,0)
 
-        #######################################
-        ### Adding layouts into main Layout ###
-        #######################################
+        ###############################################
+        ### Adding wdigets layouts into main Layout ###
+        ###############################################
         self.main_layout.addWidget(self.parent_label_layout,1)
         self.parent_label_layout.add_widget(self.labels_and_text_fields_layout,0,0)
         self.parent_label_layout.add_widget(self.min_max_xyz_layout,1,0)
