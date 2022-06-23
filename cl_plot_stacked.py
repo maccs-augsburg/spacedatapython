@@ -26,7 +26,11 @@ from file_naming import create_2hz_plot_file_name
 
 
 def main():
-
+    """
+    Implements a command line tool to create a stacked plot given the
+    command line arguments as input parameters.    
+    """
+    
     # Read and process the command line arguments. They are
     #  optional flag for file type - default to pdf
     #  the filename
@@ -35,12 +39,12 @@ def main():
     # if there are three args the third one will be either the start
     # time or the output file type
     parser = argparse.ArgumentParser()
-    parser.add_argument('--png', action='store_true')
-    parser.add_argument('filename', type=str, help="The name of the input file.")
+    parser.add_argument('--png', action='store_true', help="output to a png file")
+    parser.add_argument('filename', type=str, help="name of the input file")
     parser.add_argument('stime', type=str, nargs='?', 
-        default="00:00:00", help="The start time for the plot.")
+        default="00:00:00", help="start time for the plot")
     parser.add_argument('etime', type=str, nargs='?',
-        default="23:59:59", help="The end time for the plot.")
+        default="23:59:59", help="end time for the plot")
     args = parser.parse_args()
     
     # the base_filename has no path included, just the filename
