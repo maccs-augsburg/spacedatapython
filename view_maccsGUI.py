@@ -149,10 +149,7 @@ class MainWindow(QMainWindow):
         ###########################
 
         self.selection_file_value = ''
-        self.zoom_flag = False
         self.temp_var = 0
-        self.left_lim = 0.0
-        self.right_lim = 0.0
 
         ############
         ### Menu ###
@@ -279,7 +276,7 @@ class MainWindow(QMainWindow):
         ### Buttons ###
         ###############
          
-        self.button_open_file = QPushButton("Open file")
+        self.button_open_file = QPushButton("Open file...")
         self.button_open_file.setFixedWidth(75)
         self.button_graph_style = QPushButton('Graph Style')
         self.button_graph_style.setFixedWidth(75)
@@ -295,6 +292,7 @@ class MainWindow(QMainWindow):
         self.button_plot_three_axis.setFixedWidth(75)
         self.button_plot_stacked_graph = QPushButton("Plot Graph")
         self.button_plot_stacked_graph.setFixedWidth(75)
+       # self.button_plot_three_axis.setDisabled(True)
 
         ########################
         ### Signals / Events ###
