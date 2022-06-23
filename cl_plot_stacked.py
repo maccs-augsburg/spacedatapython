@@ -22,6 +22,7 @@ from raw_codecs import decode, time_of_record
 from plot_stacked_graphs import plot_arrays
 from read_raw_to_lists import create_datetime_lists_from_raw
 from read_clean_to_lists import create_datetime_lists_from_clean
+from file_naming import create_2hz_plot_file_name
 
 
 def main():
@@ -82,13 +83,12 @@ def main():
     
     ### Write the plot to a file
     try:
-        print("Got the figure.")
-        out_filename = base_filename[0:7] + "_l"+ level_for_filename + "_half_sec." + output_file_type
+        out_filename = create_2hz_plot_file_name( base_filename, args.stime, args.etime)
+        out_filename = out_filename + "." + output_file_type
         figure.savefig( out_filename, format=output_file_type, dpi=1200)
         print(f"Saved to {out_filename}")
     except:
-        print(f'Could not plot arrays to {out_filename}, file is open')
-        sys.exit(0) # Exiting without an error code
+        print(f'Could not plot arrays to {out_filename}')
 
 
 
