@@ -1,5 +1,5 @@
 # Mark Ortega-Ponce & Chris Hance 
-
+# June 2022
 #Import from PySide6 // QT
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QLineEdit, 
@@ -27,6 +27,8 @@ matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+
+import subprocess
 
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
@@ -58,7 +60,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
-        
+
     def __call__(self,event):
         '''
         __call__ is the event listener connected to matplotlib 
