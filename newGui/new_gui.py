@@ -8,9 +8,10 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QToolBar,QVBoxLayout,
                                 QFileDialog, QRadioButton,
                                 QCheckBox,QMessageBox, 
-                                QButtonGroup, QSizePolicy
+                                QButtonGroup, QSizePolicy,
+                                QComboBox
                                 )
-from PySide6.QtGui import QIcon, QAction, QPixmap, Qt, QPalette
+from PySide6.QtGui import QIcon, QAction, QPixmap, Qt, QPalette,QKeySequence
 from PySide6.QtCore import  QSize, QTime
 
 # path for file open 
@@ -36,6 +37,8 @@ from custom_widgets import (
     Layout, HLayout,
     Toolbar, VLayout)
 
+from custom_time_widget import MinMaxTime
+
 class MainWindow(QMainWindow):
     """
 
@@ -60,6 +63,109 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("MACCS Plotting Program")
 
         self.setGeometry(60,60, 1000,800)
+
+        self.selection_file_value = ''
+        self.temp_var = 0
+
+        ###############
+        ### Toolbar ###
+        ###############
+
+        toolbar = QToolBar("Main Toolbar")    
+        toolbar.setIconSize(QSize(16,16))
+        action_openfile = QAction(QIcon("../spacedatapython/images/folder-open.png"),"Open File", self)
+        action_savefile = QAction(QIcon("../spacedatapython/images/disk.png"),"Save File", self)
+        action_zoom = QAction(QIcon("../spacedatapython/images/magnifier-zoom-in.png"),"Zoom in", self)
+        action_help = QAction(QIcon("../spacedatapython/images/question-frame.png"),"Help", self)
+
+        toolbar.addAction(action_openfile)
+        toolbar.addAction(action_savefile)
+        toolbar.addAction(action_zoom)
+        toolbar.addSeparator()
+
+        self.addToolBar(toolbar)
+
+        #TODO add save as tool bar icon and button crtl shift S
+
+        action_openfile.setShortcut(QKeySequence("Ctrl+O"))
+        action_savefile.setShortcut(QKeySequence("Ctrl+S"))
+
+        ############
+        ### Menu ###
+        ############
+
+        menu = self.menuBar()
+        menu_file = menu.addMenu("&File")
+        menu_file.addAction(action_openfile)
+        menu_file.addAction(action_savefile)
+        menu_edit = menu.addMenu("&Edit")
+        menu_tool = menu.addMenu("&Tools")
+        menu_tool.addAction(action_zoom)
+        menu_help = menu.addMenu("&Help")
+        menu_help.addAction(action_help)
+
+        ###############
+        ### Layouts ###
+        ###############
+
+        #TODO add more layouts that add the group widgets from marks custom widget file
+        # layout for buttons and checkboxs
+        self.main_layout = QHBoxLayout()
+        self.label_and_entry_layout = QGridLayout()
+        self.graph_layout = QVBoxLayout()
+
+        ###############
+        ### Labels ####
+        ###############
+        self.label_year_day = Label("Year Day: ")
+        self.label_start_time = Label("Start Time: ")
+        self.label_end_time = Label("End Time: ")
+        self.station_label = Label("Station Code:")
+
+        self.label_min_x = Label("Plot min x: ")
+        self.label_max_x = Label("Plot max x: ")
+        self.label_min_y = Label("Plot min y: ")
+        self.label_max_y = Label("Plot max y: ")
+        self.label_min_z = Label("Plot min z: ")
+        self.label_max_z = Label("Plot max z: ")
+
+        ################
+        ### Spinbox ####
+        ################
+        self.spinbox_max_x = Spinbox(0, 99999, 10)
+        self.spinbox_min_x = Spinbox(0, 99999, 10)
+        self.spinbox_max_y = Spinbox(0, 99999, 10)
+        self.spinbox_min_y = Spinbox(0, 99999, 10)
+        self.spinbox_max_z = Spinbox(0, 99999, 10)
+        self.spinbox_min_z = Spinbox(0, 99999, 10)
+
+        #####################
+        ### QTime Widgets ###
+        #####################
+        self.custom_start_time = MinMaxTime('Min')
+        self.custom_end_time = MinMaxTime('Max')
+        self.custom_start_time.time_widget.setTime(QTime(00,00,00))
+        self.custom_end_time.time_widget.setTime(QTime(23,59,59))
+
+        self.custom_start_time.setMaximumWidth(165)
+        self.custom_end_time.setMaximumWidth(165)
+        self.custom_start_time.time_widget.setAlignment(Qt.AlignLeft)
+
+        #################
+        ### Combo Box ###
+        #################
+
+        #### DROP DOWN MENU FOR FILE FORMATS ###########
+        self.file_options = ("IAGA2000 - NW",       # Index 0 
+                        "IAGA2002 - NW",       # Index 1
+                        "Clean File",          # Index 2
+                        "Raw 2hz File",        # Index 3
+                        "Other -- Not Working")# Index 4
+
+        self.combo_box_files = QComboBox()
+        # Add items to combo box
+        self.combo_box_files.addItems(self.file_options)
+        self.combo_box_files.setCurrentIndex(3)
 
     def __call__(self,event):
         '''
@@ -146,3 +252,13 @@ class MainWindow(QMainWindow):
             subprocess.Popen(self.file_name + '.png', shell=True)
         elif file_type.clickedButton() == cancel_button:
             file_type.close()
+def main():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    app.exec()
+
+if __name__ == "__main__":
+    main()
+
+
