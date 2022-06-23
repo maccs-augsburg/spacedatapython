@@ -652,7 +652,7 @@ class MainWindow(QMainWindow):
         self.graph = FigureCanvasQTAgg(self.graph)
         #self.toolbar = NavigationToolbar2QT(self.graph, self)
         self.maccs_logo.setHidden(True)
-       # self.graph_layout.addWidget(self.toolbar) 
+        self.graph_layout.addWidget(self.toolbar) 
         self.graph_layout.addWidget(self.graph)
 
     def clear_plots(self):
