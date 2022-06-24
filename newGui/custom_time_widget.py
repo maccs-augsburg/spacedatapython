@@ -1,7 +1,9 @@
 from PySide6.QtWidgets import (
     QApplication,
     QPushButton, 
-    QTimeEdit)
+    QTimeEdit,
+    QSizePolicy
+)
 from PySide6.QtCore import  QTime
 from PySide6 import QtWidgets
 
@@ -23,11 +25,13 @@ class MinMaxTime(QtWidgets.QWidget,):
         )
         
         self.time_widget = QTimeEdit()
-        self.time_widget.setTimeRange(QTime(00,00,00), QTime(24,00,00))
+        self.time_widget.setTimeRange(QTime(00,00,00), QTime(23,59,59))
         self.time_widget.setDisplayFormat('hh:mm:ss')
         self.time_widget.timeChanged.connect(self.time_changed)
+        self.time_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.time_widget.setMaximumHeight(25)
         
-        self.time_widget.setFixedWidth(65)
+        self.time_widget.setMaximumWidth(75)
 
         self.label_one = QPushButton(text)
         self.label_one.setMaximumSize(35,35)
