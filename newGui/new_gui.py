@@ -47,7 +47,7 @@ import read_clean_to_lists
 import plot_stacked_graphs
 
 MINIMUM_WINDOW_HEIGHT = 800
-MINIMUM_WINDOW_WIDTH = 1000
+MINIMUM_WINDOW_WIDTH = 1200
 
 class MainWindow(QMainWindow):
     """
@@ -224,12 +224,15 @@ class MainWindow(QMainWindow):
         self.button_graph_style = PushButton('Graph Style', "Graph Style")
         self.button_graph_style.clicked.connect(self.update_layout)
         self.button_save = PushButton('Save')
+        self.button_save.set_uncheckable()
         self.button_save_as = PushButton('Save as...')
+        self.button_save_as.set_uncheckable()
         self.button_plot = PushButton("Plot File")
         self.button_plot.set_uncheckable()
         self.button_zoom = PushButton("Zoom", "Zoom")
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot = PushButton('Clear Plot')
+        self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
 
         ########################
@@ -272,6 +275,15 @@ class MainWindow(QMainWindow):
         self.checkbox_layout.add_widget(self.checkbox_x)
         self.checkbox_layout.add_widget(self.checkbox_y)
         self.checkbox_layout.add_widget(self.checkbox_z)
+
+        self.button_layout.add_widget(self.combo_box_files, 0, 0)
+        self.button_layout.add_widget(self.button_open_file, 0, 1)
+        self.button_layout.add_widget(self.button_plot, 2, 0)
+        self.button_layout.add_widget(self.button_zoom, 2, 1)
+        self.button_layout.add_widget(self.button_save, 3, 0)
+        self.button_layout.add_widget(self.button_save_as, 3, 1)
+        self.button_layout.add_widget(self.button_clear_plot, 4, 0)
+        self.button_layout.add_widget(self.button_quit, 4, 1)
         
         ###############################################
         ### Adding wdigets layouts into main Layout ###
@@ -286,15 +298,6 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.set_row_stretch(2, 6)
         self.parent_label_layout.add_widget(self.button_layout,3,0)
         self.parent_label_layout.set_row_stretch(3, 18)
-
-        self.button_layout.add_widget(self.combo_box_files, 0, 0)
-        self.button_layout.add_widget(self.button_open_file, 0, 1)
-        self.button_layout.add_widget(self.button_plot, 2, 0)
-        self.button_layout.add_widget(self.button_zoom, 2, 1)
-        self.button_layout.add_widget(self.button_save, 3, 0)
-        self.button_layout.add_widget(self.button_save_as, 3, 1)
-        # take one row, use 2 columns for now
-        self.button_layout.add_widget(self.button_quit, 4, 0)
         
         ##########################
         ### Set Central Widget ###
@@ -308,12 +311,14 @@ class MainWindow(QMainWindow):
         ##########################
         self.file_path = None
         self.file_extension = None
+        # TODO: Probably don't need next 4
         self.x_arr = None
         self.y_arr = None
         self.z_arr = None
         self.time_arr = None
         ##########################
         self.figure = None
+        self.graph = None
         self.graph_figure_flag = None
         self.start_time_stamp = None
         self.end_time_stamp = None
@@ -345,10 +350,10 @@ class MainWindow(QMainWindow):
             response = self.get_file_name(file_filter)
             
         elif option == 1:
-            self.warning_message_popup("File not supported", "IAGA2000 Option Not Available Yet")
+            self.warning_message_pop_up("File not supported", "IAGA2000 Option Not Available Yet")
 
         elif option == 2:
-            self.warning_message_popup("File not supported", "IAGA2002 Option Not Available Yet")
+            self.warning_message_pop_up("File not supported", "IAGA2002 Option Not Available Yet")
 
         elif option == 3:
 
@@ -364,7 +369,7 @@ class MainWindow(QMainWindow):
 
         elif option == 5:
 
-            self.warning_message_dialog("File not supported", "Option Not Available Yet")
+            self.warning_message_pop_up("File not supported", "Option Not Available Yet")
 
         else:
             print("Got nothing")
@@ -432,13 +437,14 @@ class MainWindow(QMainWindow):
         start_time_stamp = datetime.time(hour = self.start_time.get_hour(),
                                         minute = self.start_time.get_minute(),
                                         second = self.start_time.get_second())
-        
+        # make it easier for user to switch to only hour values
+        # currently have to click on minute field, type in 0, or decrement to 0
+        # so set time to 23:00:00 but still graph as 23:59:59
         if e_hour == 23 and e_minute == 0 and e_second == 0:
             end_time_stamp = datetime.time(hour = 23, minute = 59, second = 59)
-            print("Time stamp, default value")
+            
         else:
-            print("Time stamp, custom value")
-            print(self.end_time.get_hour())
+            #print(self.end_time.get_hour())
             end_time_stamp = datetime.time(hour = self.end_time.get_hour(),
                                             minute = self.end_time.get_minute(),
                                             second = self.end_time.get_second())
@@ -468,7 +474,7 @@ class MainWindow(QMainWindow):
             else:  
                 # if !(test failed) and we have plotted stacked already
                 # means no new info to plot
-                if not self.same_entries() and self.stacked_plot_flag:
+                if not entry_checks.same_entries(self) and self.stacked_plot_flag:
                     return
                 else:
                     self.delete_figure()
@@ -550,17 +556,17 @@ class MainWindow(QMainWindow):
         if self.button_graph_style.is_toggled():
             
             # keeping track of whats been plotted already
-            self.prev_state_plot_x = self.x_checkbox.isChecked()
-            self.prev_state_plot_y = self.y_checkbox.isChecked()
-            self.prev_state_plot_z = self.z_checkbox.isChecked()
+            self.prev_state_plot_x = self.checkbox_x.isChecked()
+            self.prev_state_plot_y = self.checkbox_y.isChecked()
+            self.prev_state_plot_z = self.checkbox_z.isChecked()
 
             self.figure = entry_checks.graph_from_plotter_entry_check( 
                                                         self.x_arr, 
                                                         self.y_arr, 
                                                         self.z_arr,
-                                                        self.plot_x,
-                                                        self.plot_y,
-                                                        self.plot_z, 
+                                                        self.prev_state_plot_x,
+                                                        self.prev_state_plot_y,
+                                                        self.prev_state_plot_z, 
                                                         self.time_arr,
                                                         self.filename, 
                                                         self.start_time_stamp,
@@ -597,39 +603,55 @@ class MainWindow(QMainWindow):
         self.display_figure()
 
     def display_figure(self):
-
+        # if we hid the entry layout from toolbar
         self.graph_layout.setHidden(False)
-
+        # if we have a figure
         if self.graph_figure_flag:
             # remove plot from window
-            self.figure_canvas.setParent(None)
+            self.graph.setParent(None)
         # create new figure
-        self.figure_canvas = FigureCanvasQTAgg(self.figure)
+        self.graph = FigureCanvasQTAgg(self.figure)
         # add new figure to layout
-        self.graph_layout.add_widget(self.figure_canvas)
+        self.graph_layout.add_widget(self.graph)
         self.main_layout.addWidget(self.graph_layout, 5)
         self.mac_label.setHidden(True)
-        self.figure_canvas_flag = True
+        self.graph_figure_flag = True
         self.show()
+
+    def delete_figure(self):
+        '''Deletes widgets, setting parent to none on widgets
+        leaves them hanging in the background process.
+        Not garbage collected, so have to delete'''
+        self.graph.deleteLater()
+        plt.close(self.figure)
 
     def __call__(self, event):
         '''
-        __call__ is the event listener connected to matplotlib 
-        it will listen for mouse clicks and record the xdata of the first and second click and converting them from matplotlib dates to datetime objects
-        and then stripping the time down to hour min second spliting the values and settime our Time widget to that time and replotting normally so the scale is auto as it aslways is 
-
+        __call__ is the event listener connected to matplotlib.
+        Matplotlib will listen for mouse clicks.
+        Mouse clicks return xdata (datetime in float 64 format) and ydata
+        in original form. This function will listen for two clicks
+        and take both the xdata values, cast to datetime.
+        From the datetime objects we pull our hour, minute, second values
+        to zoom into the plot.
         '''
+        # if we haven't graphed anything, cant listen for clicks
+        if self.graph is None:
+            return
+
         datetime_object = mdates.num2date(event.xdata)
         hour = int(datetime_object.strftime("%H"))
         minute = int(datetime_object.strftime("%M"))
         second = int(datetime_object.strftime("%S"))
 
         if self.temp_var == 0:
-            self.custom_start_time.time_widget.setTime(QTime(hour, minute, second))
+            self.start_time.time_widget.setTime(QTime(hour, minute, second))
 
         elif self.temp_var == 1:
-            self.custom_end_time.time_widget.setTime(QTime(hour, minute, second))
-
+            self.end_time.time_widget.setTime(QTime(hour, minute, second))
+            self.button_zoom.set_toggle_status_false()
+            # reset axis entries so it can find new min/max values on graph
+            self.reset_axis_entries()
             self.graph.mpl_disconnect(self.cid)
             self.plot_graph()
 
