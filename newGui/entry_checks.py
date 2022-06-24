@@ -285,7 +285,7 @@ Trying to change some to not use self at all.
 def checks(self):
 
     if len(self.filename) == 0:
-        self.warning_message_popup(
+        self.warning_message_pop_up(
             "Failed Filename Check",
             "No file to work with. Open a file with open file button.")
         return False
@@ -302,7 +302,7 @@ def checks(self):
     year_day = self.input_year.get_entry()
     if not year_day_entry_check(self):
 
-        self.warning_message_popup(
+        self.warning_message_pop_up(
             "Failed Year Day Check"
             "There was no input for the year day entry box")
 
@@ -316,7 +316,7 @@ def checks(self):
 
     if self.button_graph_style.is_toggled():
         if not any_state:
-            self.warning_message_popup(
+            self.warning_message_pop_up(
                 "Choose Axis",
                 "Choose Axis to plot (X, Y, Z)")
             return False
@@ -333,25 +333,25 @@ def same_entries(self):
         flag += 1
     if end_time_stamp == self.end_time_stamp:
         flag += 1
-    if self.min_x == self.spinbox_min_x.get_entry():
+    if self.prev_min_x == self.spinbox_min_x.get_entry():
         flag += 1
-    if self.max_x == self.spinbox_max_x.get_entry():
+    if self.prev_max_x == self.spinbox_max_x.get_entry():
         flag += 1
-    if self.min_y == self.spinbox_min_y.get_entry():
+    if self.prev_min_y == self.spinbox_min_y.get_entry():
         flag += 1
-    if self.max_y == self.spinbox_max_y.get_entry():
+    if self.prev_max_y == self.spinbox_max_y.get_entry():
         flag += 1
-    if self.min_z == self.spinbox_min_z.get_entry():
+    if self.prev_min_z == self.spinbox_min_z.get_entry():
         flag += 1
-    if self.max_z == self.spinbox_max_z.get_entry():
+    if self.prev_max_z == self.spinbox_max_z.get_entry():
         flag += 1
 
     if flag == 8:
         # exact same entries
-        print("failed test")
+        print("Failed same_entries test")
         return False
     else:
-        print("passed test")
+        print("Passed same_entries test")
         return True
 
 def same_entries_one_toggled(self):
@@ -365,18 +365,18 @@ def same_entries_one_toggled(self):
     if end_time_stamp == self.end_time_stamp:
         flag += 1
 
-    if self.plot_x == self.checkbox_x.isChecked():
+    if self.prev_state_plot_x == self.checkbox_x.isChecked():
         flag += 1
 
-    if self.plot_y == self.checkbox_y.isChecked():
+    if self.prev_state_plot_y == self.checkbox_y.isChecked():
         flag += 1
 
-    if self.plot_z == self.checkbox_z.isChecked():
+    if self.prev_state_plot_z == self.checkbox_z.isChecked():
         flag += 1
 
     if flag == 5:
-        print("failed test")
+        print("Failed same_entries_one_plot test")
         return False
     else:
-        print("passed test")
+        print("Passed same_entries_one_plot test")
         return True
