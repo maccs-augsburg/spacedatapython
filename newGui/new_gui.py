@@ -403,14 +403,6 @@ class MainWindow(QMainWindow):
 
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         
-        # TODO: Do I even need this? I think I just copied it over from old line_x file
-        time_interval_string = file_naming.create_time_interval_string_hms(
-                                                                start_hour, 
-                                                                start_minute, 
-                                                                start_second, 
-                                                                end_hour, 
-                                                                end_minute, 
-                                                                end_second)
 
         ####################################
         ######### Making the plot ##########
