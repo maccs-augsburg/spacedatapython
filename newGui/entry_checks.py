@@ -46,7 +46,7 @@ def year_day_entry_check(self) -> bool:
     True/False : bool
         False if it failed test, true if it passed test.
     '''
-    if (len(self.year_day_edit.get_entry()) == 0):
+    if (len(self.input_year.get_entry()) == 0):
         return False
     # If it passed check return True
     return True
@@ -270,105 +270,113 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
     z_max : int
         Max z value to set inside the gui.
     '''
-    self.min_x_edit.set_entry(x_min)
-    self.max_x_edit.set_entry(x_max)
-    self.min_y_edit.set_entry(y_min)
-    self.max_y_edit.set_entry(y_max)
-    self.min_z_edit.set_entry(z_min)
-    self.max_z_edit.set_entry(z_max)
+    self.spinbox_min_x.set_entry(x_min)
+    self.spinbox_max_x.set_entry(x_max)
+    self.spinbox_min_y.set_entry(y_min)
+    self.spinbox_max_y.set_entry(y_max)
+    self.spinbox_min_z.set_entry(z_min)
+    self.spinbox_max_z.set_entry(z_max)
 
 
+'''
+Instance methods, move back if this is bad practice?
+Trying to change some to not use self at all.
+'''
+def checks(self):
 
-# def checks(self):
+    if len(self.filename) == 0:
+        self.warning_message_popup(
+            "Failed Filename Check",
+            "No file to work with. Open a file with open file button.")
+        return False
 
-#     if len(self.filename) == 0:
-#         self.warning_message_dialog(
-#             "No file to work with. Open a file with open file button.")
-#         return False
+    station_code = self.input_station_code.get_entry()
+    if not station_code_entry_check(station_code):
 
-#     station_code = self.station_edit.get_entry()
-#     if not station_code_entry_check(station_code):
+        self.warning_message_popup(
+            "Failed Filename Check"
+            "Error invalid station code. Needs to be 2-4 characters")
 
-#         self.warning_message_dialog(
-#             "Error invalid station code. Needs to be 2-4 characters")
+        return False
 
-#         return False
+    year_day = self.input_year.get_entry()
+    if not year_day_entry_check(self):
 
-#     year_day = self.year_day_edit.get_entry()
-#     if not year_day_entry_check(self):
+        self.warning_message_popup(
+            "Failed Year Day Check"
+            "There was no input for the year day entry box")
 
-#         self.warning_message_dialog(
-#             "There was no input for the year day entry box")
+        return False
 
-#         return False
+    x_state = self.checkbox_x.isChecked()
+    y_state = self.checkbox_y.isChecked()
+    z_state = self.checkbox_z.isChecked()
 
-#     x_state = self.x_checkbox.isChecked()
-#     y_state = self.y_checkbox.isChecked()
-#     z_state = self.z_checkbox.isChecked()
+    any_state = x_state or y_state or z_state
 
-#     any_state = x_state or y_state or z_state
+    if self.button_graph_style.is_toggled():
+        if not any_state:
+            self.warning_message_popup(
+                "Choose Axis",
+                "Choose Axis to plot (X, Y, Z)")
+            return False
 
-#     if self.one_array_plotted_button.is_toggled():
-#         if not any_state:
-#             self.warning_message_dialog("Choose Axis to plot (X, Y, Z)")
-#             return False
+    return True
 
-#     return True
+def same_entries(self):
 
-# def same_entries(self):
+    start_time_stamp, end_time_stamp = self.time_stamp()
 
-#     start_time_stamp, end_time_stamp = self.time_stamp()
+    flag = 0
 
-#     flag = 0
+    if start_time_stamp == self.start_time_stamp:
+        flag += 1
+    if end_time_stamp == self.end_time_stamp:
+        flag += 1
+    if self.min_x == self.spinbox_min_x.get_entry():
+        flag += 1
+    if self.max_x == self.spinbox_max_x.get_entry():
+        flag += 1
+    if self.min_y == self.spinbox_min_y.get_entry():
+        flag += 1
+    if self.max_y == self.spinbox_max_y.get_entry():
+        flag += 1
+    if self.min_z == self.spinbox_min_z.get_entry():
+        flag += 1
+    if self.max_z == self.spinbox_max_z.get_entry():
+        flag += 1
 
-#     if start_time_stamp == self.start_time_stamp:
-#         flag += 1
-#     if end_time_stamp == self.end_time_stamp:
-#         flag += 1
-#     if self.min_x == self.min_x_edit.get_entry():
-#         flag += 1
-#     if self.max_x == self.max_x_edit.get_entry():
-#         flag += 1
-#     if self.min_y == self.min_y_edit.get_entry():
-#         flag += 1
-#     if self.max_y == self.max_y_edit.get_entry():
-#         flag += 1
-#     if self.min_z == self.min_z_edit.get_entry():
-#         flag += 1
-#     if self.max_z == self.max_z_edit.get_entry():
-#         flag += 1
+    if flag == 8:
+        # exact same entries
+        print("failed test")
+        return False
+    else:
+        print("passed test")
+        return True
 
-#     if flag == 8:
-#         # exact same entries
-#         print("failed test")
-#         return False
-#     else:
-#         print("passed test")
-#         return True
+def same_entries_one_toggled(self):
 
-# def same_entries_one_toggled(self):
+    start_time_stamp, end_time_stamp = self.time_stamp()
 
-#     start_time_stamp, end_time_stamp = self.time_stamp()
+    flag = 0
 
-#     flag = 0
+    if start_time_stamp == self.start_time_stamp:
+        flag += 1
+    if end_time_stamp == self.end_time_stamp:
+        flag += 1
 
-#     if start_time_stamp == self.start_time_stamp:
-#         flag += 1
-#     if end_time_stamp == self.end_time_stamp:
-#         flag += 1
+    if self.plot_x == self.checkbox_x.isChecked():
+        flag += 1
 
-#     if self.plot_x == self.x_checkbox.isChecked():
-#         flag += 1
+    if self.plot_y == self.checkbox_y.isChecked():
+        flag += 1
 
-#     if self.plot_y == self.y_checkbox.isChecked():
-#         flag += 1
+    if self.plot_z == self.checkbox_z.isChecked():
+        flag += 1
 
-#     if self.plot_z == self.z_checkbox.isChecked():
-#         flag += 1
-
-#     if flag == 5:
-#         print("failed test")
-#         return False
-#     else:
-#         print("passed test")
-#         return True
+    if flag == 5:
+        print("failed test")
+        return False
+    else:
+        print("passed test")
+        return True

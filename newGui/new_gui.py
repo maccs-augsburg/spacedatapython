@@ -40,6 +40,14 @@ from custom_widgets import (
     Toolbar, VLayout)
 
 from custom_time_widget import MinMaxTime
+sys.path.append("../")
+import file_naming
+import read_raw_to_lists
+import read_clean_to_lists
+import plot_stacked_graphs
+
+MINIMUM_WINDOW_HEIGHT = 800
+MINIMUM_WINDOW_WIDTH = 1000
 
 class MainWindow(QMainWindow):
     """
@@ -64,7 +72,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setGeometry(60,60, 1300, 800)
+        self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -88,14 +97,18 @@ class MainWindow(QMainWindow):
 
         toolbar = QToolBar("Main Toolbar")    
         toolbar.setIconSize(QSize(16,16))
-        action_openfile = QAction(QIcon("images/folder-open.png"),"Open File", self)
+        action_openfile = QAction(QIcon("images/folder-open.png"),"Open...       ", self)
         action_savefile = QAction(QIcon("images/disk.png"),"Save File", self)
         action_zoom = QAction(QIcon("images/magnifier-zoom-in.png"),"Zoom in", self)
         action_help = QAction(QIcon("images/question-frame.png"),"Help", self)
+        self.action_hide_entries = QAction(QIcon("images/inactive_eye.png"), "Hide Entries", self)
+        self.action_hide_entries.setCheckable(True)
+        self.action_hide_entries.setStatusTip("Hide Entries")
 
         toolbar.addAction(action_openfile)
         toolbar.addAction(action_savefile)
         toolbar.addAction(action_zoom)
+        toolbar.addAction(self.action_hide_entries)
         toolbar.addSeparator()
 
         self.addToolBar(toolbar)
@@ -182,7 +195,7 @@ class MainWindow(QMainWindow):
 
         #### DROP DOWN MENU FOR FILE FORMATS ###########
         self.file_options = (
-                        "All"                  # Index 0
+                        "All",                 # Index 0
                         "IAGA2000 - NW",       # Index 1 
                         "IAGA2002 - NW",       # Index 2
                         "Clean File",          # Index 3
@@ -213,10 +226,22 @@ class MainWindow(QMainWindow):
         self.button_save = PushButton('Save')
         self.button_save_as = PushButton('Save as...')
         self.button_plot = PushButton("Plot File")
+        self.button_plot.set_uncheckable()
         self.button_zoom = PushButton("Zoom", "Zoom")
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot = PushButton('Clear Plot')
         self.button_quit = PushButton('Quit')
+
+        ########################
+        ### Signals / Events ###
+        ########################
+
+        action_openfile.triggered.connect(self.toolbar_open)
+        action_savefile.triggered.connect(self.save)
+        action_zoom.triggered.connect(self.zoom_in_listener)
+        self.button_plot.clicked.connect(self.plot_graph)
+        self.action_hide_entries.triggered.connect(self.hide_entry_layout)
+
 
         ######################
         ### Adding Widgets ###
@@ -225,8 +250,10 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout.add_widget(self.input_station_code, 0, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_year_day, 1, 0)
         self.labels_and_text_fields_layout.add_widget(self.input_year, 1, 1)
-        self.labels_and_text_fields_layout.add_widget(self.start_time, 2, 0)
-        self.labels_and_text_fields_layout.add_widget(self.end_time, 2, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_start_time, 2, 0)
+        self.labels_and_text_fields_layout.add_widget(self.start_time, 2, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_end_time, 3, 0)
+        self.labels_and_text_fields_layout.add_widget(self.end_time, 3, 1)
 
         self.min_max_xyz_layout.add_widget(self.label_min_x, 0, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_min_x, 0, 1)
@@ -279,8 +306,29 @@ class MainWindow(QMainWindow):
         ##########################
         ### Instance Variables ###
         ##########################
-
+        self.file_path = None
         self.file_extension = None
+        self.x_arr = None
+        self.y_arr = None
+        self.z_arr = None
+        self.time_arr = None
+        ##########################
+        self.figure = None
+        self.graph_figure_flag = None
+        self.start_time_stamp = None
+        self.end_time_stamp = None
+        self.prev_min_x = 0
+        self.prev_max_x = 0
+        self.prev_min_y = 0
+        self.prev_max_y = 0
+        self.prev_min_z = 0
+        self.prev_max_z = 0
+        self.prev_state_plot_x = 0
+        self.prev_state_plot_y = 0
+        self.prev_state_plot_z = 0
+        self.one_plot_flag = False
+        self.stacked_plot_flag = False
+        ##########################
         
     def launch_dialog(self):
         '''
@@ -341,47 +389,78 @@ class MainWindow(QMainWindow):
         os.chdir(current_directory)
         # if user cancels button, dont want to execute function
         if len(response[0]) == 0:
-            #return False
-            return
-        
+            # return false if calling from toolbar open
+            return False
+
         filename, _ = response
         self.file_path = filename
-        self.file_paths.append(self.file_path)
-
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
-        #https://www.w3schools.com/python/python_file_write.asp
-        #https://thispointer.com/python-how-to-insert-lines-at-the-top-of-a-file/
-        # f = open("open_recent/recent.txt", "a")
-        # f.write(self.file_path + "\n")
-        # #f.write(filename + "\n")
-        # f.close()
-        # Ex: CH20097.2hz
         self.filename = filename
         self.filename_noextension = filename.split('.')[0]
         # setting the station entry box from the filename
         # Ex: CH 20097 .2hz
-        self.station_edit.set_entry(filename[0:2])
-        self.year_day_edit.set_entry(filename[2:7])
+        self.input_station_code.set_entry(filename[0:2])
+        self.input_year.set_entry(filename[2:7])
         
-        self.reset_entries()
+        self.reset_axis_entries()
+        self.reset_time_entries()
+        # return true if calling from toolbar open
         return True
 
+    def toolbar_open(self):
+
+        if not self.get_file_name("Raw File (*.2hz);;Clean File (*.s2)"):
+            return
+        # breaks up into [filename][extension]
+        extension = self.filename.split('.')[1]
+
+        if extension == "s2":
+            self.combo_box.setCurrentIndex(3)
+        
+        if extension == "2hz":
+            self.combo_box.setCurrentIndex(4)
+
+        self.launch_dialog_option = self.options.index(self.combo_box.currentText())
+
+    def time_stamp(self):
+        #https://doc.qt.io/qt-6/qdatetimeedit.html#maximumTime-prop
+        e_hour = self.end_time.get_hour()
+        e_minute = self.end_time.get_minute()
+        e_second = self.end_time.get_second()
+
+        start_time_stamp = datetime.time(hour = self.start_time.get_hour(),
+                                        minute = self.start_time.get_minute(),
+                                        second = self.start_time.get_second())
+        
+        if e_hour == 23 and e_minute == 0 and e_second == 0:
+            end_time_stamp = datetime.time(hour = 23, minute = 59, second = 59)
+            print("Time stamp, default value")
+        else:
+            print("Time stamp, custom value")
+            print(self.end_time.get_hour())
+            end_time_stamp = datetime.time(hour = self.end_time.get_hour(),
+                                            minute = self.end_time.get_minute(),
+                                            second = self.end_time.get_second())
+
+        return start_time_stamp, end_time_stamp
 
     def plot_graph(self):
-    
+        
+        if self.filename is None:
+            return
         # if checks test return false, don't plot
-        if not self.checks():
+        if not entry_checks.checks(self):
             return
         # only check after the first successful plot
         # gets set at the end of this function and remains True
 
-        if self.figure_canvas_flag:
+        if self.graph_figure_flag:
             # if this is toggled, do following test
-            if self.one_array_plotted_button.is_toggled():
+            if self.button_graph_style.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
-                if not self.same_entries_one_toggled() and self.one_plot_flag:
+                if not entry_checks.same_entries_one_toggled(self) and self.one_plot_flag:
                     return
                 else:
                     self.delete_figure()
@@ -403,24 +482,21 @@ class MainWindow(QMainWindow):
 
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         
-
         ####################################
         ######### Making the plot ##########
         ####################################
-
         try:
             # Open file object, read, binary
             file = open(self.file_path, 'rb')
         except:
             self.warning_message_dialog("File Open Error, couldn't open file")
             return
-        
         '''
         Once future file types are supported, add here.
         Launch Dialog Option assigned when you open a file
         Adding a coupe more else if checks to get datetime lists
         '''
-        if self.launch_dialog_option == 2:
+        if self.launch_dialog_option == 3:
             # Doing short names to stay around 80-85 chars per row
             x,y,z,t,f = read_clean_to_lists.create_datetime_lists_from_clean(
                                                             file, 
@@ -430,7 +506,7 @@ class MainWindow(QMainWindow):
             # easy to glance over, might be used for new feature?
             flag_arr = f
 
-        elif self.launch_dialog_option == 3:
+        elif self.launch_dialog_option == 4:
             # Doing short names to stay around 80-85 chars per row
             x,y,z,t = read_raw_to_lists.create_datetime_lists_from_raw(
                                                             file, 
@@ -444,15 +520,15 @@ class MainWindow(QMainWindow):
         self.time_arr = t
 
         # get current stacked plot entries
-        min_x = self.min_x_edit.get_entry()
-        max_x = self.max_x_edit.get_entry()
-        min_y = self.min_y_edit.get_entry()
-        max_y = self.max_y_edit.get_entry()
-        min_z = self.min_z_edit.get_entry()
-        max_z = self.max_z_edit.get_entry()
+        min_x = self.spinbox_min_x.get_entry()
+        max_x = self.spinbox_max_x.get_entry()
+        min_y = self.spinbox_min_y.get_entry()
+        max_y = self.spinbox_max_y.get_entry()
+        min_z = self.spinbox_min_z.get_entry()
+        max_z = self.spinbox_max_z.get_entry()
 
         # normalize the data to display even ticks
-        min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks_old(
+        min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks(
             self.x_arr,
             self.y_arr,
             self.z_arr,
@@ -461,22 +537,22 @@ class MainWindow(QMainWindow):
             min_z, max_z
         )
         # assign these to self to keep track of what's been plotted
-        self.min_x = min_x
-        self.max_x = max_x
-        self.min_y = min_y
-        self.max_y = max_y
-        self.min_z = min_z
-        self.max_z = max_z
+        self.prev_min_x = min_x
+        self.prev_max_x = max_x
+        self.prev_min_y = min_y
+        self.prev_max_y = max_y
+        self.prev_min_z = min_z
+        self.prev_max_z = max_z
 
         entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
         # if one plot button is toggled
         # call necessary functions for one plot
-        if self.one_array_plotted_button.is_toggled():
+        if self.button_graph_style.is_toggled():
             
             # keeping track of whats been plotted already
-            self.plot_x = self.x_checkbox.isChecked()
-            self.plot_y = self.y_checkbox.isChecked()
-            self.plot_z = self.z_checkbox.isChecked()
+            self.prev_state_plot_x = self.x_checkbox.isChecked()
+            self.prev_state_plot_y = self.y_checkbox.isChecked()
+            self.prev_state_plot_z = self.z_checkbox.isChecked()
 
             self.figure = entry_checks.graph_from_plotter_entry_check( 
                                                         self.x_arr, 
@@ -520,7 +596,23 @@ class MainWindow(QMainWindow):
         file.close()
         self.display_figure()
 
-    def __call__(self,event):
+    def display_figure(self):
+
+        self.graph_layout.setHidden(False)
+
+        if self.graph_figure_flag:
+            # remove plot from window
+            self.figure_canvas.setParent(None)
+        # create new figure
+        self.figure_canvas = FigureCanvasQTAgg(self.figure)
+        # add new figure to layout
+        self.graph_layout.add_widget(self.figure_canvas)
+        self.main_layout.addWidget(self.graph_layout, 5)
+        self.mac_label.setHidden(True)
+        self.figure_canvas_flag = True
+        self.show()
+
+    def __call__(self, event):
         '''
         __call__ is the event listener connected to matplotlib 
         it will listen for mouse clicks and record the xdata of the first and second click and converting them from matplotlib dates to datetime objects
@@ -532,7 +624,6 @@ class MainWindow(QMainWindow):
         minute = int(datetime_object.strftime("%M"))
         second = int(datetime_object.strftime("%S"))
 
-        
         if self.temp_var == 0:
             self.custom_start_time.time_widget.setTime(QTime(hour, minute, second))
 
@@ -540,10 +631,8 @@ class MainWindow(QMainWindow):
             self.custom_end_time.time_widget.setTime(QTime(hour, minute, second))
 
             self.graph.mpl_disconnect(self.cid)
-            if self.button_plot_stacked_graph.isHidden() == True:
-                self.plot_three_axis()
-            elif self.button_plot_three_axis.isHidden() == True:
-                self.plot_stacked_axis()
+            self.plot_graph()
+
         self.temp_var = self.temp_var + 1
 
     def zoom_in_listener(self):
@@ -635,9 +724,9 @@ class MainWindow(QMainWindow):
 
         bool_value = self.button_graph_style.is_toggled()
 
-        #self.zoom_out_button.set_toggle_status_false()
-        #self.zoom_out_button.change_text()
-        #self.xyz_two_layout.setHidden(bool_value)
+        self.button_zoom.set_toggle_status_false()
+        self.button_zoom.change_text()
+        self.min_max_xyz_layout.setHidden(bool_value)
 
         if bool_value:
             self.parent_label_layout.set_row_stretch(0, 27)
@@ -649,6 +738,12 @@ class MainWindow(QMainWindow):
             self.parent_label_layout.set_row_stretch(1, 36)
             self.parent_label_layout.set_row_stretch(2, 6)
             self.parent_label_layout.set_row_stretch(3, 18)
+
+    def hide_entry_layout(self):
+        
+        bool_value = self.action_hide_entries.isChecked()
+        
+        self.parent_label_layout.setHidden(bool_value)
 
 def main():
     app = QApplication([])
