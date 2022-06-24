@@ -1,22 +1,12 @@
-from PySide6.QtWidgets import (QMainWindow, QApplication, 
-                                QLabel, QLineEdit, 
-                                QWidget, QHBoxLayout, 
-                                QGridLayout,QPushButton, 
-                                QToolBar,QVBoxLayout,
-                                QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox, QButtonGroup, QTimeEdit, 
-                                )
-from PySide6.QtGui import QIcon, QAction, QPixmap, Qt
-from PySide6.QtCore import  QSize, QTime, QRect
+from PySide6.QtWidgets import (
+    QApplication,
+    QPushButton, 
+    QTimeEdit)
+from PySide6.QtCore import  QTime
 from PySide6 import QtWidgets
-from PySide6 import QtGui
-from PySide6 import QtCore
-# path for file open 
-from pathlib import Path
 
 #imports from python 
 import sys
-import datetime
 
 class MinMaxTime(QtWidgets.QWidget,):
     
@@ -35,6 +25,7 @@ class MinMaxTime(QtWidgets.QWidget,):
         self.time_widget = QTimeEdit()
         self.time_widget.setTimeRange(QTime(00,00,00), QTime(24,00,00))
         self.time_widget.setDisplayFormat('hh:mm:ss')
+        self.time_widget.timeChanged.connect(self.time_changed)
         
         self.time_widget.setFixedWidth(65)
 
@@ -55,6 +46,10 @@ class MinMaxTime(QtWidgets.QWidget,):
         main_layout.setContentsMargins(0,0,0,0)
 
         self.setLayout(main_layout)        
+        
+        self.hour = 0
+        self.minute = 0
+        self.second = 0
 
     #set Qtime() to max 23 59 59 
     def set_max_time(self):
@@ -63,6 +58,24 @@ class MinMaxTime(QtWidgets.QWidget,):
     #sets QTime() to min 00 00 00
     def set_min_time(self):
         self.time_widget.setTime(QTime(00,00,00))
+
+    def time_changed(self, time):
+        #print(time)
+        self.time = time
+        # inherited function from QDateTimeEdit
+        self.hour = self.time.hour()
+        self.minute = self.time.minute()
+        self.second = self.time.second()
+        
+    def get_hour(self):
+        return self.hour
+    def get_minute(self):
+        return self.minute
+    def get_second(self):
+        return self.second
+
+    def set_own_time(self, hour, minute, second):
+        self.time_widget.setTime(QTime(hour, minute, second))
 
 def main():
     app = QApplication(sys.argv)
