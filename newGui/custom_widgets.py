@@ -32,8 +32,8 @@ class LineEdit(QLineEdit):
         # It counts empty spaces as part of the limit, so could be annoying deleting blank spaces
         self.setInputMask("99999")
         self.textEdited.connect(self.text_edited)
+        # Aligns text in middle
         self.setAlignment(Qt.AlignCenter)
-        #self.setAlignment(Qt.AlignLeft)
         self.entry = "N/A"
         self.setMaximumWidth(95)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -144,7 +144,6 @@ class Spinbox(QSpinBox):
 
         self.valueChanged.connect(self.value_changed)
         self.setAlignment(Qt.AlignCenter)
-        #self.setAlignment(Qt.AlignLeft)
         self.entry = 0
         self.setMaximumWidth(95)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -281,6 +280,9 @@ class GridLayout(QWidget):
 
     def add_widget(self, some_widget, row, col):    
         self.layout.addWidget(some_widget, row, col)
+
+    def add_widget_stretch(self, some_widget, row, col, row_num, column_num):
+        self.layout.addWidget(some_widget, row, col, row_num, column_num)
 
     def set_row_stretch(self, row, factor):
         self.layout.setRowStretch(row, factor)
