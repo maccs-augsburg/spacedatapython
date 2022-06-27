@@ -149,10 +149,10 @@ class MainWindow(QMainWindow):
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
-        self.labels_and_text_fields_layout.layout.setContentsMargins(24, 0, 0, 0)
+        self.labels_and_text_fields_layout.layout.setContentsMargins(24, 15, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
-        self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
+        self.button_layout.layout.setContentsMargins(10, 0, 0, 15)
         ###############
         ### Labels ####
         ###############
@@ -239,6 +239,7 @@ class MainWindow(QMainWindow):
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
+        self.button_quit.setMinimumWidth(300)
 
         ########################
         ### Signals / Events ###
@@ -298,7 +299,7 @@ class MainWindow(QMainWindow):
         self.button_layout.add_widget(self.button_save, 1, 0)
         self.button_layout.add_widget(self.button_save_as, 1, 1)
         #self.button_layout.add_widget(self.button_clear_plot, 1, 1)
-        self.button_layout.add_widget(self.button_quit, 2, 0)
+        self.button_layout.add_widget_stretch(self.button_quit, 2, 0, 1, 2)
         
         ###############################################
         ### Adding wdigets layouts into main Layout ###
