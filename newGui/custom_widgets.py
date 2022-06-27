@@ -185,7 +185,7 @@ class Time(QTimeEdit):
         self.setFont(font)
         font.setPointSize(FONT_SIZE)
         self.setAlignment(Qt.AlignCenter)
-        self.setMaximumWidth(95)
+        self.setMaximumWidth(155)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setMaximumHeight(MINIMUM_HEIGHT)
         self.setTimeRange(self.min_time, self.max_time)
