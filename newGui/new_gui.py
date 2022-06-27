@@ -234,6 +234,7 @@ class MainWindow(QMainWindow):
         self.button_clear_plot = PushButton('Clear Plot')
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
+        self.button_quit.set_uncheckable()
 
         ########################
         ### Signals / Events ###
@@ -249,14 +250,17 @@ class MainWindow(QMainWindow):
         ######################
         ### Adding Widgets ###
         ######################
-        self.labels_and_text_fields_layout.add_widget(self.station_label, 0, 0)
-        self.labels_and_text_fields_layout.add_widget(self.input_station_code, 0, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_year_day, 1, 0)
-        self.labels_and_text_fields_layout.add_widget(self.input_year, 1, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_start_time, 2, 0)
-        self.labels_and_text_fields_layout.add_widget(self.start_time, 2, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_end_time, 3, 0)
-        self.labels_and_text_fields_layout.add_widget(self.end_time, 3, 1)
+        self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
+        self.labels_and_text_fields_layout.add_widget(self.button_plot, 0, 1)
+
+        self.labels_and_text_fields_layout.add_widget(self.station_label, 1, 0)
+        self.labels_and_text_fields_layout.add_widget(self.input_station_code, 1, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_year_day, 2, 0)
+        self.labels_and_text_fields_layout.add_widget(self.input_year, 2, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_start_time, 3, 0)
+        self.labels_and_text_fields_layout.add_widget(self.start_time, 3, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_end_time, 4, 0)
+        self.labels_and_text_fields_layout.add_widget(self.end_time, 4, 1)
 
         self.min_max_xyz_layout.add_widget(self.label_min_x, 0, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_min_x, 0, 1)
@@ -276,29 +280,39 @@ class MainWindow(QMainWindow):
         self.checkbox_layout.add_widget(self.checkbox_y)
         self.checkbox_layout.add_widget(self.checkbox_z)
 
-        self.button_layout.add_widget(self.combo_box_files, 0, 0)
-        self.button_layout.add_widget(self.button_open_file, 0, 1)
-        self.button_layout.add_widget(self.button_plot, 2, 0)
-        self.button_layout.add_widget(self.button_zoom, 2, 1)
-        self.button_layout.add_widget(self.button_save, 3, 0)
-        self.button_layout.add_widget(self.button_save_as, 3, 1)
-        self.button_layout.add_widget(self.button_clear_plot, 4, 0)
-        self.button_layout.add_widget(self.button_quit, 4, 1)
+        #self.button_layout.add_widget(self.combo_box_files, 0, 0)
+        #self.button_layout.add_widget(self.button_open_file, 0, 1)
+        #self.button_layout.add_widget(self.button_plot, 0, 0)
+        self.button_layout.add_widget(self.button_zoom, 0, 0)
+        self.button_layout.add_widget(self.button_save, 0, 1)
+        self.button_layout.add_widget(self.button_save_as, 1, 0)
+        self.button_layout.add_widget(self.button_clear_plot, 1, 1)
+        self.button_layout.add_widget(self.button_quit, 2, 0)
         
         ###############################################
         ### Adding wdigets layouts into main Layout ###
         ###############################################
+
+        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout,0,0)
+        self.parent_label_layout.add_widget(self.min_max_xyz_layout,1,0)
+        self.parent_label_layout.add_widget(self.checkbox_layout,2,0)
+        self.parent_label_layout.add_widget(self.button_layout,3,0)
+
+        ###############################################
+        ### Setting Row Stretches for Entry Layout  ###
+        ###############################################
         self.main_layout.addWidget(self.parent_label_layout,1)
         self.main_layout.addWidget(self.mac_label, 5)
-        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout,0,0)
-        self.parent_label_layout.set_row_stretch(0, 24)
-        self.parent_label_layout.add_widget(self.min_max_xyz_layout,1,0)
-        self.parent_label_layout.set_row_stretch(1, 36)
-        self.parent_label_layout.add_widget(self.checkbox_layout,2,0)
-        self.parent_label_layout.set_row_stretch(2, 6)
-        self.parent_label_layout.add_widget(self.button_layout,3,0)
-        self.parent_label_layout.set_row_stretch(3, 18)
-        
+
+        # five widgets in one row, station/year/open, plot button
+        self.parent_label_layout.set_row_stretch(0, 5)
+        # six widgets in one row, x/y/z min max
+        self.parent_label_layout.set_row_stretch(1, 6)
+        # one widgets in one row, toggle button (x, y, z)
+        self.parent_label_layout.set_row_stretch(2, 1)
+        # three widgets in one row, buttons
+        self.parent_label_layout.set_row_stretch(3, 3)
+
         ##########################
         ### Set Central Widget ###
         ##########################
@@ -751,15 +765,15 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.setHidden(bool_value)
 
         if bool_value:
-            self.parent_label_layout.set_row_stretch(0, 27)
+            self.parent_label_layout.set_row_stretch(0, 18)
             self.parent_label_layout.set_row_stretch(1, 0)
-            self.parent_label_layout.set_row_stretch(2, 3)
+            self.parent_label_layout.set_row_stretch(2, 1)
             self.parent_label_layout.set_row_stretch(3, 9)
         else:
-            self.parent_label_layout.set_row_stretch(0, 24)
-            self.parent_label_layout.set_row_stretch(1, 36)
-            self.parent_label_layout.set_row_stretch(2, 6)
-            self.parent_label_layout.set_row_stretch(3, 18)
+            self.parent_label_layout.set_row_stretch(0, 5)
+            self.parent_label_layout.set_row_stretch(1, 6)
+            self.parent_label_layout.set_row_stretch(2, 1)
+            self.parent_label_layout.set_row_stretch(3, 3)
 
     def hide_entry_layout(self):
         
