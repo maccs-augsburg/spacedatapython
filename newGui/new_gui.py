@@ -144,6 +144,7 @@ class MainWindow(QMainWindow):
 
         self.graph_layout = VLayout()
         self.checkbox_layout = HLayout()
+        self.checkbox_layout.layout.setContentsMargins(0,0,0,0)
         self.button_layout = GridLayout()
         self.min_max_xyz_layout = GridLayout()
         ###############
@@ -220,9 +221,7 @@ class MainWindow(QMainWindow):
         ###############
         self.button_open_file = PushButton("Open file")
         self.button_open_file.set_uncheckable()
-        self.button_open_file.clicked.connect(self.launch_dialog)
         self.button_graph_style = PushButton('Graph Style', "Graph Style")
-        self.button_graph_style.clicked.connect(self.update_layout)
         self.button_save = PushButton('Save')
         self.button_save.set_uncheckable()
         self.button_save_as = PushButton('Save as...')
@@ -230,7 +229,6 @@ class MainWindow(QMainWindow):
         self.button_plot = PushButton("Plot File")
         self.button_plot.set_uncheckable()
         self.button_zoom = PushButton("Zoom", "Zoom")
-        self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot = PushButton('Clear Plot')
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
@@ -243,9 +241,12 @@ class MainWindow(QMainWindow):
         action_openfile.triggered.connect(self.toolbar_open)
         action_savefile.triggered.connect(self.save)
         action_zoom.triggered.connect(self.zoom_in_listener)
+        self.button_open_file.clicked.connect(self.launch_dialog)
+        self.button_graph_style.clicked.connect(self.update_layout)
         self.button_plot.clicked.connect(self.plot_graph)
+        self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.action_hide_entries.triggered.connect(self.hide_entry_layout)
-
+        self.button_clear_plot.clicked.connect(self.clear_plot)
 
         ######################
         ### Adding Widgets ###
@@ -283,10 +284,11 @@ class MainWindow(QMainWindow):
         #self.button_layout.add_widget(self.combo_box_files, 0, 0)
         #self.button_layout.add_widget(self.button_open_file, 0, 1)
         #self.button_layout.add_widget(self.button_plot, 0, 0)
-        self.button_layout.add_widget(self.button_zoom, 0, 0)
-        self.button_layout.add_widget(self.button_save, 0, 1)
-        self.button_layout.add_widget(self.button_save_as, 1, 0)
-        self.button_layout.add_widget(self.button_clear_plot, 1, 1)
+        self.button_layout.add_widget(self.button_clear_plot, 0, 0)
+        self.button_layout.add_widget(self.button_zoom, 0, 1)
+        self.button_layout.add_widget(self.button_save, 1, 0)
+        self.button_layout.add_widget(self.button_save_as, 1, 1)
+        #self.button_layout.add_widget(self.button_clear_plot, 1, 1)
         self.button_layout.add_widget(self.button_quit, 2, 0)
         
         ###############################################
@@ -750,6 +752,14 @@ class MainWindow(QMainWindow):
         self.spinbox_max_y.set_entry(0)
         self.spinbox_min_z.set_entry(0)
         self.spinbox_max_z.set_entry(0)
+    
+    def clear_plot(self):
+        self.graph_layout.setHidden(True)
+        self.mac_label.setHidden(False)
+        self.one_plot_flag = False
+        self.stacked_plot_flag = False
+        self.reset_time_entries()
+        self.reset_axis_entries()
 
     def update_layout(self):
 
