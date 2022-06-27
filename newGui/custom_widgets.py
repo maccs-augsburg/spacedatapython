@@ -92,7 +92,7 @@ class PushButton(QPushButton):
         self.button_is_checked = False
         self.clicked.connect(self.button_toggle)
         self.setChecked(self.button_is_checked)
-        self.setMaximumWidth(145)#145
+        self.setMaximumWidth(150)#145
         self.alternate_name = alternate_name
         self.original_name = label_name
         #self.setMaximumHeight(30)
