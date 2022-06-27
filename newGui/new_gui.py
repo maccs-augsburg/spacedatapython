@@ -149,7 +149,7 @@ class MainWindow(QMainWindow):
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
-        self.labels_and_text_fields_layout.layout.setContentsMargins(24, 15, 0, 0)
+        self.labels_and_text_fields_layout.layout.setContentsMargins(24, 10, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 15)
@@ -239,7 +239,7 @@ class MainWindow(QMainWindow):
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
-        self.button_quit.setMinimumWidth(300)
+        self.button_quit.setMinimumWidth(250)
 
         ########################
         ### Signals / Events ###
@@ -263,7 +263,6 @@ class MainWindow(QMainWindow):
         ######################
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.button_plot, 0, 1)
-
         self.labels_and_text_fields_layout.add_widget(self.station_label, 1, 0)
         self.labels_and_text_fields_layout.add_widget(self.input_station_code, 1, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_year_day, 2, 0)
@@ -291,14 +290,10 @@ class MainWindow(QMainWindow):
         self.checkbox_layout.add_widget(self.checkbox_y)
         self.checkbox_layout.add_widget(self.checkbox_z)
 
-        #self.button_layout.add_widget(self.combo_box_files, 0, 0)
-        #self.button_layout.add_widget(self.button_open_file, 0, 1)
-        #self.button_layout.add_widget(self.button_plot, 0, 0)
         self.button_layout.add_widget(self.button_clear_plot, 0, 0)
         self.button_layout.add_widget(self.button_zoom, 0, 1)
         self.button_layout.add_widget(self.button_save, 1, 0)
         self.button_layout.add_widget(self.button_save_as, 1, 1)
-        #self.button_layout.add_widget(self.button_clear_plot, 1, 1)
         self.button_layout.add_widget_stretch(self.button_quit, 2, 0, 1, 2)
         
         ###############################################
