@@ -97,6 +97,7 @@ class MainWindow(QMainWindow):
 
         toolbar = QToolBar("Main Toolbar")    
         toolbar.setIconSize(QSize(16,16))
+        action_home = QAction(QIcon("images/home.png"), "Home", self)
         action_openfile = QAction(QIcon("images/folder-open.png"),"Open...       ", self)
         action_savefile = QAction(QIcon("images/disk.png"),"Save File", self)
         action_zoom = QAction(QIcon("images/magnifier-zoom-in.png"),"Zoom in", self)
@@ -105,6 +106,7 @@ class MainWindow(QMainWindow):
         self.action_hide_entries.setCheckable(True)
         self.action_hide_entries.setStatusTip("Hide Entries")
 
+        toolbar.addAction(action_home)
         toolbar.addAction(action_openfile)
         toolbar.addAction(action_savefile)
         toolbar.addAction(action_zoom)
@@ -144,7 +146,7 @@ class MainWindow(QMainWindow):
 
         self.graph_layout = VLayout()
         self.checkbox_layout = HLayout()
-        self.checkbox_layout.layout.setContentsMargins(0,0,0,0)
+        #self.checkbox_layout.layout.setContentsMargins(0,0,0,0)
         self.button_layout = GridLayout()
         self.min_max_xyz_layout = GridLayout()
         ###############
@@ -241,7 +243,10 @@ class MainWindow(QMainWindow):
         action_openfile.triggered.connect(self.toolbar_open)
         action_savefile.triggered.connect(self.save)
         action_zoom.triggered.connect(self.zoom_in_listener)
+        action_home.triggered.connect(self.clear_plot)
         self.button_open_file.clicked.connect(self.launch_dialog)
+        self.button_save.clicked.connect(self.save)
+        self.button_save_as.clicked.connect(self.save_as)
         self.button_graph_style.clicked.connect(self.update_layout)
         self.button_plot.clicked.connect(self.plot_graph)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
