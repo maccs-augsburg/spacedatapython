@@ -24,7 +24,6 @@ import os
 
 #Imports from matplotlib
 import matplotlib
-from matplotlib.ft2font import LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -143,12 +142,17 @@ class MainWindow(QMainWindow):
         self.main_layout = QHBoxLayout()
         self.parent_label_layout = GridLayout()
         self.labels_and_text_fields_layout = GridLayout()
-
         self.graph_layout = VLayout()
         self.checkbox_layout = HLayout()
-        #self.checkbox_layout.layout.setContentsMargins(0,0,0,0)
         self.button_layout = GridLayout()
         self.min_max_xyz_layout = GridLayout()
+        # left, top, right, bottom
+        # align time_widget with rest of widgets
+        #  offset of about 14 + any offset from other layouts
+        self.labels_and_text_fields_layout.layout.setContentsMargins(24, 0, 0, 0)
+        self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
+        self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
+        self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
         ###############
         ### Labels ####
         ###############
