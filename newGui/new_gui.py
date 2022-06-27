@@ -325,11 +325,6 @@ class MainWindow(QMainWindow):
         ##########################
         self.file_path = None
         self.file_extension = None
-        # TODO: Probably don't need next 4
-        self.x_arr = None
-        self.y_arr = None
-        self.z_arr = None
-        self.time_arr = None
         ##########################
         self.figure = None
         self.graph = None
