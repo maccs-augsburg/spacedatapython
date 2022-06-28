@@ -3,8 +3,6 @@ custom_widgets.py
 
 May 2022 -- Created -- Mark Ortega-Ponce
 '''
-
-
 from PySide6.QtWidgets import (
     QLabel,QLineEdit, 
     QWidget, QCheckBox, 
@@ -20,8 +18,6 @@ FONT_SIZE = 13
 MINIMUM_HEIGHT = 25
 
 class LineEdit(QLineEdit):
-    '''
-    '''
 
     def __init__(self):
         super().__init__()
