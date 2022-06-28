@@ -29,16 +29,9 @@ from custom_widgets import (
     Toolbar, VLayout)
 
 from custom_time_widget import MinMaxTime
-#sys.path.append("../")
-# import subdirectory with __init__.py file
-# using read_raw and read_clean in plot() function
-# Model.read_raw and Model.read_clean
 import Model.read_clean_to_lists
 import Model.read_raw_to_lists
-#import read_raw_to_lists
-#import read_clean_to_lists
 import View.plot_stacked_graphs
-#import plot_stacked_graphs
 
 MINIMUM_WINDOW_HEIGHT = 800
 MINIMUM_WINDOW_WIDTH = 1200
