@@ -28,12 +28,7 @@ import sys
 import datetime
 import os
 import subprocess
-<<<<<<< HEAD
-import entry_check
-=======
-# Imports from our files
-import entry_check
->>>>>>> origin/newGui
+import entry_checks as entry_check
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
     PushButton, Spinbox, Time, 
