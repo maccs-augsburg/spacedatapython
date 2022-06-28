@@ -249,13 +249,15 @@ class MainWindow(QMainWindow):
         action_savefile.triggered.connect(self.save)
         action_zoom.triggered.connect(self.zoom_in_listener)
         action_home.triggered.connect(self.clear_plot)
+        self.action_hide_entries.triggered.connect(self.hide_entry_layout)
+        
+        self.button_quit.clicked.connect(self.close)
         self.button_open_file.clicked.connect(self.launch_dialog)
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
         self.button_graph_style.clicked.connect(self.update_layout)
         self.button_plot.clicked.connect(self.plot_graph)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
-        self.action_hide_entries.triggered.connect(self.hide_entry_layout)
         self.button_clear_plot.clicked.connect(self.clear_plot)
 
         ######################
