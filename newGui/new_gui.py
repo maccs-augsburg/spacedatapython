@@ -28,7 +28,8 @@ import sys
 import datetime
 import os
 import subprocess
-import entry_checks as entry_check
+import entry_check
+import entry_checks
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
     PushButton, Spinbox, Time, 
