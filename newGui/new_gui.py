@@ -28,7 +28,8 @@ import sys
 import datetime
 import os
 import subprocess
-import entry_checks as entry_check
+import entry_check
+import entry_checks
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
     PushButton, Spinbox, Time, 
@@ -181,6 +182,9 @@ class MainWindow(QMainWindow):
         ###################
         self.input_station_code = LineEdit()
         self.input_station_code.setInputMask(">AAAA")
+        # Read Only Because User Shouldnt change the station code it should already be set
+        # With proper file selection 
+        self.input_station_code.setReadOnly(True)
         self.input_year = LineEdit()
 
         #####################
@@ -481,23 +485,7 @@ class MainWindow(QMainWindow):
         # only check after the first successful plot
         # gets set at the end of this function and remains True
         self.is_plottable()
-        if self.graph_figure_flag:
-            # if this is toggled, do following test
-            if self.button_graph_style.is_toggled():
-                # if !(test failed) and we have plotted one_plot already
-                # means no new info to plot
-                if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
-                    return
-                else:
-                    self.delete_figure()
 
-            else:  
-                # if !(test failed) and we have plotted stacked already
-                # means no new info to plot
-                if not entry_check.same_entries(self) and self.stacked_plot_flag:
-                    return
-                else:
-                    self.delete_figure()
 
         start_hour = self.start_time.get_hour()
         start_minute = self.start_time.get_minute()
@@ -806,6 +794,23 @@ class MainWindow(QMainWindow):
         """
         checks_met_bool = False
         checks_met_bool = entry_check.checks(self)
+        if self.graph_figure_flag:
+            # if this is toggled, do following test
+            if self.button_graph_style.is_toggled():
+                # if !(test failed) and we have plotted one_plot already
+                # means no new info to plot
+                if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
+                    return
+                else:
+                    self.delete_figure()
+
+            else:  
+                # if !(test failed) and we have plotted stacked already
+                # means no new info to plot
+                if not entry_check.same_entries(self) and self.stacked_plot_flag:
+                    return
+                else:
+                    self.delete_figure()
         print(checks_met_bool)
         if checks_met_bool:
             checks_met_bool = True
