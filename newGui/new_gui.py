@@ -30,8 +30,7 @@ import matplotlib.dates as mdates
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 
 import subprocess
-import entry_checks
-
+import entry_check
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
     PushButton, Spinbox, Time, 
@@ -67,6 +66,9 @@ class MainWindow(QMainWindow):
         :raises:
     
         :rtype:
+
+        Methods
+        -----------
         """    
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
@@ -353,6 +355,7 @@ class MainWindow(QMainWindow):
         self.stacked_plot_flag = False
         ##########################
         
+        
     def launch_dialog(self):
         '''
         Instance function to select a file filter.
@@ -473,7 +476,7 @@ class MainWindow(QMainWindow):
         if self.filename is None:
             return
         # if checks test return false, don't plot
-        if not entry_checks.checks(self):
+        if not entry_check.checks(self):
             return
         # only check after the first successful plot
         # gets set at the end of this function and remains True
@@ -483,7 +486,7 @@ class MainWindow(QMainWindow):
             if self.button_graph_style.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
-                if not entry_checks.same_entries_one_toggled(self) and self.one_plot_flag:
+                if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
                     return
                 else:
                     self.delete_figure()
@@ -491,7 +494,7 @@ class MainWindow(QMainWindow):
             else:  
                 # if !(test failed) and we have plotted stacked already
                 # means no new info to plot
-                if not entry_checks.same_entries(self) and self.stacked_plot_flag:
+                if not entry_check.same_entries(self) and self.stacked_plot_flag:
                     return
                 else:
                     self.delete_figure()
@@ -551,7 +554,7 @@ class MainWindow(QMainWindow):
         max_z = self.spinbox_max_z.get_entry()
 
         # normalize the data to display even ticks
-        min_x, max_x, min_y, max_y, min_z, max_z = entry_checks.axis_entry_checks(
+        min_x, max_x, min_y, max_y, min_z, max_z = entry_check.axis_entry_checks(
             self.x_arr,
             self.y_arr,
             self.z_arr,
@@ -567,7 +570,7 @@ class MainWindow(QMainWindow):
         self.prev_min_z = min_z
         self.prev_max_z = max_z
 
-        entry_checks.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
+        entry_check.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
         # if one plot button is toggled
         # call necessary functions for one plot
         if self.button_graph_style.is_toggled():
@@ -577,7 +580,7 @@ class MainWindow(QMainWindow):
             self.prev_state_plot_y = self.checkbox_y.isChecked()
             self.prev_state_plot_z = self.checkbox_z.isChecked()
 
-            self.figure = entry_checks.graph_from_plotter_entry_check( 
+            self.figure = entry_check.graph_from_plotter_entry_check( 
                                                         self.x_arr, 
                                                         self.y_arr, 
                                                         self.z_arr,
@@ -791,6 +794,19 @@ class MainWindow(QMainWindow):
         bool_value = self.action_hide_entries.isChecked()
         
         self.parent_label_layout.setHidden(bool_value)
+    
+    def is_plottable(self):
+        """
+        full function that will encompass all entry checks that we have, and if we have all 
+        entry checks pass the user will be able to press the plot button and plot the graph, 
+        if a check fails or not all checks are met yet the plot graph button will still be greyed out
+        """
+        checks_met_bool = False
+        if checks_met_bool:
+            checks_met_bool = True
+        else:
+            self.button_plot.setDisabled(True)
+        entry_check.station_code_entry_check()
 
 def main():
     app = QApplication([])
