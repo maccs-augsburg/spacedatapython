@@ -259,6 +259,7 @@ class MainWindow(QMainWindow):
         self.button_save_as.clicked.connect(self.save_as)
         self.button_graph_style.clicked.connect(self.update_layout)
         self.button_plot.clicked.connect(self.plot_graph)
+        self.button_plot.setDisabled(True)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot.clicked.connect(self.clear_plot)
 
@@ -355,6 +356,7 @@ class MainWindow(QMainWindow):
         self.stacked_plot_flag = False
         ##########################
         
+
         
     def launch_dialog(self):
         '''
@@ -432,6 +434,7 @@ class MainWindow(QMainWindow):
         self.reset_axis_entries()
         self.reset_time_entries()
         # return true if calling from toolbar open
+        self.is_plottable()
         return True
 
     def toolbar_open(self):
@@ -473,14 +476,14 @@ class MainWindow(QMainWindow):
 
     def plot_graph(self):
         
-        if self.filename is None:
-            return
-        # if checks test return false, don't plot
-        if not entry_check.checks(self):
-            return
+        # if self.filename is None:
+        #     return
+        # # if checks test return false, don't plot
+        # if not entry_check.checks(self):
+        #     return
         # only check after the first successful plot
         # gets set at the end of this function and remains True
-
+        self.is_plottable()
         if self.graph_figure_flag:
             # if this is toggled, do following test
             if self.button_graph_style.is_toggled():
@@ -802,12 +805,13 @@ class MainWindow(QMainWindow):
         if a check fails or not all checks are met yet the plot graph button will still be greyed out
         """
         checks_met_bool = False
+        checks_met_bool = entry_check.checks(self)
+        print(checks_met_bool)
         if checks_met_bool:
             checks_met_bool = True
+            self.button_plot.setDisabled(False)
         else:
             self.button_plot.setDisabled(True)
-        entry_check.station_code_entry_check()
-
 def main():
     app = QApplication([])
     window = MainWindow()
