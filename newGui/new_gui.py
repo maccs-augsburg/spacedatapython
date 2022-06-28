@@ -2,26 +2,16 @@
 # June 2022
 #Import from PySide6 // QT
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
-                                QLabel, QLineEdit, 
-                                QWidget, QHBoxLayout, 
-                                QGridLayout,QPushButton, 
-                                QToolBar,QVBoxLayout,
-                                QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox, 
-                                QButtonGroup, QSizePolicy,
-                                QComboBox
+                                QLabel, QWidget, QHBoxLayout, 
+                                QToolBar,QFileDialog,
+                                QMessageBox,QComboBox
                                 )
-from PySide6.QtGui import QIcon, QAction, QPixmap, Qt, QPalette,QKeySequence
+from PySide6.QtGui import QIcon, QAction, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
-
-# path for file open 
-from pathlib import Path
-
 #imports from python 
 import sys
 import datetime
 import os
-
 #Imports from matplotlib
 import matplotlib
 matplotlib.use('qtagg')
@@ -39,11 +29,16 @@ from custom_widgets import (
     Toolbar, VLayout)
 
 from custom_time_widget import MinMaxTime
-sys.path.append("../")
-import file_naming
-import read_raw_to_lists
-import read_clean_to_lists
-import plot_stacked_graphs
+#sys.path.append("../")
+# import subdirectory with __init__.py file
+# using read_raw and read_clean in plot() function
+# Model.read_raw and Model.read_clean
+import Model.read_clean_to_lists
+import Model.read_raw_to_lists
+#import read_raw_to_lists
+#import read_clean_to_lists
+import View.plot_stacked_graphs
+#import plot_stacked_graphs
 
 MINIMUM_WINDOW_HEIGHT = 800
 MINIMUM_WINDOW_WIDTH = 1200
@@ -86,7 +81,7 @@ class MainWindow(QMainWindow):
 
         # Maccs Logo
         self.mac_label = QLabel()
-        pixmap = QPixmap('../maccslogo_nobg.png')
+        pixmap = QPixmap('images/maccslogo_nobg.png')
         self.mac_label.setPixmap(pixmap)
         self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
@@ -520,7 +515,7 @@ class MainWindow(QMainWindow):
         '''
         if self.launch_dialog_option == 3:
             # Doing short names to stay around 80-85 chars per row
-            x,y,z,t,f = read_clean_to_lists.create_datetime_lists_from_clean(
+            x,y,z,t,f = Model.read_clean_to_lists.create_datetime_lists_from_clean(
                                                             file, 
                                                             self.start_time_stamp, 
                                                             self.end_time_stamp, 
@@ -530,7 +525,7 @@ class MainWindow(QMainWindow):
 
         elif self.launch_dialog_option == 4:
             # Doing short names to stay around 80-85 chars per row
-            x,y,z,t = read_raw_to_lists.create_datetime_lists_from_raw(
+            x,y,z,t = Model.read_raw_to_lists.create_datetime_lists_from_raw(
                                                             file, 
                                                             self.start_time_stamp,
                                                             self.end_time_stamp, 
@@ -595,7 +590,7 @@ class MainWindow(QMainWindow):
 
         else:
 
-            self.figure = plot_stacked_graphs.plot_arrays(self.x_arr,
+            self.figure = View.plot_stacked_graphs.plot_arrays(self.x_arr,
                                                 self.y_arr,
                                                 self.z_arr,
                                                 self.time_arr,
