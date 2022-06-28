@@ -31,7 +31,7 @@ class MinMaxTime(QtWidgets.QWidget,):
         self.time_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.time_widget.setMaximumHeight(25)
         
-        self.time_widget.setMaximumWidth(75)
+        self.time_widget.setMaximumWidth(95)
 
         self.label_one = QPushButton(text)
         self.label_one.setMaximumSize(35,35)
