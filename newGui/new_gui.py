@@ -1,48 +1,44 @@
-# Mark Ortega-Ponce & Chris Hance 
-# June 2022
-#Import from PySide6 // QT
+'''
+new_gui.py
+
+PySide6 Gui interface for Augsburg Physics Department
+
+Usage: python3 new_gui.py
+
+Created - Mark Ortega-Ponce & Chris Hance
+June 2022
+'''
+# Imports from PySide6 // QT
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
-                                QLabel, QLineEdit, 
-                                QWidget, QHBoxLayout, 
-                                QGridLayout,QPushButton, 
-                                QToolBar,QVBoxLayout,
-                                QFileDialog, QRadioButton,
-                                QCheckBox,QMessageBox, 
-                                QButtonGroup, QSizePolicy,
-                                QComboBox
+                                QLabel, QWidget, QHBoxLayout, 
+                                QToolBar,QFileDialog,
+                                QMessageBox,QComboBox
                                 )
-from PySide6.QtGui import QIcon, QAction, QPixmap, Qt, QPalette,QKeySequence
+from PySide6.QtGui import QIcon, QAction, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
-
-# path for file open 
-from pathlib import Path
-
-#imports from python 
-import sys
-import datetime
-import os
-
-#Imports from matplotlib
+# Imports from matplotlib
 import matplotlib
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 
+# Imports from python 
+import sys
+import datetime
+import os
 import subprocess
-import entry_check
+import entry_checks as entry_check
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
     PushButton, Spinbox, Time, 
     GridLayout, HLayout,
     Toolbar, VLayout)
-
+# Imports from subpackages
 from custom_time_widget import MinMaxTime
-sys.path.append("../")
-import file_naming
-import read_raw_to_lists
-import read_clean_to_lists
-import plot_stacked_graphs
+import Model.read_clean_to_lists
+import Model.read_raw_to_lists
+import View.plot_stacked_graphs
 
 MINIMUM_WINDOW_HEIGHT = 1000
 MINIMUM_WINDOW_WIDTH = 1400
@@ -88,7 +84,7 @@ class MainWindow(QMainWindow):
 
         # Maccs Logo
         self.mac_label = QLabel()
-        pixmap = QPixmap('../maccslogo_nobg.png')
+        pixmap = QPixmap('images/maccslogo_nobg.png')
         self.mac_label.setPixmap(pixmap)
         self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
@@ -514,7 +510,7 @@ class MainWindow(QMainWindow):
         '''
         if self.launch_dialog_option == 3:
             # Doing short names to stay around 80-85 chars per row
-            x,y,z,t,f = read_clean_to_lists.create_datetime_lists_from_clean(
+            x,y,z,t,f = Model.read_clean_to_lists.create_datetime_lists_from_clean(
                                                             file, 
                                                             self.start_time_stamp, 
                                                             self.end_time_stamp, 
@@ -524,7 +520,7 @@ class MainWindow(QMainWindow):
 
         elif self.launch_dialog_option == 4:
             # Doing short names to stay around 80-85 chars per row
-            x,y,z,t = read_raw_to_lists.create_datetime_lists_from_raw(
+            x,y,z,t = Model.read_raw_to_lists.create_datetime_lists_from_raw(
                                                             file, 
                                                             self.start_time_stamp,
                                                             self.end_time_stamp, 
@@ -589,7 +585,7 @@ class MainWindow(QMainWindow):
 
         else:
 
-            self.figure = plot_stacked_graphs.plot_arrays(self.x_arr,
+            self.figure = View.plot_stacked_graphs.plot_arrays(self.x_arr,
                                                 self.y_arr,
                                                 self.z_arr,
                                                 self.time_arr,
@@ -656,6 +652,7 @@ class MainWindow(QMainWindow):
 
         if self.temp_var == 0:
             self.start_time.time_widget.setTime(QTime(hour, minute, second))
+            self.temp_var = self.temp_var + 1
 
         elif self.temp_var == 1:
             self.end_time.time_widget.setTime(QTime(hour, minute, second))
@@ -663,20 +660,18 @@ class MainWindow(QMainWindow):
             # reset axis entries so it can find new min/max values on graph
             self.reset_axis_entries()
             self.graph.mpl_disconnect(self.cid)
+            self.temp_var = 0
             self.plot_graph()
-
-        self.temp_var = self.temp_var + 1
 
     def zoom_in_listener(self):
         '''
-        Starts event listening that listens for clicks after clicking the zoom icon
-        and uses the __call__ function to handle to clicks 
-        and we get two clicks we call other function in __call__ after zoom_in_listner is called after button events happened
-        the values are reset so we can continune more zoomin 
+        Starts event listening, listens for user clicks on plot.
+        Activated after user clicks the zoom icon on the toolbar,
+        or the zoom button in the gui. Uses the __call__ function to 
+        handle user clicks. After two clicks, event listener is
+        disconnected from out matplotlib figure.
         '''
         self.cid = self.graph.mpl_connect('button_press_event', self)
-        if self.temp_var > 1:
-            self.temp_var = 0
 
     def save(self):
         """
@@ -761,7 +756,7 @@ class MainWindow(QMainWindow):
         self.reset_axis_entries()
 
     def update_layout(self):
-
+        # If Graph style button is toggled, change layout
         bool_value = self.button_graph_style.is_toggled()
 
         self.button_zoom.set_toggle_status_false()
@@ -780,7 +775,11 @@ class MainWindow(QMainWindow):
             self.parent_label_layout.set_row_stretch(3, 3)
 
     def hide_entry_layout(self):
-        
+        ''' 
+        Function to hide entry layout from user, allows for fullscreen
+        viewing of a graph.
+        '''
+        # If toolbar eye icon is toggled, hide entry layout
         bool_value = self.action_hide_entries.isChecked()
         
         self.parent_label_layout.setHidden(bool_value)

@@ -3,16 +3,14 @@ custom_widgets.py
 
 May 2022 -- Created -- Mark Ortega-Ponce
 '''
-
-from turtle import clear
 from PySide6.QtWidgets import (
-    QMainWindow, QLabel,
-    QLineEdit, QWidget, QCheckBox, QPushButton,
-    QSizePolicy, QSpinBox, 
-    QTimeEdit, QGridLayout, 
-    QHBoxLayout, QToolBar, QVBoxLayout
+    QLabel,QLineEdit, 
+    QWidget, QCheckBox, 
+    QPushButton,QSizePolicy, 
+    QSpinBox, QTimeEdit, 
+    QGridLayout, QHBoxLayout,
+    QToolBar, QVBoxLayout
 )
-import os
 from PySide6.QtCore import Qt, QTime, QSize
 from PySide6.QtGui import QPalette, QColor, QIcon, QAction
 
@@ -20,8 +18,6 @@ FONT_SIZE = 13
 MINIMUM_HEIGHT = 25
 
 class LineEdit(QLineEdit):
-    '''
-    '''
 
     def __init__(self):
         super().__init__()
