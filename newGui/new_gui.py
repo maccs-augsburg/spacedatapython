@@ -45,8 +45,8 @@ import read_raw_to_lists
 import read_clean_to_lists
 import plot_stacked_graphs
 
-MINIMUM_WINDOW_HEIGHT = 800
-MINIMUM_WINDOW_WIDTH = 1200
+MINIMUM_WINDOW_HEIGHT = 1000
+MINIMUM_WINDOW_WIDTH = 1400
 
 class MainWindow(QMainWindow):
     """
@@ -71,8 +71,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
-        self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
+        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -225,7 +225,7 @@ class MainWindow(QMainWindow):
         ###############
         ### Buttons ###
         ###############
-        self.button_open_file = PushButton("Open file")
+        self.button_open_file = PushButton("Open file...")
         self.button_open_file.set_uncheckable()
         self.button_graph_style = PushButton('Graph Style', "Graph Style")
         self.button_save = PushButton('Save')
@@ -250,7 +250,7 @@ class MainWindow(QMainWindow):
         action_zoom.triggered.connect(self.zoom_in_listener)
         action_home.triggered.connect(self.clear_plot)
         self.action_hide_entries.triggered.connect(self.hide_entry_layout)
-        
+
         self.button_quit.clicked.connect(self.close)
         self.button_open_file.clicked.connect(self.launch_dialog)
         self.button_save.clicked.connect(self.save)
@@ -462,7 +462,6 @@ class MainWindow(QMainWindow):
             end_time_stamp = datetime.time(hour = 23, minute = 59, second = 59)
             
         else:
-            #print(self.end_time.get_hour())
             end_time_stamp = datetime.time(hour = self.end_time.get_hour(),
                                             minute = self.end_time.get_minute(),
                                             second = self.end_time.get_second())

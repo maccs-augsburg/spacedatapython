@@ -64,7 +64,6 @@ class MinMaxTime(QtWidgets.QWidget,):
         self.time_widget.setTime(QTime(00,00,00))
 
     def time_changed(self, time):
-        #print(time)
         self.time = time
         # inherited function from QDateTimeEdit
         self.hour = self.time.hour()

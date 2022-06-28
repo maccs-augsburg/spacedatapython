@@ -348,10 +348,8 @@ def same_entries(self):
 
     if flag == 8:
         # exact same entries
-        print("Failed same_entries test")
         return False
     else:
-        print("Passed same_entries test")
         return True
 
 def same_entries_one_toggled(self):
@@ -375,8 +373,6 @@ def same_entries_one_toggled(self):
         flag += 1
 
     if flag == 5:
-        print("Failed same_entries_one_plot test")
         return False
     else:
-        print("Passed same_entries_one_plot test")
         return True
