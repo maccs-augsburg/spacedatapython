@@ -333,6 +333,7 @@ class MainWindow(QMainWindow):
         ##########################
         self.file_path = None
         self.file_extension = None
+        self.launch_dialog_option = None
         ##########################
         self.figure = None
         self.graph = None
