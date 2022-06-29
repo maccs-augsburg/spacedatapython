@@ -16,7 +16,7 @@ import datetime
 cwd = os.getcwd()
 sys.path.append("../")
 import View.plot_three_axis_graphs
-import station_names
+import Model.station_names
 os.chdir(cwd)
 
 def station_code_entry_check(station_name: str) -> bool:
@@ -38,7 +38,7 @@ def station_code_entry_check(station_name: str) -> bool:
     flag = 0 
     
     for x in range(2, 11):
-        if station_name == station_names.names[x][0]:
+        if station_name == Model.station_names.names[x][0]:
             flag += 1
         
     if len(station_name) <= 1:
