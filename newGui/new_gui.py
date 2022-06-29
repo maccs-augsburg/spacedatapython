@@ -442,6 +442,7 @@ class MainWindow(QMainWindow):
         self.reset_axis_entries()
         self.reset_time_entries()
         # return true if calling from toolbar open
+
         self.is_plottable()
         return True
 
