@@ -29,7 +29,6 @@ import datetime
 import os
 import subprocess
 import entry_check
-import entry_checks
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
     PushButton, Spinbox, Time, 
@@ -71,8 +70,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        # self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
+        # self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -498,6 +497,7 @@ class MainWindow(QMainWindow):
         #     return
         # only check after the first successful plot
         # gets set at the end of this function and remains True
+
         self.is_plottable()
 
 
@@ -517,7 +517,7 @@ class MainWindow(QMainWindow):
             # Open file object, read, binary
             file = open(self.file_path, 'rb')
         except:
-            self.warning_message_dialog("File Open Error, couldn't open file")
+            self.warning_message_pop_up("File Open Error, couldn't open file")
             return
         '''
         Once future file types are supported, add here.
@@ -822,8 +822,21 @@ class MainWindow(QMainWindow):
         entry checks pass the user will be able to press the plot button and plot the graph, 
         if a check fails or not all checks are met yet the plot graph button will still be greyed out
         """
+
+        # Proper Entry Checks include 
+        '''
+        Station Code is Valid
+        Year Day is Valid
+        Start Time is less than End Time 
+        --- For Stacked Graph Min Max are valid entries and Min is Less than Max
+        --- For Three Axis Display Checked States X Y Z 
+        '''
+
+
+
         checks_met_bool = False
         checks_met_bool = entry_check.checks(self)
+
         if self.graph_figure_flag:
             # if this is toggled, do following test
             if self.button_graph_style.is_toggled():
@@ -841,7 +854,6 @@ class MainWindow(QMainWindow):
                     return
                 else:
                     self.delete_figure()
-        print(checks_met_bool)
         if checks_met_bool:
             checks_met_bool = True
             self.button_plot.setDisabled(False)
