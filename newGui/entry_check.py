@@ -19,7 +19,7 @@ import View.plot_three_axis_graphs
 import Model.station_names
 os.chdir(cwd)
 
-def station_code_entry_check(station_name: str,self) -> bool:
+def station_code_entry_check(station_name: str) -> bool:
     '''
     Additional check for the station code. 
     Makes sure station code entry is 2-4 characters.
@@ -42,18 +42,13 @@ def station_code_entry_check(station_name: str,self) -> bool:
             flag += 1
         
     if len(station_name) <= 1:
-        self.warning_message_popup(
-            "Failed Filename Check"
-            "Error invalid station code. Needs to be 2-4 characters")
+
         return False
 
     # If it passed check return True
     if flag > 0:
         return True
     else: 
-        self.warning_message_popup(
-            "Failed Filename Check"
-            "Error invalid station code. Needs to be 2-4 characters")
         return False
 
 def year_day_entry_check(self) -> bool:
@@ -419,15 +414,12 @@ def checks(self):
             "There was no input for the year day entry box")
 
         return False
-        
+
     if not min_max_time_check(self):
         self.warning_message_popup(
             "Failed Time Input"
             "Error invalid Time selection Start time is greater than End time")
         return False
-
-
-    #Add function that checks for min time being less than max time 
 
 
     x_state = self.checkbox_x.isChecked()
