@@ -19,7 +19,7 @@ import View.plot_three_axis_graphs
 import Model.station_names
 os.chdir(cwd)
 
-def station_code_entry_check(station_name: str) -> bool:
+def station_code_entry_check(station_name: str,self) -> bool:
     '''
     Additional check for the station code. 
     Makes sure station code entry is 2-4 characters.
@@ -42,11 +42,18 @@ def station_code_entry_check(station_name: str) -> bool:
             flag += 1
         
     if len(station_name) <= 1:
+        self.warning_message_popup(
+            "Failed Filename Check"
+            "Error invalid station code. Needs to be 2-4 characters")
         return False
+
     # If it passed check return True
     if flag > 0:
         return True
     else: 
+        self.warning_message_popup(
+            "Failed Filename Check"
+            "Error invalid station code. Needs to be 2-4 characters")
         return False
 
 def year_day_entry_check(self) -> bool:
@@ -60,9 +67,41 @@ def year_day_entry_check(self) -> bool:
         False if it failed test, true if it passed test.
     '''
     if (len(self.input_year.get_entry()) == 0):
+        self.warning_message_pop_up(
+            "Failed Year Day Check"
+            "There was no input for the year day entry box")
         return False
     # If it passed check return True
     return True
+
+def min_max_time_check(self) -> bool:
+    '''
+    Checks the two time widgets and checks if the start time is less than the end time 
+
+    '''
+    s_hour = self.start_time.get_hour()
+    s_minute = self.start_time.get_minute()
+    s_second = self.start_time.get_second()
+
+    e_hour = self.end_time.get_hour()
+    e_minute = self.end_time.get_minute()
+    e_second = self.end_time.get_second()
+
+    # start hour is already less than end hour no need to check min or sec
+    if s_hour < e_hour:
+        return True
+    #if start and end hour is same we have to compare min and then sec if need be 
+    elif s_hour == e_hour:
+        # Compare minutes
+        if s_minute < e_minute:
+            return True
+        elif s_minute == e_minute:
+            #compare seconds
+            if s_second < e_second:
+                return True
+    else: 
+        return False
+
 
 def axis_entry_checks(x_arr: list, y_arr: list, z_arr: list,
                           min_x: int, max_x: int,
@@ -289,46 +328,6 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
 Instance methods, move back if this is bad practice?
 Trying to change some to not use self at all.
 '''
-def checks(self):
-
-    if len(self.filename) == 0:
-        self.warning_message_pop_up(
-            "Failed Filename Check",
-            "No file to work with. Open a file with open file button.")
-        return False
-
-    station_code = self.input_station_code.get_entry()
-    if not station_code_entry_check(station_code):
-
-        self.warning_message_popup(
-            "Failed Filename Check"
-            "Error invalid station code. Needs to be 2-4 characters")
-
-        return False
-
-    year_day = self.input_year.get_entry()
-    if not year_day_entry_check(self):
-
-        self.warning_message_pop_up(
-            "Failed Year Day Check"
-            "There was no input for the year day entry box")
-
-        return False
-
-    x_state = self.checkbox_x.isChecked()
-    y_state = self.checkbox_y.isChecked()
-    z_state = self.checkbox_z.isChecked()
-
-    any_state = x_state or y_state or z_state
-
-    if self.button_graph_style.is_toggled():
-        if not any_state:
-            self.warning_message_pop_up(
-                "Choose Axis",
-                "Choose Axis to plot (X, Y, Z)")
-            return False
-
-    return True
 
 def same_entries(self):
 
@@ -383,3 +382,62 @@ def same_entries_one_toggled(self):
         return False
     else:
         return True
+
+def checks(self):
+    
+    '''
+    Main Check function that checks the main parst of the file that is opened and 
+    validates the values in the textfields, once all values and wdigets are properly valid the user
+    is able to press the plot graph button
+    '''
+
+    # Make sures we have a file
+    if len(self.filename) == 0:
+        self.warning_message_pop_up(
+            "Failed Filename Check",
+            "No file to work with. Open a file with open file button.")
+        return False
+
+    # Checks the 2 char station code is a code that fits in our station_names.py array
+    station_code = self.input_station_code.get_entry()
+    if not station_code_entry_check(station_code):
+
+        self.warning_message_popup(
+            "Failed Filename Check"
+            "Error invalid station code. Needs to be 2-4 characters")
+
+        return False
+
+    # Just makes sure there is some entry in the yearday slot 
+    # Right now no real check to see if the year day is a valid combo
+    # but if we have a value the file itself should lay it properly before hand
+    year_day = self.input_year.get_entry()
+    if not year_day_entry_check(self):
+
+        self.warning_message_pop_up(
+            "Failed Year Day Check"
+            "There was no input for the year day entry box")
+
+        return False
+        
+    if not min_max_time_check(self):
+        self.warning_message_popup(
+            "Failed Time Input"
+            "Error invalid Time selection Start time is greater than End time")
+        return False
+
+
+    #Add function that checks for min time being less than max time 
+
+
+    x_state = self.checkbox_x.isChecked()
+    y_state = self.checkbox_y.isChecked()
+    z_state = self.checkbox_z.isChecked()
+
+    any_state = x_state or y_state or z_state
+
+    if self.button_graph_style.is_toggled():
+        if not any_state:
+            return False
+
+    return True
