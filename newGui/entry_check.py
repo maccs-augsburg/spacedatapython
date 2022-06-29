@@ -15,7 +15,7 @@ import os
 import datetime
 cwd = os.getcwd()
 sys.path.append("../")
-import plot_three_axis_graphs
+import View.plot_three_axis_graphs
 os.chdir(cwd)
 
 def station_code_entry_check(station_name: str) -> bool:
@@ -197,40 +197,40 @@ def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
     # last should be one_axis
     if x_state and y_state and z_state:
 
-        fig = plot_three_axis_graphs.x_y_and_z_plot(
+        fig = View.plot_three_axis_graphs.x_y_and_z_plot(
             xArr, yArr, zArr, timeArr, filename, stime, etime)
 
     # Y, Z plot, clean or raw
     elif y_state and z_state:
 
-        fig = plot_three_axis_graphs.plot_two_axis(
+        fig = View.plot_three_axis_graphs.plot_two_axis(
             yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
 
     # X, Z plot, clean or raw
     elif x_state and z_state:
 
-        fig = plot_three_axis_graphs.plot_two_axis(
+        fig = View.plot_three_axis_graphs.plot_two_axis(
             xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
 
     # X, Y plot, clean or raw
     elif x_state and y_state:
 
-        fig = plot_three_axis_graphs.plot_two_axis(
+        fig = View.plot_three_axis_graphs.plot_two_axis(
             xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
 
     # For single axis plotting
     else:
 
         if (x_state):
-            fig = plot_three_axis_graphs.plot_axis(
+            fig = View.plot_three_axis_graphs.plot_axis(
                 xArr, timeArr, filename, stime, etime, 'X')
 
         if(y_state):
-            fig = plot_three_axis_graphs.plot_axis(
+            fig = View.plot_three_axis_graphs.plot_axis(
                 yArr, timeArr, filename, stime, etime, 'Y')
 
         if(z_state):
-            fig = plot_three_axis_graphs.plot_axis(
+            fig = View.plot_three_axis_graphs.plot_axis(
                 zArr, timeArr, filename, stime, etime, 'Z')
 
     return fig
