@@ -56,7 +56,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     
     x_axis_format = mdates.DateFormatter('%H')
     
-    hours_arr, x_axis_format, x_axis_label = Model.Model.x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = Model.x_axis_time_formatter.create_time_list(stime, etime)
     #Datestamp
     if((int)(year_value) > 50):
         year_value = "19" + year_value
@@ -148,7 +148,7 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     # X_axis_label will return label corresponding to time gaps
     # hours_array will contain the timestamps for labeling x-axis
     # x_axis_format might be hours, hours and seconds
-    hours_arr, x_axis_format, x_axis_label = Model.Model.x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = Model.x_axis_time_formatter.create_time_list(stime, etime)
             
 
     #Datestamp
