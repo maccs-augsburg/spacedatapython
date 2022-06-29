@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 )
 from PySide6.QtGui import QIcon, QAction, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
+
 # Imports from matplotlib
 import matplotlib
 matplotlib.use('qtagg')
@@ -29,13 +30,17 @@ import datetime
 import os
 import subprocess
 import entry_check
+
+#Custom Widget Imports
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
     PushButton, Spinbox, Time, 
     GridLayout, HLayout,
     Toolbar, VLayout)
+
 # Imports from subpackages
 from custom_time_widget import MinMaxTime
+import Model.station_names
 import Model.read_clean_to_lists
 import Model.read_raw_to_lists
 import View.plot_stacked_graphs
@@ -268,6 +273,7 @@ class MainWindow(QMainWindow):
         ######################
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.button_plot, 0, 1)
+        self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 2)
         self.labels_and_text_fields_layout.add_widget(self.station_label, 1, 0)
         self.labels_and_text_fields_layout.add_widget(self.input_station_code, 1, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_year_day, 2, 0)
@@ -362,6 +368,7 @@ class MainWindow(QMainWindow):
         Filter index assigned to self.launch_dialog_option
         for plotting different file types in plot_graph().
         '''
+        #Gets index of current part of drop down box which corresponds to what file we are able to see
         option = self.file_options.index(self.combo_box_files.currentText())
         self.launch_dialog_option = option
 
@@ -399,6 +406,7 @@ class MainWindow(QMainWindow):
         '''
         Simple user Dialog that prompts user to select a file to open to be read and graphed
         '''
+
         file_filter = f_filter
         # guis will be in the same folder, so go back one 
         # directory for shared files 
@@ -456,26 +464,14 @@ class MainWindow(QMainWindow):
 
     def time_stamp(self):
         '''
-        Currently Unused ? mark had this function for a different way to make the time at the start 
-        more visually easy and appealing to graph by the hour but doesnt looked like its used ?
+        Creates a Time stamp for the start time and end time
         '''
-
-        #https://doc.qt.io/qt-6/qdatetimeedit.html#maximumTime-prop
-        e_hour = self.end_time.get_hour()
-        e_minute = self.end_time.get_minute()
-        e_second = self.end_time.get_second()
 
         start_time_stamp = datetime.time(hour = self.start_time.get_hour(),
                                         minute = self.start_time.get_minute(),
                                         second = self.start_time.get_second())
-        # make it easier for user to switch to only hour values
-        # currently have to click on minute field, type in 0, or decrement to 0
-        # so set time to 23:00:00 but still graph as 23:59:59
-        if e_hour == 23 and e_minute == 0 and e_second == 0:
-            end_time_stamp = datetime.time(hour = 23, minute = 59, second = 59)
-            
-        else:
-            end_time_stamp = datetime.time(hour = self.end_time.get_hour(),
+
+        end_time_stamp = datetime.time(hour = self.end_time.get_hour(),
                                             minute = self.end_time.get_minute(),
                                             second = self.end_time.get_second())
 
@@ -490,23 +486,7 @@ class MainWindow(QMainWindow):
 
         """
 
-        # if self.filename is None:
-        #     return
-        # # if checks test return false, don't plot
-        # if not entry_check.checks(self):
-        #     return
-        # only check after the first successful plot
-        # gets set at the end of this function and remains True
-
         self.is_plottable()
-
-
-        start_hour = self.start_time.get_hour()
-        start_minute = self.start_time.get_minute()
-        start_second = self.start_time.get_second()
-        end_hour = self.end_time.get_hour()
-        end_minute = self.end_time.get_minute()
-        end_second = self.end_time.get_second()
 
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         
@@ -837,28 +817,34 @@ class MainWindow(QMainWindow):
         checks_met_bool = False
         checks_met_bool = entry_check.checks(self)
 
-        if self.graph_figure_flag:
-            # if this is toggled, do following test
-            if self.button_graph_style.is_toggled():
-                # if !(test failed) and we have plotted one_plot already
-                # means no new info to plot
-                if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
-                    return
-                else:
-                    self.delete_figure()
+        '''
+        This if stmt casuses more issues and delete_figure() when opening the same file or a new file 
+        it fully deleletes the figure canvas and isnt reestablished 
+        '''
+        
+        # if self.graph_figure_flag:
+        #     # if this is toggled, do following test
+        #     if self.button_graph_style.is_toggled():
+        #         # if !(test failed) and we have plotted one_plot already
+        #         # means no new info to plot
+        #         if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
+        #             return
+        #         else:
+        #             self.delete_figure()
 
-            else:  
-                # if !(test failed) and we have plotted stacked already
-                # means no new info to plot
-                if not entry_check.same_entries(self) and self.stacked_plot_flag:
-                    return
-                else:
-                    self.delete_figure()
+        #     else:  
+        #         # if !(test failed) and we have plotted stacked already
+        #         # means no new info to plot
+        #         if not entry_check.same_entries(self) and self.stacked_plot_flag:
+        #             return
+        #         else:
+        #             self.delete_figure()
         if checks_met_bool:
             checks_met_bool = True
             self.button_plot.setDisabled(False)
         else:
             self.button_plot.setDisabled(True)
+
 def main():
     app = QApplication([])
     window = MainWindow()
