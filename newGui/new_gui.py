@@ -40,6 +40,7 @@ from custom_time_widget import MinMaxTime
 import Model.read_clean_to_lists
 import Model.read_raw_to_lists
 import View.plot_stacked_graphs
+import View.plot_three_axis_graphs
 
 MINIMUM_WINDOW_HEIGHT = 1000
 MINIMUM_WINDOW_WIDTH = 1400
@@ -451,6 +452,10 @@ class MainWindow(QMainWindow):
         self.launch_dialog_option = self.options.index(self.combo_box.currentText())
 
     def time_stamp(self):
+        '''
+        
+        '''
+
         #https://doc.qt.io/qt-6/qdatetimeedit.html#maximumTime-prop
         e_hour = self.end_time.get_hour()
         e_minute = self.end_time.get_minute()
@@ -474,6 +479,13 @@ class MainWindow(QMainWindow):
 
     def plot_graph(self):
         
+        """
+        Once Plot Graph button is pressed we call plot_graph which goes through all entry checks and benchmark testing 
+        to make sure all field in the digets and file opened are valid. Once then we check to see which graph style we have
+        and then create the lists of data x y z axis and datetime list for the times of the graph 
+
+        """
+
         # if self.filename is None:
         #     return
         # # if checks test return false, don't plot
@@ -608,6 +620,11 @@ class MainWindow(QMainWindow):
         self.display_figure()
 
     def display_figure(self):
+        """
+        Seperate Function that will display the graph created from matplotlib 
+        embedding the graph into a figurecanvas that will become a widget in our layout 
+        this function will help when we load the data but dont display any of it yet
+        """
         # if we hid the entry layout from toolbar
         self.graph_layout.setHidden(False)
         # if we have a figure
