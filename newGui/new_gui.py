@@ -397,7 +397,9 @@ class MainWindow(QMainWindow):
             print("Got nothing")
 
     def get_file_name(self, f_filter):
-
+        '''
+        Simple user Dialog that prompts user to select a file to open to be read and graphed
+        '''
         file_filter = f_filter
         # guis will be in the same folder, so go back one 
         # directory for shared files 
@@ -437,7 +439,9 @@ class MainWindow(QMainWindow):
         return True
 
     def toolbar_open(self):
-
+        '''
+        Function that opens a user dialog to open a file using the toolbar icon 
+        '''
         if not self.get_file_name("Raw File (*.2hz);;Clean File (*.s2)"):
             return
         # breaks up into [filename][extension]
@@ -453,7 +457,8 @@ class MainWindow(QMainWindow):
 
     def time_stamp(self):
         '''
-        
+        Currently Unused ? mark had this function for a different way to make the time at the start 
+        more visually easy and appealing to graph by the hour but doesnt looked like its used ?
         '''
 
         #https://doc.qt.io/qt-6/qdatetimeedit.html#maximumTime-prop
