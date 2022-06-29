@@ -263,10 +263,15 @@ class MainWindow(QMainWindow):
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
         self.button_graph_style.clicked.connect(self.update_layout)
+        self.button_graph_style.clicked.connect(self.is_plottable)
         self.button_plot.clicked.connect(self.plot_graph)
         self.button_plot.setDisabled(True)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot.clicked.connect(self.clear_plot)
+        
+        self.checkbox_x.clicked.connect(self.is_plottable)
+        self.checkbox_y.clicked.connect(self.is_plottable)
+        self.checkbox_z.clicked.connect(self.is_plottable)
 
         ######################
         ### Adding Widgets ###
@@ -488,7 +493,23 @@ class MainWindow(QMainWindow):
         """
 
         self.is_plottable()
+        if self.graph_figure_flag:
+            # if this is toggled, do following test
+            if self.button_graph_style.is_toggled():
+                # if !(test failed) and we have plotted one_plot already
+                # means no new info to plot
+                if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
+                    return
+                else:
+                    self.delete_figure()
 
+            else:  
+                # if !(test failed) and we have plotted stacked already
+                # means no new info to plot
+                if not entry_check.same_entries(self) and self.stacked_plot_flag:
+                    return
+                else:
+                    self.delete_figure()
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         
         ####################################
@@ -556,6 +577,7 @@ class MainWindow(QMainWindow):
         entry_check.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
         # if one plot button is toggled
         # call necessary functions for one plot
+        
         if self.button_graph_style.is_toggled():
             
             # keeping track of whats been plotted already
@@ -823,23 +845,7 @@ class MainWindow(QMainWindow):
         it fully deleletes the figure canvas and isnt reestablished 
         '''
         
-        # if self.graph_figure_flag:
-        #     # if this is toggled, do following test
-        #     if self.button_graph_style.is_toggled():
-        #         # if !(test failed) and we have plotted one_plot already
-        #         # means no new info to plot
-        #         if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
-        #             return
-        #         else:
-        #             self.delete_figure()
 
-        #     else:  
-        #         # if !(test failed) and we have plotted stacked already
-        #         # means no new info to plot
-        #         if not entry_check.same_entries(self) and self.stacked_plot_flag:
-        #             return
-        #         else:
-        #             self.delete_figure()
         if checks_met_bool:
             checks_met_bool = True
             self.button_plot.setDisabled(False)
