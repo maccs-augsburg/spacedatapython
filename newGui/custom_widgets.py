@@ -49,7 +49,6 @@ class LineEdit(QLineEdit):
         self.entry = str(new_entry)
         self.setText(str(new_entry))
 
-
 class Label(QLabel):
     def __init__(self, label_name):
         super().__init__()
@@ -61,7 +60,6 @@ class Label(QLabel):
         self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         self.setMaximumWidth(90)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        #self.setMaximumHeight(MINIMUM_HEIGHT)
 
 class CheckBox(QCheckBox):
     def __init__(self, label_name):
@@ -98,7 +96,7 @@ class PushButton(QPushButton):
     def button_toggle(self, checked):
         self.button_is_checked = checked
         self.change_text()
-    
+
     def is_toggled(self):
         return self.button_is_checked
 
