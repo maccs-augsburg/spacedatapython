@@ -16,6 +16,7 @@ import datetime
 cwd = os.getcwd()
 sys.path.append("../")
 import View.plot_three_axis_graphs
+import station_names
 os.chdir(cwd)
 
 def station_code_entry_check(station_name: str) -> bool:
@@ -30,10 +31,23 @@ def station_code_entry_check(station_name: str) -> bool:
         False it it failed test, true if it passed test.
     '''
 
+    # Runs Through the Two Letter Station Names 
+    # and Checks if we have a match If we do its a valid Station Code
+    # if not return false failed check 
+    # can always move and widen if we include 3 char or more stations 
+    flag = 0 
+    
+    for x in range(2, 11):
+        if station_name == station_names.names[x][0]:
+            flag += 1
+        
     if len(station_name) <= 1:
         return False
     # If it passed check return True
-    return True
+    if flag > 0:
+        return True
+    else: 
+        return False
 
 def year_day_entry_check(self) -> bool:
     '''
