@@ -1,7 +1,7 @@
 '''
 entry_checks.py
 
-May 2022 -- Created -- Mark Ortega-Ponce
+May 2022 -- Created -- Mark Ortega-Ponce & Chris Hance
 
 https://docs.python.org/3/library/typing.html
 https://peps.python.org/pep-0008/
