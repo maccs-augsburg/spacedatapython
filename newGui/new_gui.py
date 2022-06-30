@@ -75,8 +75,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        # self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        # self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -118,8 +118,6 @@ class MainWindow(QMainWindow):
 
         self.addToolBar(toolbar)
 
-        #TODO add save as tool bar icon and button crtl shift S
-
         action_openfile.setShortcut(QKeySequence("Ctrl+O"))
         action_savefile.setShortcut(QKeySequence("Ctrl+S"))
 
@@ -141,7 +139,6 @@ class MainWindow(QMainWindow):
         ### Layouts ###
         ###############
 
-        #TODO add more layouts that add the group widgets from marks custom widget file
         # layout for buttons and checkboxs
         self.main_layout = QHBoxLayout()
         self.parent_label_layout = GridLayout()
@@ -265,10 +262,12 @@ class MainWindow(QMainWindow):
         self.button_graph_style.clicked.connect(self.update_layout)
         self.button_graph_style.clicked.connect(self.is_plottable)
         self.button_plot.clicked.connect(self.plot_graph)
+        # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot.clicked.connect(self.clear_plot)
         
+        # Since we have a entry check that checks for the state of what axis is being plotted when we 3 axis display so we dont enable the plot button until atleast one checkbox is displayed 
         self.checkbox_x.clicked.connect(self.is_plottable)
         self.checkbox_y.clicked.connect(self.is_plottable)
         self.checkbox_z.clicked.connect(self.is_plottable)
@@ -448,6 +447,7 @@ class MainWindow(QMainWindow):
         self.reset_time_entries()
         # return true if calling from toolbar open
 
+        #after we open a file call is plottable to check file inputs yearday and station code
         self.is_plottable()
         return True
 
@@ -492,7 +492,9 @@ class MainWindow(QMainWindow):
 
         """
 
+        #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
         self.is_plottable()
+
         if self.graph_figure_flag:
             # if this is toggled, do following test
             if self.button_graph_style.is_toggled():
