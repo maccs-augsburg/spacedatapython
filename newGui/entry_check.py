@@ -13,11 +13,8 @@ Note: Types in params and ->, are just used for type hinting in IDE's.
 import sys
 import os
 import datetime
-cwd = os.getcwd()
-sys.path.append("../")
 import View.plot_three_axis_graphs
 import Model.station_names
-os.chdir(cwd)
 
 def station_code_entry_check(station_name: str) -> bool:
     '''
