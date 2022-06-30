@@ -1,4 +1,4 @@
-** testdata README **
+**testdata README**
 
 This folder contains various MACCS data on which to test the functions
 of the space data code.
