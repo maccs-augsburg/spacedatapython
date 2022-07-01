@@ -351,6 +351,7 @@ class MainWindow(QMainWindow):
         ### Instance Variables ###
         ##########################
         self.file_path = None
+        self.filename = None
         self.file_extension = None
         self.launch_dialog_option = None
         ##########################
@@ -811,15 +812,17 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.setHidden(bool_value)
 
         if bool_value:
-            self.parent_label_layout.set_row_stretch(0, 18)
-            self.parent_label_layout.set_row_stretch(1, 0)
-            self.parent_label_layout.set_row_stretch(2, 1)
-            self.parent_label_layout.set_row_stretch(3, 9)
+            self.parent_label_layout.set_row_stretch(0, 4)
+            self.parent_label_layout.set_row_stretch(1, 12)
+            self.parent_label_layout.set_row_stretch(2, 0)
+            self.parent_label_layout.set_row_stretch(3, 1)
+            self.parent_label_layout.set_row_stretch(4, 8)
         else:
-            self.parent_label_layout.set_row_stretch(0, 5)
-            self.parent_label_layout.set_row_stretch(1, 6)
-            self.parent_label_layout.set_row_stretch(2, 1)
-            self.parent_label_layout.set_row_stretch(3, 3)
+            self.parent_label_layout.set_row_stretch(0, 2)
+            self.parent_label_layout.set_row_stretch(1, 4)
+            self.parent_label_layout.set_row_stretch(2, 6)
+            self.parent_label_layout.set_row_stretch(3, 1)
+            self.parent_label_layout.set_row_stretch(4, 3)
 
     def hide_entry_layout(self):
         ''' 
@@ -846,9 +849,6 @@ class MainWindow(QMainWindow):
         --- For Stacked Graph Min Max are valid entries and Min is Less than Max
         --- For Three Axis Display Checked States X Y Z 
         '''
-
-
-
         checks_met_bool = False
         checks_met_bool = entry_check.checks(self)
 
@@ -856,10 +856,7 @@ class MainWindow(QMainWindow):
         This if stmt casuses more issues and delete_figure() when opening the same file or a new file 
         it fully deleletes the figure canvas and isnt reestablished 
         '''
-        
-
         if checks_met_bool:
-            checks_met_bool = True
             self.button_plot.setDisabled(False)
         else:
             self.button_plot.setDisabled(True)
