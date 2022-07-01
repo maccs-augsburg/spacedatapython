@@ -145,11 +145,13 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout = GridLayout()
         self.graph_layout = VLayout()
         self.checkbox_layout = HLayout()
+        self.button_layout_top = GridLayout()
         self.button_layout = GridLayout()
         self.min_max_xyz_layout = GridLayout()
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
+        self.button_layout_top.setContentsMargins(10, 0, 0, 0)
         self.labels_and_text_fields_layout.layout.setContentsMargins(24, 10, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
@@ -214,6 +216,7 @@ class MainWindow(QMainWindow):
                         "Other -- Not Working")# Index 5
 
         self.combo_box_files = QComboBox()
+        self.combo_box_files.setMaximumWidth(150)
         # Add items to combo box
         self.combo_box_files.addItems(self.file_options)
         self.combo_box_files.setCurrentIndex(3)
@@ -275,17 +278,18 @@ class MainWindow(QMainWindow):
         ######################
         ### Adding Widgets ###
         ######################
-        self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
-        self.labels_and_text_fields_layout.add_widget(self.button_plot, 0, 1)
-        self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 2)
-        self.labels_and_text_fields_layout.add_widget(self.station_label, 1, 0)
-        self.labels_and_text_fields_layout.add_widget(self.input_station_code, 1, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_year_day, 2, 0)
-        self.labels_and_text_fields_layout.add_widget(self.input_year, 2, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_start_time, 3, 0)
-        self.labels_and_text_fields_layout.add_widget(self.start_time, 3, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_end_time, 4, 0)
-        self.labels_and_text_fields_layout.add_widget(self.end_time, 4, 1)
+        self.button_layout_top.add_widget_stretch(self.combo_box_files, 0, 0, 1, 2)
+        self.button_layout_top.add_widget(self.button_open_file, 1, 0)
+        self.button_layout_top.add_widget(self.button_plot, 1, 1)
+
+        self.labels_and_text_fields_layout.add_widget(self.station_label, 0, 0)
+        self.labels_and_text_fields_layout.add_widget(self.input_station_code, 0, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_year_day, 1, 0)
+        self.labels_and_text_fields_layout.add_widget(self.input_year, 1, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_start_time, 2, 0)
+        self.labels_and_text_fields_layout.add_widget(self.start_time, 2, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_end_time, 3, 0)
+        self.labels_and_text_fields_layout.add_widget(self.end_time, 3, 1)
 
         self.min_max_xyz_layout.add_widget(self.label_min_x, 0, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_min_x, 0, 1)
@@ -314,26 +318,27 @@ class MainWindow(QMainWindow):
         ###############################################
         ### Adding wdigets layouts into main Layout ###
         ###############################################
-
-        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout,0,0)
-        self.parent_label_layout.add_widget(self.min_max_xyz_layout,1,0)
-        self.parent_label_layout.add_widget(self.checkbox_layout,2,0)
-        self.parent_label_layout.add_widget(self.button_layout,3,0)
+        self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
+        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
+        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 2, 0)
+        self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
+        self.parent_label_layout.add_widget(self.button_layout, 4, 0)
 
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################
         self.main_layout.addWidget(self.parent_label_layout,1)
         self.main_layout.addWidget(self.mac_label, 5)
-
+        
+        self.parent_label_layout.set_row_stretch(0, 2)
         # five widgets in one row, station/year/open, plot button
-        self.parent_label_layout.set_row_stretch(0, 5)
+        self.parent_label_layout.set_row_stretch(1, 4)
         # six widgets in one row, x/y/z min max
-        self.parent_label_layout.set_row_stretch(1, 6)
+        self.parent_label_layout.set_row_stretch(2, 6)
         # one widgets in one row, toggle button (x, y, z)
-        self.parent_label_layout.set_row_stretch(2, 1)
+        self.parent_label_layout.set_row_stretch(3, 1)
         # three widgets in one row, buttons
-        self.parent_label_layout.set_row_stretch(3, 3)
+        self.parent_label_layout.set_row_stretch(4, 3)
 
         ##########################
         ### Set Central Widget ###
@@ -495,14 +500,18 @@ class MainWindow(QMainWindow):
         #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
         self.is_plottable()
 
+        # If there is a figure already saved
         if self.graph_figure_flag:
-            # if this is toggled, do following test
+            # if graph style button is toggled, either check same entries
+            # for one_plot or three_plots
             if self.button_graph_style.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
                 if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
                     return
                 else:
+                    # delete old figure if we save a new figure
+                    # prevent memory leak issues
                     self.delete_figure()
 
             else:  
@@ -512,6 +521,7 @@ class MainWindow(QMainWindow):
                     return
                 else:
                     self.delete_figure()
+
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         
         ####################################
