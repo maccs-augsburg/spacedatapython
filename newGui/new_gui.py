@@ -234,7 +234,7 @@ class MainWindow(QMainWindow):
         ###############
         self.button_open_file = PushButton("Open file...")
         self.button_open_file.set_uncheckable()
-        self.button_graph_style = PushButton('Graph Style', "Graph Style")
+        self.button_graph_style = PushButton('Switch to One Plot', "Switch to Stacked Plot")
         self.button_save = PushButton('Save')
         self.button_save.set_uncheckable()
         self.button_save_as = PushButton('Save as...')
@@ -351,7 +351,7 @@ class MainWindow(QMainWindow):
         ### Instance Variables ###
         ##########################
         self.file_path = None
-        self.filename = None
+        self.filename = ""
         self.file_extension = None
         self.launch_dialog_option = None
         ##########################
