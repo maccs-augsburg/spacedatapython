@@ -379,6 +379,7 @@ def checks(self):
     '''
 
     # Make sures we have a file
+
     if len(self.filename) == 0:
         self.warning_message_pop_up(
             "Failed Filename Check",
