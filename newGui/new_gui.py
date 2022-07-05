@@ -46,8 +46,8 @@ import Model.read_raw_to_lists
 import View.plot_stacked_graphs
 import View.plot_three_axis_graphs
 
-MINIMUM_WINDOW_HEIGHT = 1000
-MINIMUM_WINDOW_WIDTH = 1400
+MINIMUM_WINDOW_HEIGHT = 800
+MINIMUM_WINDOW_WIDTH = 1200
 
 class MainWindow(QMainWindow):
     """
@@ -75,8 +75,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        # self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        # self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -831,27 +831,18 @@ class MainWindow(QMainWindow):
         full function that will encompass all entry checks that we have, and if we have all 
         entry checks pass the user will be able to press the plot button and plot the graph, 
         if a check fails or not all checks are met yet the plot graph button will still be greyed out
-        """
-
-        # Proper Entry Checks include 
-        '''
+         
+        Proper Entry Checks include 
+        
         Station Code is Valid
         Year Day is Valid
         Start Time is less than End Time 
         --- For Stacked Graph Min Max are valid entries and Min is Less than Max
         --- For Three Axis Display Checked States X Y Z 
-        '''
-
-
+        """
 
         checks_met_bool = False
         checks_met_bool = entry_check.checks(self)
-
-        '''
-        This if stmt casuses more issues and delete_figure() when opening the same file or a new file 
-        it fully deleletes the figure canvas and isnt reestablished 
-        '''
-        
 
         if checks_met_bool:
             checks_met_bool = True
