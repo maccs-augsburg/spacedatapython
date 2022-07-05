@@ -85,9 +85,6 @@ def min_max_time_check(self) -> bool:
     e_second = self.end_time.get_second()
 
     # start hour is already less than end hour no need to check min or sec
-    print("Min max check")
-    print(s_hour)
-    print(e_hour)
     if s_hour < e_hour:
         return True
     #if start and end hour is same we have to compare min and then sec if need be 
@@ -417,14 +414,13 @@ def checks(self):
         self.warning_message_pop_up(
             "Failed Year Day Check"
             "There was no input for the year day entry box")
-
         return False
 
     if not min_max_time_check(self):
+        return False
         self.warning_message_popup(
             "Failed Time Input"
             "Error invalid Time selection Start time is greater than End time")
-        return False
 
 
     x_state = self.checkbox_x.isChecked()
