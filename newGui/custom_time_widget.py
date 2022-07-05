@@ -79,7 +79,7 @@ class MinMaxTime(QtWidgets.QWidget,):
 
     def set_own_time(self, hour, minute, second):
         self.time_widget.setTime(QTime(hour, minute, second))
-
+        
 def main():
     app = QApplication(sys.argv)
     window = MinMaxTime()
