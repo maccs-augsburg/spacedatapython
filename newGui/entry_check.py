@@ -17,6 +17,8 @@ cwd = os.getcwd()
 sys.path.append("../")
 import View.plot_three_axis_graphs
 import Model.station_names
+
+from PySide6.QtWidgets import (QMessageBox)
 os.chdir(cwd)
 
 def station_code_entry_check(station_name: str) -> bool:
@@ -83,6 +85,9 @@ def min_max_time_check(self) -> bool:
     e_second = self.end_time.get_second()
 
     # start hour is already less than end hour no need to check min or sec
+    print("Min max check")
+    print(s_hour)
+    print(e_hour)
     if s_hour < e_hour:
         return True
     #if start and end hour is same we have to compare min and then sec if need be 
@@ -385,7 +390,7 @@ def checks(self):
     validates the values in the textfields, once all values and wdigets are properly valid the user
     is able to press the plot graph button
     '''
-
+    
     # Make sures we have a file
     if len(self.filename) == 0:
         self.warning_message_pop_up(
