@@ -377,7 +377,7 @@ def checks(self):
     validates the values in the textfields, once all values and wdigets are properly valid the user
     is able to press the plot graph button
     '''
-
+    
     # Make sures we have a file
 
     if len(self.filename) == 0:
@@ -405,14 +405,13 @@ def checks(self):
         self.warning_message_pop_up(
             "Failed Year Day Check"
             "There was no input for the year day entry box")
-
         return False
 
     if not min_max_time_check(self):
+        return False
         self.warning_message_popup(
             "Failed Time Input"
             "Error invalid Time selection Start time is greater than End time")
-        return False
 
 
     x_state = self.checkbox_x.isChecked()

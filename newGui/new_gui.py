@@ -75,8 +75,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        # self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
+        # self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
         menu_help = menu.addMenu("&Help")
         menu_help.addAction(action_help)
 
-        ###############
+        ###############                        rt
         ### Layouts ###
         ###############
 
@@ -274,6 +274,11 @@ class MainWindow(QMainWindow):
         self.checkbox_x.clicked.connect(self.is_plottable)
         self.checkbox_y.clicked.connect(self.is_plottable)
         self.checkbox_z.clicked.connect(self.is_plottable)
+
+        # Every time we update or change a time in either time widgets we want to check to see if 
+        # Start time is greater than end time
+        self.start_time.time_widget.timeChanged.connect(self.is_plottable)
+        self.end_time.time_widget.timeChanged.connect(self.is_plottable)
 
         ######################
         ### Adding Widgets ###
