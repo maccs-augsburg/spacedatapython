@@ -29,7 +29,7 @@ import statistics as stats
 # MACCS imports
 #from Model.raw_codecs import decode, time_of_record
 #import Model.station_names
-from newGui.Model import station_names
+from Model import station_names
 
 # Matplotlib imports
 import matplotlib.pyplot as plt
@@ -38,8 +38,8 @@ import matplotlib.dates as mdates
 
 # Plotter program imports
 #import Model.read_raw_to_lists
-from newGui.Model import read_raw_to_lists
-from newGui.Model import x_axis_time_formatter
+from Model import read_raw_to_lists
+from Model import x_axis_time_formatter
 
 
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
