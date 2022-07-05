@@ -8,9 +8,10 @@
 
 # Python 3 imports
 import datetime
-
+#records@century.edu
 # MACCS imports
-from newGui.Model.raw_codecs import decode, time_of_record
+# import from current directory
+from .raw_codecs import decode, time_of_record
 
 def create_datetime_lists_from_raw( raw_file, start_time, end_time, file_name):
     """ Creates x, y, z, and time lists based on the 2 Hz raw data file. But for the time_arr list, it saves the values into the list as datetime.datetime objects
