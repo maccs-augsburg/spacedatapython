@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
         menu_help = menu.addMenu("&Help")
         menu_help.addAction(action_help)
 
-        ###############
+        ###############                        rt
         ### Layouts ###
         ###############
 
@@ -271,6 +271,10 @@ class MainWindow(QMainWindow):
         self.checkbox_x.clicked.connect(self.is_plottable)
         self.checkbox_y.clicked.connect(self.is_plottable)
         self.checkbox_z.clicked.connect(self.is_plottable)
+
+        # 
+        self.start_time.time_widget.dateChanged.connect(self.is_plottable)
+        self.end_time.time_widget.dateChanged.connect(self.is_plottable)
 
         ######################
         ### Adding Widgets ###
