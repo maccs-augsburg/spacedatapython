@@ -26,22 +26,14 @@ def station_code_entry_check(station_name: str) -> bool:
     Returns
     -------
     True/False : bool
-        False it it failed test, true if it passed test.
+        False it passed string not in station names, true if it is.
     '''
-    # Guard clause. If this is true, then no point in doing anything else.
-    if len(station_name) <= 1:
-        return False
-    
-    # Runs Through the Two Letter Station Names 
-    # and Checks if we have a match If we do its a valid Station Code
-    # if not return false failed check 
-    # can always move and widen if we include 3 char or more stations 
     flag = False
-
-    for x in range(2, 11):
-        if station_name == Model.station_names.names[x][0]:
-            flag = True
-    # If it passed check return True
+    for i in range(0, 3):
+        for x in range(2, 11):
+            if station_name == Model.station_names.names[x][i]:
+                flag = True
+        # If it passed check return True
     return flag
 
 def year_day_entry_check(self) -> bool:
