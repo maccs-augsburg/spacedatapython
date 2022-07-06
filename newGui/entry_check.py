@@ -26,14 +26,14 @@ def station_code_entry_check(station_name: str) -> bool:
     Returns
     -------
     True/False : bool
-        False it passed string not in station names, true if it is.
+        False if passed string not in station names, true if it is.
     '''
     flag = False
     for i in range(0, 3):
         for x in range(2, 11):
             if station_name == Model.station_names.names[x][i]:
                 flag = True
-        # If it passed check return True
+    # If it passed check return True
     return flag
 
 def year_day_entry_check(self) -> bool:
