@@ -254,24 +254,24 @@ def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list,
         Returns default max_z if no input, else returns user input.
     '''
 
-    default_min_x = min(x_arr)
-    default_max_x = max(x_arr)
+    default_min_x = np.min(x_arr)
+    default_max_x = np.max(x_arr)
     x_midpoint = (default_min_x + default_max_x) / 2
     default_x_range = default_max_x - default_min_x
 
-    default_min_y = min(y_arr)
-    default_max_y = max(y_arr)
+    default_min_y = np.min(y_arr)
+    default_max_y = np.max(y_arr)
     y_midpoint = (default_min_y + default_max_y) / 2
     default_y_range = default_max_y - default_min_y
 
-    default_min_z = min(z_arr)
-    default_max_z = max(z_arr)
+    default_min_z = np.min(z_arr)
+    default_max_z = np.max(z_arr)
     z_midpoint = (default_min_z + default_max_z) / 2
     default_z_range = default_max_z - default_min_z
 
     # start normalizing ranges between all three graphs
     axis_ranges = [default_x_range, default_y_range, default_z_range]
-    max_axis_range = max(axis_ranges)
+    max_axis_range = np.max(axis_ranges)
     # increasing range by 5%
     # dont want min-max values to be on the 
     # edge of the graph from my understanding
