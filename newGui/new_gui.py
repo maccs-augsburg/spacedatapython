@@ -18,10 +18,11 @@ from PySide6.QtGui import QIcon, QAction, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
 
 #qtwidgets
-from custom_toggle_widget import AnimatedToggle
+from custom_graph_toggle_widget import SwitchButtonWidget
 
 # Imports from matplotlib
 import matplotlib
+
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -161,9 +162,6 @@ class MainWindow(QMainWindow):
         ###############
         ### Labels ####
         ###############
-        self.label_three_axis_style = Label("Three axis style")
-        self.label_stacked_axis_style = Label("Stacked axis style")
-        self.label_three_axis_style.setMaximumWidth(120)
 
         self.label_year_day = Label("Year Day: ")
         self.label_start_time = Label("Start Time: ")
@@ -256,7 +254,7 @@ class MainWindow(QMainWindow):
         #####################
         ### Toggle Widget ###
         #####################
-        self.toggle_graph_style = AnimatedToggle()
+        self.graph_switch_button = SwitchButtonWidget()
 
         ########################
         ### Signals / Events ###
@@ -272,10 +270,8 @@ class MainWindow(QMainWindow):
         self.button_open_file.clicked.connect(self.launch_dialog)
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
-        self.toggle_graph_style.clicked.connect(self.update_layout)
-        self.toggle_graph_style.clicked.connect(self.is_plottable)
-        # self.button_graph_style.clicked.connect(self.update_layout)
-        # self.button_graph_style.clicked.connect(self.is_plottable)
+        self.graph_switch_button.three_axis_style.clicked.connect(self.update_layout)
+        self.graph_switch_button.three_axis_style.clicked.connect(self.is_plottable)
         self.button_plot.clicked.connect(self.plot_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
@@ -308,9 +304,7 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout.add_widget(self.label_end_time, 4, 0)
         self.labels_and_text_fields_layout.add_widget(self.end_time, 4, 1)
 
-        self.labels_and_text_fields_layout.add_widget(self.label_stacked_axis_style,5,0)
-        self.labels_and_text_fields_layout.add_widget(self.toggle_graph_style,5,1)
-        self.labels_and_text_fields_layout.add_widget(self.label_three_axis_style,5,2)
+        self.labels_and_text_fields_layout.add_widget(self.graph_switch_button,5,1)
 
         self.min_max_xyz_layout.add_widget(self.label_min_x, 0, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_min_x, 0, 1)
@@ -525,7 +519,7 @@ class MainWindow(QMainWindow):
 
         if self.graph_figure_flag:
             # if this is toggled, do following test
-            if self.toggle_graph_style.is_toggled():
+            if self.graph_switch_button.stacked_axis_style.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
                 if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
@@ -608,7 +602,7 @@ class MainWindow(QMainWindow):
         # if one plot button is toggled
         # call necessary functions for one plot
         
-        if self.toggle_graph_style.is_toggled():
+        if self.graph_switch_button.three_axis_style.is_toggled():
             
             # keeping track of whats been plotted already
             self.prev_state_plot_x = self.checkbox_x.isChecked()
@@ -822,7 +816,7 @@ class MainWindow(QMainWindow):
         Reactive display handling based on wether Graph Style button is Clicked on Unclicked 
         Which Then determines the type of graph display we have either Three Axis' or Stacked Graph
         """
-        bool_value = self.toggle_graph_style.is_toggled()
+        bool_value = self.graph_switch_button.three_axis_style.is_toggled()
 
         self.button_zoom.set_toggle_status_false()
         self.button_zoom.change_text()
