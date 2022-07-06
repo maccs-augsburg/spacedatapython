@@ -17,6 +17,9 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
 from PySide6.QtGui import QIcon, QAction, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
 
+#qtwidgets
+from custom_toggle_widget import AnimatedToggle
+
 # Imports from matplotlib
 import matplotlib
 matplotlib.use('qtagg')
@@ -135,7 +138,7 @@ class MainWindow(QMainWindow):
         menu_help = menu.addMenu("&Help")
         menu_help.addAction(action_help)
 
-        ###############                        rt
+        ###############
         ### Layouts ###
         ###############
 
@@ -154,14 +157,19 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 15)
+
         ###############
         ### Labels ####
         ###############
+        self.label_three_axis_style = Label("Three axis style")
+        self.label_stacked_axis_style = Label("Stacked axis style")
+        self.label_three_axis_style.setMaximumWidth(120)
+
         self.label_year_day = Label("Year Day: ")
         self.label_start_time = Label("Start Time: ")
         self.label_end_time = Label("End Time: ")
-        self.station_label = Label("Station Code:")
-
+        self.label_station = Label("Station Code:")
+        self.label_station.setMaximumWidth(120)
         self.label_min_x = Label("Plot min x: ")
         self.label_max_x = Label("Plot max x: ")
         self.label_min_y = Label("Plot min y: ")
@@ -245,6 +253,11 @@ class MainWindow(QMainWindow):
         self.button_quit.set_uncheckable()
         self.button_quit.setMinimumWidth(250)
 
+        #####################
+        ### Toggle Widget ###
+        #####################
+        self.toggle_graph_style = AnimatedToggle()
+
         ########################
         ### Signals / Events ###
         ########################
@@ -283,7 +296,7 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.button_plot, 0, 1)
         self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 2)
-        self.labels_and_text_fields_layout.add_widget(self.station_label, 1, 0)
+        self.labels_and_text_fields_layout.add_widget(self.label_station, 1, 0)
         self.labels_and_text_fields_layout.add_widget(self.input_station_code, 1, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_year_day, 2, 0)
         self.labels_and_text_fields_layout.add_widget(self.input_year, 2, 1)
@@ -291,6 +304,9 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout.add_widget(self.start_time, 3, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_end_time, 4, 0)
         self.labels_and_text_fields_layout.add_widget(self.end_time, 4, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_stacked_axis_style,5,0)
+        self.labels_and_text_fields_layout.add_widget(self.toggle_graph_style,5,1)
+        self.labels_and_text_fields_layout.add_widget(self.label_three_axis_style,5,2)
 
         self.min_max_xyz_layout.add_widget(self.label_min_x, 0, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_min_x, 0, 1)
