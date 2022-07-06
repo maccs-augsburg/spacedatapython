@@ -403,7 +403,7 @@ def checks(self):
 
     any_state = x_state or y_state or z_state
 
-    if self.button_graph_style.is_toggled():
+    if self.toggle_graph_style.is_toggled():
         if not any_state:
             return False
 
