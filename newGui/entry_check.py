@@ -99,7 +99,6 @@ def min_max_time_check(self) -> bool:
     else: 
         return False
 
-
 def axis_entry_checks(x_arr: list, y_arr: list, z_arr: list,
                           min_x: int, max_x: int,
                           min_y: int, max_y: int,
@@ -285,11 +284,6 @@ def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
 
     return fig
 
-'''
-Instance method, move back if this is bad practice?
-Trying to change some to not use self at all.
-'''
-
 def set_axis_entrys(self, x_min: int, x_max: int, y_min:
                     int, y_max: int, z_min: int, z_max: int):
     '''
@@ -321,10 +315,6 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
     self.spinbox_max_y.set_entry(y_max)
     self.spinbox_min_z.set_entry(z_min)
     self.spinbox_max_z.set_entry(z_max)
-'''
-Instance methods, move back if this is bad practice?
-Trying to change some to not use self at all.
-'''
 
 def same_entries(self):
 
@@ -390,19 +380,11 @@ def checks(self):
     
     # Make sures we have a file
     if len(self.filename) == 0:
-        self.warning_message_pop_up(
-            "Failed Filename Check",
-            "No file to work with. Open a file with open file button.")
         return False
 
     # Checks the 2 char station code is a code that fits in our station_names.py array
     station_code = self.input_station_code.get_entry()
     if not station_code_entry_check(station_code):
-
-        self.warning_message_popup(
-            "Failed Filename Check"
-            "Error invalid station code. Needs to be 2-4 characters")
-
         return False
 
     # Just makes sure there is some entry in the yearday slot 
@@ -410,18 +392,10 @@ def checks(self):
     # but if we have a value the file itself should lay it properly before hand
     year_day = self.input_year.get_entry()
     if not year_day_entry_check(self):
-
-        self.warning_message_pop_up(
-            "Failed Year Day Check"
-            "There was no input for the year day entry box")
         return False
 
     if not min_max_time_check(self):
         return False
-        self.warning_message_popup(
-            "Failed Time Input"
-            "Error invalid Time selection Start time is greater than End time")
-
 
     x_state = self.checkbox_x.isChecked()
     y_state = self.checkbox_y.isChecked()
