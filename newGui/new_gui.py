@@ -12,9 +12,12 @@ June 2022
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
-                                QMessageBox,QComboBox
-                                )
-from PySide6.QtGui import QIcon, QAction, QPixmap, Qt,QKeySequence
+                                QMessageBox,QComboBox)
+from PySide6.QtGui import (
+    QIcon, QAction, 
+    QPixmap, Qt,
+    QKeySequence, QPalette)
+
 from PySide6.QtCore import  QSize, QTime
 
 # Imports from matplotlib
@@ -75,8 +78,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        # self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        # self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -103,8 +106,10 @@ class MainWindow(QMainWindow):
         action_home = QAction(QIcon("images/home.png"), "Home", self)
         action_openfile = QAction(QIcon("images/folder-open.png"),"Open...       ", self)
         action_savefile = QAction(QIcon("images/disk.png"),"Save File", self)
+        action_saveasfile = QAction(QIcon("images/disk.png"), "Save As...", self)
         action_zoom = QAction(QIcon("images/magnifier-zoom-in.png"),"Zoom in", self)
         action_help = QAction(QIcon("images/question-frame.png"),"Help", self)
+        action_help_plot = QAction(QIcon("images/question-frame.png"),"Why is the plot button not working?", self)
         self.action_hide_entries = QAction(QIcon("images/inactive_eye.png"), "Hide Entries", self)
         self.action_hide_entries.setCheckable(True)
         self.action_hide_entries.setStatusTip("Hide Entries")
@@ -120,6 +125,7 @@ class MainWindow(QMainWindow):
 
         action_openfile.setShortcut(QKeySequence("Ctrl+O"))
         action_savefile.setShortcut(QKeySequence("Ctrl+S"))
+        action_saveasfile.setShortcut(QKeySequence("Ctrl+Shift+S"))
 
         ############
         ### Menu ###
@@ -129,19 +135,25 @@ class MainWindow(QMainWindow):
         menu_file = menu.addMenu("&File")
         menu_file.addAction(action_openfile)
         menu_file.addAction(action_savefile)
+        menu_file.addAction(action_saveasfile)
         menu_edit = menu.addMenu("&Edit")
         menu_tool = menu.addMenu("&Tools")
         menu_tool.addAction(action_zoom)
         menu_help = menu.addMenu("&Help")
+        menu_help.addAction(action_help_plot)
         menu_help.addAction(action_help)
 
-        ###############                        rt
+        ###############                        
         ### Layouts ###
         ###############
 
         # layout for buttons and checkboxs
         self.main_layout = QHBoxLayout()
         self.parent_label_layout = GridLayout()
+        color = QPalette()#dbdbdb
+        color.setColor(QPalette.Window,"#e1e1e1")
+        self.parent_label_layout.setPalette(color)
+        self.parent_label_layout.setAutoFillBackground(True)
         self.labels_and_text_fields_layout = GridLayout()
         self.graph_layout = VLayout()
         self.checkbox_layout = HLayout()
@@ -232,12 +244,12 @@ class MainWindow(QMainWindow):
         ###############
         ### Buttons ###
         ###############
-        self.button_open_file = PushButton("Open file...")
+        self.button_open_file = PushButton("Open...")
         self.button_open_file.set_uncheckable()
         self.button_graph_style = PushButton('Switch to One Plot', "Switch to Stacked Plot")
         self.button_save = PushButton('Save')
         self.button_save.set_uncheckable()
-        self.button_save_as = PushButton('Save as...')
+        self.button_save_as = PushButton('Save As...')
         self.button_save_as.set_uncheckable()
         self.button_plot = PushButton("Plot File")
         self.button_plot.set_uncheckable()
@@ -254,6 +266,8 @@ class MainWindow(QMainWindow):
 
         action_openfile.triggered.connect(self.toolbar_open)
         action_savefile.triggered.connect(self.save)
+        action_saveasfile.triggered.connect(self.save_as)
+        action_help_plot.triggered.connect(self.help_plot)
         action_zoom.triggered.connect(self.zoom_in_listener)
         action_home.triggered.connect(self.clear_plot)
         self.action_hide_entries.triggered.connect(self.hide_entry_layout)
@@ -775,6 +789,10 @@ class MainWindow(QMainWindow):
         # pops up warning message box with the title and message inputted
         warning_mes = QMessageBox.warning(self, title,message)
 
+    def information_message_pop_up(self, title, message):
+        
+        question_mes = QMessageBox.information(self, title, message)
+
     def reset_time_entries(self):
         '''
         Helper function that sets min time to 00 00 00 and max time to 23 59 59
@@ -839,6 +857,18 @@ class MainWindow(QMainWindow):
         
         self.parent_label_layout.setHidden(bool_value)
     
+    def help_plot(self):
+
+        self.information_message_pop_up("Help", "Plot button could be disabled for " + 
+                                    "many reasons.\n\n"+
+                                    "1. Have you opened a file yet? If you " +
+                                    "haven't, hit the open button.\n\n" +
+                                    "2. You entered in a start time greater " + 
+                                    "than your end time and vice versa.\n\n" +
+                                    "3. Your min values are greater than " + 
+                                    "your max values and vice versa.\n\n"+
+                                    "4. You have not chosen an axis to plot.")
+    
     def is_plottable(self):
         """
         full function that will encompass all entry checks that we have, and if we have all 
@@ -869,6 +899,10 @@ class MainWindow(QMainWindow):
 def main():
     app = QApplication([])
     window = MainWindow()
+    color = QPalette()
+    color.setColor(QPalette.Window,"#e4e4e4")
+    window.setPalette(color)
+    window.setAutoFillBackground(True)
     window.show()
     app.exec()
 
