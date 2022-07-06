@@ -272,8 +272,10 @@ class MainWindow(QMainWindow):
         self.button_open_file.clicked.connect(self.launch_dialog)
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
-        self.button_graph_style.clicked.connect(self.update_layout)
-        self.button_graph_style.clicked.connect(self.is_plottable)
+        self.toggle_graph_style.clicked.connect(self.update_layout)
+        self.toggle_graph_style.clicked.connect(self.is_plottable)
+        # self.button_graph_style.clicked.connect(self.update_layout)
+        # self.button_graph_style.clicked.connect(self.is_plottable)
         self.button_plot.clicked.connect(self.plot_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
@@ -294,8 +296,9 @@ class MainWindow(QMainWindow):
         ### Adding Widgets ###
         ######################
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
-        self.labels_and_text_fields_layout.add_widget(self.button_plot, 0, 1)
-        self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 2)
+        #self.labels_and_text_fields_layout.add_widget(self.button_plot, 0, 1)
+
+        self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_station, 1, 0)
         self.labels_and_text_fields_layout.add_widget(self.input_station_code, 1, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_year_day, 2, 0)
@@ -304,6 +307,7 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout.add_widget(self.start_time, 3, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_end_time, 4, 0)
         self.labels_and_text_fields_layout.add_widget(self.end_time, 4, 1)
+
         self.labels_and_text_fields_layout.add_widget(self.label_stacked_axis_style,5,0)
         self.labels_and_text_fields_layout.add_widget(self.toggle_graph_style,5,1)
         self.labels_and_text_fields_layout.add_widget(self.label_three_axis_style,5,2)
@@ -321,10 +325,12 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.add_widget(self.label_max_z, 5, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_max_z, 5, 1)
 
-        self.checkbox_layout.add_widget(self.button_graph_style)
-        self.checkbox_layout.add_widget(self.checkbox_x)
-        self.checkbox_layout.add_widget(self.checkbox_y)
-        self.checkbox_layout.add_widget(self.checkbox_z)
+        self.min_max_xyz_layout.add_widget(self.checkbox_x,0,0)
+        self.min_max_xyz_layout.add_widget(self.checkbox_y,1,0)
+        self.min_max_xyz_layout.add_widget(self.checkbox_z,2,0)
+
+        self.checkbox_layout.add_widget(self.button_plot)
+
 
         self.button_layout.add_widget(self.button_clear_plot, 0, 0)
         self.button_layout.add_widget(self.button_zoom, 0, 1)
@@ -347,18 +353,19 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.parent_label_layout,1)
         self.main_layout.addWidget(self.mac_label, 5)
 
-        # five widgets in one row, station/year/open, plot button
-        self.parent_label_layout.set_row_stretch(0, 5)
-        # six widgets in one row, x/y/z min max
-        self.parent_label_layout.set_row_stretch(1, 6)
-        # one widgets in one row, toggle button (x, y, z)
-        self.parent_label_layout.set_row_stretch(2, 1)
-        # three widgets in one row, buttons
-        self.parent_label_layout.set_row_stretch(3, 3)
+        # # five widgets in one row, station/year/open, plot button
+        # self.parent_label_layout.set_row_stretch(0, 5)
+        # # six widgets in one row, x/y/z min max
+        # self.parent_label_layout.set_row_stretch(1, 6)
+        # # one widgets in one row, toggle button (x, y, z)
+        # self.parent_label_layout.set_row_stretch(2, 1)
+        # # three widgets in one row, buttons
+        # self.parent_label_layout.set_row_stretch(3, 3)
 
         ##########################
         ### Set Central Widget ###
         ##########################
+        self.update_layout()
         main_widget = QWidget()
         main_widget.setLayout(self.main_layout)
         self.setCentralWidget(main_widget)
@@ -518,7 +525,7 @@ class MainWindow(QMainWindow):
 
         if self.graph_figure_flag:
             # if this is toggled, do following test
-            if self.button_graph_style.is_toggled():
+            if self.toggle_graph_style.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
                 if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
@@ -601,7 +608,7 @@ class MainWindow(QMainWindow):
         # if one plot button is toggled
         # call necessary functions for one plot
         
-        if self.button_graph_style.is_toggled():
+        if self.toggle_graph_style.is_toggled():
             
             # keeping track of whats been plotted already
             self.prev_state_plot_x = self.checkbox_x.isChecked()
@@ -815,22 +822,39 @@ class MainWindow(QMainWindow):
         Reactive display handling based on wether Graph Style button is Clicked on Unclicked 
         Which Then determines the type of graph display we have either Three Axis' or Stacked Graph
         """
-        bool_value = self.button_graph_style.is_toggled()
+        bool_value = self.toggle_graph_style.is_toggled()
 
         self.button_zoom.set_toggle_status_false()
         self.button_zoom.change_text()
-        self.min_max_xyz_layout.setHidden(bool_value)
 
-        if bool_value:
-            self.parent_label_layout.set_row_stretch(0, 18)
-            self.parent_label_layout.set_row_stretch(1, 0)
-            self.parent_label_layout.set_row_stretch(2, 1)
-            self.parent_label_layout.set_row_stretch(3, 9)
-        else:
-            self.parent_label_layout.set_row_stretch(0, 5)
-            self.parent_label_layout.set_row_stretch(1, 6)
-            self.parent_label_layout.set_row_stretch(2, 1)
-            self.parent_label_layout.set_row_stretch(3, 3)
+       # self.min_max_xyz_layout.setHidden(bool_value)
+        self.label_min_x.setHidden(bool_value)
+        self.label_max_x.setHidden(bool_value)
+        self.label_min_y.setHidden(bool_value)
+        self.label_max_y.setHidden(bool_value)
+        self.label_min_z.setHidden(bool_value)
+        self.label_max_z.setHidden(bool_value)
+        self.spinbox_min_x.setHidden(bool_value)
+        self.spinbox_max_x.setHidden(bool_value)
+        self.spinbox_min_y.setHidden(bool_value)
+        self.spinbox_max_y.setHidden(bool_value)
+        self.spinbox_min_z.setHidden(bool_value)
+        self.spinbox_max_z.setHidden(bool_value)
+        not_bool_value = not bool_value
+        self.checkbox_x.setHidden( not_bool_value)
+        self.checkbox_y.setHidden(not_bool_value)
+        self.checkbox_z.setHidden( not_bool_value)
+
+        # if bool_value:
+        #     self.parent_label_layout.set_row_stretch(0, 18)
+        #     self.parent_label_layout.set_row_stretch(1, 0)
+        #     self.parent_label_layout.set_row_stretch(2, 1)
+        #     self.parent_label_layout.set_row_stretch(3, 9)
+        # else:
+        #     self.parent_label_layout.set_row_stretch(0, 5)
+        #     self.parent_label_layout.set_row_stretch(1, 6)
+        #     self.parent_label_layout.set_row_stretch(2, 1)
+        #     self.parent_label_layout.set_row_stretch(3, 3)
 
     def hide_entry_layout(self):
         ''' 
