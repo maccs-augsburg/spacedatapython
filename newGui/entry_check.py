@@ -33,6 +33,7 @@ def station_code_entry_check(station_name: str) -> bool:
         for x in range(2, 11):
             if station_name == Model.station_names.names[x][i]:
                 flag = True
+                break
     # If it passed check return True
     return flag
 
