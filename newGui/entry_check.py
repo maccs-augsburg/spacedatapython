@@ -58,7 +58,6 @@ def year_day_entry_check(self) -> bool:
 def min_max_time_check(self) -> bool:
     '''
     Checks the two time widgets and checks if the start time is less than the end time 
-
     '''
     s_hour = self.start_time.get_hour()
     s_minute = self.start_time.get_minute()
