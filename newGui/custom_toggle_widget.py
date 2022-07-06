@@ -155,7 +155,8 @@ class AnimatedToggle(Toggle):
         self._pulse_unchecked_animation = QBrush(QColor(pulse_unchecked_color))
         self._pulse_checked_animation = QBrush(QColor(pulse_checked_color))
 
-
+    def is_toggled(self):
+        return self.isChecked()
 
     @Slot(int)
     def handle_state_change(self, value):
