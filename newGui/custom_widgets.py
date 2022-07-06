@@ -284,6 +284,8 @@ class HLayout(QWidget):
 
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
+    def add_widget_stretch(self, some_widget, stretch):
+        self.layout.addWidget(some_widget, stretch)
 
 class VLayout(QWidget):
     def __init__(self):
