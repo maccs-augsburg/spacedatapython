@@ -403,7 +403,7 @@ def checks(self):
 
     any_state = x_state or y_state or z_state
 
-    if self.toggle_graph_style.is_toggled():
+    if self.graph_switch_button.three_axis_style.is_toggled():
         if not any_state:
             return False
 
