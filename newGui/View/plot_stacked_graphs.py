@@ -58,9 +58,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     filename:
         Name of the 2Hz raw data file.
     stime:
-        The datetime.time object from which to begin
+        The datetime.time object from which to begin.
     etime:
-        The datetime.time object at which to end
+        The datetime.time object at which to end.
 
     Returns
     -------
@@ -141,22 +141,24 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
 
 def set_yaxis(yticks_list, scale_difference):
     """
-    Updates the y axis ticks list with the given scale difference which fleshes out the list of the same size incrementing with the given scale_difference
+    Updates the y axis ticks list with the given scale 
+    difference which fleshes out the list of the same size 
+    incrementing with the given scale_difference.
 
     Parameters
     ----------
     List
-        yticks_list: A list of values to update
+        yticks_list: A list of values to update.
     Float
-        scale_difference: the float (usually some_number.00) that the list should increment by
+        scale_difference: Float value (xx.00) that the list should increment by.
 
     Returns
     -------
     List
-        new_yticks: A list of the updated values
+        new_yticks: A list of the updated values.
     """
     
-    # creating a new list to add the new values into
+    # Creating a new list to add the new values into
     new_yticks = []
     
     # Keeping the starting point element the same
@@ -165,22 +167,22 @@ def set_yaxis(yticks_list, scale_difference):
     # Deleting the item from the yticks_list
     yticks_list = np.delete(yticks_list, int(len(yticks_list)/2))
 
-    # below middle number for loop
+    # Below middle number for loop
     for i in range(int(len(yticks_list) / 2)):
         # Adding new item to our new list
         new_yticks.append(new_yticks[0] - ((i+1) * scale_difference))
         # Deleting item from the yticks_list
         yticks_list = np.delete(yticks_list, i)
 
-    # above middle number for loop
+    # Above middle number for loop
     for i in range(len(yticks_list)-1):
         # Adding new item to our new list
         new_yticks.append(new_yticks[0] + ((i+1) * scale_difference))
 
-    # sorting the list so that values are properly in order
+    # Sorting the list so that values are properly in order
     new_yticks.sort()
 
-    # if the new_yticks list has more than 5 values we shrink it
+    # If the new_yticks list has more than 5 values we shrink it
     # down by eliminating both the first and last digits until we
     # get to 5 or less values in the list
     if (len(new_yticks) > 5):
