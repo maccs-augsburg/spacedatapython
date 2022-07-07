@@ -24,20 +24,14 @@ the time-stamped x, y, and z values on its' own plot.
 # Python 3 imports
 import datetime
 import numpy as np
-import statistics as stats
 
-# MACCS imports
-#from Model.raw_codecs import decode, time_of_record
-#import Model.station_names
+# MACCS import
 from Model import station_names
 
 # Matplotlib imports
 import matplotlib.pyplot as plt
-from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
-import matplotlib.dates as mdates
 
 # Plotter program imports
-#import Model.read_raw_to_lists
 from Model import read_raw_to_lists
 from Model import x_axis_time_formatter
 
