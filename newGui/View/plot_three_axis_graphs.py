@@ -1,9 +1,11 @@
 '''
 plot_stacked_graphs.py
 
+Plots x, y, z data values pulled from data files.
+
 Created by- Annabelle Arns
 
-Refactored by Chris Hance 5/12/2022
+Refactored - Chris Hance & Mark O.P
 '''
 # Imports matplotlib library 
 import matplotlib.pyplot as plt
@@ -16,22 +18,23 @@ import Model.station_names
 import Model.read_raw_to_lists
 import Model.x_axis_time_formatter
 
-def plot_axis(axisArr, timeArr, filename, stime, etime, axis): 
+def plot_axis(axis_list: list, time_list: list, filename: str, 
+            stime: datetime.time, etime: datetime.time, axis: str): 
     """
     Creates a single plot for any axis x, y, z
 
     Parameters
     ----------
-    axisArr : list 
-        List of x, y, z pulled from data file.
-    timeArr : list
+    axis_list : list 
+        List of x, y, z values pulled from data file.
+    time_list : list
         List of time values from a data file in datetime.datetime format.
     filename : string
         Name of file we are reading.
     stime : datetime.time
         Start time stamp to plot.
     etime : datetime.time
-        Ending time stamp to plot.
+        Ending time stamp to plot.f
     axis : string
         Axis you want to plot, x, y, z.
 
@@ -67,7 +70,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
 
     fig = plt.figure(figsize=(12, 4))
-    plt.plot(timeArr,axisArr, linewidth = 1)
+    plt.plot(time_list, axis_list, linewidth = 1)
     plt.title("Geomagnetic B" + axis + " of " + station_name + "   YEARDAY: " + year_day_value + "   DATE: " + date) 
     plt.ylabel('B' + axis)
 
@@ -95,17 +98,19 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     
     return fig
 
-def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxis, secondAxis):
+def plot_two_axis(first_list: list, second_list: list, time_list: list, 
+                filename: str, stime: datetime.time , etime: datetime.time, 
+                first_axis: str, second_axis: str):
     """
     Creates a single plot of any two axis x, y, z.
 
     Parameters
     ----------
-    firstArr : list 
+    first_list : list 
         List of x, y, z values pulled from data file.
-    secondArr : list
+    second_list : list
         List of x, y, z values pulled from data file.
-    timeArr : list
+    time_list : list
         List of time values from a data file in datetime.datetime format.
     filename : string
         Name of file we are reading.
@@ -113,9 +118,9 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
         Start time stamp to plot.
     etime : datetime.time
         End time stamp to plot.
-    firstAxis : string
+    first_axis : string
         First axis to plot x, y, z.
-    secondAxis : string
+    second_axis : string
         Second acis to plot x, y, z.
 
     Returns
@@ -157,21 +162,21 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     # Actual Plot                
     fig = plt.figure(figsize=(12, 4))# Size of graph
 
-    x_values = firstArr # The list of values to change 
-    offset = firstArr[0] # The amount to subtract from each value
+    x_values = first_list # The list of values to change 
+    offset = first_list[0] # The amount to subtract from each value
     # Applies the subtraction x-offset to each value, converts the result back to a list  
     x_values = list(map(lambda x : x - offset, x_values)) 
 
-    y_values = secondArr # The list of values to change 
-    offset = secondArr[0] # The amount to subtract from each value
+    y_values = second_list # The list of values to change 
+    offset = second_list[0] # The amount to subtract from each value
     y_values = list(map(lambda y : y - offset, y_values))
     
     
-    plt.plot(timeArr,x_values, linewidth = 1, label = 'B' + firstAxis +' Values')
-    plt.plot(timeArr,y_values, linewidth = 1, label = 'B' + secondAxis+ ' Values')
+    plt.plot(time_list,x_values, linewidth = 1, label = 'B' + first_axis +' Values')
+    plt.plot(time_list,y_values, linewidth = 1, label = 'B' + second_axis+ ' Values')
     
-    plt.title("Geomagnetic B" + firstAxis + " and B" + secondAxis + " of " + station_name + "    YEARDAY:  " +  year_day_value +   "  DATE: " + date) 
-    plt.ylabel('B' + firstAxis + ' and B' + secondAxis)
+    plt.title("Geomagnetic B" + first_axis + " and B" + second_axis + " of " + station_name + "    YEARDAY:  " +  year_day_value +   "  DATE: " + date) 
+    plt.ylabel('B' + first_axis + ' and B' + second_axis)
     plt.xlabel(x_axis_label)
 
     plt.legend( prop={'size': 8}, fontsize='medium')
@@ -188,19 +193,21 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
 
     return fig
 
-def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
+def x_y_and_z_plot(x_list: list, y_list: list, z_list: list, 
+                time_list: list, filename: str, 
+                stime: datetime.time, etime: datetime.time):
     """
     Creates a single plot with x, y, z values overlayed.
 
     Parameters
     ----------
-    xArr : list 
+    x_list : list 
         List of x values pulled from data file.
-    yArr : list
+    y_list : list
         List of y values pulled from data file.
-    zArr : list
+    z_list : list
         List of z values pulled from data file.
-    timeArr : list
+    time_list : list
         List of time values from a data file in datetime.datetime format.
     filename : string
         Name of file we are reading.
@@ -242,22 +249,22 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
         
     fig = plt.figure(figsize=(12, 4))#size of graph
 
-    x_values = xArr # The list of values to change 
-    offset = xArr[0] # The amount to subtract from each value  
+    x_values = x_list # The list of values to change 
+    offset = x_list[0] # The amount to subtract from each value  
     x_values = list(map(lambda x : x - offset, x_values)) # Applies the subtraction x-offset 
 
-    y_values = yArr # The list of values to change 
-    offset = yArr[0] # The amount to subtract from each value
+    y_values = y_list # The list of values to change 
+    offset = y_list[0] # The amount to subtract from each value
     # Applies the subtraction x-offset to each value, converts the result back to a list  
     y_values = list(map(lambda y : y - offset, y_values)) 
 
-    z_values = zArr # The list of values to change 
-    offset = zArr[0] # The amount to subtract from each value
+    z_values = z_list # The list of values to change 
+    offset = z_list[0] # The amount to subtract from each value
     z_values = list(map(lambda z : z - offset, z_values)) #applies the subtracti
 
-    plt.plot(timeArr,x_values, linewidth = 1, label = "Bx Values")
-    plt.plot(timeArr,y_values, linewidth = 1, label = 'By Values')
-    plt.plot(timeArr,z_values, linewidth = 1, label = 'Bz Values')
+    plt.plot(time_list,x_values, linewidth = 1, label = "Bx Values")
+    plt.plot(time_list,y_values, linewidth = 1, label = 'By Values')
+    plt.plot(time_list,z_values, linewidth = 1, label = 'Bz Values')
     
     plt.title("Geomagnetic Bx, By and Bz of " + station_name + "   YEARDAY: " + year_day_value +  "   DATE: " + date) 
     plt.ylabel('Bx, By and Bz')
@@ -303,8 +310,9 @@ if __name__ == "__main__" :
     if len(sys.argv) == 5:
         file_option = sys.argv[4]
     if len(sys.argv) >= 6:
-        print( "TOO many items entered please try again!" ) # Not sure what else we should do but we should have something to handle if we get toooo many inputs.
+        # Not sure what else we should do but we should have something to handle if we get too many inputs.
+        print( "TOO many items entered please try again!" )
         sys.exit(0) # Exiting without an error code
 
-    arrayX, arrayY, arrayZ, timeArr = Model.read_raw_to_lists(two_hz_binary_file, start_time, end_time)
+    arrayX, arrayY, arrayZ, time_list = Model.read_raw_to_lists(two_hz_binary_file, start_time, end_time)
     
