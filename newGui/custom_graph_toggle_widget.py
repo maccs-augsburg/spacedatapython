@@ -48,13 +48,14 @@ class SwitchButtonWidget(QtWidgets.QWidget):
     #make same button toggle function for these buttons 
     #and if one button is toggled we want to untoggle the other button
     def button_toggle(self, checked):
+        color = QColor(Qt.cyan)
         self.button_is_checked = checked
         if self.three_axis_style.isChecked():
-            self.three_axis_style.setPalette(QColor('black'))
-            self.stacked_axis_style.setPalette(QColor("grey"))
+            self.three_axis_style.setPalette(color)
+            #self.stacked_axis_style.setPalette(QColor("grey"))
         else:
-            self.three_axis_style.setPalette(QPalette.Inactive)
-
+            #self.three_axis_style.setPalette(QPalette.Window('white'))
+            pass
 
 def main():
     app = QApplication(sys.argv)
