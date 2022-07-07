@@ -5,7 +5,9 @@ Plots x, y, z data values pulled from data files.
 
 Created by- Annabelle Arns
 
-Refactored - Chris Hance & Mark O.P
+Refactored - Chris Hance & Mark O.P 5/12/2022
+
+https://peps.python.org/pep-0008/
 '''
 # Imports matplotlib library 
 import matplotlib.pyplot as plt
@@ -18,8 +20,9 @@ import Model.station_names
 import Model.read_raw_to_lists
 import Model.x_axis_time_formatter
 
-def plot_axis(axis_list: list, time_list: list, filename: str, 
-            stime: datetime.time, etime: datetime.time, axis: str): 
+def plot_axis(
+        axis_list: list, time_list: list, filename: str, 
+        stime: datetime.time, etime: datetime.time, axis: str): 
     """
     Creates a single plot for any axis x, y, z
 
@@ -98,9 +101,10 @@ def plot_axis(axis_list: list, time_list: list, filename: str,
     
     return fig
 
-def plot_two_axis(first_list: list, second_list: list, time_list: list, 
-                filename: str, stime: datetime.time , etime: datetime.time, 
-                first_axis: str, second_axis: str):
+def plot_two_axis(
+        first_list: list, second_list: list, time_list: list, 
+        filename: str, stime: datetime.time , etime: datetime.time, 
+        first_axis: str, second_axis: str):
     """
     Creates a single plot of any two axis x, y, z.
 
@@ -193,9 +197,10 @@ def plot_two_axis(first_list: list, second_list: list, time_list: list,
 
     return fig
 
-def x_y_and_z_plot(x_list: list, y_list: list, z_list: list, 
-                time_list: list, filename: str, 
-                stime: datetime.time, etime: datetime.time):
+def x_y_and_z_plot(
+        x_list: list, y_list: list, z_list: list, 
+        time_list: list, filename: str, 
+        stime: datetime.time, etime: datetime.time):
     """
     Creates a single plot with x, y, z values overlayed.
 
