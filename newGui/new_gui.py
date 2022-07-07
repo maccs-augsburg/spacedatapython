@@ -270,8 +270,10 @@ class MainWindow(QMainWindow):
         self.button_open_file.clicked.connect(self.launch_dialog)
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
-        self.graph_switch_button.three_axis_style.clicked.connect(self.update_layout)
-        self.graph_switch_button.three_axis_style.clicked.connect(self.is_plottable)
+        # self.graph_switch_button.three_axis_style.clicked.connect(self.update_layout)
+        # self.graph_switch_button.stacked_axis_style.clicked.connect(self.update_layout)
+        # self.graph_switch_button.stacked_axis_style.clicked.connect(self.is_plottable)
+        # self.graph_switch_button.three_axis_style.clicked.connect(self.is_plottable)
         self.button_plot.clicked.connect(self.plot_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
