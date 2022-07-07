@@ -89,8 +89,6 @@ def axis_entry_checks(x_arr: list, y_arr: list, z_arr: list,
                           min_z: int, max_z: int) -> tuple[int, int, int,
                                                            int, int, int]:
     '''
-    Old axis entry checks from 
-    raw_to_plot.plot_arrays() function.
     Normalizes range of graphs to be about the same.
     Present data in a non-biased view, rather than zoomed into min-max range.
 
@@ -278,10 +276,6 @@ def set_axis_entrys(self, x_min: int, x_max: int, y_min:
     '''
     Sets the min/max values for x, y, z inside the gui.
     Allows user to see exactly what is being used to plot.
-    Note: Doesn't really matter if you pass int or string.
-    Gets converted to string when you set anyway.
-    It will probably end up being an int when your working with
-    it, so hinting that it should be an int.
 
     Parameters
     ----------
@@ -371,8 +365,7 @@ def checks(self):
     is able to press the plot graph button
     '''
     
-    # Make sures we have a file
-
+    # Makes sure we have a file
     if len(self.filename) == 0:
         self.warning_message_pop_up(
             "Failed Filename Check",
