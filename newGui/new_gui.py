@@ -54,27 +54,13 @@ MINIMUM_WINDOW_WIDTH = 1400
 
 class MainWindow(QMainWindow):
     """
-
-    Using PySide6 creates GUI that display and visualizes data coming from the Magtometers in the artic from files currently
-    in .2hz or .s2 format. 
-    This Class holds all GUI related functions and widgets to display the proper information. 
-
+    MainWindow class that uses the PySide6 library. Creates a 
+    graphical user interface to visualize data collected from
+    MACCS magnetometer stations. Current file types supported 
+    are .2hz and .s2 format.
     """
     def __init__(self):
 
-        """ 	
-        All the widgets so many o.o
-        
-        :type self:
-        :param self:
-    
-        :raises:
-    
-        :rtype:
-
-        Methods
-        -----------
-        """    
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
@@ -374,6 +360,11 @@ class MainWindow(QMainWindow):
         self.file_extension = None
         self.launch_dialog_option = None
         ##########################
+        self.x_arr = None
+        self.y_arr = None
+        self.z_arr = None
+        self.time_arr = None
+        ##########################
         self.figure = None
         self.graph = None
         self.graph_figure_flag = None
@@ -472,8 +463,14 @@ class MainWindow(QMainWindow):
         self.reset_time_entries()
         # return true if calling from toolbar open
 
-        #after we open a file call is plottable to check file inputs yearday and station code
+        # after we open a file call is plottable to check file inputs yearday and station code
         self.is_plottable()
+        # time is set by the rest_time_entries
+        # create_datetime_from .... needs timestamp value
+        self.start_time_stamp, self.end_time_stamp = self.time_stamp()
+        # get file data after we have filepath
+        self.get_file_data()
+
         return True
 
     def toolbar_open(self):
@@ -514,11 +511,10 @@ class MainWindow(QMainWindow):
         Once Plot Graph button is pressed we call plot_graph which goes through all entry checks and benchmark testing 
         to make sure all field in the digets and file opened are valid. Once then we check to see which graph style we have
         and then create the lists of data x y z axis and datetime list for the times of the graph 
-
         """
 
         #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
-        self.is_plottable()
+        #self.is_plottable()
 
         # If there is a figure already saved
         if self.graph_figure_flag:
@@ -544,72 +540,36 @@ class MainWindow(QMainWindow):
 
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         
-        ####################################
-        ######### Making the plot ##########
-        ####################################
-        try:
-            # Open file object, read, binary
-            file = open(self.file_path, 'rb')
-        except:
-            self.warning_message_pop_up("File Open Error, couldn't open file")
-            return
-        '''
-        Once future file types are supported, add here.
-        Launch Dialog Option assigned when you open a file
-        Adding a coupe more else if checks to get datetime lists
-        '''
-        if self.launch_dialog_option == 3:
-            # Doing short names to stay around 80-85 chars per row
-            x,y,z,t,f = Model.read_clean_to_lists.create_datetime_lists_from_clean(
-                                                            file, 
-                                                            self.start_time_stamp, 
-                                                            self.end_time_stamp, 
-                                                            self.filename)
-            # easy to glance over, might be used for new feature?
-            flag_arr = f
-
-        elif self.launch_dialog_option == 4:
-            # Doing short names to stay around 80-85 chars per row
-            x,y,z,t = Model.read_raw_to_lists.create_datetime_lists_from_raw(
-                                                            file, 
-                                                            self.start_time_stamp,
-                                                            self.end_time_stamp, 
-                                                            self.filename)
-        # Assign those short names here
-        self.x_arr = x
-        self.y_arr = y
-        self.z_arr = z
-        self.time_arr = t
-
         # get current stacked plot entries
-        min_x = self.spinbox_min_x.get_entry()
-        max_x = self.spinbox_max_x.get_entry()
-        min_y = self.spinbox_min_y.get_entry()
-        max_y = self.spinbox_max_y.get_entry()
-        min_z = self.spinbox_min_z.get_entry()
-        max_z = self.spinbox_max_z.get_entry()
+        # since we passed initial check (same entries)
+        # we can assign them here. Maybe better names (prev = confusing)
+        # curr? Checking curr against, current entry in input ?? (same_entries)
+        # TODO: Better name for these variables? 
+        self.prev_min_x = self.spinbox_min_x.get_entry()
+        self.prev_max_x = self.spinbox_max_x.get_entry()
+        self.prev_min_y = self.spinbox_min_y.get_entry()
+        self.prev_max_y = self.spinbox_max_y.get_entry()
+        self.prev_min_z = self.spinbox_min_z.get_entry()
+        self.prev_max_z = self.spinbox_max_z.get_entry()
 
         # normalize the data to display even ticks
-        min_x, max_x, min_y, max_y, min_z, max_z = entry_check.axis_entry_checks(
+        # backward slash is a line continuation, looks ugly, but keep under 85 - 90 chars
+        self.prev_min_x, self.prev_max_x, self.prev_min_y, self.prev_max_y, self.prev_min_z, self.prev_max_z = entry_check.axis_entry_checks(
             self.x_arr,
             self.y_arr,
             self.z_arr,
-            min_x, max_x,
-            min_y, max_y,
-            min_z, max_z
+            self.prev_min_x, self.prev_max_x,
+            self.prev_min_y, self.prev_max_y,
+            self.prev_min_z, self.prev_max_z
         )
-        # assign these to self to keep track of what's been plotted
-        self.prev_min_x = min_x
-        self.prev_max_x = max_x
-        self.prev_min_y = min_y
-        self.prev_max_y = max_y
-        self.prev_min_z = min_z
-        self.prev_max_z = max_z
 
-        entry_check.set_axis_entrys(self, min_x, max_x, min_y, max_y, min_z, max_z)
+        entry_check.set_axis_entrys(
+            self, self.prev_min_x, self.prev_max_x, 
+            self.prev_min_y, self.prev_max_y, 
+            self.prev_min_z, self.prev_max_z)
+
         # if one plot button is toggled
         # call necessary functions for one plot
-        
         if self.button_graph_style.is_toggled():
             
             # keeping track of whats been plotted already
@@ -643,21 +603,57 @@ class MainWindow(QMainWindow):
                                                 self.filename,
                                                 self.start_time_stamp,
                                                 self.end_time_stamp,
-                                                in_min_x=min_x, 
-                                                in_max_x=max_x,
-                                                in_min_y=min_y, 
-                                                in_max_y=max_y,
-                                                in_min_z=min_z, 
-                                                in_max_z=max_z)
+                                                in_min_x=self.prev_min_x, 
+                                                in_max_x=self.prev_max_x,
+                                                in_min_y=self.prev_min_y, 
+                                                in_max_y=self.prev_max_y,
+                                                in_min_z=self.prev_min_z, 
+                                                in_max_z=self.prev_max_z)
             # set one plot flag to false, meaning next time we plot it
             # it will be the first time again
             self.one_plot_flag = False
             # set staacked flag to true, meaninig we have plotted at least once
             self.stacked_plot_flag = True
         
+        self.display_figure()
+
+    def get_file_data(self):
+
+        try:
+            # Open file object, read, binary
+            file = open(self.file_path, 'rb')
+        except:
+            self.warning_message_pop_up("File Open Error, couldn't open file")
+            return
+        '''
+        Once future file types are supported, add here.
+        Launch Dialog Option assigned when you open a file
+        Adding a coupe more else if checks to get datetime lists
+        '''
+        if self.launch_dialog_option == 3:
+            # Doing short names to stay around 80-85 chars per row
+            x,y,z,t,f = Model.read_clean_to_lists.create_datetime_lists_from_clean(
+                                                            file, 
+                                                            self.start_time_stamp, 
+                                                            self.end_time_stamp, 
+                                                            self.filename)
+            # easy to glance over, might be used for new feature?
+            flag_arr = f
+            #self.flag_arr = f
+        elif self.launch_dialog_option == 4:
+            # Doing short names to stay around 80-85 chars per row
+            x,y,z,t = Model.read_raw_to_lists.create_datetime_lists_from_raw(
+                                                            file, 
+                                                            self.start_time_stamp,
+                                                            self.end_time_stamp, 
+                                                            self.filename)
+        # Assign those short names here
+        self.x_arr = x
+        self.y_arr = y
+        self.z_arr = z
+        self.time_arr = t
         # close opened file
         file.close()
-        self.display_figure()
 
     def display_figure(self):
         """
