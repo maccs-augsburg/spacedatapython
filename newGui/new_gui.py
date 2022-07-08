@@ -514,7 +514,7 @@ class MainWindow(QMainWindow):
         """
 
         #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
-        #self.is_plottable()
+        self.is_plottable()
 
         # If there is a figure already saved
         if self.graph_figure_flag:
