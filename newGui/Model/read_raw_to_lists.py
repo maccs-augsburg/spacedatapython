@@ -8,7 +8,6 @@
 
 # Python 3 imports
 import datetime
-#records@century.edu
 # MACCS imports
 # import from current directory
 from .raw_codecs import decode, time_of_record
