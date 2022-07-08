@@ -554,7 +554,8 @@ class MainWindow(QMainWindow):
 
         # normalize the data to display even ticks
         # backward slash is a line continuation, looks ugly, but keep under 85 - 90 chars
-        self.prev_min_x, self.prev_max_x, self.prev_min_y, self.prev_max_y, self.prev_min_z, self.prev_max_z = entry_check.axis_entry_checks(
+        self.prev_min_x, self.prev_max_x, self.prev_min_y, \
+        self.prev_max_y, self.prev_min_z, self.prev_max_z = entry_check.axis_entry_checks(
             self.x_arr,
             self.y_arr,
             self.z_arr,
