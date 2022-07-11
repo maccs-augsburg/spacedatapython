@@ -20,15 +20,16 @@ from PySide6.QtWidgets import (QMessageBox)
 def station_code_entry_check(station_name: str) -> bool:
     '''
     Additional check for the station code. 
-    Makes sure station code entry is 2-4 characters.
+    Makes sure station code entry is a valid 2-4 character station name.
 
     Returns
     -------
     True/False : bool
         False if passed string not in station names, true if it is.
     '''
-    # No guard clause needed, unless we let user enter manually again.
+    # Iterate over columns
     for i in range(0, 3):
+        # Iterate over rows
         for x in range(2, 11):
             if station_name == Model.station_names.names[x][i]:
                 return True
