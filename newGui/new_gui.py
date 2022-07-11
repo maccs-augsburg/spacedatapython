@@ -50,8 +50,8 @@ import Model.read_raw_to_lists
 import View.plot_stacked_graphs
 import View.plot_three_axis_graphs
 
-MINIMUM_WINDOW_HEIGHT = 800
-MINIMUM_WINDOW_WIDTH = 1200
+MINIMUM_WINDOW_HEIGHT = 1000
+MINIMUM_WINDOW_WIDTH = 1400
 
 class MainWindow(QMainWindow):
     """
@@ -79,8 +79,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -228,16 +228,15 @@ class MainWindow(QMainWindow):
         ### Checkbox Select ###
         #######################
         
-        self.checkbox_x = CheckBox("X")
-        self.checkbox_y = CheckBox("Y")
-        self.checkbox_z = CheckBox("Z")
+        self.checkbox_x = CheckBox("X Axis")
+        self.checkbox_y = CheckBox("Y Axis")
+        self.checkbox_z = CheckBox("Z Axis")
 
         ###############
         ### Buttons ###
         ###############
         self.button_open_file = PushButton("Open file...")
         self.button_open_file.set_uncheckable()
-        self.button_graph_style = PushButton('Graph Style', "Graph Style")
         self.button_save = PushButton('Save')
         self.button_save.set_uncheckable()
         self.button_save_as = PushButton('Save as...')
@@ -254,7 +253,7 @@ class MainWindow(QMainWindow):
         #####################
         ### Toggle Widget ###
         #####################
-        self.graph_switch_button = SwitchButtonWidget()
+        self.button_graph_switch = SwitchButtonWidget()
 
         ########################
         ### Signals / Events ###
@@ -270,10 +269,12 @@ class MainWindow(QMainWindow):
         self.button_open_file.clicked.connect(self.launch_dialog)
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
-        # self.graph_switch_button.three_axis_style.clicked.connect(self.update_layout)
-        # self.graph_switch_button.stacked_axis_style.clicked.connect(self.update_layout)
-        # self.graph_switch_button.stacked_axis_style.clicked.connect(self.is_plottable)
-        # self.graph_switch_button.three_axis_style.clicked.connect(self.is_plottable)
+
+        self.button_graph_switch.three_axis_style.clicked.connect(self.update_layout)
+        self.button_graph_switch.stacked_axis_style.clicked.connect(self.update_layout)
+        self.button_graph_switch.stacked_axis_style.clicked.connect(self.is_plottable)
+        self.button_graph_switch.three_axis_style.clicked.connect(self.is_plottable)
+
         self.button_plot.clicked.connect(self.plot_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
@@ -306,7 +307,7 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout.add_widget(self.label_end_time, 4, 0)
         self.labels_and_text_fields_layout.add_widget(self.end_time, 4, 1)
 
-        self.labels_and_text_fields_layout.add_widget(self.graph_switch_button,5,1)
+        self.labels_and_text_fields_layout.add_widget(self.button_graph_switch,5,0)
 
         self.min_max_xyz_layout.add_widget(self.label_min_x, 0, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_min_x, 0, 1)
@@ -521,7 +522,7 @@ class MainWindow(QMainWindow):
 
         if self.graph_figure_flag:
             # if this is toggled, do following test
-            if self.graph_switch_button.stacked_axis_style.is_toggled():
+            if self.button_graph_switch.stacked_axis_style.is_toggled():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
                 if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
@@ -604,7 +605,7 @@ class MainWindow(QMainWindow):
         # if one plot button is toggled
         # call necessary functions for one plot
         
-        if self.graph_switch_button.three_axis_style.is_toggled():
+        if self.button_graph_switch.three_axis_style.is_toggled():
             
             # keeping track of whats been plotted already
             self.prev_state_plot_x = self.checkbox_x.isChecked()
@@ -818,28 +819,55 @@ class MainWindow(QMainWindow):
         Reactive display handling based on wether Graph Style button is Clicked on Unclicked 
         Which Then determines the type of graph display we have either Three Axis' or Stacked Graph
         """
-        bool_value = self.graph_switch_button.three_axis_style.is_toggled()
+
+        if self.button_graph_switch.three_axis_style.isChecked():
+            bool_value = True
+            self.label_min_x.setHidden(bool_value)
+            self.label_max_x.setHidden(bool_value)
+            self.label_min_y.setHidden(bool_value)
+            self.label_max_y.setHidden(bool_value)
+            self.label_min_z.setHidden(bool_value)
+            self.label_max_z.setHidden(bool_value)
+            self.spinbox_min_x.setHidden(bool_value)
+            self.spinbox_max_x.setHidden(bool_value)
+            self.spinbox_min_y.setHidden(bool_value)
+            self.spinbox_max_y.setHidden(bool_value)
+            self.spinbox_min_z.setHidden(bool_value)
+            self.spinbox_max_z.setHidden(bool_value)
+
+            opposite_bool_value = not bool_value
+            print(opposite_bool_value)
+            self.checkbox_x.setHidden( opposite_bool_value)
+            self.checkbox_y.setHidden(opposite_bool_value)
+            self.checkbox_z.setHidden( opposite_bool_value)
+        else:
+            bool_value = False
+            self.label_min_x.setHidden(bool_value)
+            self.label_max_x.setHidden(bool_value)
+            self.label_min_y.setHidden(bool_value)
+            self.label_max_y.setHidden(bool_value)
+            self.label_min_z.setHidden(bool_value)
+            self.label_max_z.setHidden(bool_value)
+            self.spinbox_min_x.setHidden(bool_value)
+            self.spinbox_max_x.setHidden(bool_value)
+            self.spinbox_min_y.setHidden(bool_value)
+            self.spinbox_max_y.setHidden(bool_value)
+            self.spinbox_min_z.setHidden(bool_value)
+            self.spinbox_max_z.setHidden(bool_value)
+
+            opposite_bool_value = not bool_value
+            print(opposite_bool_value)
+            self.checkbox_x.setHidden( opposite_bool_value)
+            self.checkbox_y.setHidden(opposite_bool_value)
+            self.checkbox_z.setHidden( opposite_bool_value)
+        
+
 
         self.button_zoom.set_toggle_status_false()
         self.button_zoom.change_text()
-
+        print(bool_value)
        # self.min_max_xyz_layout.setHidden(bool_value)
-        self.label_min_x.setHidden(bool_value)
-        self.label_max_x.setHidden(bool_value)
-        self.label_min_y.setHidden(bool_value)
-        self.label_max_y.setHidden(bool_value)
-        self.label_min_z.setHidden(bool_value)
-        self.label_max_z.setHidden(bool_value)
-        self.spinbox_min_x.setHidden(bool_value)
-        self.spinbox_max_x.setHidden(bool_value)
-        self.spinbox_min_y.setHidden(bool_value)
-        self.spinbox_max_y.setHidden(bool_value)
-        self.spinbox_min_z.setHidden(bool_value)
-        self.spinbox_max_z.setHidden(bool_value)
-        not_bool_value = not bool_value
-        self.checkbox_x.setHidden( not_bool_value)
-        self.checkbox_y.setHidden(not_bool_value)
-        self.checkbox_z.setHidden( not_bool_value)
+
 
         # if bool_value:
         #     self.parent_label_layout.set_row_stretch(0, 18)
