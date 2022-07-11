@@ -85,7 +85,7 @@ class PushButton(QPushButton):
         self.button_is_checked = False
        # self.clicked.connect(self.button_toggle)
         self.setChecked(self.button_is_checked)
-        self.setMaximumWidth(150)#145
+        #self.setMaximumWidth(150)#145
         self.alternate_name = alternate_name
         self.original_name = label_name
         #self.setMaximumHeight(30)
@@ -265,11 +265,10 @@ class GridLayout(QWidget):
         super().__init__()
         self.layout = QGridLayout()
         self.setLayout(self.layout)
-
     def add_widget(self, some_widget, row, col):    
         self.layout.addWidget(some_widget, row, col)
 
-    def add_widget_stretch(self, some_widget, row, col, row_num, column_num):
+    def add_widget_stretch(self, some_widget, row: int, col: int, row_num: int, column_num: int):
         self.layout.addWidget(some_widget, row, col, row_num, column_num)
 
     def set_row_stretch(self, row, factor):
@@ -281,7 +280,6 @@ class HLayout(QWidget):
         
         self.layout = QHBoxLayout()
         self.setLayout(self.layout)
-
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
 
@@ -291,7 +289,6 @@ class VLayout(QWidget):
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
-    
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
 
