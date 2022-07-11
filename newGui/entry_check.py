@@ -28,15 +28,12 @@ def station_code_entry_check(station_name: str) -> bool:
         False if passed string not in station names, true if it is.
     '''
     # No guard clause needed, unless we let user enter manually again.
-    flag = False
     for i in range(0, 3):
         for x in range(2, 11):
             if station_name == Model.station_names.names[x][i]:
-                flag = True
-                break
+                return True
     # If it passed check return True
-    return flag
-
+    return False
 def year_day_entry_check(self) -> bool:
     '''
     Checks to see if there was any input for the 
