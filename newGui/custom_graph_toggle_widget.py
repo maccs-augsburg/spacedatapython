@@ -28,19 +28,18 @@ class SwitchButtonWidget(QtWidgets.QWidget):
     """
     def __init__(self, *args,**kwargs):
         super(SwitchButtonWidget,self).__init__(*args,**kwargs)
-        button_layout = QtWidgets.QHBoxLayout()
+        button_layout = QtWidgets.QGridLayout()
         # Using our already created pushbutton widget to create our buttons here
         # We can still customize it as needed or scrap it and use our own for this widget
         self.three_axis_style = PushButton("Three Axis Style")
         self.stacked_axis_style = PushButton("Stacked Axis Style")
-
-        button_layout.addWidget(self.three_axis_style)
-        button_layout.addWidget(self.stacked_axis_style)
-
+        button_layout.addWidget(self.three_axis_style,0,0)
+        button_layout.addWidget(self.stacked_axis_style,0,1)
+        button_layout.setAlignment(Qt.AlignLeft)
         self.setLayout(button_layout)
         self.three_axis_style.clicked.connect(self.three_axis_checked)
         self.stacked_axis_style.clicked.connect(self.stacked_axis_checked)
-
+        
     def three_axis_checked(self):
         self.stacked_axis_style.setChecked(False)
         self.three_axis_style.setChecked(True)
