@@ -834,15 +834,15 @@ class MainWindow(QMainWindow):
 
         if bool_value:
             self.parent_label_layout.set_row_stretch(0, 4)
+            self.parent_label_layout.set_row_stretch(1, 1)
             self.parent_label_layout.set_row_stretch(2, 12)
             self.parent_label_layout.set_row_stretch(3, 0)
-            self.parent_label_layout.set_row_stretch(1, 1)
             self.parent_label_layout.set_row_stretch(4, 8)
         else:
             self.parent_label_layout.set_row_stretch(0, 2)
+            self.parent_label_layout.set_row_stretch(1, 1)
             self.parent_label_layout.set_row_stretch(2, 4)
             self.parent_label_layout.set_row_stretch(3, 6)
-            self.parent_label_layout.set_row_stretch(1, 1)
             self.parent_label_layout.set_row_stretch(4, 3)
 
     def hide_entry_layout(self):
