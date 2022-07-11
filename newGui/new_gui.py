@@ -217,7 +217,7 @@ class MainWindow(QMainWindow):
         self.combo_box_files.setMaximumWidth(150)
         # Add items to combo box
         self.combo_box_files.addItems(self.file_options)
-        self.combo_box_files.setCurrentIndex(3)
+        self.combo_box_files.setCurrentIndex(0)
 
         #######################
         ### Checkbox Select ###
@@ -394,7 +394,7 @@ class MainWindow(QMainWindow):
 
         if option == 0:
             # ;;Raw File (*.2hz)
-            file_filter = "Clean File (*.s2 | *.2hz)"
+            file_filter = "Clean/Raw File (*.s2 | *.2hz)"
             response = self.get_file_name(file_filter)
             
         elif option == 1:
@@ -451,6 +451,8 @@ class MainWindow(QMainWindow):
         self.file_path = filename
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
+        self.file_ext = filename.split('.')[-1]
+        print(self.file_ext)
         self.filename = filename
         self.filename_noextension = filename.split('.')[0]
         # setting the station entry box from the filename
@@ -630,7 +632,7 @@ class MainWindow(QMainWindow):
         Launch Dialog Option assigned when you open a file
         Adding a coupe more else if checks to get datetime lists
         '''
-        if self.launch_dialog_option == 3:
+        if self.launch_dialog_option == 3 or self.file_ext == "s2":
             # Doing short names to stay around 80-85 chars per row
             x,y,z,t,f = Model.read_clean_to_lists.create_datetime_lists_from_clean(
                                                             file, 
@@ -640,7 +642,7 @@ class MainWindow(QMainWindow):
             # easy to glance over, might be used for new feature?
             flag_arr = f
             #self.flag_arr = f
-        elif self.launch_dialog_option == 4:
+        elif self.launch_dialog_option == 4 or self.file_ext == "2hz":
             # Doing short names to stay around 80-85 chars per row
             x,y,z,t = Model.read_raw_to_lists.create_datetime_lists_from_raw(
                                                             file, 
