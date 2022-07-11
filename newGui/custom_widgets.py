@@ -69,7 +69,7 @@ class CheckBox(QCheckBox):
         font = self.font()
         font.setPointSize(FONT_SIZE)
         self.setFont(font)
-        self.setMaximumWidth(30)
+        self.setMaximumWidth(75)
         self.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
         #self.setMinimumHeight(MINIMUM_HEIGHT)
 
