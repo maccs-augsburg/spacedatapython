@@ -35,6 +35,7 @@ def station_code_entry_check(station_name: str) -> bool:
                 return True
     # If it passed check return True
     return False
+
 def year_day_entry_check(self) -> bool:
     '''
     Checks to see if there was any input for the 
@@ -301,7 +302,19 @@ Instance methods, move back if this is bad practice?
 Trying to change some to not use self at all.
 '''
 
-def same_entries(self):
+def same_entries(self) -> bool:
+    '''
+    Function to check if current information in the gui
+    has already  been plotted in the stacked graph style.
+    Checks to see if:
+        - Current start time is equal to previous start time.
+        - Current end time is equal to previous end time.
+        - Current x/y/z min values are equal to previous min x/y/z values.
+        - Current x/y/z max values are equal to previous max x/y/z values.
+    If all these 8 checks result in true, then we return false to indicate
+    test failed, and to not plot the graph again. Plotting takes (~1.5 seconds)
+    and gui cannot respond to any other user events during this time.
+    '''
 
     start_time_stamp, end_time_stamp = self.time_stamp()
 
@@ -330,7 +343,21 @@ def same_entries(self):
     else:
         return True
 
-def same_entries_one_toggled(self):
+def same_entries_one_toggled(self) -> bool:
+    '''
+    Function to check if current information in the gui
+    has already been plotted in the three graph axis style graph.
+    Checks to see if:
+        - Current start time is equal to previous start time.
+        - Current end time is equal to previous end time.
+        - Current x checkbox state is same as previous state.
+        - Current y checkbox state is same as previous state.
+        - Current z checkbox state is same as previous state.
+    If all these 5 checks result in true, then we return false to
+    indicate test failed, and to not plot the graph again. Plotting
+    takes (~1.5 seconds) and gui cannot respond to any other user
+    events during this time.
+    '''
 
     start_time_stamp, end_time_stamp = self.time_stamp()
 
@@ -355,12 +382,17 @@ def same_entries_one_toggled(self):
     else:
         return True
 
-def checks(self):
+def checks(self) -> bool:
     
     '''
-    Main Check function that checks the main parst of the file that is opened and 
-    validates the values in the textfields, once all values and wdigets are properly valid the user
-    is able to press the plot graph button
+    Function that goes through most of the entry_check.py functions.
+    - Checks for filename, has user chosen a file yet?
+    - Checks for valid station code.
+    - Checks for valid year day value.
+    - Checks that start time is less than end time.
+    - Checks that at least one checkbox is checked if we 
+        are in one graph mode.
+    If any of these tests fail, we return false.
     '''
     
     # Makes sure we have a file
