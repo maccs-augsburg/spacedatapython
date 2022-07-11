@@ -21,3 +21,5 @@ Here are some ideas for python data processing programs
 * add the seperator between the different widget groups on the left side
 
 * MORE COMMENTS ON EVERYTHING // and maybe (should) rename some varibles for better readability
+
+* Rename newgui folder to a more meanifully folder name and rename the new_gui.py file to a better file name
