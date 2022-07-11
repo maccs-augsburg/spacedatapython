@@ -155,10 +155,12 @@ class MainWindow(QMainWindow):
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
-        self.labels_and_text_fields_layout.layout.setContentsMargins(24, 10, 0, 0)
+        self.labels_and_text_fields_layout.layout.setContentsMargins(10, 10, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
-        self.checkbox_layout.layout.setContentsMargins(40, 0, 0, 0)
+        self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 15)
+        
+        self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
         ### Labels ####
@@ -295,8 +297,6 @@ class MainWindow(QMainWindow):
         ### Adding Widgets ###
         ######################
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
-        #self.labels_and_text_fields_layout.add_widget(self.button_plot, 0, 1)
-
         self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_station, 1, 0)
         self.labels_and_text_fields_layout.add_widget(self.input_station_code, 1, 1)
@@ -306,8 +306,7 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout.add_widget(self.start_time, 3, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_end_time, 4, 0)
         self.labels_and_text_fields_layout.add_widget(self.end_time, 4, 1)
-
-        self.labels_and_text_fields_layout.add_widget(self.button_graph_switch,5,0)
+        self.labels_and_text_fields_layout.add_widget_stretch(self.button_graph_switch,5,0,1,0)
 
         self.min_max_xyz_layout.add_widget(self.label_min_x, 0, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_min_x, 0, 1)
@@ -326,14 +325,15 @@ class MainWindow(QMainWindow):
         self.checkbox_layout.add_widget(self.checkbox_y)
         self.checkbox_layout.add_widget(self.checkbox_z)
 
-        self.button_layout.add_widget(self.button_plot,0,0)
-        self.button_layout.add_widget(self.button_clear_plot, 1, 0)
-        self.button_layout.add_widget(self.button_zoom, 1, 1)
-        self.button_layout.add_widget(self.button_save, 2, 0)
-        self.button_layout.add_widget(self.button_save_as, 2, 1)
-        self.button_layout.add_widget(self.button_quit, 3, 0)
+        self.button_layout.add_widget_stretch(self.button_plot,0,0,1,0)
+        self.button_layout.add_widget_stretch(self.button_clear_plot, 1, 0,1,0)
+        self.button_layout.add_widget_stretch(self.button_zoom, 2, 0,1,0)
+        self.button_layout.add_widget(self.button_save, 3, 0)
+        self.button_layout.add_widget(self.button_save_as, 3,1)
+        self.button_layout.add_widget_stretch(self.button_quit,5,0,1,0)
         
         
+
         ###############################################
         ### Adding wdigets layouts into main Layout ###
         ###############################################
@@ -828,6 +828,7 @@ class MainWindow(QMainWindow):
             self.checkbox_x.setHidden( opposite_bool_value)
             self.checkbox_y.setHidden(opposite_bool_value)
             self.checkbox_z.setHidden( opposite_bool_value)
+
         else:
             bool_value = False
 
