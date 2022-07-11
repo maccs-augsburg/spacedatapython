@@ -324,9 +324,9 @@ class MainWindow(QMainWindow):
         ### Adding wdigets layouts into main Layout ###
         ###############################################
         self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
-        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
-        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
+        self.parent_label_layout.add_widget(self.checkbox_layout, 1, 0)
+        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 2, 0)
+        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
         self.parent_label_layout.add_widget(self.button_layout, 4, 0)
 
         ###############################################
@@ -336,12 +336,12 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.mac_label, 5)
         
         self.parent_label_layout.set_row_stretch(0, 2)
-        # five widgets in one row, station/year/open, plot button
-        self.parent_label_layout.set_row_stretch(1, 4)
-        # six widgets in one row, x/y/z min max
-        self.parent_label_layout.set_row_stretch(2, 6)
         # one widgets in one row, toggle button (x, y, z)
-        self.parent_label_layout.set_row_stretch(3, 1)
+        self.parent_label_layout.set_row_stretch(1, 1)
+        # five widgets in one row, station/year/open, plot button
+        self.parent_label_layout.set_row_stretch(2, 4)
+        # six widgets in one row, x/y/z min max
+        self.parent_label_layout.set_row_stretch(3, 6)
         # three widgets in one row, buttons
         self.parent_label_layout.set_row_stretch(4, 3)
 
@@ -834,15 +834,15 @@ class MainWindow(QMainWindow):
 
         if bool_value:
             self.parent_label_layout.set_row_stretch(0, 4)
-            self.parent_label_layout.set_row_stretch(1, 12)
-            self.parent_label_layout.set_row_stretch(2, 0)
-            self.parent_label_layout.set_row_stretch(3, 1)
+            self.parent_label_layout.set_row_stretch(2, 12)
+            self.parent_label_layout.set_row_stretch(3, 0)
+            self.parent_label_layout.set_row_stretch(1, 1)
             self.parent_label_layout.set_row_stretch(4, 8)
         else:
             self.parent_label_layout.set_row_stretch(0, 2)
-            self.parent_label_layout.set_row_stretch(1, 4)
-            self.parent_label_layout.set_row_stretch(2, 6)
-            self.parent_label_layout.set_row_stretch(3, 1)
+            self.parent_label_layout.set_row_stretch(2, 4)
+            self.parent_label_layout.set_row_stretch(3, 6)
+            self.parent_label_layout.set_row_stretch(1, 1)
             self.parent_label_layout.set_row_stretch(4, 3)
 
     def hide_entry_layout(self):
@@ -869,26 +869,18 @@ class MainWindow(QMainWindow):
     
     def is_plottable(self):
         """
-        full function that will encompass all entry checks that we have, and if we have all 
-        entry checks pass the user will be able to press the plot button and plot the graph, 
-        if a check fails or not all checks are met yet the plot graph button will still be greyed out
-        """
+        Function that disables or enables the plot button
+        based on current input inside the gui. For the button to
+        be enabled it must pass our tests. Eg. We have a valid station code,
+        we have a valid year day, the start time is less than the end time.
+        Stacked graph min_entries are less than the max entries, and vice versa.
+        For Three Axis graph we want at least one of the axis checkboxes to be 
+        checked. If any of these checks fail, then button will be disabled.
+        """ 
 
-        # Proper Entry Checks include 
-        '''
-        Station Code is Valid
-        Year Day is Valid
-        Start Time is less than End Time 
-        --- For Stacked Graph Min Max are valid entries and Min is Less than Max
-        --- For Three Axis Display Checked States X Y Z 
-        '''
         checks_met_bool = False
         checks_met_bool = entry_check.checks(self)
 
-        '''
-        This if stmt casuses more issues and delete_figure() when opening the same file or a new file 
-        it fully deleletes the figure canvas and isnt reestablished 
-        '''
         if checks_met_bool:
             self.button_plot.setDisabled(False)
         else:
