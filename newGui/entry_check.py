@@ -3,12 +3,6 @@ entry_checks.py
 
 May 2022 -- Created -- Mark Ortega-Ponce & Chris Hance
 
-https://docs.python.org/3/library/typing.html
-https://peps.python.org/pep-0008/
-
-Note: Types in params and ->, are just used for type hinting in IDE's.
-      Python does not enforce types.
-      Try to stay under 80 characters for wrapping in IDE's.
 '''
 import sys
 import os
@@ -56,7 +50,13 @@ def year_day_entry_check(self) -> bool:
 
 def min_max_time_check(self) -> bool:
     '''
-    Checks the two time widgets and checks if the start time is less than the end time 
+    Checks the two time widgets and 
+    checks if the start time is less than the end time.
+
+    Returns
+    -------
+    True/Fasle : bool
+        False if it failed test, true if it passed test. 
     '''
     s_hour = self.start_time.get_hour()
     s_minute = self.start_time.get_minute()
@@ -159,12 +159,6 @@ def axis_entry_checks(x_arr: list, y_arr: list, z_arr: list,
     default_max_y = y_midpoint + max_axis_range
     default_max_z = z_midpoint + max_axis_range
 
-    # TODO: Ask if user would ever enter 0, cant just assume, so ask.
-    '''
-    If user enters 0, it is never going to go through, 
-    always replaced by old code.
-    Possibly start boxes with -1? Would look kinda weird
-    '''
     if min_x == 0:
         min_x = int(default_min_x)
 
@@ -191,7 +185,7 @@ def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
                                    filename: str, stime: datetime,
                                    etime: datetime):
     """
-    Checks the gui entries for plotting, x, y, z axis. If values are set, then we plot those axis
+    Plot x, y, z axis depending if they are checked inside the gui.
 
     Parameters
     ----------
@@ -223,8 +217,6 @@ def graph_from_plotter_entry_check(xArr: list, yArr: list, zArr: list,
     """
 
     # X, Y, Z plot, clean or raw
-    # first check if all on, then two the two_plot checks,
-    # last should be one_axis
     if x_state and y_state and z_state:
 
         fig = View.plot_three_axis_graphs.x_y_and_z_plot(
@@ -314,15 +306,21 @@ def same_entries(self) -> bool:
     If all these 8 checks result in true, then we return false to indicate
     test failed, and to not plot the graph again. Plotting takes (~1.5 seconds)
     and gui cannot respond to any other user events during this time.
+
+    Returns
+    -------
+    True/False : bool
+        False if passed string not in station names, true if it is.
     '''
 
-    start_time_stamp, end_time_stamp = self.time_stamp()
+    # get current start times, and end time
+    curr_start_time, curr_end_time = self.time_stamp()
 
     flag = 0
 
-    if start_time_stamp == self.start_time_stamp:
+    if curr_start_time == self.start_time_stamp:
         flag += 1
-    if end_time_stamp == self.end_time_stamp:
+    if curr_end_time == self.end_time_stamp:
         flag += 1
     if self.prev_min_x == self.spinbox_min_x.get_entry():
         flag += 1
@@ -357,15 +355,20 @@ def same_entries_one_toggled(self) -> bool:
     indicate test failed, and to not plot the graph again. Plotting
     takes (~1.5 seconds) and gui cannot respond to any other user
     events during this time.
+
+    Returns
+    -------
+    True/False : bool
+        False if passed string not in station names, true if it is.
     '''
 
-    start_time_stamp, end_time_stamp = self.time_stamp()
+    curr_start_time, curr_end_time = self.time_stamp()
 
     flag = 0
 
-    if start_time_stamp == self.start_time_stamp:
+    if curr_start_time == self.start_time_stamp:
         flag += 1
-    if end_time_stamp == self.end_time_stamp:
+    if curr_end_time == self.end_time_stamp:
         flag += 1
 
     if self.prev_state_plot_x == self.checkbox_x.isChecked():
@@ -393,6 +396,11 @@ def checks(self) -> bool:
     - Checks that at least one checkbox is checked if we 
         are in one graph mode.
     If any of these tests fail, we return false.
+
+    Returns
+    -------
+    True/False : bool
+        False if passed string not in station names, true if it is.
     '''
     
     # Makes sure we have a file
