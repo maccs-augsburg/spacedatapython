@@ -38,7 +38,6 @@ class SwitchButtonWidget(QtWidgets.QWidget):
         button_layout.addWidget(self.stacked_axis_style)
 
         self.setLayout(button_layout)
-
         self.three_axis_style.clicked.connect(self.three_axis_checked)
         self.stacked_axis_style.clicked.connect(self.stacked_axis_checked)
 
