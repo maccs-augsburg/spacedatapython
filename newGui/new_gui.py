@@ -270,7 +270,9 @@ class MainWindow(QMainWindow):
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot.clicked.connect(self.clear_plot)
         
-        # Since we have a entry check that checks for the state of what axis is being plotted when we 3 axis display so we dont enable the plot button until atleast one checkbox is displayed 
+        # Since we have a entry check that checks for the state of
+        # what axis is being plotted when we 3 axis display so we 
+        # dont enable the plot button until atleast one checkbox is displayed 
         self.checkbox_x.clicked.connect(self.is_plottable)
         self.checkbox_y.clicked.connect(self.is_plottable)
         self.checkbox_z.clicked.connect(self.is_plottable)
@@ -793,14 +795,16 @@ class MainWindow(QMainWindow):
 
     def reset_time_entries(self):
         '''
-        Helper function that sets min time to 00 00 00 and max time to 23 59 59
+        Helper function that sets min 
+        time to 00:00:00 and max time to 23:59:59.
         '''
         self.start_time.set_min_time()
         self.end_time.set_max_time()
 
     def reset_axis_entries(self):
         '''
-        Ez helper Function that sets all min and max values in stacked graph display to 0
+        Helper function that sets all min and max 
+        values in stacked graph display to 0.
         '''
         self.spinbox_min_x.set_entry(0)
         self.spinbox_max_x.set_entry(0)
@@ -811,8 +815,8 @@ class MainWindow(QMainWindow):
     
     def clear_plot(self):
         """
-        Clears the GUI of any of all plots that would be displayed and redispalys the MACCS Logo
-        clear plot button also resets all entry values in the widgets 
+        Clears the GUI of any plots and redisplays the MACCS logo.
+        Clear plot button also resets all entry values in the widgets. 
         """
         self.graph_layout.setHidden(True)
         self.mac_label.setHidden(False)
@@ -823,8 +827,9 @@ class MainWindow(QMainWindow):
 
     def update_layout(self):
         """
-        Reactive display handling based on wether Graph Style button is Clicked on Unclicked 
-        Which Then determines the type of graph display we have either Three Axis' or Stacked Graph
+        Reactive display handling based on whether Graph Style button is set. 
+        Which then determines the type of graph display we have either 
+        Three Axis' or Stacked Graph.
         """
         bool_value = self.button_graph_style.is_toggled()
 
