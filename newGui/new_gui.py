@@ -12,7 +12,8 @@ June 2022
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
-                                QMessageBox,QComboBox
+                                QMessageBox,QComboBox,
+                                QGridLayout
                                 )
 from PySide6.QtGui import QIcon, QAction, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
@@ -148,7 +149,7 @@ class MainWindow(QMainWindow):
         self.parent_label_layout = GridLayout()
         self.labels_and_text_fields_layout = GridLayout()
         self.graph_layout = VLayout()
-        self.checkbox_layout = HLayout()
+        self.checkbox_layout = VLayout()
         self.button_layout = GridLayout()
         self.min_max_xyz_layout = GridLayout()
         # left, top, right, bottom
@@ -156,7 +157,7 @@ class MainWindow(QMainWindow):
         #  offset of about 14 + any offset from other layouts
         self.labels_and_text_fields_layout.layout.setContentsMargins(24, 10, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
-        self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
+        self.checkbox_layout.layout.setContentsMargins(40, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 15)
 
         ###############
@@ -248,7 +249,6 @@ class MainWindow(QMainWindow):
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
-        self.button_quit.setMinimumWidth(250)
 
         #####################
         ### Toggle Widget ###
@@ -322,18 +322,17 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.add_widget(self.label_max_z, 5, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_max_z, 5, 1)
 
-        self.min_max_xyz_layout.add_widget(self.checkbox_x,0,0)
-        self.min_max_xyz_layout.add_widget(self.checkbox_y,1,0)
-        self.min_max_xyz_layout.add_widget(self.checkbox_z,2,0)
+        self.checkbox_layout.add_widget(self.checkbox_x)
+        self.checkbox_layout.add_widget(self.checkbox_y)
+        self.checkbox_layout.add_widget(self.checkbox_z)
 
-        self.checkbox_layout.add_widget(self.button_plot)
-
-
-        self.button_layout.add_widget(self.button_clear_plot, 0, 0)
-        self.button_layout.add_widget(self.button_zoom, 0, 1)
-        self.button_layout.add_widget(self.button_save, 1, 0)
-        self.button_layout.add_widget(self.button_save_as, 1, 1)
-        self.button_layout.add_widget_stretch(self.button_quit, 2, 0, 1, 2)
+        self.button_layout.add_widget(self.button_plot,0,0)
+        self.button_layout.add_widget(self.button_clear_plot, 1, 0)
+        self.button_layout.add_widget(self.button_zoom, 1, 1)
+        self.button_layout.add_widget(self.button_save, 2, 0)
+        self.button_layout.add_widget(self.button_save_as, 2, 1)
+        self.button_layout.add_widget(self.button_quit, 3, 0)
+        
         
         ###############################################
         ### Adding wdigets layouts into main Layout ###
@@ -822,63 +821,26 @@ class MainWindow(QMainWindow):
 
         if self.button_graph_switch.three_axis_style.isChecked():
             bool_value = True
-            self.label_min_x.setHidden(bool_value)
-            self.label_max_x.setHidden(bool_value)
-            self.label_min_y.setHidden(bool_value)
-            self.label_max_y.setHidden(bool_value)
-            self.label_min_z.setHidden(bool_value)
-            self.label_max_z.setHidden(bool_value)
-            self.spinbox_min_x.setHidden(bool_value)
-            self.spinbox_max_x.setHidden(bool_value)
-            self.spinbox_min_y.setHidden(bool_value)
-            self.spinbox_max_y.setHidden(bool_value)
-            self.spinbox_min_z.setHidden(bool_value)
-            self.spinbox_max_z.setHidden(bool_value)
+            
+            self.min_max_xyz_layout.setHidden(bool_value)
 
             opposite_bool_value = not bool_value
-            print(opposite_bool_value)
             self.checkbox_x.setHidden( opposite_bool_value)
             self.checkbox_y.setHidden(opposite_bool_value)
             self.checkbox_z.setHidden( opposite_bool_value)
         else:
             bool_value = False
-            self.label_min_x.setHidden(bool_value)
-            self.label_max_x.setHidden(bool_value)
-            self.label_min_y.setHidden(bool_value)
-            self.label_max_y.setHidden(bool_value)
-            self.label_min_z.setHidden(bool_value)
-            self.label_max_z.setHidden(bool_value)
-            self.spinbox_min_x.setHidden(bool_value)
-            self.spinbox_max_x.setHidden(bool_value)
-            self.spinbox_min_y.setHidden(bool_value)
-            self.spinbox_max_y.setHidden(bool_value)
-            self.spinbox_min_z.setHidden(bool_value)
-            self.spinbox_max_z.setHidden(bool_value)
 
+            self.min_max_xyz_layout.setHidden(bool_value)
             opposite_bool_value = not bool_value
-            print(opposite_bool_value)
-            self.checkbox_x.setHidden( opposite_bool_value)
+
+            self.checkbox_x.setHidden(opposite_bool_value)
             self.checkbox_y.setHidden(opposite_bool_value)
-            self.checkbox_z.setHidden( opposite_bool_value)
+            self.checkbox_z.setHidden(opposite_bool_value)
         
-
-
         self.button_zoom.set_toggle_status_false()
         self.button_zoom.change_text()
-        print(bool_value)
-       # self.min_max_xyz_layout.setHidden(bool_value)
 
-
-        # if bool_value:
-        #     self.parent_label_layout.set_row_stretch(0, 18)
-        #     self.parent_label_layout.set_row_stretch(1, 0)
-        #     self.parent_label_layout.set_row_stretch(2, 1)
-        #     self.parent_label_layout.set_row_stretch(3, 9)
-        # else:
-        #     self.parent_label_layout.set_row_stretch(0, 5)
-        #     self.parent_label_layout.set_row_stretch(1, 6)
-        #     self.parent_label_layout.set_row_stretch(2, 1)
-        #     self.parent_label_layout.set_row_stretch(3, 3)
 
     def hide_entry_layout(self):
         ''' 
