@@ -393,8 +393,8 @@ class MainWindow(QMainWindow):
         self.launch_dialog_option = option
 
         if option == 0:
-
-            file_filter = "Clean File (*.s2);;Raw File (*.2hz)"
+            # ;;Raw File (*.2hz)
+            file_filter = "Clean File (*.s2 | *.2hz)"
             response = self.get_file_name(file_filter)
             
         elif option == 1:
@@ -422,12 +422,11 @@ class MainWindow(QMainWindow):
         else:
             print("Got nothing")
 
-    def get_file_name(self, f_filter):
+    def get_file_name(self, file_filter):
         '''
         Simple user Dialog that prompts user to select a file to open to be read and graphed
         '''
 
-        file_filter = f_filter
         # guis will be in the same folder, so go back one 
         # directory for shared files 
         current_directory = os.getcwd()
