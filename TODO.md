@@ -13,3 +13,11 @@ Here are some ideas for python data processing programs
 * Go through and see if the is_plottable and entry checks can be refactorered into more simple code
 
 * Either set the window to a fixed size or make aspect ratio always the same so the graph is saved to the same size
+
+* Update layout function refactor again to set hidden a single layout instead of all the singular widgets
+
+* Time ticks and time label and all that is an issue either redo the way we get x time ticks and such or fix it
+
+* add the seperator between the different widget groups on the left side
+
+* MORE COMMENTS ON EVERYTHING // and maybe (should) rename some varibles for better readability
