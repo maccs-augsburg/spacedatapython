@@ -522,7 +522,7 @@ class MainWindow(QMainWindow):
 
         if self.graph_figure_flag:
             # if this is toggled, do following test
-            if self.button_graph_switch.stacked_axis_style.is_toggled():
+            if self.button_graph_switch.three_axis_style.isChecked():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
                 if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
@@ -605,7 +605,7 @@ class MainWindow(QMainWindow):
         # if one plot button is toggled
         # call necessary functions for one plot
         
-        if self.button_graph_switch.three_axis_style.is_toggled():
+        if self.button_graph_switch.three_axis_style.isChecked():
             
             # keeping track of whats been plotted already
             self.prev_state_plot_x = self.checkbox_x.isChecked()
