@@ -359,7 +359,7 @@ class MainWindow(QMainWindow):
         ##########################
         self.file_path = None
         self.filename = ""
-        self.file_extension = None
+        self.file_ext = None
         self.launch_dialog_option = None
         ##########################
         self.x_arr = None
@@ -453,9 +453,8 @@ class MainWindow(QMainWindow):
         self.file_path = filename
         # splitting up the path and selecting the filename
         filename = filename.split('/')[-1]
-        self.file_ext = filename.split('.')[-1]
-        print(self.file_ext)
         self.filename = filename
+        self.file_ext = filename.split('.')[-1]
         self.filename_noextension = filename.split('.')[0]
         # setting the station entry box from the filename
         # Ex: CH 20097 .2hz
@@ -478,7 +477,7 @@ class MainWindow(QMainWindow):
 
     def toolbar_open(self):
         '''
-        Function that opens a user dialog to open a file using the toolbar icon 
+        Function that opens a user dialog to open a file using the toolbar icon. 
         '''
         if not self.get_file_name("Raw File (*.2hz);;Clean File (*.s2)"):
             return
@@ -511,9 +510,13 @@ class MainWindow(QMainWindow):
     def plot_graph(self):
         
         """
-        Once Plot Graph button is pressed we call plot_graph which goes through all entry checks and benchmark testing 
-        to make sure all field in the digets and file opened are valid. Once then we check to see which graph style we have
-        and then create the lists of data x y z axis and datetime list for the times of the graph 
+        Once plot graph button is enabled and pressed, we proceed
+        to plot the input inside the gui. The type of graph is determined
+        based on the state of our graph style button.
+        Flow of function is to do some preliminary tests.
+        If tests pass, we proceed to save current data as
+        previous data. We then update the gui with our new values.
+        Final step is to display the graph inside the gui.
         """
 
         #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
@@ -622,6 +625,13 @@ class MainWindow(QMainWindow):
         self.display_figure()
 
     def get_file_data(self):
+        '''
+        Gets file data once a file has been chosen inside the gui.
+        Data consists of x axis list, y axis list, z axis list,
+        time array list, and flag list for clean data files. Flag list
+        provides additional information on the data collected and 
+        additional measurements taken to clean the data.
+        '''
 
         try:
             # Open file object, read, binary
@@ -629,6 +639,7 @@ class MainWindow(QMainWindow):
         except:
             self.warning_message_pop_up("File Open Error, couldn't open file")
             return
+
         '''
         Once future file types are supported, add here.
         Launch Dialog Option assigned when you open a file
@@ -661,9 +672,11 @@ class MainWindow(QMainWindow):
 
     def display_figure(self):
         """
-        Seperate Function that will display the graph created from matplotlib 
-        embedding the graph into a figurecanvas that will become a widget in our layout 
-        this function will help when we load the data but dont display any of it yet
+        Separate function that will display the graph 
+        created from matplotlib. Embeds the graph into a 
+        figurecanvas that will become a widget in our layout. 
+        This function will help when we load the data 
+        but don't want to display the graph immediately.
         """
         # if we hid the entry layout from toolbar
         self.graph_layout.setHidden(False)
@@ -681,9 +694,12 @@ class MainWindow(QMainWindow):
         self.show()
 
     def delete_figure(self):
-        '''Deletes widgets, setting parent to none on widgets
+        '''
+        Deletes widgets, setting parent to none on widgets
         leaves them hanging in the background process.
-        Not garbage collected, so have to delete'''
+        Not garbage collected, so have to delete
+        '''
+
         self.graph.deleteLater()
         plt.close(self.figure)
 
@@ -731,9 +747,9 @@ class MainWindow(QMainWindow):
 
     def save(self):
         """
-            Saves the Graph as a PDF Image
+        Saves the Graph as a PDF Image
 
-            file_type is a QMessageBox that pops up once the Save as QButton is pressed 
+        file_type is a QMessageBox that pops up once the Save as QButton is pressed 
         """
 
         question_box = QMessageBox(self)
@@ -753,12 +769,13 @@ class MainWindow(QMainWindow):
     def save_as(self):
          
         """
-            Saves the Graph as an image with user chosing either a PDF or PNG option 
-            can easily incorperate more files as needed 
+        Saves the Graph as an image with user chosing either a PDF or PNG option 
+        can easily incorperate more files as needed 
 
-            file_type is a QMessageBox that pops up once the Save as QButton is pressed 
+        file_type is a QMessageBox that pops up once the Save as QButton is pressed 
         """
-        #def information (parent, title, text, button0[, button1=QMessageBox.StandardButton.NoButton])
+        #def information (parent, title, text, 
+                    # button0[, button1=QMessageBox.StandardButton.NoButton])
 
         file_type = QMessageBox(self)
 
@@ -767,7 +784,8 @@ class MainWindow(QMainWindow):
         cancel_button = file_type.addButton(str('Cancel'), QMessageBox.ActionRole)
 
         window_title_text = file_type.setWindowTitle("Save as...")
-        message_text = file_type.setText("Select would image type you would like to save as... \n PDF or PNG")
+        message_text = file_type.setText(
+            "Select would image type you would like to save as... \n PDF or PNG")
 
         start = file_type.exec()
 
@@ -862,15 +880,16 @@ class MainWindow(QMainWindow):
     
     def help_plot(self):
 
-        self.information_message_pop_up("Help", "Plot button could be disabled for " + 
-                                    "many reasons.\n\n"+
-                                    "1. Have you opened a file yet? If you " +
-                                    "haven't, hit the open button.\n\n" +
-                                    "2. You entered in a start time greater " + 
-                                    "than your end time and vice versa.\n\n" +
-                                    "3. Your min values are greater than " + 
-                                    "your max values and vice versa.\n\n"+
-                                    "4. You have not chosen an axis to plot.")
+        self.information_message_pop_up("Help", 
+            "Plot button could be disabled for " + 
+            "many reasons.\n\n"+
+            "1. Have you opened a file yet? If you " +
+            "haven't, hit the open button.\n\n" +
+            "2. You entered in a start time greater " + 
+            "than your end time and vice versa.\n\n" +
+            "3. Your min values are greater than " + 
+            "your max values and vice versa.\n\n"+
+            "4. You have not chosen an axis to plot.")
     
     def is_plottable(self):
         """
