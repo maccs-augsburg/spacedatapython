@@ -48,11 +48,11 @@ def create_time_list( stime, etime):
 		for i in range(24):
 			if (i % 2 != 0):
 				hours_arr.append(datetime.datetime(year=1111,
-														   month=1,
-														   day=1,
-														   hour = i,
-														   minute=current_minute,
-														   second = current_second))
+												month=1,
+												day=1,
+												hour = i,
+												minute = current_minute,
+												second = current_second))
 	else:
 		# Going off of the second difference
 		second_difference = ((etime.hour * 3600) + (etime.minute * 60) + etime.second) - ((stime.hour * 3600) + (stime.minute * 60) + stime.second)
