@@ -545,7 +545,7 @@ class MainWindow(QMainWindow):
                     self.delete_figure()
 
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
-        
+        self.get_file_data()        
         # get current stacked plot entries
         # since we passed initial check (same entries)
         # we can assign them here. Maybe better names (prev = confusing)
