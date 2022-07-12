@@ -49,7 +49,7 @@ import Model.read_raw_to_lists
 import View.plot_stacked_graphs
 import View.plot_three_axis_graphs
 
-MINIMUM_WINDOW_HEIGHT = 1000
+MINIMUM_WINDOW_HEIGHT = 800
 MINIMUM_WINDOW_WIDTH = 1400
 
 class MainWindow(QMainWindow):
@@ -263,7 +263,6 @@ class MainWindow(QMainWindow):
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
         self.button_graph_style.clicked.connect(self.update_layout)
-        self.button_graph_style.clicked.connect(self.is_plottable)
         self.button_plot.clicked.connect(self.plot_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
@@ -277,7 +276,8 @@ class MainWindow(QMainWindow):
         self.checkbox_y.clicked.connect(self.is_plottable)
         self.checkbox_z.clicked.connect(self.is_plottable)
 
-        # Every time we update or change a time in either time widgets we want to check to see if 
+        # Every time we update or change a time in 
+        # either time widgets we want to check to see if 
         # Start time is greater than end time
         self.start_time.time_widget.timeChanged.connect(self.is_plottable)
         self.end_time.time_widget.timeChanged.connect(self.is_plottable)
@@ -728,12 +728,42 @@ class MainWindow(QMainWindow):
 
         elif self.temp_var == 1:
             self.end_time.time_widget.setTime(QTime(hour, minute, second))
+            self.call_helper()
             self.button_zoom.set_toggle_status_false()
             # reset axis entries so it can find new min/max values on graph
             self.reset_axis_entries()
             self.graph.mpl_disconnect(self.cid)
             self.temp_var = 0
             self.plot_graph()
+
+    def call_helper(self):
+        '''
+        '''
+        s_hour = self.start_time.get_hour()
+        s_min = self.start_time.get_minute()
+        e_hour = self.end_time.get_hour()
+        e_min = self.end_time.get_minute()
+
+        if s_hour == e_hour:
+            self.start_time.time_widget.setTime(QTime(s_hour, s_min, 0))
+            self.end_time.time_widget.setTime(QTime(e_hour, e_min, 0))
+            return
+
+        if s_min < 15:
+            s_min = 15
+        elif s_min < 30:
+            s_min = 30
+        else:
+            s_min = 45
+        if e_min < 15:
+            e_min = 15
+        elif e_min < 30:
+            e_min = 30
+        else:
+            e_min = 45
+
+        self.start_time.time_widget.setTime(QTime(s_hour, s_min, 0))
+        self.end_time.time_widget.setTime(QTime(e_hour, e_min, 0))        
 
     def zoom_in_listener(self):
         '''
