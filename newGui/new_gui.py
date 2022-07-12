@@ -645,6 +645,9 @@ class MainWindow(QMainWindow):
         Launch Dialog Option assigned when you open a file
         Adding a coupe more else if checks to get datetime lists
         '''
+        # get new times
+        self.start_time_stamp, self.end_time_stamp = self.time_stamp()
+
         if self.launch_dialog_option == 3 or self.file_ext == "s2":
             # Doing short names to stay around 80-85 chars per row
             x,y,z,t,f = Model.read_clean_to_lists.create_datetime_lists_from_clean(
@@ -727,13 +730,18 @@ class MainWindow(QMainWindow):
             self.temp_var = self.temp_var + 1
 
         elif self.temp_var == 1:
+
             self.end_time.time_widget.setTime(QTime(hour, minute, second))
-            self.call_helper()
+            self.temp_var = 0
+            self.graph.mpl_disconnect(self.cid)
             self.button_zoom.set_toggle_status_false()
+            # set time to increments of 15 min
+            self.call_helper()
             # reset axis entries so it can find new min/max values on graph
             self.reset_axis_entries()
-            self.graph.mpl_disconnect(self.cid)
-            self.temp_var = 0
+            # get new file data, so it can get new time range
+            self.get_file_data()
+            # plot graph
             self.plot_graph()
 
     def call_helper(self):
