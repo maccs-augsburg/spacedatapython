@@ -57,8 +57,8 @@ def create_time_list( stime, etime):
 												second = current_second))
 	else:
 		# Going off of the second difference
-		total_time_in_seconds = ((etime.hour * SEC_PER_HOUR) + (etime.minute * 60) + etime.second)
-		total_time_in_seconds -= ((stime.hour * SEC_PER_HOUR) + (stime.minute * 60) + stime.second)
+		total_time_diff_seconds = ((etime.hour * SEC_PER_HOUR) + (etime.minute * 60) + etime.second)
+		total_time_diff_seconds -= ((stime.hour * SEC_PER_HOUR) + (stime.minute * 60) + stime.second)
 
 		if ((total_time_in_seconds / SEC_PER_HOUR) >= 8): # More than or equal to 8 hour branch
 			# setting the x-axis label
