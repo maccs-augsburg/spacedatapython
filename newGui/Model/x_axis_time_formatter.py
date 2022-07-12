@@ -57,19 +57,21 @@ def create_time_list( stime, etime):
 												second = current_second))
 	else:
 		# Going off of the second difference
+		# Ex: 4 hour range = 14,400
 		total_time_diff_seconds = ((etime.hour * SEC_PER_HOUR) + (etime.minute * 60) + etime.second)
 		total_time_diff_seconds -= ((stime.hour * SEC_PER_HOUR) + (stime.minute * 60) + stime.second)
-
-		if ((total_time_in_seconds / SEC_PER_HOUR) >= 8): # More than or equal to 8 hour branch
+		# 14,400 / 3600 
+		if ((total_time_diff_seconds / SEC_PER_HOUR) >= 8): # More than or equal to 8 hour branch
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours (HH)"
 
 			# iterating throughout the hours
-			for i in range(int(total_time_in_seconds / SEC_PER_HOUR) + 1):
-				factor = int(total_time_in_seconds / SEC_PER_HOUR) % 2
+			for i in range(int(total_time_diff_seconds / SEC_PER_HOUR) + 1):
+				# Assuming we have 9, 32400, results in factor being 
+				odd_or_even = int(total_time_diff_seconds / SEC_PER_HOUR) % 2
 			
-				# Only adding the hour to the hours_arr if it is the same as the factor
-				if (i % 2 == factor):
+				# Only adding the hour to the hours_arr if it is the same as the odd_or_even
+				if (i % 2 == odd_or_even):
 					# Adding to the hours_arr list
 					hours_arr.append(datetime.datetime(year=1111,
 													   month=1,
@@ -80,7 +82,8 @@ def create_time_list( stime, etime):
 					# incrementing current_hour
 					current_hour += 2
 
-		elif ((total_time_in_seconds / SEC_PER_HOUR) >=5): # More than or equal to 5 hour branch
+		# More than or equal to 5 hour branch
+		elif ((total_time_diff_seconds / SEC_PER_HOUR) >=5):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours (HH)"
 
@@ -94,8 +97,9 @@ def create_time_list( stime, etime):
 												   second = current_second))
 				# incrementing current_hour
 				current_hour += 1
-				
-		elif ((total_time_in_seconds / SEC_PER_HOUR) >= 2): # More than or equal to 2 hour branch
+
+		# More than or equal to 2 hour branch
+		elif ((total_time_diff_seconds / SEC_PER_HOUR) >= 2):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
 		
@@ -116,14 +120,15 @@ def create_time_list( stime, etime):
 														   minute=minute,
 														   second=current_second))
 
-		elif ((total_time_in_seconds / SEC_PER_HOUR) >= 1): # More than or equal to 1 hour branch
+		# More than or equal to 1 hour branch
+		elif ((total_time_diff_seconds / SEC_PER_HOUR) >= 1):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
 
 			# setting the x-axis datetime formatter
 			x_axis_format = mdates.DateFormatter('%H:%M')
 		
-			if total_time_in_seconds / SEC_PER_HOUR == 1: # if we only have one hour
+			if total_time_diff_seconds / SEC_PER_HOUR == 1: # if we only have one hour
 				for hour in range(stime.hour, etime.hour):
 					minutes_left = etime.minute
 					if (stime.minute == 0 and etime.minute == 0):
@@ -134,7 +139,6 @@ def create_time_list( stime, etime):
 						
 			pass # passing just as a quick fix for formatting 1 hour of data so that we don't overwrite it with the following for loop
 					
-
 			# iterating through the hours
 			for hour in range(stime.hour, etime.hour+1):
 				# iterating through the minutes
@@ -149,8 +153,8 @@ def create_time_list( stime, etime):
 														   minute=minute,
 														   second=current_second))
 		
-		
-		elif ((total_time_in_seconds / 60) >= 30): # More than or equal to 30 minutes branch
+		# More than or equal to 30 minutes branch
+		elif ((total_time_diff_seconds / 60) >= 30):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -170,8 +174,9 @@ def create_time_list( stime, etime):
 														   hour=hour,
 														   minute=minute,
 														   second=current_second))
-					
-		elif ((total_time_in_seconds / 60) >= 20): # More than or equal to 20 minutes branch
+		
+		# More than or equal to 20 minutes branch
+		elif ((total_time_diff_seconds / 60) >= 20):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -190,7 +195,8 @@ def create_time_list( stime, etime):
 													   minute=minute,
 													   second=current_second))
 
-		elif ((total_time_in_seconds / 60) >=10): # More than or equal to 10 minutes branch
+		# More than or equal to 10 minutes branch
+		elif ((total_time_diff_seconds / 60) >=10):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -209,7 +215,8 @@ def create_time_list( stime, etime):
 													   minute=minute,
 													   second=current_second))
 			
-		elif ((total_time_in_seconds / 60) >= 7): # More than or equal to 7 minutes branch
+		# More than or equal to 7 minutes branch
+		elif ((total_time_diff_seconds / 60) >= 7):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -227,8 +234,8 @@ def create_time_list( stime, etime):
 													   hour=current_hour,
 													   minute=minute,
 													   second=current_second))
-		
-		elif ((total_time_in_seconds / 60) >= 2): # More than or equal to 2 minutes branch
+		# More than or equal to 2 minutes branch
+		elif ((total_time_diff_seconds / 60) >= 2):
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
 			# setting the x-axis datetime formatter
@@ -245,7 +252,7 @@ def create_time_list( stime, etime):
 												   second=current_second))
 
 			
-		elif (total_time_in_seconds >= 60): # More than or equal to 1 minute branch
+		elif (total_time_diff_seconds >= 60): # More than or equal to 1 minute branch
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -266,7 +273,7 @@ def create_time_list( stime, etime):
 														   minute=minute,
 														   second=second))
 		
-		elif (total_time_in_seconds >= 45): # More than or equal to 45 seconds branch
+		elif (total_time_diff_seconds >= 45): # More than or equal to 45 seconds branch
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -285,7 +292,7 @@ def create_time_list( stime, etime):
 													   minute=current_minute,
 													   second=second))
 				
-		elif(total_time_in_seconds >= 25): # More than or equal to 25 seconds branch
+		elif(total_time_diff_seconds >= 25): # More than or equal to 25 seconds branch
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -303,8 +310,9 @@ def create_time_list( stime, etime):
 													   hour=current_hour,
 													   minute=current_minute,
 													   second=second))
-				
-		elif(total_time_in_seconds >= 10): # More than or equal to 10 seconds branch
+		
+		# More than or equal to 10 seconds branch
+		elif(total_time_diff_seconds >= 10):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
@@ -323,7 +331,8 @@ def create_time_list( stime, etime):
 													   minute=current_minute,
 													   second=second))
 
-		elif(total_time_in_seconds >= 6): # More than or equal to 5 seconds branch
+		 # More than or equal to 5 seconds branch
+		elif(total_time_diff_seconds >= 6):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 
