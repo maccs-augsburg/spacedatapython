@@ -10,17 +10,6 @@ the time-stamped x, y, and z values on its' own plot.
 
 """
 
-#TODO----------------------------------------------------------------------------------------------------------
-	# Get the new algorithm idea up and running ------------------------------------------------------ Not Done
-		# algorithm concept
-			# x-axis time formatter create_time_list function passes in time_arr
-			# first if statement (changes the label and format) 
-			# pick a delta (10, 15, 20, 1hr)
-			# walk through every single datetime in the list
-				# if evenly divisible by delta
-				# tick_list.add(datetime object)
-#--------------------------------------------------------------------------------------------------------------
-
 # Python 3 imports
 import datetime
 import numpy as np
