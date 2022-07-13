@@ -438,10 +438,6 @@ def create_time_list(stime, etime):
 
 def rewrite_helper(stime, etime):
 
-	x_axis_format = mdates.DateFormatter('%H')
-	x_axis_label = "Universal Time in Hours (HH)" # The label of the x-axis to use
-	hours_arr = [] # list to use for custom times
-
 	hour_step = None
 	minute_step = None
 	second_step = None
@@ -457,6 +453,11 @@ def rewrite_helper(stime, etime):
 	elif total_time_diff_seconds / SEC_PER_HOUR >= 5:
 		hour_step = 1
 
+	if hour_step is not None:
+		hours_arr, x_axis_format, x_axis_label = hour_ticks(hour_step, stime, etime, total_time_diff_seconds)
+		return hours_arr, x_axis_format, x_axis_label
+
+	# Next few cases we step by minute
 	if total_time_diff_seconds / SEC_PER_HOUR >= 2:
 		minute_step = 30
 	elif total_time_diff_seconds / SEC_PER_HOUR >= 1:
@@ -472,6 +473,10 @@ def rewrite_helper(stime, etime):
 	elif total_time_diff_seconds / 60 >= 2:
 		minute_step = 1
 
+	if minute_step is not None:
+		hours_arr, x_axis_format, x_axis_label = hour_ticks(minute_step, stime, etime, total_time_diff_seconds)
+		return hours_arr, x_axis_format, x_axis_label
+
 	if total_time_diff_seconds >= 60:
 		second_step = 20
 	elif total_time_diff_seconds >= 45:
@@ -484,3 +489,59 @@ def rewrite_helper(stime, etime):
 		second_step = 2
 	else:
 		second_step = 1
+
+def hour_ticks(hour_step, stime, etime, total_time_diff_seconds):
+	# setting the x-axis label
+	x_axis_label = "Universal Time in Hours (HH)"
+	x_axis_format = mdates.DateFormatter('%H')
+	hours_arr = []
+	current_hour = stime.hour
+	# iterating throughout the hours
+	for i in range(int(total_time_diff_seconds / SEC_PER_HOUR) + 1):
+		# Assuming we have 9, 32400, results in factor being 
+		odd_or_even = int(total_time_diff_seconds / SEC_PER_HOUR) % 2
+	
+		# Only adding the hour to the hours_arr if it is the same as the odd_or_even
+		if (i % hour_step == odd_or_even):
+			# Adding to the hours_arr list
+			hours_arr.append(datetime.datetime(year=1111,
+												month=1,
+												day=1,
+												hour = current_hour,
+												minute = 0,
+												second = 0))
+			# incrementing current_hour
+			current_hour += hour_step
+
+	return hours_arr, x_axis_format, x_axis_label
+
+def minute_ticks(minute_step, stime, etime, total_time_diff_seconds):
+	# setting the x-axis label
+	x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
+	# setting the x-axis datetime formatter
+	x_axis_format = mdates.DateFormatter('%H:%M')
+	hours_arr = []
+	hour = stime.hour
+	minute = stime.minute
+	counter = minute % minute_step
+
+	for i in range (total_time_diff_seconds):
+		# 1800 = 30 min in seconds
+		# Append values every 30 mins like previously
+		if i % 60 == 0 and i != 0:
+			minute += 1
+			counter += 1
+			if minute == 60:
+				minute = 0
+				hour += 1
+
+		if counter == minute_step:
+			# reset counter
+			counter = 0
+			# set second value to 0, only care about HH:MM
+			hours_arr.append(datetime.datetime(year = 1111,
+											month = 1,
+											day = 1,
+											hour = hour,
+											minute = minute,
+											second = 0))
