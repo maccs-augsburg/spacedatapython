@@ -10,6 +10,7 @@ import datetime
 
 # Matplotlib imports
 import matplotlib.dates as mdates
+from sympy import sec
 
 SEC_PER_HOUR = 3600
 
@@ -272,9 +273,9 @@ def create_time_list(stime, etime):
 		elif ((total_time_diff_seconds / 60) >= 7):
 			# setting the x-axis label
 			x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
-
 			# setting the x-axis datetime formatter
 			x_axis_format = mdates.DateFormatter('%H:%M:%S')
+			
 
 			# iterating through the minutes
 			for minute in range(stime.minute, etime.minute+1):
@@ -433,3 +434,53 @@ def create_time_list(stime, etime):
 
 
 	return hours_arr, x_axis_format, x_axis_label
+
+
+def rewrite_helper(stime, etime):
+
+	x_axis_format = mdates.DateFormatter('%H')
+	x_axis_label = "Universal Time in Hours (HH)" # The label of the x-axis to use
+	hours_arr = [] # list to use for custom times
+
+	hour_step = None
+	minute_step = None
+	second_step = None
+
+	# Going off of the second difference
+	# Ex: 4 hour range = 14,400
+	total_time_diff_seconds = ((etime.hour * SEC_PER_HOUR) + (etime.minute * 60) + etime.second)
+	total_time_diff_seconds -= ((stime.hour * SEC_PER_HOUR) + (stime.minute * 60) + stime.second)
+
+	# 1st two cases do step by hour in ticks
+	if total_time_diff_seconds / SEC_PER_HOUR >= 8:
+		hour_step = 2
+	elif total_time_diff_seconds / SEC_PER_HOUR >= 5:
+		hour_step = 1
+
+	if total_time_diff_seconds / SEC_PER_HOUR >= 2:
+		minute_step = 30
+	elif total_time_diff_seconds / SEC_PER_HOUR >= 1:
+		minute_step = 15
+	elif total_time_diff_seconds / 60 >= 30:
+		minute_step = 10
+	elif total_time_diff_seconds / 60 >= 20:
+		minute_step = 5
+	elif total_time_diff_seconds / 60 >= 10:
+		minute_step = 3
+	elif total_time_diff_seconds / 60 >= 7:
+		minute_step = 2
+	elif total_time_diff_seconds / 60 >= 2:
+		minute_step = 1
+
+	if total_time_diff_seconds >= 60:
+		second_step = 20
+	elif total_time_diff_seconds >= 45:
+		second_step = 15
+	elif total_time_diff_seconds >= 25:
+		second_step = 10
+	elif total_time_diff_seconds >= 10:
+		second_step = 3
+	elif total_time_diff_seconds >= 6:
+		second_step = 2
+	else:
+		second_step = 1
