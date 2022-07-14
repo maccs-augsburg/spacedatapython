@@ -135,10 +135,10 @@ class Spinbox(QSpinBox):
         self.setWrapping(True)
 
         self.valueChanged.connect(self.value_changed)
-        self.setAlignment(Qt.AlignCenter)
+       # self.setAlignment(Qt.AlignCenter)
         self.entry = 0
         self.setMaximumWidth(95)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+       # self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setMaximumHeight(MINIMUM_HEIGHT)
 
     def value_changed(self, i):
