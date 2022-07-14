@@ -10,9 +10,9 @@ from PySide6 import QtWidgets
 #imports from python 
 import sys
 
-class MinMaxTime(QtWidgets.QWidget,):
+class MinMaxTime(QtWidgets.QWidget):
     
-    def __init__(self,text, *args,**kwargs,):
+    def __init__(self,text, *args,**kwargs):
 
         super(MinMaxTime,self).__init__(*args,**kwargs)
 
