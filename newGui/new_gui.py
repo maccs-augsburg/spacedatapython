@@ -154,10 +154,10 @@ class MainWindow(QMainWindow):
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
         self.button_layout_top.setContentsMargins(10, 0, 0, 0)
-        self.labels_and_text_fields_layout.layout.setContentsMargins(24, 10, 0, 0)
+        self.labels_and_text_fields_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
-        self.button_layout.layout.setContentsMargins(10, 0, 0, 15)
+        self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
         
        # self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
 
@@ -789,8 +789,18 @@ class MainWindow(QMainWindow):
         start = question_box.exec()
 
         if question_box.clickedButton() == save_image_button:
-            plt.savefig(self.file_name + ".pdf")
-            subprocess.Popen(self.file_name + '.pdf', shell=True)
+            if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
+                plt.savefig(self.filename + ".pdf")
+                subprocess.Popen(self.filename + '.pdf', shell=True)
+
+            else:
+                start_time = str(self.start_time_stamp)
+                start_time = start_time.replace(":", "")
+                end_time = str(self.end_time_stamp)
+                end_time = end_time.replace(":", "")
+
+                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf")
+                subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".pdf", shell=True)
         elif question_box.clickedButton() == cancel_button:
             question_box.close()
 
@@ -818,11 +828,35 @@ class MainWindow(QMainWindow):
         start = file_type.exec()
 
         if file_type.clickedButton() == pdf_button:
-            plt.savefig(self.file_name + ".pdf")
-            subprocess.Popen(self.file_name + '.pdf', shell=True)
+
+            if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
+                plt.savefig(self.filename + ".pdf")
+                subprocess.Popen(self.filename + '.pdf', shell=True)
+
+            else:
+                start_time = str(self.start_time_stamp)
+                start_time = start_time.replace(":", "")
+                end_time = str(self.end_time_stamp)
+                end_time = end_time.replace(":", "")
+
+                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf")
+                subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".pdf", shell=True)
+
         elif file_type.clickedButton() == png_button:
-            plt.savefig(self.file_name + ".png")
-            subprocess.Popen(self.file_name + '.png', shell=True)
+
+            if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
+                plt.savefig(self.filename + ".png")
+                subprocess.Popen(self.filename + '.png', shell=True)
+
+            else:
+                start_time = str(self.start_time_stamp)
+                start_time = start_time.replace(":", "")
+                end_time = str(self.end_time_stamp)
+                end_time = end_time.replace(":", "")
+
+                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".png")
+                subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".png", shell=True)
+
         elif file_type.clickedButton() == cancel_button:
             file_type.close()
 
