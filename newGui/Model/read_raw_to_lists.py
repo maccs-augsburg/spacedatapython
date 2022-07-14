@@ -8,10 +8,7 @@
 
 # Python 3 imports
 import datetime
-<<<<<<< HEAD
-=======
 import numpy as np
->>>>>>> customWidgetToggleGuiV1.1
 # MACCS imports
 # import from current directory
 from .raw_codecs import decode, time_of_record
