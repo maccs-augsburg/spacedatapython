@@ -138,10 +138,12 @@ class MainWindow(QMainWindow):
         # layout for buttons and checkboxs
         self.main_layout = QHBoxLayout()
         self.parent_label_layout = GridLayout()
+
         color = QPalette()#dbdbdb
         color.setColor(QPalette.Window,"#e1e1e1")
         self.parent_label_layout.setPalette(color)
         self.parent_label_layout.setAutoFillBackground(True)
+
         self.labels_and_text_fields_layout = GridLayout()
         self.graph_layout = VLayout()
         self.checkbox_layout = VLayout()
@@ -157,7 +159,7 @@ class MainWindow(QMainWindow):
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 15)
         
-        self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
+       # self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
         ### Labels ####
@@ -301,7 +303,7 @@ class MainWindow(QMainWindow):
         ######################
         self.button_layout_top.add_widget_stretch(self.combo_box_files, 0, 0, 1, 2)
         self.button_layout_top.add_widget(self.button_open_file, 1, 0)
-        self.button_layout_top.add_widget(self.button_plot, 1, 1)
+        #self.button_layout_top.add_widget(self.button_plot, 1, 1)
 
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
@@ -345,7 +347,7 @@ class MainWindow(QMainWindow):
         ### Adding wdigets layouts into main Layout ###
         ###############################################
         self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
-        self.parent_label_layout.add_widget(self.checkbox_layout, 1, 0)
+        self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
         self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 2, 0)
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
         self.parent_label_layout.add_widget(self.button_layout, 4, 0)
@@ -898,7 +900,6 @@ class MainWindow(QMainWindow):
         
         self.button_zoom.set_toggle_status_false()
         self.button_zoom.change_text()
-
 
     def hide_entry_layout(self):
         ''' 
