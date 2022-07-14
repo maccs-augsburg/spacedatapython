@@ -154,7 +154,7 @@ class MainWindow(QMainWindow):
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
-        self.button_layout_top.setContentsMargins(10, 0, 0, 0)
+        self.button_layout_top.setContentsMargins(10, -15, 0, 0)
         self.labels_and_text_fields_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
@@ -348,10 +348,10 @@ class MainWindow(QMainWindow):
         ### Adding wdigets layouts into main Layout ###
         ###############################################
         self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
-        self.parent_label_layout.add_widget(self.line_sep,3,0)
-        self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
-        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 4, 0)
+        self.parent_label_layout.add_widget(self.line_sep,2,0)
+        self.parent_label_layout.add_widget(self.checkbox_layout, 2, 0)
+        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
+        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 2, 0)
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
 
         ###############################################
