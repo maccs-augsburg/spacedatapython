@@ -79,13 +79,13 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
     fig.subplots_adjust(hspace=0.1)
 
+
     ### first plot    
     # plt.ylim(minimum, maximum)
     axis_x = plt.subplot(311)	# subplot allows multiple plots on 1 page
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
                         # 1 indicates which subplot out of 3 to work on
-    
     plt.ylim(in_min_x, in_max_x)
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
@@ -102,7 +102,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     # this next line makes it visible
     plt.gca().axes.xaxis.set_visible(False)
     x_yticks = plt.yticks()
-
     ### Now build the second plot, this time using y-axis data
     axis_y = plt.subplot(312, sharex= axis_x)
     plt.ylim(in_min_y, in_max_y)
@@ -125,7 +124,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     z_yticks = plt.yticks()
     # returning the fig object
-
+    plt.xlabel(x_axis_label)
     return fig
 
 def set_yaxis(yticks_list, scale_difference):
