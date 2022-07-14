@@ -45,6 +45,7 @@ from custom_widgets import (
 
 # Imports from subpackages
 from custom_time_widget import MinMaxTime
+from custom_seperator_line import LineSeperator
 import Model.station_names
 import Model.read_clean_to_lists
 import Model.read_raw_to_lists
@@ -253,10 +254,10 @@ class MainWindow(QMainWindow):
         self.button_quit.set_uncheckable()
 
         #####################
-        ### Toggle Widget ###
+        ### Custom Widget ###
         #####################
         self.button_graph_switch = SwitchButtonWidget()
-
+        self.line_sep = LineSeperator()
         ########################
         ### Signals / Events ###
         ########################
@@ -347,10 +348,11 @@ class MainWindow(QMainWindow):
         ### Adding wdigets layouts into main Layout ###
         ###############################################
         self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
+        self.parent_label_layout.add_widget(self.line_sep,3,0)
         self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
         self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
-        self.parent_label_layout.add_widget(self.button_layout, 4, 0)
+        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 4, 0)
+        self.parent_label_layout.add_widget(self.button_layout, 5, 0)
 
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
