@@ -20,7 +20,7 @@ class LineSeperator(QtWidgets.QWidget):
         )
     def paintEvent(self, e):
         painter = QPainter(self)
-        painter.drawLine(0,0,25,0)
+        painter.drawLine(1,1,250,1)
         # brush = QBrush()
         # brush.setColor(QColor('black'))
         # brush.setStyle(Qt.SolidPattern)
