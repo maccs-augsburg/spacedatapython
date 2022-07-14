@@ -735,44 +735,13 @@ class MainWindow(QMainWindow):
             self.temp_var = 0
             self.graph.mpl_disconnect(self.cid)
             self.button_zoom.set_toggle_status_false()
-            # set time to increments of 15 min
-            self.call_helper()
             # reset axis entries so it can find new min/max values on graph
             self.reset_axis_entries()
             # get new file data, so it can get new time range
             self.get_file_data()
             # plot graph
             self.plot_graph()
-
-    def call_helper(self):
-        '''
-        '''
-        s_hour = self.start_time.get_hour()
-        s_min = self.start_time.get_minute()
-        e_hour = self.end_time.get_hour()
-        e_min = self.end_time.get_minute()
-
-        if s_hour == e_hour:
-            self.start_time.time_widget.setTime(QTime(s_hour, s_min, 0))
-            self.end_time.time_widget.setTime(QTime(e_hour, e_min, 0))
-            return
-
-        if s_min < 15:
-            s_min = 15
-        elif s_min < 30:
-            s_min = 30
-        else:
-            s_min = 45
-        if e_min < 15:
-            e_min = 15
-        elif e_min < 30:
-            e_min = 30
-        else:
-            e_min = 45
-
-        self.start_time.time_widget.setTime(QTime(s_hour, s_min, 0))
-        self.end_time.time_widget.setTime(QTime(e_hour, e_min, 0))        
-
+   
     def zoom_in_listener(self):
         '''
         Starts event listening, listens for user clicks on plot.
