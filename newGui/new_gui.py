@@ -538,8 +538,8 @@ class MainWindow(QMainWindow):
         if not self.delete_figure_helper():
             return
 
+        # get x,y,z,time list from file
         self.get_file_data()
-        self.start_time_stamp, self.end_time_stamp = self.time_stamp()     
 
         self.prev_min_x = self.spinbox_min_x.get_entry()
         self.prev_max_x = self.spinbox_max_x.get_entry()
