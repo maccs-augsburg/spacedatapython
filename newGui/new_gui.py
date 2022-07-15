@@ -595,16 +595,9 @@ class MainWindow(QMainWindow):
 
         # if one plot button is toggled
         # call necessary functions for one plot
-<<<<<<< HEAD
-        print("What is buttong_graph_style currently at")
-        print(self.button_graph_style.is_toggled())
-        if self.button_graph_style.is_toggled():
-            print("If youre seeing this, it is working correctly")
-=======
         
         if self.button_graph_switch.three_axis_style.isChecked():
             
->>>>>>> d3f03e356612b698e98b421bc59564baf6575c56
             # keeping track of whats been plotted already
             self.prev_state_plot_x = self.checkbox_x.isChecked()
             self.prev_state_plot_y = self.checkbox_y.isChecked()
