@@ -21,8 +21,6 @@
 
 * Update layout function refactor again to set hidden a single layout instead of all the singular widgets
 
-* Time ticks and time label and all that is an issue either redo the way we get x time ticks and such or fix it
-
 * add the seperator between the different widget groups on the left side
 
 * MORE COMMENTS ON EVERYTHING // and maybe (should) rename some varibles for better readability
