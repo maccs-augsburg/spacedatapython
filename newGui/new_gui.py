@@ -557,14 +557,8 @@ class MainWindow(QMainWindow):
                     self.delete_figure()
 
         self.get_file_data()
-        print("Did I get past the initial checks (yes)")
-        self.start_time_stamp, self.end_time_stamp = self.time_stamp()
-        self.get_file_data()        
-        # get current stacked plot entries
-        # since we passed initial check (same entries)
-        # we can assign them here. Maybe better names (prev = confusing)
-        # curr? Checking curr against, current entry in input ?? (same_entries)
-        # TODO: Better name for these variables? 
+        self.start_time_stamp, self.end_time_stamp = self.time_stamp()     
+
         self.prev_min_x = self.spinbox_min_x.get_entry()
         self.prev_max_x = self.spinbox_max_x.get_entry()
         self.prev_min_y = self.spinbox_min_y.get_entry()
@@ -591,7 +585,6 @@ class MainWindow(QMainWindow):
 
         # if one plot button is toggled
         # call necessary functions for one plot
-        
         if self.button_graph_switch.three_axis_style.isChecked():
             
             # keeping track of whats been plotted already
@@ -647,7 +640,6 @@ class MainWindow(QMainWindow):
         provides additional information on the data collected and 
         additional measurements taken to clean the data.
         '''
-
         try:
             # Open file object, read, binary
             file = open(self.file_path, 'rb')
@@ -752,8 +744,6 @@ class MainWindow(QMainWindow):
             self.button_zoom.set_toggle_status_false()
             # reset axis entries so it can find new min/max values on graph
             self.reset_axis_entries()
-            # get new file data, so it can get new time range
-            #self.get_file_data()
             # plot graph
             self.plot_graph()
    
