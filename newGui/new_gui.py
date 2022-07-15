@@ -12,16 +12,18 @@ June 2022
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
-                                QMessageBox,QComboBox)
-from PySide6.QtGui import (
-    QIcon, QAction, 
-    QPixmap, Qt,
-    QKeySequence, QPalette)
-
+                                QMessageBox,QComboBox,
+                                QGridLayout
+                                )
+from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
+
+#qtwidgets
+from custom_graph_toggle_widget import SwitchButtonWidget
 
 # Imports from matplotlib
 import matplotlib
+
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -64,8 +66,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -129,7 +131,7 @@ class MainWindow(QMainWindow):
         menu_help.addAction(action_help_plot)
         menu_help.addAction(action_help)
 
-        ###############                        
+        ###############
         ### Layouts ###
         ###############
 
@@ -142,9 +144,9 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.setAutoFillBackground(True)
         self.labels_and_text_fields_layout = GridLayout()
         self.graph_layout = VLayout()
-        self.checkbox_layout = HLayout()
+        self.checkbox_layout = VLayout()
+        self.button_layout = GridLayout()        
         self.button_layout_top = GridLayout()
-        self.button_layout = GridLayout()
         self.min_max_xyz_layout = GridLayout()
         # left, top, right, bottom
         # align time_widget with rest of widgets
@@ -154,14 +156,18 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 15)
+        
+        self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
+
         ###############
         ### Labels ####
         ###############
+
         self.label_year_day = Label("Year Day: ")
         self.label_start_time = Label("Start Time: ")
         self.label_end_time = Label("End Time: ")
-        self.station_label = Label("Station Code:")
-
+        self.label_station = Label("Station Code:")
+        self.label_station.setMaximumWidth(120)
         self.label_min_x = Label("Plot min x: ")
         self.label_max_x = Label("Plot max x: ")
         self.label_min_y = Label("Plot min y: ")
@@ -223,16 +229,15 @@ class MainWindow(QMainWindow):
         ### Checkbox Select ###
         #######################
         
-        self.checkbox_x = CheckBox("X")
-        self.checkbox_y = CheckBox("Y")
-        self.checkbox_z = CheckBox("Z")
+        self.checkbox_x = CheckBox("X Axis")
+        self.checkbox_y = CheckBox("Y Axis")
+        self.checkbox_z = CheckBox("Z Axis")
 
         ###############
         ### Buttons ###
         ###############
         self.button_open_file = PushButton("Open...")
         self.button_open_file.set_uncheckable()
-        self.button_graph_style = PushButton('Switch to One Plot', "Switch to Stacked Plot")
         self.button_save = PushButton('Save')
         self.button_save.set_uncheckable()
         self.button_save_as = PushButton('Save As...')
@@ -244,7 +249,11 @@ class MainWindow(QMainWindow):
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
-        self.button_quit.setMinimumWidth(250)
+
+        #####################
+        ### Toggle Widget ###
+        #####################
+        self.button_graph_switch = SwitchButtonWidget()
 
         ########################
         ### Signals / Events ###
@@ -262,7 +271,12 @@ class MainWindow(QMainWindow):
         self.button_open_file.clicked.connect(self.launch_dialog)
         self.button_save.clicked.connect(self.save)
         self.button_save_as.clicked.connect(self.save_as)
-        self.button_graph_style.clicked.connect(self.update_layout)
+
+        self.button_graph_switch.three_axis_style.clicked.connect(self.update_layout)
+        self.button_graph_switch.stacked_axis_style.clicked.connect(self.update_layout)
+        self.button_graph_switch.stacked_axis_style.clicked.connect(self.is_plottable)
+        self.button_graph_switch.three_axis_style.clicked.connect(self.is_plottable)
+
         self.button_plot.clicked.connect(self.plot_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
@@ -289,14 +303,17 @@ class MainWindow(QMainWindow):
         self.button_layout_top.add_widget(self.button_open_file, 1, 0)
         self.button_layout_top.add_widget(self.button_plot, 1, 1)
 
-        self.labels_and_text_fields_layout.add_widget(self.station_label, 0, 0)
-        self.labels_and_text_fields_layout.add_widget(self.input_station_code, 0, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_year_day, 1, 0)
-        self.labels_and_text_fields_layout.add_widget(self.input_year, 1, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_start_time, 2, 0)
-        self.labels_and_text_fields_layout.add_widget(self.start_time, 2, 1)
-        self.labels_and_text_fields_layout.add_widget(self.label_end_time, 3, 0)
-        self.labels_and_text_fields_layout.add_widget(self.end_time, 3, 1)
+        self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
+        self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_station, 1, 0)
+        self.labels_and_text_fields_layout.add_widget(self.input_station_code, 1, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_year_day, 2, 0)
+        self.labels_and_text_fields_layout.add_widget(self.input_year, 2, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_start_time, 3, 0)
+        self.labels_and_text_fields_layout.add_widget(self.start_time, 3, 1)
+        self.labels_and_text_fields_layout.add_widget(self.label_end_time, 4, 0)
+        self.labels_and_text_fields_layout.add_widget(self.end_time, 4, 1)
+        self.labels_and_text_fields_layout.add_widget_stretch(self.button_graph_switch,5,0,1,0)
 
         self.min_max_xyz_layout.add_widget(self.label_min_x, 0, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_min_x, 0, 1)
@@ -311,17 +328,19 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.add_widget(self.label_max_z, 5, 0)
         self.min_max_xyz_layout.add_widget(self.spinbox_max_z, 5, 1)
 
-        self.checkbox_layout.add_widget(self.button_graph_style)
         self.checkbox_layout.add_widget(self.checkbox_x)
         self.checkbox_layout.add_widget(self.checkbox_y)
         self.checkbox_layout.add_widget(self.checkbox_z)
 
-        self.button_layout.add_widget(self.button_clear_plot, 0, 0)
-        self.button_layout.add_widget(self.button_zoom, 0, 1)
-        self.button_layout.add_widget(self.button_save, 1, 0)
-        self.button_layout.add_widget(self.button_save_as, 1, 1)
-        self.button_layout.add_widget_stretch(self.button_quit, 2, 0, 1, 2)
+        self.button_layout.add_widget_stretch(self.button_plot,0,0,1,0)
+        self.button_layout.add_widget_stretch(self.button_clear_plot, 1, 0,1,0)
+        self.button_layout.add_widget_stretch(self.button_zoom, 2, 0,1,0)
+        self.button_layout.add_widget(self.button_save, 3, 0)
+        self.button_layout.add_widget(self.button_save_as, 3,1)
+        self.button_layout.add_widget_stretch(self.button_quit,5,0,1,0)
         
+        
+
         ###############################################
         ### Adding wdigets layouts into main Layout ###
         ###############################################
@@ -336,20 +355,20 @@ class MainWindow(QMainWindow):
         ###############################################
         self.main_layout.addWidget(self.parent_label_layout,1)
         self.main_layout.addWidget(self.mac_label, 5)
-        
-        self.parent_label_layout.set_row_stretch(0, 2)
-        # one widgets in one row, toggle button (x, y, z)
-        self.parent_label_layout.set_row_stretch(1, 1)
-        # five widgets in one row, station/year/open, plot button
-        self.parent_label_layout.set_row_stretch(2, 4)
-        # six widgets in one row, x/y/z min max
-        self.parent_label_layout.set_row_stretch(3, 6)
-        # three widgets in one row, buttons
-        self.parent_label_layout.set_row_stretch(4, 3)
+
+        # # five widgets in one row, station/year/open, plot button
+        # self.parent_label_layout.set_row_stretch(0, 5)
+        # # six widgets in one row, x/y/z min max
+        # self.parent_label_layout.set_row_stretch(1, 6)
+        # # one widgets in one row, toggle button (x, y, z)
+        # self.parent_label_layout.set_row_stretch(2, 1)
+        # # three widgets in one row, buttons
+        # self.parent_label_layout.set_row_stretch(3, 3)
 
         ##########################
         ### Set Central Widget ###
         ##########################
+        self.update_layout()
         main_widget = QWidget()
         main_widget.setLayout(self.main_layout)
         self.setCentralWidget(main_widget)
@@ -524,9 +543,8 @@ class MainWindow(QMainWindow):
 
         # If there is a figure already saved
         if self.graph_figure_flag:
-            # if graph style button is toggled, either check same entries
-            # for one_plot or three_plots
-            if self.button_graph_style.is_toggled():
+            # if this is toggled, do following test
+            if self.button_graph_switch.three_axis_style.isChecked():
                 # if !(test failed) and we have plotted one_plot already
                 # means no new info to plot
                 if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
@@ -577,10 +595,16 @@ class MainWindow(QMainWindow):
 
         # if one plot button is toggled
         # call necessary functions for one plot
+<<<<<<< HEAD
         print("What is buttong_graph_style currently at")
         print(self.button_graph_style.is_toggled())
         if self.button_graph_style.is_toggled():
             print("If youre seeing this, it is working correctly")
+=======
+        
+        if self.button_graph_switch.three_axis_style.isChecked():
+            
+>>>>>>> d3f03e356612b698e98b421bc59564baf6575c56
             # keeping track of whats been plotted already
             self.prev_state_plot_x = self.checkbox_x.isChecked()
             self.prev_state_plot_y = self.checkbox_y.isChecked()
@@ -858,24 +882,30 @@ class MainWindow(QMainWindow):
         Which then determines the type of graph display we have either 
         Three Axis' or Stacked Graph.
         """
-        bool_value = self.button_graph_style.is_toggled()
 
+        if self.button_graph_switch.three_axis_style.isChecked():
+            bool_value = True
+            
+            self.min_max_xyz_layout.setHidden(bool_value)
+
+            opposite_bool_value = not bool_value
+            self.checkbox_x.setHidden( opposite_bool_value)
+            self.checkbox_y.setHidden(opposite_bool_value)
+            self.checkbox_z.setHidden( opposite_bool_value)
+
+        else:
+            bool_value = False
+
+            self.min_max_xyz_layout.setHidden(bool_value)
+            opposite_bool_value = not bool_value
+
+            self.checkbox_x.setHidden(opposite_bool_value)
+            self.checkbox_y.setHidden(opposite_bool_value)
+            self.checkbox_z.setHidden(opposite_bool_value)
+        
         self.button_zoom.set_toggle_status_false()
         self.button_zoom.change_text()
-        self.min_max_xyz_layout.setHidden(bool_value)
 
-        if bool_value:
-            self.parent_label_layout.set_row_stretch(0, 4)
-            self.parent_label_layout.set_row_stretch(1, 1)
-            self.parent_label_layout.set_row_stretch(2, 12)
-            self.parent_label_layout.set_row_stretch(3, 0)
-            self.parent_label_layout.set_row_stretch(4, 8)
-        else:
-            self.parent_label_layout.set_row_stretch(0, 2)
-            self.parent_label_layout.set_row_stretch(1, 1)
-            self.parent_label_layout.set_row_stretch(2, 4)
-            self.parent_label_layout.set_row_stretch(3, 6)
-            self.parent_label_layout.set_row_stretch(4, 3)
 
     def hide_entry_layout(self):
         ''' 
@@ -904,12 +934,14 @@ class MainWindow(QMainWindow):
         """
         Function that disables or enables the plot button
         based on current input inside the gui. For the button to
-        be enabled it must pass our tests. Eg. We have a valid station code,
-        we have a valid year day, the start time is less than the end time.
-        Stacked graph min_entries are less than the max entries, and vice versa.
-        For Three Axis graph we want at least one of the axis checkboxes to be 
-        checked. If any of these checks fail, then button will be disabled.
-        """ 
+        be enabled it must pass our tests. 
+        If any of these checks fail, then button will be disabled.
+        Station Code is Valid
+        Year Day is Valid
+        Start Time is less than End Time 
+        --- For Stacked Graph Min Max are valid entries and Min is Less than Max
+        --- For Three Axis Display Checked States X Y Z 
+        """
 
         checks_met_bool = False
         checks_met_bool = entry_check.checks(self)
