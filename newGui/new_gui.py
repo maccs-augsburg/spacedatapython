@@ -534,27 +534,9 @@ class MainWindow(QMainWindow):
         previous data. We then update the gui with our new values.
         Final step is to display the graph inside the gui.
         """
-
-        # If there is a figure already saved
-        if self.graph_figure_flag:
-            # if this is toggled, do following test
-            if self.button_graph_switch.three_axis_style.isChecked():
-                # if !(test failed) and we have plotted one_plot already
-                # means no new info to plot
-                if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
-                    return
-                else:
-                    # delete old figure if we save a new figure
-                    # prevent memory leak issues
-                    self.delete_figure()
-
-            else:  
-                # if !(test failed) and we have plotted stacked already
-                # means no new info to plot
-                if not entry_check.same_entries(self) and self.stacked_plot_flag:
-                    return
-                else:
-                    self.delete_figure()
+        # To prevent memory leak
+        if not self.delete_figure_helper():
+            return
 
         self.get_file_data()
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()     
@@ -712,6 +694,33 @@ class MainWindow(QMainWindow):
 
         self.graph.deleteLater()
         plt.close(self.figure)
+
+    def delete_figure_helper(self):
+        # If there is a figure already saved
+        if self.graph_figure_flag:
+            # if this is toggled, do following test
+            if self.button_graph_switch.three_axis_style.isChecked():
+                # if !(test failed) and we have plotted one_plot already
+                # means no new info to plot
+                if not entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
+                    return False
+                else:
+                    # delete old figure if we save a new figure
+                    # prevent memory leak issues
+                    self.delete_figure()
+                    return True
+
+            else:  
+                # if !(test failed) and we have plotted stacked already
+                # means no new info to plot
+                if not entry_check.same_entries(self) and self.stacked_plot_flag:
+                    return False
+                else:
+                    self.delete_figure()
+                    return True
+        
+        # if no graph, want to plot something
+        return True
 
     def __call__(self, event):
         '''
