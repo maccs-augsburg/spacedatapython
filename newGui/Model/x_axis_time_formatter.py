@@ -13,7 +13,7 @@ import matplotlib.dates as mdates
 SEC_PER_HOUR = 3600
 SEC_PER_MIN = 60
 
-def create_timelists(stime, etime):
+def create_time_list(stime, etime):
 	"""
 	Creates the correct time list for the x-axis labels 
 	for plotting within the given start and end times.
@@ -128,12 +128,12 @@ def get_hour_ticks(hour_step, stime, etime, total_time_diff_seconds):
 		if (i % hour_step == odd_or_even):
 			# Adding to the hours_arr list
 			hours_arr.append(datetime.datetime(
-											year=1111,
-											month=1,
-											day=1,
-											hour = current_hour,
-											minute = 0,
-											second = 0))
+									year=1111,
+									month=1,
+									day=1,
+									hour = current_hour,
+									minute = 0,
+									second = 0))
 			# incrementing current_hour
 			current_hour += hour_step
 
@@ -175,12 +175,12 @@ def get_minute_ticks(minute_step, stime, etime, total_time_diff_seconds):
 			counter = 0
 			# set second value to 0, only care about HH:MM
 			hours_arr.append(datetime.datetime(
-										year = 1111,
-										month = 1,
-										day = 1,
-										hour = hour,
-										minute = minute,
-										second = 0))
+									year = 1111,
+									month = 1,
+									day = 1,
+									hour = hour,
+									minute = minute,
+									second = 0))
 
 	print(hours_arr)
 	return hours_arr, x_axis_format, x_axis_label
@@ -201,12 +201,12 @@ def get_second_ticks(second_step, stime, etime, total_time_diff_seconds):
 	# gets skipped in loop
 	if second % second_step == 0:
 		hours_arr.append(datetime.datetime(
-									year = 1111,
-									month = 1,
-									day = 1,
-									hour = hour,
-									minute = minute,
-									second = second))
+								year = 1111,
+								month = 1,
+								day = 1,
+								hour = hour,
+								minute = minute,
+								second = second))
 
 	for i in range (total_time_diff_seconds):
 		second += 1

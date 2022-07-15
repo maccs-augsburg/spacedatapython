@@ -518,9 +518,9 @@ class MainWindow(QMainWindow):
         previous data. We then update the gui with our new values.
         Final step is to display the graph inside the gui.
         """
-
+        print('AM I coming in here"')
         #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
-        self.is_plottable()
+        #self.is_plottable()
 
         # If there is a figure already saved
         if self.graph_figure_flag:
@@ -543,7 +543,7 @@ class MainWindow(QMainWindow):
                     return
                 else:
                     self.delete_figure()
-
+        print("Did I get past the initial checks (yes)")
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         self.get_file_data()        
         # get current stacked plot entries
@@ -577,8 +577,10 @@ class MainWindow(QMainWindow):
 
         # if one plot button is toggled
         # call necessary functions for one plot
+        print("What is buttong_graph_style currently at")
+        print(self.button_graph_style.is_toggled())
         if self.button_graph_style.is_toggled():
-            
+            print("If youre seeing this, it is working correctly")
             # keeping track of whats been plotted already
             self.prev_state_plot_x = self.checkbox_x.isChecked()
             self.prev_state_plot_y = self.checkbox_y.isChecked()
