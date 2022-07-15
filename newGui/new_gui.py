@@ -258,6 +258,7 @@ class MainWindow(QMainWindow):
         #####################
         self.button_graph_switch = SwitchButtonWidget()
         self.line_sep = LineSeperator()
+        self.second_line_sep = LineSeperator()
         ########################
         ### Signals / Events ###
         ########################
@@ -342,8 +343,6 @@ class MainWindow(QMainWindow):
         self.button_layout.add_widget(self.button_save_as, 3,1)
         self.button_layout.add_widget_stretch(self.button_quit,5,0,1,0)
         
-        
-
         ###############################################
         ### Adding wdigets layouts into main Layout ###
         ###############################################
@@ -352,6 +351,7 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.add_widget(self.checkbox_layout, 2, 0)
         self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 2, 0)
+        self.parent_label_layout.add_widget(self.second_line_sep, 5 ,0 )
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
 
         ###############################################
