@@ -17,17 +17,15 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 )
 from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
-
 #qtwidgets
 from custom_graph_toggle_widget import SwitchButtonWidget
-
 # Imports from matplotlib
 import matplotlib
 
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 
 # Imports from python 
 import sys
@@ -39,9 +37,8 @@ import entry_check
 #Custom Widget Imports
 from custom_widgets import (
     LineEdit, Label, CheckBox, 
-    PushButton, Spinbox, Time, 
-    GridLayout, HLayout,
-    Toolbar, VLayout)
+    PushButton, Spinbox,
+    GridLayout, VLayout)
 
 # Imports from subpackages
 from custom_time_widget import MinMaxTime
@@ -537,9 +534,6 @@ class MainWindow(QMainWindow):
         previous data. We then update the gui with our new values.
         Final step is to display the graph inside the gui.
         """
-        print('AM I coming in here"')
-        #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
-        #self.is_plottable()
 
         # If there is a figure already saved
         if self.graph_figure_flag:
@@ -561,6 +555,8 @@ class MainWindow(QMainWindow):
                     return
                 else:
                     self.delete_figure()
+
+        self.get_file_data()
         print("Did I get past the initial checks (yes)")
         self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         self.get_file_data()        
@@ -757,7 +753,7 @@ class MainWindow(QMainWindow):
             # reset axis entries so it can find new min/max values on graph
             self.reset_axis_entries()
             # get new file data, so it can get new time range
-            self.get_file_data()
+            #self.get_file_data()
             # plot graph
             self.plot_graph()
    
@@ -882,9 +878,9 @@ class MainWindow(QMainWindow):
             self.min_max_xyz_layout.setHidden(bool_value)
 
             opposite_bool_value = not bool_value
-            self.checkbox_x.setHidden( opposite_bool_value)
+            self.checkbox_x.setHidden(opposite_bool_value)
             self.checkbox_y.setHidden(opposite_bool_value)
-            self.checkbox_z.setHidden( opposite_bool_value)
+            self.checkbox_z.setHidden(opposite_bool_value)
 
         else:
             bool_value = False
