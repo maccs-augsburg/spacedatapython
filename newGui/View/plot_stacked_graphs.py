@@ -76,7 +76,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
-    fig.subplots_adjust(hspace=0.1)
+    #fig.subplots_adjust(hspace=0.1)
 
 
     ### first plot    
