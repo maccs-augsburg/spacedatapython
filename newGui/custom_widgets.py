@@ -83,7 +83,7 @@ class PushButton(QPushButton):
         font.setPointSize(FONT_SIZE)
         self.setCheckable(True)
         self.button_is_checked = False
-       # self.clicked.connect(self.button_toggle)
+        self.clicked.connect(self.button_toggle)
         self.setChecked(self.button_is_checked)
         #self.setMaximumWidth(150)#145
         self.alternate_name = alternate_name
