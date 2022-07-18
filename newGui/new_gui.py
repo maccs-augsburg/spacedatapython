@@ -745,9 +745,8 @@ class MainWindow(QMainWindow):
         if self.temp_var == 0:
             self.start_time.time_widget.setTime(QTime(hour, minute, second))
             self.temp_var = self.temp_var + 1
-
+            print(self.button_zoom.is_toggled())
         elif self.temp_var == 1:
-
             self.end_time.time_widget.setTime(QTime(hour, minute, second))
             self.temp_var = 0
             self.graph.mpl_disconnect(self.cid)
@@ -767,6 +766,7 @@ class MainWindow(QMainWindow):
         disconnected from out matplotlib figure.
         '''
         self.cid = self.graph.mpl_connect('button_press_event', self)
+
 
     def save(self):
         """
