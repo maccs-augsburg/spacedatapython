@@ -67,8 +67,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
-        self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
+        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
