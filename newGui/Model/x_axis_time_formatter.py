@@ -35,8 +35,8 @@ def create_time_list(stime, etime):
 	"""
 
 	# return default ticks if we have default time set in gui
-	if (stime == datetime.time.fromisoformat( "00:00:00") and etime == datetime.time.fromisoformat('23:59:59')):
-		return get_default_ticks(stime, etime)
+	if (stime == datetime.time.fromisoformat("00:00:00") and etime == datetime.time.fromisoformat("23:59:59")):
+		return get_default_ticks()
 
 	hour_step = None
 	minute_step = None
@@ -53,7 +53,7 @@ def create_time_list(stime, etime):
 		hour_step = 1
 
 	if hour_step is not None:
-		return get_hour_ticks(hour_step, stime, etime, total_time_diff_seconds)
+		return get_hour_ticks(hour_step, stime, total_time_diff_seconds)
 
 	# Next few cases we step by minute
 	if total_time_diff_seconds / SEC_PER_HOUR >= 2:
@@ -72,7 +72,7 @@ def create_time_list(stime, etime):
 		minute_step = 1
 
 	if minute_step is not None:
-		return get_minute_ticks(minute_step, stime, etime, total_time_diff_seconds)
+		return get_minute_ticks(minute_step, stime, total_time_diff_seconds)
 
 	# Last few cases are for ticks with seconds included
 	if total_time_diff_seconds >= 60:
@@ -89,16 +89,14 @@ def create_time_list(stime, etime):
 		second_step = 1
 	
 	if second_step is not None:
-		return get_second_ticks(second_step, stime, etime, total_time_diff_seconds)
+		return get_second_ticks(second_step, stime, total_time_diff_seconds)
 
 
-def get_default_ticks(stime, etime):
+def get_default_ticks():
 
 	x_axis_format = mdates.DateFormatter('%H')
 	x_axis_label = "Universal Time in Hours (HH)"
 	hours_arr = []
-	current_minute = stime.minute
-	current_second = stime.second
 
 	for i in range(24):
 		if (i % 2 != 0):
@@ -106,12 +104,12 @@ def get_default_ticks(stime, etime):
 											month=1,
 											day=1,
 											hour = i,
-											minute = current_minute,
-											second = current_second))
+											minute = 0,
+											second = 0))
 
 	return hours_arr, x_axis_format, x_axis_label
 
-def get_hour_ticks(hour_step, stime, etime, total_time_diff_seconds):
+def get_hour_ticks(hour_step, stime, total_time_diff_seconds):
 	# setting the x-axis label
 	x_axis_label = "Universal Time in Hours (HH)"
 	x_axis_format = mdates.DateFormatter('%H')
@@ -139,7 +137,7 @@ def get_hour_ticks(hour_step, stime, etime, total_time_diff_seconds):
 
 	return hours_arr, x_axis_format, x_axis_label
 
-def get_minute_ticks(minute_step, stime, etime, total_time_diff_seconds):
+def get_minute_ticks(minute_step, stime, total_time_diff_seconds):
 	# setting the x-axis label
 	x_axis_label = "Universal Time in Hours and Minutes (HH:MM)"
 	# setting the x-axis datetime formatter
@@ -185,7 +183,7 @@ def get_minute_ticks(minute_step, stime, etime, total_time_diff_seconds):
 	print(hours_arr)
 	return hours_arr, x_axis_format, x_axis_label
 
-def get_second_ticks(second_step, stime, etime, total_time_diff_seconds):
+def get_second_ticks(second_step, stime, total_time_diff_seconds):
 
 	x_axis_label = "Universal Time in Hours, Minutes, and Seconds (HH:MM:SS)"
 	# setting the x-axis datetime formatter
