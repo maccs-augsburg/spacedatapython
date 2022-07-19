@@ -19,11 +19,11 @@ import sys
 # MACCS imports
 #from newGui.Model.raw_codecs import decode, time_of_record
 #import station_names
-from newGui.View.plot_stacked_graphs import plot_arrays
+from MaccsApp.View.plot_stacked_graphs import plot_arrays
 # plot_arrays
-from newGui.Model.read_raw_to_lists import create_datetime_lists_from_raw
+from MaccsApp.Model.read_raw_to_lists import create_datetime_lists_from_raw
 # create_datetime_lists_from_raw
-from newGui.Model.read_clean_to_lists import create_datetime_lists_from_clean
+from MaccsApp.Model.read_clean_to_lists import create_datetime_lists_from_clean
 # create_datetime_lists_from_clean
 from file_naming import create_2hz_plot_file_name
 
