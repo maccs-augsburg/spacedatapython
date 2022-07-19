@@ -480,6 +480,18 @@ class MainWindow(QMainWindow):
         self.input_station_code.set_entry(filename[0:2])
         self.input_year.set_entry(filename[2:7])
 
+        if self.file_ext == "sec":
+            yyyy_mmdd = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
+            year_value = str(yyyy_mmdd[2:4]) # The last 2 digits of the year YYYY
+            month_value = str(yyyy_mmdd[4:6])
+            day_value = str(int(yyyy_mmdd[6:8]))
+            full_date = year_value + " " + month_value + " " + day_value
+            datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
+            # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
+            day_of_year = datetime_object.strftime('%j')
+            year_day_value = yyyy_mmdd[0:2] + day_of_year
+            self.input_year.set_entry(year_day_value)
+
         # Ex for IAGA2002: chb20200406v_10_half_sec.sec
         if self.launch_dialog_option == 2 or self.file_ext == "sec":
             self.input_station_code.set_entry(filename[0:3])
