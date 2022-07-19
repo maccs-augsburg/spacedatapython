@@ -1,10 +1,10 @@
-#  read_raw_to_lists.py
+#  read_IAGA2002_to_lists.py
 #
 #  Reads raw 2 Hz data from a file, creating data lists of all three
 #  axes and a list of times.
 #
 #  2021 July  -- Created  -- Erik Steinmetz
-#
+#  2022 July  -- Modified raw to IAGA2002 -- Mark O.P
 
 # Python 3 imports
 import datetime
@@ -13,14 +13,14 @@ import numpy as np
 # import from current directory
 from Model.raw_codecs import decode, time_of_record
 
-def create_datetime_lists_from_IAGA2002( raw_file, start_time, end_time, file_name):
+def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, file_name):
     """ Creates x, y, z, and time lists based on the 2 Hz raw data file. But for the time_arr list, it saves the values into the list as datetime.datetime objects
     
     Places x, y, z and time values into their own lists.
 
     Parameters
     ----------
-    raw_file:
+    IAGA2002_file:
         An opened file object containing a day of data recorded
         in the SRI 2 Hz format.
     start_time:
@@ -72,7 +72,7 @@ def create_datetime_lists_from_IAGA2002( raw_file, start_time, end_time, file_na
 
     # Skip first 18 lines because its header info
     for i in range(0, 100):
-        dummy_record = str(raw_file.readline())
+        dummy_record = str(IAGA2002_file.readline())
         dummy_record = dummy_record.split()
         if dummy_record[0].__contains__("DATE"):
             break
@@ -80,10 +80,10 @@ def create_datetime_lists_from_IAGA2002( raw_file, start_time, end_time, file_na
     # Loop until the end of file or end time has been reached
     while True:
 
-        one_record_first_line = raw_file.readline()
+        one_record_first_line = IAGA2002_file.readline()
         one_record_first_line = one_record_first_line.split()
 
-        one_record_second_line = raw_file.readline()
+        one_record_second_line = IAGA2002_file.readline()
         one_record_second_line = one_record_second_line.split()
 
         # if we reach the end then we break the loop
@@ -153,44 +153,3 @@ def create_datetime_lists_from_IAGA2002( raw_file, start_time, end_time, file_na
 
     # returning the 4 lists -- This time, time_arr has datetime.datetime objects to display times on the x-axis of plots!
     return np_x_arr, np_y_arr, np_z_arr, np_time_arr
-
-'''
-import sys
-import Mode.read_IAGA2002
-file = file = open("/Users/markortega-ponce/Desktop/ZZZPyside/spacedatapython/chb20200406v_l0_half_sec.2hz", "rb")
-record = file.read(71) // to denote 71 chars. including the newline
-print(record[0:10]) -> b'2020-04-06'
-
-
-'''
-
-
-'''
---tested in python terminals
-
->>> import sys
->>> import Model.read_IAGA2002
->>> file = file = open("/Users/markortega-ponce/Desktop/ZZZPyside/spacedatapython/chb20200406v_l0_half_sec.2hz", "rb")
->>> for i in range (0, 18):
-...     dummy_record = file.read(71)
-...     print(dummy_record)
-... 
-b' Format                 IAGA2002                                     |\n'
-b' Source of Data         Augsburg University                          |\n'
-b' Station Name           Coral Harbour, Nunavut, Canada               |\n'
-b' IAGA CODE              CHB                                          |\n'
-b' Geodetic Latitude      64.188                                       |\n'
-b' Geodetic Longitude     276.650                                      |\n'
-b' Elevation              50                                           |\n'
-b' Reported               XYZF                                         |\n'
-b' Sensor Orientation     XYZ                                          |\n'
-b' Digital Sampling       0.125 seconds                                |\n'
-b' Data Interval Type     Averaged 0.5-Second (00:00.00 - 00:00.49)    |\n'
-b' Data Type              Variation                                    |\n'
-b' # Values are reported in local geomagnetic coordinates.             |\n'
-b' # Values are collected in local geomagnetic coordinates.            |\n'
-b' # Time-centered averages at .25 and .75 seconds.                    |\n'
-b' # F is not detected as an independent observable                    |\n'
-b' # For more information visit http://space.augsburg.edu              |\n'
-b'DATE       TIME         DOY     CHBX      CHBY      CHBZ      CHBF   |\n'
-'''
