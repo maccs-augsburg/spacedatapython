@@ -58,7 +58,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
         fig:
             figure object that contains the completed plot
     """
-    if format == "2hz" or format == "2s":
+    if format == "2hz" or format == "s2":
         ### splitting up the file name
         station = filename[0:2] # Two letter abbreviation of station
         station_name = station_names.find_full_name(station) # Getting the station name
