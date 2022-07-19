@@ -71,22 +71,32 @@ def create_datetime_lists_from_IAGA2002( raw_file, start_time, end_time, file_na
     time_arr = []    #time plot point storage
 
     # Skip first 18 lines because its header info
-    for i in range(0, 18):
-        # read 71 characters, each character is one byte
-        dummy_record = raw_file.read(71)
+    for i in range(0, 100):
+        dummy_record = str(raw_file.readline())
+        dummy_record = dummy_record.split()
+        if dummy_record[0].__contains__("DATE"):
+            break
+        
     # Loop until the end of file or end time has been reached
     while True:
-        # Grab a single row of information from the next 71 bytes
-        # found by using the sys.getsizeof() function
-        one_record_first_line = raw_file.read(71)
-        one_record_second_line = raw_file.read(71)
+
+        one_record_first_line = raw_file.readline()
+        one_record_first_line = one_record_first_line.split()
+
+        one_record_second_line = raw_file.readline()
+        one_record_second_line = one_record_second_line.split()
+
         # if we reach the end then we break the loop
         if not one_record_first_line:
             break
-
-        hour = int(one_record_first_line[11:13])
-        minute = int(one_record_first_line[14:16])
-        second = int(one_record_first_line[17:19])
+        
+        time = str(one_record_first_line[1])
+        # Grab up to hh:mm:ss ignoring the microseconds
+        time = time[2:10]
+        datetime_object = datetime.datetime.strptime(time, "%H:%M:%S").time()
+        hour = int(datetime_object.strftime("%H"))
+        minute = int(datetime_object.strftime("%M"))
+        second = int(datetime_object.strftime("%S"))
 
         #second = one_record[17:23] //second with microsecond
         current_time = datetime.time(hour, minute, second) # getting the current time
@@ -115,23 +125,22 @@ def create_datetime_lists_from_IAGA2002( raw_file, start_time, end_time, file_na
             time_arr.append(time_in_hours_three_quarter_second)
 
             # getting the x values
-            x1 = decode( one_record_first_line[33:40]) / 40.0
+            x1 = float(one_record_first_line[3])
             x_arr.append(x1)
-            x2 = decode( one_record_second_line[33:40]) / 40.0
+            x2 = float(one_record_second_line[3])
             x_arr.append(x2)
 
             # getting the y values
-            y1 = decode( one_record_first_line[44:50]) / 40.0
+            y1 = float(one_record_first_line[4])
             y_arr.append(y1) 
-            y2 = decode( one_record_second_line[44:50]) / 40.0
+            y2 = float(one_record_second_line[4])
             y_arr.append(y2) 
 
             # getting the z values
-            z1 = decode( one_record_first_line[52:60]) / 40.0
+            z1 = float(one_record_first_line[5])
             z_arr.append(z1)
-            z2 = decode( one_record_second_line[52:60]) / 40.0
+            z2 = float(one_record_second_line[5])
             z_arr.append(z2)
-
 
         # if current time is greater than or equal to the ending time then we stop
         if current_time >= end_time :
