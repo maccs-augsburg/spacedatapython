@@ -26,7 +26,8 @@ from Model import x_axis_time_formatter
 
 
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
-                stime, etime, in_min_x=0, in_max_x=0,
+                stime, etime, format="2hz", 
+                in_min_x=0, in_max_x=0,
                 in_min_y=0, in_max_y=0,
                 in_min_z=0, in_max_z=0) :
     """ Places x, y, z arrays on a plot.
@@ -57,19 +58,33 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
         fig:
             figure object that contains the completed plot
     """
-
-    ### splitting up the file name
-    station = filename[0:2] # Two letter abbreviation of station
-    station_name = station_names.find_full_name(station) # Getting the station name
-    year_day_value = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
-    year_value = year_day_value[0:2] # The last 2 digits of the year
-    day_value = year_day_value[2:] # The 3 digits corresponding with the day of the year
+    if format == "2hz" or format == "2s":
+        ### splitting up the file name
+        station = filename[0:2] # Two letter abbreviation of station
+        station_name = station_names.find_full_name(station) # Getting the station name
+        year_day_value = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
+        year_value = year_day_value[0:2] # The last 2 digits of the year
+        day_value = year_day_value[2:] # The 3 digits corresponding with the day of the year
+        print(day_value)
+    else:
+        station = filename[0:3]
+        station_name = station_names.find_full_name(station)
+        year_day_val = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
+        year_value = str(year_day_val[2:4]) # The last 2 digits of the year YYYY
+        month_value = str(year_day_val[4:6])
+        day_value = str(int(year_day_val[6:8]))
+        year_day_value = year_day_val[0:2] + month_value + day_value
+        day_value = month_value + day_value
+        print(day_value)
+        print(year_day_value)
 
     if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
         year_value = "19" + year_value
     else:
         year_value = "20" + year_value
 
+    print(year_value)
+    print(day_value)
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     print( "   date is", date)
