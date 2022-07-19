@@ -64,32 +64,30 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
         station_name = station_names.find_full_name(station) # Getting the station name
         year_day_value = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
         year_value = year_day_value[0:2] # The last 2 digits of the year
-        day_value = year_day_value[2:] # The 3 digits corresponding with the day of the year
-        print(day_value)
+        day_of_year = year_day_value[2:] # The 3 digits corresponding with the day of the year
+
     else:
         # What is day of year
         # https://ag.arizona.edu/azmet/doy.htm
         station = filename[0:3]
         station_name = station_names.find_full_name(station)
-        year_day_val = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
-        year_value = str(year_day_val[2:4]) # The last 2 digits of the year YYYY
-        month_value = str(year_day_val[4:6])
-        day_value = str(int(year_day_val[6:8]))
-        month_day = year_value + " " + month_value + " " + day_value
-        datetime_object = datetime.datetime.strptime(month_day, "%y %m %d")
+        yyyy_mmdd = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
+        year_value = str(yyyy_mmdd[2:4]) # The last 2 digits of the year YYYY
+        month_value = str(yyyy_mmdd[4:6])
+        day_value = str(int(yyyy_mmdd[6:8]))
+        full_date = year_value + " " + month_value + " " + day_value
+        datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
         # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
-        day_value = datetime_object.strftime('%j')
-        year_day_value = year_day_val[0:2] + day_value
+        day_of_year = datetime_object.strftime('%j')
+        year_day_value = yyyy_mmdd[0:2] + day_of_year
 
     if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
         year_value = "19" + year_value
     else:
         year_value = "20" + year_value
 
-    print(year_value)
-    print(day_value)
     # Converting the date and setting it up
-    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
+    date = datetime.datetime.strptime(year_value + "-" + day_of_year, "%Y-%j").strftime("%m-%d-%Y")
     print( "   date is", date)
     hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
     
