@@ -45,7 +45,7 @@ from custom_time_widget import MinMaxTime
 import Model.station_names
 import Model.read_clean_to_lists
 import Model.read_raw_to_lists
-import Model.read_IAGA2002
+import Model.read_IAGA2002_to_lists
 import View.plot_stacked_graphs
 import View.plot_three_axis_graphs
 
@@ -678,7 +678,7 @@ class MainWindow(QMainWindow):
                                                             self.filename)
 
         elif self.launch_dialog_option == 2 or self.file_ext == "sec":
-            x,y,z,t = Model.read_IAGA2002.create_datetime_lists_from_IAGA2002(
+            x,y,z,t = Model.read_IAGA2002_to_lists.create_datetime_lists_from_IAGA2002(
                                                             file,
                                                             self.start_time_stamp,
                                                             self.end_time_stamp,
