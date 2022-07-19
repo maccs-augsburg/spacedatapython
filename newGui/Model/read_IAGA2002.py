@@ -49,16 +49,13 @@ def create_datetime_lists_from_IAGA2002( raw_file, start_time, end_time, file_na
     # 2 letter station names to 3 letter station names
     year_day_value = file_name[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
     year_value = str(year_day_value[2:4]) # The last 2 digits of the year YYYY
-    day_value = str(year_day_value[5:7]) # The 3 digits corresponding with the day of the year
+    day_value = str(year_day_value[4:6]) # The 3 digits corresponding with the day of the year
 
     if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
         year_value = "19" + year_value
     else:
         year_value = "20" + year_value
 
-    print(year_day_value)
-    print(year_value)
-    print(day_value)
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     
