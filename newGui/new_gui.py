@@ -45,6 +45,7 @@ from custom_time_widget import MinMaxTime
 import Model.station_names
 import Model.read_clean_to_lists
 import Model.read_raw_to_lists
+import Model.read_IAGA2002
 import View.plot_stacked_graphs
 import View.plot_three_axis_graphs
 
@@ -212,7 +213,7 @@ class MainWindow(QMainWindow):
         self.file_options = (
                         "All",                 # Index 0
                         "IAGA2000 - NW",       # Index 1 
-                        "IAGA2002 - NW",       # Index 2
+                        "IAGA2002",       # Index 2
                         "Clean File",          # Index 3
                         "Raw 2hz File",        # Index 4
                         "Other -- Not Working")# Index 5
@@ -413,14 +414,15 @@ class MainWindow(QMainWindow):
 
         if option == 0:
             # ;;Raw File (*.2hz)
-            file_filter = "Clean/Raw File (*.s2 | *.2hz)"
+            file_filter = "Clean/Raw File (*.s2 | *.2hz | *.sec)"
             response = self.get_file_name(file_filter)
             
         elif option == 1:
             self.warning_message_pop_up("File not supported", "IAGA2000 Option Not Available Yet")
 
         elif option == 2:
-            self.warning_message_pop_up("File not supported", "IAGA2002 Option Not Available Yet")
+            file_file = "IAGA2002 (*sec)"
+            response = self.get_file_name(file_filter)
 
         elif option == 3:
 
@@ -477,6 +479,11 @@ class MainWindow(QMainWindow):
         # Ex: CH 20097 .2hz
         self.input_station_code.set_entry(filename[0:2])
         self.input_year.set_entry(filename[2:7])
+
+        # Ex for IAGA2002: chb20200406v_10_half_sec.sec
+        if self.launch_dialog_option == 2 or self.file_ext == "sec":
+            self.input_station_code.set_entry(filename[0:3])
+            # TODO: Fix year entry for IAGA2002 format
         
         self.reset_axis_entries()
         self.reset_time_entries()
@@ -601,6 +608,7 @@ class MainWindow(QMainWindow):
                                                 self.filename,
                                                 self.start_time_stamp,
                                                 self.end_time_stamp,
+                                                format=self.file_ext,
                                                 in_min_x=self.prev_min_x, 
                                                 in_max_x=self.prev_max_x,
                                                 in_min_y=self.prev_min_y, 
@@ -655,6 +663,15 @@ class MainWindow(QMainWindow):
                                                             self.start_time_stamp,
                                                             self.end_time_stamp, 
                                                             self.filename)
+
+        elif self.launch_dialog_option == 2 or self.file_ext == "sec":
+            x,y,z,t = Model.read_IAGA2002.create_datetime_lists_from_IAGA2002(
+                                                            file,
+                                                            self.start_time_stamp,
+                                                            self.end_time_stamp,
+                                                            self.filename
+            )
+
         # Assign those short names here
         self.x_arr = x
         self.y_arr = y
