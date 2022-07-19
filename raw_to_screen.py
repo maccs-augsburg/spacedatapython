@@ -16,7 +16,7 @@ import sys
 import datetime
 
 # MACCS imports
-from raw_codecs import decode, time_of_record
+from newGui.Model.raw_codecs import decode, time_of_record
 
 
 def print_one_record( raw_record) :
@@ -31,10 +31,15 @@ def print_one_record( raw_record) :
         A byte array that is 38 bytes long, containing a single
         record in the SRI 2 Hz format.
     """
-
+    print("------------------------")
+    for i in range(0,38):
+        print(raw_record[i],end="|")
+    print()
+    print("END")
     hour = raw_record[4]
     minute = raw_record[5]
     second = raw_record[6]
+
     timestamp = f"{hour:02d}:{minute:02d}:{second:02d}"
     x1 = decode( raw_record[18:21]) / 40.0
     x1_str = f"{x1:12.3f}"
