@@ -10,14 +10,13 @@ x, y, and z values to a file in the IAGA 2002 format.
 
 """
 
-
 # Python 3 imports
 import sys
 import datetime
 
 # MACCS imports
-from raw_codecs import decode, time_of_record
-import station_names
+from newGui.Model.raw_codecs import decode, time_of_record
+from newGui.Model import station_names
 
 
 def create_iaga2002_filename( raw_filename) :
@@ -38,7 +37,6 @@ def create_iaga2002_filename( raw_filename) :
     string :
         A filename string in the IAGA 2002 pattern.
     """
-
     two_letter_name = raw_filename[0:2]
     three_letter_name = station_names.find_three_letter_name( two_letter_name)
     three_letter_name = three_letter_name.lower()
