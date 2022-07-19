@@ -559,6 +559,7 @@ class MainWindow(QMainWindow):
             return
 
         # get x,y,z,time list from file
+        #self.reset_axis_entries()
         self.get_file_data()
 
         self.prev_min_x = self.spinbox_min_x.get_entry()
