@@ -695,6 +695,7 @@ class MainWindow(QMainWindow):
         This function will help when we load the data 
         but don't want to display the graph immediately.
         """
+        matplotlib.rcParams['figure.figsize'] = [10, 3]
         # if we hid the entry layout from toolbar
         self.graph_layout.setHidden(False)
         # if we have a figure
@@ -702,7 +703,9 @@ class MainWindow(QMainWindow):
             # remove plot from window
             self.graph.setParent(None)
         # create new figure
+
         self.graph = FigureCanvasQTAgg(self.figure)
+
         # add new figure to layout
         self.graph_layout.add_widget(self.graph)
         self.main_layout.addWidget(self.graph_layout, 5)
@@ -783,7 +786,7 @@ class MainWindow(QMainWindow):
 
         if question_box.clickedButton() == save_image_button:
             if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
-                plt.savefig(self.filename + ".pdf")
+                plt.savefig(self.filename + ".pdf", format='pdf', dpi=1200)
                 subprocess.Popen(self.filename + '.pdf', shell=True)
 
             else:
@@ -792,7 +795,7 @@ class MainWindow(QMainWindow):
                 end_time = str(self.end_time_stamp)
                 end_time = end_time.replace(":", "")
 
-                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf")
+                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf", dpi=1200)
                 subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".pdf", shell=True)
         elif question_box.clickedButton() == cancel_button:
             question_box.close()
@@ -823,7 +826,7 @@ class MainWindow(QMainWindow):
         if file_type.clickedButton() == pdf_button:
 
             if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
-                plt.savefig(self.filename + ".pdf")
+                plt.savefig(self.filename + ".pdf", dpi=120)
                 subprocess.Popen(self.filename + '.pdf', shell=True)
 
             else:
@@ -832,13 +835,13 @@ class MainWindow(QMainWindow):
                 end_time = str(self.end_time_stamp)
                 end_time = end_time.replace(":", "")
 
-                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf")
+                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf",dpi=120)
                 subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".pdf", shell=True)
 
         elif file_type.clickedButton() == png_button:
 
             if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
-                plt.savefig(self.filename + ".png")
+                plt.savefig(self.filename + ".png", dpi=120)
                 subprocess.Popen(self.filename + '.png', shell=True)
 
             else:
@@ -847,7 +850,7 @@ class MainWindow(QMainWindow):
                 end_time = str(self.end_time_stamp)
                 end_time = end_time.replace(":", "")
 
-                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".png")
+                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".png",dpi=120)
                 subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".png", shell=True)
 
         elif file_type.clickedButton() == cancel_button:
