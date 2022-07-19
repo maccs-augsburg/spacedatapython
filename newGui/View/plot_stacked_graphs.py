@@ -67,16 +67,19 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
         day_value = year_day_value[2:] # The 3 digits corresponding with the day of the year
         print(day_value)
     else:
+        # What is day of year
+        # https://ag.arizona.edu/azmet/doy.htm
         station = filename[0:3]
         station_name = station_names.find_full_name(station)
         year_day_val = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
         year_value = str(year_day_val[2:4]) # The last 2 digits of the year YYYY
         month_value = str(year_day_val[4:6])
         day_value = str(int(year_day_val[6:8]))
-        year_day_value = year_day_val[0:2] + month_value + day_value
-        day_value = month_value + day_value
-        print(day_value)
-        print(year_day_value)
+        month_day = year_value + " " + month_value + " " + day_value
+        datetime_object = datetime.datetime.strptime(month_day, "%y %m %d")
+        # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
+        day_value = datetime_object.strftime('%j')
+        year_day_value = year_day_val[0:2] + day_value
 
     if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
         year_value = "19" + year_value
