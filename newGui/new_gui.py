@@ -360,15 +360,6 @@ class MainWindow(QMainWindow):
         self.main_layout.addWidget(self.parent_label_layout,1)
         self.main_layout.addWidget(self.mac_label, 5)
 
-        # # five widgets in one row, station/year/open, plot button
-        # self.parent_label_layout.set_row_stretch(0, 5)
-        # # six widgets in one row, x/y/z min max
-        # self.parent_label_layout.set_row_stretch(1, 6)
-        # # one widgets in one row, toggle button (x, y, z)
-        # self.parent_label_layout.set_row_stretch(2, 1)
-        # # three widgets in one row, buttons
-        # self.parent_label_layout.set_row_stretch(3, 3)
-
         ##########################
         ### Set Central Widget ###
         ##########################
