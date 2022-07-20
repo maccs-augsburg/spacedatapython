@@ -332,6 +332,28 @@ def same_entries(self) -> bool:
     else:
         return True
 
+def same_axis_entries(self) -> bool:
+
+    flag = 0
+
+    if self.prev_min_x == self.spinbox_min_x.get_entry():
+        flag += 1
+    if self.prev_max_x == self.spinbox_max_x.get_entry():
+        flag += 1
+    if self.prev_min_y == self.spinbox_min_y.get_entry():
+        flag += 1
+    if self.prev_max_y == self.spinbox_max_y.get_entry():
+        flag += 1
+    if self.prev_min_z == self.spinbox_min_z.get_entry():
+        flag += 1
+    if self.prev_max_z == self.spinbox_max_z.get_entry():
+        flag += 1
+
+    if flag == 6:
+        return True
+    else:
+        return False
+
 def same_entries_one_toggled(self) -> bool:
     '''
     Function to check if current information in the gui
