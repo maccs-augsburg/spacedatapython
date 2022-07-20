@@ -1,5 +1,5 @@
 #
-# station_names.py
+# util.station_names.py
 #
 # Contains functions for converting the various abbreviations and names
 # of MACCS stations.

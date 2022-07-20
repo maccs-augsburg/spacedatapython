@@ -28,7 +28,7 @@ import statistics as stats
 
 # MACCS imports
 from model.raw_codecs import decode, time_of_record
-import station_names
+import util.station_names
 
 # Matplotlib imports
 import matplotlib.pyplot as plt
@@ -84,7 +84,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
 
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
-    station_name = station_names.find_full_name(station) # Getting the station name
+    station_name = util.station_names.find_full_name(station) # Getting the station name
     year_day_value = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
     year_value = year_day_value[0:2] # The last 2 digits of the year
     day_value = year_day_value[2:] # The 3 digits corresponding with the day of the year
