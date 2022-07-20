@@ -50,6 +50,7 @@ from gui.custom_seperator_line import LineSeperator
 import util.station_names
 import model.read_clean_to_lists
 import model.read_raw_to_lists
+import model.read_IAGA2002_to_lists
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
 
@@ -619,6 +620,7 @@ class MainWindow(QMainWindow):
                                                 self.filename,
                                                 self.start_time_stamp,
                                                 self.end_time_stamp,
+                                                format=self.file_ext,
                                                 in_min_x=self.prev_min_x, 
                                                 in_max_x=self.prev_max_x,
                                                 in_min_y=self.prev_min_y, 
