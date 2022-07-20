@@ -46,6 +46,10 @@ from custom_widgets import (
 # Imports from subpackages
 from custom_time_widget import MinMaxTime
 from custom_seperator_line import LineSeperator
+
+# create_datetime_lists_from_clean
+from file_naming import create_2hz_plot_file_name
+
 import Model.station_names
 import Model.read_clean_to_lists
 import Model.read_raw_to_lists
@@ -702,7 +706,7 @@ class MainWindow(QMainWindow):
             # remove plot from window
             self.graph.setParent(None)
         # create new figure
-
+       # self.figure.set_size_inches(12,7)
         self.graph = FigureCanvasQTAgg(self.figure)
 
         # add new figure to layout
@@ -784,7 +788,17 @@ class MainWindow(QMainWindow):
         start = question_box.exec()
 
         if question_box.clickedButton() == save_image_button:
+            # try:
+            #     out_filename = create_2hz_plot_file_name( self.filename, self.start_time, self.end_time)
+                
+            #     out_filename = out_filename + ".pdf"
+            #     self.figure.savefig( out_filename, format="pdf", dpi=1200)
+            #     print(f"Saved to {out_filename}")
+            # except:
+            #     print('couldnt save file')
+                #print(f'Could not plot arrays to {out_filename}')
             if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
+                self.figure.set_size_inches(12,7)
                 plt.savefig(self.filename + ".pdf", format='pdf', dpi=120)
                 subprocess.Popen(self.filename + '.pdf', shell=True)
 
@@ -793,8 +807,8 @@ class MainWindow(QMainWindow):
                 start_time = start_time.replace(":", "")
                 end_time = str(self.end_time_stamp)
                 end_time = end_time.replace(":", "")
-
-                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf", dpi=120)
+                self.figure.set_size_inches(12,7)
+                self.figure.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf", dpi=120)
                 subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".pdf", shell=True)
         elif question_box.clickedButton() == cancel_button:
             question_box.close()
