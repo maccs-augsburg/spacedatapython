@@ -17,7 +17,7 @@ import datetime
 #from raw_codecs import decode, time_of_record
 import station_names
 import model.read_raw_to_lists
-import x_axis_time_formatter
+import plot.x_axis_time_formatter
 
 def plot_axis(axisArr, timeArr, filename, stime, etime, axis): 
     """
@@ -244,7 +244,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
 
     x_axis_format = mdates.DateFormatter('%H')
     
-    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
 
     #Datestamp
     if((int)(year_value) > 50):

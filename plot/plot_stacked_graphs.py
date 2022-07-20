@@ -37,7 +37,7 @@ import matplotlib.dates as mdates
 
 # Plotter program imports
 import model.read_raw_to_lists
-import x_axis_time_formatter
+import plot.x_axis_time_formatter
 
 
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
@@ -97,7 +97,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     print( "   date is", date)
-    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
     
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height
