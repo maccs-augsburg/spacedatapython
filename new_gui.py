@@ -48,13 +48,14 @@ import gui.entry_check
 from gui.custom_time_widget import MinMaxTime
 from gui.custom_seperator_line import LineSeperator
 import util.station_names
+from util.file_naming import create_2hz_plot_file_name
 import model.read_clean_to_lists
 import model.read_raw_to_lists
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
 
-MINIMUM_WINDOW_HEIGHT = 800
-MINIMUM_WINDOW_WIDTH = 1400
+MINIMUM_WINDOW_HEIGHT = 1000
+MINIMUM_WINDOW_WIDTH = 1600
 
 class MainWindow(QMainWindow):
     """
@@ -283,6 +284,7 @@ class MainWindow(QMainWindow):
         self.button_graph_switch.three_axis_style.clicked.connect(self.is_plottable)
 
         self.button_plot.clicked.connect(self.plot_graph)
+        self.button_plot.clicked.connect(self.size_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
@@ -705,14 +707,22 @@ class MainWindow(QMainWindow):
             # remove plot from window
             self.graph.setParent(None)
         # create new figure
-        
+
         self.graph = FigureCanvasQTAgg(self.figure)
         # add new figure to layout
         self.graph_layout.add_widget(self.graph)
         self.main_layout.addWidget(self.graph_layout, 5)
         self.mac_label.setHidden(True)
         self.graph_figure_flag = True
+        self.size_graph
+
         self.show()
+
+    def size_graph(self):
+        if self.button_graph_switch.three_axis_style.isChecked():
+            self.figure.set_size_inches(12,4)
+        else:
+            self.figure.set_size_inches(12,7)
 
     def delete_figure(self):
         '''
@@ -793,20 +803,13 @@ class MainWindow(QMainWindow):
             self.figure.set_size_inches(12,4)
         else:
             self.figure.set_size_inches(12,7)
-        if question_box.clickedButton() == save_image_button:
-            if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
-                plt.savefig(self.filename + ".pdf")
-                subprocess.Popen(self.filename + '.pdf', shell=True)
-
-            else:
-                start_time = str(self.start_time_stamp)
-                start_time = start_time.replace(":", "")
-                end_time = str(self.end_time_stamp)
-                end_time = end_time.replace(":", "")
-
-                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf")
-                subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".pdf", shell=True)
-        elif question_box.clickedButton() == cancel_button:
+        try:
+            save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp))
+            save_filename = save_filename + ".pdf"
+            self.figure.savefig(save_filename,format="pdf",dpi=1200)
+        except:
+            print('couldnt save')
+        if question_box.clickedButton() == cancel_button:
             question_box.close()
 
     def save_as(self):
@@ -831,40 +834,28 @@ class MainWindow(QMainWindow):
             "Select would image type you would like to save as... \n PDF or PNG")
 
         start = file_type.exec()
-        
+
         if self.button_graph_switch.three_axis_style.isChecked():
             self.figure.set_size_inches(12,4)
         else:
             self.figure.set_size_inches(12,7)
+
         if file_type.clickedButton() == pdf_button:
-
-            if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
-                plt.savefig(self.filename + ".pdf")
-                subprocess.Popen(self.filename + '.pdf', shell=True)
-
-            else:
-                start_time = str(self.start_time_stamp)
-                start_time = start_time.replace(":", "")
-                end_time = str(self.end_time_stamp)
-                end_time = end_time.replace(":", "")
-
-                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".pdf")
-                subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".pdf", shell=True)
+            try:
+                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp))
+                save_filename = save_filename + ".pdf"
+                self.figure.savefig(save_filename,format="pdf",dpi=1200)
+            except:
+                print('couldnt save')
 
         elif file_type.clickedButton() == png_button:
-
-            if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
-                plt.savefig(self.filename + ".png")
-                subprocess.Popen(self.filename + '.png', shell=True)
-
-            else:
-                start_time = str(self.start_time_stamp)
-                start_time = start_time.replace(":", "")
-                end_time = str(self.end_time_stamp)
-                end_time = end_time.replace(":", "")
-
-                plt.savefig(self.filename + "_" + start_time + "_" + end_time +  ".png")
-                subprocess.Popen(self.filename + "_" + start_time+ "_" + end_time +  ".png", shell=True)
+            try:
+                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp))
+                save_filename = save_filename + ".png"
+                self.figure.savefig(save_filename,format="png",dpi=1200)
+                print('saved')
+            except:
+                print('couldnt save')
 
         elif file_type.clickedButton() == cancel_button:
             file_type.close()
@@ -982,6 +973,8 @@ class MainWindow(QMainWindow):
 
         checks_met_bool = False
         checks_met_bool = gui.entry_check.checks(self)
+
+
 
         if checks_met_bool:
             self.button_plot.setDisabled(False)
