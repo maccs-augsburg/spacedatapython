@@ -12,8 +12,7 @@ June 2022
 from PySide6.QtWidgets import (QMainWindow, QApplication, 
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
-                                QMessageBox,QComboBox,
-                                QGridLayout
+                                QMessageBox,QComboBox
                                 )
 from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime
@@ -480,6 +479,7 @@ class MainWindow(QMainWindow):
         self.input_station_code.set_entry(filename[0:2])
         self.input_year.set_entry(filename[2:7])
 
+        # Quick fix to get correct yearday, can probably move somewhere else
         if self.file_ext == "sec":
             yyyy_mmdd = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
             year_value = str(yyyy_mmdd[2:4]) # The last 2 digits of the year YYYY
@@ -495,7 +495,6 @@ class MainWindow(QMainWindow):
         # Ex for IAGA2002: chb20200406v_10_half_sec.sec
         if self.launch_dialog_option == 2 or self.file_ext == "sec":
             self.input_station_code.set_entry(filename[0:3])
-            # TODO: Fix year entry for IAGA2002 format
         
         self.reset_axis_entries()
         self.reset_time_entries()
@@ -558,16 +557,23 @@ class MainWindow(QMainWindow):
         if not self.delete_figure_helper():
             return
 
-        # get x,y,z,time list from file
-        #self.reset_axis_entries()
-        self.get_file_data()
+        # If we got past initial check, means something changed.
+        # Either time, axis entries, or checkboxes.
+        # If axis entries are the same, that means that the time or axis choice changed.
+        # So we reset the axis entries since user didnt change them.
+        if entry_check.same_axis_entries(self):
+            self.reset_axis_entries()
 
+        self.get_file_data()
+        # if we got past initial check, that means we can assign new values
+        # as previous now
         self.prev_min_x = self.spinbox_min_x.get_entry()
         self.prev_max_x = self.spinbox_max_x.get_entry()
         self.prev_min_y = self.spinbox_min_y.get_entry()
         self.prev_max_y = self.spinbox_max_y.get_entry()
         self.prev_min_z = self.spinbox_min_z.get_entry()
         self.prev_max_z = self.spinbox_max_z.get_entry()
+
 
         # normalize the data to display even ticks
         # backward slash is a line continuation, looks ugly, but keep under 85 - 90 chars
