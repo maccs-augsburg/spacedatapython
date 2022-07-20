@@ -98,7 +98,7 @@ class MainWindow(QMainWindow):
         action_openfile = QAction(QIcon("images/folder-open.png"),"Open...       ", self)
         action_savefile = QAction(QIcon("images/disk.png"),"Save File", self)
         action_saveasfile = QAction(QIcon("images/disk.png"), "Save As...", self)
-        action_zoom = QAction(QIcon("images/magnifier-zoom-in.png"),"Zoom in", self)
+        self.action_zoom = QAction(QIcon("images/magnifier-zoom-in.png"),"Zoom in", self)
         action_help = QAction(QIcon("images/question-frame.png"),"Help", self)
         action_help_plot = QAction(QIcon("images/question-frame.png"),"Why is the plot button not working?", self)
         self.action_hide_entries = QAction(QIcon("images/inactive_eye.png"), "Hide Entries", self)
@@ -108,7 +108,7 @@ class MainWindow(QMainWindow):
         toolbar.addAction(action_home)
         toolbar.addAction(action_openfile)
         toolbar.addAction(action_savefile)
-        toolbar.addAction(action_zoom)
+        toolbar.addAction(self.action_zoom)
         toolbar.addAction(self.action_hide_entries)
         toolbar.addSeparator()
 
@@ -129,7 +129,7 @@ class MainWindow(QMainWindow):
         menu_file.addAction(action_saveasfile)
         menu_edit = menu.addMenu("&Edit")
         menu_tool = menu.addMenu("&Tools")
-        menu_tool.addAction(action_zoom)
+        menu_tool.addAction(self.action_zoom)
         menu_help = menu.addMenu("&Help")
         menu_help.addAction(action_help_plot)
         menu_help.addAction(action_help)
@@ -269,7 +269,7 @@ class MainWindow(QMainWindow):
         action_savefile.triggered.connect(self.save)
         action_saveasfile.triggered.connect(self.save_as)
         action_help_plot.triggered.connect(self.help_plot)
-        action_zoom.triggered.connect(self.zoom_in_listener)
+        self.action_zoom.triggered.connect(self.zoom_in_listener)
         action_home.triggered.connect(self.clear_plot)
         self.action_hide_entries.triggered.connect(self.hide_entry_layout)
 
@@ -781,11 +781,10 @@ class MainWindow(QMainWindow):
             self.end_time.time_widget.setTime(QTime(hour, minute, second))
             self.temp_var = 0
             self.graph.mpl_disconnect(self.cid)
+            self.action_zoom.setChecked(False)
             self.button_zoom.set_toggle_status_false()
             # reset axis entries so it can find new min/max values on graph
             self.reset_axis_entries()
-            # get new file data, so it can get new time range
-            self.get_file_data()
             # plot graph
             self.plot_graph()
    
