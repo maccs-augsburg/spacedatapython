@@ -284,7 +284,6 @@ class MainWindow(QMainWindow):
         self.button_graph_switch.three_axis_style.clicked.connect(self.is_plottable)
 
         self.button_plot.clicked.connect(self.plot_graph)
-        self.button_plot.clicked.connect(self.size_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
@@ -715,14 +714,7 @@ class MainWindow(QMainWindow):
         self.mac_label.setHidden(True)
         self.graph_figure_flag = True
         self.size_graph
-
         self.show()
-
-    def size_graph(self):
-        if self.button_graph_switch.three_axis_style.isChecked():
-            self.figure.set_size_inches(12,4)
-        else:
-            self.figure.set_size_inches(12,7)
 
     def delete_figure(self):
         '''
