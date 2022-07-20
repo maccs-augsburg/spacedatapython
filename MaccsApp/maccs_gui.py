@@ -613,6 +613,7 @@ class MainWindow(QMainWindow):
                                                         self.filename, 
                                                         self.start_time_stamp,
                                                         self.end_time_stamp)
+            self.figure.set_size_inches(12,4)
             # set one plot flag to true, meaning we have plotted at least once
             self.one_plot_flag = True
             # set stacked flag to false, meaning next time we plot it
@@ -634,6 +635,8 @@ class MainWindow(QMainWindow):
                                                 in_max_y=self.prev_max_y,
                                                 in_min_z=self.prev_min_z, 
                                                 in_max_z=self.prev_max_z)
+            self.figure.set_size_inches(12,7)
+
             # set one plot flag to false, meaning next time we plot it
             # it will be the first time again
             self.one_plot_flag = False
@@ -706,7 +709,7 @@ class MainWindow(QMainWindow):
             # remove plot from window
             self.graph.setParent(None)
         # create new figure
-       # self.figure.set_size_inches(12,7)
+        #fig = self.figure.set_size_inches(12,7)
         self.graph = FigureCanvasQTAgg(self.figure)
 
         # add new figure to layout
@@ -797,6 +800,7 @@ class MainWindow(QMainWindow):
             # except:
             #     print('couldnt save file')
                 #print(f'Could not plot arrays to {out_filename}')
+
             if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
                 self.figure.set_size_inches(12,7)
                 plt.savefig(self.filename + ".pdf", format='pdf', dpi=120)
