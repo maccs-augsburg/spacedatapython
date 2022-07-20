@@ -559,7 +559,7 @@ class MainWindow(QMainWindow):
         # Either time, axis entries, or checkboxes.
         # If axis entries are the same, that means that the time or axis choice changed.
         # So we reset the axis entries since user didnt change them.
-        if entry_check.same_axis_entries(self):
+        if gui.entry_check.same_axis_entries(self):
             self.reset_axis_entries()
 
         self.get_file_data()        
@@ -646,7 +646,6 @@ class MainWindow(QMainWindow):
         provides additional information on the data collected and 
         additional measurements taken to clean the data.
         '''
-
         try:
             # Open file object, read, binary
             file = open(self.file_path, 'rb')
@@ -679,6 +678,15 @@ class MainWindow(QMainWindow):
                                                             self.start_time_stamp,
                                                             self.end_time_stamp, 
                                                             self.filename)
+
+        elif self.launch_dialog_option == 2 or self.file_ext == "sec":
+            x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_IAGA2002(
+                                                            file,
+                                                            self.start_time_stamp,
+                                                            self.end_time_stamp,
+                                                            self.filename
+            )
+
         # Assign those short names here
         self.x_arr = x
         self.y_arr = y
