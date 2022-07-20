@@ -12,11 +12,11 @@ import os
 #import sys
 
 # MACCS imports
-from raw_codecs import decode, time_of_record
+from model.raw_codecs import decode, time_of_record
 #import station_names
-from plot_three_axis_graphs import x_y_and_z_plot
-from read_raw_to_lists import create_datetime_lists_from_raw
-from read_clean_to_lists import create_datetime_lists_from_clean
+from plot.plot_three_axis_graphs import x_y_and_z_plot
+from model.read_raw_to_lists import create_datetime_lists_from_raw
+from model.read_clean_to_lists import create_datetime_lists_from_clean
 from file_naming import create_2hz_plot_file_name
 
 

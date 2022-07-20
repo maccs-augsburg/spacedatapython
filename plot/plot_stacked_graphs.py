@@ -27,8 +27,8 @@ import numpy as np
 import statistics as stats
 
 # MACCS imports
-from raw_codecs import decode, time_of_record
-import station_names
+from model.raw_codecs import decode, time_of_record
+import util.station_names
 
 # Matplotlib imports
 import matplotlib.pyplot as plt
@@ -36,8 +36,8 @@ from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 import matplotlib.dates as mdates
 
 # Plotter program imports
-import read_raw_to_lists
-import x_axis_time_formatter
+import model.read_raw_to_lists
+import plot.x_axis_time_formatter
 
 
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
@@ -84,7 +84,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
 
     ### splitting up the file name
     station = filename[0:2] # Two letter abbreviation of station
-    station_name = station_names.find_full_name(station) # Getting the station name
+    station_name = util.station_names.find_full_name(station) # Getting the station name
     year_day_value = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
     year_value = year_day_value[0:2] # The last 2 digits of the year
     day_value = year_day_value[2:] # The 3 digits corresponding with the day of the year
@@ -97,7 +97,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
     print( "   date is", date)
-    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
     
     ### figure settings
     fig = plt.figure(figsize=(12, 7)) #12, 7, dictates width, height

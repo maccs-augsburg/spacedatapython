@@ -15,9 +15,9 @@ import datetime
 #Imports from our other previous files 
 
 #from raw_codecs import decode, time_of_record
-import station_names
-import read_raw_to_lists
-import x_axis_time_formatter
+import util.station_names
+import model.read_raw_to_lists
+import plot.x_axis_time_formatter
 
 def plot_axis(axisArr, timeArr, filename, stime, etime, axis): 
     """
@@ -49,7 +49,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     year_day_value = filename[2:7] # year and date of file
     year_value = year_day_value[0:2] # year of file 
     day_value = year_day_value[2:] #day of file 
-    station_name = station_names.find_full_name(station)#finds respective station name from station_name.py
+    station_name = util.station_names.find_full_name(station)#finds respective station name from station_name.py
 
     #List of the hours and finding which ones to use
    # default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
@@ -138,7 +138,7 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     year_day_value = filename[2:7] # year and date of file
     year_value = year_day_value[0:2] # year of file 
     day_value = year_day_value[2:] #day of file 
-    station_name = station_names.find_full_name(station)#finds respective station name from station_name.py
+    station_name = util.station_names.find_full_name(station)#finds respective station name from station_name.py
 
     #List of the hours and finding which ones to use
     hours_arr = [] # list to use for custom times
@@ -234,7 +234,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
     year_day_value = filename[2:7]
     year_value = year_day_value[0:2]
     day_value = year_day_value[2:]
-    station_name = station_names.find_full_name(station)
+    station_name = util.station_names.find_full_name(station)
 
     #List of the hours and finding which ones to use
     #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
@@ -244,7 +244,7 @@ def x_y_and_z_plot(xArr, yArr, zArr, timeArr, filename, stime, etime) :
 
     x_axis_format = mdates.DateFormatter('%H')
     
-    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
 
     #Datestamp
     if((int)(year_value) > 50):

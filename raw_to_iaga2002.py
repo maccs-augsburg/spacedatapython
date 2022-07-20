@@ -17,7 +17,7 @@ import datetime
 
 # MACCS imports
 from raw_codecs import decode, time_of_record
-import station_names
+import util.station_names
 
 
 def create_iaga2002_filename( raw_filename) :
@@ -40,7 +40,7 @@ def create_iaga2002_filename( raw_filename) :
     """
 
     two_letter_name = raw_filename[0:2]
-    three_letter_name = station_names.find_three_letter_name( two_letter_name)
+    three_letter_name = util.station_names.find_three_letter_name( two_letter_name)
     three_letter_name = three_letter_name.lower()
     century_string = "20"
     year_string = raw_filename[2:4]
@@ -172,7 +172,7 @@ def column_headers_for( station) :
     """ Creates a column header line for the given station two letter abbreviation."""
 
     #DATE       TIME         DOY     RBYX      RBYY      RBYZ      RBYF   |
-    sta = station_names.find_three_letter_name( station)
+    sta = util.station_names.find_three_letter_name( station)
     answer = f"DATE       TIME         DOY     {sta}X      {sta}Y      {sta}Z      {sta}F   |\n"
     return answer
 
