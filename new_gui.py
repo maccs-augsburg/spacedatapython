@@ -50,6 +50,7 @@ from gui.custom_seperator_line import LineSeperator
 import util.station_names
 import model.read_clean_to_lists
 import model.read_raw_to_lists
+import model.read_IAGA2002_to_lists
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
 
@@ -97,7 +98,7 @@ class MainWindow(QMainWindow):
         action_openfile = QAction(QIcon("images/folder-open.png"),"Open...       ", self)
         action_savefile = QAction(QIcon("images/disk.png"),"Save File", self)
         action_saveasfile = QAction(QIcon("images/disk.png"), "Save As...", self)
-        action_zoom = QAction(QIcon("images/magnifier-zoom-in.png"),"Zoom in", self)
+        self.action_zoom = QAction(QIcon("images/magnifier-zoom-in.png"),"Zoom in", self)
         action_help = QAction(QIcon("images/question-frame.png"),"Help", self)
         action_help_plot = QAction(QIcon("images/question-frame.png"),"Why is the plot button not working?", self)
         self.action_hide_entries = QAction(QIcon("images/inactive_eye.png"), "Hide Entries", self)
@@ -107,7 +108,7 @@ class MainWindow(QMainWindow):
         toolbar.addAction(action_home)
         toolbar.addAction(action_openfile)
         toolbar.addAction(action_savefile)
-        toolbar.addAction(action_zoom)
+        toolbar.addAction(self.action_zoom)
         toolbar.addAction(self.action_hide_entries)
         toolbar.addSeparator()
 
@@ -128,7 +129,7 @@ class MainWindow(QMainWindow):
         menu_file.addAction(action_saveasfile)
         menu_edit = menu.addMenu("&Edit")
         menu_tool = menu.addMenu("&Tools")
-        menu_tool.addAction(action_zoom)
+        menu_tool.addAction(self.action_zoom)
         menu_help = menu.addMenu("&Help")
         menu_help.addAction(action_help_plot)
         menu_help.addAction(action_help)
@@ -218,7 +219,7 @@ class MainWindow(QMainWindow):
         self.file_options = (
                         "All",                 # Index 0
                         "IAGA2000 - NW",       # Index 1 
-                        "IAGA2002 - NW",       # Index 2
+                        "IAGA2002",       # Index 2
                         "Clean File",          # Index 3
                         "Raw 2hz File",        # Index 4
                         "Other -- Not Working")# Index 5
@@ -268,7 +269,7 @@ class MainWindow(QMainWindow):
         action_savefile.triggered.connect(self.save)
         action_saveasfile.triggered.connect(self.save_as)
         action_help_plot.triggered.connect(self.help_plot)
-        action_zoom.triggered.connect(self.zoom_in_listener)
+        self.action_zoom.triggered.connect(self.zoom_in_listener)
         action_home.triggered.connect(self.clear_plot)
         self.action_hide_entries.triggered.connect(self.hide_entry_layout)
 
@@ -410,15 +411,15 @@ class MainWindow(QMainWindow):
         self.launch_dialog_option = option
 
         if option == 0:
-            # ;;Raw File (*.2hz)
-            file_filter = "Clean/Raw File (*.s2 | *.2hz)"
+            file_filter = "Clean/Raw File (*.s2 | *.2hz | *.sec)"
             response = self.get_file_name(file_filter)
             
         elif option == 1:
             self.warning_message_pop_up("File not supported", "IAGA2000 Option Not Available Yet")
 
         elif option == 2:
-            self.warning_message_pop_up("File not supported", "IAGA2002 Option Not Available Yet")
+            file_filter = "IAGA2002 (*sec)"
+            response = self.get_file_name(file_filter)
 
         elif option == 3:
 
@@ -447,18 +448,13 @@ class MainWindow(QMainWindow):
         # guis will be in the same folder, so go back one 
         # directory for shared files 
         current_directory = os.getcwd()
-        # go back one directory, similar to ls command
-        os.chdir('..')
-        move_up_current_directory = os.getcwd()
 
         response = QFileDialog.getOpenFileName(
             parent = self,
             caption = "Select a file",
-            dir = move_up_current_directory,
+            dir = current_directory,
             filter = file_filter
         )
-        # after picking file, move back to original location
-        os.chdir(current_directory)
         # if user cancels button, dont want to execute function
         if len(response[0]) == 0:
             # return false if calling from toolbar open
@@ -475,6 +471,23 @@ class MainWindow(QMainWindow):
         # Ex: CH 20097 .2hz
         self.input_station_code.set_entry(filename[0:2])
         self.input_year.set_entry(filename[2:7])
+
+        # Quick fix to get correct yearday, can probably move somewhere else
+        if self.file_ext == "sec":
+            yyyy_mmdd = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
+            year_value = str(yyyy_mmdd[2:4]) # The last 2 digits of the year YYYY
+            month_value = str(yyyy_mmdd[4:6])
+            day_value = str(int(yyyy_mmdd[6:8]))
+            full_date = year_value + " " + month_value + " " + day_value
+            datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
+            # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
+            day_of_year = datetime_object.strftime('%j')
+            year_day_value = yyyy_mmdd[0:2] + day_of_year
+            self.input_year.set_entry(year_day_value)
+
+        # Ex for IAGA2002: chb20200406v_10_half_sec.sec
+        if self.launch_dialog_option == 2 or self.file_ext == "sec":
+            self.input_station_code.set_entry(filename[0:3])
         
         self.reset_axis_entries()
         self.reset_time_entries()
@@ -534,37 +547,19 @@ class MainWindow(QMainWindow):
         Final step is to display the graph inside the gui.
         """
 
-        #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
-        self.is_plottable()
+        # To prevent memory leak
+        if not self.delete_figure_helper():
+            return
 
-        # If there is a figure already saved
-        if self.graph_figure_flag:
-            # if this is toggled, do following test
-            if self.button_graph_switch.three_axis_style.isChecked():
-                # if !(test failed) and we have plotted one_plot already
-                # means no new info to plot
-                if not gui.entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
-                    return
-                else:
-                    # delete old figure if we save a new figure
-                    # prevent memory leak issues
-                    self.delete_figure()
+        # If we got past initial check, means something changed.
+        # Either time, axis entries, or checkboxes.
+        # If axis entries are the same, that means that the time or axis choice changed.
+        # So we reset the axis entries since user didnt change them.
+        if gui.entry_check.same_axis_entries(self):
+            self.reset_axis_entries()
 
-            else:  
-                # if !(test failed) and we have plotted stacked already
-                # means no new info to plot
-                if not gui.entry_check.same_entries(self) and self.stacked_plot_flag:
-                    return
-                else:
-                    self.delete_figure()
-
-        self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         self.get_file_data()        
-        # get current stacked plot entries
-        # since we passed initial check (same entries)
-        # we can assign them here. Maybe better names (prev = confusing)
-        # curr? Checking curr against, current entry in input ?? (same_entries)
-        # TODO: Better name for these variables? 
+
         self.prev_min_x = self.spinbox_min_x.get_entry()
         self.prev_max_x = self.spinbox_max_x.get_entry()
         self.prev_min_y = self.spinbox_min_y.get_entry()
@@ -609,7 +604,8 @@ class MainWindow(QMainWindow):
                                                         self.time_arr,
                                                         self.filename, 
                                                         self.start_time_stamp,
-                                                        self.end_time_stamp)
+                                                        self.end_time_stamp,
+                                                        format=self.file_ext)
             # set one plot flag to true, meaning we have plotted at least once
             self.one_plot_flag = True
             # set stacked flag to false, meaning next time we plot it
@@ -625,6 +621,7 @@ class MainWindow(QMainWindow):
                                                 self.filename,
                                                 self.start_time_stamp,
                                                 self.end_time_stamp,
+                                                format=self.file_ext,
                                                 in_min_x=self.prev_min_x, 
                                                 in_max_x=self.prev_max_x,
                                                 in_min_y=self.prev_min_y, 
@@ -647,7 +644,6 @@ class MainWindow(QMainWindow):
         provides additional information on the data collected and 
         additional measurements taken to clean the data.
         '''
-
         try:
             # Open file object, read, binary
             file = open(self.file_path, 'rb')
@@ -680,6 +676,15 @@ class MainWindow(QMainWindow):
                                                             self.start_time_stamp,
                                                             self.end_time_stamp, 
                                                             self.filename)
+
+        elif self.launch_dialog_option == 2 or self.file_ext == "sec":
+            x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_IAGA2002(
+                                                            file,
+                                                            self.start_time_stamp,
+                                                            self.end_time_stamp,
+                                                            self.filename
+            )
+
         # Assign those short names here
         self.x_arr = x
         self.y_arr = y
@@ -721,6 +726,33 @@ class MainWindow(QMainWindow):
         self.graph.deleteLater()
         plt.close(self.figure)
 
+    def delete_figure_helper(self):
+        # If there is a figure already saved
+        if self.graph_figure_flag:
+            # if this is toggled, do following test
+            if self.button_graph_switch.three_axis_style.isChecked():
+                # if !(test failed) and we have plotted one_plot already
+                # means no new info to plot
+                if not gui.entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
+                    return False
+                else:
+                    # delete old figure if we save a new figure
+                    # prevent memory leak issues
+                    self.delete_figure()
+                    return True
+
+            else:  
+                # if !(test failed) and we have plotted stacked already
+                # means no new info to plot
+                if not gui.entry_check.same_entries(self) and self.stacked_plot_flag:
+                    return False
+                else:
+                    self.delete_figure()
+                    return True
+        
+        # if no graph, want to plot something
+        return True
+
     def __call__(self, event):
         '''
         __call__ is the event listener connected to matplotlib.
@@ -749,11 +781,10 @@ class MainWindow(QMainWindow):
             self.end_time.time_widget.setTime(QTime(hour, minute, second))
             self.temp_var = 0
             self.graph.mpl_disconnect(self.cid)
+            self.action_zoom.setChecked(False)
             self.button_zoom.set_toggle_status_false()
             # reset axis entries so it can find new min/max values on graph
             self.reset_axis_entries()
-            # get new file data, so it can get new time range
-            self.get_file_data()
             # plot graph
             self.plot_graph()
    

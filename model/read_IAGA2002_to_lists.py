@@ -9,9 +9,6 @@
 # Python 3 imports
 import datetime
 import numpy as np
-# MACCS imports
-# import from current directory
-from Model.raw_codecs import decode, time_of_record
 
 def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, file_name):
     """ Creates x, y, z, and time lists based on the 2 Hz raw data file. But for the time_arr list, it saves the values into the list as datetime.datetime objects

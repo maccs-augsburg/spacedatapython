@@ -183,7 +183,7 @@ def graph_from_plotter_entry_check(xArr: np.array, yArr: np.array, zArr: np.arra
                                    x_state: bool, y_state: bool,
                                    z_state: bool, timeArr: np.array,
                                    filename: str, stime: datetime,
-                                   etime: datetime):
+                                   etime: datetime, format="2hz"):
     """
     Plot x, y, z axis depending if they are checked inside the gui.
 
@@ -220,40 +220,40 @@ def graph_from_plotter_entry_check(xArr: np.array, yArr: np.array, zArr: np.arra
     if x_state and y_state and z_state:
 
         fig = plot.plot_three_axis_graphs.x_y_and_z_plot(
-            xArr, yArr, zArr, timeArr, filename, stime, etime)
+            xArr, yArr, zArr, timeArr, filename, stime, etime, format)
 
     # Y, Z plot, clean or raw
     elif y_state and z_state:
 
         fig = plot.plot_three_axis_graphs.plot_two_axis(
-            yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z')
+            yArr, zArr, timeArr, filename, stime, etime, 'Y', 'Z', format)
 
     # X, Z plot, clean or raw
     elif x_state and z_state:
 
         fig = plot.plot_three_axis_graphs.plot_two_axis(
-            xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z')
+            xArr, zArr, timeArr, filename, stime, etime, 'X', 'Z', format)
 
     # X, Y plot, clean or raw
     elif x_state and y_state:
 
         fig = plot.plot_three_axis_graphs.plot_two_axis(
-            xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y')
+            xArr, yArr, timeArr, filename, stime, etime, 'X', 'Y', format)
 
     # For single axis plotting
     else:
 
         if (x_state):
             fig = plot.plot_three_axis_graphs.plot_axis(
-                xArr, timeArr, filename, stime, etime, 'X')
+                xArr, timeArr, filename, stime, etime, 'X', format)
 
         if(y_state):
             fig = plot.plot_three_axis_graphs.plot_axis(
-                yArr, timeArr, filename, stime, etime, 'Y')
+                yArr, timeArr, filename, stime, etime, 'Y', format)
 
         if(z_state):
             fig = plot.plot_three_axis_graphs.plot_axis(
-                zArr, timeArr, filename, stime, etime, 'Z')
+                zArr, timeArr, filename, stime, etime, 'Z', format)
 
     return fig
 
@@ -331,6 +331,28 @@ def same_entries(self) -> bool:
         return False
     else:
         return True
+
+def same_axis_entries(self) -> bool:
+
+    flag = 0
+
+    if self.prev_min_x == self.spinbox_min_x.get_entry():
+        flag += 1
+    if self.prev_max_x == self.spinbox_max_x.get_entry():
+        flag += 1
+    if self.prev_min_y == self.spinbox_min_y.get_entry():
+        flag += 1
+    if self.prev_max_y == self.spinbox_max_y.get_entry():
+        flag += 1
+    if self.prev_min_z == self.spinbox_min_z.get_entry():
+        flag += 1
+    if self.prev_max_z == self.spinbox_max_z.get_entry():
+        flag += 1
+
+    if flag == 6:
+        return True
+    else:
+        return False
 
 def same_entries_one_toggled(self) -> bool:
     '''
