@@ -9,18 +9,6 @@ Rewritten example code to test and use for MACCS data file which graphs
 the time-stamped x, y, and z values on its' own plot.
 
 """
-
-#TODO----------------------------------------------------------------------------------------------------------
-	# Get the new algorithm idea up and running ------------------------------------------------------ Not Done
-		# algorithm concept
-			# x-axis time formatter create_time_list function passes in time_arr
-			# first if statement (changes the label and format) 
-			# pick a delta (10, 15, 20, 1hr)
-			# walk through every single datetime in the list
-				# if evenly divisible by delta
-				# tick_list.add(datetime object)
-#--------------------------------------------------------------------------------------------------------------
-
 # Python 3 imports
 import datetime
 import numpy as np
@@ -41,7 +29,8 @@ import plot.x_axis_time_formatter
 
 
 def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
-                stime, etime, in_min_x=0, in_max_x=0,
+                stime, etime, format="2hz",
+                in_min_x=0, in_max_x=0,
                 in_min_y=0, in_max_y=0,
                 in_min_z=0, in_max_z=0) :
     """ Places x, y, z arrays on a plot.
@@ -72,9 +61,28 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
         fig:
             figure object that contains the completed plot
     """
+    if format == "2hz" or format == "s2":
+        ### splitting up the file name
+        station = filename[0:2] # Two letter abbreviation of station
+        station_name = util.station_names.find_full_name(station) # Getting the station name
+        year_day_value = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
+        year_value = year_day_value[0:2] # The last 2 digits of the year
+        day_of_year = year_day_value[2:] # The 3 digits corresponding with the day of the year
 
-    
-    #print( "called plot_arrays(", len(x_arr), ",", len(y_arr.len), ",", len(time_arr), ",", len(time_arr))
+    else:
+        # What is day of year
+        # https://ag.arizona.edu/azmet/doy.htm
+        station = filename[0:3]
+        station_name = util.station_names.find_full_name(station)
+        yyyy_mmdd = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
+        year_value = str(yyyy_mmdd[2:4]) # The last 2 digits of the year YYYY
+        month_value = str(yyyy_mmdd[4:6])
+        day_value = str(int(yyyy_mmdd[6:8]))
+        full_date = year_value + " " + month_value + " " + day_value
+        datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
+        # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
+        day_of_year = datetime_object.strftime('%j')
+        year_day_value = yyyy_mmdd[0:2] + day_of_year
 
     # adding this here so it doesn't break Chris gui code, plan would be to remove this call
     # and call inside plotting button function instead because all entry checks being made there
@@ -82,12 +90,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
              x_arr, y_arr, z_arr, in_min_x, in_max_x, in_min_y, in_max_y, in_min_z, in_max_z
     )
 
-    ### splitting up the file name
-    station = filename[0:2] # Two letter abbreviation of station
-    station_name = util.station_names.find_full_name(station) # Getting the station name
-    year_day_value = filename[2:7] # Year: (first two digits) and day of year: (last 3 digits)
-    year_value = year_day_value[0:2] # The last 2 digits of the year
-    day_value = year_day_value[2:] # The 3 digits corresponding with the day of the year
 
     if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
         year_value = "19" + year_value
