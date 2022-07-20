@@ -17,6 +17,7 @@ import datetime
 #from raw_codecs import decode, time_of_record
 import util.station_names
 import model.read_raw_to_lists
+
 import plot.x_axis_time_formatter
 
 def plot_axis(axisArr, timeArr, filename, stime, etime, axis): 
@@ -59,7 +60,7 @@ def plot_axis(axisArr, timeArr, filename, stime, etime, axis):
     
     x_axis_format = mdates.DateFormatter('%H')
     
-    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
     #Datestamp
     if((int)(year_value) > 50):
         year_value = "19" + year_value
@@ -151,7 +152,7 @@ def plot_two_axis(firstArr, secondArr, timeArr, filename, stime, etime, firstAxi
     # X_axis_label will return label corresponding to time gaps
     # hours_array will contain the timestamps for labeling x-axis
     # x_axis_format might be hours, hours and seconds
-    hours_arr, x_axis_format, x_axis_label = x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
             
 
     #Datestamp
@@ -330,7 +331,7 @@ if __name__ == "__main__" :
         sys.exit(0) # Exiting without an error code
 
 
-    arrayX, arrayY, arrayZ, timeArr = read_raw_to_lists(two_hz_binary_file, start_time, end_time)
+    arrayX, arrayY, arrayZ, timeArr = model.read_raw_to_lists(two_hz_binary_file, start_time, end_time)
     
 
     #X = 'X'
