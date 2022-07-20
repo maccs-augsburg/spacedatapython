@@ -36,7 +36,7 @@ from matplotlib.ticker import(MultipleLocator, AutoMinorLocator)
 import matplotlib.dates as mdates
 
 # Plotter program imports
-import read_raw_to_lists
+import model.read_raw_to_lists
 import x_axis_time_formatter
 
 

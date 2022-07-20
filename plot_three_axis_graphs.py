@@ -16,7 +16,7 @@ import datetime
 
 #from raw_codecs import decode, time_of_record
 import station_names
-import read_raw_to_lists
+import model.read_raw_to_lists
 import x_axis_time_formatter
 
 def plot_axis(axisArr, timeArr, filename, stime, etime, axis): 
