@@ -417,7 +417,7 @@ class MainWindow(QMainWindow):
             self.warning_message_pop_up("File not supported", "IAGA2000 Option Not Available Yet")
 
         elif option == 2:
-            file_file = "IAGA2002 (*sec)"
+            file_filter = "IAGA2002 (*sec)"
             response = self.get_file_name(file_filter)
 
         elif option == 3:
@@ -447,18 +447,13 @@ class MainWindow(QMainWindow):
         # guis will be in the same folder, so go back one 
         # directory for shared files 
         current_directory = os.getcwd()
-        # go back one directory, similar to ls command
-        os.chdir('..')
-        move_up_current_directory = os.getcwd()
 
         response = QFileDialog.getOpenFileName(
             parent = self,
             caption = "Select a file",
-            dir = move_up_current_directory,
+            dir = current_directory,
             filter = file_filter
         )
-        # after picking file, move back to original location
-        os.chdir(current_directory)
         # if user cancels button, dont want to execute function
         if len(response[0]) == 0:
             # return false if calling from toolbar open
