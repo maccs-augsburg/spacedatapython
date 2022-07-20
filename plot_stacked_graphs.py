@@ -27,7 +27,7 @@ import numpy as np
 import statistics as stats
 
 # MACCS imports
-from raw_codecs import decode, time_of_record
+from model.raw_codecs import decode, time_of_record
 import station_names
 
 # Matplotlib imports
