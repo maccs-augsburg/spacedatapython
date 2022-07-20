@@ -831,7 +831,11 @@ class MainWindow(QMainWindow):
             "Select would image type you would like to save as... \n PDF or PNG")
 
         start = file_type.exec()
-
+        
+        if self.button_graph_switch.three_axis_style.isChecked():
+            self.figure.set_size_inches(12,4)
+        else:
+            self.figure.set_size_inches(12,7)
         if file_type.clickedButton() == pdf_button:
 
             if str(self.start_time_stamp) == "00:00:00" and str(self.end_time_stamp) == "23:59:59":
