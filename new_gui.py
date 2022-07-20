@@ -218,7 +218,7 @@ class MainWindow(QMainWindow):
         self.file_options = (
                         "All",                 # Index 0
                         "IAGA2000 - NW",       # Index 1 
-                        "IAGA2002 - NW",       # Index 2
+                        "IAGA2002",       # Index 2
                         "Clean File",          # Index 3
                         "Raw 2hz File",        # Index 4
                         "Other -- Not Working")# Index 5
@@ -410,15 +410,15 @@ class MainWindow(QMainWindow):
         self.launch_dialog_option = option
 
         if option == 0:
-            # ;;Raw File (*.2hz)
-            file_filter = "Clean/Raw File (*.s2 | *.2hz)"
+            file_filter = "Clean/Raw File (*.s2 | *.2hz | *.sec)"
             response = self.get_file_name(file_filter)
             
         elif option == 1:
             self.warning_message_pop_up("File not supported", "IAGA2000 Option Not Available Yet")
 
         elif option == 2:
-            self.warning_message_pop_up("File not supported", "IAGA2002 Option Not Available Yet")
+            file_file = "IAGA2002 (*sec)"
+            response = self.get_file_name(file_filter)
 
         elif option == 3:
 
@@ -475,6 +475,23 @@ class MainWindow(QMainWindow):
         # Ex: CH 20097 .2hz
         self.input_station_code.set_entry(filename[0:2])
         self.input_year.set_entry(filename[2:7])
+
+        # Quick fix to get correct yearday, can probably move somewhere else
+        if self.file_ext == "sec":
+            yyyy_mmdd = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
+            year_value = str(yyyy_mmdd[2:4]) # The last 2 digits of the year YYYY
+            month_value = str(yyyy_mmdd[4:6])
+            day_value = str(int(yyyy_mmdd[6:8]))
+            full_date = year_value + " " + month_value + " " + day_value
+            datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
+            # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
+            day_of_year = datetime_object.strftime('%j')
+            year_day_value = yyyy_mmdd[0:2] + day_of_year
+            self.input_year.set_entry(year_day_value)
+
+        # Ex for IAGA2002: chb20200406v_10_half_sec.sec
+        if self.launch_dialog_option == 2 or self.file_ext == "sec":
+            self.input_station_code.set_entry(filename[0:3])
         
         self.reset_axis_entries()
         self.reset_time_entries()
@@ -534,37 +551,19 @@ class MainWindow(QMainWindow):
         Final step is to display the graph inside the gui.
         """
 
-        #call is plottable even after the button is enable just for more security in making sure all entrys are valid 
-        self.is_plottable()
+        # To prevent memory leak
+        if not self.delete_figure_helper():
+            return
 
-        # If there is a figure already saved
-        if self.graph_figure_flag:
-            # if this is toggled, do following test
-            if self.button_graph_switch.three_axis_style.isChecked():
-                # if !(test failed) and we have plotted one_plot already
-                # means no new info to plot
-                if not gui.entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
-                    return
-                else:
-                    # delete old figure if we save a new figure
-                    # prevent memory leak issues
-                    self.delete_figure()
+        # If we got past initial check, means something changed.
+        # Either time, axis entries, or checkboxes.
+        # If axis entries are the same, that means that the time or axis choice changed.
+        # So we reset the axis entries since user didnt change them.
+        if entry_check.same_axis_entries(self):
+            self.reset_axis_entries()
 
-            else:  
-                # if !(test failed) and we have plotted stacked already
-                # means no new info to plot
-                if not gui.entry_check.same_entries(self) and self.stacked_plot_flag:
-                    return
-                else:
-                    self.delete_figure()
-
-        self.start_time_stamp, self.end_time_stamp = self.time_stamp()
         self.get_file_data()        
-        # get current stacked plot entries
-        # since we passed initial check (same entries)
-        # we can assign them here. Maybe better names (prev = confusing)
-        # curr? Checking curr against, current entry in input ?? (same_entries)
-        # TODO: Better name for these variables? 
+
         self.prev_min_x = self.spinbox_min_x.get_entry()
         self.prev_max_x = self.spinbox_max_x.get_entry()
         self.prev_min_y = self.spinbox_min_y.get_entry()
@@ -720,6 +719,33 @@ class MainWindow(QMainWindow):
 
         self.graph.deleteLater()
         plt.close(self.figure)
+
+    def delete_figure_helper(self):
+        # If there is a figure already saved
+        if self.graph_figure_flag:
+            # if this is toggled, do following test
+            if self.button_graph_switch.three_axis_style.isChecked():
+                # if !(test failed) and we have plotted one_plot already
+                # means no new info to plot
+                if not gui.entry_check.same_entries_one_toggled(self) and self.one_plot_flag:
+                    return False
+                else:
+                    # delete old figure if we save a new figure
+                    # prevent memory leak issues
+                    self.delete_figure()
+                    return True
+
+            else:  
+                # if !(test failed) and we have plotted stacked already
+                # means no new info to plot
+                if not gui.entry_check.same_entries(self) and self.stacked_plot_flag:
+                    return False
+                else:
+                    self.delete_figure()
+                    return True
+        
+        # if no graph, want to plot something
+        return True
 
     def __call__(self, event):
         '''
