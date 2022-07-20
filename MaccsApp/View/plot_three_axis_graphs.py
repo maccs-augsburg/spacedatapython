@@ -73,6 +73,10 @@ def plot_axis(
     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
 
     fig = plt.figure(figsize=(12, 4))
+    plt.rcParams["figure.figsize"] = (12,4)
+    plt.gcf().set_size_inches(12, 4, forward=True)
+    fig = plt.gcf()
+    fig.set_size_inches(12,4,forward=True)
     plt.plot(time_list, axis_list, linewidth = 1)
     plt.title("Geomagnetic B" + axis + " of " + station_name + "   YEARDAY: " + year_day_value + "   DATE: " + date) 
     plt.ylabel('B' + axis)

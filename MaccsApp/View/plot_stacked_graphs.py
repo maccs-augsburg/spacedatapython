@@ -12,6 +12,7 @@ the time-stamped x, y, and z values on its' own plot.
 
 # Python 3 imports
 import datetime
+from turtle import forward
 import numpy as np
 
 # MACCS import
@@ -79,6 +80,10 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     ### figure settings
     fig = plt.figure(figsize=(12,7))
     fig.subplots_adjust(hspace=0.03)
+    plt.rcParams["figure.figsize"] = (12,7)
+    plt.gcf().set_size_inches(12, 7, forward=True)
+    fig = plt.gcf()
+    fig.set_size_inches(12,7,forward=True)
     #mpl.rcParams['figure.figsize'] = [20, 8]
 
     ### first plot    
@@ -127,8 +132,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     # returning the fig object
     plt.xlabel(x_axis_label)
     plt.plot(time_arr,z_arr, linewidth=1)
-    plt.gcf().set_size_inches(12, 7)
-    fig.set_size_inches(12,7)
+
     return fig
 
 def set_yaxis(yticks_list, scale_difference):
