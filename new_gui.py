@@ -604,7 +604,8 @@ class MainWindow(QMainWindow):
                                                         self.time_arr,
                                                         self.filename, 
                                                         self.start_time_stamp,
-                                                        self.end_time_stamp)
+                                                        self.end_time_stamp,
+                                                        format=self.file_ext)
             # set one plot flag to true, meaning we have plotted at least once
             self.one_plot_flag = True
             # set stacked flag to false, meaning next time we plot it
