@@ -21,18 +21,20 @@ Run this next command inside spacedatapython folder, new_gui.py should be inside
 pyinstaller --noconsole --name "MaccsApplication" new_gui.py
 ```
 
-You will generate 2 directories called dist, and build
-Dist contains everything to run your application, application and libraries that is uses
-Build can be ignored for the most part, contains results of analysis? Some logs of the building, might be useful for debugging
-You will also generate another file with the .spec extension, or MaccsApplication.spec file in our case.
-You can modify the .spec file instead of passing arguments to pyinstaller
-If you modify anything, to see the changes, you will have to run
+You will generate 2 directories and one file with this command: 
+1. dist - contains everything to run your application, application and libraries that is uses
+2. build - can be ignored for the most part, contains results of analysis? Some logs of the building, might be useful for debugging
+3. MaccsApplication.spec - You can modify the .spec file instead of passing arguments to pyinstaller
+
+Note:
+
+If you modify anything, to see the changes, you will have to run.
 
 ```
 pyinstaller MaccsApplication.spec
 ```
 
-This rebuilds your application with the new settings
+This rebuilds your application with the new settings.
 
 noconsole flag is passed so console window doesn't open when running the .exe file located inside dist folder
 the exe file will have the name passed through, so MaccsApplication.exe
