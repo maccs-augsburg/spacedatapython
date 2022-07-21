@@ -122,7 +122,7 @@ Now that we have our application working from the root folder
 We have to add our images to our dist/ directory. We can do this through command line
 but since we have a lot of images, it would be better to modify the .spec file.
 
--open the MaccsApplication.spec folder. Under a = Analysis section:
+-open the MaccsApplication.spec file. Under a = Analysis section:
 
 Modify the "datas=" section as:
 
