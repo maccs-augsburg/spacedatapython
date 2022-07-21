@@ -132,8 +132,16 @@ datas=[('images', 'images')],
 
 Doing it this way, means that if we ever add more images we wont have to manually copy each file over.
 
+# Creating an Installer for Windows #
 
-# Building the App Bundle into a Disk Image #
+Download [InstallForge](https://installforge.net/)
+
+TODO: Can't follow windows tutorial up to here, need to install forge
+
+Seems more straightforward than mac though
+
+
+# Building the App Bundle into a Disk Image for Apple#
 
 We could share the app as is for apple, but that would mean unpacking 100's of files,
 this is not usual behavior for downloading anything for macOs.
