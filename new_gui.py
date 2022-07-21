@@ -282,7 +282,7 @@ class MainWindow(QMainWindow):
         self.button_graph_switch.stacked_axis_style.clicked.connect(self.update_layout)
         self.button_graph_switch.stacked_axis_style.clicked.connect(self.is_plottable)
         self.button_graph_switch.three_axis_style.clicked.connect(self.is_plottable)
-
+        self.button_graph_switch.stacked_axis_style.setChecked(True)
         self.button_plot.clicked.connect(self.plot_graph)
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
@@ -307,7 +307,6 @@ class MainWindow(QMainWindow):
         ######################
         self.button_layout_top.add_widget_stretch(self.combo_box_files, 0, 0, 1, 2)
         self.button_layout_top.add_widget(self.button_open_file, 1, 0)
-        #self.button_layout_top.add_widget(self.button_plot, 1, 1)
 
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
@@ -792,7 +791,7 @@ class MainWindow(QMainWindow):
             self.figure.set_size_inches(12,7)
         if question_box.clickedButton() == save_image_button:
             try:
-                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp))
+                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp), self.what_graph_style())
                 save_filename = save_filename + ".pdf"
                 self.figure.savefig(save_filename,format="pdf",dpi=1200)
             except:
@@ -970,6 +969,15 @@ class MainWindow(QMainWindow):
         else:
             self.button_plot.setDisabled(True)
 
+    def what_graph_style(self):
+        '''
+        Helper function for file naming.py to determine what 
+        graph style button is checked for proper naming
+        '''
+        if self.button_graph_switch.three_axis_style.isChecked():
+            return '3axis'
+        else:
+            return 'stacked'
 def main():
     app = QApplication([])
     window = MainWindow()
