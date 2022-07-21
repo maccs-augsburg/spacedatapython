@@ -23,6 +23,7 @@ pyinstaller --noconsole --name "MaccsApplication" new_gui.py
 
 You will generate 2 directories and one file with this command: 
 1. dist - contains everything to run your application, application and libraries that is uses
+    1. Dist also contains the .exe file you can use to run your application, should be named MaccsApplication.
 2. build - can be ignored for the most part, contains results of analysis? Some logs of the building, might be useful for debugging
 3. MaccsApplication.spec - You can modify the .spec file instead of passing arguments to pyinstaller
 
