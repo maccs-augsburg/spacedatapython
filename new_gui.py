@@ -830,7 +830,7 @@ class MainWindow(QMainWindow):
 
         if file_type.clickedButton() == pdf_button:
             try:
-                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp))
+                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp), self.what_graph_style())
                 save_filename = save_filename + ".pdf"
                 self.figure.savefig(save_filename,format="pdf",dpi=1200)
             except:
@@ -838,10 +838,9 @@ class MainWindow(QMainWindow):
 
         elif file_type.clickedButton() == png_button:
             try:
-                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp))
+                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp), self.what_graph_style())
                 save_filename = save_filename + ".png"
                 self.figure.savefig(save_filename,format="png",dpi=1200)
-                print('saved')
             except:
                 print('couldnt save')
 
