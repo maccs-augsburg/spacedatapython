@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>MaccsApplication</string>
 	<key>CFBundleIconFile</key>
-	<string>icon-windowed.icns</string>
+	<string>maccslogo_nobg.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>MaccsApplication</string>
 	<key>CFBundleInfoDictionaryVersion</key>

@@ -8,9 +8,49 @@
 		<data>
 		PSbGoIN3IhrA9j5ah/6Himfuo4s=
 		</data>
-		<key>Resources/icon-windowed.icns</key>
+		<key>Resources/images/disk-black.png</key>
 		<data>
-		eEHOuYpZLB0vKGVIWGZOh5rH8+o=
+		b2xhWogMdhQBXFrU6zLmtO3yWVc=
+		</data>
+		<key>Resources/images/disk.png</key>
+		<data>
+		qim1P9VD3vig/6hnPA9/oclOKQY=
+		</data>
+		<key>Resources/images/folder-open.png</key>
+		<data>
+		IQNWJrhFc69951UTGL+gxgDJ1Lk=
+		</data>
+		<key>Resources/images/home.png</key>
+		<data>
+		KqiBgJg8m+mVEy/6VcwyLRbpvrM=
+		</data>
+		<key>Resources/images/inactive_eye.png</key>
+		<data>
+		5CYpSXKR/HquvGvW+y2etWZMJOo=
+		</data>
+		<key>Resources/images/maccslogo_870.jpeg</key>
+		<data>
+		Kf3No4DUyc4HbVl/QUB7w/uvErY=
+		</data>
+		<key>Resources/images/maccslogo_nobg.icns</key>
+		<data>
+		e5WGXUCWSnXE8ZBAN15q3R2gsKM=
+		</data>
+		<key>Resources/images/maccslogo_nobg.png</key>
+		<data>
+		V9m7hMTsom0XMdt6K2jCe8vs+nk=
+		</data>
+		<key>Resources/images/magnifier-zoom-in.png</key>
+		<data>
+		tgOmYRIHKKSExQzrCgN+ok/h7cQ=
+		</data>
+		<key>Resources/images/question-frame.png</key>
+		<data>
+		QJUntnYrCL6/TgnefuOWtwGuuUs=
+		</data>
+		<key>Resources/maccslogo_nobg.icns</key>
+		<data>
+		e5WGXUCWSnXE8ZBAN15q3R2gsKM=
 		</data>
 		<key>Resources/matplotlib/mpl-data/fonts/afm/cmex10.afm</key>
 		<data>
@@ -2775,6 +2815,11 @@
 			<key>symlink</key>
 			<string>../Resources/base_library.zip</string>
 		</dict>
+		<key>MacOS/images</key>
+		<dict>
+			<key>symlink</key>
+			<string>../Resources/images</string>
+		</dict>
 		<key>MacOS/kiwisolver/_cext.cpython-310-darwin.so</key>
 		<dict>
 			<key>cdhash</key>
@@ -3694,11 +3739,81 @@
 			5FCYNbiwx3Kw/gKF9sF1RYbxEMFLPVftXHkDJRHLC9Q=
 			</data>
 		</dict>
-		<key>Resources/icon-windowed.icns</key>
+		<key>Resources/images/disk-black.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			uQo7VuWRab4Phv4EEGmfQsyqFqDIXZgO8OtgaAMvCzY=
+			4Khg+UXfzUKifjSQbcSt80XbjkYp/qC+smhpU0AuC4Y=
+			</data>
+		</dict>
+		<key>Resources/images/disk.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			DdhfmtkaytpqD4MrGy/YIggitqWyonVluvLu52+3O1Q=
+			</data>
+		</dict>
+		<key>Resources/images/folder-open.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			EYI50mJyAbhUX5E8MLBa2OKiZv+6jlgsmcd3FFsiUSw=
+			</data>
+		</dict>
+		<key>Resources/images/home.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			b1xHgKTVKzcUP7mrZ4SU0ZkMZaf0AAQdQCB8Rmt5D1c=
+			</data>
+		</dict>
+		<key>Resources/images/inactive_eye.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			x3WLsoRFOBygsUhmtQZcaivHjIgqT0VV9cJWcZhffUg=
+			</data>
+		</dict>
+		<key>Resources/images/maccslogo_870.jpeg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oawCW68G4pGs+xZIQW/TuOKz/eTON8AclSYUvuhyx88=
+			</data>
+		</dict>
+		<key>Resources/images/maccslogo_nobg.icns</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			WK2ZnAoTls1WQjpv8TCqYL0MBeSRXtX6ckNHWYPSOQg=
+			</data>
+		</dict>
+		<key>Resources/images/maccslogo_nobg.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			jYPooM9bFVMHQ8iBuvqzRQj+uYD6TqeC8ph1XeB9LiA=
+			</data>
+		</dict>
+		<key>Resources/images/magnifier-zoom-in.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			JhSuPRX7ixJSDfui5NNfyF1gTNAFA2CKlUPH/qUTJhU=
+			</data>
+		</dict>
+		<key>Resources/images/question-frame.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			3lHAdjGVFGUW9z71673DQpzrLFboFdN9MbT9/8peHns=
+			</data>
+		</dict>
+		<key>Resources/maccslogo_nobg.icns</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			WK2ZnAoTls1WQjpv8TCqYL0MBeSRXtX6ckNHWYPSOQg=
 			</data>
 		</dict>
 		<key>Resources/matplotlib/mpl-data/fonts/afm/cmex10.afm</key>

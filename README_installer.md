@@ -67,3 +67,72 @@ pyinstaller MaccsApplication.spec
 # Adding our images as data files and resources #
 
 Currently as it sits, our app does not have the maccs logo, or the toolbar icons visible.
+
+If unfamiliar with directorys and paths:
+
+Run gui as usual inside spacedatapython folder.
+
+```
+python3 new_gui.py
+```
+
+All images are there and working since we are working off relative paths.
+
+Now try running from one directory back.
+
+```
+cd ..
+python3 spacedatapython/new_gui.py
+```
+
+The images don't appear anymore. We are using relative paths to our image files,
+these paths are relative to the current working directory, not the folder the new_gui.py file is in.
+So if you run script from somewhere else, it wont be able to find them.
+
+-Make paths relative to the application instead of our current working directory
+
+Inside new_gui.py at the top with imports 
+
+```
+# Packaging stuff
+# Holds full path of the current Python File
+# Use this to build relative paths for icons using os.path.join()
+basedir = os.path.dirname(__file__)
+```
+
+New way to link to our images
+Note: If you run this command again, images will now show up since we aren't linking images from our cwd.
+
+``` 
+python3 spacedatapython/new_gui.py
+```
+
+```
+# Old way to link to images
+action_savefile = QAction(QIcon("images/disk.png"),"Save File", self)
+action_saveasfile = QAction(QIcon("images/disk.png"), "Save As...", self)
+
+# New way to link to images
+action_savefile = QAction(QIcon(os.path.join(basedir, "images", "disk.png")),"Save File", self)
+action_saveasfile = QAction(QIcon(os.path.join(basedir, "images", "disk.png")), "Save As...", self)
+
+```
+
+Now that we have our application working from the root folder
+We have to add our images to our dist/ directory. We can do this through command line
+but since we have a lot of images, it would be better to modify the .spec file.
+
+-open the MaccsApplication.spec folder. Under a = Analysis section:
+
+Modify the "datas=" section as:
+
+```
+datas=[('images', 'images')],
+```
+
+Doing it this way, means that if we ever add more images we wont have to manually copy each file over.
+
+
+# Building the App Bundle into a Disk Image #
+
+

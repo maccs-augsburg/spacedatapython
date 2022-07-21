@@ -54,6 +54,11 @@ import model.read_IAGA2002_to_lists
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
 
+# Packaging stuff
+# Holds full path of the current Python File
+# Use this to build relative paths for icons using os.path.join()
+basedir = os.path.dirname(__file__)
+
 MINIMUM_WINDOW_HEIGHT = 800
 MINIMUM_WINDOW_WIDTH = 1400
 
@@ -84,7 +89,7 @@ class MainWindow(QMainWindow):
 
         # Maccs Logo
         self.mac_label = QLabel()
-        pixmap = QPixmap('images/maccslogo_nobg.png')
+        pixmap = QPixmap(os.path.join(basedir, "images", "maccslogo_nobg.png") )
         self.mac_label.setPixmap(pixmap)
         self.mac_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
@@ -94,14 +99,14 @@ class MainWindow(QMainWindow):
 
         toolbar = QToolBar("Main Toolbar")    
         toolbar.setIconSize(QSize(16,16))
-        action_home = QAction(QIcon("images/home.png"), "Home", self)
-        action_openfile = QAction(QIcon("images/folder-open.png"),"Open...       ", self)
-        action_savefile = QAction(QIcon("images/disk.png"),"Save File", self)
-        action_saveasfile = QAction(QIcon("images/disk.png"), "Save As...", self)
-        self.action_zoom = QAction(QIcon("images/magnifier-zoom-in.png"),"Zoom in", self)
-        action_help = QAction(QIcon("images/question-frame.png"),"Help", self)
-        action_help_plot = QAction(QIcon("images/question-frame.png"),"Why is the plot button not working?", self)
-        self.action_hide_entries = QAction(QIcon("images/inactive_eye.png"), "Hide Entries", self)
+        action_home = QAction(QIcon(os.path.join(basedir, "images","home.png")), "Home", self)
+        action_openfile = QAction(QIcon(os.path.join(basedir, "images", "folder-open.png")),"Open...       ", self)
+        action_savefile = QAction(QIcon(os.path.join(basedir, "images", "disk.png")),"Save File", self)
+        action_saveasfile = QAction(QIcon(os.path.join(basedir, "images", "disk.png")), "Save As...", self)
+        self.action_zoom = QAction(QIcon(os.path.join(basedir, "images", "magnifier-zoom-in.png")),"Zoom in", self)
+        action_help = QAction(QIcon(os.path.join(basedir, "images", "question-frame.png")),"Help", self)
+        action_help_plot = QAction(QIcon(os.path.join(basedir, "images", "question-frame.png")),"Why is the plot button not working?", self)
+        self.action_hide_entries = QAction(QIcon(os.path.join(basedir, "images", "inactive_eye.png")), "Hide Entries", self)
         self.action_hide_entries.setCheckable(True)
         self.action_hide_entries.setStatusTip("Hide Entries")
 

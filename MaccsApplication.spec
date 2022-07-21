@@ -8,7 +8,7 @@ a = Analysis(
     ['new_gui.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('images', 'images')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -51,6 +51,6 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='MaccsApplication.app',
-    icon=None,
+    icon='images/maccslogo_nobg.icns',
     bundle_identifier=None,
 )
