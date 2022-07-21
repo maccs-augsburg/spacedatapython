@@ -5,21 +5,21 @@
 
 ## Install PyInstaller (Popular tool for packaging python applications) ##
 
-'''
+```
 pip3 install PyInstaller
-'''
+```
 
 Note: If there are problems with packaing the application, update PyInstaller
 
-'''
+```
 pip3 install --upgrade PyInstaller pyinstaller-hooks-contrib
-'''
+```
 
 Run this next command inside spacedatapython folder, new_gui.py should be inside this folder.
 
-'''
+```
 pyinstaller --noconsole --name "MaccsApplication" new_gui.py
-'''
+```
 
 You will generate 2 directories called dist, and build
 Dist contains everything to run your application, application and libraries that is uses
@@ -28,9 +28,9 @@ You will also generate another file with the .spec extension, or MaccsApplicatio
 You can modify the .spec file instead of passing arguments to pyinstaller
 If you modify anything, to see the changes, you will have to run
 
-'''
+```
 pyinstaller MaccsApplication.spec
-'''
+```
 
 This rebuilds your application with the new settings
 
