@@ -616,8 +616,6 @@ class MainWindow(QMainWindow):
             # set stacked flag to false, meaning next time we plot it
             # it will be the first time again
             self.stacked_plot_flag = False
-            self.figure.set_size_inches(12,4)
-
         else:
 
             self.figure = plot.plot_stacked_graphs.plot_arrays(self.x_arr,
@@ -633,7 +631,6 @@ class MainWindow(QMainWindow):
                                                 in_max_y=self.prev_max_y,
                                                 in_min_z=self.prev_min_z, 
                                                 in_max_z=self.prev_max_z)
-            self.figure.set_size_inches(12,7)
             # set one plot flag to false, meaning next time we plot it
             # it will be the first time again
             self.one_plot_flag = False
@@ -706,14 +703,12 @@ class MainWindow(QMainWindow):
             # remove plot from window
             self.graph.setParent(None)
         # create new figure
-
         self.graph = FigureCanvasQTAgg(self.figure)
         # add new figure to layout
         self.graph_layout.add_widget(self.graph)
         self.main_layout.addWidget(self.graph_layout, 5)
         self.mac_label.setHidden(True)
         self.graph_figure_flag = True
-        self.size_graph
         self.show()
 
     def delete_figure(self):
@@ -795,13 +790,14 @@ class MainWindow(QMainWindow):
             self.figure.set_size_inches(12,4)
         else:
             self.figure.set_size_inches(12,7)
-        try:
-            save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp))
-            save_filename = save_filename + ".pdf"
-            self.figure.savefig(save_filename,format="pdf",dpi=1200)
-        except:
-            print('couldnt save')
-        if question_box.clickedButton() == cancel_button:
+        if question_box.clickedButton() == save_image_button:
+            try:
+                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp))
+                save_filename = save_filename + ".pdf"
+                self.figure.savefig(save_filename,format="pdf",dpi=1200)
+            except:
+                print('couldnt save')
+        elif question_box.clickedButton() == cancel_button:
             question_box.close()
 
     def save_as(self):
@@ -827,6 +823,7 @@ class MainWindow(QMainWindow):
 
         start = file_type.exec()
 
+        #sets the graph size to the proper size 
         if self.button_graph_switch.three_axis_style.isChecked():
             self.figure.set_size_inches(12,4)
         else:
