@@ -135,4 +135,92 @@ Doing it this way, means that if we ever add more images we wont have to manuall
 
 # Building the App Bundle into a Disk Image #
 
+We could share the app as is for apple, but that would mean unpacking 100's of files,
+this is not usual behavior for downloading anything for macOs.
 
+For macOs install create-dmg with homebrew:
+
+```
+brew install create-dmg
+```
+
+If you dont have homebrew, check out the github page for instructions [Github create-dmg](https://github.com/create-dmg/create-dmg)
+
+
+Make sure build is ready before creating a disk image
+
+```
+pyinstaller MaccsApplication.spec
+```
+
+Create recommended shell script found in tutorial: (Modifying for differences in names and target system - Windows/Mac/Linux)
+
+```
+#!/bin/sh
+# Create a folder (named dmg) to prepare our DMG in (if it doesn't already exist).
+mkdir -p dist/dmg
+# Empty the dmg folder.
+rm -r dist/dmg/*
+# Copy the app bundle to the dmg folder.
+cp -r "dist/Hello World.app" dist/dmg
+# If the DMG already exists, delete it.
+test -f "dist/Hello World.dmg" && rm "dist/Hello World.dmg"
+create-dmg \
+  --volname "Hello World" \
+  --volicon "Hello World.icns" \
+  --window-pos 200 120 \
+  --window-size 600 300 \
+  --icon-size 100 \
+  --icon "Hello World.app" 175 120 \
+  --hide-extension "Hello World.app" \
+  --app-drop-link 425 120 \
+  "dist/Hello World.dmg" \
+  "dist/dmg/"
+```
+
+Example modifications I made to make it work with our project.
+
+```
+#!/bin/sh
+# Create a folder (named dmg) to prepare our DMG in (if it doesn't already exist).
+mkdir -p dist/dmg
+# Empty the dmg folder.
+rm -r dist/dmg/*
+# Copy the app bundle to the dmg folder.
+cp -r "dist/MaccsApplication.app" dist/dmg
+# If the DMG already exists, delete it.
+test -f "dist/MaccsApplication.dmg" && rm "dist/MaccsApplication.dmg"
+# Window settings, dictate size of dmg installer window
+create-dmg \
+  --volname "MaccsApplication" \
+  --volicon "images/maccslogo_nobg.icns" \
+  --window-pos 200 120 \
+  --window-size 600 300 \
+  --icon-size 100 \
+  --icon "MaccsApplication.app" 175 120 \
+  --hide-extension "MaccsApplication.app" \
+  --app-drop-link 425 120 \
+  "dist/MaccsApplication.dmg" \
+  "dist/dmg/"
+```
+
+Save this shell script at same level as new_gui.py folder.
+
+Modify permissions for the shell script: (set the execute bit)
+
+```
+chmod +x builddmg.sh
+```
+
+Run this command to make image:
+
+```
+./builddmg.sh
+```
+
+For updating disk image when main code is updated:
+
+```
+pyinstaller MaccsApplication.spec
+./builddmg_mac.sh
+```
