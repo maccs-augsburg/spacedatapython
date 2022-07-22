@@ -98,7 +98,6 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
 
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_of_year, "%Y-%j").strftime("%m-%d-%Y")
-    print( "   date is", date)
     hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
     
     ### figure settings
