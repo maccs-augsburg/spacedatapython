@@ -17,7 +17,8 @@ class LineSeperator(QtWidgets.QWidget):
         self.setSizePolicy(
             QtWidgets.QSizePolicy.MinimumExpanding,
             QtWidgets.QSizePolicy.MinimumExpanding
-        )
+        )        
+        
     def paintEvent(self, e):
         painter = QPainter(self)
         painter.drawLine(1,1,250,1)
