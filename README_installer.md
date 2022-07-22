@@ -2,7 +2,10 @@
 
 
 [Tutorial Windows](https://www.pythonguis.com/tutorials/packaging-pyside6-applications-windows-pyinstaller-installforge/)
+
 [Tutorial Macbook](https://www.pythonguis.com/tutorials/packaging-pyqt5-applications-pyinstaller-macos-dmg/)
+
+[Tutorial Linux](https://www.pythonguis.com/tutorials/packaging-pyqt5-applications-linux-pyinstaller/)
 
 Important: You always need to compile your app on your target system. So, if you want to create a Mac .app
     you need to do this on a Mac, for an EXE you need to use windows.
@@ -140,6 +143,28 @@ TODO: Can't follow windows tutorial up to here, need to install forge
 
 Seems more straightforward than mac though
 
+
+# Creating a Linux Package (Ubuntu Deb) #
+
+(On Ubuntu and Debian, packages are named .deb files, redhat names them .rpm, arch linux names them .pacman)
+
+Can build one and it will work for all of these.
+
+### Install fpm ###
+
+```
+# Install this first
+sudo apt-get install ruby
+# After installing ruby
+gem install fpm --user-install
+
+# If you see a warning e.g. 
+You don't have /home/martin/.local/share/gem/ruby/2.7.0/bin in your PATH 
+you will need to add that to your path in your .bashrc file.
+
+# Check fpm is working
+fpm --version
+```
 
 # Building the App Bundle into a Disk Image for Apple#
 
