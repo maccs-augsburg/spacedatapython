@@ -103,9 +103,14 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     #plt.figure(figsize=(12,7))
     fig.set_size_inches(12,7)
     fig.subplots_adjust(hspace=0.1)
-
+    
+    # figg, ax =  plt.subplots(3,1,figsize=(12,7))
+    # #figg.set_size_inches(12,7)
+    # ax[0].plot(time_arr, x_arr, 'r-')
+    # ax[1].plot(time_arr, y_arr, 'b-')
+    # ax[2].plot(time_arr, z_arr, 'g-')
     ### first plot    
-    # plt.ylim(minimum, maximum)
+    #plt.ylim(minimum, maximum)
     axis_x = plt.subplot(311)	# subplot allows multiple plots on 1 page
                         # 3 dictates the range (row), allowing 3 graphs
                         # 1 indicates columns, more than 1 for matrices for example
@@ -150,7 +155,8 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     z_yticks = plt.yticks()
     # returning the fig object
-
+    fig.set_figwidth(12)
+    fig.set_figheight(7)
     return fig
 
 def set_yaxis(yticks_list, scale_difference):
