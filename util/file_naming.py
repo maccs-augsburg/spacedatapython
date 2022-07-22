@@ -74,7 +74,7 @@ def create_time_interval_string( start_second, end_second) :
     return create_time_interval_string_hms( start_hour, start_minute, start_second, 
                                             end_hour, end_minute, end_second)
 
-def create_2hz_plot_file_name( filename, start_time, end_time) :
+def create_2hz_plot_file_name( filename, start_time, end_time,display_type) :
     """
     Creates a filename appropriate for a 2 Hz plot.
     
@@ -102,12 +102,12 @@ def create_2hz_plot_file_name( filename, start_time, end_time) :
         proc_level = "0"
     elif extension == '.s2' :
         proc_level = "1"
-        
+    display_type = display_type
     # grab the time interval string
     interval_string = create_time_interval_string_hms(
         int(start_time[0:2]), int(start_time[3:5]), int(start_time[6:8]),
         int(end_time[0:2]), int(end_time[3:5]), int(end_time[6:8]))
     
     # return the answer
-    return f"{name_year_doy}{interval_string}_l{proc_level}_half_sec"
+    return f"{name_year_doy}{interval_string}_l{proc_level}_half_sec_{display_type}"
     

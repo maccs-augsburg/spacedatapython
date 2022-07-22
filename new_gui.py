@@ -822,12 +822,12 @@ class MainWindow(QMainWindow):
         else:
             self.figure.set_size_inches(12,7)
         if question_box.clickedButton() == save_image_button:
-       # try:
-            save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp), self.what_graph_style())
-            save_filename = save_filename + ".pdf"
-            self.figure.savefig(save_filename,format="pdf",dpi=1200)
-        #except:
-            print('couldnt save')
+            try:
+                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp), self.what_graph_style())
+                save_filename = save_filename + ".pdf"
+                self.figure.savefig(save_filename,format="pdf",dpi=1200)
+            except:
+                print('couldnt save')
         elif question_box.clickedButton() == cancel_button:
             question_box.close()
 
