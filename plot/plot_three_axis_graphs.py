@@ -18,6 +18,7 @@ import datetime
 # Imports from our packaged files 
 import util.station_names
 import model.read_raw_to_lists
+
 import plot.x_axis_time_formatter
 #from raw_codecs import decode, time_of_record
 
@@ -90,7 +91,9 @@ def plot_axis(
     date = datetime.datetime.strptime(year_value + "-" + day_of_year, "%Y-%j").strftime("%m-%d-%Y")
 
     fig = plt.figure(figsize=(12, 4))
-    plt.plot(time_list, axis_list, linewidth = 1)
+    fig.set_figwidth(12)
+    fig.set_figheight(4)
+    plt.plot(timeArr,axisArr, linewidth = 1)
     plt.title("Geomagnetic B" + axis + " of " + station_name + "   YEARDAY: " + year_day_value + "   DATE: " + date) 
     plt.ylabel('B' + axis)
 
@@ -368,5 +371,28 @@ if __name__ == "__main__" :
         print( "TOO many items entered please try again!" )
         sys.exit(0) # Exiting without an error code
 
-    arrayX, arrayY, arrayZ, time_list = model.read_raw_to_lists(two_hz_binary_file, start_time, end_time)
+    arrayX, arrayY, arrayZ, timeArr = model.read_raw_to_lists(two_hz_binary_file, start_time, end_time)
+    
+
+    #X = 'X'
+    #Y = 'Y'
+    #Z = 'Z'
+
+    #try:
+    #plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
+   # print("got past plot_axis")
+    #plot_axis(arrayY, timeArr, filename, start_time, end_time, Y)
+    #plot_axis(arrayZ, timeArr, filename, start_time, end_time, Z)
+    #x_plot(arrayX, timeArr, filename, start_time, end_time)
+#    y_plot(arrayY, timeArr, filename, start_time, end_time)
+  #  z_plot(arrayZ, timeArr, filename, start_time, end_time)
+   # x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time)
+    #x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
+    #y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
+    #x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
+    
+    
+    #except:
+        #print('Could not plot arrays to testgraph.pdf')
+        #sys.exit(0)
 

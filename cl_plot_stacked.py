@@ -14,7 +14,7 @@ file. Start and end times may also be selected.
 import argparse
 import datetime
 import os
-#import sys
+import sys
 
 # MACCS imports
 from model.raw_codecs import decode, time_of_record
