@@ -26,7 +26,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='MaccsApplication',
+    name='MACCS Plotter',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -46,11 +46,11 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='MaccsApplication',
+    name='MACCS Plotter',
 )
 app = BUNDLE(
     coll,
-    name='MaccsApplication.app',
-    icon='images/maccslogo_nobg.icns',
+    name='MACCS Plotter.app',
+    icon="images/maccslogo_nobg.icns",
     bundle_identifier=None,
 )
