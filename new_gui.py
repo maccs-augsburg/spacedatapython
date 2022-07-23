@@ -611,6 +611,7 @@ class MainWindow(QMainWindow):
                                                         self.start_time_stamp,
                                                         self.end_time_stamp,
                                                         format=self.file_ext)
+
             # set one plot flag to true, meaning we have plotted at least once
             self.one_plot_flag = True
             # set stacked flag to false, meaning next time we plot it
@@ -839,24 +840,25 @@ class MainWindow(QMainWindow):
          
         """
         Saves the Graph as an image with user chosing either a PDF or PNG option 
-        can easily incorperate more files as needed 
-
-        file_type is a QMessageBox that pops up once the Save as QButton is pressed 
+        can easily incorperate more file types as needed 
+ 
         """
-        #def information (parent, title, text, 
-                    # button0[, button1=QMessageBox.StandardButton.NoButton])
+       
+        default_filename = save_filename = create_2hz_plot_file_name(
+                self.filename,
+                str(self.start_time_stamp),
+                str(self.end_time_stamp),
+                self.what_graph_style())
 
-        file_type = QMessageBox(self)
+        save_filename, save_type = QFileDialog.getSaveFileName( 
+                parent = self, 
+                caption = "Save Plot As",
+                dir = os.path.join( os.path.expanduser("~"), 'Documents', default_filename),
+                #dir = str( Path.home().joinpath( 'Documents', default_filename)),
+                filter = "PDF (*.pdf);;PNG (*.png)",
+                selectedFilter = "PDF (*.pdf)")
+        print( "The save filename is " + save_filename + " of type " + save_type)
 
-        pdf_button = file_type.addButton(str("PDF"), QMessageBox.ActionRole)
-        png_button = file_type.addButton(str('PNG'), QMessageBox.ActionRole)
-        cancel_button = file_type.addButton(str('Cancel'), QMessageBox.ActionRole)
-
-        window_title_text = file_type.setWindowTitle("Save as...")
-        message_text = file_type.setText(
-            "Select would image type you would like to save as... \n PDF or PNG")
-
-        start = file_type.exec()
 
         #sets the graph size to the proper size 
         if self.button_graph_switch.three_axis_style.isChecked():
@@ -864,24 +866,14 @@ class MainWindow(QMainWindow):
         else:
             self.figure.set_size_inches(12,7)
 
-        if file_type.clickedButton() == pdf_button:
-            try:
-                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp), self.what_graph_style())
-                save_filename = save_filename + ".pdf"
-                self.figure.savefig(save_filename,format="pdf",dpi=1200)
-            except:
-                print('couldnt save')
+        if len( save_filename) > 0 :
+            if save_type == "PDF (*.pdf)" :
+                self.figure.savefig( save_filename, format="pdf", dpi=1200)
+            elif save_type == "PNG (*.png)" :
+                self.figure.savefig( save_filename, format="png", dpi=1200)
+            else :
+                print("Error: save plot with unknown file type.")
 
-        elif file_type.clickedButton() == png_button:
-            try:
-                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp), self.what_graph_style())
-                save_filename = save_filename + ".png"
-                self.figure.savefig(save_filename,format="png",dpi=1200)
-            except:
-                print('couldnt save')
-
-        elif file_type.clickedButton() == cancel_button:
-            file_type.close()
 
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
