@@ -821,7 +821,8 @@ class MainWindow(QMainWindow):
                 self.filename,
                 str(self.start_time_stamp),
                 str(self.end_time_stamp),
-                self.what_graph_style())
+                self.what_graph_style())  # stacked or three-axis
+        default_filename = default_filename + ".pdf"
         default_filename = os.path.join( 
                 os.path.expanduser("~"), 
                 'Documents', 
