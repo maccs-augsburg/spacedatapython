@@ -16,7 +16,7 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QGridLayout
                                 )
 from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
-from PySide6.QtCore import  QSize, QTime
+from PySide6.QtCore import  QSize, QTime, QSettings
 
 #qtwidgets
 from gui.custom_graph_toggle_widget import SwitchButtonWidget
@@ -70,8 +70,14 @@ class MainWindow(QMainWindow):
     MACCS magnetometer stations. Current file types supported 
     are .2hz and .s2 format.
     """
+    
     def __init__(self):
-
+        """
+        Initializes the application including setting the window size
+        and setting all the widgets into the window and actions into the
+        application.
+        """
+        
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
@@ -102,8 +108,8 @@ class MainWindow(QMainWindow):
         toolbar.setIconSize(QSize(16,16))
         action_home = QAction(QIcon(os.path.join(basedir, "images","home.png")), "Home", self)
         action_openfile = QAction(QIcon(os.path.join(basedir, "images", "folder-open.png")),"Open...       ", self)
-        action_savefile = QAction(QIcon(os.path.join(basedir, "images", "disk.png")),"Save File", self)
-        action_saveasfile = QAction(QIcon(os.path.join(basedir, "images", "disk.png")), "Save As...", self)
+        action_savefile = QAction(QIcon(os.path.join(basedir, "images", "disk.png")),"Save Plot", self)
+        action_saveasfile = QAction(QIcon(os.path.join(basedir, "images", "disk.png")), "Save Plot As...", self)
         self.action_zoom = QAction(QIcon(os.path.join(basedir, "images", "magnifier-zoom-in.png")),"Zoom in", self)
         action_help = QAction(QIcon(os.path.join(basedir, "images", "question-frame.png")),"Help", self)
         action_help_plot = QAction(QIcon(os.path.join(basedir, "images", "question-frame.png")),"Why is the plot button not working?", self)
@@ -249,9 +255,9 @@ class MainWindow(QMainWindow):
         ###############
         self.button_open_file = PushButton("Open...")
         self.button_open_file.set_uncheckable()
-        self.button_save = PushButton('Save')
+        self.button_save = PushButton('Save Plot')
         self.button_save.set_uncheckable()
-        self.button_save_as = PushButton('Save As...')
+        self.button_save_as = PushButton('Save Plot As...')
         self.button_save_as.set_uncheckable()
         self.button_plot = PushButton("Plot File")
         self.button_plot.set_uncheckable()
@@ -404,7 +410,38 @@ class MainWindow(QMainWindow):
         self.prev_state_plot_z = 0
         self.one_plot_flag = False
         self.stacked_plot_flag = False
+        self.readSettings()
 
+    def closeEvent( self, event) :
+        """
+        When the window is closed it terminates the application.
+        Write the current settings to a settings document.
+        """
+        print(f"closeEvent({event})")
+        self.writeSettings()
+        
+    def readSettings( self) :
+        """
+        Reads in the data and plot file directories, storing the paths
+        as instance variables.
+        """
+        self.settings = QSettings("Augsburg MACCS", "MACCS Plotter")
+        self.data_file_directory = self.settings.value(
+                "datadir",
+                os.path.join( os.path.expanduser("~"), 'Documents'))
+        self.plot_file_directory = self.settings.value(
+                "plotdir",
+                os.path.join( os.path.expanduser("~"), 'Documents'))
+    
+    def writeSettings( self) :
+        """
+        Writes the current data and plot file directory paths out to 
+        settings.
+        """
+        self.settings = QSettings("Augsburg MACCS", "MACCS Plotter")
+        self.settings.setValue( "datadir", self.data_file_directory)
+        self.settings.setValue( "plotdir", self.plot_file_directory)
+    
     def launch_dialog(self):
         '''
         Instance function to select a file filter.
@@ -447,15 +484,15 @@ class MainWindow(QMainWindow):
 
     def get_file_name(self, file_filter):
         '''
-        User Dialog that prompts user to select a file to open to be read and graphed
+        User Dialog that prompts user to select a file to open to be read and plotted
         '''
 
-        # Open the dialog in the user's 'Documents' directory.
-        print( f"get_file_name({file_filter})")
+        # Open the dialog in the user's most recently opened data
+        # directory, default is the user's 'Documents' directory.
         response = QFileDialog.getOpenFileName(
             parent = self,
             caption = "Select a file",
-            dir = os.path.join( os.path.expanduser("~"), 'Documents'),
+            dir = self.data_file_directory,
             filter = file_filter
         )
         # if user cancels button, dont want to execute function
@@ -463,11 +500,12 @@ class MainWindow(QMainWindow):
             # return false if calling from toolbar open
             return False
 
-        filename, _ = response
+        filename, filetype_string = response
         self.file_path = filename
         # splitting up the path and selecting the filename
-        filename = filename.split('/')[-1]
-        self.filename = filename
+        self.data_file_directory = os.path.dirname( filename)
+        filename = os.path.basename( filename)
+        self.filename = filename     # name of the file with extension
         self.file_ext = filename.split('.')[-1]
         self.filename_noextension = filename.split('.')[0]
         # setting the station entry box from the filename
@@ -824,8 +862,7 @@ class MainWindow(QMainWindow):
                 self.what_graph_style())  # stacked or three-axis
         default_filename = default_filename + ".pdf"
         default_filename = os.path.join( 
-                os.path.expanduser("~"), 
-                'Documents', 
+                self.plot_file_directory,
                 default_filename)                
         self.figure.savefig(default_filename,format="pdf",dpi=1200)
         
@@ -846,11 +883,9 @@ class MainWindow(QMainWindow):
         save_filename, save_type = QFileDialog.getSaveFileName( 
                 parent = self, 
                 caption = "Save Plot As",
-                dir = os.path.join( os.path.expanduser("~"), 'Documents', default_filename),
+                dir = os.path.join( self.plot_file_directory, default_filename),
                 filter = "PDF (*.pdf);;PNG (*.png)",
                 selectedFilter = "PDF (*.pdf)")
-        print( "The save filename is " + save_filename + " of type " + save_type)
-
 
         #sets the graph size to the proper size 
         if self.button_graph_switch.three_axis_style.isChecked():
@@ -860,6 +895,7 @@ class MainWindow(QMainWindow):
 
         # If the user has picked a filename, save the plot to that name.
         if len( save_filename) > 0 :
+            self.plot_file_directory = os.path.dirname( save_filename)
             if save_type == "PDF (*.pdf)" :
                 self.figure.savefig( save_filename, format="pdf", dpi=1200)
             elif save_type == "PNG (*.png)" :
