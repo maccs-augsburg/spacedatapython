@@ -447,17 +447,15 @@ class MainWindow(QMainWindow):
 
     def get_file_name(self, file_filter):
         '''
-        Simple user Dialog that prompts user to select a file to open to be read and graphed
+        User Dialog that prompts user to select a file to open to be read and graphed
         '''
 
-        # guis will be in the same folder, so go back one 
-        # directory for shared files 
-        current_directory = os.getcwd()
-
+        # Open the dialog in the user's 'Documents' directory.
+        print( f"get_file_name({file_filter})")
         response = QFileDialog.getOpenFileName(
             parent = self,
             caption = "Select a file",
-            dir = current_directory,
+            dir = os.path.join( os.path.expanduser("~"), 'Documents'),
             filter = file_filter
         )
         # if user cancels button, dont want to execute function
@@ -805,18 +803,10 @@ class MainWindow(QMainWindow):
 
     def save(self):
         """
-        Saves the Graph as a PDF Image
-
-        file_type is a QMessageBox that pops up once the Save as QButton is pressed 
+        Saves the plot as a PDF file.
+        Creates the default filename for the plot and saves the pdf
+        file in to the user's 'Documents' folder.
         """
-
-        question_box = QMessageBox(self)
-
-        save_image_button = question_box.addButton(str('Save Image'), QMessageBox.ActionRole)
-        cancel_button = question_box.addButton(str('Cancel'),QMessageBox.ActionRole)
-        window_title_text = question_box.setWindowTitle("Save Image")
-        message_text = question_box.setText("Would you like to save this image as a PDF?")
-        start = question_box.exec()
 
         # can set the figure size in the save function with 
         # self.figure.set_size_inches(int, int) and can put an if stmt or something depending on stacked or multi axis
@@ -826,35 +816,36 @@ class MainWindow(QMainWindow):
             self.figure.set_size_inches(12,4)
         else:
             self.figure.set_size_inches(12,7)
-        if question_box.clickedButton() == save_image_button:
-            try:
-                save_filename = create_2hz_plot_file_name(self.filename,str(self.start_time_stamp), str(self.end_time_stamp), self.what_graph_style())
-                save_filename = save_filename + ".pdf"
-                self.figure.savefig(save_filename,format="pdf",dpi=1200)
-            except:
-                print('couldnt save')
-        elif question_box.clickedButton() == cancel_button:
-            question_box.close()
-
+        
+        default_filename = create_2hz_plot_file_name(
+                self.filename,
+                str(self.start_time_stamp),
+                str(self.end_time_stamp),
+                self.what_graph_style())
+        default_filename = os.path.join( 
+                os.path.expanduser("~"), 
+                'Documents', 
+                default_filename)                
+        self.figure.savefig(default_filename,format="pdf",dpi=1200)
+        
     def save_as(self):
-         
         """
-        Saves the Graph as an image with user chosing either a PDF or PNG option 
-        can easily incorperate more file types as needed 
- 
+        Saves the plot as an image with user chosing either a PDF or PNG option 
+        can easily incorperate more file types as needed
         """
        
-        default_filename = save_filename = create_2hz_plot_file_name(
+        default_filename = create_2hz_plot_file_name(
                 self.filename,
                 str(self.start_time_stamp),
                 str(self.end_time_stamp),
                 self.what_graph_style())
 
+        # Invokes the OS's save dialog. save_filename is an empty string
+        # if the user cancels.
         save_filename, save_type = QFileDialog.getSaveFileName( 
                 parent = self, 
                 caption = "Save Plot As",
                 dir = os.path.join( os.path.expanduser("~"), 'Documents', default_filename),
-                #dir = str( Path.home().joinpath( 'Documents', default_filename)),
                 filter = "PDF (*.pdf);;PNG (*.png)",
                 selectedFilter = "PDF (*.pdf)")
         print( "The save filename is " + save_filename + " of type " + save_type)
@@ -866,6 +857,7 @@ class MainWindow(QMainWindow):
         else:
             self.figure.set_size_inches(12,7)
 
+        # If the user has picked a filename, save the plot to that name.
         if len( save_filename) > 0 :
             if save_type == "PDF (*.pdf)" :
                 self.figure.savefig( save_filename, format="pdf", dpi=1200)
