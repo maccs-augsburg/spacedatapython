@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
                                 QMessageBox,QComboBox,
-                                QGridLayout
+                                QGridLayout, QFrame
                                 )
 from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime, QSettings
@@ -54,6 +54,7 @@ import model.read_raw_to_lists
 import model.read_IAGA2002_to_lists
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
+import plot.test_figure
 
 # Packaging stuff
 # Holds full path of the current Python File
@@ -678,6 +679,7 @@ class MainWindow(QMainWindow):
         self.display_figure()
 
     def get_file_data(self):
+
         '''
         Gets file data once a file has been chosen inside the gui.
         Data consists of x axis list, y axis list, z axis list,
@@ -733,6 +735,10 @@ class MainWindow(QMainWindow):
         self.time_arr = t
         # close opened file
         file.close()
+    
+   # def resizeEvent(self, event):
+     #   QFrame.resizeEvent(self, event)
+      #  self.graph.resize(event.size().width(7), event.size().height(12))
 
     def display_figure(self):
         """
@@ -749,10 +755,16 @@ class MainWindow(QMainWindow):
             # remove plot from window
             self.graph.setParent(None)
         # create new figure
+        print(self.figure.get_figwidth())
+        print(self.figure.get_figheight())
+        #self.figure = self.figure.set_size_inches(12,7)
+        
         self.graph = FigureCanvasQTAgg(self.figure)
+        #self.resizeEvent
+
         # add new figure to layout
         self.graph_layout.add_widget(self.graph)
-        self.main_layout.addWidget(self.graph_layout, 5)
+        self.main_layout.addWidget(self.graph_layout,5)
         self.mac_label.setHidden(True)
         self.graph_figure_flag = True
         self.show()
@@ -902,7 +914,6 @@ class MainWindow(QMainWindow):
                 self.figure.savefig( save_filename, format="png", dpi=1200)
             else :
                 print("Error: save plot with unknown file type.")
-
 
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
