@@ -3,7 +3,7 @@
 # 2022 June - Created - Erik Steinmetz
 #
 
-""" Command line tool to create a stacked plot.
+""" Command line tool to create a stacked plot of derivatives.
 
 Creates a stacked plot in either pdf or png format for a given input
 file. Start and end times may also be selected.
@@ -19,7 +19,7 @@ import sys
 # MACCS imports
 from model.raw_codecs import decode, time_of_record
 #import station_names
-from plot.plot_stacked_graphs import plot_arrays
+from plot.plot_stacked_derivatives import plot_derivatives
 from model.read_raw_to_lists import create_datetime_lists_from_raw
 from model.read_clean_to_lists import create_datetime_lists_from_clean
 from util.file_naming import create_2hz_plot_file_name
@@ -51,6 +51,7 @@ def main():
     # the base_filename has no path included, just the filename
     base_filename = os.path.basename( args.filename)
     extension = os.path.splitext(base_filename)[1]
+    print(f"base_filename is {base_filename}")
 
     # starttime, endtime, and output file type
     start_time = datetime.time.fromisoformat( args.stime)
@@ -80,15 +81,14 @@ def main():
         sys.exit(0)
         
     ### Create a plot with given arrays
-    figure = plot_arrays(
+    figure = plot_derivatives(
         arrayX, arrayY, arrayZ, time_arr, 
-        base_filename, start_time, end_time, "2hz",
-        0, 0, 0, 0, 0, 0)
+        base_filename, start_time, end_time)
     
     ### Write the plot to a file
     try:
         out_filename = create_2hz_plot_file_name( base_filename, args.stime, args.etime, "stacked")
-        out_filename = out_filename + "." + output_file_type
+        out_filename = out_filename + "_derivs." + output_file_type
         figure.savefig( out_filename, format=output_file_type, dpi=1200)
         print(f"Saved to {out_filename}")
     except:
