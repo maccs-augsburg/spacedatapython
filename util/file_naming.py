@@ -74,7 +74,7 @@ def create_time_interval_string( start_second, end_second) :
     return create_time_interval_string_hms( start_hour, start_minute, start_second, 
                                             end_hour, end_minute, end_second)
 
-def create_2hz_plot_file_name( filename, start_time, end_time,graph_type) :
+def create_2hz_plot_file_name( filename, start_time, end_time, graph_type) :
     """
     Creates a filename appropriate for a 2 Hz plot.
     
@@ -86,6 +86,8 @@ def create_2hz_plot_file_name( filename, start_time, end_time,graph_type) :
         The start time for the plot as a string in HH:MM:SS format.
     end_time
         The end time for the plot as a string in HH:MM:SS format
+    graph_type
+        The type of graph, either stacked or three_axis
         
     Returns
     -------
