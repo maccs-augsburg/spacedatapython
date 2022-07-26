@@ -103,7 +103,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     ### figure settings
     fig = plt.figure(figsize=(12,7)) #12, 7, dictates width, height
     #plt.figure(figsize=(12,7))
-    fig.set_size_inches(12,7)
+    #fig.set_size_inches(12,7)
     fig.subplots_adjust(hspace=0.1)
     
     # figg, ax =  plt.subplots(3,1,figsize=(12,7))
@@ -156,9 +156,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     z_yticks = plt.yticks()
-    # returning the fig object
-    fig.set_figwidth(12)
-    fig.set_figheight(7)
+  #  # returning the fig object
+   # fig.set_figwidth(12)
+    #fig.set_figheight(7)
     return fig
 
 def set_yaxis(yticks_list, scale_difference):
