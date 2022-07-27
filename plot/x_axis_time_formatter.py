@@ -180,7 +180,6 @@ def get_minute_ticks(minute_step, stime, total_time_diff_seconds):
 									minute = minute,
 									second = 0))
 
-	print(hours_arr)
 	return hours_arr, x_axis_format, x_axis_label
 
 def get_second_ticks(second_step, stime, total_time_diff_seconds):
