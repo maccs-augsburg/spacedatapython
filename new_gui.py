@@ -161,7 +161,8 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.setAutoFillBackground(True)
 
         self.labels_and_text_fields_layout = GridLayout()
-        self.graph_layout = VLayout()
+        # changed to HLayOut was Vlayout
+        self.graph_layout = HLayout()
         self.checkbox_layout = VLayout()
         self.button_layout = GridLayout()        
         self.button_layout_top = GridLayout()
@@ -169,13 +170,18 @@ class MainWindow(QMainWindow):
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
-        self.button_layout_top.setContentsMargins(10, -15, 0, 0)
+        self.button_layout_top.setContentsMargins(10, 15, 0, 0)
         self.labels_and_text_fields_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
         
-       # self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
+        self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
+        self.checkbox_layout.layout.setAlignment(Qt.AlignLeft)
+        self.button_layout.layout.setAlignment(Qt.AlignLeft)
+        self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
+        self.button_layout_top.layout.setAlignment(Qt.AlignLeft)
+        self.graph_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
         ### Labels ####
@@ -222,7 +228,6 @@ class MainWindow(QMainWindow):
         self.end_time.time_widget.setTime(QTime(23,59,59))
         self.start_time.setMaximumWidth(165)
         self.end_time.setMaximumWidth(165)
-        self.start_time.time_widget.setAlignment(Qt.AlignLeft)
 
         #################
         ### Combo Box ###
@@ -274,6 +279,7 @@ class MainWindow(QMainWindow):
         self.button_graph_switch = SwitchButtonWidget()
         self.line_sep = LineSeperator()
         self.second_line_sep = LineSeperator()
+        
         ########################
         ### Signals / Events ###
         ########################
@@ -361,18 +367,18 @@ class MainWindow(QMainWindow):
         ### Adding wdigets layouts into main Layout ###
         ###############################################
         self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
+        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
         self.parent_label_layout.add_widget(self.line_sep,2,0)
         self.parent_label_layout.add_widget(self.checkbox_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.second_line_sep, 5 ,0 )
-        self.parent_label_layout.add_widget(self.button_layout, 5, 0)
+        self.parent_label_layout.add_widget(self.second_line_sep, 3 ,0 )
+        self.parent_label_layout.add_widget(self.button_layout, 3, 0)
 
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################
-        self.main_layout.addWidget(self.parent_label_layout,1)
-        self.main_layout.addWidget(self.mac_label, 5)
+        self.main_layout.addWidget(self.parent_label_layout)
+        self.main_layout.addWidget(self.mac_label,1)
 
         ##########################
         ### Set Central Widget ###
@@ -755,19 +761,21 @@ class MainWindow(QMainWindow):
             # remove plot from window
             self.graph.setParent(None)
         # create new figure
-        print(self.figure.get_figwidth())
-        print(self.figure.get_figheight())
         #self.figure = self.figure.set_size_inches(12,7)
-        
+
+        # self.figure is still the correct size 
         self.graph = FigureCanvasQTAgg(self.figure)
         #self.resizeEvent
+        print(self.graph.sizeHint())
 
+        self.graph.resize(1200,700)
         # add new figure to layout
         self.graph_layout.add_widget(self.graph)
-        self.main_layout.addWidget(self.graph_layout,5)
+        self.main_layout.addWidget(self.graph_layout)  # there was a 5 here for streching 
         self.mac_label.setHidden(True)
         self.graph_figure_flag = True
         self.show()
+
 
     def delete_figure(self):
         '''
