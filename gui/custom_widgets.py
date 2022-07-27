@@ -32,7 +32,7 @@ class LineEdit(QLineEdit):
         self.setAlignment(Qt.AlignCenter)
         self.entry = "N/A"
         self.setMaximumWidth(95)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setMaximumHeight(MINIMUM_HEIGHT)
 
     def text_edited(self, s):
@@ -59,7 +59,7 @@ class Label(QLabel):
         self.setFont(font)
         self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         self.setMaximumWidth(90)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
 class CheckBox(QCheckBox):
     def __init__(self, label_name):
@@ -70,7 +70,7 @@ class CheckBox(QCheckBox):
         font.setPointSize(FONT_SIZE)
         self.setFont(font)
         self.setMaximumWidth(75)
-        self.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         #self.setMinimumHeight(MINIMUM_HEIGHT)
 
 class PushButton(QPushButton):
@@ -89,7 +89,7 @@ class PushButton(QPushButton):
         self.alternate_name = alternate_name
         self.original_name = label_name
         #self.setMaximumHeight(30)
-        #self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         #self.setMinimumHeight(MINIMUM_HEIGHT)
         #self.setMaximumWidth(95)
 
@@ -138,7 +138,7 @@ class Spinbox(QSpinBox):
         self.setAlignment(Qt.AlignCenter)
         self.entry = 0
         self.setMaximumWidth(95)
-       # self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setMaximumHeight(MINIMUM_HEIGHT)
 
     def value_changed(self, i):
@@ -174,7 +174,7 @@ class Time(QTimeEdit):
         font.setPointSize(FONT_SIZE)
         self.setAlignment(Qt.AlignCenter)
         self.setMaximumWidth(155)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setMaximumHeight(MINIMUM_HEIGHT)
         self.setTimeRange(self.min_time, self.max_time)
         self.setDisplayFormat("hh:mm:ss")
@@ -279,6 +279,10 @@ class HLayout(QWidget):
         super().__init__()
         
         self.layout = QHBoxLayout()
+        # Size policy is set to keep the figure at the certian size 
+        # 12,7 or 12,4 if want to change it for other layouts 
+        # set this sizePolicy to graph_layout in new_gui.py
+        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         self.setLayout(self.layout)
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
