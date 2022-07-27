@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
                                 QMessageBox,QComboBox,
-                                QGridLayout, QFrame
+                                QGridLayout, QFrame,QSizePolicy
                                 )
 from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime, QSettings
@@ -163,25 +163,27 @@ class MainWindow(QMainWindow):
         self.labels_and_text_fields_layout = GridLayout()
         # changed to HLayOut was Vlayout
         self.graph_layout = HLayout()
+        
         self.checkbox_layout = VLayout()
         self.button_layout = GridLayout()        
         self.button_layout_top = GridLayout()
         self.min_max_xyz_layout = GridLayout()
+        self.min_max_xyz_layout.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
-        self.button_layout_top.setContentsMargins(10, 15, 0, 0)
+        self.button_layout_top.setContentsMargins(10, 0, 0, 0)
         self.labels_and_text_fields_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
         
-        self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
-        self.checkbox_layout.layout.setAlignment(Qt.AlignLeft)
-        self.button_layout.layout.setAlignment(Qt.AlignLeft)
-        self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
-        self.button_layout_top.layout.setAlignment(Qt.AlignLeft)
-        self.graph_layout.layout.setAlignment(Qt.AlignLeft)
+        # self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
+        # self.checkbox_layout.layout.setAlignment(Qt.AlignLeft)
+        # self.button_layout.layout.setAlignment(Qt.AlignLeft)
+        # self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
+        # self.button_layout_top.layout.setAlignment(Qt.AlignLeft)
+        # self.graph_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
         ### Labels ####
@@ -272,7 +274,6 @@ class MainWindow(QMainWindow):
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
-
         #####################
         ### Custom Widget ###
         #####################
@@ -369,10 +370,10 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
         self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
         self.parent_label_layout.add_widget(self.line_sep,2,0)
-        self.parent_label_layout.add_widget(self.checkbox_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.second_line_sep, 3 ,0 )
-        self.parent_label_layout.add_widget(self.button_layout, 3, 0)
+        self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
+        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
+        self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
+        self.parent_label_layout.add_widget(self.button_layout, 5, 0)
 
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
@@ -741,10 +742,6 @@ class MainWindow(QMainWindow):
         self.time_arr = t
         # close opened file
         file.close()
-    
-   # def resizeEvent(self, event):
-     #   QFrame.resizeEvent(self, event)
-      #  self.graph.resize(event.size().width(7), event.size().height(12))
 
     def display_figure(self):
         """
@@ -760,22 +757,16 @@ class MainWindow(QMainWindow):
         if self.graph_figure_flag:
             # remove plot from window
             self.graph.setParent(None)
+
         # create new figure
-        #self.figure = self.figure.set_size_inches(12,7)
-
-        # self.figure is still the correct size 
         self.graph = FigureCanvasQTAgg(self.figure)
-        #self.resizeEvent
-        print(self.graph.sizeHint())
 
-        self.graph.resize(1200,700)
         # add new figure to layout
         self.graph_layout.add_widget(self.graph)
-        self.main_layout.addWidget(self.graph_layout)  # there was a 5 here for streching 
+        self.main_layout.addWidget(self.graph_layout,5)  # there was a 5 here for streching 
         self.mac_label.setHidden(True)
         self.graph_figure_flag = True
         self.show()
-
 
     def delete_figure(self):
         '''
