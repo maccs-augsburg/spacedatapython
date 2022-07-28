@@ -14,18 +14,18 @@ import sys
 class LineSeperator(QtWidgets.QWidget):
     def __init__(self) -> None:
         super().__init__()
-        # self.setSizePolicy(
-        #     QtWidgets.QSizePolicy.MinimumExpanding,
-        #     QtWidgets.QSizePolicy.MinimumExpanding
-        # )
-        self.setGeometry(0, 0, 600, 400)
+        self.setSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding,
+            QtWidgets.QSizePolicy.MinimumExpanding
+        )
+        #self.setGeometry(0, 0, 600, 400)
         # self.setStyleSheet("border : 5px solid;"
         #                     "border-color : red;")
 
-        pal = QPalette()
-        pal.setColor(QPalette.Window,'purple')
-        self.setAutoFillBackground(True); 
-        self.setPalette(pal)
+        # pal = QPalette()
+        # pal.setColor(QPalette.Window,'purple')
+        # self.setAutoFillBackground(True); 
+        # self.setPalette(pal)
     def paintEvent(self, e):
         painter = QPainter(self)
         painter.drawLine(1,1,250,1)
