@@ -229,18 +229,6 @@ class Toolbar(QToolBar):
         self.addSeparator()
         self.addAction(self.zoom_action)
 
-# class Action(QAction):
-#     def __init__(self):
-#         super().__init__()
-
-#         self.filepath = None
-#         self.filename = None
-
-#     def add_filepath(self, filepath):
-#         self.filepath = filepath
-#     def add_filename(self, filename):
-#         self.filename = filename
-
 class Color(QWidget):
 
     def __init__(self, color):
@@ -264,8 +252,9 @@ class GridLayout(QWidget):
     def __init__(self):
         super().__init__()
         self.layout = QGridLayout()
-        self.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
+        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         self.setLayout(self.layout)
+
     def add_widget(self, some_widget, row, col):    
         self.layout.addWidget(some_widget, row, col)
 
@@ -278,7 +267,7 @@ class GridLayout(QWidget):
 class HLayout(QWidget):
     def __init__(self):
         super().__init__()
-        
+
         self.layout = QHBoxLayout()
         # Size policy is set to keep the figure at the certian size 
         # 12,7 or 12,4 if want to change it for other layouts 
