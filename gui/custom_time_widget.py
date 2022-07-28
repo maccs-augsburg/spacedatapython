@@ -23,14 +23,12 @@ class MinMaxTime(QtWidgets.QWidget):
             QtWidgets.QSizePolicy.Fixed,
             QtWidgets.QSizePolicy.Fixed
         )
-        
         self.time_widget = QTimeEdit()
         self.time_widget.setTimeRange(QTime(00,00,00), QTime(23,59,59))
         self.time_widget.setDisplayFormat('hh:mm:ss')
         self.time_widget.timeChanged.connect(self.time_changed)
-        self.time_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.time_widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.time_widget.setMaximumHeight(25)
-        
         self.time_widget.setMaximumWidth(95)
 
         self.label_one = QPushButton(text)
@@ -79,12 +77,3 @@ class MinMaxTime(QtWidgets.QWidget):
 
     def set_own_time(self, hour, minute, second):
         self.time_widget.setTime(QTime(hour, minute, second))
-        
-def main():
-    app = QApplication(sys.argv)
-    window = MinMaxTime()
-    window.show()
-    app.exec()
-
-if __name__ == "__main__":
-    main()

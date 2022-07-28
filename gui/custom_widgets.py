@@ -70,7 +70,7 @@ class CheckBox(QCheckBox):
         font.setPointSize(FONT_SIZE)
         self.setFont(font)
         self.setMaximumWidth(75)
-        self.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
+        #self.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
         #self.setMinimumHeight(MINIMUM_HEIGHT)
 
 class PushButton(QPushButton):
@@ -83,15 +83,11 @@ class PushButton(QPushButton):
         font.setPointSize(FONT_SIZE)
         self.setCheckable(True)
         self.button_is_checked = False
-       # self.clicked.connect(self.button_toggle)
+        #self.clicked.connect(self.button_toggle)
         self.setChecked(self.button_is_checked)
-        #self.setMaximumWidth(150)#145
         self.alternate_name = alternate_name
         self.original_name = label_name
-        #self.setMaximumHeight(30)
-        #self.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
-        #self.setMinimumHeight(MINIMUM_HEIGHT)
-        #self.setMaximumWidth(95)
+        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
 
     def button_toggle(self, checked):
         self.button_is_checked = checked
