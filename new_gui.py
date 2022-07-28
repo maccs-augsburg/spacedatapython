@@ -13,7 +13,7 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
                                 QMessageBox,QComboBox,
-                                QFormLayout,QSizePolicy
+                                QGroupBox,QSizePolicy
                                 )
 from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime, QSettings
@@ -158,31 +158,12 @@ class MainWindow(QMainWindow):
 
         self.labels_and_text_fields_layout = GridLayout()
         self.min_max_xyz_layout = GridLayout()
-        self.min_max_xyz_layout.setSizePolicy(QSizePolicy.Maximum,QSizePolicy.Maximum)
         self.checkbox_layout = VLayout()
         self.button_layout = GridLayout()
 
         self.graph_layout = HLayout()
 
-        pal = QPalette()
 
-        #set black background
-        # Qt::black / "#000000" / "black"
-        # pal.setColor(QPalette.Window,'blue')
-        # self.parent_label_layout.setAutoFillBackground(True); 
-        # self.parent_label_layout.setPalette(pal)     
-
-        # pal.setColor(QPalette.Window,'red')
-        # self.labels_and_text_fields_layout.setAutoFillBackground(True); 
-        # self.labels_and_text_fields_layout.setPalette(pal)
-
-        # pal.setColor(QPalette.Window,'grey')
-        # self.min_max_xyz_layout.setAutoFillBackground(True); 
-        # self.min_max_xyz_layout.setPalette(pal)        
-        
-        # pal.setColor(QPalette.Window,'green')
-        # self.button_layout.setAutoFillBackground(True); 
-        # self.button_layout.setPalette(pal)
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
@@ -190,12 +171,8 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
-        
-        # self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
-        # self.checkbox_layout.layout.setAlignment(Qt.AlignLeft)
-        # self.button_layout.layout.setAlignment(Qt.AlignLeft)
+
         self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
-        # self.graph_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
         ### Labels ####
@@ -332,16 +309,22 @@ class MainWindow(QMainWindow):
         # Start time is greater than end time
         self.start_time.time_widget.timeChanged.connect(self.is_plottable)
         self.end_time.time_widget.timeChanged.connect(self.is_plottable)
+        
+        ################
+        ### Groupbox ###
+        ################
+        self.group_file_info = QGroupBox()
+        self.test = QHBoxLayout()
+        self.label = QLabel('asdkas')
+        self.test.addWidget(self.label)
+        self.group_file_info.setLayout(self.test)
+        self.group_graph_values = QGroupBox()
+        self.group_buttons = QGroupBox()
 
         ######################
         ### Adding Widgets ###
         ######################
-        self.button_plot.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
-        self.button_clear_plot.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
-        self.button_zoom.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
-        self.button_quit.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
-        self.min_max_xyz_layout.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
-        self.checkbox_layout.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
+
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_station, 1, 0)
@@ -387,6 +370,7 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
         #self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
+        self.parent_label_layout.layout.addLayout(self.test,1,0)
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################

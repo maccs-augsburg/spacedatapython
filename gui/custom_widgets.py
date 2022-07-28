@@ -248,7 +248,7 @@ class GridLayout(QWidget):
     def __init__(self):
         super().__init__()
         self.layout = QGridLayout()
-        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
+        self.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
         self.setLayout(self.layout)
 
     def add_widget(self, some_widget, row, col):    
@@ -270,6 +270,7 @@ class HLayout(QWidget):
         # set this sizePolicy to graph_layout in new_gui.py
         self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         self.setLayout(self.layout)
+        self.layout.
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
     def add_widget_stretch(self, some_widget, stretch):
@@ -278,11 +279,15 @@ class HLayout(QWidget):
 class VLayout(QWidget):
     def __init__(self):
         super().__init__()
-        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
+        self.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
 
-
+class GroupBox(QWidget):
+    def __init__(self,user_layout):
+        super().__init__()
+        
+        
 #https://doc.qt.io/qt-6/qkeysequence.html#QKeySequence-3
