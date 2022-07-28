@@ -13,41 +13,36 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
                                 QMessageBox,QComboBox,
-                                QGridLayout, QFrame,QSizePolicy
+                                QFormLayout,QSizePolicy
                                 )
 from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime, QSettings
 
-#qtwidgets
-from gui.custom_graph_toggle_widget import SwitchButtonWidget
-
 # Imports from matplotlib
 import matplotlib
-
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 
 # Imports from python 
 import sys
 import datetime
 import os
-import subprocess
 
 
 #Custom Widget Imports
 from gui.custom_widgets import (
     LineEdit, Label, CheckBox, 
-    PushButton, Spinbox, Time, 
+    PushButton, Spinbox, 
     GridLayout, HLayout,
-    Toolbar, VLayout)
+    VLayout)
 
 # Imports from subpackages
 import gui.entry_check
+from gui.custom_graph_toggle_widget import SwitchButtonWidget
 from gui.custom_time_widget import MinMaxTime
 from gui.custom_seperator_line import LineSeperator
-import util.station_names
 from util.file_naming import create_2hz_plot_file_name
 import model.read_clean_to_lists
 import model.read_raw_to_lists
@@ -155,7 +150,7 @@ class MainWindow(QMainWindow):
         self.main_layout = QHBoxLayout()
 
         self.parent_label_layout = GridLayout()
-        self.parent_label_layout.setSizePolicy(QSizePolicy.Maximum,QSizePolicy.Maximum)
+        self.parent_label_layout.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
         color = QPalette()#dbdbdb
         color.setColor(QPalette.Window,"#e1e1e1")
         self.parent_label_layout.setPalette(color)
@@ -199,7 +194,7 @@ class MainWindow(QMainWindow):
         # self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
         # self.checkbox_layout.layout.setAlignment(Qt.AlignLeft)
         # self.button_layout.layout.setAlignment(Qt.AlignLeft)
-        # self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
+        self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
         # self.graph_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
@@ -341,7 +336,12 @@ class MainWindow(QMainWindow):
         ######################
         ### Adding Widgets ###
         ######################
-
+        self.button_plot.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
+        self.button_clear_plot.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
+        self.button_zoom.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
+        self.button_quit.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
+        self.min_max_xyz_layout.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
+        self.checkbox_layout.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
         self.labels_and_text_fields_layout.add_widget(self.label_station, 1, 0)
@@ -377,17 +377,16 @@ class MainWindow(QMainWindow):
         self.button_layout.add_widget(self.button_save, 3, 0)
         self.button_layout.add_widget(self.button_save_as, 3,1)
         self.button_layout.add_widget_stretch(self.button_quit,5,0,1,0)
-        
+
         ###############################################
         ### Adding wdigets layouts into main Layout ###
         ###############################################
         self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 0, 0)
-        self.parent_label_layout.add_widget(self.line_sep,1,0)
-        self.parent_label_layout.add_widget(self.checkbox_layout, 2, 0)
+        #self.parent_label_layout.add_widget(self.line_sep,1,0)
+        self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
-        self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
+        #self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
-
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################
