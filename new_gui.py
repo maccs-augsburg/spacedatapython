@@ -258,11 +258,12 @@ class MainWindow(QMainWindow):
         self.button_save_as.set_uncheckable()
         self.button_plot = PushButton("Plot File")
         self.button_plot.set_uncheckable()
-        self.button_zoom = PushButton("Zoom", "Zoom")
+        self.button_zoom = PushButton("Zoom in")
         self.button_clear_plot = PushButton('Clear Plot')
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
+        self.button_zoom_out = PushButton('Zoom out')
         #####################
         ### Custom Widget ###
         #####################
@@ -298,6 +299,8 @@ class MainWindow(QMainWindow):
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot.clicked.connect(self.clear_plot)
         
+        self.button_zoom_out.setDisabled(True)
+        self.button_zoom_out.clicked.connect(self.zoom_out)
         # Since we have a entry check that checks for the state of
         # what axis is being plotted when we 3 axis display so we 
         # dont enable the plot button until atleast one checkbox is displayed 
@@ -357,8 +360,9 @@ class MainWindow(QMainWindow):
         self.button_layout.add_widget_stretch(self.button_plot,0,0,1,0)
         self.button_layout.add_widget_stretch(self.button_clear_plot, 1, 0,1,0)
         self.button_layout.add_widget_stretch(self.button_zoom, 2, 0,1,0)
-        self.button_layout.add_widget(self.button_save, 3, 0)
-        self.button_layout.add_widget(self.button_save_as, 3,1)
+        self.button_layout.add_widget_stretch(self.button_zoom_out,3,0,1,0)
+        self.button_layout.add_widget(self.button_save, 4, 0)
+        self.button_layout.add_widget(self.button_save_as, 4,1)
         self.button_layout.add_widget_stretch(self.button_quit,5,0,1,0)
 
         ###############################################
@@ -370,7 +374,6 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
         #self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
-        self.parent_label_layout.layout.addLayout(self.test,1,0)
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################
@@ -490,7 +493,6 @@ class MainWindow(QMainWindow):
         '''
         User Dialog that prompts user to select a file to open to be read and plotted
         '''
-
         # Open the dialog in the user's most recently opened data
         # directory, default is the user's 'Documents' directory.
         response = QFileDialog.getOpenFileName(
@@ -846,6 +848,9 @@ class MainWindow(QMainWindow):
         '''
         self.cid = self.graph.mpl_connect('button_press_event', self)
 
+    def zoom_out(self):
+        print('zoom out clicked')
+
     def save(self):
         """
         Saves the plot as a PDF file.
@@ -1040,6 +1045,7 @@ class MainWindow(QMainWindow):
             return '3axis'
         else:
             return 'stacked'
+
 def main():
     app = QApplication([])
     window = MainWindow()
