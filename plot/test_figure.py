@@ -110,7 +110,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     ax[0].plot(time_arr, x_arr, 'r-')
     ax[1].plot(time_arr, y_arr, 'b-')
     ax[2].plot(time_arr, z_arr, 'g-')
-    ### first plot    
+    ### first plot
     figg.set_size_inches(12,7)
     figg.set_figwidth(12)
     figg.set_figheight(7)

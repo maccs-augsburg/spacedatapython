@@ -82,8 +82,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
 
         ###########################
         ### Place Holder Values ###
@@ -153,26 +153,44 @@ class MainWindow(QMainWindow):
 
         # layout for buttons and checkboxs
         self.main_layout = QHBoxLayout()
-        self.parent_label_layout = GridLayout()
 
+        self.parent_label_layout = GridLayout()
+        self.parent_label_layout.setSizePolicy(QSizePolicy.Maximum,QSizePolicy.Maximum)
         color = QPalette()#dbdbdb
         color.setColor(QPalette.Window,"#e1e1e1")
         self.parent_label_layout.setPalette(color)
         self.parent_label_layout.setAutoFillBackground(True)
 
         self.labels_and_text_fields_layout = GridLayout()
-        # changed to HLayOut was Vlayout
-        self.graph_layout = HLayout()
-        
-        self.checkbox_layout = VLayout()
-        self.button_layout = GridLayout()        
-        self.button_layout_top = GridLayout()
         self.min_max_xyz_layout = GridLayout()
-        self.min_max_xyz_layout.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
+        self.min_max_xyz_layout.setSizePolicy(QSizePolicy.Maximum,QSizePolicy.Maximum)
+        self.checkbox_layout = VLayout()
+        self.button_layout = GridLayout()
+
+        self.graph_layout = HLayout()
+
+        pal = QPalette()
+
+        #set black background
+        # Qt::black / "#000000" / "black"
+        # pal.setColor(QPalette.Window,'blue')
+        # self.parent_label_layout.setAutoFillBackground(True); 
+        # self.parent_label_layout.setPalette(pal)     
+
+        # pal.setColor(QPalette.Window,'red')
+        # self.labels_and_text_fields_layout.setAutoFillBackground(True); 
+        # self.labels_and_text_fields_layout.setPalette(pal)
+
+        # pal.setColor(QPalette.Window,'grey')
+        # self.min_max_xyz_layout.setAutoFillBackground(True); 
+        # self.min_max_xyz_layout.setPalette(pal)        
+        
+        # pal.setColor(QPalette.Window,'green')
+        # self.button_layout.setAutoFillBackground(True); 
+        # self.button_layout.setPalette(pal)
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
-        self.button_layout_top.setContentsMargins(10, 0, 0, 0)
         self.labels_and_text_fields_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
@@ -182,7 +200,6 @@ class MainWindow(QMainWindow):
         # self.checkbox_layout.layout.setAlignment(Qt.AlignLeft)
         # self.button_layout.layout.setAlignment(Qt.AlignLeft)
         # self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
-        # self.button_layout_top.layout.setAlignment(Qt.AlignLeft)
         # self.graph_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
@@ -316,8 +333,7 @@ class MainWindow(QMainWindow):
         self.checkbox_y.clicked.connect(self.is_plottable)
         self.checkbox_z.clicked.connect(self.is_plottable)
 
-        # Every time we update or change a time in 
-        # either time widgets we want to check to see if 
+        # Every time we update or change a time in we want to check to see if 
         # Start time is greater than end time
         self.start_time.time_widget.timeChanged.connect(self.is_plottable)
         self.end_time.time_widget.timeChanged.connect(self.is_plottable)
@@ -325,8 +341,6 @@ class MainWindow(QMainWindow):
         ######################
         ### Adding Widgets ###
         ######################
-        self.button_layout_top.add_widget_stretch(self.combo_box_files, 0, 0, 1, 2)
-        self.button_layout_top.add_widget(self.button_open_file, 1, 0)
 
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
@@ -367,10 +381,9 @@ class MainWindow(QMainWindow):
         ###############################################
         ### Adding wdigets layouts into main Layout ###
         ###############################################
-        self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
-        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
-        self.parent_label_layout.add_widget(self.line_sep,2,0)
-        self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
+        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 0, 0)
+        self.parent_label_layout.add_widget(self.line_sep,1,0)
+        self.parent_label_layout.add_widget(self.checkbox_layout, 2, 0)
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
         self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
@@ -763,7 +776,7 @@ class MainWindow(QMainWindow):
 
         # add new figure to layout
         self.graph_layout.add_widget(self.graph)
-        self.main_layout.addWidget(self.graph_layout,5)  # there was a 5 here for streching 
+        self.main_layout.addWidget(self.graph_layout,5)
         self.mac_label.setHidden(True)
         self.graph_figure_flag = True
         self.show()

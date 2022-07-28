@@ -7,4 +7,3 @@ Here are some ideas for python data processing programs
   
 * Axis remover - Given a file, an axis name, and two times, flatten
   out the data value for the given axis between the two times.
-
