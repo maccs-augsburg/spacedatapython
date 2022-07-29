@@ -79,6 +79,7 @@ class MainWindow(QMainWindow):
 
         self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
         self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
+        self.prev_time = []
 
         ###########################
         ### Place Holder Values ###
@@ -858,32 +859,47 @@ class MainWindow(QMainWindow):
         self.e_minute = self.end_time.get_minute()
         self.e_second = self.end_time.get_second()
         self.zoom_out_helper()
+
         self.cid = self.graph.mpl_connect('button_press_event', self)
 
     def zoom_out_helper(self):
-        print('helper called')
         """
-        Helper function for zoom out will help gather and hold graph data 
-        of the previous state after zooming in 
-        NOT USED at the moment but could be used if we want to be able to zoom out more than once
+        Helper function for zoom_out appends time data to a list so that we can hold on to 
+        the times we zoomed in from and come walk our way back when we call zoom_out 
+        and want to make sure we arent able to press zoom_out when time is at min max
         """
+        self.prev_time.append((self.s_hour,self.s_minute ,self.s_second,self.e_hour,self.e_minute ,self.e_second))
+        print(self.prev_time)
         if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
-            self.button_zoom_out.setDisabled(True)
+                self.button_zoom_out.setDisabled(True)
+
+        
             
 
     def zoom_out(self):
         '''
-        function will allow the user to zoom out go back to the previous state the graph was in 
-        before the user zoomed in qq
-
-        Enable after zoom in is used 
-        get time stamp function and save it each plot 
+        function to zoom out on the graph this allows you to zoom out to the previous state / time the graph was at when you last zoomed in
+        when you zoom in multiple times we hold the times of that in a list, and then when zoom out is called 
+        we grab the most recent time set the time widget to that time and re plot the graph 
+        we then remove that time from the list as its no longer a time we can zoom out to 
+        and once you zoom out to min max time the button becomes disabled again
         '''
-        self.start_time.set_own_time(self.s_hour,self.s_minute,self.s_second)
-        self.end_time.set_own_time(self.e_hour,self.e_minute,self.e_second)
+        self.zoom_s_hour = self.prev_time[len(self.prev_time) - 1][0]
+        self.zoom_s_min = self.prev_time[len(self.prev_time) - 1][1]
+        self.zoom_s_sec = self.prev_time[len(self.prev_time) - 1][2]
+        self.zoom_e_hour = self.prev_time[len(self.prev_time) - 1][3]
+        self.zoom_e_min = self.prev_time[len(self.prev_time) - 1][4]
+        self.zoom_e_sec = self.prev_time[len(self.prev_time) - 1][5]
+
+        self.start_time.set_own_time(self.zoom_s_hour,self.zoom_s_min,self.zoom_s_sec)
+        self.end_time.set_own_time(self.zoom_e_hour,self.zoom_e_min,self.zoom_e_sec)
+
         self.plot_graph()
-        self.zoom_out_helper()
-        print('zoom out clicked')
+
+        if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
+                self.button_zoom_out.setDisabled(True)
+
+        self.prev_time.remove(self.prev_time[len(self.prev_time)-1])
 
     def save(self):
         """
