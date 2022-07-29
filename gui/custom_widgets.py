@@ -270,7 +270,7 @@ class HLayout(QWidget):
         # set this sizePolicy to graph_layout in new_gui.py
         self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         self.setLayout(self.layout)
-        self.layout.
+        
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
     def add_widget_stretch(self, some_widget, stretch):
