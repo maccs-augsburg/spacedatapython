@@ -415,7 +415,7 @@ def checks(self) -> bool:
     True/False : bool
         False if passed string not in station names, true if it is.
     '''
-    
+
     # Makes sure we have a file
     if len(self.filename) == 0:
         return False
@@ -434,6 +434,8 @@ def checks(self) -> bool:
 
     if not min_max_time_check(self):
         return False
+
+
 
     x_state = self.checkbox_x.isChecked()
     y_state = self.checkbox_y.isChecked()
