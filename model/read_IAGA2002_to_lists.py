@@ -1,6 +1,6 @@
 #  read_IAGA2002_to_lists.py
 #
-#  Reads raw 2 Hz data from a file, creating data lists of all three
+#  Reads IAGA2002 2 Hz data from a file, creating data lists of all three
 #  axes and a list of times.
 #
 #  2021 July  -- Created  -- Erik Steinmetz
@@ -11,7 +11,8 @@ import datetime
 import numpy as np
 
 def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, file_name):
-    """ Creates x, y, z, and time lists based on the 2 Hz raw data file. But for the time_arr list, it saves the values into the list as datetime.datetime objects
+    """ Creates x, y, z, and time lists based on the 2 Hz IAGA2002 data file. 
+    For the time_arr list, it saves the values into the list as datetime.datetime objects
     
     Places x, y, z and time values into their own lists.
 
@@ -19,7 +20,7 @@ def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, fi
     ----------
     IAGA2002_file:
         An opened file object containing a day of data recorded
-        in the SRI 2 Hz format.
+        in the IAGA2002 format.
     start_time:
         The datetime.time object from which to begin
     end_time:
@@ -39,27 +40,27 @@ def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, fi
         time_arr: a list of datetime.datetime Values from our 2 Hz file
     
     """
-    #station = filename[0:2] # Two letter abbreviation of station
-    #station_name = station_names.find_full_name(station) # Getting the station name
-    
-    # When creating from raw filename, we switch from using
-    # 2 letter station names to 3 letter station names
-    year_day_value = file_name[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
-    year_value = str(year_day_value[2:4]) # The last 2 digits of the year YYYY
-    day_value = str(year_day_value[4:6]) # The 3 digits corresponding with the day of the year
-
-    if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
-        year_value = "19" + year_value
-    else:
-        year_value = "20" + year_value
-
-    # Converting the date and setting it up
-    date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
-    
-    # Quarter and three-quarter second constants expressed in terms of
-    # hours to add to the time list
-    QUARTER_SECOND = 0.25 / 3600.0
-    THREE_QUARTER_SECOND = 0.75 / 3600.0
+#     #station = filename[0:2] # Two letter abbreviation of station
+#     #station_name = station_names.find_full_name(station) # Getting the station name
+#     
+#     # When creating from raw filename, we switch from using
+#     # 2 letter station names to 3 letter station names
+#     year_day_value = file_name[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
+#     year_value = str(year_day_value[2:4]) # The last 2 digits of the year YYYY
+#     day_value = str(year_day_value[4:6]) # The 3 digits corresponding with the day of the year
+# 
+#     if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
+#         year_value = "19" + year_value
+#     else:
+#         year_value = "20" + year_value
+# 
+#     # Converting the date and setting it up
+#     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
+#     
+#     # Quarter and three-quarter second constants expressed in terms of
+#     # hours to add to the time list
+#     QUARTER_SECOND = 0.25 / 3600.0
+#     THREE_QUARTER_SECOND = 0.75 / 3600.0
     
     # Lists to hold data and return at end of function
     x_arr = []	    #x plot point storage
@@ -100,7 +101,11 @@ def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, fi
 
         # if current time is greater than the start time we process and add it to arrays
         if current_time >= start_time :
-
+            
+            # look for placeholder value '99999.99', skip if present
+            if one_record_first_line[3] == b'99999.99' :
+                continue
+            
             # converting it into hours for the time array but saving them as datetime objects
             time_in_hours_quarter_second = datetime.datetime(year=1111,
                                                              month = 1,
