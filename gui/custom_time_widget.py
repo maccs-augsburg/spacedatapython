@@ -74,6 +74,8 @@ class MinMaxTime(QtWidgets.QWidget):
         return self.minute
     def get_second(self):
         return self.second
+    def get_time(self):
+        return self.hour,self.minute,self.second
 
     def set_own_time(self, hour, minute, second):
         self.time_widget.setTime(QTime(hour, minute, second))
