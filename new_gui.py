@@ -848,6 +848,8 @@ class MainWindow(QMainWindow):
         handle user clicks. After two clicks, event listener is
         disconnected from out matplotlib figure.
         '''
+        # Every time we zoom in before we get the new zoom in data 
+        # we collect the times we have now and save it if we want to zoom out
         self.s_hour = self.start_time.get_hour()
         self.s_minute = self.start_time.get_minute()
         self.s_second = self.start_time.get_second()
@@ -855,7 +857,7 @@ class MainWindow(QMainWindow):
         self.e_hour = self.end_time.get_hour()
         self.e_minute = self.end_time.get_minute()
         self.e_second = self.end_time.get_second()
-
+        self.zoom_out_helper()
         self.cid = self.graph.mpl_connect('button_press_event', self)
 
     def zoom_out_helper(self):
@@ -865,6 +867,9 @@ class MainWindow(QMainWindow):
         of the previous state after zooming in 
         NOT USED at the moment but could be used if we want to be able to zoom out more than once
         """
+        if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
+            self.button_zoom_out.setDisabled(True)
+            
 
     def zoom_out(self):
         '''
@@ -877,6 +882,7 @@ class MainWindow(QMainWindow):
         self.start_time.set_own_time(self.s_hour,self.s_minute,self.s_second)
         self.end_time.set_own_time(self.e_hour,self.e_minute,self.e_second)
         self.plot_graph()
+        self.zoom_out_helper()
         print('zoom out clicked')
 
     def save(self):
