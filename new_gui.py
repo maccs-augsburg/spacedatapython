@@ -705,8 +705,7 @@ class MainWindow(QMainWindow):
             x,y,z,t,f = model.read_clean_to_lists.create_datetime_lists_from_clean(
                                                             file, 
                                                             self.start_time_stamp, 
-                                                            self.end_time_stamp, 
-                                                            self.filename)
+                                                            self.end_time_stamp)
             # easy to glance over, might be used for new feature?
             flag_arr = f
             #self.flag_arr = f

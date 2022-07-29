@@ -73,7 +73,7 @@ def main():
         level_for_filename = "0"
     elif extension == '.s2' :
         arrayX, arrayY, arrayZ, time_arr, flags_arr = create_datetime_lists_from_clean(
-            two_hz_binary_file, start_time, end_time, base_filename)
+            two_hz_binary_file, start_time, end_time)
         level_for_filename = "1"
     else:
         print(f"What kind of file was that?")  # FIXME - better error handling
