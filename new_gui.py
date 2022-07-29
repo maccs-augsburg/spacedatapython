@@ -722,9 +722,7 @@ class MainWindow(QMainWindow):
             x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_IAGA2002(
                                                             file,
                                                             self.start_time_stamp,
-                                                            self.end_time_stamp,
-                                                            self.filename
-            )
+                                                            self.end_time_stamp)
 
         # Assign those short names here
         self.x_arr = x

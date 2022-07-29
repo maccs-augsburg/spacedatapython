@@ -3,14 +3,13 @@
 #  Reads IAGA2002 2 Hz data from a file, creating data lists of all three
 #  axes and a list of times.
 #
-#  2021 July  -- Created  -- Erik Steinmetz
-#  2022 July  -- Modified raw to IAGA2002 -- Mark O.P
+#  2022 July  --  Created from modified read_raw  -- Mark O.P
 
 # Python 3 imports
 import datetime
 import numpy as np
 
-def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, file_name):
+def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time):
     """ Creates x, y, z, and time lists based on the 2 Hz IAGA2002 data file. 
     For the time_arr list, it saves the values into the list as datetime.datetime objects
     
@@ -25,8 +24,6 @@ def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, fi
         The datetime.time object from which to begin
     end_time:
         The datetime.time object at which to end
-    file_name:
-        The name of the file that excludes the suffix (.2hz) and includes the yearday value
 
     Returns
     -------
@@ -40,27 +37,6 @@ def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time, fi
         time_arr: a list of datetime.datetime Values from our 2 Hz file
     
     """
-#     #station = filename[0:2] # Two letter abbreviation of station
-#     #station_name = station_names.find_full_name(station) # Getting the station name
-#     
-#     # When creating from raw filename, we switch from using
-#     # 2 letter station names to 3 letter station names
-#     year_day_value = file_name[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
-#     year_value = str(year_day_value[2:4]) # The last 2 digits of the year YYYY
-#     day_value = str(year_day_value[4:6]) # The 3 digits corresponding with the day of the year
-# 
-#     if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
-#         year_value = "19" + year_value
-#     else:
-#         year_value = "20" + year_value
-# 
-#     # Converting the date and setting it up
-#     date = datetime.datetime.strptime(year_value + "-" + day_value, "%Y-%j").strftime("%m-%d-%Y")
-#     
-#     # Quarter and three-quarter second constants expressed in terms of
-#     # hours to add to the time list
-#     QUARTER_SECOND = 0.25 / 3600.0
-#     THREE_QUARTER_SECOND = 0.75 / 3600.0
     
     # Lists to hold data and return at end of function
     x_arr = []	    #x plot point storage
