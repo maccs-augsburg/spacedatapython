@@ -4,20 +4,12 @@
 from hmac import new
 import sys
 
-from PySide6.QtWidgets import (
-    QLabel,QLineEdit, 
-    QWidget,QPushButton,QApplication)
+from PySide6.QtWidgets import (QApplication, QSizePolicy)
 
-from PySide6.QtGui import  (
-    QColor, QBrush, 
-    QPaintEvent, QPen, 
-    QPainter, QIcon, 
-    QAction, QPalette)
 
-from PySide6.QtCore import (
-        Qt, QSize, QPoint)
+from PySide6.QtCore import Qt
 
-from PySide6 import QtWidgets, QtGui
+from PySide6 import QtWidgets
 
 from gui.custom_widgets import PushButton
 
@@ -29,6 +21,7 @@ class SwitchButtonWidget(QtWidgets.QWidget):
     def __init__(self, *args,**kwargs):
         super(SwitchButtonWidget,self).__init__(*args,**kwargs)
         button_layout = QtWidgets.QGridLayout()
+        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         # Using our already created pushbutton widget to create our buttons here
         # We can still customize it as needed or scrap it and use our own for this widget
         self.three_axis_style = PushButton("Three Axis Style")

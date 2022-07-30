@@ -93,7 +93,7 @@ def plot_axis(
     fig = plt.figure(figsize=(12, 4))
     fig.set_figwidth(12)
     fig.set_figheight(4)
-    plt.plot(timeArr,axisArr, linewidth = 1)
+    plt.plot(time_list,axis_list, linewidth = 1)
     plt.title("Geomagnetic B" + axis + " of " + station_name + "   YEARDAY: " + year_day_value + "   DATE: " + date) 
     plt.ylabel('B' + axis)
 
