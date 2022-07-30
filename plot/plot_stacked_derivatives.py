@@ -79,7 +79,7 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
         datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
         # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
         day_of_year = datetime_object.strftime('%j')
-        year_day_value = yyyy_mmdd[0:2] + day_of_year
+        year_day_value = yyyy_mmdd[2:4] + day_of_year
 
     if((int)(year_value) > 70): # Not sure what the cutoff should be, just defaulted to 70 to start with
         year_value = "19" + year_value

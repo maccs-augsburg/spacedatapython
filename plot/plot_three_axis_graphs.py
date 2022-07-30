@@ -71,7 +71,7 @@ def plot_axis(
         datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
         # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
         day_of_year = datetime_object.strftime('%j')
-        year_day_value = yyyy_mmdd[0:2] + day_of_year
+        year_day_value = yyyy_mmdd[2:4] + day_of_year
 
     # List of the hours and finding which ones to use
     #default_hours_arr = [1,3,5,7,9,11,13,15,17,19,21,23] # default graph list
