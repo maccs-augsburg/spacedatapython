@@ -32,7 +32,7 @@ class LineEdit(QLineEdit):
         self.setAlignment(Qt.AlignCenter)
         self.entry = "N/A"
         self.setMaximumWidth(95)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         self.setMaximumHeight(MINIMUM_HEIGHT)
 
     def text_edited(self, s):
@@ -59,7 +59,7 @@ class Label(QLabel):
         self.setFont(font)
         self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         self.setMaximumWidth(90)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
 
 class CheckBox(QCheckBox):
     def __init__(self, label_name):
@@ -70,7 +70,7 @@ class CheckBox(QCheckBox):
         font.setPointSize(FONT_SIZE)
         self.setFont(font)
         self.setMaximumWidth(75)
-        self.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.MinimumExpanding)
         #self.setMinimumHeight(MINIMUM_HEIGHT)
 
 class PushButton(QPushButton):
@@ -83,15 +83,11 @@ class PushButton(QPushButton):
         font.setPointSize(FONT_SIZE)
         self.setCheckable(True)
         self.button_is_checked = False
-       # self.clicked.connect(self.button_toggle)
+        #self.clicked.connect(self.button_toggle)
         self.setChecked(self.button_is_checked)
-        #self.setMaximumWidth(150)#145
         self.alternate_name = alternate_name
         self.original_name = label_name
-        #self.setMaximumHeight(30)
-        #self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        #self.setMinimumHeight(MINIMUM_HEIGHT)
-        #self.setMaximumWidth(95)
+        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
 
     def button_toggle(self, checked):
         self.button_is_checked = checked
@@ -138,7 +134,7 @@ class Spinbox(QSpinBox):
         self.setAlignment(Qt.AlignCenter)
         self.entry = 0
         self.setMaximumWidth(95)
-       # self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         self.setMaximumHeight(MINIMUM_HEIGHT)
 
     def value_changed(self, i):
@@ -174,7 +170,7 @@ class Time(QTimeEdit):
         font.setPointSize(FONT_SIZE)
         self.setAlignment(Qt.AlignCenter)
         self.setMaximumWidth(155)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        #self.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         self.setMaximumHeight(MINIMUM_HEIGHT)
         self.setTimeRange(self.min_time, self.max_time)
         self.setDisplayFormat("hh:mm:ss")
@@ -229,18 +225,6 @@ class Toolbar(QToolBar):
         self.addSeparator()
         self.addAction(self.zoom_action)
 
-# class Action(QAction):
-#     def __init__(self):
-#         super().__init__()
-
-#         self.filepath = None
-#         self.filename = None
-
-#     def add_filepath(self, filepath):
-#         self.filepath = filepath
-#     def add_filename(self, filename):
-#         self.filename = filename
-
 class Color(QWidget):
 
     def __init__(self, color):
@@ -264,7 +248,9 @@ class GridLayout(QWidget):
     def __init__(self):
         super().__init__()
         self.layout = QGridLayout()
+        self.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
         self.setLayout(self.layout)
+
     def add_widget(self, some_widget, row, col):    
         self.layout.addWidget(some_widget, row, col)
 
@@ -277,9 +263,14 @@ class GridLayout(QWidget):
 class HLayout(QWidget):
     def __init__(self):
         super().__init__()
-        
+
         self.layout = QHBoxLayout()
+        # Size policy is set to keep the figure at the certian size 
+        # 12,7 or 12,4 if want to change it for other layouts 
+        # set this sizePolicy to graph_layout in new_gui.py
+        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         self.setLayout(self.layout)
+        
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
     def add_widget_stretch(self, some_widget, stretch):
@@ -288,11 +279,15 @@ class HLayout(QWidget):
 class VLayout(QWidget):
     def __init__(self):
         super().__init__()
-
+        self.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
     def add_widget(self, some_widget):
         self.layout.addWidget(some_widget)
 
-
+class GroupBox(QWidget):
+    def __init__(self,user_layout):
+        super().__init__()
+        
+        
 #https://doc.qt.io/qt-6/qkeysequence.html#QKeySequence-3

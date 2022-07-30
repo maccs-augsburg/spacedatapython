@@ -13,47 +13,43 @@ from PySide6.QtWidgets import (QMainWindow, QApplication,
                                 QLabel, QWidget, QHBoxLayout, 
                                 QToolBar,QFileDialog,
                                 QMessageBox,QComboBox,
-                                QGridLayout
+                                QGroupBox,QSizePolicy
                                 )
 from PySide6.QtGui import QIcon, QAction, QPalette, QPixmap, Qt,QKeySequence
 from PySide6.QtCore import  QSize, QTime, QSettings
 
-#qtwidgets
-from gui.custom_graph_toggle_widget import SwitchButtonWidget
-
 # Imports from matplotlib
 import matplotlib
-
 matplotlib.use('qtagg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 
 # Imports from python 
 import sys
 import datetime
 import os
-import subprocess
 
 
 #Custom Widget Imports
 from gui.custom_widgets import (
     LineEdit, Label, CheckBox, 
-    PushButton, Spinbox, Time, 
+    PushButton, Spinbox, 
     GridLayout, HLayout,
-    Toolbar, VLayout)
+    VLayout)
 
 # Imports from subpackages
 import gui.entry_check
+from gui.custom_graph_toggle_widget import SwitchButtonWidget
 from gui.custom_time_widget import MinMaxTime
 from gui.custom_seperator_line import LineSeperator
-import util.station_names
 from util.file_naming import create_2hz_plot_file_name
 import model.read_clean_to_lists
 import model.read_raw_to_lists
 import model.read_IAGA2002_to_lists
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
+import plot.test_figure
 
 # Packaging stuff
 # Holds full path of the current Python File
@@ -81,8 +77,9 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("MACCS Plotting Program")
 
-        self.setFixedHeight(MINIMUM_WINDOW_HEIGHT)
-        self.setFixedWidth(MINIMUM_WINDOW_WIDTH)
+        self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
+        self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
+        self.prev_time = []
 
         ###########################
         ### Place Holder Values ###
@@ -152,29 +149,31 @@ class MainWindow(QMainWindow):
 
         # layout for buttons and checkboxs
         self.main_layout = QHBoxLayout()
-        self.parent_label_layout = GridLayout()
 
+        self.parent_label_layout = GridLayout()
+        self.parent_label_layout.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
         color = QPalette()#dbdbdb
         color.setColor(QPalette.Window,"#e1e1e1")
         self.parent_label_layout.setPalette(color)
         self.parent_label_layout.setAutoFillBackground(True)
 
         self.labels_and_text_fields_layout = GridLayout()
-        self.graph_layout = VLayout()
-        self.checkbox_layout = VLayout()
-        self.button_layout = GridLayout()        
-        self.button_layout_top = GridLayout()
         self.min_max_xyz_layout = GridLayout()
+        self.checkbox_layout = VLayout()
+        self.button_layout = GridLayout()
+
+        self.graph_layout = HLayout()
+
+
         # left, top, right, bottom
         # align time_widget with rest of widgets
         #  offset of about 14 + any offset from other layouts
-        self.button_layout_top.setContentsMargins(10, -15, 0, 0)
         self.labels_and_text_fields_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.min_max_xyz_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.checkbox_layout.layout.setContentsMargins(10, 0, 0, 0)
         self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
-        
-       # self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
+
+        self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
         ### Labels ####
@@ -221,7 +220,6 @@ class MainWindow(QMainWindow):
         self.end_time.time_widget.setTime(QTime(23,59,59))
         self.start_time.setMaximumWidth(165)
         self.end_time.setMaximumWidth(165)
-        self.start_time.time_widget.setAlignment(Qt.AlignLeft)
 
         #################
         ### Combo Box ###
@@ -261,18 +259,19 @@ class MainWindow(QMainWindow):
         self.button_save_as.set_uncheckable()
         self.button_plot = PushButton("Plot File")
         self.button_plot.set_uncheckable()
-        self.button_zoom = PushButton("Zoom", "Zoom")
+        self.button_zoom = PushButton("Zoom in")
         self.button_clear_plot = PushButton('Clear Plot')
         self.button_clear_plot.set_uncheckable()
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
-
+        self.button_zoom_out = PushButton('Zoom out')
         #####################
         ### Custom Widget ###
         #####################
         self.button_graph_switch = SwitchButtonWidget()
         self.line_sep = LineSeperator()
         self.second_line_sep = LineSeperator()
+        
         ########################
         ### Signals / Events ###
         ########################
@@ -301,6 +300,8 @@ class MainWindow(QMainWindow):
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot.clicked.connect(self.clear_plot)
         
+        self.button_zoom_out.setDisabled(True)
+        self.button_zoom_out.clicked.connect(self.zoom_out)
         # Since we have a entry check that checks for the state of
         # what axis is being plotted when we 3 axis display so we 
         # dont enable the plot button until atleast one checkbox is displayed 
@@ -308,17 +309,25 @@ class MainWindow(QMainWindow):
         self.checkbox_y.clicked.connect(self.is_plottable)
         self.checkbox_z.clicked.connect(self.is_plottable)
 
-        # Every time we update or change a time in 
-        # either time widgets we want to check to see if 
+        # Every time we update or change a time in we want to check to see if 
         # Start time is greater than end time
         self.start_time.time_widget.timeChanged.connect(self.is_plottable)
         self.end_time.time_widget.timeChanged.connect(self.is_plottable)
+        
+        ################
+        ### Groupbox ###
+        ################
+        self.group_file_info = QGroupBox()
+        self.test = QHBoxLayout()
+        self.label = QLabel('asdkas')
+        self.test.addWidget(self.label)
+        self.group_file_info.setLayout(self.test)
+        self.group_graph_values = QGroupBox()
+        self.group_buttons = QGroupBox()
 
         ######################
         ### Adding Widgets ###
         ######################
-        self.button_layout_top.add_widget_stretch(self.combo_box_files, 0, 0, 1, 2)
-        self.button_layout_top.add_widget(self.button_open_file, 1, 0)
 
         self.labels_and_text_fields_layout.add_widget(self.button_open_file, 0, 0)
         self.labels_and_text_fields_layout.add_widget(self.combo_box_files,0, 1)
@@ -352,26 +361,25 @@ class MainWindow(QMainWindow):
         self.button_layout.add_widget_stretch(self.button_plot,0,0,1,0)
         self.button_layout.add_widget_stretch(self.button_clear_plot, 1, 0,1,0)
         self.button_layout.add_widget_stretch(self.button_zoom, 2, 0,1,0)
-        self.button_layout.add_widget(self.button_save, 3, 0)
-        self.button_layout.add_widget(self.button_save_as, 3,1)
+        self.button_layout.add_widget_stretch(self.button_zoom_out,3,0,1,0)
+        self.button_layout.add_widget(self.button_save, 4, 0)
+        self.button_layout.add_widget(self.button_save_as, 4,1)
         self.button_layout.add_widget_stretch(self.button_quit,5,0,1,0)
-        
+
         ###############################################
         ### Adding wdigets layouts into main Layout ###
         ###############################################
-        self.parent_label_layout.add_widget(self.button_layout_top, 0, 0)
-        self.parent_label_layout.add_widget(self.line_sep,2,0)
-        self.parent_label_layout.add_widget(self.checkbox_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 1, 0)
-        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 2, 0)
-        self.parent_label_layout.add_widget(self.second_line_sep, 5 ,0 )
+        self.parent_label_layout.add_widget(self.labels_and_text_fields_layout, 0, 0)
+        #self.parent_label_layout.add_widget(self.line_sep,1,0)
+        self.parent_label_layout.add_widget(self.checkbox_layout, 3, 0)
+        self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
+        #self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
-
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################
-        self.main_layout.addWidget(self.parent_label_layout,1)
-        self.main_layout.addWidget(self.mac_label, 5)
+        self.main_layout.addWidget(self.parent_label_layout)
+        self.main_layout.addWidget(self.mac_label,1)
 
         ##########################
         ### Set Central Widget ###
@@ -486,7 +494,6 @@ class MainWindow(QMainWindow):
         '''
         User Dialog that prompts user to select a file to open to be read and plotted
         '''
-
         # Open the dialog in the user's most recently opened data
         # directory, default is the user's 'Documents' directory.
         response = QFileDialog.getOpenFileName(
@@ -678,6 +685,7 @@ class MainWindow(QMainWindow):
         self.display_figure()
 
     def get_file_data(self):
+
         '''
         Gets file data once a file has been chosen inside the gui.
         Data consists of x axis list, y axis list, z axis list,
@@ -744,11 +752,13 @@ class MainWindow(QMainWindow):
         if self.graph_figure_flag:
             # remove plot from window
             self.graph.setParent(None)
+
         # create new figure
         self.graph = FigureCanvasQTAgg(self.figure)
+
         # add new figure to layout
         self.graph_layout.add_widget(self.graph)
-        self.main_layout.addWidget(self.graph_layout, 5)
+        self.main_layout.addWidget(self.graph_layout,5)
         self.mac_label.setHidden(True)
         self.graph_figure_flag = True
         self.show()
@@ -824,7 +834,9 @@ class MainWindow(QMainWindow):
             self.reset_axis_entries()
             # plot graph
             self.plot_graph()
-   
+
+        self.button_zoom_out.setDisabled(False)
+  
     def zoom_in_listener(self):
         '''
         Starts event listening, listens for user clicks on plot.
@@ -833,7 +845,57 @@ class MainWindow(QMainWindow):
         handle user clicks. After two clicks, event listener is
         disconnected from out matplotlib figure.
         '''
+        # Every time we zoom in before we get the new zoom in data 
+        # we collect the times we have now and save it if we want to zoom out
+        self.s_hour = self.start_time.get_hour()
+        self.s_minute = self.start_time.get_minute()
+        self.s_second = self.start_time.get_second()
+
+        self.e_hour = self.end_time.get_hour()
+        self.e_minute = self.end_time.get_minute()
+        self.e_second = self.end_time.get_second()
+        self.zoom_out_helper()
+
         self.cid = self.graph.mpl_connect('button_press_event', self)
+
+    def zoom_out_helper(self):
+        """
+        Helper function for zoom_out appends time data to a list so that we can hold on to 
+        the times we zoomed in from and come walk our way back when we call zoom_out 
+        and want to make sure we arent able to press zoom_out when time is at min max
+        """
+        self.prev_time.append((self.s_hour,self.s_minute ,self.s_second,self.e_hour,self.e_minute ,self.e_second))
+        print(self.prev_time)
+        if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
+                self.button_zoom_out.setDisabled(True)
+
+        
+            
+
+    def zoom_out(self):
+        '''
+        function to zoom out on the graph this allows you to zoom out to the previous state / time the graph was at when you last zoomed in
+        when you zoom in multiple times we hold the times of that in a list, and then when zoom out is called 
+        we grab the most recent time set the time widget to that time and re plot the graph 
+        we then remove that time from the list as its no longer a time we can zoom out to 
+        and once you zoom out to min max time the button becomes disabled again
+        '''
+        self.zoom_s_hour = self.prev_time[len(self.prev_time) - 1][0]
+        self.zoom_s_min = self.prev_time[len(self.prev_time) - 1][1]
+        self.zoom_s_sec = self.prev_time[len(self.prev_time) - 1][2]
+        self.zoom_e_hour = self.prev_time[len(self.prev_time) - 1][3]
+        self.zoom_e_min = self.prev_time[len(self.prev_time) - 1][4]
+        self.zoom_e_sec = self.prev_time[len(self.prev_time) - 1][5]
+
+        self.start_time.set_own_time(self.zoom_s_hour,self.zoom_s_min,self.zoom_s_sec)
+        self.end_time.set_own_time(self.zoom_e_hour,self.zoom_e_min,self.zoom_e_sec)
+
+        self.plot_graph()
+
+        if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
+                self.button_zoom_out.setDisabled(True)
+
+        self.prev_time.remove(self.prev_time[len(self.prev_time)-1])
 
     def save(self):
         """
@@ -898,7 +960,6 @@ class MainWindow(QMainWindow):
                 self.figure.savefig( save_filename, format="png", dpi=1200)
             else :
                 print("Error: save plot with unknown file type.")
-
 
     def error_message_pop_up(self,title, message):
         # pops up error message box with the title and message inputted
@@ -1030,6 +1091,7 @@ class MainWindow(QMainWindow):
             return '3axis'
         else:
             return 'stacked'
+
 def main():
     app = QApplication([])
     window = MainWindow()
