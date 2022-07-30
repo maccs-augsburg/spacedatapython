@@ -69,7 +69,7 @@ def main():
     ### Creating x, y, z, and time arrays 
     if extension == '.2hz' :
         arrayX, arrayY, arrayZ, time_arr = create_datetime_lists_from_raw(
-            two_hz_binary_file, start_time, end_time, base_filename)
+            two_hz_binary_file, start_time, end_time)
         level_for_filename = "0"
     elif extension == '.s2' :
         arrayX, arrayY, arrayZ, time_arr, flags_arr = create_datetime_lists_from_clean(
