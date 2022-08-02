@@ -102,26 +102,17 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     
     ### figure settings
     fig = plt.figure(figsize=(12,7)) #12, 7, dictates width, height
-    #plt.figure(figsize=(12,7))
-    #fig.set_size_inches(12,7)
-    fig.subplots_adjust(hspace=0.1)
-    
-    # figg, ax =  plt.subplots(3,1,figsize=(12,7))
-    # #figg.set_size_inches(12,7)
-    # ax[0].plot(time_arr, x_arr, 'r-')
-    # ax[1].plot(time_arr, y_arr, 'b-')
-    # ax[2].plot(time_arr, z_arr, 'g-')
+
     ### first plot    
-    #plt.ylim(minimum, maximum)
-    axis_x = plt.subplot(311)	# subplot allows multiple plots on 1 page
-                        # 3 dictates the range (row), allowing 3 graphs
-                        # 1 indicates columns, more than 1 for matrices for example
-                        # 1 indicates which subplot out of 3 to work on
+    axis_x = plt.subplot(311)	
+    # subplot allows multiple plots on 1 page
+    # 3 dictates the range (row), allowing 3 graphs
+    # 1 indicates columns, more than 1 for matrices for example
+    # 1 indicates which subplot out of 3 to work on
     
     plt.ylim(in_min_x, in_max_x)
     plt.plot(time_arr,x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
     plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
-    # Commits gone, this is to change padding on y-axis for graphs.
     # Should look nice for papers, not sure if there is a certain margin scientific papers need.
     plt.ylabel('Bx', labelpad=10)	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -156,9 +147,9 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     z_yticks = plt.yticks()
-  #  # returning the fig object
-   # fig.set_figwidth(12)
-    #fig.set_figheight(7)
+    plt.xlabel(x_axis_label)
+
+    # returning the fig object
     return fig
 
 def set_yaxis(yticks_list, scale_difference):
