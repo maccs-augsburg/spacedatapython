@@ -1,7 +1,4 @@
 import datetime
-from tarfile import _Bz2ReadableFileobj
-
-from anyio import current_effective_deadline
 
 def remove_data_from_clean(infile, outfile, start_time, end_time):
 
