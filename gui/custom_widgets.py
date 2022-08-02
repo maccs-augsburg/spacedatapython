@@ -87,7 +87,7 @@ class PushButton(QPushButton):
         self.setChecked(self.button_is_checked)
         self.alternate_name = alternate_name
         self.original_name = label_name
-        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
+        self.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
 
     def button_toggle(self, checked):
         self.button_is_checked = checked
@@ -248,7 +248,7 @@ class GridLayout(QWidget):
     def __init__(self):
         super().__init__()
         self.layout = QGridLayout()
-        self.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
+        self.setSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)
         self.setLayout(self.layout)
 
     def add_widget(self, some_widget, row, col):    

@@ -161,6 +161,7 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout = GridLayout()
         self.checkbox_layout = VLayout()
         self.button_layout = GridLayout()
+        self.min_max_xyz_layout.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
 
         self.graph_layout = HLayout()
 
@@ -265,6 +266,13 @@ class MainWindow(QMainWindow):
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
         self.button_zoom_out = PushButton('Zoom out')
+
+        # self.button_plot.setFixedWidth(200)
+        # self.button_clear_plot.setFixedWidth(200)
+        # self.button_zoom.setFixedWidth(200)
+        # self.button_zoom_out.setFixedWidth(200)
+        # self.button_quit.setFixedWidth(200)
+
         #####################
         ### Custom Widget ###
         #####################
@@ -872,9 +880,6 @@ class MainWindow(QMainWindow):
         print(self.prev_time)
         if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
                 self.button_zoom_out.setDisabled(True)
-
-        
-            
 
     def zoom_out(self):
         '''
