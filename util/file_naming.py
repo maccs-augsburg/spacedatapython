@@ -14,7 +14,10 @@ where timeInterval is blank if it is the whole day and cadence is
 
 """
 
+import datetime
 import os
+
+import util.station_names as snames
 
 def create_time_interval_string_hms( s_hour, s_minute, s_second, e_hour, e_minute, e_second) :
     """
@@ -81,22 +84,19 @@ def create_2hz_plot_file_name( filename, start_time, end_time, graph_type) :
     Parameters
     ----------
     filename:
-        The name of the file in SSYYDDD.ext format
+        The name of the file in SSYYDDD.ext or SSSYYYYMMDD... format.
     start_time
         The start time for the plot as a string in HH:MM:SS format.
     end_time
-        The end time for the plot as a string in HH:MM:SS format
+        The end time for the plot as a string in HH:MM:SS format.
     graph_type
-        The type of graph, either stacked or three_axis
+        The type of graph, either stacked or three_axis.
         
     Returns
     -------
     string
         The name for the file containing the plot with no extension.
     """
-    
-    # grab the station name, year, and day of year from the name
-    name_year_doy = filename[0:7].lower()
     
     # grab the file extension from the name to determine the processing level
     extension = os.path.splitext(filename)[1]
@@ -106,6 +106,23 @@ def create_2hz_plot_file_name( filename, start_time, end_time, graph_type) :
         proc_level = "1"
     elif extension == '.sec':
         proc_level = "1"
+        
+    # grab the station name, year, and day of year from the name
+    if extension == '.sec':
+    	station_three_letter = filename[0:2]
+    	station_two_letter = snames.find_two_letter_name( station_three_letter)
+    	year_two_digit = filename[5:7]
+    	month = filename[7:9]
+    	day = filename[9:11]
+    	full_date = year_two_digit + " " + month + " " + day
+    	datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
+    	# convert 'yy mm dd' to DOY format (0 - 365 or 366 if counting leap years)
+    	day_of_year = datetime_object.strftime('%j')
+    	name_year_doy = station_two_letter + year_two_digit + day_of_year
+    else:
+        name_year_doy = filename[0:7]
+    name_year_doy = name_year_doy.lower()
+    
 
     display_type = graph_type
     
