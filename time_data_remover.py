@@ -49,15 +49,16 @@ def remove_data_from_raw(infile, outfile, start_time, end_time):
 def remove_data_from_iaga(infile, outfile, start_time, end_time):
 
     for i in range(0, 100):
+
         dummy_record = str(infile.readline())
         dummy_record = dummy_record.split()
-
-        outfile.write(dummy_record)
 
         if dummy_record[0].__contains__("DATE"):
             outfile.write(dummy_record)
             break
-
+        
+        outfile.write(dummy_record)
+        
     # Loop until the end of file or end time has been reached
     while True:
 
