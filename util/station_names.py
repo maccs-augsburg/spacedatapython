@@ -25,6 +25,37 @@ names = (
     ( "SS", "SDY", "SDY-", "Sondrestrom",       "Sondrestrom, Greenland"),
     ( "HB", "HAL", "HAL-", "Halley Bay",        "Halley Bay, Antarctica"))
 
+def find_two_letter_name( a_name) :
+    """
+    Finds the two letter name of a station given a two to four letter name.
+
+    Parameters
+    ----------
+    a_name :
+        A two, three, or four letter station name.
+
+    Returns
+    -------
+    string
+        The two letter name of the given station or the empty string if not found.
+    """
+
+    a_name = a_name.upper() # change the input to all upper case
+    column_index = 1        # assume the input is a three letter abbreviation
+    if len( a_name) == 2 :
+        column_index = 0    # the input string is a two letter abbreviation
+    elif len( a_name) == 4 :
+        column_index = 2
+    row_index = -1          # start with an illegal row number
+    for row in range(16) :  # 0 to 15, the row numbers of names array.
+        if names[row][column_index] == a_name :
+            row_index = row
+            break
+    if row_index < 0 :      # did not find a match
+        return ""           # FIXME: return nil?
+    else :
+        return names[row_index][0]  # 0 is the column of the two letter abbr.
+    
 def find_three_letter_name( a_name) :
     """
     Finds the three letter name of a station given a two to four letter name.
