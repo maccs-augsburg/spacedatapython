@@ -175,6 +175,7 @@ class MainWindow(QMainWindow):
         self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
 
         self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
+        self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
         ### Labels ####
@@ -266,12 +267,6 @@ class MainWindow(QMainWindow):
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
         self.button_zoom_out = PushButton('Zoom out')
-
-        # self.button_plot.setFixedWidth(200)
-        # self.button_clear_plot.setFixedWidth(200)
-        # self.button_zoom.setFixedWidth(200)
-        # self.button_zoom_out.setFixedWidth(200)
-        # self.button_quit.setFixedWidth(200)
 
         #####################
         ### Custom Widget ###
@@ -877,7 +872,6 @@ class MainWindow(QMainWindow):
         and want to make sure we arent able to press zoom_out when time is at min max
         """
         self.prev_time.append((self.s_hour,self.s_minute ,self.s_second,self.e_hour,self.e_minute ,self.e_second))
-        print(self.prev_time)
         if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
                 self.button_zoom_out.setDisabled(True)
 
