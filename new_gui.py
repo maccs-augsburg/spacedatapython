@@ -530,7 +530,7 @@ class MainWindow(QMainWindow):
             datetime_object = datetime.datetime.strptime(full_date, "%y %m %d")
             # convert yy/mm/dd to DOY format (0 - 365 or 366 if counting leap years)
             day_of_year = datetime_object.strftime('%j')
-            year_day_value = yyyy_mmdd[0:2] + day_of_year
+            year_day_value = yyyy_mmdd[2:4] + day_of_year
             self.input_year.set_entry(year_day_value)
 
         # Ex for IAGA2002: chb20200406v_10_half_sec.sec
