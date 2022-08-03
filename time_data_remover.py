@@ -138,16 +138,18 @@ def main():
     # basefilename without extension
     base_filename = tuple_filename[0]
     filename_extension = tuple_filename[1]
-    infile = open(filename, "rb")
 
     new_filename = base_filename + "_test_data_remover." + filename_extension
     outfile = open(new_filename, "wb")
 
     if filename_extension == "s2":
+        infile = open(filename, "rb")
         remove_data_from_clean(infile, outfile, start_time, end_time)
     if filename_extension == "2hz":
+        infile = open(filename, "rb")
         remove_data_from_raw(infile, outfile, start_time, end_time)
     if filename_extension == "sec":
+        infile = open(filename, "r")
         outfile = open(new_filename, "w")
         remove_data_from_iaga(infile, outfile, start_time, end_time)
 
