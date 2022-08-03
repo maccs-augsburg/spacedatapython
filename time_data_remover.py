@@ -119,16 +119,23 @@ def main():
     
     if len(sys.argv) < 2:
         print("Usage: python3 time_data_remover.py filename")
+        print("Usage: python3 time_data_remover.py filename xx:xx:xx xx:xx:xx")
         sys.exit(0)
 
     filename = sys.argv[1]
+
+    if len(sys.argv) == 4:
+        start_time = datetime.time.fromisoformat(sys.argv[2])
+        end_time = datetime.time.fromisoformat(sys.argv[3])
+    else:
+        start_time = datetime.time.fromisoformat("10:00:00")
+        end_time = datetime.time.fromisoformat("20:00:00")
+
     tuple_filename = filename.split(".")
     # basefilename without extension
     base_filename = tuple_filename[0]
     filename_extension = tuple_filename[1]
     infile = open(filename, "rb")
-    start_time = datetime.time.fromisoformat("10:00:00")
-    end_time = datetime.time.fromisoformat("20:00:00")
 
     new_filename = base_filename + "_test_data_remover." + filename_extension
 
