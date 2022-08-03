@@ -84,20 +84,15 @@ def remove_data_from_iaga(infile, outfile, start_time, end_time):
 
     while True:
 
-        one_record_first_line = str(infile.readline())
-        one_record_second_line = str(infile.readline())
-        print(one_record_first_line)
+        one_record_first_line = infile.readline()
+        one_record_second_line = infile.readline()
         tuple_list_one = one_record_first_line.split()
-        print(tuple_list_one)
 
         # if we reach the end then we break the loop
         if not one_record_first_line:
             break
         
-        if len(tuple_list_one) < 6:
-            break
-        else:
-            time = str(tuple_list_one[1])
+        time = tuple_list_one[1]
         # Grab up to hh:mm:ss ignoring the microseconds
         time = time[0:8]
         datetime_object = datetime.datetime.strptime(time, "%H:%M:%S").time()
