@@ -25,3 +25,7 @@ __pycache__/
 # pyinstaller build and dist folders
 build/
 dist/
+
+# Pipenv files
+Pipfile
+Pipfile.lock

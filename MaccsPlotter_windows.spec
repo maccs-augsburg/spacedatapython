@@ -1,5 +1,10 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
+
+cwd = os.getcwd()
+
+print(cwd)
 
 block_cipher = None
 
@@ -26,7 +31,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='MaccsPlotter',
+    name='MACCS Plotter',
     icon='images\maccslogo_nobg.ico',
     debug=False,
     bootloader_ignore_signals=False,
@@ -47,5 +52,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='MaccsPlotter',
+    name='MACCS Plotter',
 )
