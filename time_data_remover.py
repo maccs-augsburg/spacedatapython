@@ -10,6 +10,7 @@ Created August 2022 - Mark Ortega-Ponce
 '''
 
 import datetime
+from hashlib import new
 import sys
 
 def remove_data_from_clean(infile, outfile, start_time, end_time):
@@ -121,16 +122,21 @@ def main():
         sys.exit(0)
 
     filename = sys.argv[1]
-    filename_extension = filename.split(".")[1]
+    tuple_filename = filename.split(".")
+    # basefilename without extension
+    base_filename = tuple_filename[0]
+    filename_extension = tuple_filename[1]
     infile = open(filename, "rb")
     start_time = datetime.time.fromisoformat("10:00:00")
     end_time = datetime.time.fromisoformat("20:00:00")
 
+    new_filename = base_filename + "_test_data_remover." + filename_extension
+
     if filename_extension == "s2":
-        outfile = open("test_clean_time_remover.s2", "wb")
+        outfile = open(new_filename, "wb")
         remove_data_from_clean(infile, outfile, start_time, end_time)
     if filename_extension == "2hz":
-        outfile = open("test_raw_time_remover.2hz", "wb")
+        outfile = open(new_filename, "wb")
         remove_data_from_raw(infile, outfile, start_time, end_time)
     if filename_extension == "sec":
         outfile = open("test_iaga2002_time_remover.sec", "wb")
