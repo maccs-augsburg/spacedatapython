@@ -1,10 +1,10 @@
-# Updating Disk Image (Mac), Executable (Windows), .Deb package (Linux) #
+# Updating Disk Image Mac #
 
 ## Mac ##
 
 For updating the disk image when main code is udpated:
 
-1. You should have a MaccsApplication.spec file already. If it's gone, try following installer README or look at old branches.
+1. You should have a MaccsPlotter_mac.spec file already. If it's gone, try following installer README or look at old branches.
 
 2. There should be a file called builddmg_mac.sh already from following installer README.
 
@@ -14,6 +14,9 @@ Enter these commands from within spacedatapython folder.
 
 ```
 pyinstaller MaccsApplication.spec
+```
+
+```
 ./builddmg_mac.sh
 ```
 
