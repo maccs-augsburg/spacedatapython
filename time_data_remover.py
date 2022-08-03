@@ -1,4 +1,16 @@
+'''
+time_data_remover.py
+
+Data remover - Given a file and two times, remove all the 
+    data records between the two times and write out the shortened file.
+
+Usefule reference: documentation/BinaryFormatNotes.txt
+
+Created August 2022 - Mark Ortega-Ponce
+'''
+
 import datetime
+import sys
 
 def remove_data_from_clean(infile, outfile, start_time, end_time):
 
@@ -12,6 +24,8 @@ def remove_data_from_clean(infile, outfile, start_time, end_time):
     end_time:
         The datetime.time object at which to end.
     '''
+    
+    passed_start_time = False
 
     while True:
 
@@ -22,12 +36,18 @@ def remove_data_from_clean(infile, outfile, start_time, end_time):
     
         current_time = datetime.time(hour=one_record[1],minute=one_record[2],second=one_record[3])
         
-        if current_time >= start_time:
+        if current_time < start_time and not passed_start_time:
             outfile.write(one_record)
-        if current_time > end_time:
-            break
+        else:
+            passed_start_time = True
+        
+        if current_time > end_time and passed_start_time:
+            outfile.write(one_record)
+
 
 def remove_data_from_raw(infile, outfile, start_time, end_time):
+
+    passed_start_time = False
 
     while True:
 
@@ -38,10 +58,13 @@ def remove_data_from_raw(infile, outfile, start_time, end_time):
             
         current_time = datetime.time(hour=one_record[4],minute=one_record[5],second=one_record[6])
 
-        if current_time >= start_time:
+        if current_time < start_time and not passed_start_time:
             outfile.write(one_record)
-        if end_time > end_time:
-            break
+        else:
+            passed_start_time = True
+
+        if current_time > end_time and passed_start_time:
+            outfile.write(one_record)
 
 def remove_data_from_iaga(infile, outfile, start_time, end_time):
 
@@ -56,7 +79,8 @@ def remove_data_from_iaga(infile, outfile, start_time, end_time):
         
         outfile.write(dummy_record)
         
-    # Loop until the end of file or end time has been reached
+    passed_start_time = False
+
     while True:
 
         one_record_first_line = infile.readline()
@@ -80,9 +104,37 @@ def remove_data_from_iaga(infile, outfile, start_time, end_time):
         #second = one_record[17:23] //second with microsecond
         current_time = datetime.time(hour, minute, second) # getting the current time
 
-        if current_time >= start_time:
+        if current_time < start_time and not passed_start_time:
+            outfile.write(one_record_first_line)
+            outfile.write(one_record_second_line)
+        else:
+            passed_start_time = True
+
+        if current_time > end_time and passed_start_time:
             outfile.write(one_record_first_line)
             outfile.write(one_record_second_line)
 
-        if current_time > end_time:
-            break
+def main():
+    
+    if len(sys.argv) < 2:
+        print("Usage: python3 time_data_remover.py filename")
+        sys.exit(0)
+
+    filename = sys.argv[1]
+    filename_extension = filename.split(".")[1]
+    infile = open(filename, "rb")
+    start_time = datetime.time.fromisoformat("10:00:00")
+    end_time = datetime.time.fromisoformat("20:00:00")
+
+    if filename_extension == "s2":
+        outfile = open("test_clean_time_remover.s2", "wb")
+        remove_data_from_clean(infile, outfile, start_time, end_time)
+    if filename_extension == "2hz":
+        outfile = open("test_raw_time_remover.2hz", "wb")
+        remove_data_from_raw(infile, outfile, start_time, end_time)
+    if filename_extension == "sec":
+        outfile = open("test_iaga2002_time_remover.sec", "wb")
+        remove_data_from_iaga(infile, outfile, start_time, end_time)
+
+if __name__ == "__main__":
+    main()
