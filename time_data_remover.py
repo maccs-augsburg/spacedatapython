@@ -10,7 +10,6 @@ Created August 2022 - Mark Ortega-Ponce
 '''
 
 import datetime
-from hashlib import new
 import sys
 
 def remove_data_from_clean(infile, outfile, start_time, end_time):
