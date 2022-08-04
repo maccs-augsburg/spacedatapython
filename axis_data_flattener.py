@@ -9,21 +9,12 @@ Created - August 2022 - Mark Ortega-Ponce
 
 import datetime
 import sys
+import model.raw_codecs
+
 AXIS_FLATENNER_VALUE = 0
 
-def remove_data_from_clean(infile, outfile, axis, start_time, end_time):
+def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
 
-    '''
-    Parameters
-    ----------
-    infile :
-        The file object to be read.
-    start_time :
-        The datetime.time object from which to begin.
-    end_time:
-        The datetime.time object at which to end.
-    '''
-    
     passed_start_time = False
 
     while True:
@@ -44,17 +35,47 @@ def remove_data_from_clean(infile, outfile, axis, start_time, end_time):
             outfile.write(one_record)
 
 
-def remove_data_from_raw(infile, outfile, axis, start_time, end_time):
+def flatten_axis_from_raw(infile, outfile, axis, start_time, end_time):
+
+    axis = axis.lower()
+    # Grab first data value for the half sec.
+    start_index = 0
+    end_index = 0
+    # Grab second data value for the second half sec.
+    second_start_index = 0
+    second_end_index = 0
+
+    if axis == "x":
+        start_index = 18
+        end_index = 20
+        second_start_index = 27
+        second_end_index = 29
+    
+    elif axis == "y":
+        start_index = 21
+        end_index = 23
+        second_start_index = 30
+        second_end_index = 32
+    else:
+        start_index = 24
+        end_index = 26
+        second_start_index = 33
+        second_end_index = 35
 
     passed_start_time = False
 
     while True:
-
+        
         one_record = infile.read(38)
 
         if not one_record:
             break
-            
+
+        # Encode our value into binary format 
+        # and splice that value into first and second axis value.
+        one_record[start_index:end_index] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
+        one_record[second_start_index:second_end_index] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
+
         current_time = datetime.time(hour=one_record[4],minute=one_record[5],second=one_record[6])
 
         if current_time < start_time and not passed_start_time:
