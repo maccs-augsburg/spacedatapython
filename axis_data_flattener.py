@@ -35,33 +35,24 @@ def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
 
         if not one_record:
             break
-
-        one_record[first_tuple[0]:first_tuple[1]] = AXIS_FLATENNER_VALUE
-        one_record[second_tuple[0]:second_tuple[1]] = AXIS_FLATENNER_VALUE
     
         current_time = datetime.time(hour=one_record[1],minute=one_record[2],second=one_record[3])
         
         if current_time < start_time and not passed_start_time:
-            outfile.write(one_record)
+            one_record[first_tuple[0]:first_tuple[1]] = AXIS_FLATENNER_VALUE
+            one_record[second_tuple[0]:second_tuple[1]] = AXIS_FLATENNER_VALUE
         else:
             passed_start_time = True
-        
-        if current_time > end_time and passed_start_time:
-            outfile.write(one_record)
 
+        if current_time > end_time and passed_start_time:
+            one_record[first_tuple[0]:first_tuple[1]] = AXIS_FLATENNER_VALUE
+            one_record[second_tuple[0]:second_tuple[1]] = AXIS_FLATENNER_VALUE
+
+        outfile.write(one_record)
 
 def flatten_axis_from_raw(infile, outfile, axis, start_time, end_time):
 
     axis = axis.lower()
-
-    '''
-    18:20  24 bit 2's comp  x1        Value in nanotesla*40 of the x axis for the 1st half of the second.
-    21:23  24 bit 2's comp  y1
-    24:26  24 bit 2's comp  z1
-    27:29  24 bit 2's comp  x2        Value in nanotesla*40 of the x axis for the 2nd half of the second.
-    30:32  24 bit 2's comp  y2
-    33:35  24 bit 2's comp  z2
-    '''
 
     if axis == "x":
         first_tuple = (18, 20)
@@ -84,23 +75,36 @@ def flatten_axis_from_raw(infile, outfile, axis, start_time, end_time):
         if not one_record:
             break
 
-        # Encode our value into binary format 
-        # and splice that value into first and second axis value.
-        one_record[first_tuple[0]:first_tuple[1]] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
-        one_record[second_tuple[0]:second_tuple[1]] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
-
         current_time = datetime.time(hour=one_record[4],minute=one_record[5],second=one_record[6])
 
         if current_time < start_time and not passed_start_time:
-            outfile.write(one_record)
+            # Encode our value into binary format 
+            # and splice that value into first and second axis value.
+            one_record[first_tuple[0]:first_tuple[1]] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
+            one_record[second_tuple[0]:second_tuple[1]] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
         else:
             passed_start_time = True
 
         if current_time > end_time and passed_start_time:
-            outfile.write(one_record)
+            one_record[first_tuple[0]:first_tuple[1]] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
+            one_record[second_tuple[0]:second_tuple[1]] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
 
-def remove_data_from_iaga(infile, outfile, axis, start_time, end_time):
 
+        outfile.write(one_record)
+
+def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
+
+    axis = axis.lower()
+
+    index = 0
+
+    if axis == "x":
+        index = 3
+    if axis == "y":
+        index = 4
+    if axis == "z":
+        index = 5
+    
     for i in range(0, 100):
 
         dummy_record = str(infile.readline())
