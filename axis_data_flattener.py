@@ -15,6 +15,18 @@ AXIS_FLATENNER_VALUE = 0
 
 def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
 
+    axis = axis.lower()
+
+    if axis == "x":
+        first_tuple = (4, 7)
+        second_tuple = (8, 11)
+    elif axis == "y":
+        first_tuple = (12, 15)
+        second_tuple = (16, 19)
+    else:
+        first_tuple = (20, 23)
+        second_tuple = (24, 27)
+
     passed_start_time = False
 
     while True:
@@ -23,6 +35,9 @@ def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
 
         if not one_record:
             break
+
+        one_record[first_tuple[0]:first_tuple[1]] = AXIS_FLATENNER_VALUE
+        one_record[second_tuple[0]:second_tuple[1]] = AXIS_FLATENNER_VALUE
     
         current_time = datetime.time(hour=one_record[1],minute=one_record[2],second=one_record[3])
         
@@ -38,29 +53,27 @@ def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
 def flatten_axis_from_raw(infile, outfile, axis, start_time, end_time):
 
     axis = axis.lower()
-    # Grab first data value for the half sec.
-    start_index = 0
-    end_index = 0
-    # Grab second data value for the second half sec.
-    second_start_index = 0
-    second_end_index = 0
+
+    '''
+    18:20  24 bit 2's comp  x1        Value in nanotesla*40 of the x axis for the 1st half of the second.
+    21:23  24 bit 2's comp  y1
+    24:26  24 bit 2's comp  z1
+    27:29  24 bit 2's comp  x2        Value in nanotesla*40 of the x axis for the 2nd half of the second.
+    30:32  24 bit 2's comp  y2
+    33:35  24 bit 2's comp  z2
+    '''
 
     if axis == "x":
-        start_index = 18
-        end_index = 20
-        second_start_index = 27
-        second_end_index = 29
+        first_tuple = (18, 20)
+        second_tuple = (27, 29)
     
     elif axis == "y":
-        start_index = 21
-        end_index = 23
-        second_start_index = 30
-        second_end_index = 32
+        first_tuple = (21, 23)
+        second_tuple = (30, 32)
+
     else:
-        start_index = 24
-        end_index = 26
-        second_start_index = 33
-        second_end_index = 35
+        first_tuple = (24, 26)
+        second_tuple = (33, 35)
 
     passed_start_time = False
 
@@ -73,8 +86,8 @@ def flatten_axis_from_raw(infile, outfile, axis, start_time, end_time):
 
         # Encode our value into binary format 
         # and splice that value into first and second axis value.
-        one_record[start_index:end_index] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
-        one_record[second_start_index:second_end_index] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
+        one_record[first_tuple[0]:first_tuple[1]] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
+        one_record[second_tuple[0]:second_tuple[1]] = model.raw_codecs.encode(AXIS_FLATENNER_VALUE)
 
         current_time = datetime.time(hour=one_record[4],minute=one_record[5],second=one_record[6])
 
