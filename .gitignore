@@ -21,3 +21,11 @@ __pycache__/
 
 # macOS windowing placement information
 *.DS_Store
+
+# pyinstaller build and dist folders
+build/
+dist/
+
+# Pipenv files
+Pipfile
+Pipfile.lock

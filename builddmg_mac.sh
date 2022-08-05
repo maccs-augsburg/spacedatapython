@@ -7,20 +7,20 @@ mkdir -p dist/dmg
 rm -r dist/dmg/*
 
 # Copy the app bundle to the dmg folder.
-cp -r "dist/MaccsApplication.app" dist/dmg
+cp -r "dist/MACCS Plotter.app" dist/dmg
 
 # If the DMG already exists, delete it.
-test -f "dist/MaccsApplication.dmg" && rm "dist/MaccsApplication.dmg"
+test -f "dist/MACCS Plotter.dmg" && rm "dist/MACCS Plotter.dmg"
 
 # Window settings, dictate size of dmg installer window
 create-dmg \
-  --volname "MaccsApplication" \
+  --volname "MACCS Plotter" \
   --volicon "images/maccslogo_nobg.icns" \
   --window-pos 200 120 \
   --window-size 600 300 \
   --icon-size 100 \
-  --icon "MaccsApplication.app" 175 120 \
-  --hide-extension "MaccsApplication.app" \
+  --icon "MACCS Plotter.app" 175 120 \
+  --hide-extension "MACCS Plotter.app" \
   --app-drop-link 425 120 \
-  "dist/MaccsApplication.dmg" \
+  "dist/MACCS Plotter.dmg" \
   "dist/dmg/"

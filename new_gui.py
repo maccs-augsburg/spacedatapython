@@ -152,9 +152,6 @@ class MainWindow(QMainWindow):
 
         self.parent_label_layout = GridLayout()
         self.parent_label_layout.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
-        color = QPalette()#dbdbdb
-        color.setColor(QPalette.Window,"#e1e1e1")
-        self.parent_label_layout.setPalette(color)
         self.parent_label_layout.setAutoFillBackground(True)
 
         self.labels_and_text_fields_layout = GridLayout()
