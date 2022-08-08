@@ -918,8 +918,14 @@ class MainWindow(QMainWindow):
         default_filename = default_filename + ".pdf"
         default_filename = os.path.join( 
                 self.plot_file_directory,
-                default_filename)                
-        self.figure.savefig(default_filename,format="pdf",dpi=1200)
+                default_filename)
+
+        try:                
+            self.figure.savefig(default_filename,format="pdf",dpi=1200)
+        except Exception as e:
+            print(e)
+            print("Failed to save figure.")
+            self.error_message_pop_up("Failed save", "Failed to save pdf/png file. "+ str(e))
         
     def save_as(self):
         """
@@ -952,9 +958,20 @@ class MainWindow(QMainWindow):
         if len( save_filename) > 0 :
             self.plot_file_directory = os.path.dirname( save_filename)
             if save_type == "PDF (*.pdf)" :
-                self.figure.savefig( save_filename, format="pdf", dpi=1200)
+                try:
+                    self.figure.savefig( save_filename, format="pdf", dpi=1200)
+                except Exception as e:
+                    print(e)
+                    print("Failed to save figure.")
+                    self.error_message_pop_up("Failed save", "Failed to save pdf/png file. "+ str(e))
+
             elif save_type == "PNG (*.png)" :
-                self.figure.savefig( save_filename, format="png", dpi=1200)
+                try:
+                    self.figure.savefig( save_filename, format="png", dpi=1200)
+                except Exception as e:
+                    print(e)
+                    print("Failed to save figure.")
+                    self.error_message_pop_up("Failed save", "Failed to save pdf/png file. "+ str(e))
             else :
                 print("Error: save plot with unknown file type.")
 
