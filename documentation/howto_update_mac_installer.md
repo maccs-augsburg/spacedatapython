@@ -22,3 +22,6 @@ pyinstaller MaccsApplication.spec
 
 1st command: Rebuilds the application with new code, and any updates made in the .spec file.
 2nd command: Script that turns our .app file into a dmg for macOs systems.
+
+
+Lastly, delete old .dmg file inside the installers folder. The new .dmg file will show up inside the dist folder, drag it into the installers folder.
