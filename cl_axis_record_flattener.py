@@ -128,13 +128,11 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
 
     axis = axis.lower()
 
-    index = 0
-
     if axis == "x":
         index = 3
-    if axis == "y":
+    elif axis == "y":
         index = 4
-    if axis == "z":
+    else:
         index = 5
     
     for i in range(0, 100):
@@ -148,19 +146,19 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
         
         outfile.write(dummy_record)
         
-    passed_start_time = False
-
+    axis_value = f"{AXIS_FLATENNER_VALUE:10.2f}"
     while True:
 
         one_record_first_line = infile.readline()
         one_record_second_line = infile.readline()
-        tuple_list_one = one_record_first_line.split()
+        list_one = list(one_record_first_line.split())
+        list_two = list(one_record_second_line.split())
 
         # if we reach the end then we break the loop
         if not one_record_first_line:
             break
-        
-        time = tuple_list_one[1]
+        # Grab the time hh:mm:ss:mm
+        time = list_one[1]
         # Grab up to hh:mm:ss ignoring the microseconds
         time = time[0:8]
         datetime_object = datetime.datetime.strptime(time, "%H:%M:%S").time()
@@ -171,13 +169,22 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
         #second = one_record[17:23] //second with microsecond
         current_time = datetime.time(hour, minute, second) # getting the current time
 
-        if current_time < start_time and not passed_start_time:
-            outfile.write(one_record_first_line)
-            outfile.write(one_record_second_line)
-        else:
-            passed_start_time = True
+        list_one[index] = axis_value
+        list_two[index] = axis_value
+        x1 = f"{float(list_one[3]):10.2f}"
+        x2 = f"{float(list_two[3]):10.2f}"
+        y1 = f"{float(list_one[4]):10.2f}"
+        y2 = f"{float(list_two[4]):10.2f}"
+        z1 = f"{float(list_one[5]):10.2f}"
+        z2 = f"{float(list_two[5]):10.2f}"
 
-        if current_time > end_time and passed_start_time:
+        if current_time >= start_time and current_time <= end_time:
+            first_half = list_one[0] + " " + list_one[1] + " " + list_one[2] + "   " + x1 + y1 + z1 + "  88888.88\n"
+            second_half = list_two[0] + " " + list_two[1] + " " + list_two[2] + "   " + x2 + y2 + z2 + "  88888.88\n"
+            one_record = first_half + second_half
+            outfile.write(one_record)
+
+        else:
             outfile.write(one_record_first_line)
             outfile.write(one_record_second_line)
 
