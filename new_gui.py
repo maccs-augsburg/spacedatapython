@@ -722,7 +722,7 @@ class MainWindow(QMainWindow):
                                                             self.end_time_stamp)
 
         elif self.launch_dialog_option == 2 or self.file_ext == "sec":
-            x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_IAGA2002(
+            x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_iaga(
                                                             file,
                                                             self.start_time_stamp,
                                                             self.end_time_stamp)
@@ -865,9 +865,6 @@ class MainWindow(QMainWindow):
         print(self.prev_time)
         if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
                 self.button_zoom_out.setDisabled(True)
-
-        
-            
 
     def zoom_out(self):
         '''
