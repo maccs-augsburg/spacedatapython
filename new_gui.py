@@ -857,22 +857,27 @@ class MainWindow(QMainWindow):
 
     def zoom_out_helper(self):
         """
-        Helper function for zoom_out appends time data to a list so that we can hold on to 
-        the times we zoomed in from and come walk our way back when we call zoom_out 
-        and want to make sure we arent able to press zoom_out when time is at min max
+        Helper function for zoom_out functionality. Appends time data
+        to a list so that we can hold on to the times we zoomed in 
+        from.
         """
-        self.prev_time.append((self.s_hour,self.s_minute ,self.s_second,self.e_hour,self.e_minute ,self.e_second))
-        print(self.prev_time)
+        self.prev_time.append((
+            self.s_hour,self.s_minute ,self.s_second,
+            self.e_hour,self.e_minute ,self.e_second))
+
+        # TODO: What happens if user doesn't start from default time? Zoom out doesn't work, fix
         if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
                 self.button_zoom_out.setDisabled(True)
 
     def zoom_out(self):
         '''
-        function to zoom out on the graph this allows you to zoom out to the previous state / time the graph was at when you last zoomed in
-        when you zoom in multiple times we hold the times of that in a list, and then when zoom out is called 
-        we grab the most recent time set the time widget to that time and re plot the graph 
-        we then remove that time from the list as its no longer a time we can zoom out to 
-        and once you zoom out to min max time the button becomes disabled again
+        Function to zoom out on the graph, this allows you 
+        to zoom out to the previous state / time the graph was in.
+        When you zoom in multiple times, we append those times into a list.
+        Once zoom out is called, we grab the most recent time and
+        set the time widget to that time and then re plot the graph. 
+        We then remove that time from the list as it's no longer a time we can zoom 
+        out to.
         '''
         self.zoom_s_hour = self.prev_time[len(self.prev_time) - 1][0]
         self.zoom_s_min = self.prev_time[len(self.prev_time) - 1][1]
@@ -886,6 +891,7 @@ class MainWindow(QMainWindow):
 
         self.plot_graph()
 
+        # TODO: What happens if user doesn't start from default time? Zoom out doesn't work, fix
         if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
                 self.button_zoom_out.setDisabled(True)
 
