@@ -9,7 +9,7 @@
 import datetime
 import numpy as np
 
-def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time):
+def create_datetime_lists_from_iaga( iaga_file, start_time, end_time):
     """ Creates x, y, z, and time lists based on the 2 Hz IAGA2002 data file. 
     For the time_arr list, it saves the values into the list as datetime.datetime objects
     
@@ -17,7 +17,7 @@ def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time):
 
     Parameters
     ----------
-    IAGA2002_file:
+    iaga_file:
         An opened file object containing a day of data recorded
         in the IAGA2002 format.
     start_time:
@@ -46,7 +46,7 @@ def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time):
 
     # Skip first 18 lines because its header info
     for i in range(0, 100):
-        dummy_record = str(IAGA2002_file.readline())
+        dummy_record = str(iaga_file.readline())
         dummy_record = dummy_record.split()
         if dummy_record[0].__contains__("DATE"):
             break
@@ -54,10 +54,10 @@ def create_datetime_lists_from_IAGA2002( IAGA2002_file, start_time, end_time):
     # Loop until the end of file or end time has been reached
     while True:
 
-        one_record_first_line = IAGA2002_file.readline()
+        one_record_first_line = iaga_file.readline()
         one_record_first_line = one_record_first_line.split()
 
-        one_record_second_line = IAGA2002_file.readline()
+        one_record_second_line = iaga_file.readline()
         one_record_second_line = one_record_second_line.split()
 
         # if we reach the end then we break the loop
