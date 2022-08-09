@@ -206,10 +206,10 @@ def main():
 
     tuple_filename = args.filename.split(".")
     # filepath without extension
-    filepath_noext = tuple_filename[0]
+    filename_noext = tuple_filename[0]
     filename_extension = tuple_filename[1]
 
-    new_filename = filepath_noext + "_test_flatten_axis." + filename_extension
+    new_filename = filename_noext + "_test_flatten_axis." + filename_extension
     start_time = datetime.time.fromisoformat(args.stime)
     end_time = datetime.time.fromisoformat(args.etime)
 
