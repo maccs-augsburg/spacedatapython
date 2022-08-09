@@ -18,8 +18,6 @@ python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.2hz
 '''
 import argparse
 import datetime
-import sys
-from tracemalloc import start
 import model.raw_codecs
 
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/masked_demo.html
@@ -175,6 +173,8 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
 
         list_one[index] = axis_value
         list_two[index] = axis_value
+
+        # Build string to match format already present in file
         x1 = f"{float(list_one[3]):10.2f}"
         x2 = f"{float(list_two[3]):10.2f}"
         y1 = f"{float(list_one[4]):10.2f}"
