@@ -6,6 +6,8 @@ Axis remover - Given a file, an axis name, and two times,
 
 Created - August 2022 - Mark Ortega-Ponce
 
+Useful Reference: raw_to_iaga2002.py file, clean_to_screen/raw_to_screen.py
+
 Test:
 python3 axis_data_flattener.py testdata/CH20097.2hz x 15:00:00 20:00:00
 python3 axis_data_flattener.py testdata/CH20097.s2 x 15:00:00 20:00:00
@@ -14,11 +16,13 @@ python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.s2
 python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.2hz  
 
 '''
-
+import argparse
 import datetime
 import sys
+from tracemalloc import start
 import model.raw_codecs
 
+# https://matplotlib.org/stable/gallery/lines_bars_and_markers/masked_demo.html
 AXIS_FLATENNER_VALUE = 0
 
 def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
@@ -190,39 +194,37 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
 
 def main():
     
-    if len(sys.argv) < 3:
-        print("Usage: python3 time_data_remover.py filename axis")
-        print("Usage: python3 time_data_remover.py filename axis xx:xx:xx xx:xx:xx")
-        sys.exit(0)
+    parser = argparse.ArgumentParser(description="Flatten an axis value's between start time and end time.")
+    parser.add_argument('filename', type=str, help="name of the input file")
+    parser.add_argument('stime', type=str, nargs='?',
+        default="10:00:00", help="time to start flattening an axis")
+    parser.add_argument('etime', type=str, nargs='?',
+        default="23:59:59", help="time to stop flattening an axis")
+    parser.add_argument('axis', type=str, nargs='?',
+        default='x', help="the axis to flatten (x, y, z)")
+    args = parser.parse_args()
 
-    filename = sys.argv[1]
-    axis = sys.argv[2]
-
-    if len(sys.argv) == 5:
-        start_time = datetime.time.fromisoformat(sys.argv[3])
-        end_time = datetime.time.fromisoformat(sys.argv[4])
-    else:
-        start_time = datetime.time.fromisoformat("10:00:00")
-        end_time = datetime.time.fromisoformat("20:00:00")
-
-    tuple_filename = filename.split(".")
-    # basefilename without extension
-    base_filename = tuple_filename[0]
+    tuple_filename = args.filename.split(".")
+    # filepath without extension
+    filepath_noext = tuple_filename[0]
     filename_extension = tuple_filename[1]
 
-    new_filename = base_filename + "_test_flatten_axis." + filename_extension
-    outfile = open(new_filename, "wb")
+    new_filename = filepath_noext + "_test_flatten_axis." + filename_extension
+    start_time = datetime.time.fromisoformat(args.stime)
+    end_time = datetime.time.fromisoformat(args.etime)
 
     if filename_extension == "s2":
-        infile = open(filename, "rb")
-        flatten_axis_from_clean(infile, outfile, axis, start_time, end_time)
+        infile = open(args.filename, "rb")
+        outfile = open(new_filename, "wb")
+        flatten_axis_from_clean(infile, outfile, args.axis, start_time, end_time)
     if filename_extension == "2hz":
-        infile = open(filename, "rb")
-        flatten_axis_from_raw(infile, outfile, axis, start_time, end_time)
+        infile = open(args.filename, "rb")
+        outfile = open(new_filename, "wb")
+        flatten_axis_from_raw(infile, outfile, args.axis, start_time, end_time)
     if filename_extension == "sec":
-        infile = open(filename, "r")
+        infile = open(args.filename, "r")
         outfile = open(new_filename, "w")
-        flatten_axis_from_iaga(infile, outfile, axis,  start_time, end_time)
+        flatten_axis_from_iaga(infile, outfile, args.axis, start_time, end_time)
 
 if __name__ == "__main__":
     main()
