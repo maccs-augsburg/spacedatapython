@@ -79,14 +79,15 @@ class MainWindow(QMainWindow):
 
         self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
         self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
-        self.prev_time = []
 
         ###########################
         ### Place Holder Values ###
         ###########################
+        # Used for various functions 
         self.selection_file_value = ''
         self.temp_var = 0
-        
+        self.prev_time = []
+
         ##################
         ### Maccs Logo ###
         ##################
@@ -149,7 +150,6 @@ class MainWindow(QMainWindow):
 
         # layout for buttons and checkboxs
         self.main_layout = QHBoxLayout()
-
         self.parent_label_layout = GridLayout()
         self.parent_label_layout.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
         color = QPalette()#dbdbdb
@@ -164,7 +164,6 @@ class MainWindow(QMainWindow):
         self.min_max_xyz_layout.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
 
         self.graph_layout = HLayout()
-
 
         # left, top, right, bottom
         # align time_widget with rest of widgets
@@ -298,6 +297,7 @@ class MainWindow(QMainWindow):
         self.button_graph_switch.three_axis_style.clicked.connect(self.is_plottable)
         self.button_graph_switch.stacked_axis_style.setChecked(True)
         self.button_plot.clicked.connect(self.plot_graph)
+
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
@@ -320,6 +320,11 @@ class MainWindow(QMainWindow):
         ################
         ### Groupbox ###
         ################
+        """
+        This is not used and just testing 
+        Group Box Widget as it can box things in and make seperation of layout more clean 
+        but is kinda of weird when trying to use it with custom widgets
+        """
         self.group_file_info = QGroupBox()
         self.test = QHBoxLayout()
         self.label = QLabel('asdkas')
@@ -378,6 +383,7 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
         #self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
+
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################
@@ -1065,20 +1071,18 @@ class MainWindow(QMainWindow):
     def is_plottable(self):
         """
         Function that disables or enables the plot button
-        based on current input inside the gui. For the button to
-        be enabled it must pass our tests. 
+        based on current input inside the gui. 
+        For the button to be enabled it must pass our tests. 
         If any of these checks fail, then button will be disabled.
-        Station Code is Valid
-        Year Day is Valid
-        Start Time is less than End Time 
+        - Station Code is Valid
+        - Year Day is Valid
+        - Start Time is less than End Time 
         --- For Stacked Graph Min Max are valid entries and Min is Less than Max
         --- For Three Axis Display Checked States X Y Z 
         """
 
         checks_met_bool = False
         checks_met_bool = gui.entry_check.checks(self)
-
-
 
         if checks_met_bool:
             self.button_plot.setDisabled(False)
@@ -1087,8 +1091,8 @@ class MainWindow(QMainWindow):
 
     def what_graph_style(self):
         '''
-        Helper function for file naming.py to determine what 
-        graph style button is checked for proper naming
+        Function used to return the type of graph style we are using so when we save 
+        the figure we can name it properly, and not overwrite other graphs
         '''
         if self.button_graph_switch.three_axis_style.isChecked():
             return '3axis'
