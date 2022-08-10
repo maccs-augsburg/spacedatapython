@@ -886,10 +886,6 @@ class MainWindow(QMainWindow):
         e_hour = time_tuple[3]
         e_min = time_tuple[4]
         e_sec = time_tuple[5]
-        print(len(self.prev_time))
-        print(time_tuple)
-        print(s_hour,":",s_min,":",s_sec)
-        print(e_hour,":",e_min,":",e_sec)
 
         self.start_time.set_own_time(s_hour, s_min, s_sec)
         self.end_time.set_own_time(e_hour, e_min, e_sec)
