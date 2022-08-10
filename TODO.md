@@ -3,10 +3,14 @@
 Here are some ideas for python data processing programs
 
 * Data remover - Given a file and two times, remove all the data records
-  between the two times and write out the shortened file.
+  between the two times and write out the shortened file. (Done)
   
 * Axis remover - Given a file, an axis name, and two times, flatten
-  out the data value for the given axis between the two times.
+  out the data value for the given axis between the two times. (Done. New: What happens if we use None for AXIS_FLATTENER value? How do we write this out to the file?)
+  
+* Spec file - Move to only using one .spec file
+
+* Linux Installer
 
 * Possible use QGroupBox widgets to instead group the different widgets together
   allows for better visual apperances and to keep sections together
