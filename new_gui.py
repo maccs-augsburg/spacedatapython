@@ -879,6 +879,9 @@ class MainWindow(QMainWindow):
         We then remove that time from the list as it's no longer a time we can zoom 
         out to.
         '''
+
+        # Pop last item added to the list
+        # Grab previous times before we zoomed in
         time_tuple = self.prev_time.pop(len(self.prev_time) - 1)
         s_hour = time_tuple[0]
         s_min = time_tuple[1]
@@ -890,6 +893,7 @@ class MainWindow(QMainWindow):
         self.start_time.set_own_time(s_hour, s_min, s_sec)
         self.end_time.set_own_time(e_hour, e_min, e_sec)
 
+        # If no more times in list, then we can't zoom out.
         if len(self.prev_time) == 0:
             self.button_zoom_out.setDisabled(True)
 
