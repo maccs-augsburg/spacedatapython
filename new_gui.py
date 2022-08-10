@@ -853,8 +853,8 @@ class MainWindow(QMainWindow):
         to a list so that we can hold on to the times we zoomed in 
         from.
         """
-        # Every time we zoom in before we get the new zoom in data 
-        # we collect the times we have now and save it if we want to zoom out
+        # Collect current times, put into prev_time list.
+        # Used for when user presses zoom out button.
         s_hour = self.start_time.get_hour()
         s_minute = self.start_time.get_minute()
         s_second = self.start_time.get_second() 
