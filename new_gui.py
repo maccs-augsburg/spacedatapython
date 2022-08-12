@@ -56,7 +56,7 @@ import plot.test_figure
 # Use this to build relative paths for icons using os.path.join()
 basedir = os.path.dirname(__file__)
 
-MINIMUM_WINDOW_HEIGHT = 1000
+MINIMUM_WINDOW_HEIGHT = 800
 MINIMUM_WINDOW_WIDTH = 1600
 
 class MainWindow(QMainWindow):
@@ -79,14 +79,15 @@ class MainWindow(QMainWindow):
 
         self.setMinimumHeight(MINIMUM_WINDOW_HEIGHT)
         self.setMinimumWidth(MINIMUM_WINDOW_WIDTH)
-        self.prev_time = []
 
         ###########################
         ### Place Holder Values ###
         ###########################
+        # Used for various functions 
         self.selection_file_value = ''
         self.temp_var = 0
-        
+        self.prev_time = []
+
         ##################
         ### Maccs Logo ###
         ##################
@@ -149,18 +150,15 @@ class MainWindow(QMainWindow):
 
         # layout for buttons and checkboxs
         self.main_layout = QHBoxLayout()
-
         self.parent_label_layout = GridLayout()
         self.parent_label_layout.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
-        self.parent_label_layout.setAutoFillBackground(True)
-
         self.labels_and_text_fields_layout = GridLayout()
         self.min_max_xyz_layout = GridLayout()
         self.checkbox_layout = VLayout()
         self.button_layout = GridLayout()
+        self.min_max_xyz_layout.setSizePolicy(QSizePolicy.MinimumExpanding,QSizePolicy.MinimumExpanding)
 
         self.graph_layout = HLayout()
-
 
         # left, top, right, bottom
         # align time_widget with rest of widgets
@@ -171,6 +169,7 @@ class MainWindow(QMainWindow):
         self.button_layout.layout.setContentsMargins(10, 0, 0, 0)
 
         self.labels_and_text_fields_layout.layout.setAlignment(Qt.AlignLeft)
+        self.min_max_xyz_layout.layout.setAlignment(Qt.AlignLeft)
 
         ###############
         ### Labels ####
@@ -262,6 +261,7 @@ class MainWindow(QMainWindow):
         self.button_quit = PushButton('Quit')
         self.button_quit.set_uncheckable()
         self.button_zoom_out = PushButton('Zoom out')
+
         #####################
         ### Custom Widget ###
         #####################
@@ -292,6 +292,7 @@ class MainWindow(QMainWindow):
         self.button_graph_switch.three_axis_style.clicked.connect(self.is_plottable)
         self.button_graph_switch.stacked_axis_style.setChecked(True)
         self.button_plot.clicked.connect(self.plot_graph)
+
         # set the plot button disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
@@ -315,6 +316,11 @@ class MainWindow(QMainWindow):
         ################
         ### Groupbox ###
         ################
+        """
+        This is not used and just testing 
+        Group Box Widget as it can box things in and make seperation of layout more clean 
+        but is kinda of weird when trying to use it with custom widgets
+        """
         self.group_file_info = QGroupBox()
         self.test = QHBoxLayout()
         self.label = QLabel('asdkas')
@@ -373,6 +379,7 @@ class MainWindow(QMainWindow):
         self.parent_label_layout.add_widget(self.min_max_xyz_layout, 3, 0)
         #self.parent_label_layout.add_widget(self.second_line_sep, 4 ,0 )
         self.parent_label_layout.add_widget(self.button_layout, 5, 0)
+
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################
@@ -853,21 +860,12 @@ class MainWindow(QMainWindow):
         to a list so that we can hold on to the times we zoomed in 
         from.
         """
-        # Collect current times, put into prev_time list.
-        # Used for when user presses zoom out button.
-        s_hour = self.start_time.get_hour()
-        s_minute = self.start_time.get_minute()
-        s_second = self.start_time.get_second() 
-        e_hour = self.end_time.get_hour()
-        e_minute = self.end_time.get_minute()
-        e_second = self.end_time.get_second()
 
-        time_tuple = (s_hour, s_minute, s_second, e_hour, e_minute, e_second)
-
-        self.prev_time.append(time_tuple)
-
-        # Once we zoom in once, we can enable the zoom out button
-        self.button_zoom_out.setDisabled(False)
+        self.prev_time.append( (self.s_hour,self.s_minute ,
+                self.s_second,self.e_hour,self.e_minute ,self.e_second))
+        if self.start_time.get_time() == (0,0,0) and 
+                self.end_time.get_time() == (23,59,59):
+            self.button_zoom_out.setDisabled(True)
 
     def zoom_out(self):
         '''
@@ -1075,20 +1073,18 @@ class MainWindow(QMainWindow):
     def is_plottable(self):
         """
         Function that disables or enables the plot button
-        based on current input inside the gui. For the button to
-        be enabled it must pass our tests. 
+        based on current input inside the gui. 
+        For the button to be enabled it must pass our tests. 
         If any of these checks fail, then button will be disabled.
-        Station Code is Valid
-        Year Day is Valid
-        Start Time is less than End Time 
+        - Station Code is Valid
+        - Year Day is Valid
+        - Start Time is less than End Time 
         --- For Stacked Graph Min Max are valid entries and Min is Less than Max
         --- For Three Axis Display Checked States X Y Z 
         """
 
         checks_met_bool = False
         checks_met_bool = gui.entry_check.checks(self)
-
-
 
         if checks_met_bool:
             self.button_plot.setDisabled(False)
@@ -1097,8 +1093,8 @@ class MainWindow(QMainWindow):
 
     def what_graph_style(self):
         '''
-        Helper function for file naming.py to determine what 
-        graph style button is checked for proper naming
+        Function used to return the type of graph style we are using so when we save 
+        the figure we can name it properly, and not overwrite other graphs
         '''
         if self.button_graph_switch.three_axis_style.isChecked():
             return '3axis'
