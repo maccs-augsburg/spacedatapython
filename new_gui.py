@@ -430,7 +430,6 @@ class MainWindow(QMainWindow):
         When the window is closed it terminates the application.
         Write the current settings to a settings document.
         """
-        print(f"closeEvent({event})")
         self.writeSettings()
         
     def readSettings( self) :
@@ -860,12 +859,21 @@ class MainWindow(QMainWindow):
         to a list so that we can hold on to the times we zoomed in 
         from.
         """
+        # Collect current times, put into prev_time list.
+        # Used for when user presses zoom out button.
+        s_hour = self.start_time.get_hour()
+        s_minute = self.start_time.get_minute()
+        s_second = self.start_time.get_second() 
+        e_hour = self.end_time.get_hour()
+        e_minute = self.end_time.get_minute()
+        e_second = self.end_time.get_second()
 
-        self.prev_time.append( (self.s_hour,self.s_minute ,
-                self.s_second,self.e_hour,self.e_minute ,self.e_second))
-        if self.start_time.get_time() == (0,0,0) and 
-                self.end_time.get_time() == (23,59,59):
-            self.button_zoom_out.setDisabled(True)
+        time_tuple = (s_hour, s_minute, s_second, e_hour, e_minute, e_second)
+
+        self.prev_time.append(time_tuple)
+
+        # Once we zoom in once, we can enable the zoom out button
+        self.button_zoom_out.setDisabled(False)
 
     def zoom_out(self):
         '''
