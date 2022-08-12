@@ -1017,12 +1017,12 @@ class MainWindow(QMainWindow):
         # Check current graph style, proceed to hide
         # widgets not associated with style.
         bool_value = self.button_graph_switch.three_axis_style.isChecked()
+        opposite_bool_value = not bool_value
 
         if bool_value:
             
             self.min_max_xyz_layout.setHidden(bool_value)
 
-            opposite_bool_value = not bool_value
             self.checkbox_x.setHidden(opposite_bool_value)
             self.checkbox_y.setHidden(opposite_bool_value)
             self.checkbox_z.setHidden(opposite_bool_value)
@@ -1030,7 +1030,6 @@ class MainWindow(QMainWindow):
         else:
 
             self.min_max_xyz_layout.setHidden(bool_value)
-            opposite_bool_value = not bool_value
 
             self.checkbox_x.setHidden(opposite_bool_value)
             self.checkbox_y.setHidden(opposite_bool_value)
