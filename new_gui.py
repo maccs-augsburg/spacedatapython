@@ -56,7 +56,7 @@ import plot.test_figure
 # Use this to build relative paths for icons using os.path.join()
 basedir = os.path.dirname(__file__)
 
-MINIMUM_WINDOW_HEIGHT = 1000
+MINIMUM_WINDOW_HEIGHT = 800
 MINIMUM_WINDOW_WIDTH = 1600
 
 class MainWindow(QMainWindow):
