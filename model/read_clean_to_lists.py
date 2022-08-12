@@ -75,6 +75,13 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
             # creating a test for no data variable
             test_for_no_data = int.from_bytes(clean_record[4:8], byteorder='big', signed=True)
 
+            # TODO: Should not be continue, put in fake record (99_999.99)
+            # eg. 
+            #     time array stuff above if else check 
+            #     if test_no_data:
+            #           put fake record in
+            #     else:
+            #           put regular record in
             # if we don't have data, we don't add it to the time arrays
             if test_for_no_data == 32767000:
                 continue
