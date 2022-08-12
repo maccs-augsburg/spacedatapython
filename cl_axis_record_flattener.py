@@ -21,7 +21,7 @@ import datetime
 import model.raw_codecs
 
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/masked_demo.html
-AXIS_FLATENNER_VALUE = 0
+AXIS_FLATENNER_VALUE = "99999.99"
 
 def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
 
