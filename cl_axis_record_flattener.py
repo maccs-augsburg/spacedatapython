@@ -6,6 +6,8 @@ Axis remover - Given a file, an axis name, and two times,
 
 Created - August 2022 - Mark Ortega-Ponce
 
+Useful Reference: raw_to_iaga2002.py file, clean_to_screen/raw_to_screen.py
+
 Test:
 python3 axis_data_flattener.py testdata/CH20097.2hz x 15:00:00 20:00:00
 python3 axis_data_flattener.py testdata/CH20097.s2 x 15:00:00 20:00:00
@@ -14,11 +16,11 @@ python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.s2
 python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.2hz  
 
 '''
-
+import argparse
 import datetime
-import sys
 import model.raw_codecs
 
+# https://matplotlib.org/stable/gallery/lines_bars_and_markers/masked_demo.html
 AXIS_FLATENNER_VALUE = 0
 
 def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
@@ -128,13 +130,11 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
 
     axis = axis.lower()
 
-    index = 0
-
     if axis == "x":
         index = 3
-    if axis == "y":
+    elif axis == "y":
         index = 4
-    if axis == "z":
+    else:
         index = 5
     
     for i in range(0, 100):
@@ -148,19 +148,19 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
         
         outfile.write(dummy_record)
         
-    passed_start_time = False
-
+    axis_value = f"{AXIS_FLATENNER_VALUE:10.2f}"
     while True:
 
         one_record_first_line = infile.readline()
         one_record_second_line = infile.readline()
-        tuple_list_one = one_record_first_line.split()
+        list_one = list(one_record_first_line.split())
+        list_two = list(one_record_second_line.split())
 
         # if we reach the end then we break the loop
         if not one_record_first_line:
             break
-        
-        time = tuple_list_one[1]
+        # Grab the time hh:mm:ss:mm
+        time = list_one[1]
         # Grab up to hh:mm:ss ignoring the microseconds
         time = time[0:8]
         datetime_object = datetime.datetime.strptime(time, "%H:%M:%S").time()
@@ -171,51 +171,60 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
         #second = one_record[17:23] //second with microsecond
         current_time = datetime.time(hour, minute, second) # getting the current time
 
-        if current_time < start_time and not passed_start_time:
-            outfile.write(one_record_first_line)
-            outfile.write(one_record_second_line)
-        else:
-            passed_start_time = True
+        list_one[index] = axis_value
+        list_two[index] = axis_value
 
-        if current_time > end_time and passed_start_time:
+        # Build string to match format already present in file
+        x1 = f"{float(list_one[3]):10.2f}"
+        x2 = f"{float(list_two[3]):10.2f}"
+        y1 = f"{float(list_one[4]):10.2f}"
+        y2 = f"{float(list_two[4]):10.2f}"
+        z1 = f"{float(list_one[5]):10.2f}"
+        z2 = f"{float(list_two[5]):10.2f}"
+
+        if current_time >= start_time and current_time <= end_time:
+            first_half = list_one[0] + " " + list_one[1] + " " + list_one[2] + "   " + x1 + y1 + z1 + "  88888.88\n"
+            second_half = list_two[0] + " " + list_two[1] + " " + list_two[2] + "   " + x2 + y2 + z2 + "  88888.88\n"
+            one_record = first_half + second_half
+            outfile.write(one_record)
+
+        else:
             outfile.write(one_record_first_line)
             outfile.write(one_record_second_line)
 
 def main():
     
-    if len(sys.argv) < 3:
-        print("Usage: python3 time_data_remover.py filename axis")
-        print("Usage: python3 time_data_remover.py filename axis xx:xx:xx xx:xx:xx")
-        sys.exit(0)
+    parser = argparse.ArgumentParser(description="Flatten an axis value's between start time and end time.")
+    parser.add_argument('filename', type=str, help="name of the input file")
+    parser.add_argument('stime', type=str, nargs='?',
+        default="10:00:00", help="time to start flattening an axis")
+    parser.add_argument('etime', type=str, nargs='?',
+        default="23:59:59", help="time to stop flattening an axis")
+    parser.add_argument('axis', type=str, nargs='?',
+        default='x', help="the axis to flatten (x, y, z)")
+    args = parser.parse_args()
 
-    filename = sys.argv[1]
-    axis = sys.argv[2]
-
-    if len(sys.argv) == 5:
-        start_time = datetime.time.fromisoformat(sys.argv[3])
-        end_time = datetime.time.fromisoformat(sys.argv[4])
-    else:
-        start_time = datetime.time.fromisoformat("10:00:00")
-        end_time = datetime.time.fromisoformat("20:00:00")
-
-    tuple_filename = filename.split(".")
-    # basefilename without extension
-    base_filename = tuple_filename[0]
+    tuple_filename = args.filename.split(".")
+    # filepath without extension
+    filename_noext = tuple_filename[0]
     filename_extension = tuple_filename[1]
 
-    new_filename = base_filename + "_test_flatten_axis." + filename_extension
-    outfile = open(new_filename, "wb")
+    new_filename = filename_noext + "_test_flatten_axis." + filename_extension
+    start_time = datetime.time.fromisoformat(args.stime)
+    end_time = datetime.time.fromisoformat(args.etime)
 
     if filename_extension == "s2":
-        infile = open(filename, "rb")
-        flatten_axis_from_clean(infile, outfile, axis, start_time, end_time)
+        infile = open(args.filename, "rb")
+        outfile = open(new_filename, "wb")
+        flatten_axis_from_clean(infile, outfile, args.axis, start_time, end_time)
     if filename_extension == "2hz":
-        infile = open(filename, "rb")
-        flatten_axis_from_raw(infile, outfile, axis, start_time, end_time)
+        infile = open(args.filename, "rb")
+        outfile = open(new_filename, "wb")
+        flatten_axis_from_raw(infile, outfile, args.axis, start_time, end_time)
     if filename_extension == "sec":
-        infile = open(filename, "r")
+        infile = open(args.filename, "r")
         outfile = open(new_filename, "w")
-        flatten_axis_from_iaga(infile, outfile, axis,  start_time, end_time)
+        flatten_axis_from_iaga(infile, outfile, args.axis, start_time, end_time)
 
 if __name__ == "__main__":
     main()

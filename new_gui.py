@@ -298,6 +298,7 @@ class MainWindow(QMainWindow):
         self.button_clear_plot.clicked.connect(self.clear_plot)
         
         self.button_zoom_out.setDisabled(True)
+        self.button_zoom_out.setCheckable(False)
         self.button_zoom_out.clicked.connect(self.zoom_out)
         # Since we have a entry check that checks for the state of
         # what axis is being plotted when we 3 axis display so we 
@@ -722,7 +723,7 @@ class MainWindow(QMainWindow):
                                                             self.end_time_stamp)
 
         elif self.launch_dialog_option == 2 or self.file_ext == "sec":
-            x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_IAGA2002(
+            x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_iaga(
                                                             file,
                                                             self.start_time_stamp,
                                                             self.end_time_stamp)
@@ -842,57 +843,61 @@ class MainWindow(QMainWindow):
         handle user clicks. After two clicks, event listener is
         disconnected from out matplotlib figure.
         '''
-        # Every time we zoom in before we get the new zoom in data 
-        # we collect the times we have now and save it if we want to zoom out
-        self.s_hour = self.start_time.get_hour()
-        self.s_minute = self.start_time.get_minute()
-        self.s_second = self.start_time.get_second()
-
-        self.e_hour = self.end_time.get_hour()
-        self.e_minute = self.end_time.get_minute()
-        self.e_second = self.end_time.get_second()
         self.zoom_out_helper()
 
         self.cid = self.graph.mpl_connect('button_press_event', self)
 
     def zoom_out_helper(self):
         """
-        Helper function for zoom_out appends time data to a list so that we can hold on to 
-        the times we zoomed in from and come walk our way back when we call zoom_out 
-        and want to make sure we arent able to press zoom_out when time is at min max
+        Helper function for zoom_out functionality. Appends time data
+        to a list so that we can hold on to the times we zoomed in 
+        from.
         """
-        self.prev_time.append((self.s_hour,self.s_minute ,self.s_second,self.e_hour,self.e_minute ,self.e_second))
-        print(self.prev_time)
-        if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
-                self.button_zoom_out.setDisabled(True)
+        # Collect current times, put into prev_time list.
+        # Used for when user presses zoom out button.
+        s_hour = self.start_time.get_hour()
+        s_minute = self.start_time.get_minute()
+        s_second = self.start_time.get_second() 
+        e_hour = self.end_time.get_hour()
+        e_minute = self.end_time.get_minute()
+        e_second = self.end_time.get_second()
 
-        
-            
+        time_tuple = (s_hour, s_minute, s_second, e_hour, e_minute, e_second)
+
+        self.prev_time.append(time_tuple)
+
+        # Once we zoom in once, we can enable the zoom out button
+        self.button_zoom_out.setDisabled(False)
 
     def zoom_out(self):
         '''
-        function to zoom out on the graph this allows you to zoom out to the previous state / time the graph was at when you last zoomed in
-        when you zoom in multiple times we hold the times of that in a list, and then when zoom out is called 
-        we grab the most recent time set the time widget to that time and re plot the graph 
-        we then remove that time from the list as its no longer a time we can zoom out to 
-        and once you zoom out to min max time the button becomes disabled again
+        Function to zoom out on the graph, this allows you 
+        to zoom out to the previous state / time the graph was in.
+        When you zoom in multiple times, we append those times into a list.
+        Once zoom out is called, we grab the most recent time and
+        set the time widget to that time and then re plot the graph. 
+        We then remove that time from the list as it's no longer a time we can zoom 
+        out to.
         '''
-        self.zoom_s_hour = self.prev_time[len(self.prev_time) - 1][0]
-        self.zoom_s_min = self.prev_time[len(self.prev_time) - 1][1]
-        self.zoom_s_sec = self.prev_time[len(self.prev_time) - 1][2]
-        self.zoom_e_hour = self.prev_time[len(self.prev_time) - 1][3]
-        self.zoom_e_min = self.prev_time[len(self.prev_time) - 1][4]
-        self.zoom_e_sec = self.prev_time[len(self.prev_time) - 1][5]
 
-        self.start_time.set_own_time(self.zoom_s_hour,self.zoom_s_min,self.zoom_s_sec)
-        self.end_time.set_own_time(self.zoom_e_hour,self.zoom_e_min,self.zoom_e_sec)
+        # Pop last item added to the list
+        # Grab previous times before we zoomed in
+        time_tuple = self.prev_time.pop(len(self.prev_time) - 1)
+        s_hour = time_tuple[0]
+        s_min = time_tuple[1]
+        s_sec = time_tuple[2]
+        e_hour = time_tuple[3]
+        e_min = time_tuple[4]
+        e_sec = time_tuple[5]
+
+        self.start_time.set_own_time(s_hour, s_min, s_sec)
+        self.end_time.set_own_time(e_hour, e_min, e_sec)
+
+        # If no more times in list, then we can't zoom out.
+        if len(self.prev_time) == 0:
+            self.button_zoom_out.setDisabled(True)
 
         self.plot_graph()
-
-        if self.start_time.get_time() == (0,0,0) and self.end_time.get_time() == (23,59,59):
-                self.button_zoom_out.setDisabled(True)
-
-        self.prev_time.remove(self.prev_time[len(self.prev_time)-1])
 
     def save(self):
         """
@@ -1020,22 +1025,22 @@ class MainWindow(QMainWindow):
         Which then determines the type of graph display we have either 
         Three Axis' or Stacked Graph.
         """
+        # Check current graph style, proceed to hide
+        # widgets not associated with style.
+        bool_value = self.button_graph_switch.three_axis_style.isChecked()
+        opposite_bool_value = not bool_value
 
-        if self.button_graph_switch.three_axis_style.isChecked():
-            bool_value = True
+        if bool_value:
             
             self.min_max_xyz_layout.setHidden(bool_value)
 
-            opposite_bool_value = not bool_value
-            self.checkbox_x.setHidden( opposite_bool_value)
+            self.checkbox_x.setHidden(opposite_bool_value)
             self.checkbox_y.setHidden(opposite_bool_value)
-            self.checkbox_z.setHidden( opposite_bool_value)
+            self.checkbox_z.setHidden(opposite_bool_value)
 
         else:
-            bool_value = False
 
             self.min_max_xyz_layout.setHidden(bool_value)
-            opposite_bool_value = not bool_value
 
             self.checkbox_x.setHidden(opposite_bool_value)
             self.checkbox_y.setHidden(opposite_bool_value)

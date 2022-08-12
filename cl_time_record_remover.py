@@ -9,6 +9,7 @@ Usefule reference: documentation/BinaryFormatNotes.txt
 Created August 2022 - Mark Ortega-Ponce
 '''
 
+import argparse
 import datetime
 import sys
 
@@ -114,36 +115,34 @@ def remove_data_from_iaga(infile, outfile, start_time, end_time):
 
 def main():
     
-    if len(sys.argv) < 2:
-        print("Usage: python3 time_data_remover.py filename")
-        print("Usage: python3 time_data_remover.py filename xx:xx:xx xx:xx:xx")
-        sys.exit(0)
+    parser = argparse.ArgumentParser(description="Flatten an axis value's between start time and end time.")
+    parser.add_argument('filename', type=str, help="name of the input file")
+    parser.add_argument('stime', type=str, nargs='?',
+        default="10:00:00", help="time to start flattening an axis")
+    parser.add_argument('etime', type=str, nargs='?',
+        default="23:59:59", help="time to stop flattening an axis")
+    args = parser.parse_args()
 
-    filename = sys.argv[1]
+    start_time = datetime.time.fromisoformat(sys.argv[2])
+    end_time = datetime.time.fromisoformat(sys.argv[3])
 
-    if len(sys.argv) == 4:
-        start_time = datetime.time.fromisoformat(sys.argv[2])
-        end_time = datetime.time.fromisoformat(sys.argv[3])
-    else:
-        start_time = datetime.time.fromisoformat("10:00:00")
-        end_time = datetime.time.fromisoformat("20:00:00")
-
-    tuple_filename = filename.split(".")
+    tuple_filename = args.filename.split(".")
     # basefilename without extension
-    base_filename = tuple_filename[0]
+    filename_noext = tuple_filename[0]
     filename_extension = tuple_filename[1]
 
-    new_filename = base_filename + "_test_data_remover." + filename_extension
-    outfile = open(new_filename, "wb")
+    new_filename = filename_noext + "_test_data_remover." + filename_extension
 
     if filename_extension == "s2":
-        infile = open(filename, "rb")
+        infile = open(args.filename, "rb")
+        outfile = open(new_filename, "wb")
         remove_data_from_clean(infile, outfile, start_time, end_time)
     if filename_extension == "2hz":
-        infile = open(filename, "rb")
+        infile = open(args.filename, "rb")
+        outfile = open(new_filename, "wb")
         remove_data_from_raw(infile, outfile, start_time, end_time)
     if filename_extension == "sec":
-        infile = open(filename, "r")
+        infile = open(args.filename, "r")
         outfile = open(new_filename, "w")
         remove_data_from_iaga(infile, outfile, start_time, end_time)
 
