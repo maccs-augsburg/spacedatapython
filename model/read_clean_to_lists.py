@@ -95,9 +95,8 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
 
             # creating a test for no data variable
             test_for_no_data = int.from_bytes(clean_record[4:8], byteorder='big', signed=True)
-            
+
             if test_for_no_data == 32767000:
-                print("99999.99")
                 x_arr.append(NO_RECORD)
                 x_arr.append(NO_RECORD)
                 y_arr.append(NO_RECORD)
@@ -107,7 +106,6 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
             else:
                 # getting the x values
                 x1 = int.from_bytes(clean_record[4:8], byteorder='big', signed=True) / 1000.0
-                print(x1)
                 x_arr.append(x1)
                 x2 = int.from_bytes(clean_record[8:12], byteorder='big', signed=True) / 1000.0
                 x_arr.append(x2)
