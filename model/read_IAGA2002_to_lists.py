@@ -64,6 +64,7 @@ def create_datetime_lists_from_iaga( iaga_file, start_time, end_time):
         if not one_record_first_line:
             break
         
+        date = str(one_record_first_line[0])
         time = str(one_record_first_line[1])
         # Grab up to hh:mm:ss ignoring the microseconds
         time = time[2:10]
