@@ -53,7 +53,6 @@ def create_time_list(stime, etime):
 		hour_step = 1
 
 	if hour_step is not None:
-		x_axis_label = "Universal Time in Hours (HH)"
 
 		return get_hour_ticks(hour_step, stime, total_time_diff_seconds)
 
