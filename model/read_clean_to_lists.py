@@ -9,6 +9,7 @@
 # Python 3 imports
 import datetime
 import sys
+NO_RECORD = 99999.99
 
 def create_datetime_lists_from_clean( clean_file, start_time, end_time):
     """ Creates x, y, z, time, and flag lists based on the 2 Hz clean data file.
@@ -71,20 +72,6 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
 
         # if current time is greater than the start time we process and add it to arrays
         if current_time >= start_time :
-
-            # creating a test for no data variable
-            test_for_no_data = int.from_bytes(clean_record[4:8], byteorder='big', signed=True)
-
-            # TODO: Should not be continue, put in fake record (99_999.99)
-            # eg. 
-            #     time array stuff above if else check 
-            #     if test_no_data:
-            #           put fake record in
-            #     else:
-            #           put regular record in
-            # if we don't have data, we don't add it to the time arrays
-            if test_for_no_data == 32767000:
-                continue
             
             # converting it into hours for the time array 
             time_in_hours_quarter_second = datetime.datetime(year=1111,
@@ -106,23 +93,36 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
             time_arr.append(time_in_hours_quarter_second)
             time_arr.append(time_in_hours_three_quarter_second)
 
-            # getting the x values
-            x1 = int.from_bytes(clean_record[4:8], byteorder='big', signed=True) / 1000.0
-            x_arr.append(x1)
-            x2 = int.from_bytes(clean_record[8:12], byteorder='big', signed=True) / 1000.0
-            x_arr.append(x2)
+            # creating a test for no data variable
+            test_for_no_data = int.from_bytes(clean_record[4:8], byteorder='big', signed=True)
+            
+            if test_for_no_data == 32767000:
+                print("99999.99")
+                x_arr.append(NO_RECORD)
+                x_arr.append(NO_RECORD)
+                y_arr.append(NO_RECORD)
+                y_arr.append(NO_RECORD)
+                z_arr.append(NO_RECORD)
+                z_arr.append(NO_RECORD)
+            else:
+                # getting the x values
+                x1 = int.from_bytes(clean_record[4:8], byteorder='big', signed=True) / 1000.0
+                print(x1)
+                x_arr.append(x1)
+                x2 = int.from_bytes(clean_record[8:12], byteorder='big', signed=True) / 1000.0
+                x_arr.append(x2)
 
-            # getting the y values
-            y1 = int.from_bytes(clean_record[12:16], byteorder='big', signed=True) / 1000.0
-            y_arr.append(y1) 
-            y2 = int.from_bytes(clean_record[16:20], byteorder='big', signed=True) / 1000.0
-            y_arr.append(y2) 
+                # getting the y values
+                y1 = int.from_bytes(clean_record[12:16], byteorder='big', signed=True) / 1000.0
+                y_arr.append(y1) 
+                y2 = int.from_bytes(clean_record[16:20], byteorder='big', signed=True) / 1000.0
+                y_arr.append(y2) 
 
-            # getting the z values
-            z1 = int.from_bytes(clean_record[20:24], byteorder='big', signed=True) / 1000.0
-            z_arr.append(z1)
-            z2 = int.from_bytes(clean_record[24:28], byteorder='big', signed=True) / 1000.0
-            z_arr.append(z2)
+                # getting the z values
+                z1 = int.from_bytes(clean_record[20:24], byteorder='big', signed=True) / 1000.0
+                z_arr.append(z1)
+                z2 = int.from_bytes(clean_record[24:28], byteorder='big', signed=True) / 1000.0
+                z_arr.append(z2)
             
             # getting the flag values
             flag = clean_record[0]
