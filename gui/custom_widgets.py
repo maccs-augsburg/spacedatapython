@@ -128,7 +128,7 @@ class Spinbox(QSpinBox):
         #self.setMaximum(max_value)
         self.setRange(min_value, max_value)
         self.setSingleStep(step_size)
-        self.setWrapping(True)
+        self.setWrapping(False)
 
         self.valueChanged.connect(self.value_changed)
         self.setAlignment(Qt.AlignCenter)
