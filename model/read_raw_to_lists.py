@@ -39,7 +39,6 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time):
         time_arr: a list of datetime.datetime Values from our 2 Hz file
     
     """    
-
     # Lists to hold data and return at end of function
     x_arr = []	    #x plot point storage
     y_arr = []	    #y plot point storage
@@ -57,23 +56,26 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time):
 
         # if current time is greater than the start time we process and add it to arrays
         if current_time >= start_time :
-
+            
+            year = one_record[1]
+            month = one_record[2]
+            day = one_record[3]
             # splitting up the time records
             hour = one_record[4]
             minute = one_record[5]
             second = one_record[6]
 
             # converting it into hours for the time array but saving them as datetime objects
-            time_in_hours_quarter_second = datetime.datetime(year=1111,
-                                                             month = 1,
-                                                             day = 1,
+            time_in_hours_quarter_second = datetime.datetime(year= year,
+                                                             month = month,
+                                                             day = day,
                                                              hour=hour,
                                                              minute=minute,
                                                              second=second,
                                                              microsecond=250000)
-            time_in_hours_three_quarter_second = datetime.datetime(year=1111,
-                                                                   month = 1,
-                                                                   day = 1,
+            time_in_hours_three_quarter_second = datetime.datetime(year= year,
+                                                                   month = month,
+                                                                   day = day,
                                                                    hour=hour,
                                                                    minute=minute,
                                                                    second=second,
