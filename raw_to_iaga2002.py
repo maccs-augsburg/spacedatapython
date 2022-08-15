@@ -16,7 +16,7 @@ import sys
 import datetime
 
 # MACCS imports
-from raw_codecs import decode, time_of_record
+from model.raw_codecs import decode, time_of_record
 import util.station_names
 
 
