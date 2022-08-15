@@ -127,6 +127,13 @@ def axis_entry_checks(x_arr: np.array, y_arr: np.array, z_arr: np.array,
     max_z : int
         Returns default max_z if no input, else returns user input.
     '''
+    # TODO: Add a check for no record value of 99,999.99? If we don't, it will choose as max.
+    # print(min_x)
+    # print(max_x)
+    # print(min_y)
+    # print(max_y)
+    # print(min_z)
+    # print(max_z)
 
     default_min_x = np.min(x_arr)
     default_max_x = np.max(x_arr)
@@ -145,12 +152,31 @@ def axis_entry_checks(x_arr: np.array, y_arr: np.array, z_arr: np.array,
 
     # start normalizing ranges between all three graphs
     axis_ranges = [default_x_range, default_y_range, default_z_range]
+
+    # print()
+    # print("Axis ranges", axis_ranges)
+    # print(np.max(axis_ranges))
+
     max_axis_range = np.max(axis_ranges)
     # increasing range by 5%
     # dont want min-max values to be on the
     # edge of the graph from my understanding
     max_axis_range = max_axis_range + max_axis_range * .05
 
+    # print()
+    # print("Default values")
+    # print(default_min_x)
+    # print(default_max_x)
+    # print(default_min_y)
+    # print(default_max_y)
+    # print(default_min_z)
+    # print(default_max_z)
+    # print("Max axis range: ", max_axis_range)
+    # print("Midpoints")
+    # print(x_midpoint)
+    # print(y_midpoint)
+    # print(z_midpoint)
+    # print()
     default_min_x = x_midpoint - max_axis_range
     default_min_y = y_midpoint - max_axis_range
     default_min_z = z_midpoint - max_axis_range
@@ -158,6 +184,15 @@ def axis_entry_checks(x_arr: np.array, y_arr: np.array, z_arr: np.array,
     default_max_x = x_midpoint + max_axis_range
     default_max_y = y_midpoint + max_axis_range
     default_max_z = z_midpoint + max_axis_range
+
+    # print()
+    # print('Default values after normalizing them')
+    # print(default_min_x)
+    # print(default_max_x)
+    # print(default_min_y)
+    # print(default_max_y)
+    # print(default_min_z)
+    # print(default_max_z)
 
     if min_x == 0:
         min_x = int(default_min_x)
@@ -176,6 +211,15 @@ def axis_entry_checks(x_arr: np.array, y_arr: np.array, z_arr: np.array,
 
     if max_z == 0:
         max_z = int(default_max_z)
+
+    # print()
+    # print("Returning these value")
+    # print(min_x)
+    # print(max_x)
+    # print(min_y)
+    # print(max_y)
+    # print(min_z)
+    # print(max_z)
 
     return min_x, max_x, min_y, max_y, min_z, max_z
 
