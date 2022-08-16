@@ -86,10 +86,10 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
 
     # adding this here so it doesn't break Chris gui code, plan would be to remove this call
     # and call inside plotting button function instead because all entry checks being made there
+
     in_min_x, in_max_x, in_min_y, in_max_y, in_min_z, in_max_z = axis_entry_checks_old(
              x_arr, y_arr, z_arr, in_min_x, in_max_x, in_min_y, in_max_y, in_min_z, in_max_z
     )
-
 
     if((int)(year_value) > 50): # Not sure what the cutoff should be, just defaulted to 50 to start with
         year_value = "19" + year_value
@@ -98,7 +98,7 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
 
     # Converting the date and setting it up
     date = datetime.datetime.strptime(year_value + "-" + day_of_year, "%Y-%j").strftime("%m-%d-%Y")
-    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime, time_arr[0])
     
     ### figure settings
     fig = plt.figure(figsize=(12,7)) #12, 7, dictates width, height
