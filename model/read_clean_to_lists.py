@@ -84,10 +84,8 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
             #           put regular record in
             # if we don't have data, we don't add it to the time arrays
             if test_for_no_data == 32767000:
-                print("I am skipping this whole iteration", 'rb')
                 continue
             
-            print("not skipping")
             # converting it into hours for the time array 
             time_in_hours_quarter_second = datetime.datetime(year=1111,
                                                              month = 1,
