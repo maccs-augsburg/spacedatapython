@@ -45,8 +45,30 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
     List
         flag_arr: a list of flag values from the 2 Hz file
     """
-    
-    
+
+    # get filename with no path / any extra stuff because
+    # its an open file object, and not a string
+    clean_file_string = str(clean_file)
+    clean_file_string = clean_file_string.split()[-1]
+    clean_file_string = clean_file_string.split('/')[-1]
+    clean_file_string = clean_file_string.split("'")[0]
+
+    year_day_value = clean_file_string[2:7] # Year: (first two digits) and day of year: (last 3 digits)
+    year_value = year_day_value[0:2] # The last 2 digits of the year
+    if int(year_value) < 20:
+        century_string = "19"
+    else:
+        century_string = "20"
+    full_year_value = century_string + str(year_value)
+    day_of_year = year_day_value[2:] # The 3 digits corresponding with the day of the year
+    year_and_doy = full_year_value + " " + day_of_year 
+    date_object = datetime.datetime.strptime(year_and_doy, '%Y %j')
+    date = date_object.strftime('%Y/%m/%d')
+    datetime_object = datetime.datetime.strptime(date, '%Y/%m/%d')
+    year = datetime_object.year
+    month = datetime_object.month
+    day = datetime_object.day
+
     # Lists to hold data and return at end of function
     x_arr = []	     # x plot point storage
     y_arr = []	     # y plot point storage
@@ -87,22 +109,22 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
                 continue
             
             # converting it into hours for the time array 
-            time_in_hours_quarter_second = datetime.datetime(year=1111,
-                                                             month = 1,
-                                                             day = 1,
+            time_in_hours_quarter_second = datetime.datetime(year=year,
+                                                             month=month,
+                                                             day=day,
                                                              hour=hour,
                                                              minute=minute,
                                                              second=second,
                                                              microsecond=250000)
 
-            time_in_hours_three_quarter_second = datetime.datetime(year=1111,
-                                                                   month = 1,
-                                                                   day = 1,
+            time_in_hours_three_quarter_second = datetime.datetime(year=year,
+                                                                   month=month,
+                                                                   day=day,
                                                                    hour=hour,
                                                                    minute=minute,
                                                                    second=second,
                                                                    microsecond=750000)
-            
+
             time_arr.append(time_in_hours_quarter_second)
             time_arr.append(time_in_hours_three_quarter_second)
 
@@ -135,7 +157,6 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
 
     # returning the 5 lists
     return x_arr, y_arr, z_arr, time_arr, flag_arr
-
 
 
 if __name__ == "__main__" :
