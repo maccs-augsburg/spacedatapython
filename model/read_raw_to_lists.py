@@ -57,7 +57,10 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time):
         # if current time is greater than the start time we process and add it to arrays
         if current_time >= start_time :
             
-            year = one_record[1]
+            century = str(one_record[0])
+            year = str(one_record[1])
+            year_string = century + year
+            year_int = int(year_string)
             month = one_record[2]
             day = one_record[3]
             # splitting up the time records
@@ -66,16 +69,16 @@ def create_datetime_lists_from_raw( raw_file, start_time, end_time):
             second = one_record[6]
 
             # converting it into hours for the time array but saving them as datetime objects
-            time_in_hours_quarter_second = datetime.datetime(year= year,
-                                                             month = month,
-                                                             day = day,
+            time_in_hours_quarter_second = datetime.datetime(year=year_int,
+                                                             month=month,
+                                                             day=day,
                                                              hour=hour,
                                                              minute=minute,
                                                              second=second,
                                                              microsecond=250000)
-            time_in_hours_three_quarter_second = datetime.datetime(year= year,
-                                                                   month = month,
-                                                                   day = day,
+            time_in_hours_three_quarter_second = datetime.datetime(year=year_int,
+                                                                   month=month,
+                                                                   day=day,
                                                                    hour=hour,
                                                                    minute=minute,
                                                                    second=second,
