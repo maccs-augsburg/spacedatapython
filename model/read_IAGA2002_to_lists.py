@@ -65,6 +65,12 @@ def create_datetime_lists_from_iaga( iaga_file, start_time, end_time):
             break
         
         date = str(one_record_first_line[0])
+        date = date[2:12]
+        print(date)
+        datetime_date = datetime.datetime.strptime(date, "%Y-%m-%d")
+        print(datetime_date.year)
+        print(datetime_date.month)
+        print(datetime_date.day)
         time = str(one_record_first_line[1])
         # Grab up to hh:mm:ss ignoring the microseconds
         time = time[2:10]
