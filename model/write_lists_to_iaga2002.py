@@ -31,10 +31,11 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list):
 
 def create_record(x1, x2, y1, y2, z1, z2, datetime):
 
-    century = 1
-    year = 1
-    month = 1
-    day = 1
+    century = str(datetime.year)
+    century = century[0:2]
+    year = century[2:]
+    month = datetime.month
+    day = datetime.day
     datestamp = f"{century:02d}{year:02d}-{month:02d}-{day:02d} "
     
     time = datetime.time()
