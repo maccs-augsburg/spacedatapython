@@ -66,11 +66,11 @@ def create_datetime_lists_from_iaga( iaga_file, start_time, end_time):
         
         date = str(one_record_first_line[0])
         date = date[2:12]
-        print(date)
         datetime_date = datetime.datetime.strptime(date, "%Y-%m-%d")
-        print(datetime_date.year)
-        print(datetime_date.month)
-        print(datetime_date.day)
+        year = datetime_date.year
+        month = datetime_date.month
+        day = datetime_date.day
+
         time = str(one_record_first_line[1])
         # Grab up to hh:mm:ss ignoring the microseconds
         time = time[2:10]
@@ -90,16 +90,16 @@ def create_datetime_lists_from_iaga( iaga_file, start_time, end_time):
                 continue
             
             # converting it into hours for the time array but saving them as datetime objects
-            time_in_hours_quarter_second = datetime.datetime(year=1111,
-                                                             month = 1,
-                                                             day = 1,
+            time_in_hours_quarter_second = datetime.datetime(year=year,
+                                                             month=month,
+                                                             day=day,
                                                              hour=hour,
                                                              minute=minute,
                                                              second=second,
                                                              microsecond=250000)
-            time_in_hours_three_quarter_second = datetime.datetime(year=1111,
-                                                                   month = 1,
-                                                                   day = 1,
+            time_in_hours_three_quarter_second = datetime.datetime(year=year,
+                                                                   month=month,
+                                                                   day=day,
                                                                    hour=hour,
                                                                    minute=minute,
                                                                    second=second,
