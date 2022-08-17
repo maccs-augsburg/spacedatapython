@@ -1,8 +1,12 @@
 import datetime
 import sys
-import read_IAGA2002_to_lists
+import read_clean_to_lists
+import read_raw_to_lists
+import argparse
+sys.path.append("..")
+import raw_to_iaga2002
 
-def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list):
+def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
 
     x_one = None
     y_one = None
@@ -16,7 +20,6 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list):
     record_counter = 0
     counter = 0
 
-    # write header info here, call from the raw_to_iaga2002 file
     # write records after doing this
 
     while counter < len(time_list):
@@ -33,10 +36,11 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list):
             y_one, y_two,
             z_one, z_two, time_one
         )
-
-        #print(temp_string)
+        print(temp_string)
         record_counter += 2
         counter += 2
+
+        outfile.write(temp_string)
 
 
 def create_record_string(x1, x2, y1, y2, z1, z2, datetime_object):
@@ -74,13 +78,41 @@ def create_record_string(x1, x2, y1, y2, z1, z2, datetime_object):
     full_data_string = first_half + second_half
     return full_data_string
 
+def main():
 
-file = open("/Users/markortega-ponce/Desktop/ZZZPyside/spacedatapython/testdata/cdr20210602v_l0_half_sec.sec", 'rb')
-start = datetime.time.fromisoformat("00:00:00")
-end = datetime.time.fromisoformat("23:59:59")
-x,y,z,t = read_IAGA2002_to_lists.create_datetime_lists_from_iaga(
-                                                file, 
-                                                start, 
-                                                end)
+    parser = argparse.ArgumentParser(description="Convert lists to iaga2002 format")
+    parser.add_argument('filename', type=str, help="name of the input file")
+    args = parser.parse_args()
+    # get three letter station name for clean or raw file
+    # Note: Wouldn't be converting from iaga to iaga
+    station_abbrev = args.filename[0:2]
 
-create_iaga2002_file_from_datetime_lists(x,y,z,t)
+    start = datetime.time.fromisoformat("00:00:00")
+    end = datetime.time.fromisoformat("23:59:59")
+
+    file = open(args.filename, 'rb')
+
+    # get filename extension
+    extension = args.filename.split('.')[-1]
+
+    if extension == "2hz": 
+        x,y,z,t,f = read_clean_to_lists.create_datetime_lists_from_iaga(
+            file, start, end
+        )
+    elif extension == "s2":
+        x,y,z,t = read_raw_to_lists.create_datetime_lists_from_raw(
+            file, start, end
+        )
+
+    file.close()
+
+    outfile_name = raw_to_iaga2002.create_iaga2002_filename(args.filename)
+    outfile_name = outfile_name.split('.')[0]
+    outfile_name = outfile_name + "_list_to_file_test.sec"
+    outfile = open(outfile_name, 'w')
+    outfile.write(raw_to_iaga2002.create_header(station_abbrev))
+    create_iaga2002_file_from_datetime_lists(x,y,z,t,outfile)    
+    
+
+if __name__ == "__main__" :
+    main()
