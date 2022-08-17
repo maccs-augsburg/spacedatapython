@@ -6,17 +6,6 @@ import argparse
 import raw_to_iaga2002
 
 def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
-
-    x_one = None
-    y_one = None
-    z_one = None
-    x_two = None
-    y_two = None
-    z_two = None
-    time = None
-    temp_string = None
-    record_counter = 0
-    counter = 0
     
     # Start writing records from the lists
     while counter < len(time_list):
@@ -37,6 +26,9 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, 
         record_counter += 2
         counter += 2
         outfile.write(temp_string)
+
+def create_raw_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
+
 
 def create_record_string(x1, x2, y1, y2, z1, z2, datetime_object):
 
