@@ -3,7 +3,6 @@ import sys
 import read_clean_to_lists
 import read_raw_to_lists
 import argparse
-sys.path.append("..")
 import raw_to_iaga2002
 
 def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
@@ -14,14 +13,12 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, 
     x_two = None
     y_two = None
     z_two = None
-    time_one = None
-    time_two = None
+    time = None
     temp_string = None
     record_counter = 0
     counter = 0
-
-    # write records after doing this
-
+    
+    # Start writing records from the lists
     while counter < len(time_list):
 
         x_one = x_list[record_counter]
@@ -30,18 +27,16 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, 
         y_two = y_list[record_counter + 1]
         z_one = z_list[record_counter]
         z_two = z_list[record_counter + 1]
-        time_one = time_list[record_counter]
+        time = time_list[record_counter]
         temp_string = create_record_string(
             x_one, x_two,
             y_one, y_two,
-            z_one, z_two, time_one
+            z_one, z_two, time
         )
-        print(temp_string)
+        #print(temp_string)
         record_counter += 2
         counter += 2
-
         outfile.write(temp_string)
-
 
 def create_record_string(x1, x2, y1, y2, z1, z2, datetime_object):
 
@@ -96,11 +91,11 @@ def main():
     extension = args.filename.split('.')[-1]
 
     if extension == "2hz": 
-        x,y,z,t,f = read_clean_to_lists.create_datetime_lists_from_iaga(
+        x,y,z,t,f = read_clean_to_lists.create_datetime_lists_from_clean(
             file, start, end
         )
     elif extension == "s2":
-        x,y,z,t = read_raw_to_lists.create_datetime_lists_from_raw(
+        x,y,z,t = read_raw_to_lists.read_raw_to_lists.create_datetime_lists_from_raw(
             file, start, end
         )
 
@@ -110,7 +105,9 @@ def main():
     outfile_name = outfile_name.split('.')[0]
     outfile_name = outfile_name + "_list_to_file_test.sec"
     outfile = open(outfile_name, 'w')
+    # Write header information for IAGA2002 file.
     outfile.write(raw_to_iaga2002.create_header(station_abbrev))
+    # Write out the records to the outfile
     create_iaga2002_file_from_datetime_lists(x,y,z,t,outfile)    
     
 
