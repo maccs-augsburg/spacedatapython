@@ -12,8 +12,12 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list):
     z_two = None
     time_one = None
     time_two = None
+    temp_string = None
     record_counter = 0
     counter = 0
+
+    # write header info here, call from the raw_to_iaga2002 file
+    # write records after doing this
 
     while counter < len(time_list):
 
@@ -24,21 +28,30 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list):
         z_one = z_list[record_counter]
         z_two = z_list[record_counter + 1]
         time_one = time_list[record_counter]
+        temp_string = create_record_string(
+            x_one, x_two,
+            y_one, y_two,
+            z_one, z_two, time_one
+        )
 
+        #print(temp_string)
         record_counter += 2
         counter += 2
 
 
-def create_record(x1, x2, y1, y2, z1, z2, datetime):
+def create_record_string(x1, x2, y1, y2, z1, z2, datetime_object):
 
-    century = str(datetime.year)
-    century = century[0:2]
-    year = century[2:]
-    month = datetime.month
-    day = datetime.day
+    century_year = str(datetime_object.year)
+    #print(century_year)
+    century = int(century_year[0:2])
+    #print(century)
+    year = int(century_year[2:])
+    #print(year)
+    month = datetime_object.month
+    day = datetime_object.day
     datestamp = f"{century:02d}{year:02d}-{month:02d}-{day:02d} "
     
-    time = datetime.time()
+    time = datetime_object.time()
     hour = time.hour
     minute = time.minute
     second = time.second
