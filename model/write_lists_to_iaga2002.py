@@ -7,8 +7,9 @@ import raw_to_iaga2002
 
 def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
     
+    record_counter = 0
     # Start writing records from the lists
-    while counter < len(time_list):
+    while record_counter < len(time_list):
 
         x_one = x_list[record_counter]
         x_two = x_list[record_counter + 1]
@@ -24,7 +25,6 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, 
         )
         #print(temp_string)
         record_counter += 2
-        counter += 2
         outfile.write(temp_string)
 
 def create_raw_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
