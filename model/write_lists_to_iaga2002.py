@@ -1,9 +1,9 @@
 import datetime
 import sys
-import read_clean_to_lists
-import read_raw_to_lists
+import model.read_clean_to_lists
+import model.read_raw_to_lists
 import argparse
-import raw_to_iaga2002
+import model.raw_to_iaga2002 as raw_to_iaga2002
 
 def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
     
@@ -27,8 +27,44 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, 
         record_counter += 2
         outfile.write(temp_string)
 
-def create_raw_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
+def create_clean_file_from_datetime_lists(x_list, y_list, z_list, time_list, flag_list, outfile):
 
+    record_counter = 0
+    flag_counter = 0
+
+    while record_counter < len(time_list):
+        
+        x_one = x_list[record_counter]
+        x_two = x_list[record_counter + 1]
+        y_one = y_list[record_counter]
+        y_two = y_list[record_counter + 1]
+        z_one = z_list[record_counter]
+        z_two = z_list[record_counter + 1]
+        # can also get the century, month, day from datetime_object
+        # Example when creating record for iaga.
+        # Would use to name file
+        datetime_object = time_list[record_counter]
+        time = datetime_object.time()
+        hour = time.hour
+        minute = time.minute
+        second = time.second
+        
+        flag = flag_list[flag_counter]
+
+        outfile.write(flag.to_bytes(1, byteorder='big', signed=False))
+        outfile.write(hour.to_bytes(1, byteorder='big', signed=False))
+        outfile.write(minute.to_bytes(1, byteorder='big', signed=False))
+        outfile.write(second.to_bytes(1, byteorder='big', signed=False))
+        # values are already how they should be, so don't divide/multiply by 1000
+        outfile.write(x_one.to_bytes(4, byteorder='big', signed=True))
+        outfile.write(x_two.to_bytes(4, byteorder='big', signed=True))
+        outfile.write(y_one.to_bytes(4, byteorder='big', signed=True))
+        outfile.write(y_two.to_bytes(4, byteorder='big', signed=True))
+        outfile.write(z_one.to_bytes(4, byteorder='big', signed=True))
+        outfile.write(z_two.to_bytes(4, byteorder='big', signed=True))
+        # write a newline?
+        record_counter += 2
+        flag_counter += 1
 
 def create_record_string(x1, x2, y1, y2, z1, z2, datetime_object):
 
@@ -83,11 +119,11 @@ def main():
     extension = args.filename.split('.')[-1]
 
     if extension == "2hz": 
-        x,y,z,t,f = read_clean_to_lists.create_datetime_lists_from_clean(
+        x,y,z,t = model.read_raw_to_lists.create_datetime_lists_from_raw(
             file, start, end
         )
     elif extension == "s2":
-        x,y,z,t = read_raw_to_lists.read_raw_to_lists.create_datetime_lists_from_raw(
+        x,y,z,t,f = model.read_clean_to_lists.create_datetime_lists_from_clean(
             file, start, end
         )
 
