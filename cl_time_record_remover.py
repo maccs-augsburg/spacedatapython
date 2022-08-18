@@ -4,7 +4,7 @@ time_data_remover.py
 Data remover - Given a file and two times, remove all the 
     data records between the two times and write out the shortened file.
 
-Usefule reference: documentation/BinaryFormatNotes.txt
+Useful reference: documentation/BinaryFormatNotes.txt
 
 Created August 2022 - Mark Ortega-Ponce
 '''
@@ -17,17 +17,20 @@ import model.read_clean_to_lists
 import model.read_iaga2002_to_lists
 import write_lists_to_iaga2002
 
+# TODO: Deprecate? Works, but MACCS distributes IAGA files.
 def remove_data_from_clean(infile, outfile, start_time, end_time):
 
     '''
     Parameters
     ----------
-    infile :
+    infile : open file object
         The file object to be read.
-    start_time :
-        The datetime.time object from which to begin.
-    end_time:
-        The datetime.time object at which to end.
+    outfile : open file object
+        The file object to write out to.
+    start_time : datetime.time
+        The time to start removing records.
+    end_time: datetime.time
+        The time to stop removing records.
     '''
     
     passed_start_time = False
@@ -49,8 +52,21 @@ def remove_data_from_clean(infile, outfile, start_time, end_time):
         if current_time > end_time and passed_start_time:
             outfile.write(one_record)
 
-
+# TODO: Deprecate? Works, but MACCS distributes IAGA files.
 def remove_data_from_raw(infile, outfile, start_time, end_time):
+
+    '''
+    Parameters
+    ----------
+    infile : open file object
+        The file object to be read.
+    outfile : open file object
+        The file object to write out to.
+    start_time : datetime.time
+        The time to start removing records.
+    end_time: datetime.time
+        The time to stop removing records.
+    '''
 
     passed_start_time = False
 
@@ -73,6 +89,30 @@ def remove_data_from_raw(infile, outfile, start_time, end_time):
 
 
 def remove_time(x,y,z,t, start_time, end_time, outfile, station):
+    '''
+    Given datetime lists created from raw/clean/iaga files.
+    Remove the time records between start_time and end_time.
+    Write the results out to an outfile in iaga2002 format.
+
+    Parameters:
+    -----------
+    x : list
+        List of x values collected from clean/raw/iaga files.
+    y : list
+        List of y values collected from clean/raw/iaga files.
+    z : list
+        List of z values collected from clean/raw/iaga files.
+    t : list
+        List of datetime values collected from clean/raw/iaga files.
+    start_time: datetime.time
+        Time to start flattening axis.
+    end_time : datetime.time
+        Time to end flatterning axis.
+    outfile : Open file object.
+        File to write new values in.
+    station_abbrev : str
+        Station abbreviation to create header.
+    '''
 
     start_index = None
     end_index = None
