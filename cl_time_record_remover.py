@@ -14,7 +14,7 @@ import datetime
 import sys
 import model.read_raw_to_lists
 import model.read_clean_to_lists
-import model.read_IAGA2002_to_lists
+import model.read_iaga2002_to_lists
 import write_lists_to_iaga2002
 
 def remove_data_from_clean(infile, outfile, start_time, end_time):
