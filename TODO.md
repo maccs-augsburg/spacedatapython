@@ -12,6 +12,8 @@ Here are some ideas for python data processing programs
 
 * Linux Installer
 
+* Improve efficiency of reading IAGA2002 files to lists, on mac there is the rainbow wheel. Not sure about windows.
+
 * Possible use QGroupBox widgets to instead group the different widgets together
   allows for better visual apperances and to keep sections together
 

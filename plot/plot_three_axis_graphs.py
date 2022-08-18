@@ -81,7 +81,7 @@ def plot_axis(
     
     x_axis_format = mdates.DateFormatter('%H')
     
-    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime, time_list[0])
     # Datestamp
     if((int)(year_value) > 50):
         year_value = "19" + year_value
@@ -188,7 +188,7 @@ def plot_two_axis(
     # X_axis_label will return label corresponding to time gaps.
     # hours_array will contain the timestamps for labeling x-axis.
     # x_axis_format might be hours, hours and seconds.
-    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime, time_list[0])
             
     #Datestamp
     if((int)(year_value) > 50):
@@ -294,7 +294,7 @@ def x_y_and_z_plot(
 
     x_axis_format = mdates.DateFormatter('%H')
     
-    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime)
+    hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime, time_list[0])
 
     # Datestamp
     if((int)(year_value) > 50):
@@ -372,27 +372,4 @@ if __name__ == "__main__" :
         sys.exit(0) # Exiting without an error code
 
     arrayX, arrayY, arrayZ, timeArr = model.read_raw_to_lists(two_hz_binary_file, start_time, end_time)
-    
-
-    #X = 'X'
-    #Y = 'Y'
-    #Z = 'Z'
-
-    #try:
-    #plot_axis(arrayX, timeArr, filename, start_time, end_time, X)
-   # print("got past plot_axis")
-    #plot_axis(arrayY, timeArr, filename, start_time, end_time, Y)
-    #plot_axis(arrayZ, timeArr, filename, start_time, end_time, Z)
-    #x_plot(arrayX, timeArr, filename, start_time, end_time)
-#    y_plot(arrayY, timeArr, filename, start_time, end_time)
-  #  z_plot(arrayZ, timeArr, filename, start_time, end_time)
-   # x_and_y_plot(arrayX, arrayY, timeArr, filename, start_time, end_time)
-    #x_and_z_plot(arrayX, arrayZ, timeArr, filename, start_time, end_time)
-    #y_and_z_plot(arrayY, arrayZ, timeArr, filename, start_time, end_time)
-    #x_y_and_z_plot(arrayX, arrayY, arrayZ, timeArr, filename, start_time, end_time)
-    
-    
-    #except:
-        #print('Could not plot arrays to testgraph.pdf')
-        #sys.exit(0)
 

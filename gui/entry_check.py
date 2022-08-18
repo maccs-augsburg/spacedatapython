@@ -127,6 +127,7 @@ def axis_entry_checks(x_arr: np.array, y_arr: np.array, z_arr: np.array,
     max_z : int
         Returns default max_z if no input, else returns user input.
     '''
+    # TODO: Add a check for no record value of 99,999.99? If we don't, it will choose as max.
 
     default_min_x = np.min(x_arr)
     default_max_x = np.max(x_arr)
@@ -145,6 +146,7 @@ def axis_entry_checks(x_arr: np.array, y_arr: np.array, z_arr: np.array,
 
     # start normalizing ranges between all three graphs
     axis_ranges = [default_x_range, default_y_range, default_z_range]
+
     max_axis_range = np.max(axis_ranges)
     # increasing range by 5%
     # dont want min-max values to be on the
@@ -179,6 +181,7 @@ def axis_entry_checks(x_arr: np.array, y_arr: np.array, z_arr: np.array,
 
     return min_x, max_x, min_y, max_y, min_z, max_z
 
+# TODO: See if we can modify logic for function calls.
 def graph_from_plotter_entry_check(xArr: np.array, yArr: np.array, zArr: np.array,
                                    x_state: bool, y_state: bool,
                                    z_state: bool, timeArr: np.array,
@@ -332,28 +335,6 @@ def same_entries(self) -> bool:
     else:
         return True
 
-def same_axis_entries(self) -> bool:
-
-    flag = 0
-
-    if self.prev_min_x == self.spinbox_min_x.get_entry():
-        flag += 1
-    if self.prev_max_x == self.spinbox_max_x.get_entry():
-        flag += 1
-    if self.prev_min_y == self.spinbox_min_y.get_entry():
-        flag += 1
-    if self.prev_max_y == self.spinbox_max_y.get_entry():
-        flag += 1
-    if self.prev_min_z == self.spinbox_min_z.get_entry():
-        flag += 1
-    if self.prev_max_z == self.spinbox_max_z.get_entry():
-        flag += 1
-
-    if flag == 6:
-        return True
-    else:
-        return False
-
 def same_entries_one_toggled(self) -> bool:
     '''
     Function to check if current information in the gui
@@ -398,6 +379,40 @@ def same_entries_one_toggled(self) -> bool:
     else:
         return True
 
+# TODO: See if logic can me modified for this inside the gui.
+def same_axis_entries(self) -> bool:
+    '''
+    Function to check if user has changed axis or
+    time widget in the gui, but left entry values the same.
+    If true is returned, we reset the gui entries
+    so graph can pick new min/max values for the graph
+    based off values in the new time range. If value's aren't
+    reset the graph will have min/max values that might not
+    actually be inside the time range picked, making the graph
+    appear flat.
+    '''
+
+    flag = 0
+
+    if self.prev_min_x == self.spinbox_min_x.get_entry():
+        flag += 1
+    if self.prev_max_x == self.spinbox_max_x.get_entry():
+        flag += 1
+    if self.prev_min_y == self.spinbox_min_y.get_entry():
+        flag += 1
+    if self.prev_max_y == self.spinbox_max_y.get_entry():
+        flag += 1
+    if self.prev_min_z == self.spinbox_min_z.get_entry():
+        flag += 1
+    if self.prev_max_z == self.spinbox_max_z.get_entry():
+        flag += 1
+
+    if flag == 6:
+        return True
+    else:
+        return False
+
+
 def checks(self) -> bool:
     
     '''
@@ -434,8 +449,6 @@ def checks(self) -> bool:
 
     if not min_max_time_check(self):
         return False
-
-
 
     x_state = self.checkbox_x.isChecked()
     y_state = self.checkbox_y.isChecked()

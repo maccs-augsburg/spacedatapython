@@ -12,6 +12,10 @@ Created August 2022 - Mark Ortega-Ponce
 import argparse
 import datetime
 import sys
+import model.read_raw_to_lists
+import model.read_clean_to_lists
+import model.read_IAGA2002_to_lists
+import write_lists_to_iaga2002
 
 def remove_data_from_clean(infile, outfile, start_time, end_time):
 
@@ -67,84 +71,90 @@ def remove_data_from_raw(infile, outfile, start_time, end_time):
         if current_time > end_time and passed_start_time:
             outfile.write(one_record)
 
-def remove_data_from_iaga(infile, outfile, start_time, end_time):
 
-    for i in range(0, 100):
+def remove_time(x,y,z,t, start_time, end_time, outfile, station):
 
-        dummy_record = str(infile.readline())
-        dummy_record_list = dummy_record.split()
+    start_index = None
+    end_index = None
 
-        if dummy_record_list[0].__contains__("DATE"):
-            outfile.write(dummy_record)
-            break
+    for i in range (len(t)):
+        # convert to time
+        current_time = t[i].time()
+        # remove microseconds
+        current_time = current_time.strftime("%H:%M:%S")
+        # can't compare unless both datetime.time. Make shorter?
+        current_time = datetime.time.fromisoformat(current_time)
+
+        if start_time == current_time and start_index is None:
+            start_index = i
+        if end_time == current_time and end_index is None:
+            end_index = i
         
-        outfile.write(dummy_record)
+    new_x = []
+    new_y = []
+    new_z = []
+    new_t = []
+
+    flag = False
+
+    for i in range (len(t)):
         
-    passed_start_time = False
+        if i == start_index:
+            flag = True
+        if i == end_index:
+            flag = False
 
-    while True:
+        if flag == False:
+            new_x.append(x[i])
+            new_y.append(y[i])
+            new_z.append(z[i])
+            new_t.append(t[i])
 
-        one_record_first_line = infile.readline()
-        one_record_second_line = infile.readline()
-        tuple_list_one = one_record_first_line.split()
-
-        # if we reach the end then we break the loop
-        if not one_record_first_line:
-            break
-        
-        time = tuple_list_one[1]
-        # Grab up to hh:mm:ss ignoring the microseconds
-        time = time[0:8]
-        datetime_object = datetime.datetime.strptime(time, "%H:%M:%S").time()
-        hour = int(datetime_object.strftime("%H"))
-        minute = int(datetime_object.strftime("%M"))
-        second = int(datetime_object.strftime("%S"))
-
-        #second = one_record[17:23] //second with microsecond
-        current_time = datetime.time(hour, minute, second) # getting the current time
-
-        if current_time < start_time and not passed_start_time:
-            outfile.write(one_record_first_line)
-            outfile.write(one_record_second_line)
-        else:
-            passed_start_time = True
-
-        if current_time > end_time and passed_start_time:
-            outfile.write(one_record_first_line)
-            outfile.write(one_record_second_line)
+    outfile = open(outfile, 'w')
+    write_lists_to_iaga2002.create_iaga2002_file_from_datetime_lists(new_x, new_y, new_z, new_t, outfile, station)
 
 def main():
     
-    parser = argparse.ArgumentParser(description="Flatten an axis value's between start time and end time.")
+    parser = argparse.ArgumentParser(description="Remove records between start time and end time.")
     parser.add_argument('filename', type=str, help="name of the input file")
     parser.add_argument('stime', type=str, nargs='?',
-        default="10:00:00", help="time to start flattening an axis")
+        default="10:00:00", help="time to start removing records")
     parser.add_argument('etime', type=str, nargs='?',
-        default="23:59:59", help="time to stop flattening an axis")
+        default="20:00:00", help="time to stop removing records")
     args = parser.parse_args()
 
-    start_time = datetime.time.fromisoformat(sys.argv[2])
-    end_time = datetime.time.fromisoformat(sys.argv[3])
+    extension = args.filename.split('.')[-1]
+    infile = args.filename
+    infile = open(infile, 'rb')
+    start = datetime.time.fromisoformat( "00:00:00")
+    end = datetime.time.fromisoformat("23:59:59")
 
-    tuple_filename = args.filename.split(".")
-    # basefilename without extension
-    filename_noext = tuple_filename[0]
-    filename_extension = tuple_filename[1]
+    if extension == 's2':
+        x,y,z,t,f = model.read_clean_to_lists.create_datetime_lists_from_clean(
+            infile, start, end             
+        )
+        station_code = args.filename[0:2]
+        
+    elif extension == '2hz':
+        x,y,z,t = model.read_raw_to_lists.create_datetime_lists_from_raw(
+            infile, start, end
+        )
+        station_code = args.filename[0:2]
+    
+    elif extension == 'sec':
+        x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_iaga(
+            infile, start, end
+        )
+        station_code = args.filename[0:3]
 
-    new_filename = filename_noext + "_test_data_remover." + filename_extension
+    infile.close()
 
-    if filename_extension == "s2":
-        infile = open(args.filename, "rb")
-        outfile = open(new_filename, "wb")
-        remove_data_from_clean(infile, outfile, start_time, end_time)
-    if filename_extension == "2hz":
-        infile = open(args.filename, "rb")
-        outfile = open(new_filename, "wb")
-        remove_data_from_raw(infile, outfile, start_time, end_time)
-    if filename_extension == "sec":
-        infile = open(args.filename, "r")
-        outfile = open(new_filename, "w")
-        remove_data_from_iaga(infile, outfile, start_time, end_time)
+    start_time = datetime.time.fromisoformat(args.stime)
+    end_time = datetime.time.fromisoformat(args.etime)
+
+    outfile_name = args.filename.split('.')[0] + "_remove_time_test.sec"
+
+    remove_time(x,y,z,t,start_time, end_time, outfile_name, station_code)
 
 if __name__ == "__main__":
     main()

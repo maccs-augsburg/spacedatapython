@@ -190,12 +190,12 @@ class MainWindow(QMainWindow):
         ################
         ### Spinbox ####
         ################
-        self.spinbox_max_x = Spinbox(0, 99999, 10)
-        self.spinbox_min_x = Spinbox(0, 99999, 10)
-        self.spinbox_max_y = Spinbox(0, 99999, 10)
-        self.spinbox_min_y = Spinbox(0, 99999, 10)
-        self.spinbox_max_z = Spinbox(0, 99999, 10)
-        self.spinbox_min_z = Spinbox(0, 99999, 10)
+        self.spinbox_max_x = Spinbox(-300000, 300000, 10)
+        self.spinbox_min_x = Spinbox(-300000, 300000, 10)
+        self.spinbox_max_y = Spinbox(-300000, 300000, 10)
+        self.spinbox_min_y = Spinbox(-300000, 300000, 10)
+        self.spinbox_max_z = Spinbox(-300000, 300000, 10)
+        self.spinbox_min_z = Spinbox(-300000, 300000, 10)
 
         ###################
         ### Text Fields ###

@@ -16,7 +16,7 @@ import sys
 import datetime
 
 # MACCS imports
-from raw_codecs import decode, time_of_record
+from model.raw_codecs import decode, time_of_record
 import util.station_names
 
 
@@ -275,6 +275,8 @@ def header_beginning_for( station) :
 
 
 # FIXME: No proper header comment for less than 24 hour file.
+# FIXME: Can only provide a filename from cwd, can't provide as testdata/filename 
+#           line 47 create iage filename
 if __name__ == "__main__" :
     if len(sys.argv) < 2 :
         print( "Usage: python3 raw_to_iaga2002.py filename [starttime [endtime]]")
