@@ -20,21 +20,27 @@ def create_time_list(stime, etime, time_record):
 
 	Parameters
 	----------
-	Datetime.time
-		stime: The starting time stamp for plotting the day.
-		etime: The ending time stamp for plotting the day.
-		datetime: One record from time_arr, returned from create_datetime_from_filetype.
-					Used to put the associated date along with time.
+	stime : datetime.time
+		The starting time stamp for plotting the day.
+	etime : datetime.time 
+		The ending time stamp for plotting the day.
+	time_record : datetime.datetime 
+		One record from time_arr, returned from 
+		model.create_datetime_from_filetype.
+		Used to put the associated date along with time.
+		Useful when writing out files from lists.
 	Returns
 	-------
-	list
-		hours_arr: The list of datetime.datetime objects to be plotted.
-	mdates.DateFormatter
-		x_axis_format: The DateFormatter object which 
-				specifies how to display the datetime.datetime objects.
-	string
-		x_axis_label: the String value that will be used to label the x_axis
+	hours_arr : list
+		The list of datetime.datetime objects to be plotted.
+	x_axis_format : mdates.DateFormatter
+		The DateFormatter object which 
+		specifies how to display the datetime.datetime objects.
+	x_axis_label : str
+		Rhe String value that will be used to label the x_axis
 	"""	
+	print(type(time_record))
+	# get year, month, day from time_record
 	year = time_record.year
 	month = time_record.month
 	day = time_record.day
@@ -99,6 +105,20 @@ def create_time_list(stime, etime, time_record):
 
 
 def get_default_ticks(year, month, day):
+	'''
+	Returns default x-label ticks when user has not picked
+	custom time inside the gui.
+
+	Parameters
+	----------
+	int
+		year_value: Year data was collected.
+		month: Month data was collected.
+		day: Day data was collected.
+	Returns
+	-------
+
+	'''
 
 	x_axis_format = mdates.DateFormatter('%H')
 	x_axis_label = "Universal Time in Hours (HH)"
