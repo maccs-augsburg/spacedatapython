@@ -46,7 +46,7 @@ from gui.custom_seperator_line import LineSeperator
 from util.file_naming import create_2hz_plot_file_name
 import model.read_clean_to_lists
 import model.read_raw_to_lists
-import model.read_IAGA2002_to_lists
+import model.read_iaga2002_to_lists
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
 import plot.test_figure
@@ -729,7 +729,7 @@ class MainWindow(QMainWindow):
                                                             self.end_time_stamp)
 
         elif self.launch_dialog_option == 2 or self.file_ext == "sec":
-            x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_iaga(
+            x,y,z,t = model.read_iaga2002_to_lists.create_datetime_lists_from_iaga(
                                                             file,
                                                             self.start_time_stamp,
                                                             self.end_time_stamp)
