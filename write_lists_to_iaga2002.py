@@ -7,6 +7,9 @@ import argparse
 import raw_to_iaga2002
 
 def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile, station_code):
+    '''
+    
+    '''
     
     outfile.write(raw_to_iaga2002.create_header(station_code))
 
