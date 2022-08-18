@@ -7,7 +7,6 @@ Rewritten 7/x/22 - Mark Ortega-Ponce
 '''
 # Python 3 imports
 import datetime
-from this import d
 # Matplotlib imports
 import matplotlib.dates as mdates
 # Constant time values
