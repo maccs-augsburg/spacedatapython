@@ -3,7 +3,7 @@ import sys
 import model.read_clean_to_lists
 import model.read_raw_to_lists
 import argparse
-import model.raw_to_iaga2002 as raw_to_iaga2002
+import raw_to_iaga2002
 
 def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
     
