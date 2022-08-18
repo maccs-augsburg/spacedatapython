@@ -53,7 +53,7 @@ def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
             break
     
         current_time = datetime.time(hour=one_record[1],minute=one_record[2],second=one_record[3])
-        print(current_time)
+        #print(current_time)
         outfile.write(one_record)
         
         if current_time >= start_time and current_time <= end_time:
