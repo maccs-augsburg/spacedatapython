@@ -6,8 +6,10 @@ import model.read_IAGA2002_to_lists
 import argparse
 import raw_to_iaga2002
 
-def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
+def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile, station_code):
     
+    outfile.write(raw_to_iaga2002.create_header(station_code))
+
     record_counter = 0
     # Start writing records from the lists
     while record_counter < len(time_list):
@@ -99,10 +101,8 @@ def main():
     outfile_name = outfile_name.split('.')[0]
     outfile_name = outfile_name + "_list_to_file_test.sec"
     outfile = open(outfile_name, 'w')
-    # Write header information for IAGA2002 file.
-    outfile.write(raw_to_iaga2002.create_header(station_abbrev))
     # Write out the records to the outfile
-    create_iaga2002_file_from_datetime_lists(x,y,z,t,outfile)
+    create_iaga2002_file_from_datetime_lists(x,y,z,t,outfile, station_abbrev)
     outfile.close()    
     
 if __name__ == "__main__" :
