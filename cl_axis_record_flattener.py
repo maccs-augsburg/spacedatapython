@@ -17,7 +17,6 @@ python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.2hz
 
 '''
 import argparse
-from concurrent.futures.process import _system_limits_checked
 import datetime
 import model.raw_codecs
 import model.read_raw_to_lists
