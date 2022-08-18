@@ -91,6 +91,7 @@ def main():
     outfile.close()
     # get the filename from open file object
     infile_for_printing_to_screen = open(outfile.name, 'rb')
+    # print file out to terminal to check
     clean_to_screen.print_contents(infile_for_printing_to_screen, start, end)
 
 if __name__ == "__main__" :
