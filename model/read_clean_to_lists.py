@@ -46,19 +46,16 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
         flag_arr: a list of flag values from the 2 Hz file
     """
 
-    # get filename with no path / any extra stuff because
-    # its an open file object, and not a string
-    clean_file_string = str(clean_file)
-    clean_file_string = clean_file_string.split()[-1]
-    clean_file_string = clean_file_string.split('/')[-1]
-    clean_file_string = clean_file_string.split("'")[0]
-
+    # get filename from open file object
+    clean_file_string = clean_file.name
     year_day_value = clean_file_string[2:7] # Year: (first two digits) and day of year: (last 3 digits)
     year_value = year_day_value[0:2] # The last 2 digits of the year
+
     if int(year_value) < 20:
         century_string = "19"
     else:
         century_string = "20"
+        
     full_year_value = century_string + str(year_value)
     day_of_year = year_day_value[2:] # The 3 digits corresponding with the day of the year
     year_and_doy = full_year_value + " " + day_of_year 
