@@ -1,5 +1,5 @@
 '''
-axis_data_flattener.py
+cl_axis_record_flattener.pu
 
 Axis remover - Given a file, an axis name, and two times, 
     flatten out the data value for the given axis between the two times.
@@ -7,13 +7,6 @@ Axis remover - Given a file, an axis name, and two times,
 Created - August 2022 - Mark Ortega-Ponce
 
 Useful Reference: raw_to_iaga2002.py file, clean_to_screen/raw_to_screen.py
-
-Test:
-python3 axis_data_flattener.py testdata/CH20097.2hz x 15:00:00 20:00:00
-python3 axis_data_flattener.py testdata/CH20097.s2 x 15:00:00 20:00:00
-Check:
-python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.s2
-python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.2hz  
 
 '''
 import argparse
@@ -27,10 +20,28 @@ import write_lists_to_iaga2002
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/masked_demo.html
 AXIS_FLATTENER_VALUE = "99999.99"
 
+# TODO: Deprecate? Works, but MACCS distributes IAGA files.
 def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
 
-    axis = axis.lower()
+    '''
+    Given a clean_file, flatten the passed axis value
+    from start_time to end_time.
 
+    Parameters:
+    -----------
+    infile : Open file object.
+        File to read values from.
+    outfile : Open file object.
+        File to write new values in.
+    axis : str
+        Axis to flatten.
+    start_time: datetime.time
+        Time to start flattening axis.
+    end_time : datetime.time
+        Time to end flatterning axis.
+    '''
+
+    axis = axis.lower()
     '''
     One byte = 8bits
     4 bytes = 32 bits, our x,y,z values are signed integers.
@@ -74,16 +85,31 @@ def flatten_axis_from_clean(infile, outfile, axis, start_time, end_time):
             one_record = infile.read(28 - first_tuple[0])
             outfile.write(one_record)
     
-
+# TODO: Deprecate? Works, but MACCS distributes IAGA files.
 def flatten_axis_from_raw(infile, outfile, axis, start_time, end_time):
+    '''
+    Given a raw_file, flatten the passed axis value
+    from start_time to end_time.
+
+    Parameters:
+    -----------
+    infile : Open file object.
+        File to read values from.
+    outfile : Open file object.
+        File to write new values in.
+    axis : str
+        Axis to flatten.
+    start_time: datetime.time
+        Time to start flattening axis.
+    end_time : datetime.time
+        Time to end flatterning axis.
+    '''
 
     axis = axis.lower()
-
     '''
     One byte = 8 bits
     3 bytes = 24 bits, our x,y,z values.
     '''
-
     if axis == "x":
         first_tuple = (18, 20)
         second_tuple = (27, 29)
@@ -129,8 +155,35 @@ def flatten_axis_from_raw(infile, outfile, axis, start_time, end_time):
             one_record = infile.read(38 - first_tuple[0])
             outfile.write(one_record)
 
-def flatten_axis(x,y,z,t, axis, start_time, end_time, outfile, station):
+def flatten_axis(x,y,z,t, axis, start_time, end_time, outfile, station_abbrev):
+    '''
+    Given datetime lists created from raw/clean/iaga files.
+    Flatten the chosen axis between start_time and end_time.
+    Write the results out to an outfile in iaga2002 format.
 
+    Parameters:
+    -----------
+    x : list
+        List of x values collected from clean/raw/iaga files.
+    y : list
+        List of y values collected from clean/raw/iaga files.
+    z : list
+        List of z values collected from clean/raw/iaga files.
+    t : list
+        List of datetime values collected from clean/raw/iaga files.
+    start_time: datetime.time
+        Time to start flattening axis.
+    end_time : datetime.time
+        Time to end flatterning axis.
+    outfile : Open file object.
+        File to write new values in.
+    station_abbrev : str
+        Station abbreviation to create header.
+    '''
+
+    axis = axis.lower()
+
+    # Create an alias to the associated axis list.
     modify_axis = None
     if axis == 'x':
         modify_axis = x
@@ -160,7 +213,7 @@ def flatten_axis(x,y,z,t, axis, start_time, end_time, outfile, station):
         modify_axis[i] = 99999.99
 
     outfile = open(outfile, 'w')
-    write_lists_to_iaga2002.create_iaga2002_file_from_datetime_lists(x,y,z,t, outfile, station)
+    write_lists_to_iaga2002.create_iaga2002_file_from_datetime_lists(x,y,z,t, outfile, station_abbrev)
     outfile.close()
 
 def main():
