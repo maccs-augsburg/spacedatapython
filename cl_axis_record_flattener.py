@@ -21,7 +21,7 @@ import datetime
 import model.raw_codecs
 import model.read_raw_to_lists
 import model.read_clean_to_lists
-import model.read_IAGA2002_to_lists
+import model.read_iaga2002_to_lists
 import write_lists_to_iaga2002
 
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/masked_demo.html
