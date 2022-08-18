@@ -51,13 +51,13 @@ def plot_arrays(x_arr, y_arr, z_arr, time_arr, filename,
     filename:
         Name of the 2Hz raw data file.
     stime:
-        The datetime.time object from which to begin
+        The datetime.time object from which to begin.
     etime:
-        The datetime.time object at which to end
+        The datetime.time object at which to end.
 
     Returns
     -------
-    Figure
+    Matplotlib.Figure 
         fig:
             figure object that contains the completed plot
     """
@@ -204,8 +204,9 @@ def set_yaxis(yticks_list, scale_difference):
     # Returning the list
     return new_yticks
 
-# adding this here for now, import not working for some reason
-# theres a quick fix with vscode, but not sure if it would work for every comp without vscode
+# TODO: Remove this function, already in gui/entry_check
+# Called inside new_gui plot function. Cl_files need this
+# to work. Not a bottleneck in code, so not too important.
 def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list, 
                         min_x: int, max_x: int, 
                         min_y: int, max_y: int, 
@@ -285,12 +286,6 @@ def axis_entry_checks_old(x_arr: list, y_arr: list, z_arr: list,
     default_max_y = y_midpoint + max_axis_range
     default_max_z = z_midpoint + max_axis_range
 
-    # TODO: Ask if user would ever enter 0, cant just assume, so ask.
-    '''
-    If user enters 0, it is never going to go through, 
-    always replaced by old code.
-    Possibly start boxes with -1? Would look kinda weird
-    '''
     if min_x == 0:
         min_x = int(default_min_x)
 
