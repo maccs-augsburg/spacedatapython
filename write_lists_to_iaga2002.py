@@ -2,6 +2,7 @@ import datetime
 import sys
 import model.read_clean_to_lists
 import model.read_raw_to_lists
+import model.read_IAGA2002_to_lists
 import argparse
 import raw_to_iaga2002
 
@@ -23,57 +24,14 @@ def create_iaga2002_file_from_datetime_lists(x_list, y_list, z_list, time_list, 
             y_one, y_two,
             z_one, z_two, time
         )
-        #print(temp_string)
         record_counter += 2
         outfile.write(temp_string)
-
-def create_clean_file_from_datetime_lists(x_list, y_list, z_list, time_list, flag_list, outfile):
-
-    record_counter = 0
-    flag_counter = 0
-
-    while record_counter < len(time_list):
-        
-        x_one = x_list[record_counter]
-        x_two = x_list[record_counter + 1]
-        y_one = y_list[record_counter]
-        y_two = y_list[record_counter + 1]
-        z_one = z_list[record_counter]
-        z_two = z_list[record_counter + 1]
-        # can also get the century, month, day from datetime_object
-        # Example when creating record for iaga.
-        # Would use to name file
-        datetime_object = time_list[record_counter]
-        time = datetime_object.time()
-        hour = time.hour
-        minute = time.minute
-        second = time.second
-        
-        flag = flag_list[flag_counter]
-
-        outfile.write(flag.to_bytes(1, byteorder='big', signed=False))
-        outfile.write(hour.to_bytes(1, byteorder='big', signed=False))
-        outfile.write(minute.to_bytes(1, byteorder='big', signed=False))
-        outfile.write(second.to_bytes(1, byteorder='big', signed=False))
-        # values are already how they should be, so don't divide/multiply by 1000
-        outfile.write(x_one.to_bytes(4, byteorder='big', signed=True))
-        outfile.write(x_two.to_bytes(4, byteorder='big', signed=True))
-        outfile.write(y_one.to_bytes(4, byteorder='big', signed=True))
-        outfile.write(y_two.to_bytes(4, byteorder='big', signed=True))
-        outfile.write(z_one.to_bytes(4, byteorder='big', signed=True))
-        outfile.write(z_two.to_bytes(4, byteorder='big', signed=True))
-        # write a newline?
-        record_counter += 2
-        flag_counter += 1
 
 def create_record_string(x1, x2, y1, y2, z1, z2, datetime_object):
 
     century_year = str(datetime_object.year)
-    #print(century_year)
     century = int(century_year[0:2])
-    #print(century)
     year = int(century_year[2:])
-    #print(year)
     month = datetime_object.month
     day = datetime_object.day
     datestamp = f"{century:02d}{year:02d}-{month:02d}-{day:02d} "
@@ -99,6 +57,7 @@ def create_record_string(x1, x2, y1, y2, z1, z2, datetime_object):
     first_half = datestamp + timestamp + ".250 " + day_of_year + "   " + x1_str + y1_str + z1_str + "  88888.88\n"
     second_half = datestamp + timestamp + ".750 " + day_of_year + "   " + x2_str + y2_str + z2_str + "  88888.88\n"
     full_data_string = first_half + second_half
+
     return full_data_string
 
 def main():
@@ -106,10 +65,6 @@ def main():
     parser = argparse.ArgumentParser(description="Convert lists to iaga2002 format")
     parser.add_argument('filename', type=str, help="name of the input file")
     args = parser.parse_args()
-    # get three letter station name for clean or raw file
-    # Note: Wouldn't be converting from iaga to iaga
-    station_abbrev = args.filename[0:2]
-
     start = datetime.time.fromisoformat("00:00:00")
     end = datetime.time.fromisoformat("23:59:59")
 
@@ -118,14 +73,25 @@ def main():
     # get filename extension
     extension = args.filename.split('.')[-1]
 
+    # Used for testing in command line, would most likely integrate 
+    # this in the gui somehow for data processing.
     if extension == "2hz": 
         x,y,z,t = model.read_raw_to_lists.create_datetime_lists_from_raw(
             file, start, end
         )
+        station_abbrev = args.filename[0:2]
+
     elif extension == "s2":
         x,y,z,t,f = model.read_clean_to_lists.create_datetime_lists_from_clean(
             file, start, end
         )
+        station_abbrev = args.filename[0:2]
+
+    elif extension == "sec":
+        x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_iaga(
+            file, start, end
+        )
+        station_abbrev = args.filename[0:3]
 
     file.close()
 
@@ -136,8 +102,8 @@ def main():
     # Write header information for IAGA2002 file.
     outfile.write(raw_to_iaga2002.create_header(station_abbrev))
     # Write out the records to the outfile
-    create_iaga2002_file_from_datetime_lists(x,y,z,t,outfile)    
+    create_iaga2002_file_from_datetime_lists(x,y,z,t,outfile)
+    outfile.close()    
     
-
 if __name__ == "__main__" :
     main()
