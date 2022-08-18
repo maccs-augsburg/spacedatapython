@@ -17,8 +17,13 @@ python3 clean_to_screen.py testdata/CH20097_test_flatten_axis.2hz
 
 '''
 import argparse
+from concurrent.futures.process import _system_limits_checked
 import datetime
 import model.raw_codecs
+import model.read_raw_to_lists
+import model.read_clean_to_lists
+import model.read_IAGA2002_to_lists
+import write_lists_to_iaga2002
 
 # https://matplotlib.org/stable/gallery/lines_bars_and_markers/masked_demo.html
 AXIS_FLATENNER_VALUE = "99999.99"
@@ -191,6 +196,52 @@ def flatten_axis_from_iaga(infile, outfile, axis, start_time, end_time):
         else:
             outfile.write(one_record_first_line)
             outfile.write(one_record_second_line)
+
+def flatten_axis(infile, outfile, axis, start_time, end_time):
+
+    extension = infile.split('.')[-1]
+    infile = open(infile, 'rb')
+
+    start = datetime.time.fromisoformat( "00:00:00")
+    end = datetime.time.fromisoformat("23:59:59")
+
+    if extension == 's2':
+        x,y,z,t,f = model.read_clean_to_lists.create_datetime_lists_from_clean(
+            infile, start, end             
+        )
+        
+    elif extension == '2hz':
+        x,y,z,t = model.read_raw_to_lists.create_datetime_lists_from_raw(
+            infile, start, end
+        )
+    
+    elif extension == 'sec':
+        x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_iaga(
+            infile, start, end
+        )
+
+    modify_axis = None
+    if axis == 'x':
+        modify_axis = x
+    elif axis == 'y':
+        modify_axis = y
+    elif axis == 'z':
+        modify_axis = z
+    
+    start_index = None
+    end_index = None
+
+    for i in range (len(t)):
+        if start_time == t[i]:
+            start_index = i
+        if end_time == t[i]:
+            end_index = i
+            
+    # add one to end_index, because open on end range
+    for i in range (start_index, end_index + 1):
+        modify_axis[i] = 99999.99
+
+    write_lists_to_iaga2002.create_iaga2002_file_from_datetime_lists(x,y,z,t,"CH20097_flatten_test.2hz")
 
 def main():
     
