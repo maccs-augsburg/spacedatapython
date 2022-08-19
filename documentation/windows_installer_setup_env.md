@@ -2,11 +2,11 @@
 
 Need following installed
 
-Install git: [git for windows](https://git-scm.com/download/win)
+Install git [git for windows](https://git-scm.com/download/win)
 
-Install python: [python for windows](https://www.python.org/downloads/windows/) (using 3.10.6 at time of writing)
+Install python [python for windows](https://www.python.org/downloads/windows/) (using 3.10.6 at time of writing)
 
-Install forge: [install forge](https://installforge.net/download/) (using 1.4.2 at time of writing)
+Install forge [install forge](https://installforge.net/download/) (using 1.4.2 at time of writing)
 
 Note: Have to manually add python to environment variables, or wont be able to use in command prompt
 
