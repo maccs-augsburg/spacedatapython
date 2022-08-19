@@ -7,7 +7,26 @@ import model.read_raw_to_lists
 import model.read_iaga2002_to_lists
 
 def create_clean_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
+    '''
+    Creates a clean file from datetime lists
+    created from model/read_clean|raw|iaga2002.create_datetime_list
+    calls. Main idea would be to add more data processing, and
+    convert to readable format to distribute.
 
+    Parameters:
+    -----------
+    x_lists : list
+        List of x values to write out.
+    y_list : list
+        List of y values to write out.
+    z_list : list
+        List of z values to write out.
+    time_list : list
+        List of time values to write out.
+    outfile : open file object
+        File to write out to, end result is iaga2002 format.
+    '''
+    
     # jump by two, getting two values every iteration
     record_counter = 0
     # jump by one, getting one value every iteration
