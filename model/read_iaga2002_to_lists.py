@@ -1,4 +1,4 @@
-#  read_IAGA2002_to_lists.py
+#  read_iaga2002_to_lists.py
 #
 #  Reads IAGA2002 2 Hz data from a file, creating data lists of all three
 #  axes and a list of times.

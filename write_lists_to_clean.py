@@ -1,12 +1,38 @@
+'''
+write_lists_to_clean.py
+
+Usage: write_lists_to_clean.py filename
+
+August 2022 -- Created -- Mark Ortega-Ponce
+'''
 import datetime
 import sys
 import argparse
 import clean_to_screen
 import model.read_clean_to_lists
 import model.read_raw_to_lists
-import model.read_IAGA2002_to_lists
+import model.read_iaga2002_to_lists
 
 def create_clean_file_from_datetime_lists(x_list, y_list, z_list, time_list, outfile):
+    '''
+    Creates a clean file from datetime lists
+    created from model/read_clean|raw|iaga2002.create_datetime_list
+    calls. Main idea would be to add more data processing, and
+    convert to readable format to distribute.
+
+    Parameters:
+    -----------
+    x_lists : list
+        List of x values to write out.
+    y_list : list
+        List of y values to write out.
+    z_list : list
+        List of z values to write out.
+    time_list : list
+        List of time values to write out.
+    outfile : open file object
+        File to write out to, end result is iaga2002 format.
+    '''
 
     # jump by two, getting two values every iteration
     record_counter = 0
@@ -15,15 +41,15 @@ def create_clean_file_from_datetime_lists(x_list, y_list, z_list, time_list, out
 
     while record_counter < len(time_list):
         
+        # values from lists are / 1000, multiply by 1000 to write them out
         x_one = int(x_list[record_counter] * 1000)
         x_two = int(x_list[record_counter + 1] * 1000)
         y_one = int(y_list[record_counter] * 1000)
         y_two = int(y_list[record_counter + 1] * 1000)
         z_one = int(z_list[record_counter] * 1000)
         z_two = int(z_list[record_counter + 1] * 1000)
-        # can also get the century, month, day from datetime_object
-        # Example when creating record for iaga.
-        # Would use to name file
+
+        # get current time of first two records
         datetime_object = time_list[record_counter]
         time = datetime_object.time()
         hour = time.hour
@@ -35,18 +61,19 @@ def create_clean_file_from_datetime_lists(x_list, y_list, z_list, time_list, out
         flag = 1
         #flag = flag_list[flag_counter]
 
+        # write out hardcoded flag, write out time
         outfile.write(flag.to_bytes(1, byteorder='big', signed=False))
         outfile.write(hour.to_bytes(1, byteorder='big', signed=False))
         outfile.write(minute.to_bytes(1, byteorder='big', signed=False))
         outfile.write(second.to_bytes(1, byteorder='big', signed=False))
-        # values from lists are / 1000, multiply by 1000 to write them out
+        # write out values in the speficied format
         outfile.write(x_one.to_bytes(4, byteorder='big', signed=True))
         outfile.write(x_two.to_bytes(4, byteorder='big', signed=True))
         outfile.write(y_one.to_bytes(4, byteorder='big', signed=True))
         outfile.write(y_two.to_bytes(4, byteorder='big', signed=True))
         outfile.write(z_one.to_bytes(4, byteorder='big', signed=True))
         outfile.write(z_two.to_bytes(4, byteorder='big', signed=True))
-        # write a newline?
+        # write newline?
         record_counter += 2
         flag_counter += 1
 

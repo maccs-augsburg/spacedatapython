@@ -46,7 +46,7 @@ from gui.custom_seperator_line import LineSeperator
 from util.file_naming import create_2hz_plot_file_name
 import model.read_clean_to_lists
 import model.read_raw_to_lists
-import model.read_IAGA2002_to_lists
+import model.read_iaga2002_to_lists
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
 import plot.test_figure
@@ -225,7 +225,7 @@ class MainWindow(QMainWindow):
         self.file_options = (
                         "All",                 # Index 0
                         "IAGA2000 - NW",       # Index 1 
-                        "IAGA2002",       # Index 2
+                        "IAGA2002",            # Index 2
                         "Clean File",          # Index 3
                         "Raw 2hz File",        # Index 4
                         "Other -- Not Working")# Index 5
@@ -383,6 +383,15 @@ class MainWindow(QMainWindow):
         ###############################################
         ### Setting Row Stretches for Entry Layout  ###
         ###############################################
+        # TODO: Fix this, used to have stretch. Currently when maximizing window
+        # to full screen parent_label_layout takes up half the screen and 
+        # the graph takes up the other half. I think this issue came up
+        # after wanting to present the graph in a way that scientists
+        # would know what they were saving to their computer. Eg. saving
+        # plot stacked as 12 by 7 but seeing a 18 by 12 size on their 
+        # monitor/computer.
+        # Search set_size_inches or hanceResizing3 branch on github
+        # for more info.
         self.main_layout.addWidget(self.parent_label_layout)
         self.main_layout.addWidget(self.mac_label,1)
 
@@ -729,7 +738,7 @@ class MainWindow(QMainWindow):
                                                             self.end_time_stamp)
 
         elif self.launch_dialog_option == 2 or self.file_ext == "sec":
-            x,y,z,t = model.read_IAGA2002_to_lists.create_datetime_lists_from_iaga(
+            x,y,z,t = model.read_iaga2002_to_lists.create_datetime_lists_from_iaga(
                                                             file,
                                                             self.start_time_stamp,
                                                             self.end_time_stamp)
@@ -814,7 +823,7 @@ class MainWindow(QMainWindow):
         From the datetime objects we pull our hour, minute, second values
         to zoom into the plot.
         '''
-        # if we haven't graphed anything, cant listen for clicks
+        # If we haven't graphed anything, cant listen for clicks.
         if self.graph is None:
             return
 
@@ -838,8 +847,8 @@ class MainWindow(QMainWindow):
             self.reset_axis_entries()
             # plot graph
             self.plot_graph()
-
-        self.button_zoom_out.setDisabled(False)
+            # Once we zoom in once, we can enable the zoom out button
+            self.button_zoom_out.setDisabled(False)
   
     def zoom_in_listener(self):
         '''
@@ -871,9 +880,6 @@ class MainWindow(QMainWindow):
         time_tuple = (s_hour, s_minute, s_second, e_hour, e_minute, e_second)
 
         self.prev_time.append(time_tuple)
-
-        # Once we zoom in once, we can enable the zoom out button
-        self.button_zoom_out.setDisabled(False)
 
     def zoom_out(self):
         '''

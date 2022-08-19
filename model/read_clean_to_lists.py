@@ -48,6 +48,8 @@ def create_datetime_lists_from_clean( clean_file, start_time, end_time):
 
     # get filename from open file object
     clean_file_string = clean_file.name
+    # if filename is an abs filepath, take the last element from splitting
+    clean_file_string = clean_file_string.split('/')[-1]
     year_day_value = clean_file_string[2:7] # Year: (first two digits) and day of year: (last 3 digits)
     year_value = year_day_value[0:2] # The last 2 digits of the year
 
