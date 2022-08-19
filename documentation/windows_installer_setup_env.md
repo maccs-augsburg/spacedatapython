@@ -2,9 +2,11 @@
 
 Need following installed
 
-Install git : [git for windows](https://git-scm.com/download/win)
-Install python : [python for windows](https://www.python.org/downloads/windows/) (using 3.10.6 at time of writing)
-Install forge : [install forge](https://installforge.net/download/) (using 1.4.2 at time of writing)
+Install git: [git for windows](https://git-scm.com/download/win)
+
+Install python: [python for windows](https://www.python.org/downloads/windows/) (using 3.10.6 at time of writing)
+
+Install forge: [install forge](https://installforge.net/download/) (using 1.4.2 at time of writing)
 
 Note: Have to manually add python to environment variables, or wont be able to use in command prompt
 
@@ -23,27 +25,39 @@ Check python version is working in command prompt: ```python -V```
 
 1. Clone the git repo onto the Desktop with following command, left out dot intentionally.
 
-```git clone https://github.com/maccs-augsburg/spacedatapython```
+```
+git clone https://github.com/maccs-augsburg/spacedatapython
+```
 
 2. Cd back to home directory (not sure if it matters where you install) and install pipenv.
 Note: Python installer will include a pip install automatically.
 
-```pip install pipenv```
+```
+pip install pipenv
+```
 
 Check pipenv is working by typing ```pipenv```. You should get a help section.
 
 3. Cd back into spacedatapython folder located on the Desktop directory.
 Set up pipenv environment with requirements.txt file found in documentation folder.
 
-```cd Desktop```
+```
+cd Desktop
+```
 
-```cd spacedatapython```
+```
+cd spacedatapython
+```
 
-```pipenv install -r documentation/requirements.txt```
+```
+pipenv install -r documentation/requirements.txt
+```
 
 4. Activate environment
 
-```pipenv shell```
+```
+pipenv shell
+```
 
 Note: You will see (spacedatapython-some_weird_hex_values) before your directory
 in command prompt. This indicates your in the python environment.
@@ -52,13 +66,17 @@ in command prompt. This indicates your in the python environment.
 
 1. Install pyinstaller.
 
-```pipenv install pyinstaller```
+```
+pipenv install pyinstaller
+```
 
 2. Check pyinstaller is working by typing ```pyinstaller```. You'll get a help section if it does.
 
 3. Make build and dist folder with pyinstaller inside spacedatapython and provide the windows.spec file.
 
-```pyinstaller MaccsPlotter_windows.spec```
+```
+pyinstaller MaccsPlotter_windows.spec
+```
 
 4. You should see a build and dist folder now.
 Inside the dist folder, there will be a folder called 'MACCS Plotter'.
