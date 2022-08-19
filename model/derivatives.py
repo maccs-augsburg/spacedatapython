@@ -59,7 +59,40 @@ def smooth_boxcar( data_array, width) :
         index = index + 1
     
     return answer_array
+
+
+def create_derivatives( data_array) :
+    """
+    Creates an array of derivative values from an array of values.
+    The derivatives are created for a time t with 
+    deriv = ( value(t+1) -  value(t-1) ) / 2
+    where the first value is equal to the second value and the last
+    value is equal to the next to last value.
     
+    Parameters
+    ----------
+    data_array:
+        An array of values from which to take the derivatives
+    
+    Returns
+    -------
+    List
+        derivatives: an array of derivatives
+    """
+    
+    num_of_values = len( data_array)
+    derivatives = [None] * num_of_values
+    index = 1
+    while index < num_of_values-1 :
+        derivatives[ index] = (data_array[index+1] - data_array[index-1]) / 2
+        index = index + 1
+    derivatives[0] = derivatives[1]
+    derivatives[num_of_values-1] = derivatives[num_of_values-2]
+    return derivatives
+
 if __name__ == "__main__":
-    data = [ 2, 3, 7, 9, 18, 16, 21.2, 19, 18.2]
-    print( smooth_boxcar( data, 3))
+    data = [ 2, 3, 7, 9, 18, None, 21.2, 19, 18.2]
+    smoothed = smooth_boxcar( data, 3)
+    print( smoothed)
+    derivs = create_derivatives( smoothed)
+    print( derivs)
