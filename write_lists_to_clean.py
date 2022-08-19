@@ -1,3 +1,10 @@
+'''
+write_lists_to_clean.py
+
+Usage: write_lists_to_clean.py filename
+
+August 2022 -- Created -- Mark Ortega-Ponce
+'''
 import datetime
 import sys
 import argparse
@@ -26,7 +33,7 @@ def create_clean_file_from_datetime_lists(x_list, y_list, z_list, time_list, out
     outfile : open file object
         File to write out to, end result is iaga2002 format.
     '''
-    
+
     # jump by two, getting two values every iteration
     record_counter = 0
     # jump by one, getting one value every iteration
