@@ -520,6 +520,13 @@ class MainWindow(QMainWindow):
             # return false if calling from toolbar open
             return False
 
+        # TODO: This is a quick fix, would be better to keep this logic
+        # inside the zoom out section.
+        # If user opened new file, do not want to keep prev_times.
+        self.prev_time.clear()
+        self.button_zoom_out
+        self.button_zoom_out.setDisabled(True)
+
         filename, filetype_string = response
         self.file_path = filename
         # splitting up the path and selecting the filename
@@ -533,6 +540,7 @@ class MainWindow(QMainWindow):
         self.input_station_code.set_entry(filename[0:2])
         self.input_year.set_entry(filename[2:7])
 
+        # TODO: Make a util function for this, copy pasted in a few files.
         # Quick fix to get correct yearday, can probably move somewhere else
         if self.file_ext == "sec":
             yyyy_mmdd = filename[3:11] # Year: (first 4 digits YYYY) and day of year: (last 4 digits MMDD)
@@ -782,7 +790,6 @@ class MainWindow(QMainWindow):
         leaves them hanging in the background process.
         Not garbage collected, so have to delete
         '''
-
         self.graph.deleteLater()
         plt.close(self.figure)
 
@@ -823,10 +830,6 @@ class MainWindow(QMainWindow):
         From the datetime objects we pull our hour, minute, second values
         to zoom into the plot.
         '''
-        # If we haven't graphed anything, cant listen for clicks.
-        if self.graph is None:
-            return
-
         datetime_object = mdates.num2date(event.xdata)
         hour = int(datetime_object.strftime("%H"))
         minute = int(datetime_object.strftime("%M"))
@@ -838,18 +841,71 @@ class MainWindow(QMainWindow):
 
         elif self.temp_var == 1:
 
-            self.end_time.time_widget.setTime(QTime(hour, minute, second))
             self.temp_var = 0
-            self.graph.mpl_disconnect(self.cid)
             self.action_zoom.setChecked(False)
             self.button_zoom.set_toggle_status_false()
-            # reset axis entries so it can find new min/max values on graph
-            self.reset_axis_entries()
-            # plot graph
-            self.plot_graph()
-            # Once we zoom in once, we can enable the zoom out button
             self.button_zoom_out.setDisabled(False)
-  
+            self.end_time.time_widget.setTime(QTime(hour, minute, second))
+
+            # If start greater than end, don't plot. Else you get error.
+            # Graph dissapears == bad user experience.
+            if self.check_bad_times():
+                # Every time we zoom in, we append the time values to a list.
+                # Pop them off the stack, and it's like nothing ever happened.
+                self.go_back_in_time()
+            else:
+                # reset axis entries so it can find new min/max values on graph
+                self.reset_axis_entries()
+                # plot graph
+                self.plot_graph()
+                # Once we zoom in once, we can enable the zoom out button
+                self.button_zoom_out.setDisabled(False)
+
+            self.graph.mpl_disconnect(self.cid)
+
+    def check_bad_times(self):
+        '''
+        Helper function for zooming in. If start >= end
+        then we do not plot the values.
+
+        Returns:
+        --------
+        true/false : bool
+            Return true if times are bad, returns false if times are good.
+        '''
+        h1, m1, s1 = self.start_time.get_time()
+        h2, m2, s2 = self.end_time.get_time()
+        start = datetime.time(h1, m1, s1)
+        end = datetime.time(h2, m2, s2)
+
+        if start >= end:
+            return True
+        else:
+            return False
+    
+    def go_back_in_time(self):
+        '''
+        Helper function for going back in time, either for zooming out
+        to previous time. Or zooming out because of bad times when
+        zooming in.
+        '''
+        # Pop last item added to the list
+        # Grab previous times before we zoomed in
+        time_tuple = self.prev_time.pop(len(self.prev_time) - 1)
+        s_hour = time_tuple[0]
+        s_min = time_tuple[1]
+        s_sec = time_tuple[2]
+        e_hour = time_tuple[3]
+        e_min = time_tuple[4]
+        e_sec = time_tuple[5]
+
+        self.start_time.set_own_time(s_hour, s_min, s_sec)
+        self.end_time.set_own_time(e_hour, e_min, e_sec)
+
+        # If no more times in list, then we can't zoom out.
+        if len(self.prev_time) == 0:
+            self.button_zoom_out.setDisabled(True)
+
     def zoom_in_listener(self):
         '''
         Starts event listening, listens for user clicks on plot.
@@ -858,6 +914,12 @@ class MainWindow(QMainWindow):
         handle user clicks. After two clicks, event listener is
         disconnected from out matplotlib figure.
         '''
+        # If we haven't graphed anything, cant listen for clicks.
+        if self.graph is None:
+            self.action_zoom.setChecked(False)
+            self.button_zoom.set_toggle_status_false()
+            return
+
         self.zoom_out_helper()
 
         self.cid = self.graph.mpl_connect('button_press_event', self)
@@ -891,24 +953,7 @@ class MainWindow(QMainWindow):
         We then remove that time from the list as it's no longer a time we can zoom 
         out to.
         '''
-
-        # Pop last item added to the list
-        # Grab previous times before we zoomed in
-        time_tuple = self.prev_time.pop(len(self.prev_time) - 1)
-        s_hour = time_tuple[0]
-        s_min = time_tuple[1]
-        s_sec = time_tuple[2]
-        e_hour = time_tuple[3]
-        e_min = time_tuple[4]
-        e_sec = time_tuple[5]
-
-        self.start_time.set_own_time(s_hour, s_min, s_sec)
-        self.end_time.set_own_time(e_hour, e_min, e_sec)
-
-        # If no more times in list, then we can't zoom out.
-        if len(self.prev_time) == 0:
-            self.button_zoom_out.setDisabled(True)
-
+        self.go_back_in_time()
         self.plot_graph()
 
     def save(self):
