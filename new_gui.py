@@ -255,6 +255,8 @@ class MainWindow(QMainWindow):
         self.button_save_as.set_uncheckable()
         self.button_plot = PushButton("Plot File")
         self.button_plot.set_uncheckable()
+        self.button_plot_derivs = PushButton( "Plot Derivatives")
+        self.button_plot_derivs.set_uncheckable()
         self.button_zoom = PushButton("Zoom in")
         self.button_clear_plot = PushButton('Clear Plot')
         self.button_clear_plot.set_uncheckable()
@@ -292,9 +294,11 @@ class MainWindow(QMainWindow):
         self.button_graph_switch.three_axis_style.clicked.connect(self.is_plottable)
         self.button_graph_switch.stacked_axis_style.setChecked(True)
         self.button_plot.clicked.connect(self.plot_graph)
+        self.button_plot_derivs.clicked.connect( self.plot_graph_derivs)
 
-        # set the plot button disabled until all entry checks go through 
+        # set the plot buttons to disabled until all entry checks go through 
         self.button_plot.setDisabled(True)
+        self.button_plot_derivs.setDisabled(True)
         self.button_zoom.clicked.connect(self.zoom_in_listener)
         self.button_clear_plot.clicked.connect(self.clear_plot)
         
@@ -362,7 +366,8 @@ class MainWindow(QMainWindow):
         self.checkbox_layout.add_widget(self.checkbox_y)
         self.checkbox_layout.add_widget(self.checkbox_z)
 
-        self.button_layout.add_widget_stretch(self.button_plot,0,0,1,0)
+        self.button_layout.add_widget(self.button_plot,0,0)
+        self.button_layout.add_widget(self.button_plot_derivs, 0, 1)
         self.button_layout.add_widget_stretch(self.button_clear_plot, 1, 0,1,0)
         self.button_layout.add_widget_stretch(self.button_zoom, 2, 0,1,0)
         self.button_layout.add_widget_stretch(self.button_zoom_out,3,0,1,0)
@@ -604,7 +609,10 @@ class MainWindow(QMainWindow):
 
         return start_time_stamp, end_time_stamp
 
-    def plot_graph(self):
+    def plot_graph_derivs(self):
+        self.plot_graph( True)
+
+    def plot_graph(self, plot_derivatives = False):
         
         """
         Once plot graph button is enabled and pressed, we proceed
@@ -614,6 +622,12 @@ class MainWindow(QMainWindow):
         If tests pass, we proceed to save current data as
         previous data. We then update the gui with our new values.
         Final step is to display the graph inside the gui.
+        
+        Parameters
+        ----------
+        plot_derivatives: 
+            A boolean indicating whether or not to plot the 
+            derivatives of the data.
         """
 
         # To prevent memory leak
@@ -1147,8 +1161,10 @@ class MainWindow(QMainWindow):
 
         if checks_met_bool:
             self.button_plot.setDisabled(False)
+            self.button_plot_derivs.setDisabled(False)
         else:
             self.button_plot.setDisabled(True)
+            self.button_plot_derivs.setDisabled(True)
 
     def what_graph_style(self):
         '''
