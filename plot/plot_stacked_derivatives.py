@@ -17,6 +17,7 @@ import statistics as stats
 # MACCS imports
 from model.raw_codecs import decode, time_of_record
 import util.station_names
+import model.derivatives
 
 # Matplotlib imports
 import matplotlib.pyplot as plt
@@ -90,17 +91,20 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
     date = datetime.datetime.strptime(year_value + "-" + day_of_year, "%Y-%j").strftime("%m-%d-%Y")
     hours_arr, x_axis_format, x_axis_label = plot.x_axis_time_formatter.create_time_list(stime, etime, time_arr[0])
     
+    # Taking the derivatives of the data after smoothing:
+    x_arr = model.derivatives.smooth_boxcar( x_arr, 10)
+    x_arr = model.derivatives.create_derivatives( x_arr)
+    y_arr = model.derivatives.smooth_boxcar( y_arr, 10)
+    y_arr = model.derivatives.create_derivatives( y_arr)
+    z_arr = model.derivatives.smooth_boxcar( z_arr, 10)
+    z_arr = model.derivatives.create_derivatives( z_arr)
+        
     ### figure settings
     fig = plt.figure(figsize=(12,7)) #12, 7, dictates width, height
     #plt.figure(figsize=(12,7))
     fig.set_size_inches(12,7)
     fig.subplots_adjust(hspace=0.1)
     
-    # figg, ax =  plt.subplots(3,1,figsize=(12,7))
-    # #figg.set_size_inches(12,7)
-    # ax[0].plot(time_arr, x_arr, 'r-')
-    # ax[1].plot(time_arr, y_arr, 'b-')
-    # ax[2].plot(time_arr, z_arr, 'g-')
     ### first plot    
     #plt.ylim(minimum, maximum)
     axis_x = plt.subplot(311)	# subplot allows multiple plots on 1 page
@@ -109,8 +113,9 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
                         # 1 indicates which subplot out of 3 to work on
     
     #plt.ylim(in_min_x, in_max_x)
-    plt.plot(time_arr,create_derivatives(x_arr), linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
-    plt.title("Geomagnetic Bx By Bz of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
+
+    plt.plot(time_arr, x_arr, linewidth=1) # this was plt.scatter, we used plt.plot for a line graph
+    plt.title("Geomagnetic dBx/dt dBy/dt dBz/dt of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     # Commits gone, this is to change padding on y-axis for graphs.
     # Should look nice for papers, not sure if there is a certain margin scientific papers need.
     plt.ylabel('Bx', labelpad=10)	# side label
@@ -128,7 +133,7 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
     ### Now build the second plot, this time using y-axis data
     axis_y = plt.subplot(312, sharex= axis_x)
     #plt.ylim(in_min_y, in_max_y)
-    plt.plot(time_arr,create_derivatives(y_arr), linewidth=1)
+    plt.plot(time_arr,y_arr, linewidth=1)
     # Change padding here for 2nd graph
     plt.ylabel('By', labelpad=17)	# side label
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
@@ -139,7 +144,7 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
     ### Third plot using z-axis data. Add the x-axis label at the bottom
     axis_z = plt.subplot(313, sharex= axis_x)
     #plt.ylim(in_min_z, in_max_z)
-    plt.plot(time_arr,create_derivatives(z_arr), linewidth=1)
+    plt.plot(time_arr,z_arr, linewidth=1)
     # Changed padding here for 3rd graph
     plt.ylabel('Bz', labelpad=6)	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
@@ -203,22 +208,3 @@ def set_yaxis(yticks_list, scale_difference):
     # Returning the list
     return new_yticks
 
-
-def create_derivatives( mag_values) :
-    """
-    Creates an array of derivative values from an array of values.
-    The derivatives are created for a time t with 
-    deriv = ( value(t+1) -  value(t-1) ) / 2
-    where the first value is equal to the second value and the last
-    value is equal to the next to last value.
-    """
-    
-    num_of_values = len( mag_values)
-    derivatives = [None] * num_of_values
-    index = 1
-    while index < num_of_values-1 :
-        derivatives[ index] = (mag_values[index+1] - mag_values[index-1]) / 2
-        index = index + 1
-    derivatives[0] = derivatives[1]
-    derivatives[num_of_values-1] = derivatives[num_of_values-2]
-    return derivatives
