@@ -47,6 +47,7 @@ from util.file_naming import create_2hz_plot_file_name
 import model.read_clean_to_lists
 import model.read_raw_to_lists
 import model.read_iaga2002_to_lists
+import model.derivatives
 import plot.plot_stacked_graphs
 import plot.plot_three_axis_graphs
 import plot.test_figure
@@ -613,7 +614,6 @@ class MainWindow(QMainWindow):
         self.plot_graph( True)
 
     def plot_graph(self, plot_derivatives = False):
-        
         """
         Once plot graph button is enabled and pressed, we proceed
         to plot the input inside the gui. The type of graph is determined
@@ -650,6 +650,19 @@ class MainWindow(QMainWindow):
         self.prev_min_z = self.spinbox_min_z.get_entry()
         self.prev_max_z = self.spinbox_max_z.get_entry()
 
+        if plot_derivatives :
+            # store the actual data arrays in a safe place then replace
+            # the data arrays with arrays of derivatives
+            self.x_arr_original = self.x_arr
+            self.y_arr_original = self.y_arr
+            self.z_arr_original = self.z_arr
+            self.x_arr = model.derivatives.smooth_boxcar( self.x_arr, 10)
+            self.y_arr = model.derivatives.smooth_boxcar( self.y_arr, 10)
+            self.z_arr = model.derivatives.smooth_boxcar( self.z_arr, 10)
+            self.x_arr = model.derivatives.create_derivatives( self.x_arr)
+            self.y_arr = model.derivatives.create_derivatives( self.y_arr)
+            self.z_arr = model.derivatives.create_derivatives( self.z_arr)
+            
         # normalize the data to display even ticks
         # backward slash is a line continuation, looks ugly, but keep under 85 - 90 chars
         self.prev_min_x, self.prev_max_x, self.prev_min_y, \
