@@ -118,7 +118,7 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
     plt.title("Geomagnetic dBx/dt dBy/dt dBz/dt of " + station_name + "          YEARDAY: " + year_day_value + "            DATE: " + date) # setting up the title and yearday
     # Commits gone, this is to change padding on y-axis for graphs.
     # Should look nice for papers, not sure if there is a certain margin scientific papers need.
-    plt.ylabel('Bx', labelpad=10)	# side label
+    plt.ylabel('dBx/dt', labelpad=10)	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='x', direction='in', which='major', pad=10) # x axis ticks inverted
@@ -135,7 +135,7 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
     #plt.ylim(in_min_y, in_max_y)
     plt.plot(time_arr,y_arr, linewidth=1)
     # Change padding here for 2nd graph
-    plt.ylabel('By', labelpad=17)	# side label
+    plt.ylabel('dBy/dt', labelpad=17)	# side label
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted
     plt.gca().axes.xaxis.set_visible(False)
@@ -146,7 +146,7 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
     #plt.ylim(in_min_z, in_max_z)
     plt.plot(time_arr,z_arr, linewidth=1)
     # Changed padding here for 3rd graph
-    plt.ylabel('Bz', labelpad=6)	# side label
+    plt.ylabel('dBz/dt', labelpad=6)	# side label
     plt.autoscale(enable=True, axis='x', tight=True) # adjusting x axis scaling
     plt.gca().tick_params(left=True, right=True) # Putting ticks on both sides of y axis
     plt.gca().tick_params(axis='y', direction='in') # y axis ticks inverted

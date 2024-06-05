@@ -27,7 +27,7 @@ from util.file_naming import create_2hz_plot_file_name
 
 def main():
     """
-    Implements a command line tool to create a stacked plot given the
+    Implements a command line tool to create a three_axis plot given the
     command line arguments as input parameters.    
     """
     
@@ -87,7 +87,7 @@ def main():
     
     ### Write the plot to a file
     try:
-        out_filename = create_2hz_plot_file_name( base_filename, args.stime, args.etime, "stacked")
+        out_filename = create_2hz_plot_file_name( base_filename, args.stime, args.etime, "three_axis")
         out_filename = out_filename + "_derivs." + output_file_type
         figure.savefig( out_filename, format=output_file_type, dpi=1200)
         print(f"Saved to {out_filename}")
