@@ -93,11 +93,11 @@ def plot_derivatives(x_arr, y_arr, z_arr, time_arr, filename,
     
     # Taking the derivatives of the data after smoothing:
     x_arr = model.derivatives.smooth_boxcar( x_arr, 10)
-    x_arr = model.derivatives.create_derivatives( x_arr)
+    x_arr = model.derivatives.create_derivatives( x_arr, 'half_s')
     y_arr = model.derivatives.smooth_boxcar( y_arr, 10)
-    y_arr = model.derivatives.create_derivatives( y_arr)
+    y_arr = model.derivatives.create_derivatives( y_arr, 'half_s')
     z_arr = model.derivatives.smooth_boxcar( z_arr, 10)
-    z_arr = model.derivatives.create_derivatives( z_arr)
+    z_arr = model.derivatives.create_derivatives( z_arr, 'half_s')
         
     ### figure settings
     fig = plt.figure(figsize=(12,7)) #12, 7, dictates width, height

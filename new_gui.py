@@ -659,9 +659,9 @@ class MainWindow(QMainWindow):
             self.x_arr = model.derivatives.smooth_boxcar( self.x_arr, 10)
             self.y_arr = model.derivatives.smooth_boxcar( self.y_arr, 10)
             self.z_arr = model.derivatives.smooth_boxcar( self.z_arr, 10)
-            self.x_arr = model.derivatives.create_derivatives( self.x_arr)
-            self.y_arr = model.derivatives.create_derivatives( self.y_arr)
-            self.z_arr = model.derivatives.create_derivatives( self.z_arr)
+            self.x_arr = model.derivatives.create_derivatives( self.x_arr, 'half_s')
+            self.y_arr = model.derivatives.create_derivatives( self.y_arr, 'half_s')
+            self.z_arr = model.derivatives.create_derivatives( self.z_arr, 'half_s')
             
         # normalize the data to display even ticks
         # backward slash is a line continuation, looks ugly, but keep under 85 - 90 chars
