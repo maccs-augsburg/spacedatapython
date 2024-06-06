@@ -46,6 +46,7 @@ def main():
         default="00:00:00", help="start time for the plot")
     parser.add_argument('etime', type=str, nargs='?',
         default="23:59:59", help="end time for the plot")
+    parser.add_argument('-o', '--outdir', type=str, help="output directory")
     args = parser.parse_args()
     
     # the base_filename has no path included, just the filename
@@ -89,6 +90,8 @@ def main():
     try:
         out_filename = create_2hz_plot_file_name( base_filename, args.stime, args.etime, "three_axis")
         out_filename = out_filename + "_derivs." + output_file_type
+        if args.outdir != None :
+            out_filename = args.outdir + out_filename
         figure.savefig( out_filename, format=output_file_type, dpi=1200)
         print(f"Saved to {out_filename}")
     except:
