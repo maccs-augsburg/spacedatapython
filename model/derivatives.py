@@ -39,7 +39,7 @@ def smooth_boxcar( data_array, width) :
     right_width = int( (width + 1) / 2)
     if  width % 2 != 0:
         right_width -= 1
-    print( f"left_width: {left_width}, right_width:{right_width}")
+    #print( f"left_width: {left_width}, right_width:{right_width}")
     left_copy_index = left_width
     right_copy_index = num_of_values - right_width
     

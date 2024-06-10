@@ -52,7 +52,7 @@ def main():
     # the base_filename has no path included, just the filename
     base_filename = os.path.basename( args.filename)
     extension = os.path.splitext(base_filename)[1]
-    print(f"base_filename is {base_filename}")
+    #print(f"base_filename is {base_filename}")
 
     # starttime, endtime, and output file type
     start_time = datetime.time.fromisoformat( args.stime)
